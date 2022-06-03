@@ -278,6 +278,16 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.1.2.tgz#d2fb7b968141139e5c2419553e5295382c265e7d"
   integrity sha512-bbZIpW6fdyf7FMaeDmw3cBbkTqsecxEkwlVKgVfqqXWBPLH6azxhPA2V9F7OhoZSVrsnMYw7QuyK6qutXPjEew==
 
+"@hmans/react-toolbox@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@hmans/react-toolbox/-/react-toolbox-0.1.4.tgz#295f47976565fcd043ed0bc4078c382e411dc082"
+  integrity sha512-PmhaalZ70hSfIX7AUgWO9gVhKkWH8cbZXxGzmjgJ+46sw6cJUlnawkc/WlIxtUro+TTW61YG1i+18QD0zsvF+Q==
+
+"@hmans/signal@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@hmans/signal/-/signal-0.2.2.tgz#0b952d2ccd8f873a096dc806468b636c5ca82b95"
+  integrity sha512-4KlR6FiqICOY9J8V483Atk7bfMqoGM/hdYd/6ab+HB+CJfiOBPzY6PtYz3O6bBsNkIZpimnTMSw2AqOz1WDlrA==
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -1511,6 +1521,21 @@ minimist-options@4.1.0:
     arrify "^1.0.1"
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
+
+miniplex-react@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/miniplex-react/-/miniplex-react-0.4.1.tgz#cda3ca38c556dd19196a3ee05c57cfb9d8821f38"
+  integrity sha512-J00jvgLapKSZxiYNykGUXViAQBCPmnr2gEMeI0lJhDCliaC/G6T7vnZ4Q/guHFyb0NNUjeLe4ANRTjNHn76o+w==
+  dependencies:
+    "@hmans/react-toolbox" "^0.1.4"
+    react-merge-refs "^1.1.0"
+
+miniplex@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/miniplex/-/miniplex-0.10.1.tgz#890355fc9f77b29aa1cdf126149f20c2673a3f84"
+  integrity sha512-3ahZ0/k7qJqI7NAYJnEqbbV/1haua1YLPdBtFxMDbSA0ZYXc6YyGuXP57u34dzm14+9IxXWDw1PliGQdZIZYoQ==
+  dependencies:
+    "@hmans/signal" "^0.2.2"
 
 mmd-parser@^1.0.4:
   version "1.0.4"
