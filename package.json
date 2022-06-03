@@ -7,15 +7,19 @@
   "license": "MIT",
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "apps/*"
     ]
-  },
-  "dependencies": {
-    "@preconstruct/cli": "^2.1.5"
   },
   "preconstruct": {
     "packages": [
       "packages/*"
     ]
+  },
+  "scripts": {
+    "examples": "yarn workspace examples dev"
+  },
+  "dependencies": {
+    "@preconstruct/cli": "^2.1.5"
   }
 }
