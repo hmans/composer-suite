@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { useRef } from "react"
+import { Canvas, ThreeEvent, useFrame } from "@react-three/fiber"
+import { useCallback, useRef } from "react"
 import { Mesh } from "three"
 
 const Thingy = () => {
@@ -11,8 +11,12 @@ const Thingy = () => {
     mesh.current.rotation.y += 0.2 * dt
   })
 
+  const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
+    console.log(e)
+  }, [])
+
   return (
-    <mesh ref={mesh} scale={3}>
+    <mesh ref={mesh} scale={3} onClick={handleClick}>
       <boxBufferGeometry />
       <meshStandardMaterial color="#333" />
     </mesh>
