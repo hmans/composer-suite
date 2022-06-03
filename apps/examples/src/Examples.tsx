@@ -3,11 +3,11 @@ import { Canvas } from "@react-three/fiber"
 
 export default () => (
   <Canvas>
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
-    <mesh>
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <meshStandardMaterial attach="material" color="red" />
+    <ambientLight intensity={0.2} />
+    <pointLight position={[10, 10, 10]} intensity={0.8} />
+    <mesh scale={3}>
+      <boxBufferGeometry />
+      <meshStandardMaterial color="#333" />
     </mesh>
     <OrbitControls />
   </Canvas>
