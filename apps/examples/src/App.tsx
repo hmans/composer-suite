@@ -1,5 +1,3 @@
-function App() {
-  return <p>moo</p>
-}
+import Examples from "./Examples"
 
-export default App
+export default () => <Examples />
