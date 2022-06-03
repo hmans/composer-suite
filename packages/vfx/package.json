@@ -1,5 +1,12 @@
 {
   "name": "@hmans/vfx",
+  "private": false,
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "Visual FX!",
   "version": "0.0.1",
   "main": "dist/hmans-vfx.cjs.js",
   "module": "dist/hmans-vfx.esm.js",
@@ -10,6 +17,16 @@
     "README.md"
   ],
   "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "preconstruct watch",
+    "build": "preconstruct build",
+    "release": "yarn ci && yarn publish",
+    "test": "jest",
+    "ci": "yarn clean && yarn build && yarn test",
+    "docs": "typedoc src/index.ts"
+  },
   "devDependencies": {
     "rimraf": "^3.0.2",
     "typescript": "^4.7.3"
