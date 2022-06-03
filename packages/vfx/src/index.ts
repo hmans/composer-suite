@@ -1,1 +1,2 @@
-export const vfx = true
+export * from "./instancicles/Instancicles"
+export * from "./instancicles/ParticlesMaterial"

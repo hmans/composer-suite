@@ -1,14 +1,22 @@
-import { FC } from "react"
+import { Instancicles, InstanciclesRef, ParticlesMaterial } from "@hmans/vfx"
+import { FC, useEffect, useRef } from "react"
 import ECS from "./ECS"
 
 const Effect: FC = () => {
   const { spawn } = ECS.useEntity()
+  const particles = useRef<InstanciclesRef>(null!)
+
+  useEffect(() => {
+    particles.current.spawnParticle(10)
+  })
 
   return (
-    <mesh {...spawn} scale={0.2}>
-      <sphereGeometry />
-      <meshStandardMaterial color="hotpink" />
-    </mesh>
+    <object3D {...spawn} scale={0.2}>
+      <Instancicles ref={particles}>
+        <ParticlesMaterial color="red" />
+        <sphereBufferGeometry args={[4, 8, 8]} />
+      </Instancicles>
+    </object3D>
   )
 }
 
