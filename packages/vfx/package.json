@@ -1,0 +1,17 @@
+{
+  "name": "@hmans/vfx",
+  "version": "0.0.1",
+  "main": "dist/hmans-vfx.cjs.js",
+  "module": "dist/hmans-vfx.esm.js",
+  "types": "dist/hmans-vfx.cjs.d.ts",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.3"
+  }
+}

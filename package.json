@@ -26,7 +26,10 @@
     "printWidth": 80
   },
   "scripts": {
-    "examples": "yarn workspace examples dev"
+    "build": "preconstruct build",
+    "dev": "preconstruct dev",
+    "examples": "yarn workspace examples dev",
+    "postinstall": "preconstruct dev"
   },
   "dependencies": {
     "@preconstruct/cli": "^2.1.5"
