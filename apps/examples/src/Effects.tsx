@@ -13,8 +13,8 @@ const Effect: FC = () => {
   return (
     <object3D {...spawn} scale={0.2}>
       <Instancicles ref={particles}>
-        <ParticlesMaterial color="red" />
-        <sphereBufferGeometry args={[4, 8, 8]} />
+        <ParticlesMaterial color="white" />
+        <sphereBufferGeometry args={[1, 8, 8]} />
       </Instancicles>
     </object3D>
   )
