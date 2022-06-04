@@ -1,5 +1,6 @@
 import { Emitter, MeshParticles, ParticlesMaterial } from "@hmans/vfx"
 import { GroupProps } from "@react-three/fiber"
+import { between } from "randomish"
 
 export default (props: GroupProps) => (
   <group {...props} scale={0.2}>
@@ -8,7 +9,7 @@ export default (props: GroupProps) => (
       <boxGeometry />
       <ParticlesMaterial color="red" />
 
-      <Emitter spawnCount={10} burstCount={10} burstDelay={0.01} />
+      <Emitter spawnCount={between(5, 15)} burstCount={10} burstDelay={0.01} />
     </MeshParticles>
 
     {/* Smoke */}
@@ -18,7 +19,7 @@ export default (props: GroupProps) => (
 
       <Emitter
         initialDelay={0.1}
-        spawnCount={3}
+        spawnCount={between(10, 20)}
         burstCount={10}
         burstDelay={0.025}
       />

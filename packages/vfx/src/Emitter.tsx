@@ -2,11 +2,17 @@ import { useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
 import { useParticles } from "./MeshParticles"
 
+type FactoryOrValue<T> = T | (() => T)
+
 export type EmitterProps = {
-  initialDelay?: number
-  burstDelay?: number
-  burstCount?: number
-  spawnCount?: number
+  initialDelay?: FactoryOrValue<number>
+  burstDelay?: FactoryOrValue<number>
+  burstCount?: FactoryOrValue<number>
+  spawnCount?: FactoryOrValue<number>
+}
+
+function getValue<T extends number>(fov: FactoryOrValue<T>): T {
+  return typeof fov === "function" ? fov() : fov
 }
 
 export const Emitter: FC<EmitterProps> = ({
@@ -15,8 +21,8 @@ export const Emitter: FC<EmitterProps> = ({
   burstCount = 1,
   burstDelay = 0
 }) => {
-  const cooldown = useRef(initialDelay)
-  const burstsRemaining = useRef(burstCount - 1)
+  const cooldown = useRef(getValue(initialDelay))
+  const burstsRemaining = useRef(getValue(burstCount) - 1)
 
   const { spawnParticle } = useParticles()
 
@@ -26,11 +32,11 @@ export const Emitter: FC<EmitterProps> = ({
 
       /* If we've reached the end of the cooldown, spawn some particles */
       if (cooldown.current <= 0) {
-        spawnParticle(spawnCount)
+        spawnParticle(getValue(spawnCount))
 
         /* If there are bursts left, reset the cooldown */
         if (burstsRemaining.current > 0) {
-          cooldown.current += burstDelay
+          cooldown.current += getValue(burstDelay)
           burstsRemaining.current--
         }
       }
