@@ -8,6 +8,7 @@ import Effects from "./Effects"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
+import { Perf } from "r3f-perf"
 
 const spawnEffect = (position: Vector3) => {
   ECS.world.createEntity({
@@ -67,5 +68,6 @@ export default () => (
     <fog attach="fog" args={["#000", 32, 256]} />
     <PerspectiveCamera position={[0, 5, 20]} makeDefault />
     <Systems />
+    <Perf />
   </Canvas>
 )

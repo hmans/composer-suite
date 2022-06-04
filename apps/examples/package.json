@@ -13,6 +13,7 @@
     "@react-three/fiber": "^8.0.22",
     "miniplex": "^0.10.1",
     "miniplex-react": "^0.4.1",
+    "r3f-perf": "^6.2.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "three": "^0.141.0"
