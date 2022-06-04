@@ -37,7 +37,7 @@ const MeshParticlesContext = createContext<MeshParticlesAPI>(null!)
 
 export const useMeshParticles = () => useContext(MeshParticlesContext)
 
-export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
+export const MeshParticles = forwardRef<MeshParticlesAPI, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
@@ -159,7 +159,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
       ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
     })
 
-    useImperativeHandle(ref, () => imesh.current, [])
+    useImperativeHandle(ref, () => ({ spawnParticle }), [])
 
     return (
       <instancedMesh

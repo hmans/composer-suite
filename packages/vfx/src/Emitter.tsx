@@ -1,26 +1,30 @@
 import { useFrame } from "@react-three/fiber"
-import { FC, useRef } from "react"
-import { useMeshParticles } from "./MeshParticles"
+import { FC, MutableRefObject, useRef } from "react"
+import { MeshParticlesAPI, useMeshParticles } from "./MeshParticles"
 
 export type EmitterProps = {
   initialDelay?: number
   burstDelay?: number
   burstCount?: number
   spawnCount?: number
+  effect?: MutableRefObject<MeshParticlesAPI>
 }
 
 export const Emitter: FC<EmitterProps> = ({
   spawnCount = 1,
   initialDelay = 0,
   burstCount = 1,
-  burstDelay = 0
+  burstDelay = 0,
+  effect
 }) => {
   const cooldown = useRef(initialDelay)
   const burstsRemaining = useRef(burstCount - 1)
 
-  const { spawnParticle } = useMeshParticles()
+  const context = effect ? null : useMeshParticles()
 
   useFrame((_, dt) => {
+    const { spawnParticle } = effect ? effect.current : context!
+
     if (cooldown.current >= 0) {
       cooldown.current -= dt
 
