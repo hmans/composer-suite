@@ -5,11 +5,11 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef
 } from "react"
+import mergeRefs from "react-merge-refs"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
@@ -37,7 +37,7 @@ const ParticlesContext = createContext<ParticlesAPI>(null!)
 
 export const useParticles = () => useContext(ParticlesContext)
 
-export const MeshParticles = forwardRef<ParticlesAPI, MeshParticlesProps>(
+export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
@@ -159,11 +159,9 @@ export const MeshParticles = forwardRef<ParticlesAPI, MeshParticlesProps>(
       ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
     })
 
-    useImperativeHandle(ref, () => ({ spawnParticle }), [])
-
     return (
       <instancedMesh
-        ref={imesh}
+        ref={mergeRefs([imesh, ref])}
         args={[undefined, material, maxInstanceCount]}
         {...props}
       >
