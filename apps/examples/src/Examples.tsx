@@ -19,7 +19,7 @@ const spawnEffect = (position: Vector3) => {
   })
 }
 
-const Thingy = () => {
+const RotatingCube = () => {
   const mesh = useRef<Mesh>(null!)
 
   useFrame((_, dt) => {
@@ -62,7 +62,7 @@ export default () => (
     <ambientLight intensity={0.2} />
     <pointLight position={[10, 10, 10]} intensity={0.8} />
     <Ground />
-    <Thingy />
+    <RotatingCube />
     <Effects />
     <OrbitControls />
     <fog attach="fog" args={["#000", 32, 256]} />
