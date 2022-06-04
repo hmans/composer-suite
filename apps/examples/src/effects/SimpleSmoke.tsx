@@ -1,6 +1,9 @@
 import { Emitter, MeshParticles, ParticlesMaterial } from "@hmans/vfx"
 import { GroupProps } from "@react-three/fiber"
 import { between } from "randomish"
+import { Vector3 } from "three"
+
+const tmpPosition = new Vector3()
 
 export default (props: GroupProps) => (
   <group {...props} scale={0.2}>
@@ -26,6 +29,9 @@ export default (props: GroupProps) => (
         spawnCount={() => between(10, 20)}
         burstCount={10}
         burstDelay={0.025}
+        position={() =>
+          tmpPosition.randomDirection().multiplyScalar(between(0.5, 3))
+        }
       />
     </MeshParticles>
   </group>

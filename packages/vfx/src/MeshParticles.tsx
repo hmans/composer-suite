@@ -30,7 +30,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
   safetySize?: number
 }
 
-type SpawnOptions = {
+export type SpawnOptions = {
   position?: ValueFactory<Vector3>
 }
 
