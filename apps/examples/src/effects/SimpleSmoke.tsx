@@ -1,9 +1,9 @@
-import { Instancicles, InstanciclesRef, ParticlesMaterial } from "@hmans/vfx"
+import { MeshParticles, MeshParticlesRef, ParticlesMaterial } from "@hmans/vfx"
 import { Object3DProps } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 
 export default (props: Object3DProps) => {
-  const particles = useRef<InstanciclesRef>(null!)
+  const particles = useRef<MeshParticlesRef>(null!)
 
   useEffect(() => {
     particles.current.spawnParticle(10)
@@ -11,10 +11,10 @@ export default (props: Object3DProps) => {
 
   return (
     <object3D {...props} scale={0.2}>
-      <Instancicles ref={particles}>
+      <MeshParticles ref={particles}>
         <ParticlesMaterial color="white" />
         <sphereBufferGeometry args={[1, 8, 8]} />
-      </Instancicles>
+      </MeshParticles>
     </object3D>
   )
 }

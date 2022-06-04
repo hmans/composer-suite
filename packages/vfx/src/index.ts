@@ -1,2 +1,2 @@
-export * from "./Instancicles"
+export * from "./MeshParticles"
 export * from "./ParticlesMaterial"

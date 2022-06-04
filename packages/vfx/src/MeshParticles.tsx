@@ -21,18 +21,18 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
 
-type InstanciclesProps = InstancedMeshProps & {
+type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
   maxParticles?: number
   safetySize?: number
 }
 
-export type InstanciclesRef = {
+export type MeshParticlesRef = {
   mesh: InstancedMesh
   spawnParticle: (count: number) => void
 }
 
-export const Instancicles = forwardRef<InstanciclesRef, InstanciclesProps>(
+export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
