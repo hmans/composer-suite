@@ -92,7 +92,9 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         const { instanceMatrix } = imesh.current
 
         /* Configure the attributes to upload only the updated parts to the GPU. */
-        ;[instanceMatrix, ...Object.values(attributes)].forEach((attribute) => {
+        /* TODO: allow the user to call spawnParticles multiple times within the same frame */
+        const allAttributes = [instanceMatrix, ...Object.values(attributes)]
+        allAttributes.forEach((attribute) => {
           attribute.needsUpdate = true
           attribute.updateRange.offset = playhead.current * attribute.itemSize
           attribute.updateRange.count = count * attribute.itemSize
