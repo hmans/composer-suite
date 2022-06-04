@@ -33,6 +33,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
 export type SpawnOptions = {
   position?: ValueFactory<Vector3>
   velocity?: ValueFactory<Vector3>
+  acceleration?: ValueFactory<Vector3>
 }
 
 export type ParticlesAPI = {
@@ -137,7 +138,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           attributes.velocity.setXYZ(playhead.current, ...tmpVector3.toArray())
 
           /* Set acceleration */
-          attributes.acceleration.setXYZ(playhead.current, 0, 0, 0)
+          options.acceleration
+            ? tmpVector3.copy(getValue(options.acceleration))
+            : tmpVector3.set(0, 0, 0)
+
+          attributes.acceleration.setXYZ(
+            playhead.current,
+            ...tmpVector3.toArray()
+          )
 
           /* Set color */
           attributes.colorStart.setXYZW(playhead.current, 1, 1, 1, 1)

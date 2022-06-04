@@ -5,6 +5,9 @@ import { Vector3 } from "three"
 
 const tmpPosition = new Vector3()
 const tmpVelocity = new Vector3()
+const tmpAcceleration = new Vector3()
+
+const gravity = new Vector3(0, -2, 0)
 
 export default (props: GroupProps) => (
   <group {...props} scale={0.2}>
@@ -41,6 +44,9 @@ export default (props: GroupProps) => (
         }
         velocity={() =>
           tmpVelocity.randomDirection().multiplyScalar(between(4, 8))
+        }
+        acceleration={() =>
+          tmpAcceleration.randomDirection().multiplyScalar(between(0, 20))
         }
       />
     </MeshParticles>
