@@ -1,6 +1,6 @@
 import { FC } from "react"
 import ECS from "./ECS"
-import SimpleSmoke from "./effects/PoopSmoke"
+import SimpleSmoke from "./effects/SimpleSmoke"
 
 const Effect: FC = () => {
   const { spawn } = ECS.useEntity()
