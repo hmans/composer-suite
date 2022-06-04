@@ -2,20 +2,15 @@ import { useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
 import { Vector3 } from "three"
 import { useParticles } from "./MeshParticles"
+import { getValue, ValueFactory } from "./ValueFactory"
 
 const tmpPosition = new Vector3()
 
-type FactoryOrValue<T> = T | (() => T)
-
 export type EmitterProps = {
-  initialDelay?: FactoryOrValue<number>
-  burstDelay?: FactoryOrValue<number>
-  burstCount?: FactoryOrValue<number>
-  spawnCount?: FactoryOrValue<number>
-}
-
-function getValue<T extends number>(fov: FactoryOrValue<T>): T {
-  return typeof fov === "function" ? fov() : fov
+  initialDelay?: ValueFactory<number>
+  burstDelay?: ValueFactory<number>
+  burstCount?: ValueFactory<number>
+  spawnCount?: ValueFactory<number>
 }
 
 export const Emitter: FC<EmitterProps> = ({
