@@ -26,6 +26,8 @@ const components = {
   position: new Vector3(),
   velocity: new Vector3(),
   acceleration: new Vector3(),
+  delay: 0,
+  lifetime: 1,
   scaleStart: new Vector3(),
   scaleEnd: new Vector3()
 }
@@ -119,6 +121,8 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.acceleration.set(0, 0, 0)
           components.scaleStart.set(1, 1, 1)
           components.scaleEnd.set(1, 1, 1)
+          components.delay = 0
+          components.lifetime = 1
 
           /* Run setup */
           setup?.(components)
@@ -135,8 +139,8 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           /* Set times */
           attributes.time.setXY(
             playhead.current,
-            clock.elapsedTime + Math.random() * 0.1,
-            clock.elapsedTime + 1 + Math.random() * 0.1
+            clock.elapsedTime + components.delay,
+            clock.elapsedTime + components.lifetime
           )
 
           /* Set velocity */

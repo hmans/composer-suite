@@ -16,19 +16,19 @@ const SmokeRing = ({ delay = 0 }) => (
       spawnCount={() => between(25, 40)}
       burstCount={5}
       burstDelay={0.025}
-      setup={({ position, velocity, acceleration, scaleStart, scaleEnd }) => {
+      setup={(c) => {
         direction
           .set(1, 0, 0)
           .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
-        position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
+        c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
 
-        velocity.copy(direction).multiplyScalar(10 + plusMinus(3))
+        c.velocity.copy(direction).multiplyScalar(10 + plusMinus(3))
 
-        acceleration.copy(direction).multiplyScalar(-3)
+        c.acceleration.copy(direction).multiplyScalar(-3)
 
-        scaleStart.setScalar(1 + plusMinus(0.3))
-        scaleEnd.setScalar(0)
+        c.scaleStart.setScalar(1 + plusMinus(0.3))
+        c.scaleEnd.setScalar(0)
       }}
     />
   </MeshParticles>
@@ -44,21 +44,21 @@ const Dirt = ({ delay = 0 }) => (
       spawnCount={() => between(50, 100)}
       burstCount={5}
       burstDelay={0.025}
-      setup={({ position, velocity, acceleration, scaleStart, scaleEnd }) => {
+      setup={(c) => {
         direction
           .set(1, 0.5, 0)
           .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
-        position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
+        c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
 
-        velocity
+        c.velocity
           .copy(direction)
           .multiplyScalar(10 + Math.pow(Math.random(), 3) * 10)
 
-        acceleration.copy(gravity)
+        c.acceleration.copy(gravity)
 
-        scaleStart.setScalar(between(0.2, 0.4))
-        scaleEnd.copy(scaleStart)
+        c.scaleStart.setScalar(between(0.2, 0.4))
+        c.scaleEnd.copy(c.scaleStart)
       }}
     />
   </MeshParticles>
@@ -72,12 +72,13 @@ const Fire = ({ delay = 0 }) => (
     <Emitter
       initialDelay={delay}
       spawnCount={() => between(20, 50)}
-      setup={({ position, velocity, scaleStart, scaleEnd }) => {
+      setup={(c) => {
         direction.randomDirection()
-        position.copy(direction).multiplyScalar(between(0, 2))
-        velocity.copy(direction).multiplyScalar(between(2, 4))
-        scaleStart.setScalar(between(0, 2))
-        scaleEnd.setScalar(3 + Math.pow(Math.random(), 3))
+        c.position.copy(direction).multiplyScalar(between(0, 2))
+        c.velocity.copy(direction).multiplyScalar(between(2, 4))
+        c.scaleStart.setScalar(between(0, 2))
+        c.scaleEnd.setScalar(3 + Math.pow(Math.random(), 3))
+        c.lifetime = 0.4
       }}
     />
   </MeshParticles>
@@ -93,23 +94,23 @@ const SmokeCloud = ({ delay = 0 }) => (
       spawnCount={() => between(5, 10)}
       burstCount={5}
       burstDelay={0.05}
-      setup={({ position, velocity, acceleration, scaleStart, scaleEnd }) => {
+      setup={(c) => {
         direction.randomDirection()
 
-        position.copy(direction).multiplyScalar(between(0.5, 3))
+        c.position.copy(direction).multiplyScalar(between(0.5, 3))
 
-        velocity
+        c.velocity
           .copy(direction)
           .multiplyScalar(between(2, 5))
           .add(new Vector3(0, between(2, 3), 0))
 
-        acceleration
+        c.acceleration
           .randomDirection()
           .multiplyScalar(between(0, 3))
           .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-        scaleStart.setScalar(between(0.5, 1))
-        scaleEnd.setScalar(between(3, 6))
+        c.scaleStart.setScalar(between(0.5, 1))
+        c.scaleEnd.setScalar(between(3, 6))
       }}
     />
   </MeshParticles>
