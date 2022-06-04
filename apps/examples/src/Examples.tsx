@@ -46,6 +46,7 @@ export default () => (
     <Thingy />
     <Effects />
     <OrbitControls />
+    <fog attach="fog" args={["#000", 32, 256]} />
     <PerspectiveCamera position={[0, 5, 20]} makeDefault />
   </Canvas>
 )
