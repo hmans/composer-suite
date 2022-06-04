@@ -3,11 +3,12 @@ import { GroupProps } from "@react-three/fiber"
 import { between } from "randomish"
 import { Vector3 } from "three"
 
-const tmpPosition = new Vector3()
-const tmpVelocity = new Vector3()
-const tmpAcceleration = new Vector3()
+const position = new Vector3()
+const velocity = new Vector3()
+const acceleration = new Vector3()
 
-const gravity = new Vector3(0, -2, 0)
+const gravity = new Vector3(0, -9.81, 0)
+const direction = new Vector3()
 
 export default (props: GroupProps) => (
   <group {...props} scale={0.2}>
@@ -22,12 +23,10 @@ export default (props: GroupProps) => (
         burstDelay={0.01}
         setup={() => {
           return {
-            position: tmpPosition
+            position: position
               .randomDirection()
               .multiplyScalar(between(0.5, 3)),
-            velocity: tmpVelocity
-              .randomDirection()
-              .multiplyScalar(between(1, 2))
+            velocity: velocity.randomDirection().multiplyScalar(between(1, 2))
           }
         }}
       />
@@ -44,17 +43,18 @@ export default (props: GroupProps) => (
         burstCount={10}
         burstDelay={0.025}
         setup={() => {
-          return {
-            position: tmpPosition
-              .randomDirection()
-              .multiplyScalar(between(0.5, 3)),
-            velocity: tmpVelocity
-              .randomDirection()
-              .multiplyScalar(between(1, 2)),
-            acceleration: tmpAcceleration
-              .randomDirection()
-              .multiplyScalar(between(0, 20))
-          }
+          direction.randomDirection()
+
+          position.copy(direction).multiplyScalar(between(0.5, 3))
+
+          velocity.copy(direction).multiplyScalar(between(5, 10))
+
+          acceleration
+            .copy(direction)
+            .multiplyScalar(between(0, 5))
+            .add(gravity)
+
+          return { position, velocity, acceleration }
         }}
       />
     </MeshParticles>
