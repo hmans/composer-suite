@@ -3,14 +3,10 @@ import { GroupProps } from "@react-three/fiber"
 import { between } from "randomish"
 import { Vector3 } from "three"
 
-const position = new Vector3()
-const velocity = new Vector3()
-const acceleration = new Vector3()
-
 const gravity = new Vector3(0, -9.81, 0)
 const direction = new Vector3()
 
-export default (props: GroupProps) => (
+const SimpleSmoke = (props: GroupProps) => (
   <group {...props} scale={0.2}>
     {/* Fire */}
     <MeshParticles scale={0.5}>
@@ -21,20 +17,16 @@ export default (props: GroupProps) => (
         spawnCount={() => between(5, 15)}
         burstCount={10}
         burstDelay={0.01}
-        setup={() => {
-          return {
-            position: position
-              .randomDirection()
-              .multiplyScalar(between(0.5, 3)),
-            velocity: velocity.randomDirection().multiplyScalar(between(1, 2))
-          }
+        setup={({ position, velocity }) => {
+          position.randomDirection().multiplyScalar(between(0.5, 3))
+          velocity.randomDirection().multiplyScalar(between(1, 2))
         }}
       />
     </MeshParticles>
 
     {/* Smoke */}
     <MeshParticles>
-      <sphereBufferGeometry args={[1, 8, 8]} />
+      <sphereBufferGeometry args={[1, 8, 4]} />
       <ParticlesMaterial color="white" />
 
       <Emitter
@@ -42,7 +34,7 @@ export default (props: GroupProps) => (
         spawnCount={() => between(5, 10)}
         burstCount={10}
         burstDelay={0.025}
-        setup={() => {
+        setup={({ position, velocity, acceleration }) => {
           direction.randomDirection()
 
           position.copy(direction).multiplyScalar(between(0.5, 3))
@@ -53,10 +45,10 @@ export default (props: GroupProps) => (
             .copy(direction)
             .multiplyScalar(between(0, 5))
             .add(gravity)
-
-          return { position, velocity, acceleration }
         }}
       />
     </MeshParticles>
   </group>
 )
+
+export default SimpleSmoke

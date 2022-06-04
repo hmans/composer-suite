@@ -1,6 +1,5 @@
 import { useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
-import { Vector3 } from "three"
 import { SpawnSetup, useParticles } from "./MeshParticles"
 import { getValue, ValueFactory } from "./ValueFactory"
 
