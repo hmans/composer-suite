@@ -11,6 +11,7 @@ import {
 } from "react"
 import mergeRefs from "react-merge-refs"
 import {
+  Color,
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
@@ -29,7 +30,11 @@ const components = {
   delay: 0,
   lifetime: 1,
   scaleStart: new Vector3(),
-  scaleEnd: new Vector3()
+  scaleEnd: new Vector3(),
+  colorStart: new Color(),
+  colorEnd: new Color(),
+  alphaStart: 1,
+  alphaEnd: 0
 }
 
 export type MeshParticlesProps = InstancedMeshProps & {
@@ -123,6 +128,10 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.scaleEnd.set(1, 1, 1)
           components.delay = 0
           components.lifetime = 1
+          components.colorStart.setRGB(1, 1, 1)
+          components.colorEnd.setRGB(1, 1, 1)
+          components.alphaStart = 1
+          components.alphaEnd = 0
 
           /* Run setup */
           setup?.(components)
@@ -156,8 +165,20 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set color */
-          attributes.colorStart.setXYZW(playhead.current, 1, 1, 1, 1)
-          attributes.colorEnd.setXYZW(playhead.current, 1, 1, 1, 0)
+          attributes.colorStart.setXYZW(
+            playhead.current,
+            components.colorStart.r,
+            components.colorStart.g,
+            components.colorStart.b,
+            components.alphaStart
+          )
+          attributes.colorEnd.setXYZW(
+            playhead.current,
+            components.colorEnd.r,
+            components.colorEnd.g,
+            components.colorEnd.b,
+            components.alphaEnd
+          )
 
           /* Set scale */
           attributes.scaleStart.setXYZ(

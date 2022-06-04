@@ -1,7 +1,7 @@
 import { Emitter, MeshParticles, ParticlesMaterial } from "@hmans/vfx"
 import { GroupProps } from "@react-three/fiber"
-import { between, plusMinus, power } from "randomish"
-import { Vector3 } from "three"
+import { between, number, plusMinus, power } from "randomish"
+import { Color, Vector3 } from "three"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
@@ -31,6 +31,9 @@ const SmokeRing = ({ delay = 0 }) => (
         c.scaleEnd.setScalar(0)
 
         c.lifetime = between(0.5, 1.5)
+
+        c.colorStart.setScalar(1)
+        c.colorEnd.setScalar(0)
       }}
     />
   </MeshParticles>
@@ -39,7 +42,7 @@ const SmokeRing = ({ delay = 0 }) => (
 const Dirt = ({ delay = 0 }) => (
   <MeshParticles>
     <dodecahedronBufferGeometry />
-    <ParticlesMaterial color="#444" />
+    <ParticlesMaterial color="#fff" />
 
     <Emitter
       initialDelay={delay}
@@ -62,6 +65,9 @@ const Dirt = ({ delay = 0 }) => (
         c.scaleEnd.copy(c.scaleStart)
 
         c.lifetime = between(0.5, 1.5)
+
+        c.colorStart.lerpColors(new Color("#444"), new Color("#000"), power(3))
+        c.colorEnd.copy(c.colorStart)
       }}
     />
   </MeshParticles>
@@ -70,18 +76,23 @@ const Dirt = ({ delay = 0 }) => (
 const Fireball = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="red" />
+    <ParticlesMaterial color="#fff" />
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => between(2, 3)}
+      spawnCount={() => 5 + power(3) * 10}
       setup={(c) => {
         direction.randomDirection()
         c.position.copy(direction).multiplyScalar(between(0, 2))
         c.velocity.copy(direction).multiplyScalar(between(2, 4))
-        c.scaleStart.setScalar(between(1, 2))
-        c.scaleEnd.setScalar(3 + power(3))
-        c.lifetime = 0.4
+
+        c.scaleStart.setScalar(between(0.2, 0.5))
+        c.scaleEnd.setScalar(between(2, 4))
+
+        c.lifetime = 0.7
+
+        c.colorStart.lerpColors(new Color("red"), new Color("yellow"), power(3))
+        c.colorEnd.copy(c.colorStart)
       }}
     />
   </MeshParticles>
@@ -90,7 +101,7 @@ const Fireball = ({ delay = 0 }) => (
 const SmokeCloud = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="#888" />
+    <ParticlesMaterial color="#fff" />
 
     <Emitter
       initialDelay={delay}
@@ -112,9 +123,12 @@ const SmokeCloud = ({ delay = 0 }) => (
           .multiplyScalar(between(0, 3))
           .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-        c.scaleStart.setScalar(between(0.5, 1))
+        c.scaleStart.setScalar(between(0.1, 0.2))
         c.scaleEnd.setScalar(between(3, 6))
         c.lifetime = between(1, 2)
+
+        c.colorStart.lerpColors(new Color("#888"), new Color("#666"), power(3))
+        c.colorEnd.copy(c.colorStart)
       }}
     />
   </MeshParticles>
@@ -125,7 +139,7 @@ const SimpleSmoke = (props: GroupProps) => (
     <SmokeRing />
     <Dirt />
     <Fireball />
-    <SmokeCloud delay={0.1} />
+    <SmokeCloud delay={0.3} />
   </group>
 )
 
