@@ -2708,7 +2708,7 @@ r3f-perf@^6.2.6:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-randomish@^0.1.2:
+randomish@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/randomish/-/randomish-0.1.3.tgz#37d6e704f5e4b1ce264b14ef82a40a46b3533a6f"
   integrity sha512-qq86FwdpJaheO8bv55kAAZCdotjuyiftZDTIrBXsmyR4f1HINZ8VdQT5tRIHZIccq8piwkixb0/YA20XqZrxNw==

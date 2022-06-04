@@ -1,6 +1,6 @@
 import { Emitter, MeshParticles, ParticlesMaterial } from "@hmans/vfx"
 import { GroupProps } from "@react-three/fiber"
-import { between, plusMinus } from "randomish"
+import { between, plusMinus, power } from "randomish"
 import { Vector3 } from "three"
 
 const gravity = new Vector3(0, -20, 0)
@@ -38,13 +38,13 @@ const SmokeRing = ({ delay = 0 }) => (
 
 const Dirt = ({ delay = 0 }) => (
   <MeshParticles>
-    <boxGeometry />
+    <dodecahedronBufferGeometry />
     <ParticlesMaterial color="#444" />
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => Math.pow(Math.random(), 3) * 200}
-      burstCount={() => Math.pow(Math.random(), 3) * 5}
+      spawnCount={() => power(3) * 200}
+      burstCount={() => power(3) * 5}
       burstDelay={0.025}
       setup={(c) => {
         direction
@@ -54,13 +54,11 @@ const Dirt = ({ delay = 0 }) => (
 
         c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
 
-        c.velocity
-          .copy(direction)
-          .multiplyScalar(10 + Math.pow(Math.random(), 3) * 10)
+        c.velocity.copy(direction).multiplyScalar(10 + power(3) * 10)
 
         c.acceleration.copy(gravity)
 
-        c.scaleStart.setScalar(between(0.2, 0.4))
+        c.scaleStart.setScalar(0.2 + power(3) * 1)
         c.scaleEnd.copy(c.scaleStart)
 
         c.lifetime = between(0.5, 1.5)
@@ -82,7 +80,7 @@ const Fireball = ({ delay = 0 }) => (
         c.position.copy(direction).multiplyScalar(between(0, 2))
         c.velocity.copy(direction).multiplyScalar(between(2, 4))
         c.scaleStart.setScalar(between(1, 2))
-        c.scaleEnd.setScalar(3 + Math.pow(Math.random(), 3))
+        c.scaleEnd.setScalar(3 + power(3))
         c.lifetime = 0.4
       }}
     />
