@@ -9,7 +9,11 @@ export default (props: GroupProps) => (
       <boxGeometry />
       <ParticlesMaterial color="red" />
 
-      <Emitter spawnCount={between(5, 15)} burstCount={10} burstDelay={0.01} />
+      <Emitter
+        spawnCount={() => between(5, 15)}
+        burstCount={10}
+        burstDelay={0.01}
+      />
     </MeshParticles>
 
     {/* Smoke */}
@@ -19,7 +23,7 @@ export default (props: GroupProps) => (
 
       <Emitter
         initialDelay={0.1}
-        spawnCount={between(10, 20)}
+        spawnCount={() => between(10, 20)}
         burstCount={10}
         burstDelay={0.025}
       />
