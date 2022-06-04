@@ -1,24 +1,23 @@
 import { useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
 import { Vector3 } from "three"
-import { SpawnOptions, useParticles } from "./MeshParticles"
+import { SpawnSetup, useParticles } from "./MeshParticles"
 import { getValue, ValueFactory } from "./ValueFactory"
-
-const tmpPosition = new Vector3()
 
 export type EmitterProps = {
   initialDelay?: ValueFactory<number>
   burstDelay?: ValueFactory<number>
   burstCount?: ValueFactory<number>
   spawnCount?: ValueFactory<number>
-} & SpawnOptions
+  setup?: SpawnSetup
+}
 
 export const Emitter: FC<EmitterProps> = ({
   spawnCount = 1,
   initialDelay = 0,
   burstCount = 1,
   burstDelay = 0,
-  ...spawnOptions
+  setup
 }) => {
   const cooldown = useRef(getValue(initialDelay))
   const burstsRemaining = useRef(getValue(burstCount) - 1)
@@ -31,7 +30,7 @@ export const Emitter: FC<EmitterProps> = ({
 
       /* If we've reached the end of the cooldown, spawn some particles */
       if (cooldown.current <= 0) {
-        spawnParticle(getValue(spawnCount), spawnOptions)
+        spawnParticle(getValue(spawnCount), setup)
 
         /* If there are bursts left, reset the cooldown */
         if (burstsRemaining.current > 0) {

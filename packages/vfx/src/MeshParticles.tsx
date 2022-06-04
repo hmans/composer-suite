@@ -31,13 +31,15 @@ export type MeshParticlesProps = InstancedMeshProps & {
 }
 
 export type SpawnOptions = {
-  position?: ValueFactory<Vector3>
-  velocity?: ValueFactory<Vector3>
-  acceleration?: ValueFactory<Vector3>
+  position?: Vector3
+  velocity?: Vector3
+  acceleration?: Vector3
 }
 
+export type SpawnSetup = () => SpawnOptions
+
 export type ParticlesAPI = {
-  spawnParticle: (count: number, options: SpawnOptions) => void
+  spawnParticle: (count: number, setup?: SpawnSetup) => void
 }
 
 const ParticlesContext = createContext<ParticlesAPI>(null!)
@@ -95,7 +97,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     }, [attributes])
 
     const spawnParticle = useCallback(
-      (count: number, options: SpawnOptions = {}) => {
+      (count: number, setup?: SpawnSetup) => {
         const { instanceMatrix } = imesh.current
 
         /* Configure the attributes to upload only the updated parts to the GPU. */
@@ -109,9 +111,12 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
         /* For every spawned particle, write some data into the attribute buffers. */
         for (let i = 0; i < count; i++) {
+          /* Run setup */
+          const options = setup ? setup() : {}
+
           /* Set Instance Matrix */
           options.position
-            ? tmpVector3.copy(getValue(options.position))
+            ? tmpVector3.copy(options.position)
             : tmpVector3.set(0, 0, 0)
 
           imesh.current.setMatrixAt(
@@ -132,14 +137,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
           /* Set velocity */
           options.velocity
-            ? tmpVector3.copy(getValue(options.velocity))
+            ? tmpVector3.copy(options.velocity)
             : tmpVector3.set(0, 0, 0)
 
           attributes.velocity.setXYZ(playhead.current, ...tmpVector3.toArray())
 
           /* Set acceleration */
           options.acceleration
-            ? tmpVector3.copy(getValue(options.acceleration))
+            ? tmpVector3.copy(options.acceleration)
             : tmpVector3.set(0, 0, 0)
 
           attributes.acceleration.setXYZ(

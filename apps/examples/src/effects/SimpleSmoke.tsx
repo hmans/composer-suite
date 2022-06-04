@@ -20,12 +20,16 @@ export default (props: GroupProps) => (
         spawnCount={() => between(5, 15)}
         burstCount={10}
         burstDelay={0.01}
-        position={() =>
-          tmpPosition.randomDirection().multiplyScalar(between(0.5, 3))
-        }
-        velocity={() =>
-          tmpVelocity.randomDirection().multiplyScalar(between(1, 2))
-        }
+        setup={() => {
+          return {
+            position: tmpPosition
+              .randomDirection()
+              .multiplyScalar(between(0.5, 3)),
+            velocity: tmpVelocity
+              .randomDirection()
+              .multiplyScalar(between(1, 2))
+          }
+        }}
       />
     </MeshParticles>
 
@@ -39,15 +43,19 @@ export default (props: GroupProps) => (
         spawnCount={() => between(5, 10)}
         burstCount={10}
         burstDelay={0.025}
-        position={() =>
-          tmpPosition.randomDirection().multiplyScalar(between(0.5, 3))
-        }
-        velocity={() =>
-          tmpVelocity.randomDirection().multiplyScalar(between(4, 8))
-        }
-        acceleration={() =>
-          tmpAcceleration.randomDirection().multiplyScalar(between(0, 20))
-        }
+        setup={() => {
+          return {
+            position: tmpPosition
+              .randomDirection()
+              .multiplyScalar(between(0.5, 3)),
+            velocity: tmpVelocity
+              .randomDirection()
+              .multiplyScalar(between(1, 2)),
+            acceleration: tmpAcceleration
+              .randomDirection()
+              .multiplyScalar(between(0, 20))
+          }
+        }}
       />
     </MeshParticles>
   </group>
