@@ -1,6 +1,6 @@
 import {
   MeshParticles,
-  MeshParticlesRef,
+  MeshParticlesAPI,
   ParticlesMaterial,
   useMeshParticles
 } from "@hmans/vfx"
@@ -18,15 +18,9 @@ const Emitter = () => {
 }
 
 export default (props: Object3DProps) => {
-  const particles = useRef<MeshParticlesRef>(null!)
-
-  useEffect(() => {
-    // particles.current.spawnParticle(1)
-  }, [])
-
   return (
     <object3D {...props} scale={0.2}>
-      <MeshParticles ref={particles}>
+      <MeshParticles>
         <ParticlesMaterial color="white" />
         <sphereBufferGeometry args={[1, 8, 8]} />
 

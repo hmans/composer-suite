@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef
 } from "react"
@@ -29,15 +30,15 @@ type MeshParticlesProps = InstancedMeshProps & {
   safetySize?: number
 }
 
-export type MeshParticlesRef = {
+export type MeshParticlesAPI = {
   spawnParticle: (count: number) => void
 }
 
-const MeshParticlesContext = createContext<MeshParticlesRef>(null!)
+const MeshParticlesContext = createContext<MeshParticlesAPI>(null!)
 
 export const useMeshParticles = () => useContext(MeshParticlesContext)
 
-export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
+export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
@@ -76,7 +77,7 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
     )
 
     /* Register the instance attributes with the imesh. */
-    useEffect(() => {
+    useLayoutEffect(() => {
       for (const key in attributes) {
         imesh.current.geometry.setAttribute(
           key,
@@ -161,7 +162,7 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
       ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
     })
 
-    useImperativeHandle(ref, () => ({ mesh: imesh.current, spawnParticle }), [])
+    useImperativeHandle(ref, () => imesh.current, [])
 
     return (
       <instancedMesh
