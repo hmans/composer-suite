@@ -61,8 +61,8 @@ const SmokeCloud = ({ delay = 0 }) => (
     <Emitter
       initialDelay={delay}
       spawnCount={() => between(5, 10)}
-      burstCount={3}
-      burstDelay={0.03}
+      burstCount={5}
+      burstDelay={0.05}
       setup={({ position, velocity, acceleration, scaleStart, scaleEnd }) => {
         direction.randomDirection()
 
@@ -89,7 +89,7 @@ const SimpleSmoke = (props: GroupProps) => (
   <group {...props} scale={0.2}>
     <SmokeRing />
     <Fire />
-    <SmokeCloud delay={0.4} />
+    <SmokeCloud delay={0.1} />
   </group>
 )
 
