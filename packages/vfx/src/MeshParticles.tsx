@@ -29,8 +29,12 @@ export type MeshParticlesProps = InstancedMeshProps & {
   safetySize?: number
 }
 
+type SpawnOptions = {
+  position?: () => Vector3
+}
+
 export type ParticlesAPI = {
-  spawnParticle: (count: number) => void
+  spawnParticle: (count: number, options: SpawnOptions) => void
 }
 
 const ParticlesContext = createContext<ParticlesAPI>(null!)
@@ -88,7 +92,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     }, [attributes])
 
     const spawnParticle = useCallback(
-      (count: number) => {
+      (count: number, options: SpawnOptions = {}) => {
         const { instanceMatrix } = imesh.current
 
         /* Configure the attributes to upload only the updated parts to the GPU. */
@@ -103,10 +107,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         /* For every spawned particle, write some data into the attribute buffers. */
         for (let i = 0; i < count; i++) {
           /* Set Instance Matrix */
+          options.position
+            ? tmpPosition.copy(options.position())
+            : tmpPosition.set(0, 0, 0)
+
           imesh.current.setMatrixAt(
             playhead.current,
             tmpMatrix4.compose(
-              tmpPosition.random().multiplyScalar(3),
+              tmpPosition,
               tmpRotation.random(),
               tmpScale.setScalar(0.5 + Math.random() * 1)
             )
