@@ -9,15 +9,12 @@ import {
   useRef
 } from "react"
 import {
-  Color,
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
   Quaternion,
   Vector3
 } from "three"
-import CSMImpl from "three-custom-shader-material/vanilla"
-import { ParticlesMaterial } from "./ParticlesMaterial"
 
 const tmpPosition = new Vector3()
 const tmpRotation = new Quaternion()
