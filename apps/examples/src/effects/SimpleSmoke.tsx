@@ -4,6 +4,7 @@ import { between } from "randomish"
 import { Vector3 } from "three"
 
 const tmpPosition = new Vector3()
+const tmpVelocity = new Vector3()
 
 export default (props: GroupProps) => (
   <group {...props} scale={0.2}>
@@ -16,6 +17,12 @@ export default (props: GroupProps) => (
         spawnCount={() => between(5, 15)}
         burstCount={10}
         burstDelay={0.01}
+        position={() =>
+          tmpPosition.randomDirection().multiplyScalar(between(0.5, 3))
+        }
+        velocity={() =>
+          tmpVelocity.randomDirection().multiplyScalar(between(1, 2))
+        }
       />
     </MeshParticles>
 
@@ -26,11 +33,14 @@ export default (props: GroupProps) => (
 
       <Emitter
         initialDelay={0.1}
-        spawnCount={() => between(10, 20)}
+        spawnCount={() => between(5, 10)}
         burstCount={10}
         burstDelay={0.025}
         position={() =>
           tmpPosition.randomDirection().multiplyScalar(between(0.5, 3))
+        }
+        velocity={() =>
+          tmpVelocity.randomDirection().multiplyScalar(between(4, 8))
         }
       />
     </MeshParticles>

@@ -20,6 +20,7 @@ import {
 import { getValue, ValueFactory } from "./ValueFactory"
 
 const tmpPosition = new Vector3()
+const tmpVelocity = new Vector3()
 const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -32,6 +33,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
 
 export type SpawnOptions = {
   position?: ValueFactory<Vector3>
+  velocity?: ValueFactory<Vector3>
 }
 
 export type ParticlesAPI = {
@@ -129,13 +131,11 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set velocity */
-          attributes.velocity.setXYZ(
-            playhead.current,
-            ...new Vector3()
-              .randomDirection()
-              .multiplyScalar(Math.random() * 5)
-              .toArray()
-          )
+          options.velocity
+            ? tmpVelocity.copy(getValue(options.velocity))
+            : tmpVelocity.set(0, 0, 0)
+
+          attributes.velocity.setXYZ(playhead.current, ...tmpVelocity.toArray())
 
           /* Set acceleration */
           attributes.acceleration.setXYZ(playhead.current, 0, 0, 0)
