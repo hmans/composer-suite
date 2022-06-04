@@ -35,6 +35,7 @@
     "@manypkg/cli": "^0.19.1",
     "@preconstruct/cli": "^2.1.5",
     "@types/react": "^18.0.11",
-    "@types/react-dom": "^18.0.5"
+    "@types/react-dom": "^18.0.5",
+    "@types/three": "^0.141.0"
   }
 }
