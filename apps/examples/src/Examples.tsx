@@ -5,9 +5,10 @@ import { useCallback, useRef } from "react"
 import { Mesh, Object3D, Vector3 } from "three"
 import ECS from "./ECS"
 import Effects from "./Effects"
+import ageSystem from "./systems/ageSystem"
 
 const spawnEffect = (position: Vector3) => {
-  ECS.world.createEntity({ isEffect: Tag, spawn: { position } })
+  ECS.world.createEntity({ isEffect: Tag, spawn: { position }, age: 0 })
 }
 
 const Thingy = () => {
@@ -38,6 +39,14 @@ const Ground = () => {
   )
 }
 
+const Systems = () => {
+  useFrame((_, dt) => {
+    ageSystem(dt)
+  })
+
+  return null
+}
+
 export default () => (
   <Canvas>
     <ambientLight intensity={0.2} />
@@ -48,5 +57,6 @@ export default () => (
     <OrbitControls />
     <fog attach="fog" args={["#000", 32, 256]} />
     <PerspectiveCamera position={[0, 5, 20]} makeDefault />
+    <Systems />
   </Canvas>
 )

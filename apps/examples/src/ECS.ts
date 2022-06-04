@@ -4,6 +4,8 @@ import { Vector3 } from "three"
 
 type Entity = {
   isEffect: Tag
+  age?: number
+  maxAge?: number
   spawn: {
     position: Vector3
   }
