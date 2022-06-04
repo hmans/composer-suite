@@ -2709,9 +2709,9 @@ r3f-perf@^6.2.6:
     zustand "^3.7.1"
 
 randomish@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/randomish/-/randomish-0.1.2.tgz#debd277491733260c80044359590ca2d4eea3032"
-  integrity sha512-ey+EdYVbejq3HJjEswWEza2B8ouORqMSyPS6A0WqokCuxRVhIQ+SP8Tx364GIxuWBNaBAJQoWRXXNTXv049NiA==
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/randomish/-/randomish-0.1.3.tgz#37d6e704f5e4b1ce264b14ef82a40a46b3533a6f"
+  integrity sha512-qq86FwdpJaheO8bv55kAAZCdotjuyiftZDTIrBXsmyR4f1HINZ8VdQT5tRIHZIccq8piwkixb0/YA20XqZrxNw==
 
 rc@^1.2.8:
   version "1.2.8"
