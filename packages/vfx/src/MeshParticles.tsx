@@ -1,8 +1,10 @@
 import { InstancedMeshProps, useFrame, useThree } from "@react-three/fiber"
 import {
+  createContext,
   forwardRef,
   ReactNode,
   useCallback,
+  useContext,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -28,16 +30,19 @@ type MeshParticlesProps = InstancedMeshProps & {
 }
 
 export type MeshParticlesRef = {
-  mesh: InstancedMesh
   spawnParticle: (count: number) => void
 }
+
+const MeshParticlesContext = createContext<MeshParticlesRef>(null!)
+
+export const useMeshParticles = () => useContext(MeshParticlesContext)
 
 export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
   ) => {
-    /* The safetySize allows us to emit a batch of particles that would iotherwise
+    /* The safetySize allows us to emit a batch of particles that would otherwise
     exceed the maximum instance count (which would make WebGL crash.) This way, we don't
     have to upload the entirety of all buffers every time the playhead wraps back to 0. */
     const maxInstanceCount = maxParticles + safetySize
@@ -47,11 +52,14 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
     const { clock } = useThree()
 
     /* Helper method to create new instanced buffer attributes */
-    const createAttribute = (itemSize: number) =>
-      new InstancedBufferAttribute(
-        new Float32Array(maxInstanceCount * itemSize),
-        itemSize
-      )
+    const createAttribute = useCallback(
+      (itemSize: number) =>
+        new InstancedBufferAttribute(
+          new Float32Array(maxInstanceCount * itemSize),
+          itemSize
+        ),
+      [maxInstanceCount]
+    )
 
     /* Let's define a number of attributes. */
     const attributes = useMemo(
@@ -81,14 +89,18 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
 
     const spawnParticle = useCallback(
       (count: number) => {
+        console.log("Spawning:", count, imesh.current)
+
         const { instanceMatrix } = imesh.current
 
+        /* Configure the attributes to upload only the updated parts to the GPU. */
         ;[instanceMatrix, ...Object.values(attributes)].forEach((attribute) => {
           attribute.needsUpdate = true
           attribute.updateRange.offset = playhead.current * attribute.itemSize
           attribute.updateRange.count = count * attribute.itemSize
         })
 
+        /* For every spawned particle, write some data into the attribute buffers. */
         for (let i = 0; i < count; i++) {
           /* Set Instance Matrix */
           imesh.current.setMatrixAt(
@@ -132,15 +144,19 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
         }
 
         /* Increase count of imesh to match playhead */
-        if (playhead.current > imesh.current.count)
+        if (playhead.current > imesh.current.count) {
           imesh.current.count = playhead.current
+        }
 
         /* If we've gone past the number of max particles, reset the playhead. */
-        if (playhead.current > maxParticles) playhead.current = 0
+        if (playhead.current > maxParticles) {
+          playhead.current = 0
+        }
       },
       [attributes]
     )
 
+    /* Every frame, advance the time uniform */
     useFrame(() => {
       ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
     })
@@ -153,8 +169,9 @@ export const MeshParticles = forwardRef<MeshParticlesRef, MeshParticlesProps>(
         args={[undefined, material, maxInstanceCount]}
         {...props}
       >
-        {children}
-        {/* <ParticlesMaterial color={color} ref={material} /> */}
+        <MeshParticlesContext.Provider value={{ spawnParticle }}>
+          {children}
+        </MeshParticlesContext.Provider>
       </instancedMesh>
     )
   }
