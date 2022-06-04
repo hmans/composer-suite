@@ -6,9 +6,16 @@ import { Mesh, Object3D, Vector3 } from "three"
 import ECS from "./ECS"
 import Effects from "./Effects"
 import ageSystem from "./systems/ageSystem"
+import flushQueueSystem from "./systems/flushQueueSystem"
+import maxAgeSystem from "./systems/maxAgeSystem"
 
 const spawnEffect = (position: Vector3) => {
-  ECS.world.createEntity({ isEffect: Tag, spawn: { position }, age: 0 })
+  ECS.world.createEntity({
+    isEffect: Tag,
+    spawn: { position },
+    age: 0,
+    maxAge: 5
+  })
 }
 
 const Thingy = () => {
@@ -42,6 +49,8 @@ const Ground = () => {
 const Systems = () => {
   useFrame((_, dt) => {
     ageSystem(dt)
+    maxAgeSystem()
+    flushQueueSystem()
   })
 
   return null
