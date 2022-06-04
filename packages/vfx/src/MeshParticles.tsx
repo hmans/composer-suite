@@ -25,7 +25,9 @@ const tmpMatrix4 = new Matrix4()
 const components = {
   position: new Vector3(),
   velocity: new Vector3(),
-  acceleration: new Vector3()
+  acceleration: new Vector3(),
+  scaleStart: new Vector3(),
+  scaleEnd: new Vector3()
 }
 
 export type MeshParticlesProps = InstancedMeshProps & {
@@ -115,6 +117,8 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.position.set(0, 0, 0)
           components.velocity.set(0, 0, 0)
           components.acceleration.set(0, 0, 0)
+          components.scaleStart.set(1, 1, 1)
+          components.scaleEnd.set(1, 1, 1)
 
           /* Run setup */
           setup?.(components)
@@ -124,7 +128,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
             tmpMatrix4.compose(
               components.position,
               tmpRotation.random(),
-              tmpScale.setScalar(0.5 + Math.random() * 1)
+              tmpScale.setScalar(1)
             )
           )
 
@@ -152,8 +156,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           attributes.colorEnd.setXYZW(playhead.current, 1, 1, 1, 0)
 
           /* Set scale */
-          attributes.scaleStart.setXYZ(playhead.current, 1, 1, 1)
-          attributes.scaleEnd.setXYZ(playhead.current, 0, 0, 0)
+          attributes.scaleStart.setXYZ(
+            playhead.current,
+            ...components.scaleStart.toArray()
+          )
+          attributes.scaleEnd.setXYZ(
+            playhead.current,
+            ...components.scaleEnd.toArray()
+          )
 
           /* Advance playhead */
           playhead.current++

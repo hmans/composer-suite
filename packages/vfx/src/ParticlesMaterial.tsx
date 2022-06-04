@@ -24,7 +24,7 @@ export const ParticlesMaterial = forwardRef<CustomShaderMaterialImpl, any>(
         blending={CustomBlending}
         blendEquation={AddEquation}
         depthTest={true}
-        depthWrite={true}
+        depthWrite={false}
         {...props}
       />
     )
