@@ -19,8 +19,7 @@ import {
 } from "three"
 import { getValue, ValueFactory } from "./ValueFactory"
 
-const tmpPosition = new Vector3()
-const tmpVelocity = new Vector3()
+const tmpVector3 = new Vector3()
 const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -111,13 +110,13 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         for (let i = 0; i < count; i++) {
           /* Set Instance Matrix */
           options.position
-            ? tmpPosition.copy(getValue(options.position))
-            : tmpPosition.set(0, 0, 0)
+            ? tmpVector3.copy(getValue(options.position))
+            : tmpVector3.set(0, 0, 0)
 
           imesh.current.setMatrixAt(
             playhead.current,
             tmpMatrix4.compose(
-              tmpPosition,
+              tmpVector3,
               tmpRotation.random(),
               tmpScale.setScalar(0.5 + Math.random() * 1)
             )
@@ -132,10 +131,10 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
           /* Set velocity */
           options.velocity
-            ? tmpVelocity.copy(getValue(options.velocity))
-            : tmpVelocity.set(0, 0, 0)
+            ? tmpVector3.copy(getValue(options.velocity))
+            : tmpVector3.set(0, 0, 0)
 
-          attributes.velocity.setXYZ(playhead.current, ...tmpVelocity.toArray())
+          attributes.velocity.setXYZ(playhead.current, ...tmpVector3.toArray())
 
           /* Set acceleration */
           attributes.acceleration.setXYZ(playhead.current, 0, 0, 0)
