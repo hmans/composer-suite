@@ -29,6 +29,8 @@ const SmokeRing = ({ delay = 0 }) => (
 
         c.scaleStart.setScalar(1 + plusMinus(0.3))
         c.scaleEnd.setScalar(0)
+
+        c.lifetime = between(0.5, 1.5)
       }}
     />
   </MeshParticles>
@@ -60,6 +62,8 @@ const Dirt = ({ delay = 0 }) => (
 
         c.scaleStart.setScalar(between(0.2, 0.4))
         c.scaleEnd.copy(c.scaleStart)
+
+        c.lifetime = between(0.5, 1.5)
       }}
     />
   </MeshParticles>
@@ -112,6 +116,7 @@ const SmokeCloud = ({ delay = 0 }) => (
 
         c.scaleStart.setScalar(between(0.5, 1))
         c.scaleEnd.setScalar(between(3, 6))
+        c.lifetime = between(1, 2)
       }}
     />
   </MeshParticles>
