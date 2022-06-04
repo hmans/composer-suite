@@ -1,2 +1,2 @@
-export * from "./instancicles/Instancicles"
-export * from "./instancicles/ParticlesMaterial"
+export * from "./Instancicles"
+export * from "./ParticlesMaterial"
