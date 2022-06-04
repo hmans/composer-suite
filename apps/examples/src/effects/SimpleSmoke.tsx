@@ -64,19 +64,19 @@ const Dirt = ({ delay = 0 }) => (
   </MeshParticles>
 )
 
-const Fire = ({ delay = 0 }) => (
+const Fireball = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial color="red" />
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => between(20, 50)}
+      spawnCount={() => between(2, 3)}
       setup={(c) => {
         direction.randomDirection()
         c.position.copy(direction).multiplyScalar(between(0, 2))
         c.velocity.copy(direction).multiplyScalar(between(2, 4))
-        c.scaleStart.setScalar(between(0, 2))
+        c.scaleStart.setScalar(between(1, 2))
         c.scaleEnd.setScalar(3 + Math.pow(Math.random(), 3))
         c.lifetime = 0.4
       }}
@@ -120,7 +120,7 @@ const SimpleSmoke = (props: GroupProps) => (
   <group {...props} scale={0.2}>
     <SmokeRing />
     <Dirt />
-    <Fire />
+    <Fireball />
     <SmokeCloud delay={0.1} />
   </group>
 )
