@@ -24,7 +24,7 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
 
-type MeshParticlesProps = InstancedMeshProps & {
+export type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
   maxParticles?: number
   safetySize?: number

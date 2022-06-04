@@ -1,23 +1,43 @@
-import { MeshParticles, ParticlesMaterial, useMeshParticles } from "@hmans/vfx"
-import { Object3DProps, useFrame } from "@react-three/fiber"
+import {
+  MeshParticles,
+  MeshParticlesProps,
+  ParticlesMaterial,
+  useMeshParticles
+} from "@hmans/vfx"
+import { useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
 
 type EmitterProps = {
-  delay?: number
-  count?: number
+  initialDelay?: number
+  burstDelay?: number
+  burstCount?: number
+  spawnCount?: number
 }
 
-const Emitter: FC<EmitterProps> = ({ count = 1, delay = 0 }) => {
-  const timeRemaining = useRef(delay)
+const Emitter: FC<EmitterProps> = ({
+  spawnCount = 1,
+  initialDelay = 0,
+  burstCount = 1,
+  burstDelay = 0
+}) => {
+  const cooldown = useRef(initialDelay)
+  const burstsRemaining = useRef(burstCount - 1)
 
   const { spawnParticle } = useMeshParticles()
 
   useFrame((_, dt) => {
-    if (timeRemaining.current >= 0) {
-      timeRemaining.current -= dt
+    if (cooldown.current >= 0) {
+      cooldown.current -= dt
 
-      if (timeRemaining.current <= 0) {
-        spawnParticle(count)
+      /* If we've reached the end of the cooldown, spawn some particles */
+      if (cooldown.current <= 0) {
+        spawnParticle(spawnCount)
+
+        /* If there are bursts left, reset the cooldown */
+        if (burstsRemaining.current > 0) {
+          cooldown.current += burstDelay
+          burstsRemaining.current--
+        }
       }
     }
   })
@@ -25,16 +45,11 @@ const Emitter: FC<EmitterProps> = ({ count = 1, delay = 0 }) => {
   return null
 }
 
-export default (props: Object3DProps) => {
-  return (
-    <object3D {...props} scale={0.2}>
-      <MeshParticles>
-        <ParticlesMaterial color="white" />
-        <sphereBufferGeometry args={[1, 8, 8]} />
+export default (props: MeshParticlesProps) => (
+  <MeshParticles {...props} scale={0.2}>
+    <ParticlesMaterial color="white" />
+    <sphereBufferGeometry args={[1, 8, 8]} />
 
-        <Emitter count={5} />
-        <Emitter count={30} delay={0.3} />
-      </MeshParticles>
-    </object3D>
-  )
-}
+    <Emitter spawnCount={3} burstCount={10} burstDelay={0.025} />
+  </MeshParticles>
+)
