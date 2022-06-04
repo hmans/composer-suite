@@ -17,6 +17,7 @@ import {
   Quaternion,
   Vector3
 } from "three"
+import { getValue, ValueFactory } from "./ValueFactory"
 
 const tmpPosition = new Vector3()
 const tmpRotation = new Quaternion()
@@ -30,7 +31,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
 }
 
 type SpawnOptions = {
-  position?: () => Vector3
+  position?: ValueFactory<Vector3>
 }
 
 export type ParticlesAPI = {
@@ -108,7 +109,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         for (let i = 0; i < count; i++) {
           /* Set Instance Matrix */
           options.position
-            ? tmpPosition.copy(options.position())
+            ? tmpPosition.copy(getValue(options.position))
             : tmpPosition.set(0, 0, 0)
 
           imesh.current.setMatrixAt(
