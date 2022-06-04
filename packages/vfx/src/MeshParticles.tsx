@@ -90,8 +90,6 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
     const spawnParticle = useCallback(
       (count: number) => {
-        console.log("Spawning:", count, imesh.current)
-
         const { instanceMatrix } = imesh.current
 
         /* Configure the attributes to upload only the updated parts to the GPU. */
