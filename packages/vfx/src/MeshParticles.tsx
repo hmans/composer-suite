@@ -18,14 +18,15 @@ import {
   Vector3
 } from "three"
 
-const tmpVector3 = new Vector3()
 const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
 
-const position = new Vector3()
-const velocity = new Vector3()
-const acceleration = new Vector3()
+const components = {
+  position: new Vector3(),
+  velocity: new Vector3(),
+  acceleration: new Vector3()
+}
 
 export type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
@@ -115,17 +116,17 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         /* For every spawned particle, write some data into the attribute buffers. */
         for (let i = 0; i < count; i++) {
           /* Reset components */
-          position.set(0, 0, 0)
-          velocity.set(0, 0, 0)
-          acceleration.set(0, 0, 0)
+          components.position.set(0, 0, 0)
+          components.velocity.set(0, 0, 0)
+          components.acceleration.set(0, 0, 0)
 
           /* Run setup */
-          setup?.({ position, velocity, acceleration })
+          setup?.(components)
 
           imesh.current.setMatrixAt(
             playhead.current,
             tmpMatrix4.compose(
-              position,
+              components.position,
               tmpRotation.random(),
               tmpScale.setScalar(0.5 + Math.random() * 1)
             )
@@ -139,12 +140,15 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set velocity */
-          attributes.velocity.setXYZ(playhead.current, ...velocity.toArray())
+          attributes.velocity.setXYZ(
+            playhead.current,
+            ...components.velocity.toArray()
+          )
 
           /* Set acceleration */
           attributes.acceleration.setXYZ(
             playhead.current,
-            ...acceleration.toArray()
+            ...components.acceleration.toArray()
           )
 
           /* Set color */
