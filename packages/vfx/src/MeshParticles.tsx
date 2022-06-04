@@ -34,11 +34,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
   safetySize?: number
 }
 
-export type SpawnOptions = {
-  position: Vector3
-  velocity: Vector3
-  acceleration: Vector3
-}
+export type SpawnOptions = typeof components
 
 export type SpawnSetup = (options: SpawnOptions) => void
 
