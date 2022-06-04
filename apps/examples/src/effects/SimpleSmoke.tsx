@@ -46,7 +46,8 @@ const Dirt = ({ delay = 0 }) => (
       burstDelay={0.025}
       setup={(c) => {
         direction
-          .set(1, 0.5, 0)
+          .set(1, 0, 0)
+          .applyAxisAngle(new Vector3(0, 0, 1), between(0, Math.PI / 4))
           .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
         c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
