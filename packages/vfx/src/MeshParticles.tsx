@@ -29,15 +29,15 @@ export type MeshParticlesProps = InstancedMeshProps & {
   safetySize?: number
 }
 
-export type MeshParticlesAPI = {
+export type ParticlesAPI = {
   spawnParticle: (count: number) => void
 }
 
-const MeshParticlesContext = createContext<MeshParticlesAPI>(null!)
+const ParticlesContext = createContext<ParticlesAPI>(null!)
 
-export const useMeshParticles = () => useContext(MeshParticlesContext)
+export const useParticles = () => useContext(ParticlesContext)
 
-export const MeshParticles = forwardRef<MeshParticlesAPI, MeshParticlesProps>(
+export const MeshParticles = forwardRef<ParticlesAPI, MeshParticlesProps>(
   (
     { maxParticles = 1_000, safetySize = 100, children, material, ...props },
     ref
@@ -167,9 +167,9 @@ export const MeshParticles = forwardRef<MeshParticlesAPI, MeshParticlesProps>(
         args={[undefined, material, maxInstanceCount]}
         {...props}
       >
-        <MeshParticlesContext.Provider value={{ spawnParticle }}>
+        <ParticlesContext.Provider value={{ spawnParticle }}>
           {children}
-        </MeshParticlesContext.Provider>
+        </ParticlesContext.Provider>
       </instancedMesh>
     )
   }
