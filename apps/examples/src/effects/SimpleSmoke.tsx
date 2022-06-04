@@ -41,8 +41,8 @@ const Dirt = ({ delay = 0 }) => (
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => between(50, 100)}
-      burstCount={5}
+      spawnCount={() => Math.pow(Math.random(), 3) * 200}
+      burstCount={() => Math.pow(Math.random(), 3) * 5}
       burstDelay={0.025}
       setup={(c) => {
         direction
