@@ -1,5 +1,4 @@
-import { Instancicles, InstanciclesRef, ParticlesMaterial } from "@hmans/vfx"
-import { FC, useEffect, useRef } from "react"
+import { FC } from "react"
 import ECS from "./ECS"
 import SimpleSmoke from "./effects/simpleSmoke"
 
