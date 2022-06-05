@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-import { MeshBasicMaterial, MeshStandardMaterial } from "three"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { iCSMProps } from "three-custom-shader-material/types"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
