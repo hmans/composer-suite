@@ -72,7 +72,7 @@ export default () => (
   >
     <ambientLight intensity={0.4} />
     <directionalLight position={[10, 10, 10]} intensity={1} />
-    <fog attach="fog" args={["#000", 32, 256]} />
+    <fogExp2 attach="fog" args={["#000", 0.005]} />
 
     <PerspectiveCamera position={[0, 30, 100]} makeDefault />
 
