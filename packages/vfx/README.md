@@ -17,10 +17,11 @@ yarn && yarn examples
 
 ## Features
 
-- ✅ **Support for mesh particles**. Every effect makes use of intanced meshes. No matter how many particles you spawn, they're always going to be just 1 draw call (per effect.)
-- ✅ **Declarative emitters.** Just add `<Emitter>` to your JSX.
+- [x] **Support for mesh particles**. Every effect makes use of intanced meshes. No matter how many particles you spawn, they're always going to be just 1 draw call (per effect.)
+- [x] **Declarative emitters.** Just add `<Emitter>` to your JSX.
 
 ### Missing
 
-- ❌ **Support for point or sprite particles.** Yes, it can be done, but probably not lit (ie. taking scene lights into account), which makes them significantly less interesting for visual effects. (PRs welcome!)
-- ❌ **Emitters as scene objects.** Emitters will eventually be scene objects with their own transforms. That way, you can animate particle spawning positions by moving them through your scene.
+- [ ] **Support for point or sprite particles.** Yes, it can be done, but probably not lit (ie. taking scene lights into account), which makes them significantly less interesting for visual effects. (PRs welcome!)
+- [ ] **Emitters as scene objects.** Emitters will eventually be scene objects with their own transforms. That way, you can animate particle spawning positions by moving them through your scene.
+- [ ] **Soft Particles**. PRs welcome!
