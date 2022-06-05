@@ -28,8 +28,8 @@ export default () => {
           c.lifetime = 1000
           c.scaleStart.setScalar(between(5, 10))
           c.scaleEnd.copy(c.scaleStart)
-          c.alphaStart = 0.2
-          c.alphaEnd = 0.2
+          c.alphaStart = 0.3
+          c.alphaEnd = 0.3
         }}
       />
     </MeshParticles>
