@@ -1,4 +1,4 @@
-import { between, plusMinus } from "randomish"
+import { between } from "randomish"
 import { useMemo } from "react"
 import { AdditiveBlending, TextureLoader } from "three"
 import { Emitter, MeshParticles, TexturedParticlesMaterial } from "vfx"
@@ -8,6 +8,8 @@ export default () => {
     () => new TextureLoader().load("/textures/smoke.png"),
     []
   )
+
+  // const depthBuffer = useDepthBuffer()
 
   return (
     <MeshParticles>
