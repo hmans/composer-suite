@@ -39,6 +39,15 @@ void main() {
   /* Fixes rotation, but not scaling, argh! */
   offset *= mat3(instanceMatrix);
   csm_Position += offset;
+
+  vec3 cameraRight = vec3(
+    viewMatrix[0].x, viewMatrix[1].x, viewMatrix[2].x
+  );
+  vec3 cameraUp = vec3(
+    viewMatrix[0].y, viewMatrix[1].y, viewMatrix[2].y
+  );
+
+  csm_Position.xyz += (cameraRight) + (cameraUp);
 }
 
 `

@@ -140,7 +140,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
             playhead.current,
             tmpMatrix4.compose(
               components.position,
-              tmpRotation.random(),
+              tmpRotation,
               tmpScale.setScalar(1)
             )
           )
