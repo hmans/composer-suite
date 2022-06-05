@@ -16,7 +16,6 @@ export default () => {
       <ParticlesMaterial
         baseMaterial={MeshStandardMaterial}
         map={texture}
-        alphaMap={texture}
         blending={AdditiveBlending}
         depthTest={true}
         depthWrite={false}
