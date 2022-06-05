@@ -24,10 +24,10 @@ export default () => {
       />
 
       <Emitter
-        burstParticles={100}
+        initialParticles={100}
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
-          // c.velocity.randomDirection().multiplyScalar(between(0, 3))
+          c.velocity.randomDirection().multiplyScalar(between(0, 3))
           c.lifetime = 50
           c.scaleStart.setScalar(between(1, 50))
           c.scaleEnd.copy(c.scaleStart).multiplyScalar(1.2)

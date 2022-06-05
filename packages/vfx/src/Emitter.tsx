@@ -4,6 +4,7 @@ import { SpawnSetup, useParticles } from "./MeshParticles"
 import { getValue, ValueFactory } from "./ValueFactory"
 
 export type EmitterProps = {
+  initialParticles?: ValueFactory<number>
   initialDelay?: ValueFactory<number>
   burstDelay?: ValueFactory<number>
   burstCount?: ValueFactory<number>
@@ -12,28 +13,36 @@ export type EmitterProps = {
 }
 
 export const Emitter: FC<EmitterProps> = ({
+  initialParticles = 0,
   burstParticles = 1,
   initialDelay = 0,
-  burstCount = 1,
+  burstCount = 0,
   burstDelay = 0,
   setup
 }) => {
-  const cooldown = useRef(getValue(initialDelay))
-  const burstsRemaining = useRef(getValue(burstCount) - 1)
+  const initialCooldown = useRef(getValue(initialDelay))
+  const burstCooldown = useRef(getValue(burstDelay))
+  const burstsRemaining = useRef(getValue(burstCount))
 
   const { spawnParticle } = useParticles()
 
   useFrame((_, dt) => {
-    if (cooldown.current >= 0) {
-      cooldown.current -= dt
+    if (initialCooldown.current >= 0) {
+      initialCooldown.current -= dt
+
+      if (initialCooldown.current <= 0) {
+        spawnParticle(getValue(initialParticles), setup)
+      }
+    } else if (burstsRemaining.current > 0) {
+      burstCooldown.current -= dt
 
       /* If we've reached the end of the cooldown, spawn some particles */
-      if (cooldown.current <= 0) {
+      if (burstCooldown.current <= 0) {
         spawnParticle(getValue(burstParticles), setup)
 
         /* If there are bursts left, reset the cooldown */
         if (burstsRemaining.current > 0) {
-          cooldown.current += getValue(burstDelay)
+          burstCooldown.current += getValue(burstDelay)
           burstsRemaining.current--
         }
       }
