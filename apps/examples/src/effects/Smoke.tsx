@@ -28,10 +28,10 @@ export default () => {
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
           c.velocity.randomDirection().multiplyScalar(between(0, 3))
-          c.lifetime = 50
+          c.lifetime = 100
           c.scaleStart.setScalar(between(1, 50))
-          c.scaleEnd.copy(c.scaleStart).multiplyScalar(1.2)
-          c.alphaStart = 0.1
+          c.scaleEnd.setScalar(0)
+          c.alphaStart = between(0.05, 0.1)
           c.alphaEnd = 0
         }}
       />
