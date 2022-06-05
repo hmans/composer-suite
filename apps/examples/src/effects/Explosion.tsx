@@ -13,7 +13,7 @@ const SmokeRing = ({ delay = 0 }) => (
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => between(25, 40)}
+      burstParticles={() => between(25, 40)}
       burstCount={5}
       burstDelay={0.025}
       setup={(c) => {
@@ -46,7 +46,7 @@ const Dirt = ({ delay = 0 }) => (
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => power(3) * 200}
+      burstParticles={() => power(3) * 200}
       burstCount={() => power(3) * 5}
       burstDelay={0.025}
       setup={(c) => {
@@ -80,7 +80,7 @@ const Fireball = ({ delay = 0 }) => (
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => 5 + power(3) * 10}
+      burstParticles={() => 5 + power(3) * 10}
       setup={(c) => {
         direction.randomDirection()
         c.position.copy(direction).multiplyScalar(between(0, 2))
@@ -109,7 +109,7 @@ const SmokeCloud = ({ delay = 0 }) => (
 
     <Emitter
       initialDelay={delay}
-      spawnCount={() => between(5, 10)}
+      burstParticles={() => between(5, 10)}
       burstCount={5}
       burstDelay={0.05}
       setup={(c) => {

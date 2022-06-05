@@ -7,12 +7,12 @@ export type EmitterProps = {
   initialDelay?: ValueFactory<number>
   burstDelay?: ValueFactory<number>
   burstCount?: ValueFactory<number>
-  spawnCount?: ValueFactory<number>
+  burstParticles?: ValueFactory<number>
   setup?: SpawnSetup
 }
 
 export const Emitter: FC<EmitterProps> = ({
-  spawnCount = 1,
+  burstParticles = 1,
   initialDelay = 0,
   burstCount = 1,
   burstDelay = 0,
@@ -29,7 +29,7 @@ export const Emitter: FC<EmitterProps> = ({
 
       /* If we've reached the end of the cooldown, spawn some particles */
       if (cooldown.current <= 0) {
-        spawnParticle(getValue(spawnCount), setup)
+        spawnParticle(getValue(burstParticles), setup)
 
         /* If there are bursts left, reset the cooldown */
         if (burstsRemaining.current > 0) {

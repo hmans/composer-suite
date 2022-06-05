@@ -24,7 +24,7 @@ export default () => {
       />
 
       <Emitter
-        spawnCount={100}
+        burstParticles={100}
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
           // c.velocity.randomDirection().multiplyScalar(between(0, 3))
