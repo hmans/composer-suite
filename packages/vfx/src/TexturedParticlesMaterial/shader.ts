@@ -78,12 +78,18 @@ ${uniforms}
 ${varyings}
 
 void main() {
-  /* Discard this instance if it is not in the current time range */
-  if (u_time < v_timeStart || u_time > v_timeEnd) discard;
-
+  /* Get diffuse color */
   vec4 diffuse4 = vec4(diffuse, 1.0);
+
+  /* Mix diffuse color with the animation color */
   csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
-  // csm_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+
+  /* Apply the diffuse color to the texture */
   csm_FragColor = texture2D(map, vUv) * csm_DiffuseColor;
+
+  /* Lifetime management: discard this instance if it is not in the current time range */
+  if (u_time < v_timeStart || u_time > v_timeEnd) {
+    csm_FragColor.a = 0.0;
+  }
 }
 `
