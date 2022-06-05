@@ -55,6 +55,7 @@ void main() {
   );
 
   csm_Position = billboard(csm_Position.xy, viewMatrix);
+  // csm_Position = (projectionMatrix * (modelViewMatrix * vec4(0.0, 0.0, 0.0, 1.0) + vec4(position.x, position.y, 0.0, 0.0))).xyz;
 }
 
 `
