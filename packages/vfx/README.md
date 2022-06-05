@@ -15,6 +15,8 @@ Please do not use this in your own projects yet, as both API and functionality i
 yarn && yarn examples
 ```
 
+Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx).
+
 ## Features
 
 - [x] **Support for mesh particles**. Every effect makes use of intanced meshes. No matter how many particles you spawn, they're always going to be just 1 draw call (per effect.)
