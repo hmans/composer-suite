@@ -12,6 +12,7 @@ export default () => {
   return (
     <MeshParticles>
       <planeGeometry />
+
       <TexturedParticlesMaterial
         map={texture}
         alphaMap={texture}
