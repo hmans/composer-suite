@@ -93,6 +93,8 @@ void main() {
   csm_FragColor = csm_DiffuseColor;
 
   /* Mix in the texture */
-  // csm_FragColor *= texture2D(map, vUv);
+  #ifdef USE_MAP
+    csm_FragColor *= texture2D(map, vUv);
+  #endif
 }
 `
