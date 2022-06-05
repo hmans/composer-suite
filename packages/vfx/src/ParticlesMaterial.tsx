@@ -12,33 +12,27 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(
-  (
-    { billboard = false, baseMaterial = MeshStandardMaterial, ...props },
-    ref
-  ) => {
-    const uniforms = useMemo(
-      () => ({
-        u_time: {
-          value: 0
-        },
-        u_billboard: { value: billboard }
-      }),
-      []
-    )
+>(({ billboard = false, ...props }, ref) => {
+  const uniforms = useMemo(
+    () => ({
+      u_time: {
+        value: 0
+      },
+      u_billboard: { value: billboard }
+    }),
+    []
+  )
 
-    return (
-      <CustomShaderMaterial
-        ref={ref}
-        baseMaterial={baseMaterial}
-        uniforms={uniforms}
-        blending={CustomBlending}
-        blendEquation={AddEquation}
-        depthTest={true}
-        depthWrite={false}
-        {...shader}
-        {...props}
-      />
-    )
-  }
-)
+  return (
+    <CustomShaderMaterial
+      ref={ref}
+      uniforms={uniforms}
+      blending={CustomBlending}
+      blendEquation={AddEquation}
+      depthTest={true}
+      depthWrite={false}
+      {...shader}
+      {...props}
+    />
+  )
+})

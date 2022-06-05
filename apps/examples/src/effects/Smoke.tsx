@@ -1,6 +1,6 @@
 import { between } from "randomish"
 import { useMemo } from "react"
-import { AdditiveBlending, TextureLoader } from "three"
+import { AdditiveBlending, MeshStandardMaterial, TextureLoader } from "three"
 import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 
 export default () => {
@@ -14,6 +14,7 @@ export default () => {
       <planeGeometry />
 
       <ParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
         map={texture}
         alphaMap={texture}
         blending={AdditiveBlending}

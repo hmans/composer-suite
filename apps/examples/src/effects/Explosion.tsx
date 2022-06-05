@@ -1,6 +1,6 @@
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
-import { Color, Vector3 } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 
 const gravity = new Vector3(0, -20, 0)
@@ -9,7 +9,11 @@ const direction = new Vector3()
 const SmokeRing = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="white" transparent />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="white"
+      transparent
+    />
 
     <Emitter
       initialDelay={delay}
@@ -43,7 +47,11 @@ const SmokeRing = ({ delay = 0 }) => (
 const Dirt = ({ delay = 0 }) => (
   <MeshParticles>
     <dodecahedronBufferGeometry />
-    <ParticlesMaterial color="#fff" transparent />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="#fff"
+      transparent
+    />
 
     <Emitter
       initialDelay={delay}
@@ -78,7 +86,11 @@ const Dirt = ({ delay = 0 }) => (
 const Fireball = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="#fff" transparent />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="#fff"
+      transparent
+    />
 
     <Emitter
       initialDelay={delay}
@@ -108,7 +120,12 @@ const Fireball = ({ delay = 0 }) => (
 const SmokeCloud = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="#fff" transparent depthWrite={false} />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="#fff"
+      transparent
+      depthWrite={false}
+    />
 
     <Emitter
       initialDelay={delay}
