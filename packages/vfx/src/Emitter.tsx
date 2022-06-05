@@ -27,13 +27,19 @@ export const Emitter: FC<EmitterProps> = ({
   const { spawnParticle } = useParticles()
 
   useFrame((_, dt) => {
+    /* First of all, wait the initial cooldown */
     if (initialCooldown.current >= 0) {
       initialCooldown.current -= dt
 
       if (initialCooldown.current <= 0) {
         spawnParticle(getValue(initialParticles), setup)
       }
-    } else if (burstsRemaining.current > 0) {
+
+      return
+    }
+
+    /* Now we can deal with the remaining bursts */
+    if (burstsRemaining.current > 0) {
       burstCooldown.current -= dt
 
       /* If we've reached the end of the cooldown, spawn some particles */
