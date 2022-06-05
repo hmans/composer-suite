@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import { forwardRef, useMemo } from "react"
 import { AddEquation, CustomBlending, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { iCSMProps } from "three-custom-shader-material/types"
@@ -23,22 +23,29 @@ export const ParticlesMaterial = forwardRef<
   (
     { billboard = false, baseMaterial = MeshStandardMaterial, ...props },
     ref
-  ) => (
-    <CustomShaderMaterial
-      ref={ref}
-      baseMaterial={baseMaterial}
-      uniforms={{
+  ) => {
+    const uniforms = useMemo(
+      () => ({
         u_time: {
           value: 0
         },
         u_billboard: { value: billboard }
-      }}
-      blending={CustomBlending}
-      blendEquation={AddEquation}
-      depthTest={true}
-      depthWrite={false}
-      {...shader}
-      {...props}
-    />
-  )
+      }),
+      []
+    )
+
+    return (
+      <CustomShaderMaterial
+        ref={ref}
+        baseMaterial={baseMaterial}
+        uniforms={uniforms}
+        blending={CustomBlending}
+        blendEquation={AddEquation}
+        depthTest={true}
+        depthWrite={false}
+        {...shader}
+        {...props}
+      />
+    )
+  }
 )
