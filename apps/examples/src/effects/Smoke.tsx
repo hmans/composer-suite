@@ -1,7 +1,7 @@
 import { between } from "randomish"
 import { useMemo } from "react"
 import { AdditiveBlending, TextureLoader } from "three"
-import { Emitter, MeshParticles, TexturedParticlesMaterial } from "vfx"
+import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 
 export default () => {
   const texture = useMemo(
@@ -9,18 +9,17 @@ export default () => {
     []
   )
 
-  // const depthBuffer = useDepthBuffer()
-
   return (
     <MeshParticles>
       <planeGeometry />
 
-      <TexturedParticlesMaterial
+      <ParticlesMaterial
         map={texture}
         alphaMap={texture}
         blending={AdditiveBlending}
         depthTest={true}
         depthWrite={false}
+        billboard
       />
 
       <Emitter
