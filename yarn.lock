@@ -1034,11 +1034,6 @@
   resolved "https://registry.yarnpkg.com/@hmans/signal/-/signal-0.2.2.tgz#0b952d2ccd8f873a096dc806468b636c5ca82b95"
   integrity sha512-4KlR6FiqICOY9J8V483Atk7bfMqoGM/hdYd/6ab+HB+CJfiOBPzY6PtYz3O6bBsNkIZpimnTMSw2AqOz1WDlrA==
 
-"@hmans/vfx@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@hmans/vfx/-/vfx-0.0.1.tgz#a31e319d33fc9824b50a0fe88d2f74c3a27eb409"
-  integrity sha512-U39f8TRInkiZSvBChsP//oAy2muk2dWlAeO6iHN8xk+++QO+LP/dnlvCMKYFXaMvPtzqisePRdITnqUZabxXug==
-
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -3556,7 +3551,7 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react@^18.0.0, react@^18.1.0:
+react@^18.0.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.1.0.tgz#6f8620382decb17fdc5cc223a115e2adbf104890"
   integrity sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==

@@ -1,5 +1,5 @@
 {
-  "name": "@hmans/vfx-monorepo",
+  "name": "vfx-monorepo",
   "private": true,
   "version": "1.0.0",
   "main": "index.js",

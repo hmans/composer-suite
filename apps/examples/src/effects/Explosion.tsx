@@ -1,4 +1,4 @@
-import { Emitter, MeshParticles, ParticlesMaterial } from "@hmans/vfx"
+import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 import { GroupProps } from "@react-three/fiber"
 import { between, number, plusMinus, power } from "randomish"
 import { Color, Vector3 } from "three"

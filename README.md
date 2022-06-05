@@ -1,4 +1,4 @@
-# @hmans/vfx
+# vfx
 
 ```
 yarn examples
