@@ -1,11 +1,11 @@
 import { FC } from "react"
 import ECS from "./ECS"
-import SimpleSmoke from "./effects/SimpleSmoke"
+import Explosion from "./effects/Explosion"
 
 const Effect: FC = () => {
   const { spawn } = ECS.useEntity()
 
-  return <SimpleSmoke {...spawn} />
+  return <Explosion {...spawn} />
 }
 
 export default () => (

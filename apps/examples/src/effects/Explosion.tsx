@@ -134,8 +134,8 @@ const SmokeCloud = ({ delay = 0 }) => (
   </MeshParticles>
 )
 
-const SimpleSmoke = (props: GroupProps) => (
-  <group {...props} scale={0.2}>
+const Explosion = (props: GroupProps) => (
+  <group {...props}>
     <SmokeRing />
     <Dirt />
     <Fireball />
@@ -143,4 +143,4 @@ const SimpleSmoke = (props: GroupProps) => (
   </group>
 )
 
-export default SimpleSmoke
+export default Explosion
