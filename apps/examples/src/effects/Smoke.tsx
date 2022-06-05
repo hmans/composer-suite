@@ -1,13 +1,7 @@
-import { useTexture } from "@react-three/drei"
 import { between } from "randomish"
 import { useMemo } from "react"
-import { TextureLoader, Vector3 } from "three"
-import {
-  Emitter,
-  MeshParticles,
-  ParticlesMaterial,
-  TexturedParticlesMaterial
-} from "vfx"
+import { TextureLoader } from "three"
+import { Emitter, MeshParticles, TexturedParticlesMaterial } from "vfx"
 
 export default () => {
   const texture = useMemo(
@@ -22,8 +16,7 @@ export default () => {
         map={texture}
         alphaMap={texture}
         transparent
-        opacity={0.5}
-        // depthWrite={false}
+        depthWrite={false}
       />
 
       {/* <ParticlesMaterial color="hotpink" /> */}
@@ -33,11 +26,11 @@ export default () => {
         spawnCount={500}
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
-          // c.alphaEnd = 1
-          c.lifetime = 10
-          c.scaleStart.setScalar(10)
+          c.lifetime = 1000
+          c.scaleStart.setScalar(between(5, 10))
           c.scaleEnd.copy(c.scaleStart)
-          // c.velocity.copy(c.position)
+          c.alphaStart = 0.2
+          c.alphaEnd = 0.2
         }}
       />
     </MeshParticles>

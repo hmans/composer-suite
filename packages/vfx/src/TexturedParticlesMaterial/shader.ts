@@ -55,11 +55,11 @@ varying vec4 v_colorEnd;
 
 void main() {
   /* Discard this instance if it is not in the current time range */
-  // if (u_time < v_timeStart || u_time > v_timeEnd) discard;
+  if (u_time < v_timeStart || u_time > v_timeEnd) discard;
 
-  // vec4 diffuse4 = vec4(diffuse, 1.0);
-  // csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
+  vec4 diffuse4 = vec4(diffuse, 1.0);
+  csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
   // csm_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-  csm_FragColor = texture2D(map, vUv);
+  csm_FragColor = texture2D(map, vUv) * csm_DiffuseColor;
 }
 `

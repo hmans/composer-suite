@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-import { AddEquation, CustomBlending, MeshStandardMaterial } from "three"
+import { AdditiveBlending, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { iCSMProps } from "three-custom-shader-material/types"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -25,9 +25,9 @@ export const TexturedParticlesMaterial = forwardRef<
       uniforms={{ u_time: { value: 0 } }}
       vertexShader={shader.vertexShader}
       fragmentShader={shader.fragmentShader}
-      blending={CustomBlending}
-      blendEquation={AddEquation}
+      blending={AdditiveBlending}
       depthTest={true}
+      depthWrite={false}
       transparent={transparent}
       {...props}
     />
