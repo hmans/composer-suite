@@ -9,7 +9,7 @@ const direction = new Vector3()
 const SmokeRing = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="white" />
+    <ParticlesMaterial color="white" transparent />
 
     <Emitter
       initialDelay={delay}
@@ -42,7 +42,7 @@ const SmokeRing = ({ delay = 0 }) => (
 const Dirt = ({ delay = 0 }) => (
   <MeshParticles>
     <dodecahedronBufferGeometry />
-    <ParticlesMaterial color="#fff" />
+    <ParticlesMaterial color="#fff" transparent />
 
     <Emitter
       initialDelay={delay}
@@ -76,7 +76,7 @@ const Dirt = ({ delay = 0 }) => (
 const Fireball = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="#fff" />
+    <ParticlesMaterial color="#fff" transparent />
 
     <Emitter
       initialDelay={delay}
@@ -105,7 +105,7 @@ const Fireball = ({ delay = 0 }) => (
 const SmokeCloud = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial color="#fff" />
+    <ParticlesMaterial color="#fff" transparent depthWrite={false} />
 
     <Emitter
       initialDelay={delay}
