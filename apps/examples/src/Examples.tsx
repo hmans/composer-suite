@@ -3,9 +3,10 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { Tag } from "miniplex"
 import { Perf } from "r3f-perf"
 import { useRef } from "react"
-import { Mesh, Vector3 } from "three"
+import { LinearEncoding, Mesh, Vector3 } from "three"
 import ECS from "./ECS"
 import Effects from "./Effects"
+import { RenderPipeline } from "./RenderPipeline"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
@@ -30,7 +31,7 @@ const RotatingCube = () => {
   return (
     <mesh ref={mesh} scale={8} onClick={(e) => spawnEffect(e.point)}>
       <dodecahedronGeometry />
-      <meshStandardMaterial color="#222" />
+      <meshStandardMaterial color="red" emissiveIntensity={3} emissive="red" />
     </mesh>
   )
 }
@@ -42,7 +43,7 @@ const Ground = () => {
       rotation-x={-Math.PI / 2}
       onClick={(e) => spawnEffect(e.point)}
     >
-      <meshStandardMaterial color="#333" />
+      <meshStandardMaterial color="#888" />
     </Plane>
   )
 }
@@ -58,9 +59,19 @@ const Systems = () => {
 }
 
 export default () => (
-  <Canvas>
-    <ambientLight intensity={0.2} />
-    <pointLight position={[10, 10, 10]} intensity={0.8} />
+  <Canvas
+    flat
+    gl={{
+      logarithmicDepthBuffer: true,
+      outputEncoding: LinearEncoding,
+      alpha: false,
+      depth: false,
+      stencil: false,
+      antialias: false
+    }}
+  >
+    <ambientLight intensity={0.4} />
+    <directionalLight position={[10, 10, 10]} intensity={1} />
     <fog attach="fog" args={["#000", 32, 256]} />
 
     <PerspectiveCamera position={[0, 30, 100]} makeDefault />
@@ -70,6 +81,7 @@ export default () => (
     <Effects />
     <OrbitControls />
 
+    <RenderPipeline />
     <Systems />
     <Perf />
   </Canvas>

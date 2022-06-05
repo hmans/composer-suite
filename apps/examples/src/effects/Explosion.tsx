@@ -89,10 +89,14 @@ const Fireball = ({ delay = 0 }) => (
         c.scaleStart.setScalar(between(0.2, 0.5))
         c.scaleEnd.setScalar(between(2, 4))
 
-        c.lifetime = 0.7
+        c.lifetime = between(0.5, 1)
 
-        c.colorStart.lerpColors(new Color("red"), new Color("yellow"), power(3))
-        c.colorEnd.setScalar(0)
+        c.colorStart.lerpColors(
+          new Color("red").multiplyScalar(50),
+          new Color("yellow").multiplyScalar(50),
+          power(3)
+        )
+        c.colorEnd.copy(c.colorStart)
       }}
     />
   </MeshParticles>
