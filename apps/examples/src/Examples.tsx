@@ -28,9 +28,9 @@ const RotatingCube = () => {
   })
 
   return (
-    <mesh ref={mesh} scale={3} onClick={(e) => spawnEffect(e.point)}>
-      <boxBufferGeometry />
-      <meshStandardMaterial color="#555" />
+    <mesh ref={mesh} scale={8} onClick={(e) => spawnEffect(e.point)}>
+      <dodecahedronGeometry />
+      <meshStandardMaterial color="#222" />
     </mesh>
   )
 }
@@ -61,12 +61,15 @@ export default () => (
   <Canvas>
     <ambientLight intensity={0.2} />
     <pointLight position={[10, 10, 10]} intensity={0.8} />
+    <fog attach="fog" args={["#000", 32, 256]} />
+
+    <PerspectiveCamera position={[0, 30, 100]} makeDefault />
+
     <Ground />
     <RotatingCube />
     <Effects />
     <OrbitControls />
-    <fog attach="fog" args={["#000", 32, 256]} />
-    <PerspectiveCamera position={[0, 5, 20]} makeDefault />
+
     <Systems />
     <Perf />
   </Canvas>
