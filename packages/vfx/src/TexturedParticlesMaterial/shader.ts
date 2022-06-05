@@ -1,5 +1,20 @@
-export const vertexShader = /* glsl */ `
+const uniforms = /*glsl*/ `
 uniform float u_time;
+`
+
+const varyings = /*glsl*/ `
+/* Varyings */
+varying float v_timeStart;
+varying float v_timeEnd;
+varying float v_progress;
+varying float v_age;
+varying vec4 v_colorStart;
+varying vec4 v_colorEnd;
+`
+
+export const vertexShader = /* glsl */ `
+${uniforms}
+${varyings}
 
 /* Attributes */
 attribute vec2 time;
@@ -10,13 +25,6 @@ attribute vec4 colorEnd;
 attribute vec3 scaleStart;
 attribute vec3 scaleEnd;
 
-/* Varyings */
-varying float v_timeStart;
-varying float v_timeEnd;
-varying float v_progress;
-varying float v_age;
-varying vec4 v_colorStart;
-varying vec4 v_colorEnd;
 
 /* Billboard helper */
 vec3 billboard(vec2 v, mat4 view){
@@ -39,15 +47,19 @@ void setVaryings() {
 void main() {
   setVaryings();
 
+  /* Start with an origin offset */
+  vec3 offset = vec3(0.0, 0.0, 0.0);
+
   /* Apply velocity and acceleration */
-  vec3 offset = vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
+  offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
 
   /* Apply scale */
   csm_Position *= mix(scaleStart, scaleEnd, v_progress);
-  // csm_Position *= 1.0;
 
-  /* Fixes rotation, but not scaling, argh! */
+  /* Apply the instance matrix. */
   offset *= mat3(instanceMatrix);
+
+  /* Apply the offset */
   csm_Position += offset;
 
   /* Apply Billboarding */
@@ -57,14 +69,8 @@ void main() {
 `
 
 export const fragmentShader = /* glsl */ `
-uniform float u_time;
-
-varying float v_progress;
-varying float v_age;
-varying float v_timeStart;
-varying float v_timeEnd;
-varying vec4 v_colorStart;
-varying vec4 v_colorEnd;
+${uniforms}
+${varyings}
 
 void main() {
   /* Discard this instance if it is not in the current time range */
