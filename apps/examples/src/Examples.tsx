@@ -22,7 +22,11 @@ const RotatingCube = () => {
   return (
     <mesh ref={mesh} scale={8} onClick={(e) => spawnEffect(e.point)}>
       <dodecahedronGeometry />
-      <meshStandardMaterial color="red" emissiveIntensity={3} emissive="red" />
+      <meshStandardMaterial
+        color="cyan"
+        emissiveIntensity={1}
+        emissive="cyan"
+      />
     </mesh>
   )
 }
@@ -71,9 +75,9 @@ export default () => (
     <RotatingCube />
     <Smoke />
     <Effects />
-    <OrbitControls />
+    {/* <OrbitControls /> */}
 
-    {/* <RenderPipeline /> */}
+    <RenderPipeline />
     <Systems />
     <Perf />
   </Canvas>

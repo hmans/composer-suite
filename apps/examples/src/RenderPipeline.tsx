@@ -23,7 +23,7 @@ declare global {
 
 export const RenderPipeline = () => (
   <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
-    <unrealBloomPass args={[new Vector2(256, 256), 2, 0.1, 1]} />
+    <unrealBloomPass args={[new Vector2(256, 256), 2, 0.05, 1]} />
     <adaptiveToneMappingPass args={[true, 256]} />
     <shaderPass args={[VignetteShader]} />
   </Effects>
