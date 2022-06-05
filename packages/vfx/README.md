@@ -24,4 +24,4 @@ yarn && yarn examples
 
 - [ ] **Support for point or sprite particles.** Yes, it can be done, but probably not lit (ie. taking scene lights into account), which makes them significantly less interesting for visual effects. (PRs welcome!)
 - [ ] **Emitters as scene objects.** Emitters will eventually be scene objects with their own transforms. That way, you can animate particle spawning positions by moving them through your scene.
-- [ ] **Soft Particles**. PRs welcome!
+- [ ] **Soft Particles**. PRs welcome! (#1)
