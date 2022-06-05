@@ -1,24 +1,14 @@
 import { OrbitControls, PerspectiveCamera, Plane } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Tag } from "miniplex"
 import { Perf } from "r3f-perf"
 import { useRef } from "react"
-import { LinearEncoding, Mesh, Vector3 } from "three"
-import ECS from "./ECS"
+import { LinearEncoding, Mesh } from "three"
 import Effects from "./Effects"
 import { RenderPipeline } from "./RenderPipeline"
+import spawnEffect from "./actions/spawnEffect"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
-
-const spawnEffect = (position: Vector3) => {
-  ECS.world.createEntity({
-    isEffect: Tag,
-    spawn: { position },
-    age: 0,
-    maxAge: 5
-  })
-}
 
 const RotatingCube = () => {
   const mesh = useRef<Mesh>(null!)
