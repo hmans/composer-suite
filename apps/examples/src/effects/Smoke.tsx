@@ -1,6 +1,6 @@
 import { between } from "randomish"
 import { useMemo } from "react"
-import { TextureLoader } from "three"
+import { AdditiveBlending, TextureLoader } from "three"
 import { Emitter, MeshParticles, TexturedParticlesMaterial } from "vfx"
 
 export default () => {
@@ -15,12 +15,11 @@ export default () => {
       <TexturedParticlesMaterial
         map={texture}
         alphaMap={texture}
-        transparent
+        blending={AdditiveBlending}
+        depthTest={true}
         depthWrite={false}
+        transparent
       />
-
-      {/* <ParticlesMaterial color="hotpink" /> */}
-      {/* <boxGeometry /> */}
 
       <Emitter
         spawnCount={500}
