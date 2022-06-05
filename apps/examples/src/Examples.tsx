@@ -75,7 +75,7 @@ export default () => (
     <RotatingCube />
     <Smoke />
     <Effects />
-    {/* <OrbitControls /> */}
+    <OrbitControls />
 
     <RenderPipeline />
     <Systems />
