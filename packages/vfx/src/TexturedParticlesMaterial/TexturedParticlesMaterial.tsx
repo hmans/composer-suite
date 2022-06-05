@@ -17,7 +17,7 @@ type TexturedParticlesMaterialProps = Omit<iCSMProps, "ref" | "baseMaterial">
 export const TexturedParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   TexturedParticlesMaterialProps
->(({ transparent = false, ...props }, ref) => {
+>((props, ref) => {
   return (
     <CustomShaderMaterial
       ref={ref}
