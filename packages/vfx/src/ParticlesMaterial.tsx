@@ -12,25 +12,33 @@ This is extremely and very WIP, since not all mesh particles will be using
 this kind of material.
 */
 
-type ParticlesMaterialProps = Omit<iCSMProps, "ref" | "baseMaterial"> & {
+type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
 }
 
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, ...props }, ref) => {
-  return (
+>(
+  (
+    { billboard = false, baseMaterial = MeshStandardMaterial, ...props },
+    ref
+  ) => (
     <CustomShaderMaterial
       ref={ref}
-      baseMaterial={MeshStandardMaterial}
-      uniforms={{ u_time: { value: 0 }, u_billboard: { value: billboard } }}
-      vertexShader={shader.vertexShader}
-      fragmentShader={shader.fragmentShader}
+      baseMaterial={baseMaterial}
+      uniforms={{
+        u_time: {
+          value: 0
+        },
+        u_billboard: { value: billboard }
+      }}
       blending={CustomBlending}
       blendEquation={AddEquation}
       depthTest={true}
+      depthWrite={false}
+      {...shader}
       {...props}
     />
   )
-})
+)
