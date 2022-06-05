@@ -1,9 +1,10 @@
+/* Uniforms */
 const uniforms = /*glsl*/ `
 uniform float u_time;
 `
 
-const varyings = /*glsl*/ `
 /* Varyings */
+const varyings = /*glsl*/ `
 varying float v_timeStart;
 varying float v_timeEnd;
 varying float v_progress;
@@ -12,11 +13,8 @@ varying vec4 v_colorStart;
 varying vec4 v_colorEnd;
 `
 
-export const vertexShader = /* glsl */ `
-${uniforms}
-${varyings}
-
 /* Attributes */
+const attributes = /*glsl*/ `
 attribute vec2 time;
 attribute vec3 velocity;
 attribute vec3 acceleration;
@@ -24,7 +22,13 @@ attribute vec4 colorStart;
 attribute vec4 colorEnd;
 attribute vec3 scaleStart;
 attribute vec3 scaleEnd;
+`
 
+/* Vertex Shader */
+export const vertexShader = /* glsl */ `
+${uniforms}
+${varyings}
+${attributes}
 
 /* Billboard helper */
 vec3 billboard(vec2 v, mat4 view){
@@ -68,6 +72,7 @@ void main() {
 
 `
 
+/* Fragment Shader */
 export const fragmentShader = /* glsl */ `
 ${uniforms}
 ${varyings}
