@@ -3,7 +3,7 @@ import { AddEquation, CustomBlending, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { iCSMProps } from "three-custom-shader-material/types"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import * as shader from "./shader"
+import * as shader from "../shader"
 
 /*
 This is a custom material that is derived from MeshStandardMaterial,
