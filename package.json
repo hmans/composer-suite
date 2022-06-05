@@ -39,6 +39,6 @@
     "@types/three": "^0.141.0"
   },
   "stackblitz": {
-    "startCommand": "yarn examples"
+    "startCommand": "cd apps/examples && yarn dev"
   }
 }
