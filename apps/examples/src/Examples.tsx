@@ -9,6 +9,7 @@ import spawnEffect from "./actions/spawnEffect"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
+import Rain from "./effects/Rain"
 
 const RotatingCube = () => {
   const mesh = useRef<Mesh>(null!)
@@ -68,6 +69,7 @@ export default () => (
 
     <Ground />
     <RotatingCube />
+    <Rain />
     <Effects />
     <OrbitControls />
 
