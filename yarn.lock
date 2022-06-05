@@ -4242,6 +4242,14 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
+vfx@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/vfx/-/vfx-0.0.3.tgz#4c46ac9c7b2a6105e8c03c9aaceb85981d61ad65"
+  integrity sha512-gJ15iVItpOat1xgmbBndQqiUVPYwhOQtu0d4yr1AJG0c899pdDnpDVpORH+31W8oSdAk7ipbgDGRUVdAcyPGjg==
+  dependencies:
+    react-merge-refs "^1.1.0"
+    three-custom-shader-material "^3.3.6"
+
 vite@^2.9.9:
   version "2.9.9"
   resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.9.tgz#8b558987db5e60fedec2f4b003b73164cb081c5e"
