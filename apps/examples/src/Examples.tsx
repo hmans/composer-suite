@@ -56,7 +56,7 @@ export default () => (
       logarithmicDepthBuffer: true,
       outputEncoding: LinearEncoding,
       alpha: false,
-      depth: false,
+      depth: true,
       stencil: false,
       antialias: false
     }}
@@ -73,7 +73,7 @@ export default () => (
     <Effects />
     <OrbitControls />
 
-    <RenderPipeline />
+    {/* <RenderPipeline /> */}
     <Systems />
     <Perf />
   </Canvas>
