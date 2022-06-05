@@ -22,7 +22,7 @@ export const TexturedParticlesMaterial = forwardRef<
     <CustomShaderMaterial
       ref={ref}
       baseMaterial={MeshStandardMaterial}
-      uniforms={{ u_time: { value: 0 } }}
+      uniforms={{ u_time: { value: 0 }, u_billboard: { value: true } }}
       vertexShader={shader.vertexShader}
       fragmentShader={shader.fragmentShader}
       {...props}

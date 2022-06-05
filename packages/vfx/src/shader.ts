@@ -1,6 +1,7 @@
 /* Uniforms */
 const uniforms = /*glsl*/ `
 uniform float u_time;
+uniform bool u_billboard;
 `
 
 /* Varyings */
@@ -67,7 +68,9 @@ void main() {
   csm_Position += offset;
 
   /* Apply Billboarding */
-  csm_Position = billboard(csm_Position.xy, viewMatrix);
+  if (u_billboard) {
+    csm_Position = billboard(csm_Position.xy, viewMatrix);
+  }
 }
 
 `
