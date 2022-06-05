@@ -9,6 +9,7 @@ import spawnEffect from "./actions/spawnEffect"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
+import Smoke from "./effects/Smoke"
 
 const RotatingCube = () => {
   const mesh = useRef<Mesh>(null!)
@@ -55,7 +56,7 @@ export default () => (
       logarithmicDepthBuffer: true,
       outputEncoding: LinearEncoding,
       alpha: false,
-      depth: false,
+      depth: true,
       stencil: false,
       antialias: false
     }}
@@ -68,10 +69,11 @@ export default () => (
 
     <Ground />
     <RotatingCube />
+    <Smoke />
     <Effects />
     <OrbitControls />
 
-    <RenderPipeline />
+    {/* <RenderPipeline /> */}
     <Systems />
     <Perf />
   </Canvas>
