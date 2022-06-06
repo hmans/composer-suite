@@ -65,19 +65,21 @@ export default () => (
       antialias: false
     }}
   >
+    {/* Lights, fog, camera, etc. */}
     <ambientLight intensity={0.4} />
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fogExp2 attach="fog" args={["#000", 0.005]} />
-
     <PerspectiveCamera position={[0, 30, 100]} makeDefault />
+    <OrbitControls />
 
+    {/* Scene objects */}
     <Ground />
     <RotatingCube />
     <Smoke />
     <Effects />
-    <OrbitControls />
 
-    <RenderPipeline />
+    {/* Rendering, ECS, etc. */}
+    <RenderPipeline bloom vignette toneMapping />
     <Systems />
     <Perf />
   </Canvas>
