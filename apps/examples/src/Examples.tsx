@@ -3,13 +3,13 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { useRef } from "react"
 import { LinearEncoding, Mesh } from "three"
-import Effects from "./Effects"
-import { RenderPipeline } from "./RenderPipeline"
 import spawnEffect from "./actions/spawnEffect"
+import Effects from "./Effects"
+import Smoke from "./effects/Smoke"
+import { RenderPipeline } from "./RenderPipeline"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
-import Smoke from "./effects/Smoke"
 
 const RotatingCube = () => {
   const mesh = useRef<Mesh>(null!)
