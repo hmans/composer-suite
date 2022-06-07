@@ -27,7 +27,7 @@ export default () => {
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
           c.velocity.randomDirection().multiplyScalar(between(0, 3))
-          c.lifetime = 100
+          c.lifetime = Infinity
           c.scaleStart.setScalar(between(1, 50))
           c.scaleEnd.setScalar(0)
           c.alphaStart = between(0.05, 0.1)
