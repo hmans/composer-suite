@@ -21,7 +21,7 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 
 ## Examples & Demos 🎓
 
-[![vfx-nebulae](https://user-images.githubusercontent.com/1061/172391292-71612326-dfd8-4b25-8b5f-ac331b684e4e.gif)](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
+- [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
 
 
 ## Hacking & Development 🏗
