@@ -1264,9 +1264,9 @@
   integrity sha512-mpRIamoHwql0ogxEUh9yr4TP0xU5CWyZxVQeccGkHHF8kPMErtDXJlxyo0lj+telRF35XNihtPTWoflqtyARmg==
 
 "@react-three/drei@^9.11.3":
-  version "9.11.3"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.11.3.tgz#b4205a2b54372507b5cde81cef5f50c812d643bf"
-  integrity sha512-4qMtbWr9+LexJBVA/mS2DmtquDLUle+Vrt5jCmulz1tsW8eYpQN8dvukZQiJ5nVQPCx3yf8icybtwY7GnxNitg==
+  version "9.13.0"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.13.0.tgz#965e7d7d1eb458607b90b6c44e8eb8a5c903e5cb"
+  integrity sha512-hyIPY6GAQ5HeEBIXJtk+Mq9fV5999dilwQI4o2LQsGJRqd8W2X3FomkWEadn4IKCN8C/CqdlqFaBuAZ3Pobn1g==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -1281,7 +1281,7 @@
     stats.js "^0.17.0"
     suspend-react "^0.0.8"
     three-mesh-bvh "^0.5.10"
-    three-stdlib "^2.10.1"
+    three-stdlib "^2.10.2"
     troika-three-text "^0.46.4"
     utility-types "^3.10.0"
     zustand "^3.5.13"
@@ -2013,9 +2013,9 @@ define-property@^2.0.2:
     isobject "^3.0.1"
 
 detect-gpu@^4.0.19:
-  version "4.0.24"
-  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-4.0.24.tgz#3b8e4e56a5ed0b764884a10c537efd033ce31b9b"
-  integrity sha512-lSL8+a+aCvjsqoHKAHF1rcMOkczYk2lUVimgndZqxL/lf1zMtjcGX8ArF8cJqn5OW4Ga2xi5wY2CV/zLYFYl9Q==
+  version "4.0.25"
+  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-4.0.25.tgz#70c7b6f5745bc10aa9087cf8fab50e9cbf086362"
+  integrity sha512-IquzNLMtKTa7en4DzodGt25w8xSBJVai2Ogu9NMbs9uDCS1OH31L44w5onx9hNmH8sg4kFNV8DeXHvfUdcqerQ==
   dependencies:
     webgl-constants "^1.1.1"
 
@@ -4036,7 +4036,7 @@ three-mesh-bvh@^0.5.10:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.11.tgz#6c64f80557c00d3d2bb85667444787449ae352cb"
   integrity sha512-blVHefpW+aRqB7XZcL8MEJrVwGoX9COqCgGccgzhLoPwLEdIWz4bs2FGdLECIpAEHHThL6nQodQ2S8WAs/H3CA==
 
-three-stdlib@^2.10.1:
+three-stdlib@^2.10.2:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.10.2.tgz#4909153c491d29439d199aa47747993ba1dd4a2b"
   integrity sha512-A4++o7962jrRDo0Mm2I+2LaT62RRA8p8IJyHFnPfOxSk+90qGSm2vSfSdJ+3HugzABjStQyQuvnQmdxxZolzkw==
@@ -4243,9 +4243,9 @@ validate-npm-package-name@^3.0.0:
     builtins "^1.0.3"
 
 vite@^2.9.9:
-  version "2.9.9"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.9.tgz#8b558987db5e60fedec2f4b003b73164cb081c5e"
-  integrity sha512-ffaam+NgHfbEmfw/Vuh6BHKKlI/XIAhxE5QSS7gFLIngxg171mg1P3a4LSRME0z2ZU1ScxoKzphkipcYwSD5Ew==
+  version "2.9.10"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.10.tgz#f574d96655622c2e0fbc662edd0ed199c60fe91a"
+  integrity sha512-TwZRuSMYjpTurLqXspct+HZE7ONiW9d+wSWgvADGxhDPPyoIcNywY+RX4ng+QpK30DCa1l/oZgi2PLZDibhzbQ==
   dependencies:
     esbuild "^0.14.27"
     postcss "^8.4.13"
