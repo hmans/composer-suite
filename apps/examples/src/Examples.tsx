@@ -5,7 +5,7 @@ import { useRef } from "react"
 import { LinearEncoding, Mesh } from "three"
 import spawnEffect from "./actions/spawnEffect"
 import Effects from "./Effects"
-import Smoke from "./effects/Smoke"
+import Fog from "./effects/Fog"
 import { RenderPipeline } from "./RenderPipeline"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
@@ -75,7 +75,7 @@ export default () => (
     {/* Scene objects */}
     <Ground />
     <RotatingCube />
-    <Smoke />
+    <Fog />
     <Effects />
 
     {/* Rendering, ECS, etc. */}
