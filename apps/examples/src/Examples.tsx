@@ -70,7 +70,12 @@ export default () => (
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fogExp2 attach="fog" args={["#000", 0.005]} />
     <PerspectiveCamera position={[0, 30, 100]} makeDefault />
-    <OrbitControls />
+    <OrbitControls
+      autoRotate
+      enablePan={false}
+      enableRotate={false}
+      enableZoom={false}
+    />
 
     {/* Scene objects */}
     <Ground />
