@@ -1,8 +1,8 @@
 ![vfx Logo](https://user-images.githubusercontent.com/1061/172030500-4142969b-a0be-403b-94a1-a6d23e20cfa3.png)
 
-[![Version](https://img.shields.io/npm/v/vfx)](https://www.npmjs.com/package/vfx)
-[![Downloads](https://img.shields.io/npm/dt/vfx.svg)](https://www.npmjs.com/package/vfx)
-[![Bundle Size](https://img.shields.io/bundlephobia/min/vfx?label=bundle%20size)](https://bundlephobia.com/result?p=vfx)
+[![Version](https://img.shields.io/npm/v/vfx?style=for-the-badge)](https://www.npmjs.com/package/vfx)
+[![Downloads](https://img.shields.io/npm/dt/vfx.svg?style=for-the-badge)](https://www.npmjs.com/package/vfx)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/vfx?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=vfx)
 
 > **Warning**
 > This library is (extremely!) work-in-progress. **Use at your own risk.**
@@ -22,7 +22,6 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 ## Examples & Demos 🎓
 
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
-
 
 ## Hacking & Development 🏗
 
