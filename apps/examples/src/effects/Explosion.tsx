@@ -96,7 +96,7 @@ const Fireball = ({ delay = 0 }) => (
         c.lifetime = between(0.5, 1)
 
         c.colorStart.lerpColors(
-          new Color("red").multiplyScalar(10),
+          new Color("red").multiplyScalar(5),
           new Color("yellow").multiplyScalar(10),
           power(3)
         )

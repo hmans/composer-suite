@@ -1,5 +1,6 @@
 import { OrbitControls, PerspectiveCamera, Plane } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
+import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing"
 import { Perf } from "r3f-perf"
 import { useRef } from "react"
 import { LinearEncoding, Mesh } from "three"
@@ -60,7 +61,7 @@ export default () => (
       logarithmicDepthBuffer: true,
       outputEncoding: LinearEncoding,
       alpha: false,
-      depth: true,
+      depth: false,
       stencil: false,
       antialias: false
     }}
@@ -84,7 +85,11 @@ export default () => (
     <Effects />
 
     {/* Rendering, ECS, etc. */}
-    <RenderPipeline bloom vignette toneMapping />
+    <EffectComposer>
+      <Bloom luminanceThreshold={0.1} luminanceSmoothing={3} height={300} />
+      <Vignette eskil={false} offset={0.1} darkness={1.1} />
+    </EffectComposer>
+
     <Systems />
     <Perf />
   </Canvas>
