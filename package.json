@@ -29,9 +29,10 @@
     "build": "preconstruct build",
     "dev": "preconstruct dev",
     "examples": "yarn dev && yarn workspace examples dev",
-    "postinstall": "preconstruct dev"
+    "postinstall": "preconstruct dev && manypkg check"
   },
   "dependencies": {
+    "@changesets/cli": "^2.22.0",
     "@manypkg/cli": "^0.19.1",
     "@preconstruct/cli": "^2.1.5"
   },
