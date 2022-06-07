@@ -7,13 +7,25 @@
 > **Warning**
 > This library is (extremely!) work-in-progress. **Use at your own risk.**
 
-## Introduction
+## Introduction 👋
 
 `vfx` is a visual effects library for [react-three-fiber](https://github.com/pmndrs/react-three-fiber). It aims to be highly performant (with effects almost entirely simulated on the GPU) and easy to extend.
 
-## Usage
+## Status ⚠️
 
-Please do not use this in your own projects yet, as both API and functionality is still going to change _significantly_. But if you want to give the thing a whirl anyway, clone this repository and run:
+This library is currently under heavy development, and is most definitely **not ready for any sort of production use whatsoever**. If you're interested in giving it a try, you are, however, invited to play with any of the example sandboxes listed below!
+
+## Help Wanted! 🙏
+
+If you're into visual effects and/or WebGL/Three.js development, **this library could benefit from your help**. There are a couple of issues and missing features that could use the help (or input) of people much more familiar with these domains than I am -- please [refer to the Roadmap](https://github.com/hmans/vfx/issues/4) for details.
+
+## Examples & Demos 🎓
+
+- [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
+
+## Hacking & Development 🏗
+
+But if you want to give the thing a whirl and do some hacking on it, clone this repository and run:
 
 ```
 yarn && yarn examples
@@ -21,13 +33,6 @@ yarn && yarn examples
 
 Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx).
 
-## Features
+## Questions? 💬
 
-- [x] **Support for mesh particles**. Every effect makes use of intanced meshes. No matter how many particles you spawn, they're always going to be just 1 draw call (per effect.)
-- [x] **Declarative emitters.** Just add `<Emitter>` to your JSX.
-
-### Missing
-
-- [ ] **Support for point or sprite particles.** Yes, it can be done, but probably not lit (ie. taking scene lights into account), which makes them significantly less interesting for visual effects. (PRs welcome!)
-- [ ] **Emitters as scene objects.** Emitters will eventually be scene objects with their own transforms. That way, you can animate particle spawning positions by moving them through your scene.
-- [ ] **Soft Particles**. PRs welcome! (#1)
+Find me on [Twitter](https://twitter.com/hmans) or the [Poimandres Discord](https://discord.gg/aAYjm2p7c7).
