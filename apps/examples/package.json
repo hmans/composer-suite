@@ -13,14 +13,14 @@
     "miniplex": "^0.10.1",
     "miniplex-react": "^0.4.1",
     "r3f-perf": "^6.2.6",
-    "react": "^18.0.0",
+    "react": "^18.1.0",
     "react-dom": "^18.0.0",
     "three": "^0.141.0",
     "vfx": "^0.0.9"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "@types/three": "^0.141.0",
     "@vitejs/plugin-react": "^1.3.0",
     "randomish": "^0.1.3",
