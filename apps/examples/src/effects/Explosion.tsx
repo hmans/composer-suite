@@ -9,11 +9,7 @@ const direction = new Vector3()
 const SmokeRing = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial
-      baseMaterial={MeshStandardMaterial}
-      color="white"
-      transparent
-    />
+    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
 
     <Emitter
       initialDelay={delay}
@@ -47,11 +43,7 @@ const SmokeRing = ({ delay = 0 }) => (
 const Dirt = ({ delay = 0 }) => (
   <MeshParticles>
     <dodecahedronBufferGeometry />
-    <ParticlesMaterial
-      baseMaterial={MeshStandardMaterial}
-      color="#fff"
-      transparent
-    />
+    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
       initialDelay={delay}
@@ -87,11 +79,7 @@ const Dirt = ({ delay = 0 }) => (
 const Fireball = ({ delay = 0 }) => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial
-      baseMaterial={MeshStandardMaterial}
-      color="#fff"
-      transparent
-    />
+    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
       initialDelay={delay}
@@ -108,8 +96,8 @@ const Fireball = ({ delay = 0 }) => (
         c.lifetime = between(0.5, 1)
 
         c.colorStart.lerpColors(
-          new Color("red").multiplyScalar(50),
-          new Color("yellow").multiplyScalar(50),
+          new Color("red").multiplyScalar(10),
+          new Color("yellow").multiplyScalar(10),
           power(3)
         )
         c.colorEnd.copy(c.colorStart)
@@ -124,7 +112,6 @@ const SmokeCloud = ({ delay = 0 }) => (
     <ParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       color="#fff"
-      transparent
       depthWrite={false}
     />
 

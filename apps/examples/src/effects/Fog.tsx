@@ -10,7 +10,7 @@ export default () => {
   )
 
   return (
-    <MeshParticles>
+    <MeshParticles renderOrder={1}>
       <planeGeometry />
 
       <ParticlesMaterial
