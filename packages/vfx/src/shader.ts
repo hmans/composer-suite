@@ -52,6 +52,11 @@ void setVaryings() {
 void main() {
   setVaryings();
 
+  /* Apply Billboarding */
+  if (u_billboard) {
+    csm_Position = billboard(csm_Position.xy, viewMatrix);
+  }
+
   /* Start with an origin offset */
   vec3 offset = vec3(0.0, 0.0, 0.0);
 
@@ -66,11 +71,6 @@ void main() {
 
   /* Apply the offset */
   csm_Position += offset;
-
-  /* Apply Billboarding */
-  if (u_billboard) {
-    csm_Position = billboard(csm_Position.xy, viewMatrix);
-  }
 }
 
 `
