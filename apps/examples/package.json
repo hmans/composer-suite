@@ -16,7 +16,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.0.0",
     "three": "^0.141.0",
-    "vfx": "^0.0.10"
+    "vfx": "^0.0.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.12",
