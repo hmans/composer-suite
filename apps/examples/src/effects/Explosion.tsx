@@ -66,6 +66,7 @@ const Dirt = ({ delay = 0 }) => (
           .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
         c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
+        c.quaternion.random()
 
         c.velocity.copy(direction).multiplyScalar(10 + power(3) * 10)
 

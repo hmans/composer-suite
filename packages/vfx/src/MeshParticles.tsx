@@ -26,6 +26,7 @@ const tmpMatrix4 = new Matrix4()
 
 const components = {
   position: new Vector3(),
+  quaternion: new Quaternion(),
   velocity: new Vector3(),
   acceleration: new Vector3(),
   delay: 0,
@@ -123,6 +124,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         for (let i = 0; i < count; i++) {
           /* Reset components */
           components.position.set(0, 0, 0)
+          components.quaternion.set(0, 0, 0, 1)
           components.velocity.set(0, 0, 0)
           components.acceleration.set(0, 0, 0)
           components.scaleStart.set(1, 1, 1)
@@ -141,7 +143,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
             playhead.current,
             tmpMatrix4.compose(
               components.position,
-              tmpRotation,
+              components.quaternion,
               tmpScale.setScalar(1)
             )
           )
