@@ -38,7 +38,7 @@ So, a quick list of things you should know about this library:
 - Effects scale from a couple of particles to several hundreds of thousands, or even more. (But for realtime VFX, you rarely need that many.)
 - All particles are **fully animated on the GPU**, through some custom shader code. Your CPU is not concerned with the animations in any manner and will be free to do other stuff.
 - Particle spawning is controlled from your code, though. Spawning new particles is the only thing where the CPU gets involved. Newly spawned particles are configured by writing values into buffer attributes; **only the parts of these buffers that represent newly spawned particles are uploaded to the GPU** that frame.
-- You can currently animate velocity, acceleration, scale, color and opacity per particle. At the moment, these are hard-coded in the library's custom shader code, but there are plans to make these shaders (and the buffers that configure them) composable through code.
+- You can currently animate velocity, acceleration, scale, color and opacity per particle. At the moment, these are hard-coded in the library's custom shader code, and attributes like color or scale that change over time only animate through linear interpolation (ie. they linearly mutate from a start value to an end value), but there are plans to make these shaders (and the buffers that configure them) composable through code, which will also allow the selection of different easing functions and animation curves.
 
 ## Hacking & Development 🏗
 
