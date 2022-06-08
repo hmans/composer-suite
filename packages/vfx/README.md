@@ -23,6 +23,23 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
 
+## How this Library Works
+
+This library aims to be a game-ready library for realtime visual effects in react-three-fiber projects.
+
+It has a focus on performance, while still striving to keep the codebase maintainable and easy to reason about. For this reason, there are certain advanced techniques for particle simulations in WebGL2 that it deliberately chooses _not_ to do, including keeping per-particle state in Frame Buffer Objects; this is why certain features, like particle collisions, are currently not possible.
+
+However, it will happily power _most_ of your game VFX, and it will be _very_ fast doing so!
+
+So, a quick list of things you should know about this library:
+
+- All effects are **particle based**, using **mesh instancing** to render any mesh you throw at them. This allows you to have both simple and complex particles, and have them integrated with your scene's lighting, including shadows. (Support for gl.POINTS particles may be added in the future.)
+- Since we're using mesh instancing, **each effect uses a single draw call**, no matter how many particles it is composed of.
+- Effects scale from a couple of particles to several hundreds of thousands, or even more. (But for realtime VFX, you rarely need that many.)
+- All particles are **fully animated on the GPU**, through some custom shader code. Your CPU is not concerned with the animations in any manner and will be free to do other stuff.
+- Particle spawning is controlled from your code, though. Spawning new particles is the only thing where the CPU gets involved. Newly spawned particles are configured by writing values into buffer attributes; **only the parts of these buffers that represent newly spawned particles are uploaded to the GPU** that frame.
+- You can currently animate velocity, acceleration, scale, color and opacity per particle. At the moment, these are hard-coded in the library's custom shader code, but there are plans to make these shaders (and the buffers that configure them) composable through code.
+
 ## Hacking & Development 🏗
 
 But if you want to give the thing a whirl and do some hacking on it, clone this repository and run:
