@@ -27,8 +27,8 @@
   },
   "scripts": {
     "build": "preconstruct build",
-    "dev": "preconstruct dev",
-    "examples": "yarn dev && cd apps/examples/ && yarn dev",
+    "dev": "yarn examples",
+    "examples": "preconstruct dev && cd apps/examples/ && yarn dev",
     "postinstall": "preconstruct dev && manypkg check",
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && manypkg check && yarn build && yarn test",
