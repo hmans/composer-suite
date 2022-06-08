@@ -23,7 +23,7 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
 
-## How this Library Works
+## How this Library Works 🥳
 
 This library aims to be a game-ready library for realtime visual effects in react-three-fiber projects.
 
