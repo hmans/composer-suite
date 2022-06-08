@@ -1,6 +1,5 @@
-import React from "react"
 import { InstancedMeshProps, useFrame, useThree } from "@react-three/fiber"
-import {
+import React, {
   createContext,
   forwardRef,
   ReactNode,
