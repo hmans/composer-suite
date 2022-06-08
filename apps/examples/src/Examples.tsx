@@ -11,26 +11,6 @@ import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
 
-const RotatingCube = () => {
-  const mesh = useRef<Mesh>(null!)
-
-  useFrame((_, dt) => {
-    mesh.current.rotation.x += 0.1 * dt
-    mesh.current.rotation.y += 0.2 * dt
-  })
-
-  return (
-    <mesh ref={mesh} scale={8} onClick={(e) => spawnEffect(e.point)}>
-      <dodecahedronGeometry />
-      <meshStandardMaterial
-        color="cyan"
-        emissiveIntensity={1}
-        emissive="cyan"
-      />
-    </mesh>
-  )
-}
-
 const Ground = () => {
   return (
     <Plane
@@ -79,7 +59,6 @@ const Examples = () => (
 
     {/* Scene objects */}
     <Ground />
-    <RotatingCube />
     <Fog />
     <Effects />
 
