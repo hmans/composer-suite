@@ -7,7 +7,6 @@ import { LinearEncoding, Mesh } from "three"
 import spawnEffect from "./actions/spawnEffect"
 import Effects from "./Effects"
 import Fog from "./effects/Fog"
-import { RenderPipeline } from "./RenderPipeline"
 import ageSystem from "./systems/ageSystem"
 import flushQueueSystem from "./systems/flushQueueSystem"
 import maxAgeSystem from "./systems/maxAgeSystem"
@@ -54,7 +53,7 @@ const Systems = () => {
   return null
 }
 
-export default () => (
+const Examples = () => (
   <Canvas
     flat
     gl={{
@@ -94,3 +93,5 @@ export default () => (
     <Perf />
   </Canvas>
 )
+
+export default Examples
