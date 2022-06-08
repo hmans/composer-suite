@@ -1,18 +1,17 @@
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
-import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
+import { Delay, Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
 
-const SmokeRing = ({ delay = 0 }) => (
+const SmokeRing = () => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
 
     <Emitter
-      initialDelay={delay}
       burstParticles={() => between(25, 40)}
       initialParticles={() => between(25, 40)}
       burstCount={5}
@@ -40,13 +39,12 @@ const SmokeRing = ({ delay = 0 }) => (
   </MeshParticles>
 )
 
-const Dirt = ({ delay = 0 }) => (
+const Dirt = () => (
   <MeshParticles>
     <dodecahedronBufferGeometry />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
-      initialDelay={delay}
       initialParticles={() => power(3) * 200}
       burstParticles={() => power(3) * 200}
       burstCount={() => power(3) * 5}
@@ -76,13 +74,12 @@ const Dirt = ({ delay = 0 }) => (
   </MeshParticles>
 )
 
-const Fireball = ({ delay = 0 }) => (
+const Fireball = () => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
-      initialDelay={delay}
       initialParticles={() => 5 + power(3) * 10}
       burstParticles={() => 5 + power(3) * 10}
       setup={(c) => {
@@ -106,7 +103,7 @@ const Fireball = ({ delay = 0 }) => (
   </MeshParticles>
 )
 
-const SmokeCloud = ({ delay = 0 }) => (
+const SmokeCloud = () => (
   <MeshParticles>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial
@@ -116,7 +113,6 @@ const SmokeCloud = ({ delay = 0 }) => (
     />
 
     <Emitter
-      initialDelay={delay}
       initialParticles={() => between(5, 10)}
       burstParticles={() => between(5, 10)}
       burstCount={5}
@@ -150,9 +146,15 @@ const SmokeCloud = ({ delay = 0 }) => (
 const Explosion = (props: GroupProps) => (
   <group {...props}>
     <SmokeRing />
-    <Dirt />
     <Fireball />
-    <SmokeCloud delay={0.3} />
+
+    <Delay seconds={0.2}>
+      <Dirt />
+
+      <Delay seconds={0.2}>
+        <SmokeCloud />
+      </Delay>
+    </Delay>
   </group>
 )
 
