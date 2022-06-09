@@ -2,7 +2,14 @@ import { CameraShake } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
-import { Delay, Emitter, MeshParticles, ParticlesMaterial, Repeat } from "vfx"
+import {
+  Delay,
+  Emitter,
+  Lifetime,
+  MeshParticles,
+  ParticlesMaterial,
+  Repeat
+} from "vfx"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
@@ -145,30 +152,32 @@ const SmokeCloud = () => (
 
 const Explosion = (props: GroupProps) => (
   <group {...props}>
-    <SmokeRing />
+    <Lifetime seconds={3}>
+      <SmokeRing />
 
-    <Delay seconds={0.1}>
-      <Fireball />
+      <Delay seconds={0.1}>
+        <Fireball />
 
-      <CameraShake
-        maxYaw={0.05}
-        maxPitch={0.05}
-        maxRoll={0.05}
-        yawFrequency={10}
-        pitchFrequency={20}
-        rollFrequency={2}
-        decayRate={2.5}
-        decay
-      />
-
-      <Delay seconds={0.2}>
-        <Dirt />
+        <CameraShake
+          maxYaw={0.05}
+          maxPitch={0.05}
+          maxRoll={0.05}
+          yawFrequency={10}
+          pitchFrequency={20}
+          rollFrequency={2}
+          decayRate={2.5}
+          decay
+        />
 
         <Delay seconds={0.2}>
-          <SmokeCloud />
+          <Dirt />
+
+          <Delay seconds={0.2}>
+            <SmokeCloud />
+          </Delay>
         </Delay>
       </Delay>
-    </Delay>
+    </Lifetime>
   </group>
 )
 

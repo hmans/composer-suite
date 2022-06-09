@@ -7,11 +7,7 @@ type DelayProps = {
   onComplete?: () => void
 }
 
-export const Delay: FC<DelayProps> = ({
-  seconds = 0,
-  onComplete,
-  children
-}) => {
+export const Delay: FC<DelayProps> = ({ seconds, onComplete, children }) => {
   const ready = useDelay(seconds, onComplete)
   return ready ? <>{children}</> : null
 }
