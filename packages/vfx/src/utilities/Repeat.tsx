@@ -8,7 +8,7 @@ type RepeatProps = { children: ReactNode; times?: number; interval?: number }
 
 export const Repeat: FC<RepeatProps> = ({
   children,
-  times = 1,
+  times = Infinity,
   interval = 1
 }) => {
   const [iteration, setIteration] = useState(1)
