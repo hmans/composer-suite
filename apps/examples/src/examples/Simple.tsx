@@ -21,13 +21,13 @@ export const Simple = () => (
 
       <Repeat times={Infinity} interval={1 / 40}>
         <Emitter
-          count={10}
+          count={5}
           setup={(c) => {
             c.velocity
               .set(plusMinus(1), upTo(1), plusMinus(1))
               .multiplyScalar(between(1, 5))
 
-            c.lifetime = between(0.5, 4.5)
+            c.lifetime = between(0.5, 2.5)
           }}
         />
       </Repeat>
