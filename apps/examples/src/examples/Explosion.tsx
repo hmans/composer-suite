@@ -155,7 +155,7 @@ const SmokeCloud = () => (
   </MeshParticles>
 )
 
-const Explosion = (props: VisualEffectProps) => (
+export const Explosion = (props: VisualEffectProps) => (
   <VisualEffect {...props}>
     <Lifetime seconds={3}>
       <SmokeRing />
@@ -185,5 +185,3 @@ const Explosion = (props: VisualEffectProps) => (
     </Lifetime>
   </VisualEffect>
 )
-
-export default Explosion
