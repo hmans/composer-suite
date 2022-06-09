@@ -27,9 +27,9 @@ declare global {
 
 export const RenderPipeline = () => {
   const { bloom, toneMapping, vignette } = useControls("Full-Screen Effects", {
-    bloom: true,
+    bloom: false,
     toneMapping: false,
-    vignette: true
+    vignette: false
   })
 
   return (
