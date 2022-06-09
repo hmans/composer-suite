@@ -1,15 +1,14 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
+import { button, useControls } from "leva"
 import { Perf } from "r3f-perf"
+import { FC, useState } from "react"
 import { LinearEncoding } from "three"
 import { Repeat } from "vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
-import { useControls, button } from "leva"
-import { FC } from "react"
-import { useState } from "react"
 export const Game = () => (
   <Canvas
     flat
@@ -21,6 +20,7 @@ export const Game = () => (
       stencil: false,
       antialias: false
     }}
+    dpr={[0.2, 2]}
   >
     {/* Lights, fog, camera, etc. */}
     <color attach="background" args={["#987"]} />

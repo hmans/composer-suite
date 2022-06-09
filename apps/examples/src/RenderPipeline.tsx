@@ -8,6 +8,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js"
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass"
 import { VignetteShader } from "three/examples/jsm/shaders/VignetteShader.js"
 import { useControls } from "leva"
+import { AdaptiveResolution } from "./AdaptiveResolution"
 
 extend({ UnrealBloomPass, AdaptiveToneMappingPass, ShaderPass, RenderPass })
 
@@ -26,20 +27,27 @@ declare global {
 }
 
 export const RenderPipeline = () => {
-  const { bloom, toneMapping, vignette } = useControls("Full-Screen Effects", {
-    bloom: false,
-    toneMapping: false,
-    vignette: false
-  })
+  const { bloom, toneMapping, vignette, targetFPS } = useControls(
+    "Full-Screen Effects",
+    {
+      targetFPS: { value: 60, min: 30, max: 120 },
+      bloom: false,
+      toneMapping: false,
+      vignette: false
+    }
+  )
 
   return (
-    <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
-      <unrealBloomPass
-        args={[new Vector2(512, 512), 2, 0.05, 1]}
-        enabled={bloom}
-      />
-      <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />
-      <shaderPass args={[VignetteShader]} enabled={vignette} />
-    </Effects>
+    <>
+      <AdaptiveResolution targetFPS={targetFPS} />
+      <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
+        <unrealBloomPass
+          args={[new Vector2(512, 512), 2, 0.05, 1]}
+          enabled={bloom}
+        />
+        <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />
+        <shaderPass args={[VignetteShader]} enabled={vignette} />
+      </Effects>
+    </>
   )
 }
