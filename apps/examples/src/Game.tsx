@@ -4,10 +4,11 @@ import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
 import { Repeat } from "vfx"
 import { Route, useRoute } from "wouter"
-import examples from "./examples"
+import examples, { ExampleDefinition } from "./examples"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
 import { useControls } from "leva"
+import { FC } from "react"
 export const Game = () => (
   <Canvas
     flat
@@ -47,7 +48,7 @@ const ExampleMatcher = () => {
   return example?.component && <Example example={example} />
 }
 
-const Example = ({ example }) => {
+const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
   const { loop, interval } = useControls({
     loop: true,
     interval: { value: 3, min: 0, max: 10 }
