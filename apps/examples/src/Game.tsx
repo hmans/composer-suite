@@ -2,11 +2,12 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
+import { Repeat } from "vfx"
 import { Route, useRoute } from "wouter"
 import examples from "./examples"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
-
+import { useControls } from "leva"
 export const Game = () => (
   <Canvas
     flat
@@ -29,18 +30,32 @@ export const Game = () => (
     {/* Scene objects */}
     <Stage speed={0}>
       <Route path="/:path">
-        <Example />
+        <ExampleMatcher />
       </Route>
     </Stage>
 
     {/* Rendering, ECS, etc. */}
     <RenderPipeline bloom vignette toneMapping />
-    <Perf />
+    <Perf position="bottom-right" />
   </Canvas>
 )
 
-const Example = () => {
+const ExampleMatcher = () => {
   const [match, params] = useRoute("/:path")
   const example = match && (examples.find((e) => e.path == params!.path) as any)
-  return example?.component ?? null
+
+  return example?.component && <Example example={example} />
+}
+
+const Example = ({ example }) => {
+  const { loop, interval } = useControls({
+    loop: true,
+    interval: { value: 3, min: 0, max: 10 }
+  })
+
+  return (
+    <Repeat times={loop ? Infinity : 0} interval={interval}>
+      {example.component}
+    </Repeat>
+  )
 }
