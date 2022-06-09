@@ -1,5 +1,4 @@
 import { CameraShake } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import {
@@ -21,9 +20,9 @@ const SmokeRing = () => (
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
 
-    <Repeat times={3} delay={0.5}>
+    <Repeat times={3} interval={0.5}>
       <Emitter
-        initialParticles={() => between(25, 40)}
+        count={() => between(25, 40)}
         setup={(c) => {
           direction
             .set(1, 0, 0)
@@ -53,33 +52,36 @@ const Dirt = () => (
     <boxGeometry />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
-    <Emitter
-      initialParticles={() => power(3) * 200}
-      burstParticles={() => power(3) * 200}
-      burstCount={() => power(3) * 5}
-      burstDelay={0.025}
-      setup={(c) => {
-        direction
-          .set(1, 0, 0)
-          .applyAxisAngle(new Vector3(0, 0, 1), between(0, Math.PI / 4))
-          .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
+    <Repeat times={power(3) * 5} interval={0.025}>
+      <Emitter
+        count={() => power(3) * 200}
+        setup={(c) => {
+          direction
+            .set(1, 0, 0)
+            .applyAxisAngle(new Vector3(0, 0, 1), between(0, Math.PI / 4))
+            .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
-        c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
-        c.quaternion.random()
+          c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
+          c.quaternion.random()
 
-        c.velocity.copy(direction).multiplyScalar(10 + power(3) * 10)
+          c.velocity.copy(direction).multiplyScalar(10 + power(3) * 10)
 
-        c.acceleration.copy(gravity)
+          c.acceleration.copy(gravity)
 
-        c.scaleStart.setScalar(0.2 + power(3) * 1)
-        c.scaleEnd.copy(c.scaleStart)
+          c.scaleStart.setScalar(0.2 + power(3) * 1)
+          c.scaleEnd.copy(c.scaleStart)
 
-        c.lifetime = between(0.5, 1.5)
+          c.lifetime = between(0.5, 1.5)
 
-        c.colorStart.lerpColors(new Color("#444"), new Color("#000"), power(3))
-        c.colorEnd.copy(c.colorStart)
-      }}
-    />
+          c.colorStart.lerpColors(
+            new Color("#444"),
+            new Color("#000"),
+            power(3)
+          )
+          c.colorEnd.copy(c.colorStart)
+        }}
+      />
+    </Repeat>
   </MeshParticles>
 )
 
@@ -89,8 +91,7 @@ const Fireball = () => (
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
-      initialParticles={() => 5 + power(3) * 10}
-      burstParticles={() => 5 + power(3) * 10}
+      count={() => 5 + power(3) * 10}
       setup={(c) => {
         direction.randomDirection()
         c.position.copy(direction).multiplyScalar(between(0, 2))
@@ -120,35 +121,37 @@ const SmokeCloud = () => (
       color="#fff"
       depthWrite={false}
     />
+    <Repeat times={5} interval={0.05}>
+      <Emitter
+        count={() => between(5, 10)}
+        setup={(c) => {
+          direction.randomDirection()
 
-    <Emitter
-      initialParticles={() => between(5, 10)}
-      burstParticles={() => between(5, 10)}
-      burstCount={5}
-      burstDelay={0.05}
-      setup={(c) => {
-        direction.randomDirection()
+          c.position.copy(direction).multiplyScalar(between(0.5, 3))
 
-        c.position.copy(direction).multiplyScalar(between(0.5, 3))
+          c.velocity
+            .copy(direction)
+            .multiplyScalar(between(2, 5))
+            .add(new Vector3(0, between(2, 3), 0))
 
-        c.velocity
-          .copy(direction)
-          .multiplyScalar(between(2, 5))
-          .add(new Vector3(0, between(2, 3), 0))
+          c.acceleration
+            .randomDirection()
+            .multiplyScalar(between(0, 3))
+            .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-        c.acceleration
-          .randomDirection()
-          .multiplyScalar(between(0, 3))
-          .add(direction.clone().multiplyScalar(-between(2, 5)))
+          c.scaleStart.setScalar(between(0.1, 0.2))
+          c.scaleEnd.setScalar(between(3, 6))
+          c.lifetime = between(1, 2)
 
-        c.scaleStart.setScalar(between(0.1, 0.2))
-        c.scaleEnd.setScalar(between(3, 6))
-        c.lifetime = between(1, 2)
-
-        c.colorStart.lerpColors(new Color("#888"), new Color("#666"), power(3))
-        c.colorEnd.copy(c.colorStart)
-      }}
-    />
+          c.colorStart.lerpColors(
+            new Color("#888"),
+            new Color("#666"),
+            power(3)
+          )
+          c.colorEnd.copy(c.colorStart)
+        }}
+      />
+    </Repeat>
   </MeshParticles>
 )
 

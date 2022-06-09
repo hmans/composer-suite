@@ -23,7 +23,7 @@ export default () => {
       />
 
       <Emitter
-        initialParticles={100}
+        count={100}
         setup={(c) => {
           c.position.randomDirection().multiplyScalar(between(0, 50))
           c.velocity.randomDirection().multiplyScalar(between(0, 3))
