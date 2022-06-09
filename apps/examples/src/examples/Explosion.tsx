@@ -165,7 +165,7 @@ export const Explosion = (props: VisualEffectProps) => (
 
       <Fireball />
 
-      <Delay seconds={0.2}>
+      <Delay seconds={0.3}>
         <Fireball />
 
         <CameraShake
@@ -175,7 +175,7 @@ export const Explosion = (props: VisualEffectProps) => (
           yawFrequency={5}
           pitchFrequency={10}
           rollFrequency={2}
-          decayRate={2.5}
+          decayRate={1.5}
           decay
         />
 
