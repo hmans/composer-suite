@@ -30,12 +30,12 @@ const Examples = () => (
 
     {/* Scene objects */}
     <Effects />
-    <Stage />
-
-    {/* The actual effect */}
-    <Repeat times={Infinity} interval={3}>
-      <Explosion />
-    </Repeat>
+    <Stage speed={0}>
+      {/* The actual effect */}
+      <Repeat times={Infinity} interval={3}>
+        <Explosion />
+      </Repeat>
+    </Stage>
 
     {/* Rendering, ECS, etc. */}
     <RenderPipeline bloom vignette toneMapping />
