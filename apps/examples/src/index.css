@@ -21,8 +21,12 @@ body {
 a {
   font-weight: bold;
   display: block;
-  color: inherit;
+  color: #eee;
   text-decoration: none;
+}
+
+a:hover {
+  color: hotpink;
 }
 
 div#root {
