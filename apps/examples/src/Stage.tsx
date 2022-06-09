@@ -1,13 +1,10 @@
-import { useFrame } from "@react-three/fiber"
-import { useRef } from "react"
-import { ReactNode } from "react"
-import { FC } from "react"
+import { GroupProps, useFrame } from "@react-three/fiber"
+import { FC, useRef } from "react"
 import { Group } from "three"
 
-export const Stage: FC<{ children?: ReactNode; speed?: number }> = ({
-  children,
-  speed = 1
-}) => {
+type StageProps = GroupProps & { speed?: number }
+
+export const Stage: FC<StageProps> = ({ children, speed = 1, ...props }) => {
   const stage = useRef<Group>(null!)
 
   useFrame((_, dt) => {
@@ -15,7 +12,7 @@ export const Stage: FC<{ children?: ReactNode; speed?: number }> = ({
   })
 
   return (
-    <group ref={stage}>
+    <group ref={stage} {...props}>
       <mesh position-y={-0.5}>
         <cylinderGeometry args={[16, 16, 1, 64]} />
         <meshStandardMaterial color="#888" />

@@ -27,11 +27,11 @@ export const Game = () => (
     <ambientLight intensity={0.4} />
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fog attach="fog" args={["#000", 20, 180]} />
-    <PerspectiveCamera position={[0, 20, 50]} makeDefault />
+    <PerspectiveCamera position={[0, 10, 50]} makeDefault />
     <OrbitControls enablePan={false} enableZoom={false} makeDefault />
 
     {/* Scene objects */}
-    <Stage speed={0}>
+    <Stage speed={0} position-y={-8}>
       <Route path="/:path">
         <ExampleMatcher />
       </Route>
