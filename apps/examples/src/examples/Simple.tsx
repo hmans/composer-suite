@@ -17,6 +17,7 @@ export const Simple = () => (
         baseMaterial={MeshStandardMaterial}
         billboard
         color="white"
+        transparent
       />
 
       <Repeat times={Infinity} interval={1 / 40}>
