@@ -24,13 +24,7 @@ const Examples = () => (
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fogExp2 attach="fog" args={["#000", 0.005]} />
     <PerspectiveCamera position={[0, 5, 50]} makeDefault />
-    <OrbitControls
-      autoRotate
-      // enablePan={false}
-      // enableRotate={false}
-      // enableZoom={false}
-      makeDefault
-    />
+    <OrbitControls autoRotate enablePan={false} makeDefault />
 
     {/* Scene objects */}
     <Fog />
