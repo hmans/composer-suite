@@ -50,7 +50,7 @@ const ExampleMatcher = () => {
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
   const { loop, interval } = useControls({
-    loop: true,
+    loop: false,
     interval: { value: 3, min: 0, max: 10 }
   })
 
