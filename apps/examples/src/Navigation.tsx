@@ -1,3 +1,5 @@
+import { Link } from "wouter"
+
 export const Navigation = () => {
   return (
     <div
@@ -8,7 +10,8 @@ export const Navigation = () => {
         left: 10
       }}
     >
-      <p>moooo</p>
+      <Link href="/explosion">Explosion</Link>
+      <Link href="/fog">Fog</Link>
     </div>
   )
 }

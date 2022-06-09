@@ -3,7 +3,9 @@ import { Canvas } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
 import { Repeat } from "vfx"
+import { Route } from "wouter"
 import Explosion from "./effects/Explosion"
+import Fog from "./effects/Fog"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
 
@@ -28,10 +30,17 @@ const Examples = () => (
 
     {/* Scene objects */}
     <Stage speed={0}>
-      {/* The actual effect */}
-      <Repeat times={Infinity} interval={3}>
-        <Explosion />
-      </Repeat>
+      <Route path="/explosion">
+        <Repeat times={Infinity} interval={3}>
+          <Explosion />
+        </Repeat>
+      </Route>
+
+      <Route path="/fog">
+        <Repeat times={Infinity} interval={30}>
+          <Fog />
+        </Repeat>
+      </Route>
     </Stage>
 
     {/* Rendering, ECS, etc. */}
