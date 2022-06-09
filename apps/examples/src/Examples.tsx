@@ -5,6 +5,7 @@ import { LinearEncoding } from "three"
 import Effects from "./Effects"
 import Fog from "./effects/Fog"
 import { RenderPipeline } from "./RenderPipeline"
+import { Stage } from "./Stage"
 
 const Examples = () => (
   <Canvas
@@ -45,15 +46,6 @@ const Examples = () => (
     <RenderPipeline bloom vignette toneMapping />
     <Perf />
   </Canvas>
-)
-
-const Stage = () => (
-  <group>
-    <mesh position-y={-64}>
-      <cylinderGeometry args={[16, 16, 128, 64]} />
-      <meshStandardMaterial color="#888" />
-    </mesh>
-  </group>
 )
 
 export default Examples
