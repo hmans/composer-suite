@@ -1,3 +1,9 @@
 import Examples from "./Examples"
+import { Navigation } from "./Navigation"
 
-export default () => <Examples />
+export default () => (
+  <>
+    <Navigation />
+    <Examples />
+  </>
+)
