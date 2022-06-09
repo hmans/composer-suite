@@ -22,9 +22,14 @@ const Examples = () => (
     {/* Lights, fog, camera, etc. */}
     <ambientLight intensity={0.4} />
     <directionalLight position={[10, 10, 10]} intensity={1} />
-    <fogExp2 attach="fog" args={["#000", 0.005]} />
-    <PerspectiveCamera position={[0, 5, 50]} makeDefault />
-    <OrbitControls autoRotate enablePan={false} makeDefault />
+    <fog attach="fog" args={["#000", 100, 180]} />
+    <PerspectiveCamera position={[0, 20, 50]} makeDefault />
+    <OrbitControls
+      autoRotate
+      enablePan={false}
+      enableZoom={false}
+      makeDefault
+    />
 
     {/* Scene objects */}
     <Fog />
