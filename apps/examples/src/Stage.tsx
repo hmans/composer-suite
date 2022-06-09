@@ -16,9 +16,14 @@ export const Stage: FC<{ children?: ReactNode; speed?: number }> = ({
 
   return (
     <group ref={stage}>
-      <mesh position-y={-256}>
-        <cylinderGeometry args={[16, 16, 512, 64]} />
+      <mesh position-y={-0.5}>
+        <cylinderGeometry args={[16, 16, 1, 64]} />
         <meshStandardMaterial color="#888" />
+      </mesh>
+
+      <mesh position-y={-1.5 - 2.5}>
+        <cylinderGeometry args={[18, 20, 5, 64]} />
+        <meshStandardMaterial color="#666" />
       </mesh>
 
       {children}

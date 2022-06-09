@@ -23,6 +23,7 @@ export const Game = () => (
     }}
   >
     {/* Lights, fog, camera, etc. */}
+    <color attach="background" args={["#987"]} />
     <ambientLight intensity={0.4} />
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fog attach="fog" args={["#000", 20, 180]} />
