@@ -55,6 +55,7 @@ const Examples = () => (
       enablePan={false}
       enableRotate={false}
       enableZoom={false}
+      makeDefault
     />
 
     {/* Scene objects */}
