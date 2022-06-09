@@ -28,7 +28,13 @@ export const Game = () => (
     <directionalLight position={[10, 10, 10]} intensity={1} />
     <fog attach="fog" args={["#000", 20, 180]} />
     <PerspectiveCamera position={[0, 10, 50]} makeDefault />
-    <OrbitControls enablePan={false} enableZoom={false} makeDefault />
+
+    <OrbitControls
+      enablePan={false}
+      enableZoom={false}
+      maxPolarAngle={Math.PI / 2}
+      makeDefault
+    />
 
     {/* Scene objects */}
     <Stage speed={0} position-y={-8}>
