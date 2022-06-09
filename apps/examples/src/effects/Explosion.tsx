@@ -8,7 +8,9 @@ import {
   Lifetime,
   MeshParticles,
   ParticlesMaterial,
-  Repeat
+  Repeat,
+  VisualEffect,
+  VisualEffectProps
 } from "vfx"
 
 const gravity = new Vector3(0, -20, 0)
@@ -150,8 +152,8 @@ const SmokeCloud = () => (
   </MeshParticles>
 )
 
-const Explosion = (props: GroupProps) => (
-  <group {...props}>
+const Explosion = (props: VisualEffectProps) => (
+  <VisualEffect {...props}>
     <Lifetime seconds={3}>
       <SmokeRing />
 
@@ -178,7 +180,7 @@ const Explosion = (props: GroupProps) => (
         </Delay>
       </Delay>
     </Lifetime>
-  </group>
+  </VisualEffect>
 )
 
 export default Explosion
