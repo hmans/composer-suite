@@ -17,7 +17,7 @@ export const Game = () => (
       logarithmicDepthBuffer: true,
       outputEncoding: LinearEncoding,
       alpha: false,
-      depth: false,
+      depth: true,
       stencil: false,
       antialias: false
     }}
