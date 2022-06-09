@@ -27,15 +27,12 @@ declare global {
 }
 
 export const RenderPipeline = () => {
-  const { bloom, toneMapping, vignette, targetFPS } = useControls(
-    "Full-Screen Effects",
-    {
-      targetFPS: { value: 60, min: 30, max: 120 },
-      bloom: false,
-      toneMapping: false,
-      vignette: false
-    }
-  )
+  const { bloom, toneMapping, vignette, targetFPS } = useControls("Rendering", {
+    targetFPS: { value: 60, min: 30, max: 120 },
+    bloom: true,
+    toneMapping: true,
+    vignette: true
+  })
 
   return (
     <>
