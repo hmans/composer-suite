@@ -89,15 +89,12 @@ void main() {
   /* Get diffuse color */
   vec4 diffuse4 = vec4(diffuse, 1.0);
 
-  /* Mix diffuse color with the animation color */
-  csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
-
   /* Apply the diffuse color */
-  csm_FragColor = csm_DiffuseColor;
+  csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
 
   /* Mix in the texture */
   #ifdef USE_MAP
-    csm_FragColor *= texture2D(map, vUv);
+    csm_DiffuseColor *= texture2D(map, vUv);
   #endif
 }
 `
