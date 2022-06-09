@@ -50,7 +50,7 @@ const SmokeRing = () => (
 
 const Dirt = () => (
   <MeshParticles>
-    <dodecahedronBufferGeometry />
+    <boxGeometry />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
