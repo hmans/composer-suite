@@ -3,9 +3,7 @@ import { Canvas } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
 import { Repeat } from "vfx"
-import Effects from "./Effects"
 import Explosion from "./effects/Explosion"
-import Fog from "./effects/Fog"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
 
@@ -16,7 +14,7 @@ const Examples = () => (
       logarithmicDepthBuffer: true,
       outputEncoding: LinearEncoding,
       alpha: false,
-      depth: true,
+      depth: false,
       stencil: false,
       antialias: false
     }}
@@ -29,7 +27,6 @@ const Examples = () => (
     <OrbitControls enablePan={false} enableZoom={false} makeDefault />
 
     {/* Scene objects */}
-    <Effects />
     <Stage speed={0}>
       {/* The actual effect */}
       <Repeat times={Infinity} interval={3}>
