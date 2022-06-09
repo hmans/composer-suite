@@ -34,7 +34,7 @@ export const Fog = () => {
 
   return (
     <VisualEffect>
-      <MeshParticles>
+      <MeshParticles maxParticles={50}>
         <planeGeometry />
 
         <ParticlesMaterial
@@ -47,11 +47,11 @@ export const Fog = () => {
           transparent
         />
 
-        <Emitter count={30} setup={setup} />
+        <Emitter count={50} setup={setup} />
 
-        <Repeat interval={3}>
+        {/* <Repeat interval={3}>
           <Emitter count={upTo(15)} setup={setup} />
-        </Repeat>
+        </Repeat> */}
       </MeshParticles>
     </VisualEffect>
   )
