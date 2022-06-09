@@ -16,7 +16,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "three": "^0.141.0",
-    "vfx": "^0.0.13"
+    "vfx": "^0.0.13",
+    "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.12",
