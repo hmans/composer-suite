@@ -1,3 +1,4 @@
+import { CameraShake } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
@@ -146,13 +147,26 @@ const Explosion = (props: GroupProps) => (
   <group {...props}>
     <SmokeRing />
 
-    <Fireball />
+    <Delay seconds={0.1}>
+      <Fireball />
 
-    <Delay seconds={0.2}>
-      <Dirt />
+      <CameraShake
+        maxYaw={0.05}
+        maxPitch={0.05}
+        maxRoll={0.05}
+        yawFrequency={10}
+        pitchFrequency={20}
+        rollFrequency={2}
+        decayRate={2.5}
+        decay
+      />
 
       <Delay seconds={0.2}>
-        <SmokeCloud />
+        <Dirt />
+
+        <Delay seconds={0.2}>
+          <SmokeCloud />
+        </Delay>
       </Delay>
     </Delay>
   </group>
