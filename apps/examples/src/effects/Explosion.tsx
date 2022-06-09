@@ -164,11 +164,11 @@ const Explosion = (props: VisualEffectProps) => (
         <Fireball />
 
         <CameraShake
-          maxYaw={0.05}
-          maxPitch={0.05}
-          maxRoll={0.05}
-          yawFrequency={10}
-          pitchFrequency={20}
+          maxYaw={0.02}
+          maxPitch={0.02}
+          maxRoll={0.02}
+          yawFrequency={5}
+          pitchFrequency={10}
           rollFrequency={2}
           decayRate={2.5}
           decay
