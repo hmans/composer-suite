@@ -16,14 +16,16 @@ export const AdaptiveResolution: FC<Props> = ({
   const currentDpr = useRef(initialDpr)
 
   const times = useRef([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  const sum = useRef(0)
   const length = times.current.length
   const targetTime = 1 / targetFPS
 
   useFrame((_, dt) => {
-    times.current.shift()
+    sum.current -= times.current.shift()!
     times.current.push(dt)
+    sum.current += dt
 
-    const averageTime = times.current.reduce((a, b) => a + b, 0) / length
+    const averageTime = sum.current / length
 
     if (averageTime > targetTime * 1.1) {
       currentDpr.current = Math.max(currentDpr.current - speed, 0.1)
