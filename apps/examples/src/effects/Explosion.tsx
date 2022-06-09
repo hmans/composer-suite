@@ -1,7 +1,7 @@
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power } from "randomish"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
-import { Delay, Emitter, MeshParticles, ParticlesMaterial } from "vfx"
+import { Delay, Emitter, MeshParticles, ParticlesMaterial, Repeat } from "vfx"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
@@ -11,31 +11,30 @@ const SmokeRing = () => (
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
 
-    <Emitter
-      burstParticles={() => between(25, 40)}
-      initialParticles={() => between(25, 40)}
-      burstCount={5}
-      burstDelay={0.025}
-      setup={(c) => {
-        direction
-          .set(1, 0, 0)
-          .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
+    <Repeat times={3} delay={0.5}>
+      <Emitter
+        initialParticles={() => between(25, 40)}
+        setup={(c) => {
+          direction
+            .set(1, 0, 0)
+            .applyAxisAngle(new Vector3(0, 1, 0), between(0, Math.PI * 2))
 
-        c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
+          c.position.copy(direction).multiplyScalar(3 + plusMinus(0.2))
 
-        c.velocity.copy(direction).multiplyScalar(10 + plusMinus(3))
+          c.velocity.copy(direction).multiplyScalar(10 + plusMinus(3))
 
-        c.acceleration.copy(direction).multiplyScalar(-3)
+          c.acceleration.copy(direction).multiplyScalar(-3)
 
-        c.scaleStart.setScalar(1 + plusMinus(0.3))
-        c.scaleEnd.setScalar(0)
+          c.scaleStart.setScalar(1 + plusMinus(0.3))
+          c.scaleEnd.setScalar(0)
 
-        c.lifetime = between(0.5, 1.5)
+          c.lifetime = between(0.5, 1.5)
 
-        c.colorStart.setScalar(1)
-        c.colorEnd.setScalar(0)
-      }}
-    />
+          c.colorStart.setScalar(1)
+          c.colorEnd.setScalar(0)
+        }}
+      />
+    </Repeat>
   </MeshParticles>
 )
 
@@ -146,6 +145,7 @@ const SmokeCloud = () => (
 const Explosion = (props: GroupProps) => (
   <group {...props}>
     <SmokeRing />
+
     <Fireball />
 
     <Delay seconds={0.2}>
