@@ -18,7 +18,7 @@ const direction = new Vector3()
 const texture = new TextureLoader().load("/textures/smoke.png")
 
 const SmokeRing = () => (
-  <MeshParticles>
+  <MeshParticles maxParticles={200}>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
 
@@ -50,7 +50,7 @@ const SmokeRing = () => (
 )
 
 const Rocks = () => (
-  <MeshParticles>
+  <MeshParticles maxParticles={100}>
     <dodecahedronGeometry />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
@@ -82,7 +82,7 @@ const Rocks = () => (
 )
 
 const Fireball = () => (
-  <MeshParticles>
+  <MeshParticles maxParticles={15}>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
@@ -111,7 +111,7 @@ const Fireball = () => (
 )
 
 const SmokeCloud = () => (
-  <MeshParticles>
+  <MeshParticles maxParticles={100}>
     <planeGeometry />
 
     <ParticlesMaterial

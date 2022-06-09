@@ -19,7 +19,6 @@ import {
   Vector3
 } from "three"
 
-const tmpRotation = new Quaternion()
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
 
