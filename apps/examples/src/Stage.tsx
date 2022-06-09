@@ -18,7 +18,7 @@ export const Stage: FC<StageProps> = ({ children, speed = 1, ...props }) => {
         <meshStandardMaterial color="#888" />
       </mesh>
 
-      <mesh position-y={-1.5 - 2.5}>
+      <mesh position-y={-3.5}>
         <cylinderGeometry args={[18, 20, 5, 64]} />
         <meshStandardMaterial color="#666" />
       </mesh>
