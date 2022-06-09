@@ -56,7 +56,7 @@ const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
   const { loop, interval } = useControls("Controls", {
     restart: button(() => setV(Math.random())),
     loop: false,
-    interval: { value: 3, min: 0, max: 10 }
+    interval: { value: 1, min: 0, max: 10 }
   })
 
   return (
