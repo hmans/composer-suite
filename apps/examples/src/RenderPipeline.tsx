@@ -1,11 +1,13 @@
 import { Effects } from "@react-three/drei"
 import { extend } from "@react-three/fiber"
+import { useContext } from "react"
 import { HalfFloatType, LinearEncoding, Vector2 } from "three"
 import { AdaptiveToneMappingPass } from "three/examples/jsm/postprocessing/AdaptiveToneMappingPass.js"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js"
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass"
 import { VignetteShader } from "three/examples/jsm/shaders/VignetteShader.js"
+import { useControls } from "leva"
 
 extend({ UnrealBloomPass, AdaptiveToneMappingPass, ShaderPass, RenderPass })
 
@@ -23,17 +25,21 @@ declare global {
   }
 }
 
-export const RenderPipeline = ({
-  bloom = false,
-  toneMapping = false,
-  vignette = false
-}) => (
-  <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
-    <unrealBloomPass
-      args={[new Vector2(512, 512), 2, 0.05, 1]}
-      enabled={bloom}
-    />
-    <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />
-    <shaderPass args={[VignetteShader]} enabled={vignette} />
-  </Effects>
-)
+export const RenderPipeline = () => {
+  const { bloom, toneMapping, vignette } = useControls("Full-Screen Effects", {
+    bloom: true,
+    toneMapping: true,
+    vignette: true
+  })
+
+  return (
+    <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
+      <unrealBloomPass
+        args={[new Vector2(512, 512), 2, 0.05, 1]}
+        enabled={bloom}
+      />
+      <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />
+      <shaderPass args={[VignetteShader]} enabled={vignette} />
+    </Effects>
+  )
+}

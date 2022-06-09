@@ -36,7 +36,7 @@ export const Game = () => (
     </Stage>
 
     {/* Rendering, ECS, etc. */}
-    <RenderPipeline bloom vignette toneMapping />
+    <RenderPipeline />
     <Perf position="bottom-right" />
   </Canvas>
 )
@@ -49,7 +49,7 @@ const ExampleMatcher = () => {
 }
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
-  const { loop, interval } = useControls({
+  const { loop, interval } = useControls("Controls", {
     loop: false,
     interval: { value: 3, min: 0, max: 10 }
   })
