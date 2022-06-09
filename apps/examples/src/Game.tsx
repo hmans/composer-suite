@@ -7,8 +7,9 @@ import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
-import { useControls } from "leva"
+import { useControls, button } from "leva"
 import { FC } from "react"
+import { useState } from "react"
 export const Game = () => (
   <Canvas
     flat
@@ -49,13 +50,16 @@ const ExampleMatcher = () => {
 }
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
+  const [v, setV] = useState(0)
+
   const { loop, interval } = useControls("Controls", {
+    restart: button(() => setV(Math.random())),
     loop: false,
     interval: { value: 3, min: 0, max: 10 }
   })
 
   return (
-    <Repeat times={loop ? Infinity : 0} interval={interval}>
+    <Repeat key={v} times={loop ? Infinity : 0} interval={interval}>
       {example.component}
     </Repeat>
   )
