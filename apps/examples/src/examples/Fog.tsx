@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import { AdditiveBlending, MeshStandardMaterial, TextureLoader } from "three"
 import { Emitter, MeshParticles, ParticlesMaterial } from "vfx"
 
-export default () => {
+export const Fog = () => {
   const texture = useMemo(
     () => new TextureLoader().load("/textures/smoke.png"),
     []

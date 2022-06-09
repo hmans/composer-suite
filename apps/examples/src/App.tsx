@@ -1,9 +1,9 @@
-import Examples from "./Examples"
+import { Game } from "./Game"
 import { Navigation } from "./Navigation"
 
 export default () => (
   <>
     <Navigation />
-    <Examples />
+    <Game />
   </>
 )

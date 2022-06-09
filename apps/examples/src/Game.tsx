@@ -2,19 +2,12 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
-import { Repeat } from "vfx"
 import { Route, useRoute } from "wouter"
-import Explosion from "./effects/Explosion"
-import Fog from "./effects/Fog"
+import examples from "./examples"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
 
-export const examples = [
-  { path: "explosion", name: "Explosion", component: <Explosion /> },
-  { path: "fog", name: "Fog", component: <Fog /> }
-]
-
-const Examples = () => (
+export const Game = () => (
   <Canvas
     flat
     gl={{
@@ -51,5 +44,3 @@ const Example = () => {
   const example = match && (examples.find((e) => e.path == params!.path) as any)
   return example?.component ?? null
 }
-
-export default Examples

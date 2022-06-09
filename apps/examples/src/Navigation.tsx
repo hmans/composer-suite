@@ -1,5 +1,5 @@
 import { Link } from "wouter"
-import { examples } from "./Examples"
+import Examples from "./examples"
 
 export const Navigation = () => {
   return (
@@ -11,7 +11,7 @@ export const Navigation = () => {
         left: 10
       }}
     >
-      {examples.map(({ path, name }) => (
+      {Examples.map(({ path, name }) => (
         <Link key={path} href={`/${path}`}>
           {name}
         </Link>
