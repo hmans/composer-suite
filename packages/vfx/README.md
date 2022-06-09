@@ -21,6 +21,7 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 
 ## Examples & Demos 🎓
 
+- **[Official Examples Suite](https://vfx-examples.vercel.app/)**
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
 
 ## How this Library Works 🥳
@@ -48,7 +49,7 @@ But if you want to give the thing a whirl and do some hacking on it, clone this 
 yarn && yarn examples
 ```
 
-Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx).
+Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx), or just [view them on Vercel](https://vfx-examples.vercel.app/).
 
 ## Questions? 💬
 
