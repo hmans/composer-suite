@@ -18,6 +18,8 @@ export const Simple = () => (
         billboard
         color="white"
         transparent
+        depthTest={true}
+        depthWrite={false}
       />
 
       <Repeat times={Infinity} interval={1 / 40}>
