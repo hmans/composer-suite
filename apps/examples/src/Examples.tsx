@@ -3,11 +3,16 @@ import { Canvas } from "@react-three/fiber"
 import { Perf } from "r3f-perf"
 import { LinearEncoding } from "three"
 import { Repeat } from "vfx"
-import { Route } from "wouter"
+import { Route, useRoute } from "wouter"
 import Explosion from "./effects/Explosion"
 import Fog from "./effects/Fog"
 import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
+
+export const examples = [
+  { path: "explosion", name: "Explosion", component: <Explosion /> },
+  { path: "fog", name: "Fog", component: <Fog /> }
+]
 
 const Examples = () => (
   <Canvas
@@ -30,16 +35,8 @@ const Examples = () => (
 
     {/* Scene objects */}
     <Stage speed={0}>
-      <Route path="/explosion">
-        <Repeat times={Infinity} interval={3}>
-          <Explosion />
-        </Repeat>
-      </Route>
-
-      <Route path="/fog">
-        <Repeat times={Infinity} interval={30}>
-          <Fog />
-        </Repeat>
+      <Route path="/:path">
+        <Example />
       </Route>
     </Stage>
 
@@ -48,5 +45,11 @@ const Examples = () => (
     <Perf />
   </Canvas>
 )
+
+const Example = () => {
+  const [match, params] = useRoute("/:path")
+  const example = match && (examples.find((e) => e.path == params!.path) as any)
+  return example?.component ?? null
+}
 
 export default Examples
