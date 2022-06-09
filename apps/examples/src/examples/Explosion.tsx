@@ -121,40 +121,36 @@ const SmokeCloud = () => (
       billboard
     />
 
-    <Repeat times={5} interval={0.05}>
-      <Emitter
-        count={() => between(20, 40)}
-        setup={(c) => {
-          direction.randomDirection()
+    <Emitter
+      count={() => between(60, 80)}
+      setup={(c) => {
+        direction.randomDirection()
 
-          c.position.copy(direction).multiplyScalar(between(2, 4))
+        c.position.copy(direction).multiplyScalar(between(2, 4))
 
-          c.velocity
-            .copy(direction)
-            .multiplyScalar(between(2, 5))
-            .add(new Vector3(0, between(2, 3), 0))
+        c.velocity
+          .copy(direction)
+          .multiplyScalar(between(2, 5))
+          .add(new Vector3(0, between(2, 3), 0))
 
-          c.acceleration
-            .randomDirection()
-            .multiplyScalar(between(0, 3))
-            .add(direction.clone().multiplyScalar(-between(2, 5)))
+        c.acceleration
+          .randomDirection()
+          .multiplyScalar(between(0, 3))
+          .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-          c.scaleStart.setScalar(between(0.5, 1.5))
-          c.scaleEnd.setScalar(between(6, 20))
-          c.lifetime = between(1, 3)
+        c.scaleStart.setScalar(between(0.5, 1.5))
+        c.scaleEnd.setScalar(between(6, 20))
 
-          c.alphaStart = 0.5
-          c.alphaEnd = 0
+        c.delay = upTo(0.3)
+        c.lifetime = between(1, 3)
 
-          c.colorStart.lerpColors(
-            new Color("#888"),
-            new Color("#666"),
-            power(3)
-          )
-          c.colorEnd.copy(c.colorStart)
-        }}
-      />
-    </Repeat>
+        c.alphaStart = 0.5
+        c.alphaEnd = 0
+
+        c.colorStart.lerpColors(new Color("#888"), new Color("#666"), power(3))
+        c.colorEnd.copy(c.colorStart)
+      }}
+    />
   </MeshParticles>
 )
 
