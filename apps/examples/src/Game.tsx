@@ -37,7 +37,7 @@ export const Game = () => (
     />
 
     {/* Scene objects */}
-    <Stage speed={0} position-y={-8}>
+    <Stage>
       <Route path="/:path">
         <ExampleMatcher />
       </Route>
