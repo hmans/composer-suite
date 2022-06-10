@@ -1,5 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { FC, useMemo, useRef } from "react"
+import { StaticReadUsage } from "three"
 
 type Props = {
   targetFPS?: number
@@ -41,21 +42,21 @@ export const AdaptiveResolution: FC<Props> = ({
 }
 
 function useFPS(smoothness = 20) {
-  const state = useMemo(
-    () => ({
-      times: Array(smoothness).fill(0),
-      sum: 0,
-      average: 0
-    }),
-    [smoothness]
-  )
+  const state = useRef({
+    times: Array(smoothness).fill(0),
+    sum: 0,
+    average: 0
+  }).current
 
   useFrame((_, dt) => {
     state.sum -= state.times.shift()!
-    state.times.push(dt)
-    state.sum += dt
 
-    state.average = state.sum / smoothness
+    if (smoothness > state.times.length) {
+      state.times.push(dt)
+      state.sum += dt
+    }
+
+    state.average = state.sum / state.times.length
   })
 
   return () => state.average
