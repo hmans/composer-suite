@@ -47,7 +47,7 @@ function useFPS(smoothness = 20) {
       sum: 0,
       average: 0
     }),
-    []
+    [smoothness]
   )
 
   useFrame((_, dt) => {
