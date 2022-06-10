@@ -27,6 +27,10 @@ export const AdaptiveResolution: FC<Props> = ({
   useFrame(() => {
     const averageTime = getFPS()
 
+    /*
+     * TODO: The following algorithm is super basic. It does the job, but has a bunch of
+     *       edge cases that are not handled well.
+     */
     if (averageTime > targetTime * 1.1) {
       currentDpr.current = Math.max(currentDpr.current - speed, 0.1)
     } else if (averageTime < targetTime * 0.9) {
