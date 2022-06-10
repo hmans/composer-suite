@@ -1,13 +1,12 @@
 import { Effects } from "@react-three/drei"
 import { extend } from "@react-three/fiber"
-import { useContext } from "react"
+import { useControls } from "leva"
 import { HalfFloatType, LinearEncoding, Vector2 } from "three"
 import { AdaptiveToneMappingPass } from "three/examples/jsm/postprocessing/AdaptiveToneMappingPass.js"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js"
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass"
 import { VignetteShader } from "three/examples/jsm/shaders/VignetteShader.js"
-import { useControls } from "leva"
 import { AdaptiveResolution } from "./AdaptiveResolution"
 
 extend({ UnrealBloomPass, AdaptiveToneMappingPass, ShaderPass, RenderPass })
@@ -36,7 +35,7 @@ export const RenderPipeline = () => {
 
   return (
     <>
-      <AdaptiveResolution targetFPS={targetFPS} />
+      <AdaptiveResolution minFPS={targetFPS * 0.95} maxFPS={targetFPS * 1.1} />
       <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
         <unrealBloomPass
           args={[new Vector2(512, 512), 2, 0.05, 1]}
