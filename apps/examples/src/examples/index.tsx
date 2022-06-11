@@ -14,5 +14,15 @@ export default [
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "explosion", name: "Explosion", component: <Explosion /> },
   { path: "fog", name: "Fog", component: <Fog /> },
-  { path: "gltf", name: "GLTF Particles", component: <GLTFParticles /> }
+  { path: "gltf", name: "GLTF Particles", component: <GLTFParticles /> },
+  {
+    path: "combined",
+    name: "Combined",
+    component: (
+      <>
+        <Fog />
+        <GLTFParticles />
+      </>
+    )
+  }
 ] as ExampleDefinition[]
