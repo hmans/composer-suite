@@ -1,4 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber"
+import { useEffect } from "react"
 import { FC, useRef } from "react"
 
 type Props = {
@@ -37,6 +38,9 @@ export const AdaptiveResolution: FC<Props> = ({
 
     setDpr(currentDpr.current)
   })
+
+  /* Reset to initial DPR on unmount */
+  useEffect(() => () => setDpr(initialDpr), [])
 
   return null
 }

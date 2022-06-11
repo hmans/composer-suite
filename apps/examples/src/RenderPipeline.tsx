@@ -26,7 +26,14 @@ declare global {
 }
 
 export const RenderPipeline = () => {
-  const { bloom, toneMapping, vignette, targetFPS } = useControls("Rendering", {
+  const {
+    adaptiveResolution,
+    bloom,
+    toneMapping,
+    vignette,
+    targetFPS
+  } = useControls("Rendering", {
+    adaptiveResolution: true,
     targetFPS: { value: 60, min: 30, max: 120 },
     bloom: true,
     toneMapping: true,
@@ -35,7 +42,12 @@ export const RenderPipeline = () => {
 
   return (
     <>
-      <AdaptiveResolution minFPS={targetFPS * 0.95} maxFPS={targetFPS * 1.1} />
+      {adaptiveResolution && (
+        <AdaptiveResolution
+          minFPS={targetFPS * 0.95}
+          maxFPS={targetFPS * 1.1}
+        />
+      )}
       <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
         <unrealBloomPass
           args={[new Vector2(512, 512), 2, 0.05, 1]}
