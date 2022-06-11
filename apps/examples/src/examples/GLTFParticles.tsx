@@ -12,7 +12,7 @@ import {
 const offset = new Vector3(0, 10, 0)
 
 export const GLTFParticles = () => {
-  const gltf = useGLTF("/models/spaceship26.gltf")
+  const gltf = useGLTF("/models/spaceship26.gltf") as any
 
   const { geometry, material } = gltf.nodes["Hull"]
 
