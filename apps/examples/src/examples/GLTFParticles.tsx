@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei"
-import { between, plusMinus, upTo } from "randomish"
+import { between, insideSphere, plusMinus, upTo } from "randomish"
 import { FC } from "react"
-import { MeshStandardMaterial, SphereGeometry } from "three"
+import { MeshStandardMaterial, SphereGeometry, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -19,29 +19,20 @@ export const GLTFParticles = () => {
     gltf && (
       <VisualEffect>
         <MeshParticles geometry={geometry}>
-          <ParticlesMaterial
-            baseMaterial={MeshStandardMaterial}
-            depthTest={true}
-            depthWrite={false}
+          <ParticlesMaterial baseMaterial={material} depthTest depthWrite />
+
+          <Emitter
+            count={40}
+            setup={(c) => {
+              c.position.set(0, 10, 0).add(insideSphere(8) as Vector3)
+              c.quaternion.random()
+
+              c.lifetime = Infinity
+
+              c.scaleStart.setScalar(0.3)
+              c.scaleEnd.setScalar(0.3)
+            }}
           />
-
-          <Repeat times={Infinity} interval={1 / 2}>
-            <Emitter
-              count={1}
-              setup={(c) => {
-                c.velocity
-                  .set(plusMinus(1), upTo(1), plusMinus(1))
-                  .multiplyScalar(between(1, 5))
-
-                c.quaternion.random()
-
-                c.lifetime = between(2.5, 5)
-
-                c.scaleStart.setScalar(0.5)
-                c.scaleEnd.setScalar(0)
-              }}
-            />
-          </Repeat>
         </MeshParticles>
       </VisualEffect>
     )
