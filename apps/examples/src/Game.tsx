@@ -21,12 +21,26 @@ export const Game = () => (
       antialias: false
     }}
     dpr={[0.2, 2]}
+    shadows
   >
     {/* Lights, fog, camera, etc. */}
     <color attach="background" args={["#987"]} />
     <ambientLight intensity={0.4} />
-    <directionalLight position={[10, 10, 10]} intensity={1} />
-    <fog attach="fog" args={["#000", 20, 180]} />
+    <directionalLight
+      position={[10, 10, 10]}
+      intensity={1}
+      castShadow
+      shadow-mapSize-width={1024}
+      shadow-mapSize-height={1024}
+      shadow-camera-far={50}
+      shadow-camera-left={-20}
+      shadow-camera-right={20}
+      shadow-camera-top={20}
+      shadow-camera-bottom={-20}
+      shadow-radius={10}
+      shadow-bias={-0.0001}
+    />
+    <fog attach="fog" args={["#987", 50, 100]} />
     <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
     <OrbitControls
