@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei"
-import { between } from "randomish"
-import { Vector3 } from "three"
+import { between, plusMinus, upTo } from "randomish"
+import { Euler, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -17,36 +17,31 @@ export const GLTFParticles = () => {
   const { geometry, material } = gltf.nodes["Hull"]
 
   return (
-    gltf && (
-      <VisualEffect>
-        <MeshParticles geometry={geometry} maxParticles={500}>
-          <ParticlesMaterial baseMaterial={material} depthTest depthWrite />
+    <VisualEffect>
+      <MeshParticles geometry={geometry} maxParticles={500}>
+        <ParticlesMaterial baseMaterial={material} depthTest depthWrite />
 
-          <Repeat interval={1 / 8}>
-            <Emitter
-              count={1}
-              setup={(c) => {
-                c.quaternion.random()
+        <Repeat interval={1}>
+          <Emitter
+            count={30}
+            setup={(c) => {
+              c.quaternion.setFromEuler(new Euler(0, -Math.PI / 2, 0))
+              c.position.set(-40, between(2, 18), plusMinus(16))
 
-                c.position.copy(offset)
+              c.velocity.set(between(10, 70), 0, 0)
 
-                c.velocity
-                  .set(0, 0, -1)
-                  .applyQuaternion(c.quaternion)
-                  .multiplyScalar(between(5, 10))
+              c.delay = upTo(1)
+              c.lifetime = 20
 
-                c.lifetime = 10
+              c.alphaStart = 1
+              c.alphaEnd = 1
 
-                c.alphaStart = 1
-                c.alphaEnd = 1
-
-                c.scaleStart.setScalar(0.3)
-                c.scaleEnd.setScalar(0.3)
-              }}
-            />
-          </Repeat>
-        </MeshParticles>
-      </VisualEffect>
-    )
+              c.scaleStart.setScalar(0.3)
+              c.scaleEnd.setScalar(0.3)
+            }}
+          />
+        </Repeat>
+      </MeshParticles>
+    </VisualEffect>
   )
 }
