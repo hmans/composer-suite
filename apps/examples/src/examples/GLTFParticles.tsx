@@ -1,7 +1,6 @@
 import { useGLTF } from "@react-three/drei"
-import { between, insideSphere, plusMinus, upTo } from "randomish"
-import { FC } from "react"
-import { MeshStandardMaterial, SphereGeometry, Vector3 } from "three"
+import { between } from "randomish"
+import { Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -9,6 +8,8 @@ import {
   Repeat,
   VisualEffect
 } from "vfx"
+
+const offset = new Vector3(0, 10, 0)
 
 export const GLTFParticles = () => {
   const gltf = useGLTF("/models/spaceship26.gltf")
@@ -18,21 +19,32 @@ export const GLTFParticles = () => {
   return (
     gltf && (
       <VisualEffect>
-        <MeshParticles geometry={geometry}>
+        <MeshParticles geometry={geometry} maxParticles={500}>
           <ParticlesMaterial baseMaterial={material} depthTest depthWrite />
 
-          <Emitter
-            count={40}
-            setup={(c) => {
-              c.position.set(0, 10, 0).add(insideSphere(8) as Vector3)
-              c.quaternion.random()
+          <Repeat interval={1 / 8}>
+            <Emitter
+              count={1}
+              setup={(c) => {
+                c.quaternion.random()
 
-              c.lifetime = Infinity
+                c.position.copy(offset)
 
-              c.scaleStart.setScalar(0.3)
-              c.scaleEnd.setScalar(0.3)
-            }}
-          />
+                c.velocity
+                  .set(0, 0, -1)
+                  .applyQuaternion(c.quaternion)
+                  .multiplyScalar(between(5, 10))
+
+                c.lifetime = 10
+
+                c.alphaStart = 1
+                c.alphaEnd = 1
+
+                c.scaleStart.setScalar(0.3)
+                c.scaleEnd.setScalar(0.3)
+              }}
+            />
+          </Repeat>
         </MeshParticles>
       </VisualEffect>
     )
