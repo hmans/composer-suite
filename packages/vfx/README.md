@@ -17,7 +17,7 @@ This library is currently under heavy development, and is most definitely **not 
 
 ## Help Wanted! 🙏
 
-If you're into visual effects and/or WebGL/Three.js development, **this library could benefit from your help**. There are a couple of issues and missing features that could use the help (or input) of people much more familiar with these domains than I am -- please [refer to the Roadmap](https://github.com/hmans/vfx/issues/4) for details.
+If you're into visual effects and/or WebGL/Three.js development, **this library could benefit from your help**. There are a couple of issues and missing features that could use the help (or input) of people much more familiar with these domains than I am -- please [refer to the Roadmap](https://github.com/hmans/three-vfx/issues/4) for details.
 
 ## Examples & Demos 🎓
 
@@ -49,7 +49,7 @@ But if you want to give the thing a whirl and do some hacking on it, clone this 
 yarn && yarn examples
 ```
 
-Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx), or just [view them on Vercel](https://vfx-examples.vercel.app/).
+Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/three-vfx), or just [view them on Vercel](https://vfx-examples.vercel.app/).
 
 ## Questions? 💬
 

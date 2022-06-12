@@ -26,8 +26,8 @@ export const Navigation = () => {
           left: 10
         }}
       >
-        <a href="https://github.com/hmans/vfx" target="_blank">
-          github.com/hmans/vfx
+        <a href="https://github.com/hmans/three-vfx" target="_blank">
+          github.com/hmans/three-vfx
         </a>
       </div>
     </>
