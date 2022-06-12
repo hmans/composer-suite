@@ -10,7 +10,7 @@ import {
   Repeat,
   VisualEffect,
   VisualEffectProps
-} from "vfx"
+} from "three-vfx"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()

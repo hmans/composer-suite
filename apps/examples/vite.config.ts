@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ["vfx", "randomish"],
+    exclude: ["three-vfx", "randomish"],
     include: ["react/jsx-runtime"]
   }
 })
