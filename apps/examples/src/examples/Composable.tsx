@@ -7,26 +7,41 @@ import {
   SphereGeometry
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
+import { iCSMParams } from "three-custom-shader-material/types"
 
 const tmpObj = new Object3D()
 
-class ParticlesMaterial extends CustomShaderMaterial {}
+class ParticlesMaterial extends CustomShaderMaterial {
+  constructor(opts: iCSMParams) {
+    super(opts)
+    this.update(this.generateShaders())
+  }
+
+  generateShaders() {
+    const vertexShader = /*glsl*/ `
+      uniform float u_time;
+
+      void main() {
+        csm_Position.y += u_time;
+      }
+    `
+
+    const fragmentShader = /*glsl*/ `
+    `
+
+    const uniforms = {
+      u_time: { value: 0 }
+    }
+
+    return { vertexShader, fragmentShader, uniforms }
+  }
+}
 
 export const Composable = () => {
   const material = useMemo(
     () =>
       new ParticlesMaterial({
-        baseMaterial: new MeshStandardMaterial({ color: "white" }),
-        uniforms: {
-          u_time: { value: 0 }
-        },
-        vertexShader: /*glsl*/ `
-    uniform float u_time;
-
-    void main() {
-      csm_Position.y += u_time;
-    }
-    `
+        baseMaterial: new MeshStandardMaterial({ color: "white" })
       }),
     []
   )
