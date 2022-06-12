@@ -12,9 +12,15 @@ export type MeshParticleProps = Node<
 const ParticlesContext = createContext<MeshParticlesImpl>(null!)
 
 export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
-  ({ ...props }, ref) => {
+  ({ children, ...props }, ref) => {
     const instance = useConstant(() => new MeshParticlesImpl())
 
-    return <primitive object={instance} {...props} ref={ref} />
+    return (
+      <primitive object={instance} {...props} ref={ref}>
+        <ParticlesContext.Provider value={instance}>
+          {children}
+        </ParticlesContext.Provider>
+      </primitive>
+    )
   }
 )
