@@ -17,6 +17,6 @@ export type MeshParticleProps = Node<
   typeof MeshParticlesImpl
 >
 
-export const MeshParticles: FC<MeshParticleProps> = () => {
-  return <meshParticles_ args={[undefined, undefined, 1000]} />
+export const MeshParticles: FC<MeshParticleProps> = (props) => {
+  return <meshParticles_ {...props} />
 }
