@@ -1,17 +1,11 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
+import { MeshStandardMaterial, Object3D, SphereGeometry } from "three"
 import {
-  BufferGeometry,
-  InstancedMesh,
-  MeshStandardMaterial,
-  Object3D,
-  SphereGeometry
-} from "three"
-import {
-  ParticlesMaterial,
+  makeShake,
   MeshParticles,
-  wobble,
-  makeShake
+  ParticlesMaterial,
+  wobble
 } from "./v2/vanilla"
 
 const tmpObj = new Object3D()
