@@ -1,4 +1,4 @@
-import { Node } from "@react-three/fiber"
+import { Node, useFrame } from "@react-three/fiber"
 import { forwardRef, useEffect } from "react"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesContext } from "./context"
@@ -13,6 +13,12 @@ export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, ...props }, ref) => {
     const instance = useConstant(() => new MeshParticlesImpl())
 
+    /* Advance time uniform every frame */
+    useFrame((_, dt) => {
+      instance.material.uniforms.u_time.value += dt
+    })
+
+    /* Dispose on unmount */
     useEffect(() => () => instance.dispose(), [])
 
     return (
