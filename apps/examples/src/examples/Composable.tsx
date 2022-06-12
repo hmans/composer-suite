@@ -98,10 +98,7 @@ export const Composable = () => {
 
   const mesh = useMemo(() => {
     const geometry = new SphereGeometry()
-
-    /* Mesh */
     const mesh = new InstancedMesh(geometry, material, 1100)
-
     return mesh
   }, [])
 
