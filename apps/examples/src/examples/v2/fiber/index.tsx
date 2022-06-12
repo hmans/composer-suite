@@ -1,5 +1,6 @@
-import { extend, Node } from "@react-three/fiber"
+import { extend, GroupProps, Node } from "@react-three/fiber"
 import { forwardRef } from "react"
+import { Group } from "three"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
 
@@ -8,30 +9,25 @@ export type MeshParticleProps = Node<
   typeof MeshParticlesImpl
 >
 
-export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
-  (props, ref) => <meshParticles_ ref={ref} {...props} />
-)
-
 export type ParticleMaterialProps = Node<
   ParticlesMaterialImpl,
   typeof ParticlesMaterialImpl
 >
 
-export const ParticlesMaterial = forwardRef<
-  ParticlesMaterialImpl,
-  ParticleMaterialProps
->((props, ref) => <particlesMaterial_ ref={ref} {...props} attach="material" />)
-
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      meshParticles_: MeshParticleProps
-      particlesMaterial_: ParticleMaterialProps
+      meshParticles: MeshParticleProps
+      particlesMaterial: ParticleMaterialProps
     }
   }
 }
 
 extend({
-  MeshParticles_: MeshParticlesImpl,
-  ParticlesMaterial_: ParticlesMaterialImpl
+  MeshParticles: MeshParticlesImpl,
+  ParticlesMaterial: ParticlesMaterialImpl
 })
+
+export const VisualEffect = forwardRef<Group, GroupProps>((props, ref) => (
+  <group {...props} ref={ref} />
+))
