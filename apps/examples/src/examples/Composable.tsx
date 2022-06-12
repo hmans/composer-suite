@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from "react"
 import {
   InstancedMesh,
-  Mesh,
   MeshStandardMaterial,
   Object3D,
   SphereGeometry
@@ -10,13 +9,15 @@ import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 
 const tmpObj = new Object3D()
 
+class ParticlesMaterial extends CustomShaderMaterial {}
+
 export const Composable = () => {
   const mesh = useMemo(() => {
     /* Geometry */
     const geometry = new SphereGeometry()
 
     /* Material */
-    const material = new CustomShaderMaterial({
+    const material = new ParticlesMaterial({
       baseMaterial: new MeshStandardMaterial({ color: "white" })
     })
 
