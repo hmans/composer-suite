@@ -10,7 +10,7 @@ import {
 
 const tmpObj = new Object3D()
 
-export const Composable = () => {
+export const ComposableVanilla = () => {
   const material = useMemo(
     () =>
       new ParticlesMaterial({
@@ -44,4 +44,8 @@ export const Composable = () => {
   }, [mesh])
 
   return <primitive object={mesh} />
+}
+
+export const ComposableFiber = () => {
+  return <group />
 }
