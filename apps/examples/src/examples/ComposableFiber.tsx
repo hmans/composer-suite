@@ -9,7 +9,6 @@ export const ComposableFiber = () => {
   const ref = useRef<MeshParticlesImpl>(null!)
 
   useEffect(() => {
-    console.log(ref.current)
     ref.current.spawnParticle()
     ref.current.configureParticles([wobble])
   }, [])

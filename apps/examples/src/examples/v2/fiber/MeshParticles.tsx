@@ -1,7 +1,6 @@
 import { Node } from "@react-three/fiber"
-import { createContext, forwardRef, useState } from "react"
+import { createContext, forwardRef, useEffect } from "react"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
-import mergeRefs from "react-merge-refs"
 import { useConstant } from "./util/useConstant"
 
 export type MeshParticleProps = Node<
@@ -14,6 +13,13 @@ const ParticlesContext = createContext<MeshParticlesImpl>(null!)
 export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, ...props }, ref) => {
     const instance = useConstant(() => new MeshParticlesImpl())
+
+    useEffect(
+      () => () => {
+        instance.dispose()
+      },
+      []
+    )
 
     return (
       <primitive object={instance} {...props} ref={ref}>
