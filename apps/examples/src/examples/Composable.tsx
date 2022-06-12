@@ -22,6 +22,8 @@ const generateModuleFunction = ({ name, chunk }: ShaderModule) =>
 const generateModuleInvocation = ({ name }: ShaderModule) =>
   /*glsl*/ `offset = ${name}(offset);`
 
+const float = (num: number) => num.toFixed(8)
+
 class ParticlesMaterial extends CustomShaderMaterial {
   constructor(opts: iCSMParams) {
     super(opts)
@@ -30,7 +32,7 @@ class ParticlesMaterial extends CustomShaderMaterial {
 
   generateShaders() {
     const wobble: ShaderModule = {
-      name: "wobble_462378",
+      name: "wobble_462378", // needs to be unique, will automate this
       chunk: /*glsl*/ `
         offset.y += 8.0 + cos(u_time * 13.0) * 2.0;
         offset.x += 0.0 + sin(u_time * 7.0) * 2.0;
@@ -38,7 +40,14 @@ class ParticlesMaterial extends CustomShaderMaterial {
       `
     }
 
-    const configuration = [wobble]
+    const makeShake = (frequency = 1.234, amplitude = 1): ShaderModule => ({
+      name: "shake_48932749", // needs to be unique, will automate this
+      chunk: /*glsl*/ `
+        offset.x += cos(u_time * ${float(frequency)}) * ${float(amplitude)};
+      `
+    })
+
+    const configuration = [wobble, makeShake(6, 8)]
 
     const vertexShader = /*glsl*/ `
       uniform float u_time;
