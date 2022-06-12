@@ -14,6 +14,7 @@
     "r3f-perf": "^6.2.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-merge-refs": "^1.1.0",
     "three": "^0.141.0",
     "three-vfx": "^0.0.13",
     "wouter": "^2.8.0-alpha.2"

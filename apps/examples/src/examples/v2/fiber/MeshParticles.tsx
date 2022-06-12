@@ -1,8 +1,9 @@
 import { Node, useFrame } from "@react-three/fiber"
-import { forwardRef, useEffect, useMemo } from "react"
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react"
 import { ShaderModule } from "../vanilla"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesContext } from "./context"
+import mergeRefs from "react-merge-refs"
 
 export type MeshParticleProps = Node<
   MeshParticlesImpl,
@@ -13,29 +14,26 @@ export type MeshParticleProps = Node<
 
 export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, modules = [], ...props }, ref) => {
-    const instance = useMemo(() => {
-      console.log("new MeshParticles")
-      return new MeshParticlesImpl()
-    }, [modules])
+    const [instance, setInstance] = useState<MeshParticlesImpl | null>(null)
 
     useEffect(() => {
-      instance.configureParticles(modules)
+      instance?.configureParticles(modules)
     }, [modules, instance])
 
     /* Advance time uniform every frame */
     useFrame((_, dt) => {
+      if (!instance) return
       instance.material.uniforms.u_time.value += dt
     })
 
-    /* Dispose on unmount */
-    useEffect(() => () => instance.dispose(), [])
-
     return (
-      <primitive object={instance} {...props} ref={ref}>
-        <ParticlesContext.Provider value={instance}>
-          {children}
-        </ParticlesContext.Provider>
-      </primitive>
+      <meshParticles {...props} ref={mergeRefs([ref, setInstance])}>
+        {instance && (
+          <ParticlesContext.Provider value={instance}>
+            {children}
+          </ParticlesContext.Provider>
+        )}
+      </meshParticles>
     )
   }
 )
