@@ -6,12 +6,8 @@ import { MeshParticles as MeshParticlesImpl, wobble } from "./v2/vanilla"
 export const ComposableFiber = () => {
   const ref = useRef<MeshParticlesImpl>(null!)
 
-  useEffect(() => {
-    ref.current.configureParticles([wobble])
-  }, [])
-
   return (
-    <MeshParticles ref={ref}>
+    <MeshParticles ref={ref} modules={[wobble]}>
       <sphereGeometry />
       <ParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
