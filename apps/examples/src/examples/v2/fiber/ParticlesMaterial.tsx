@@ -1,7 +1,7 @@
 import { Node } from "@react-three/fiber"
-import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
+import { forwardRef } from "react"
 import { CSMBaseMaterial } from "three-custom-shader-material/types"
-import { forwardRef, useMemo } from "react"
+import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
 
 export type ParticlesMaterialProps = Node<
   ParticlesMaterialImpl,
@@ -12,7 +12,5 @@ export const ParticlesMaterial = forwardRef<
   ParticlesMaterialImpl,
   ParticlesMaterialProps
 >(({ children, baseMaterial, ...props }, ref) => {
-  const args = useMemo(() => ({ baseMaterial }), [baseMaterial])
-
-  return <particlesMaterial args={[args]} {...props} ref={ref} />
+  return <particlesMaterial args={[{ baseMaterial }]} {...props} ref={ref} />
 })

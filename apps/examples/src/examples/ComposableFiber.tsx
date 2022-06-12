@@ -1,17 +1,10 @@
-import { useRef } from "react"
 import { MeshStandardMaterial } from "three"
 import { Emitter, MeshParticles, ParticlesMaterial } from "./v2/fiber"
-import {
-  makeShake,
-  MeshParticles as MeshParticlesImpl,
-  wobble
-} from "./v2/vanilla"
+import { makeShake, wobble } from "./v2/vanilla"
 
 export const ComposableFiber = () => {
-  const ref = useRef<MeshParticlesImpl>(null!)
-
   return (
-    <MeshParticles ref={ref} modules={[wobble, makeShake("x", 10, 5)]}>
+    <MeshParticles modules={[makeShake("x", 10, 5), wobble]}>
       <dodecahedronGeometry />
       <ParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
