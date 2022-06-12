@@ -18,7 +18,7 @@ export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
 
     useEffect(() => {
       instance.configureParticles(modules)
-    }, [])
+    }, [modules])
 
     /* Advance time uniform every frame */
     useFrame((_, dt) => {
