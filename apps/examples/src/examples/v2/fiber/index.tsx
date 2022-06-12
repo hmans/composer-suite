@@ -1,6 +1,4 @@
-import { extend, GroupProps, Node } from "@react-three/fiber"
-import { forwardRef } from "react"
-import { Group } from "three"
+import { extend, Node } from "@react-three/fiber"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
 import { MeshParticleProps } from "./MeshParticles"
@@ -25,7 +23,3 @@ extend({
   MeshParticles: MeshParticlesImpl,
   ParticlesMaterial: ParticlesMaterialImpl
 })
-
-export const VisualEffect = forwardRef<Group, GroupProps>((props, ref) => (
-  <group {...props} ref={ref} />
-))

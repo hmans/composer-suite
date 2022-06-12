@@ -1,7 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { MeshStandardMaterial } from "three"
-import { VisualEffect } from "three-vfx"
 import { MeshParticles } from "./v2/fiber"
 import { MeshParticles as MeshParticlesImpl, wobble } from "./v2/vanilla"
 
@@ -18,14 +17,12 @@ export const ComposableFiber = () => {
   })
 
   return (
-    <VisualEffect>
-      <MeshParticles ref={ref}>
-        <sphereGeometry />
-        <particlesMaterial
-          args={[{ baseMaterial: MeshStandardMaterial }]}
-          attach="material"
-        />
-      </MeshParticles>
-    </VisualEffect>
+    <MeshParticles ref={ref}>
+      <sphereGeometry />
+      <particlesMaterial
+        args={[{ baseMaterial: MeshStandardMaterial }]}
+        attach="material"
+      />
+    </MeshParticles>
   )
 }
