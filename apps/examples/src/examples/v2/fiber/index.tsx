@@ -4,6 +4,7 @@ import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/Particles
 import { MeshParticleProps } from "./MeshParticles"
 
 export * from "./context"
+export * from "./Emitter"
 export * from "./MeshParticles"
 export * from "./ParticlesMaterial"
 
