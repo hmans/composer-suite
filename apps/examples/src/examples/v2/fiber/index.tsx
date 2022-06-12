@@ -3,11 +3,9 @@ import { forwardRef } from "react"
 import { Group } from "three"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
+import { MeshParticleProps } from "./MeshParticles"
 
-export type MeshParticleProps = Node<
-  MeshParticlesImpl,
-  typeof MeshParticlesImpl
->
+export * from "./MeshParticles"
 
 export type ParticleMaterialProps = Node<
   ParticlesMaterialImpl,
