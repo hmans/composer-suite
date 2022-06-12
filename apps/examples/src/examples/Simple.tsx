@@ -1,5 +1,5 @@
 import { between, plusMinus, upTo } from "randomish"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, TextureLoader } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -7,6 +7,8 @@ import {
   Repeat,
   VisualEffect
 } from "three-vfx"
+
+const texture = new TextureLoader().load("/textures/particle.png")
 
 export const Simple = () => (
   <VisualEffect>
@@ -16,7 +18,7 @@ export const Simple = () => (
       <ParticlesMaterial
         baseMaterial={MeshStandardMaterial}
         billboard
-        color="white"
+        map={texture}
         transparent
         depthTest={true}
         depthWrite={false}
