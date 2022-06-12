@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
 import {
+  BufferGeometry,
   InstancedMesh,
   MeshStandardMaterial,
   Object3D,
@@ -44,61 +45,58 @@ const makeShake = (
   `
 })
 
-class ParticlesMaterial extends CustomShaderMaterial {
-  constructor(opts: iCSMParams, public modules: ShaderModule[] = []) {
-    super(opts)
-    this.update(this.generateShaders())
+class ParticlesMaterial extends CustomShaderMaterial {}
+
+const configureParticles = (
+  geometry: BufferGeometry,
+  material: ParticlesMaterial,
+  modules: ShaderModule[]
+) => {
+  const vertexShader = /*glsl*/ `
+  uniform float u_time;
+
+  ${modules.map(generateModuleFunction).join("\n")}
+
+  void main() {
+    /* Start with an origin offset */
+    vec3 offset = vec3(0.0, 0.0, 0.0);
+
+    /* Invoke custom chunks */
+    ${modules.map(generateModuleInvocation).join("\n")}
+
+    /* Apply the instance matrix. */
+    offset *= mat3(instanceMatrix);
+
+    /* Apply the offset */
+    csm_Position += offset;
+  }
+`
+
+  const fragmentShader = /*glsl*/ `
+`
+
+  const uniforms = {
+    u_time: { value: 0 }
   }
 
-  generateShaders() {
-    const vertexShader = /*glsl*/ `
-      uniform float u_time;
-
-      ${this.modules.map(generateModuleFunction).join("\n")}
-
-      void main() {
-        /* Start with an origin offset */
-        vec3 offset = vec3(0.0, 0.0, 0.0);
-
-        /* Invoke custom chunks */
-        ${this.modules.map(generateModuleInvocation).join("\n")}
-
-        /* Apply the instance matrix. */
-        offset *= mat3(instanceMatrix);
-
-        /* Apply the offset */
-        csm_Position += offset;
-      }
-    `
-
-    const fragmentShader = /*glsl*/ `
-    `
-
-    const uniforms = {
-      u_time: { value: 0 }
-    }
-
-    return { vertexShader, fragmentShader, uniforms }
-  }
+  material.update({ vertexShader, fragmentShader, uniforms })
 }
 
 export const Composable = () => {
-  // const configuration = [wobble, makeShake("x", 6, 8)]
-
   const material = useMemo(
     () =>
-      new ParticlesMaterial(
-        {
-          baseMaterial: new MeshStandardMaterial({ color: "white" })
-        },
-        [wobble, makeShake("x", 6, 8)]
-      ),
+      new ParticlesMaterial({
+        baseMaterial: new MeshStandardMaterial({ color: "white" })
+      }),
     []
   )
 
   const mesh = useMemo(() => {
     const geometry = new SphereGeometry()
     const mesh = new InstancedMesh(geometry, material, 1100)
+
+    configureParticles(geometry, material, [wobble, makeShake("x", 6, 8)])
+
     return mesh
   }, [])
 
