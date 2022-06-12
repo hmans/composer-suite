@@ -8,6 +8,7 @@ import {
   Vector3
 } from "three"
 import {
+  Delay,
   Emitter,
   MeshParticles,
   ParticlesMaterial,
@@ -24,7 +25,7 @@ export const Fog = () => {
 
   const setup: SpawnSetup = (c) => {
     c.position.copy(insideSphere(20) as Vector3)
-    c.velocity.randomDirection().multiplyScalar(between(0, 3))
+    c.velocity.randomDirection().multiplyScalar(between(0, 1))
     c.lifetime = 60
     c.scaleStart.setScalar(between(1, 50))
     c.scaleEnd.setScalar(0)
@@ -34,7 +35,7 @@ export const Fog = () => {
 
   return (
     <VisualEffect>
-      <MeshParticles maxParticles={50}>
+      <MeshParticles maxParticles={500}>
         <planeGeometry />
 
         <ParticlesMaterial
@@ -49,9 +50,11 @@ export const Fog = () => {
 
         <Emitter count={50} setup={setup} />
 
-        {/* <Repeat interval={3}>
-          <Emitter count={upTo(15)} setup={setup} />
-        </Repeat> */}
+        <Delay seconds={10}>
+          <Repeat interval={10}>
+            <Emitter count={10} setup={setup} />
+          </Repeat>
+        </Delay>
       </MeshParticles>
     </VisualEffect>
   )
