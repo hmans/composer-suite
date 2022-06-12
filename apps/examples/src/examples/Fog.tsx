@@ -14,7 +14,7 @@ import {
   Repeat,
   SpawnSetup,
   VisualEffect
-} from "vfx"
+} from "three-vfx"
 
 export const Fog = () => {
   const texture = useMemo(

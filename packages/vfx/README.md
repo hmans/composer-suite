@@ -9,7 +9,7 @@
 
 ## Introduction 👋
 
-`vfx` is a visual effects library for [react-three-fiber](https://github.com/pmndrs/react-three-fiber). It aims to be highly performant (with effects almost entirely simulated on the GPU) and easy to extend.
+`three-vfx` is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber). It aims to be highly performant (with effects almost entirely simulated on the GPU) and easy to extend.
 
 ## Status ⚠️
 

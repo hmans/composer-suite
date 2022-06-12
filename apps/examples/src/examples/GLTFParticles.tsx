@@ -7,7 +7,7 @@ import {
   ParticlesMaterial,
   Repeat,
   VisualEffect
-} from "vfx"
+} from "three-vfx"
 
 const offset = new Vector3(0, 10, 0)
 

@@ -1,5 +1,5 @@
 {
-  "name": "vfx",
+  "name": "three-vfx",
   "private": false,
   "author": {
     "name": "Hendrik Mans",
@@ -8,9 +8,9 @@
   },
   "description": "Visual FX!",
   "version": "0.0.13",
-  "main": "dist/vfx.cjs.js",
-  "module": "dist/vfx.esm.js",
-  "types": "dist/vfx.cjs.d.ts",
+  "main": "dist/three-vfx.cjs.js",
+  "module": "dist/three-vfx.esm.js",
+  "types": "dist/three-vfx.cjs.d.ts",
   "files": [
     "dist/**",
     "LICENSE",

@@ -6,7 +6,7 @@ import {
   ParticlesMaterial,
   Repeat,
   VisualEffect
-} from "vfx"
+} from "three-vfx"
 
 export const Simple = () => (
   <VisualEffect>
