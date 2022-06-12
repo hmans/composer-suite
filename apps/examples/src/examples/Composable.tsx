@@ -8,7 +8,6 @@ import {
   SphereGeometry
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
-import { iCSMParams } from "three-custom-shader-material/types"
 
 const tmpObj = new Object3D()
 
