@@ -44,42 +44,40 @@ const makeShake = (
   `
 })
 
-class ParticlesMaterial extends CustomShaderMaterial {}
+class MeshParticles extends InstancedMesh<BufferGeometry, ParticlesMaterial> {
+  configureParticles(modules: ShaderModule[]) {
+    const vertexShader = /*glsl*/ `
+    uniform float u_time;
 
-const configureParticles = (
-  geometry: BufferGeometry,
-  material: ParticlesMaterial,
-  modules: ShaderModule[]
-) => {
-  const vertexShader = /*glsl*/ `
-  uniform float u_time;
+    ${modules.map(generateModuleFunction).join("\n")}
 
-  ${modules.map(generateModuleFunction).join("\n")}
+    void main() {
+      /* Start with an origin offset */
+      vec3 offset = vec3(0.0, 0.0, 0.0);
 
-  void main() {
-    /* Start with an origin offset */
-    vec3 offset = vec3(0.0, 0.0, 0.0);
+      /* Invoke custom chunks */
+      ${modules.map(generateModuleInvocation).join("\n")}
 
-    /* Invoke custom chunks */
-    ${modules.map(generateModuleInvocation).join("\n")}
+      /* Apply the instance matrix. */
+      offset *= mat3(instanceMatrix);
 
-    /* Apply the instance matrix. */
-    offset *= mat3(instanceMatrix);
+      /* Apply the offset */
+      csm_Position += offset;
+    }
+  `
 
-    /* Apply the offset */
-    csm_Position += offset;
+    const fragmentShader = /*glsl*/ `
+  `
+
+    const uniforms = {
+      u_time: { value: 0 }
+    }
+
+    this.material.update({ vertexShader, fragmentShader, uniforms })
   }
-`
-
-  const fragmentShader = /*glsl*/ `
-`
-
-  const uniforms = {
-    u_time: { value: 0 }
-  }
-
-  material.update({ vertexShader, fragmentShader, uniforms })
 }
+
+class ParticlesMaterial extends CustomShaderMaterial {}
 
 export const Composable = () => {
   const material = useMemo(
@@ -92,9 +90,9 @@ export const Composable = () => {
 
   const mesh = useMemo(() => {
     const geometry = new SphereGeometry()
-    const mesh = new InstancedMesh(geometry, material, 1100)
+    const mesh = new MeshParticles(geometry, material, 1100)
 
-    configureParticles(geometry, material, [wobble, makeShake("x", 6, 8)])
+    mesh.configureParticles([wobble, makeShake("x", 6, 8)])
 
     return mesh
   }, [])
