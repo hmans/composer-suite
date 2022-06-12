@@ -1,5 +1,5 @@
 import { extend, Node } from "@react-three/fiber"
-import { FC, forwardRef } from "react"
+import { forwardRef } from "react"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 
 declare global {

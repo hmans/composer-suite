@@ -1,6 +1,6 @@
 import { extend, Node, useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
-import { MeshStandardMaterial, SphereGeometry } from "three"
+import { Material, MeshStandardMaterial, SphereGeometry } from "three"
 import {
   makeShake,
   MeshParticles,
@@ -31,6 +31,15 @@ export const ComposableVanilla = () => {
   useEffect(() => {
     mesh.spawnParticle()
   }, [mesh])
+
+  useEffect(
+    () => () => {
+      mesh.material.dispose()
+      mesh.geometry.dispose()
+      mesh.dispose()
+    },
+    []
+  )
 
   return <primitive object={mesh} />
 }

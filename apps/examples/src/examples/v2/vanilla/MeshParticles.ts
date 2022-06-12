@@ -14,6 +14,8 @@ export class MeshParticles extends InstancedMesh<
   BufferGeometry,
   ParticlesMaterial
 > {
+  public maxParticles: number
+
   constructor(
     geometry?: BufferGeometry,
     material?: ParticlesMaterial,
@@ -21,6 +23,7 @@ export class MeshParticles extends InstancedMesh<
     safetyParticles = 100
   ) {
     super(geometry, material, maxParticles + safetyParticles)
+    this.maxParticles = maxParticles
   }
 
   spawnParticles(count: number, setup?: ParticleSetupFunction) {
