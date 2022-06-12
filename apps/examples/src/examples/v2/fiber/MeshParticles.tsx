@@ -14,12 +14,7 @@ export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, ...props }, ref) => {
     const instance = useConstant(() => new MeshParticlesImpl())
 
-    useEffect(
-      () => () => {
-        instance.dispose()
-      },
-      []
-    )
+    useEffect(() => () => instance.dispose(), [])
 
     return (
       <primitive object={instance} {...props} ref={ref}>
