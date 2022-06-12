@@ -1,45 +1,19 @@
-import { useTexture } from "@react-three/drei"
-import { between, plusMinus, upTo } from "randomish"
-import { MeshStandardMaterial, TextureLoader } from "three"
-import {
-  Emitter,
-  MeshParticles,
-  ParticlesMaterial,
-  Repeat,
-  VisualEffect
-} from "three-vfx"
-
-const globalTexture = new TextureLoader().load("/textures/particle.png")
+import { useMemo } from "react"
+import { Mesh, MeshStandardMaterial, SphereGeometry } from "three"
+import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 
 export const Composable = () => {
-  return (
-    <VisualEffect>
-      <MeshParticles>
-        <planeGeometry />
+  const effect = useMemo(() => {
+    const geometry = new SphereGeometry()
 
-        <ParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          billboard
-          color="orange"
-          map={globalTexture}
-          transparent
-          depthTest={true}
-          depthWrite={false}
-        />
+    const material = new CustomShaderMaterial({
+      baseMaterial: new MeshStandardMaterial({ color: "white" })
+    })
 
-        <Repeat times={Infinity} interval={1 / 40}>
-          <Emitter
-            count={5}
-            setup={(c) => {
-              c.velocity
-                .set(plusMinus(1), upTo(1), plusMinus(1))
-                .multiplyScalar(between(1, 5))
+    const mesh = new Mesh(geometry, material)
 
-              c.lifetime = between(0.5, 2.5)
-            }}
-          />
-        </Repeat>
-      </MeshParticles>
-    </VisualEffect>
-  )
+    return mesh
+  }, [])
+
+  return <primitive object={effect} />
 }
