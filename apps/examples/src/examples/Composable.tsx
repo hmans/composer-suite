@@ -11,6 +11,10 @@ import { iCSMParams } from "three-custom-shader-material/types"
 
 const tmpObj = new Object3D()
 
+type ShaderModule = {
+  chunk: string
+}
+
 class ParticlesMaterial extends CustomShaderMaterial {
   constructor(opts: iCSMParams) {
     super(opts)
@@ -18,13 +22,30 @@ class ParticlesMaterial extends CustomShaderMaterial {
   }
 
   generateShaders() {
+    const wobble: ShaderModule = {
+      chunk: /*glsl*/ `
+        offset.y += 8.0 + cos(u_time * 13.0) * 2.0;
+        offset.x += 0.0 + sin(u_time * 7.0) * 2.0;
+        offset.z += 0.0 + cos(u_time * 5.0) * 2.0;
+      `
+    }
+
+    const configuration = [wobble]
+
     const vertexShader = /*glsl*/ `
       uniform float u_time;
 
       void main() {
-        csm_Position.y += 8.0 + cos(u_time * 13.0) * 2.0;
-        csm_Position.x += 0.0 + sin(u_time * 7.0) * 2.0;
-        csm_Position.z += 0.0 + cos(u_time * 5.0) * 2.0;
+        /* Start with an origin offset */
+        vec3 offset = vec3(0.0, 0.0, 0.0);
+
+        ${configuration.map((m) => m.chunk)}
+
+        /* Apply the instance matrix. */
+        offset *= mat3(instanceMatrix);
+
+        /* Apply the offset */
+        csm_Position += offset;
       }
     `
 
