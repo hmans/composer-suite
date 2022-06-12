@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { Composable } from "./Composable"
 import { Explosion } from "./Explosion"
 import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
@@ -11,6 +12,7 @@ export type ExampleDefinition = {
 }
 
 export default [
+  { path: "composable", name: "Composable", component: <Composable /> },
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "explosion", name: "Explosion", component: <Explosion /> },
   { path: "fog", name: "Fog", component: <Fog /> },
