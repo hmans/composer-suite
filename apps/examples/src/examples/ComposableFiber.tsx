@@ -1,7 +1,24 @@
+import { extend, Node } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { MeshStandardMaterial } from "three"
 import { MeshParticles } from "./v2/fiber"
-import { MeshParticles as MeshParticlesImpl } from "./v2/vanilla"
+import {
+  MeshParticles as MeshParticlesImpl,
+  ParticlesMaterial as ParticlesMaterialImpl
+} from "./v2/vanilla"
+
+extend({ ParticlesMaterial: ParticlesMaterialImpl })
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      particlesMaterial: Node<
+        ParticlesMaterialImpl,
+        typeof ParticlesMaterialImpl
+      >
+    }
+  }
+}
 
 export const ComposableFiber = () => {
   const ref = useRef<MeshParticlesImpl>(null!)

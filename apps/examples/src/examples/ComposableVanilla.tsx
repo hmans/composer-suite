@@ -1,13 +1,13 @@
-import { extend, Node, useFrame } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
-import { Material, MeshStandardMaterial, SphereGeometry } from "three"
+import { MeshStandardMaterial, SphereGeometry } from "three"
+import "./v2/fiber"
 import {
   makeShake,
   MeshParticles,
   ParticlesMaterial,
   wobble
 } from "./v2/vanilla"
-import "./v2/fiber"
 
 export const ComposableVanilla = () => {
   /* Create mesh, using vanilla imperative code */
@@ -42,14 +42,4 @@ export const ComposableVanilla = () => {
   )
 
   return <primitive object={mesh} />
-}
-
-extend({ ParticlesMaterial })
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      particlesMaterial: Node<ParticlesMaterial, typeof ParticlesMaterial>
-    }
-  }
 }
