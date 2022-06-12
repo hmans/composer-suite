@@ -6,7 +6,7 @@ export const Emitter = () => {
 
   useEffect(() => {
     particles.spawnParticle()
-  }, [])
+  }, [particles])
 
   return null
 }

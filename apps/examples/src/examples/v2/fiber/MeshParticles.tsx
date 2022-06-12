@@ -1,9 +1,8 @@
 import { Node, useFrame } from "@react-three/fiber"
-import { forwardRef, useEffect } from "react"
+import { forwardRef, useEffect, useMemo } from "react"
 import { ShaderModule } from "../vanilla"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesContext } from "./context"
-import { useConstant } from "./util/useConstant"
 
 export type MeshParticleProps = Node<
   MeshParticlesImpl,
@@ -14,11 +13,14 @@ export type MeshParticleProps = Node<
 
 export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, modules = [], ...props }, ref) => {
-    const instance = useConstant(() => new MeshParticlesImpl())
+    const instance = useMemo(() => {
+      console.log("new MeshParticles")
+      return new MeshParticlesImpl()
+    }, [modules])
 
     useEffect(() => {
       instance.configureParticles(modules)
-    }, [modules])
+    }, [modules, instance])
 
     /* Advance time uniform every frame */
     useFrame((_, dt) => {

@@ -12,7 +12,7 @@ export const ComposableFiber = () => {
 
   return (
     <MeshParticles ref={ref} modules={[wobble, makeShake("x", 10, 5)]}>
-      <sphereGeometry />
+      <dodecahedronGeometry />
       <ParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
       <Emitter />
