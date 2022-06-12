@@ -1,3 +1,4 @@
+import { useTexture } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
 import { MeshStandardMaterial, TextureLoader } from "three"
 import {
@@ -8,34 +9,38 @@ import {
   VisualEffect
 } from "three-vfx"
 
-const texture = new TextureLoader().load("/textures/particle.png")
+const globalTexture = new TextureLoader().load("/textures/particle.png")
 
-export const Simple = () => (
-  <VisualEffect>
-    <MeshParticles>
-      <planeGeometry />
+export const Simple = () => {
+  // const texture = useTexture("/textures/particle.png")
 
-      <ParticlesMaterial
-        baseMaterial={MeshStandardMaterial}
-        billboard
-        map={texture}
-        transparent
-        depthTest={true}
-        depthWrite={false}
-      />
+  return (
+    <VisualEffect>
+      <MeshParticles>
+        <planeGeometry />
 
-      <Repeat times={Infinity} interval={1 / 40}>
-        <Emitter
-          count={5}
-          setup={(c) => {
-            c.velocity
-              .set(plusMinus(1), upTo(1), plusMinus(1))
-              .multiplyScalar(between(1, 5))
-
-            c.lifetime = between(0.5, 2.5)
-          }}
+        <ParticlesMaterial
+          baseMaterial={MeshStandardMaterial}
+          billboard
+          map={globalTexture}
+          transparent
+          depthTest={true}
+          depthWrite={false}
         />
-      </Repeat>
-    </MeshParticles>
-  </VisualEffect>
-)
+
+        <Repeat times={Infinity} interval={1 / 40}>
+          <Emitter
+            count={5}
+            setup={(c) => {
+              c.velocity
+                .set(plusMinus(1), upTo(1), plusMinus(1))
+                .multiplyScalar(between(1, 5))
+
+              c.lifetime = between(0.5, 2.5)
+            }}
+          />
+        </Repeat>
+      </MeshParticles>
+    </VisualEffect>
+  )
+}
