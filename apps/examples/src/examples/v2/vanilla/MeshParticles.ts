@@ -14,6 +14,15 @@ export class MeshParticles extends InstancedMesh<
   BufferGeometry,
   ParticlesMaterial
 > {
+  constructor(
+    geometry?: BufferGeometry,
+    material?: ParticlesMaterial,
+    maxParticles = 1000,
+    safetyParticles = 100
+  ) {
+    super(geometry, material, maxParticles + safetyParticles)
+  }
+
   spawnParticles(count: number, setup?: ParticleSetupFunction) {
     for (let i = 0; i < count; i++) {
       /* Spawn a single particle */
