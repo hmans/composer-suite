@@ -22,7 +22,9 @@ class ParticlesMaterial extends CustomShaderMaterial {
       uniform float u_time;
 
       void main() {
-        csm_Position.y += u_time;
+        csm_Position.y += 8.0 + cos(u_time * 13.0) * 2.0;
+        csm_Position.x += 0.0 + sin(u_time * 7.0) * 2.0;
+        csm_Position.z += 0.0 + cos(u_time * 5.0) * 2.0;
       }
     `
 
