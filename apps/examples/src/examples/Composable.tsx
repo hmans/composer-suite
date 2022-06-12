@@ -40,14 +40,20 @@ class ParticlesMaterial extends CustomShaderMaterial {
       `
     }
 
-    const makeShake = (frequency = 1.234, amplitude = 1): ShaderModule => ({
+    const makeShake = (
+      axis: "x" | "y" | "z",
+      frequency = 1.234,
+      amplitude = 1
+    ): ShaderModule => ({
       name: "shake_48932749", // needs to be unique, will automate this
       chunk: /*glsl*/ `
-        offset.x += cos(u_time * ${float(frequency)}) * ${float(amplitude)};
+        offset.${axis} += cos(u_time * ${float(frequency)}) * ${float(
+        amplitude
+      )};
       `
     })
 
-    const configuration = [wobble, makeShake(6, 8)]
+    const configuration = [wobble, makeShake("x", 6, 8)]
 
     const vertexShader = /*glsl*/ `
       uniform float u_time;
