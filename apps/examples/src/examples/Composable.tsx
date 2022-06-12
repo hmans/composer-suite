@@ -1,19 +1,40 @@
-import { useMemo } from "react"
-import { Mesh, MeshStandardMaterial, SphereGeometry } from "three"
+import { useEffect, useMemo } from "react"
+import {
+  InstancedMesh,
+  Mesh,
+  MeshStandardMaterial,
+  Object3D,
+  SphereGeometry
+} from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 
+const tmpObj = new Object3D()
+
 export const Composable = () => {
-  const effect = useMemo(() => {
+  const mesh = useMemo(() => {
+    /* Geometry */
     const geometry = new SphereGeometry()
 
+    /* Material */
     const material = new CustomShaderMaterial({
       baseMaterial: new MeshStandardMaterial({ color: "white" })
     })
 
-    const mesh = new Mesh(geometry, material)
+    /* Mesh */
+    const mesh = new InstancedMesh(geometry, material, 1100)
 
     return mesh
   }, [])
 
-  return <primitive object={effect} />
+  useEffect(() => {
+    /* Spawn a single particle */
+    tmpObj.position.set(0, 0, 0)
+    tmpObj.quaternion.set(0, 0, 0, 1)
+    tmpObj.scale.setScalar(1)
+
+    mesh.setMatrixAt(0, tmpObj.matrix)
+    mesh.count = 1
+  }, [mesh])
+
+  return <primitive object={mesh} />
 }
