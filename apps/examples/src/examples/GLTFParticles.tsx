@@ -23,7 +23,7 @@ export const GLTFParticles = () => {
 
         <Repeat interval={1}>
           <Emitter
-            count={30}
+            count={8}
             setup={(c) => {
               c.quaternion.setFromEuler(
                 new Euler(
