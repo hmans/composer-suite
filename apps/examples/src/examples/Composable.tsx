@@ -11,15 +11,11 @@ import {
 const tmpObj = new Object3D()
 
 export const ComposableVanilla = () => {
-  const material = useMemo(
-    () =>
-      new ParticlesMaterial({
-        baseMaterial: new MeshStandardMaterial({ color: "white" })
-      }),
-    []
-  )
-
+  /* Create mesh, using vanilla imperative code */
   const mesh = useMemo(() => {
+    const material = new ParticlesMaterial({
+      baseMaterial: new MeshStandardMaterial({ color: "white" })
+    })
     const geometry = new SphereGeometry()
     const mesh = new MeshParticles(geometry, material, 1100)
 
@@ -30,7 +26,7 @@ export const ComposableVanilla = () => {
 
   /* Animate */
   useFrame((_, dt) => {
-    material.uniforms.u_time.value += dt
+    mesh.material.uniforms.u_time.value += dt
   })
 
   useEffect(() => {
