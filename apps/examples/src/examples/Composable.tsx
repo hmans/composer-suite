@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber"
+import { extend, Node, useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
 import { MeshStandardMaterial, Object3D, SphereGeometry } from "three"
 import {
@@ -46,6 +46,22 @@ export const ComposableVanilla = () => {
   return <primitive object={mesh} />
 }
 
+extend({ MeshParticles, ParticlesMaterial })
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      meshParticles: Node<MeshParticles, typeof MeshParticles>
+      particlesMaterial: Node<ParticlesMaterial, typeof ParticlesMaterial>
+    }
+  }
+}
+
 export const ComposableFiber = () => {
-  return <group />
+  return (
+    <meshParticles>
+      <sphereGeometry />
+      <particlesMaterial args={[{ baseMaterial: MeshStandardMaterial }]} />
+    </meshParticles>
+  )
 }
