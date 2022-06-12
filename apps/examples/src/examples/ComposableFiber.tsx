@@ -1,10 +1,11 @@
-import { extend, Node } from "@react-three/fiber"
+import { extend, Node, useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { MeshStandardMaterial } from "three"
 import { MeshParticles } from "./v2/fiber"
 import {
   MeshParticles as MeshParticlesImpl,
-  ParticlesMaterial as ParticlesMaterialImpl
+  ParticlesMaterial as ParticlesMaterialImpl,
+  wobble
 } from "./v2/vanilla"
 
 extend({ ParticlesMaterial: ParticlesMaterialImpl })
@@ -25,6 +26,11 @@ export const ComposableFiber = () => {
 
   useEffect(() => {
     ref.current.spawnParticle()
+    ref.current.configureParticles([wobble])
+  })
+
+  useFrame((_, dt) => {
+    ref.current.material.uniforms.u_time.value += dt
   })
 
   return (
