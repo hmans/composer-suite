@@ -1,3 +1,4 @@
+import { useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
 import {
   InstancedMesh,
@@ -12,20 +13,37 @@ const tmpObj = new Object3D()
 class ParticlesMaterial extends CustomShaderMaterial {}
 
 export const Composable = () => {
-  const mesh = useMemo(() => {
-    /* Geometry */
-    const geometry = new SphereGeometry()
+  const material = useMemo(
+    () =>
+      new ParticlesMaterial({
+        baseMaterial: new MeshStandardMaterial({ color: "white" }),
+        uniforms: {
+          u_time: { value: 0 }
+        },
+        vertexShader: /*glsl*/ `
+    uniform float u_time;
 
-    /* Material */
-    const material = new ParticlesMaterial({
-      baseMaterial: new MeshStandardMaterial({ color: "white" })
-    })
+    void main() {
+      csm_Position.y += u_time;
+    }
+    `
+      }),
+    []
+  )
+
+  const mesh = useMemo(() => {
+    const geometry = new SphereGeometry()
 
     /* Mesh */
     const mesh = new InstancedMesh(geometry, material, 1100)
 
     return mesh
   }, [])
+
+  /* Animate */
+  useFrame((_, dt) => {
+    material.uniforms.u_time.value += dt
+  })
 
   useEffect(() => {
     /* Spawn a single particle */
