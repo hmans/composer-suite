@@ -50,7 +50,7 @@ export const RenderPipeline = () => {
       )}
       <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
         <unrealBloomPass
-          args={[new Vector2(512, 512), 2, 0.05, 1]}
+          args={[new Vector2(512, 512), 1.5, 0.1, 1]}
           enabled={bloom}
         />
         <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />

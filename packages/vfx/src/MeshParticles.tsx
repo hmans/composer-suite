@@ -57,7 +57,7 @@ export const useParticles = () => useContext(ParticlesContext)
 
 export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   (
-    { maxParticles = 1_000, safetySize = 100, children, material, ...props },
+    { maxParticles = 1_000, safetySize = 100, children, geometry, ...props },
     ref
   ) => {
     /* The safetySize allows us to emit a batch of particles that would otherwise
@@ -216,7 +216,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     return (
       <instancedMesh
         ref={mergeRefs([imesh, ref])}
-        args={[undefined, material, maxInstanceCount]}
+        args={[geometry, undefined, maxInstanceCount]}
         {...props}
       >
         <ParticlesContext.Provider value={{ spawnParticle }}>
