@@ -10,7 +10,7 @@
   "version": "0.0.13",
   "main": "dist/three-vfx.cjs.js",
   "module": "dist/three-vfx.esm.js",
-  "types": "dist/vfx.cjs.d.ts",
+  "types": "dist/three-vfx.cjs.d.ts",
   "files": [
     "dist/**",
     "LICENSE",
