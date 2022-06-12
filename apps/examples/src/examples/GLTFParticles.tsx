@@ -26,9 +26,9 @@ export const GLTFParticles = () => {
             count={30}
             setup={(c) => {
               c.quaternion.setFromEuler(new Euler(0, -Math.PI / 2, 0))
-              c.position.set(-40, between(2, 18), plusMinus(16))
+              c.position.set(-60, between(2, 18), plusMinus(16))
 
-              c.velocity.set(between(10, 70), 0, 0)
+              c.velocity.set(between(10, 70), plusMinus(2), plusMinus(2))
 
               c.delay = upTo(1)
               c.lifetime = 20
