@@ -1,14 +1,13 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { MeshStandardMaterial } from "three"
-import { MeshParticles, ParticlesMaterial } from "./v2/fiber"
+import { MeshParticles, ParticlesMaterial, useParticles } from "./v2/fiber"
 import { MeshParticles as MeshParticlesImpl, wobble } from "./v2/vanilla"
 
 export const ComposableFiber = () => {
   const ref = useRef<MeshParticlesImpl>(null!)
 
   useEffect(() => {
-    ref.current.spawnParticle()
     ref.current.configureParticles([wobble])
   }, [])
 
@@ -20,6 +19,18 @@ export const ComposableFiber = () => {
     <MeshParticles ref={ref}>
       <sphereGeometry />
       <ParticlesMaterial baseMaterial={MeshStandardMaterial} />
+
+      <Emitter />
     </MeshParticles>
   )
+}
+
+const Emitter = () => {
+  const particles = useParticles()
+
+  useEffect(() => {
+    particles.spawnParticle()
+  }, [])
+
+  return null
 }

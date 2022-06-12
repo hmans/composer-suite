@@ -1,14 +1,13 @@
 import { Node } from "@react-three/fiber"
-import { createContext, forwardRef, useEffect } from "react"
+import { forwardRef, useEffect } from "react"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
+import { ParticlesContext } from "./context"
 import { useConstant } from "./util/useConstant"
 
 export type MeshParticleProps = Node<
   MeshParticlesImpl,
   typeof MeshParticlesImpl
 >
-
-const ParticlesContext = createContext<MeshParticlesImpl>(null!)
 
 export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, ...props }, ref) => {

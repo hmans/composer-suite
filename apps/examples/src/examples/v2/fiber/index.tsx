@@ -3,6 +3,7 @@ import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../vanilla/ParticlesMaterial"
 import { MeshParticleProps } from "./MeshParticles"
 
+export * from "./context"
 export * from "./MeshParticles"
 export * from "./ParticlesMaterial"
 
