@@ -7,6 +7,7 @@ import {
   ParticlesMaterial,
   wobble
 } from "./v2/vanilla"
+import "./v2/fiber"
 
 export const ComposableVanilla = () => {
   /* Create mesh, using vanilla imperative code */
@@ -34,22 +35,12 @@ export const ComposableVanilla = () => {
   return <primitive object={mesh} />
 }
 
-extend({ MeshParticles, ParticlesMaterial })
+extend({ ParticlesMaterial })
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      meshParticles: Node<MeshParticles, typeof MeshParticles>
       particlesMaterial: Node<ParticlesMaterial, typeof ParticlesMaterial>
     }
   }
-}
-
-export const ComposableFiber = () => {
-  return (
-    <meshParticles>
-      <sphereGeometry />
-      <particlesMaterial args={[{ baseMaterial: MeshStandardMaterial }]} />
-    </meshParticles>
-  )
 }

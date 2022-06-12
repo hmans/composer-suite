@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
-import { ComposableVanilla, ComposableFiber } from "./Composable"
+import { ComposableVanilla } from "./ComposableVanilla"
+import { ComposableFiber } from "./ComposableFiber"
 import { Explosion } from "./Explosion"
 import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
