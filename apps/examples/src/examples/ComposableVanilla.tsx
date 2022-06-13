@@ -1,7 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useMemo } from "react"
 import { MeshStandardMaterial, SphereGeometry } from "three"
-import "./v2/fiber"
 import {
   makeShake,
   MeshParticles,
