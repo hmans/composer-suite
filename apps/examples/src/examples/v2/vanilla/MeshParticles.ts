@@ -43,7 +43,6 @@ export class MeshParticles extends InstancedMesh<
   }
 
   configureParticles(modules: ShaderModule[]) {
-    console.log("configureParticles")
     const vertexShader = /*glsl*/ `
     uniform float u_time;
 
