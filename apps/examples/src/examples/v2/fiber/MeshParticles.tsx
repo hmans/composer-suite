@@ -1,5 +1,5 @@
 import { Node, useFrame } from "@react-three/fiber"
-import { forwardRef, useEffect, useState } from "react"
+import { forwardRef, useEffect, useLayoutEffect, useState } from "react"
 import mergeRefs from "react-merge-refs"
 import { ShaderModule } from "../vanilla"
 import { MeshParticles as MeshParticlesImpl } from "../vanilla/MeshParticles"
@@ -16,13 +16,13 @@ export const MeshParticles = forwardRef<MeshParticlesImpl, MeshParticleProps>(
   ({ children, modules = [], ...props }, ref) => {
     const [instance, setInstance] = useState<MeshParticlesImpl | null>(null)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (!instance) return
       instance.configureParticles(modules)
     }, [instance, modules])
 
     /* Advance time uniform every frame */
-    useFrame(({ clock }, dt) => {
+    useFrame((_, dt) => {
       if (!instance) return
       instance.material.uniforms.u_time.value += dt
     })
