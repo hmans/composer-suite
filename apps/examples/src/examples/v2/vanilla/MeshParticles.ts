@@ -37,7 +37,6 @@ export class MeshParticles extends InstancedMesh<
       this.setMatrixAt(0, tmpObj.matrix)
 
       /* Write time values */
-      console.log(this.geometry.attributes)
       this.geometry.attributes.time.setXY(0, 0, 1)
 
       this.count = 1
