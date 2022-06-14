@@ -7,15 +7,23 @@ export const ShaderMakerTest = () => {
     fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(1.0, 0.3, 0.5, 1.0);`
   })
 
-  const shaders = compileShader(pretty)
+  const ugly = makeShaderModule({
+    fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(0.0, 0.0, 0.0, 1.0);`
+  })
 
-  console.log(shaders.vertexShader)
-  console.log(shaders.fragmentShader)
+  const { vertexShader, fragmentShader } = compileShader(pretty, ugly)
+
+  console.log(vertexShader)
+  console.log(fragmentShader)
 
   return (
     <mesh position-y={8} scale={6}>
       <sphereGeometry />
-      <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shaders} />
+      <CustomShaderMaterial
+        baseMaterial={MeshStandardMaterial}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+      />
     </mesh>
   )
 }
