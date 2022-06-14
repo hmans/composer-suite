@@ -1,16 +1,13 @@
 import CustomShaderMaterial from "three-custom-shader-material"
 import { MeshStandardMaterial } from "three"
-import { compileShader, ShaderModule } from "three-shadermaker"
+import { compileShader, makeShaderModule } from "three-shadermaker"
 
 export const ShaderMakerTest = () => {
-  const config: ShaderModule = {
-    fragmentHeader: "",
-    fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(1.0, 0.3, 0.5, 1.0);`,
-    vertexHeader: "",
-    vertexMain: ""
-  }
+  const pretty = makeShaderModule({
+    fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(1.0, 0.3, 0.5, 1.0);`
+  })
 
-  const shaders = compileShader(config)
+  const shaders = compileShader(pretty)
 
   console.log(shaders.vertexShader)
   console.log(shaders.fragmentShader)
