@@ -20,17 +20,17 @@ const makeTime = () =>
 const makeBillboard = () =>
   makeShaderModule({
     vertexHeader: `
-    vec3 billboard(vec2 v, mat4 view){
-      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
-      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
-      vec3 p = right * v.x + up * v.y;
-      return p;
-    }
-  `,
+      vec3 billboard(vec2 v, mat4 view){
+        vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
+        vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
+        vec3 p = right * v.x + up * v.y;
+        return p;
+      }
+    `,
 
     vertexMain: /*glsl*/ `
-    csm_Position = billboard(csm_Position.xy, viewMatrix);
-  `
+      csm_Position = billboard(csm_Position.xy, viewMatrix);
+    `
   })
 
 const makeLifetime = () =>
@@ -47,7 +47,7 @@ const makeLifetime = () =>
     `,
 
     fragmentMain: `
-      /* Lifetime management: discard this instance if it is not in the current time range */
+      /* Discard this instance if it is not in the current time range */
       if (u_time < v_timeStart || u_time > v_timeEnd) {
         discard;
       }
@@ -56,22 +56,14 @@ const makeLifetime = () =>
 
 const animateColor = () =>
   makeShaderModule({
+    varyings: {
+      v_colorStart: { type: "vec4", value: "colorStart" },
+      v_colorEnd: { type: "vec4", value: "colorEnd" }
+    },
+
     vertexHeader: `
       attribute vec4 colorStart;
       attribute vec4 colorEnd;
-
-      varying vec4 v_colorStart;
-      varying vec4 v_colorEnd;
-    `,
-
-    vertexMain: `
-      v_colorStart = colorStart;
-      v_colorEnd = colorEnd;
-    `,
-
-    fragmentHeader: `
-      varying vec4 v_colorStart;
-      varying vec4 v_colorEnd;
     `,
 
     fragmentMain: `
