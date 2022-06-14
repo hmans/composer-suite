@@ -8,16 +8,12 @@ import { compileShader, float, makeShaderModule } from "../../shadermaker"
 
 /* Varyings */
 const varyings = /*glsl*/ `
-varying vec4 v_colorStart;
-varying vec4 v_colorEnd;
 `
 
 /* Attributes */
 const attributes = /*glsl*/ `
 attribute vec3 velocity;
 attribute vec3 acceleration;
-attribute vec4 colorStart;
-attribute vec4 colorEnd;
 attribute vec3 scaleStart;
 attribute vec3 scaleEnd;
 `
@@ -71,6 +67,40 @@ const makeLifetime = () =>
     `
   })
 
+const makeColor = () =>
+  makeShaderModule({
+    vertexHeader: `
+      attribute vec4 colorStart;
+      attribute vec4 colorEnd;
+
+      varying vec4 v_colorStart;
+      varying vec4 v_colorEnd;
+    `,
+
+    vertexMain: `
+      v_colorStart = colorStart;
+      v_colorEnd = colorEnd;
+    `,
+
+    fragmentHeader: `
+      varying vec4 v_colorStart;
+      varying vec4 v_colorEnd;
+    `,
+
+    fragmentMain: `
+      /* Get diffuse color */
+      vec4 diffuse4 = vec4(diffuse, 1.0);
+
+      /* Apply the diffuse color */
+      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
+
+      /* Mix in the texture */
+      #ifdef USE_MAP
+        csm_DiffuseColor *= texture2D(map, vUv);
+      #endif
+    `
+  })
+
 const makeLegacyShader = () =>
   makeShaderModule({
     uniforms: {
@@ -85,9 +115,6 @@ const makeLegacyShader = () =>
   `,
 
     vertexMain: `
-    v_colorStart = colorStart;
-    v_colorEnd = colorEnd;
-
     /* Apply scale */
     csm_Position *= mix(scaleStart, scaleEnd, v_progress);
 
@@ -103,19 +130,6 @@ const makeLegacyShader = () =>
 
     fragmentHeader: `
     ${varyings}
-  `,
-
-    fragmentMain: `
-    /* Get diffuse color */
-    vec4 diffuse4 = vec4(diffuse, 1.0);
-
-    /* Apply the diffuse color */
-    csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
-
-    /* Mix in the texture */
-    #ifdef USE_MAP
-      csm_DiffuseColor *= texture2D(map, vUv);
-    #endif
   `,
 
     frameCallback: (material, dt) => {
@@ -135,6 +149,7 @@ export const ParticlesMaterial = forwardRef<
 
   const { callback, ...shader } = compileShader(
     makeLifetime(),
+    makeColor(),
     billboard && makeBillboard(),
     makeLegacyShader()
   )
