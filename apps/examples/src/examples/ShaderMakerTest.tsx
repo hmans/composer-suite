@@ -12,6 +12,9 @@ export const ShaderMakerTest = () => {
 
   const shaders = compileShader(config)
 
+  console.log(shaders.vertexShader)
+  console.log(shaders.fragmentShader)
+
   return (
     <mesh position-y={8} scale={6}>
       <sphereGeometry />

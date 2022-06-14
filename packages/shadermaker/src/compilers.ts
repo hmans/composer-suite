@@ -4,7 +4,7 @@ export function compileShader(...modules: ShaderModule[]) {
   const vertexShader = /*glsl*/ `
   ${compileChunks(
     modules.map((m) => m.vertexHeader),
-    true
+    false
   )}
 
   void main() {
@@ -18,7 +18,7 @@ export function compileShader(...modules: ShaderModule[]) {
   const fragmentShader = /*glsl*/ `
   ${compileChunks(
     modules.map((m) => m.fragmentHeader),
-    true
+    false
   )}
 
   void main() {
@@ -37,5 +37,5 @@ export function compileChunks(chunks: Chunk[], wrap = false) {
 }
 
 function compileChunk(chunk: Chunk, wrap = false) {
-  return wrap ? `\n${chunk}\n` : chunk
+  return wrap ? `\n{\n${chunk}\n}\n` : chunk
 }
