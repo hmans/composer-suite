@@ -2,7 +2,7 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 export type Chunk = string
 
-export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4"
+export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4" | "bool"
 
 export type Uniform = {
   type: GLSLType
