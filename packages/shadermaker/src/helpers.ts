@@ -14,4 +14,5 @@ export const makeShaderModule = (
   ...config
 })
 
-export const float = (v: number) => v.toFixed(5)
+export const float = (v: number | string) =>
+  typeof v === "number" ? v.toFixed(5) : v

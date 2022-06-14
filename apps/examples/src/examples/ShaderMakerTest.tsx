@@ -49,6 +49,16 @@ const wobbleScale = () =>
   `
   })
 
+type FresnelProps = {
+  color?: string
+  alpha?: number | string
+  bias?: number | string
+  intensity?: number | string
+  power?: number | string
+  factor?: number | string
+  target?: string
+}
+
 const makeStaticFresnel = ({
   color = "vec3(1.0)",
   alpha = 1,
@@ -57,7 +67,7 @@ const makeStaticFresnel = ({
   power = 2,
   factor = 1,
   target = "csm_FragColor"
-} = {}) =>
+}: FresnelProps = {}) =>
   makeShaderModule({
     varyings: {
       v_worldPosition: {
@@ -72,28 +82,35 @@ const makeStaticFresnel = ({
     },
 
     fragmentMain: `
-    float f_a = (${float(factor)}  + dot(v_worldPosition, v_worldNormal));
-    float f_fresnel = ${float(bias)} + ${float(
+      float f_a = (${float(factor)}  + dot(v_worldPosition, v_worldNormal));
+      float f_fresnel = ${float(bias)} + ${float(
       intensity
     )} * pow(abs(f_a), ${float(power)});
-    f_fresnel = clamp(f_fresnel, 0.0, 1.0);
-    ${target} = vec4(f_fresnel * ${color}, ${float(alpha)});
-  `
+      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+      ${target} = vec4(f_fresnel * ${color}, ${float(alpha)});
+    `
   })
 
-// const makeFresnel = () =>
-//   makeShaderModule({
-//     ...makeStaticFresnel(),
+const makeDynamicFresnel = () =>
+  makeShaderModule({
+    ...makeStaticFresnel({
+      color: "u_color",
+      alpha: "u_alpha",
+      bias: "u_bias",
+      intensity: "u_intensity",
+      power: "u_power",
+      factor: "u_factor"
+    }),
 
-//     uniforms: {
-//       u_color: { type: "vec3", value: new Color("white") },
-//       u_alpha: { type: "float", value: 1 },
-//       u_bias: { type: "float", value: 0.1 },
-//       u_intensity: { type: "float", value: 1 },
-//       u_power: { type: "float", value: 2 },
-//       u_factor: { type: "float", value: 1 }
-//     },
-//   })
+    uniforms: {
+      u_color: { type: "vec3", value: new Color("white") },
+      u_alpha: { type: "float", value: 1 },
+      u_bias: { type: "float", value: 0.1 },
+      u_intensity: { type: "float", value: 1 },
+      u_power: { type: "float", value: 2 },
+      u_factor: { type: "float", value: 1 }
+    }
+  })
 
 export const ShaderMakerTest = () => {
   const material = useRef<CustomShaderMaterialImpl>(null!)
@@ -108,7 +125,7 @@ export const ShaderMakerTest = () => {
   const { callback, ...shader } = compileShader(
     makeTime(),
     pretty,
-    makeStaticFresnel(),
+    makeDynamicFresnel(),
     wobbleScale(),
     makeWobble({ axis: "x", frequency: 7 }),
     makeWobble({ axis: "y", frequency: 5 }),
