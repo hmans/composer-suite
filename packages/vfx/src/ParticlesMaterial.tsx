@@ -122,7 +122,7 @@ const applyVelocity = () =>
     vertexMain: `
       csm_Position = csm_Position
         + vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration)
-        * mat3(viewMatrix);
+        * mat3(instanceMatrix);
     `
   })
 
@@ -139,9 +139,11 @@ export const ParticlesMaterial = forwardRef<
   const { callback, ...shader } = compileShader(
     makeTime(),
     makeLifetime(),
+
+    billboard && makeBillboard(),
     animateScale({ t: "smoothstep(0.0, 1.0, sin(v_progress * PI))" }),
     applyVelocity(),
-    billboard && makeBillboard(),
+
     animateColor()
   )
 
