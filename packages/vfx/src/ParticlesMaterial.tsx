@@ -10,8 +10,6 @@ import { compileShader, float, makeShaderModule } from "../../shadermaker"
 const attributes = /*glsl*/ `
 attribute vec3 velocity;
 attribute vec3 acceleration;
-attribute vec3 scaleStart;
-attribute vec3 scaleEnd;
 `
 
 const makeTime = () =>
@@ -108,6 +106,18 @@ const makeColor = () =>
     `
   })
 
+const animateScale = () =>
+  makeShaderModule({
+    vertexHeader: `
+      attribute vec3 scaleStart;
+      attribute vec3 scaleEnd;
+    `,
+
+    vertexMain: `
+      csm_Position *= mix(scaleStart, scaleEnd, v_progress);
+    `
+  })
+
 const makeLegacyShader = () =>
   makeShaderModule({
     vertexHeader: `
@@ -115,9 +125,6 @@ const makeLegacyShader = () =>
   `,
 
     vertexMain: `
-    /* Apply scale */
-    csm_Position *= mix(scaleStart, scaleEnd, v_progress);
-
     /* Apply velocity and acceleration */
     offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
 
@@ -142,8 +149,9 @@ export const ParticlesMaterial = forwardRef<
   const { callback, ...shader } = compileShader(
     makeTime(),
     makeLifetime(),
-    makeColor(),
+    animateScale(),
     billboard && makeBillboard(),
+    makeColor(),
     makeLegacyShader()
   )
 
