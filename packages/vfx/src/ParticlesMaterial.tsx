@@ -61,6 +61,13 @@ const makeLifetime = () =>
       varying float v_timeEnd;
       varying float v_progress;
       varying float v_age;
+    `,
+
+    fragmentMain: `
+      /* Lifetime management: discard this instance if it is not in the current time range */
+      if (u_time < v_timeStart || u_time > v_timeEnd) {
+        discard;
+      }
     `
   })
 
@@ -99,11 +106,6 @@ const makeLegacyShader = () =>
   `,
 
     fragmentMain: `
-    /* Lifetime management: discard this instance if it is not in the current time range */
-    if (u_time < v_timeStart || u_time > v_timeEnd) {
-      discard;
-    }
-
     /* Get diffuse color */
     vec4 diffuse4 = vec4(diffuse, 1.0);
 
