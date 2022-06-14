@@ -7,9 +7,11 @@ export type Uniform = {
   value: any
 }
 
+export type Uniforms = Record<string, Uniform>
+
 export type ShaderModule = {
   name: string
-  uniforms: { [key: string]: Uniform }
+  uniforms: Uniforms
   vertexHeader: Chunk
   vertexMain: Chunk
   fragmentHeader: Chunk

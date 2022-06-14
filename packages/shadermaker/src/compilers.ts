@@ -1,6 +1,8 @@
-import { Chunk, ShaderModule } from "./types"
+import { Chunk, ShaderModule, Uniforms } from "./types"
 
 export function compileShader(...modules: ShaderModule[]) {
+  const uniforms = mergeUniforms(modules)
+
   const uniformsChunk = compileUniforms(modules)
 
   const vertexHeaders = modules.map((m) => compileChunk(m.name, m.vertexHeader))
@@ -35,7 +37,7 @@ void main() {
 }
   `
 
-  return { vertexShader, fragmentShader }
+  return { vertexShader, fragmentShader, uniforms }
 }
 
 function compileChunk(name: string, chunk: Chunk) {
@@ -74,4 +76,10 @@ function compileUniforms(modules: ShaderModule[]) {
   })
 
   return parts.join("\n")
+}
+
+function mergeUniforms(modules: ShaderModule[]): Uniforms {
+  return modules.reduce((acc, module) => {
+    return { ...acc, ...module.uniforms }
+  }, {})
 }
