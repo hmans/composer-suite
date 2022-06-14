@@ -112,7 +112,7 @@ const animateScale = ({ t = "v_progress" } = {}) =>
     `
   })
 
-const applyVelocity = () =>
+const applyVelocity = ({ target = "csm_Position" } = {}) =>
   makeShaderModule({
     vertexHeader: `
       attribute vec3 velocity;
@@ -120,7 +120,7 @@ const applyVelocity = () =>
     `,
 
     vertexMain: `
-      csm_Position
+      ${target}
         += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration)
            * mat3(instanceMatrix);
     `
