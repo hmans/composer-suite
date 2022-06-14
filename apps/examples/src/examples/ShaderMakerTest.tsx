@@ -1,3 +1,4 @@
+import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Color, MeshStandardMaterial } from "three"
@@ -48,17 +49,16 @@ const wobbleScale = () =>
   `
   })
 
-const makeFresnel = () =>
+const makeStaticFresnel = ({
+  color = "vec3(1.0)",
+  alpha = 1,
+  bias = 0.1,
+  intensity = 1,
+  power = 2,
+  factor = 1,
+  target = "csm_FragColor"
+} = {}) =>
   makeShaderModule({
-    uniforms: {
-      u_color: { type: "vec3", value: new Color("white") },
-      u_alpha: { type: "float", value: 1 },
-      u_bias: { type: "float", value: 0.1 },
-      u_intensity: { type: "float", value: 1 },
-      u_power: { type: "float", value: 2 },
-      u_factor: { type: "float", value: 1 }
-    },
-
     varyings: {
       v_worldPosition: {
         type: "vec3",
@@ -67,17 +67,33 @@ const makeFresnel = () =>
       v_worldNormal: {
         type: "vec3",
         value:
-          "normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal )"
+          "normalize(mat3(modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz) * normal)"
       }
     },
 
     fragmentMain: `
-      float f_a = (u_factor  + dot(v_worldPosition, v_worldNormal));
-      float f_fresnel = u_bias + u_intensity * pow(abs(f_a), u_power);
-      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
-      csm_FragColor = vec4(f_fresnel * u_color, u_alpha);
-    `
+    float f_a = (${float(factor)}  + dot(v_worldPosition, v_worldNormal));
+    float f_fresnel = ${float(bias)} + ${float(
+      intensity
+    )} * pow(abs(f_a), ${float(power)});
+    f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+    ${target} = vec4(f_fresnel * ${color}, ${float(alpha)});
+  `
   })
+
+// const makeFresnel = () =>
+//   makeShaderModule({
+//     ...makeStaticFresnel(),
+
+//     uniforms: {
+//       u_color: { type: "vec3", value: new Color("white") },
+//       u_alpha: { type: "float", value: 1 },
+//       u_bias: { type: "float", value: 0.1 },
+//       u_intensity: { type: "float", value: 1 },
+//       u_power: { type: "float", value: 2 },
+//       u_factor: { type: "float", value: 1 }
+//     },
+//   })
 
 export const ShaderMakerTest = () => {
   const material = useRef<CustomShaderMaterialImpl>(null!)
@@ -92,7 +108,7 @@ export const ShaderMakerTest = () => {
   const { callback, ...shader } = compileShader(
     makeTime(),
     pretty,
-    makeFresnel(),
+    makeStaticFresnel(),
     wobbleScale(),
     makeWobble({ axis: "x", frequency: 7 }),
     makeWobble({ axis: "y", frequency: 5 }),
