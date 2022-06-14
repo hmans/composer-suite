@@ -64,14 +64,11 @@ const makeLegacyShader = () =>
     v_age = u_time - v_timeStart;
     v_progress = v_age / (v_timeEnd - v_timeStart);
 
-    /* Start with an origin offset */
-    vec3 offset = vec3(0.0, 0.0, 0.0);
+    /* Apply scale */
+    csm_Position *= mix(scaleStart, scaleEnd, v_progress);
 
     /* Apply velocity and acceleration */
     offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
-
-    /* Apply scale */
-    csm_Position *= mix(scaleStart, scaleEnd, v_progress);
 
     /* Apply the instance matrix. */
     offset *= mat3(instanceMatrix);
