@@ -72,7 +72,7 @@ const makeLifetime = () =>
     `
   })
 
-const makeColor = () =>
+const animateColor = () =>
   makeShaderModule({
     vertexHeader: `
       attribute vec4 colorStart;
@@ -151,7 +151,7 @@ export const ParticlesMaterial = forwardRef<
     makeLifetime(),
     animateScale(),
     billboard && makeBillboard(),
-    makeColor(),
+    animateColor(),
     makeLegacyShader()
   )
 
