@@ -24,7 +24,7 @@ attribute vec3 scaleEnd;
 
 const makeBillboard = () =>
   makeShaderModule({
-    vertexHeader: /*glsl*/ `
+    vertexHeader: `
     vec3 billboard(vec2 v, mat4 view){
       vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
       vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
@@ -40,28 +40,28 @@ const makeBillboard = () =>
 
 const makeLifetime = () =>
   makeShaderModule({
-    vertexHeader: /*glsl*/ `
-    attribute vec2 time;
+    vertexHeader: `
+      attribute vec2 time;
 
-    varying float v_timeStart;
-    varying float v_timeEnd;
-    varying float v_progress;
-    varying float v_age;
-  `,
+      varying float v_timeStart;
+      varying float v_timeEnd;
+      varying float v_progress;
+      varying float v_age;
+    `,
 
-    vertexMain: /*glsl*/ `
-    v_timeStart = time.x;
-    v_timeEnd = time.y;
-    v_age = u_time - v_timeStart;
-    v_progress = v_age / (v_timeEnd - v_timeStart);
-  `,
+    vertexMain: `
+      v_timeStart = time.x;
+      v_timeEnd = time.y;
+      v_age = u_time - v_timeStart;
+      v_progress = v_age / (v_timeEnd - v_timeStart);
+    `,
 
-    fragmentHeader: /*glsl*/ `
-    varying float v_timeStart;
-    varying float v_timeEnd;
-    varying float v_progress;
-    varying float v_age;
-`
+    fragmentHeader: `
+      varying float v_timeStart;
+      varying float v_timeEnd;
+      varying float v_progress;
+      varying float v_age;
+    `
   })
 
 const makeLegacyShader = () =>
