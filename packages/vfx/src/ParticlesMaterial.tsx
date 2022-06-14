@@ -120,14 +120,9 @@ const applyVelocity = () =>
     `,
 
     vertexMain: `
-      /* Apply velocity and acceleration */
-      offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
-
-      /* Apply the instance matrix. */
-      offset *= mat3(instanceMatrix);
-
-      /* Apply the offset */
-      csm_Position += offset;
+      csm_Position = csm_Position
+        + vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration)
+        * mat3(viewMatrix);
     `
   })
 

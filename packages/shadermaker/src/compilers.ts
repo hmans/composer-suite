@@ -27,9 +27,6 @@ ${uniformsChunk}
 ${vertexHeaders.join("\n")}
 
 void main() {
-  /* Make some useful defaults available to the shader */
-  vec3 offset = vec3(0.0);
-
   ${vertexMains.join("\n")}
 }
   `
