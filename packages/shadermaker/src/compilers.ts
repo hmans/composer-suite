@@ -1,19 +1,31 @@
-import { Chunk, ShaderConfig } from "./types"
+import { Chunk, ShaderModule } from "./types"
 
-export function compileShader(config: ShaderConfig) {
+export function compileShader(...modules: ShaderModule[]) {
   const vertexShader = /*glsl*/ `
-  ${compileChunks(config.vertexHeader || [], true)}
+  ${compileChunks(
+    modules.map((m) => m.vertexHeader),
+    true
+  )}
 
   void main() {
-    ${compileChunks(config.vertexMain || [], true)}
+    ${compileChunks(
+      modules.map((m) => m.vertexMain),
+      true
+    )}
   }
   `
 
   const fragmentShader = /*glsl*/ `
-  ${compileChunks(config.fragmentHeader || [], true)}
+  ${compileChunks(
+    modules.map((m) => m.fragmentHeader),
+    true
+  )}
 
   void main() {
-    ${compileChunks(config.fragmentMain || [], true)}
+    ${compileChunks(
+      modules.map((m) => m.fragmentMain),
+      true
+    )}
   }
   `
 

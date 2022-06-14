@@ -1,8 +1,8 @@
 export type Chunk = string
 
-export type ShaderConfig = {
-  vertexHeader?: Chunk[]
-  vertexMain?: Chunk[]
-  fragmentHeader?: Chunk[]
-  fragmentMain?: Chunk[]
+export type ShaderModule = {
+  vertexHeader: Chunk
+  vertexMain: Chunk
+  fragmentHeader: Chunk
+  fragmentMain: Chunk
 }
