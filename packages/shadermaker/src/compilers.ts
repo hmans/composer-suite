@@ -1,4 +1,4 @@
-import { Chunk, ShaderModule, Uniforms } from "./types"
+import { Chunk, FrameCallback, ShaderModule, Uniforms } from "./types"
 
 export function compileShader(...modules: ShaderModule[]) {
   const uniforms = mergeUniforms(modules)
@@ -37,7 +37,13 @@ void main() {
 }
   `
 
-  return { vertexShader, fragmentShader, uniforms }
+  const callback: FrameCallback = (mesh, dt) => {
+    for (const module of modules) {
+      module.frameCallback?.(mesh, dt)
+    }
+  }
+
+  return { vertexShader, fragmentShader, uniforms, callback }
 }
 
 function compileChunk(name: string, chunk: Chunk) {
