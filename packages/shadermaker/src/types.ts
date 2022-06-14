@@ -9,12 +9,18 @@ export type Uniform = {
   value: any
 }
 
+export type Attribute = {
+  type: GLSLType
+}
+
 export type Varying = {
   type: GLSLType
   value?: any
 }
 
 export type Uniforms = Record<string, Uniform>
+
+export type Attributes = Record<string, Attribute>
 
 export type Varyings = Record<string, Varying>
 
@@ -26,6 +32,7 @@ export type FrameCallback = (
 export type ShaderModule = {
   name: string
   uniforms: Uniforms
+  attributes: Attributes
   varyings: Varyings
   vertexHeader: Chunk
   vertexMain: Chunk

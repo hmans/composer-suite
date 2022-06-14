@@ -8,6 +8,8 @@ export function compileShader(
   const uniforms = mergeUniforms(modules)
   const uniformsChunk = compileUniforms(modules)
 
+  const attributesChunk = compileAttributeHeaders(modules)
+
   const varyingsChunk = compileVaryings(modules)
   const varyingAssignmentsChunk = compileVaryingAssignments(modules)
 
@@ -26,6 +28,7 @@ export function compileShader(
   /* VERTEX SHADER */
   const vertexShader = /*glsl*/ `
 ${uniformsChunk}
+${attributesChunk}
 ${varyingsChunk}
 
 ${vertexHeaders.join("\n")}
@@ -90,6 +93,26 @@ function compileUniforms(modules: ShaderModule[]) {
       names.forEach((name) => {
         const uniform = module.uniforms[name]
         parts.push(`uniform ${uniform.type} ${name};`)
+      })
+    }
+  })
+
+  return parts.join("\n")
+}
+
+function compileAttributeHeaders(modules: ShaderModule[]) {
+  const parts = new Array<string>()
+  parts.push("/* ATTRIBUTES */\n")
+
+  modules.forEach((module) => {
+    const names = Object.keys(module.attributes)
+
+    if (names.length > 0) {
+      parts.push(`/* ${module.name} */`)
+
+      names.forEach((name) => {
+        const attribute = module.attributes[name]
+        parts.push(`attribute ${attribute.type} ${name};`)
       })
     }
   })

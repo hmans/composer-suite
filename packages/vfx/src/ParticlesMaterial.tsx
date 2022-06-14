@@ -35,16 +35,16 @@ const billboard = () =>
 
 const lifeTime = () =>
   makeShaderModule({
+    attributes: {
+      time: { type: "vec2" }
+    },
+
     varyings: {
       v_timeStart: { type: "float", value: "time.x" },
       v_timeEnd: { type: "float", value: "time.y" },
       v_age: { type: "float", value: "u_time - v_timeStart" },
       v_progress: { type: "float", value: "v_age / (v_timeEnd - v_timeStart)" }
     },
-
-    vertexHeader: `
-      attribute vec2 time;
-    `,
 
     fragmentMain: `
       /* Discard this instance if it is not in the current time range */
@@ -56,15 +56,15 @@ const lifeTime = () =>
 
 const animateColor = () =>
   makeShaderModule({
+    attributes: {
+      colorStart: { type: "vec4" },
+      colorEnd: { type: "vec4" }
+    },
+
     varyings: {
       v_colorStart: { type: "vec4", value: "colorStart" },
       v_colorEnd: { type: "vec4", value: "colorEnd" }
     },
-
-    vertexHeader: `
-      attribute vec4 colorStart;
-      attribute vec4 colorEnd;
-    `,
 
     fragmentMain: `
       /* Get diffuse color */
@@ -82,10 +82,10 @@ const animateColor = () =>
 
 const animateScale = ({ t = "v_progress" } = {}) =>
   makeShaderModule({
-    vertexHeader: `
-      attribute vec3 scaleStart;
-      attribute vec3 scaleEnd;
-    `,
+    attributes: {
+      scaleStart: { type: "vec3" },
+      scaleEnd: { type: "vec3" }
+    },
 
     vertexMain: `
       csm_Position *= mix(scaleStart, scaleEnd, ${t});
@@ -94,10 +94,10 @@ const animateScale = ({ t = "v_progress" } = {}) =>
 
 const velocityAndAcceleration = ({ target = "csm_Position" } = {}) =>
   makeShaderModule({
-    vertexHeader: `
-      attribute vec3 velocity;
-      attribute vec3 acceleration;
-    `,
+    attributes: {
+      velocity: { type: "vec3" },
+      acceleration: { type: "vec3" }
+    },
 
     vertexMain: `
       ${target}
