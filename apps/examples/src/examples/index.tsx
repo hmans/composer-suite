@@ -1,6 +1,4 @@
 import { ReactNode } from "react"
-import { ComposableVanilla } from "./ComposableVanilla"
-import { ComposableFiber } from "./ComposableFiber"
 import { Explosion } from "./Explosion"
 import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
@@ -26,15 +24,5 @@ export default [
         <GLTFParticles />
       </>
     )
-  },
-  {
-    path: "composable_vanilla",
-    name: "Composable (Vanilla)",
-    component: <ComposableVanilla />
-  },
-  {
-    path: "composable_fiber",
-    name: "Composable (Fiber)",
-    component: <ComposableFiber />
   }
 ] as ExampleDefinition[]
