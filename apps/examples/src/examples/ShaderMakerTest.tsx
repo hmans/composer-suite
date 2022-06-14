@@ -1,9 +1,9 @@
-import CustomShaderMaterial from "three-custom-shader-material"
-import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { BufferGeometry, Mesh, MeshStandardMaterial } from "three"
-import { compileShader, float, makeShaderModule } from "three-shadermaker"
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
+import { MeshStandardMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
+import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
+import { compileShader, float, makeShaderModule } from "three-shadermaker"
 
 const makeTime = ({ timeUniform = "u_time" } = {}) =>
   makeShaderModule({
