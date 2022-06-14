@@ -6,10 +6,6 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { compileShader, float, makeShaderModule } from "../../shadermaker"
 
-/* Varyings */
-const varyings = /*glsl*/ `
-`
-
 /* Attributes */
 const attributes = /*glsl*/ `
 attribute vec3 velocity;
@@ -17,6 +13,17 @@ attribute vec3 acceleration;
 attribute vec3 scaleStart;
 attribute vec3 scaleEnd;
 `
+
+const makeTime = () =>
+  makeShaderModule({
+    uniforms: {
+      u_time: { type: "float", value: 0 }
+    },
+
+    frameCallback: (material, dt) => {
+      material.uniforms.u_time.value += dt
+    }
+  })
 
 const makeBillboard = () =>
   makeShaderModule({
@@ -103,15 +110,8 @@ const makeColor = () =>
 
 const makeLegacyShader = () =>
   makeShaderModule({
-    uniforms: {
-      u_time: { type: "float", value: 0 }
-    },
-
     vertexHeader: `
-    ${varyings}
     ${attributes}
-
-    /* Billboard helper */
   `,
 
     vertexMain: `
@@ -126,15 +126,7 @@ const makeLegacyShader = () =>
 
     /* Apply the offset */
     csm_Position += offset;
-  `,
-
-    fragmentHeader: `
-    ${varyings}
-  `,
-
-    frameCallback: (material, dt) => {
-      material.uniforms.u_time.value += dt
-    }
+  `
   })
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
@@ -148,6 +140,7 @@ export const ParticlesMaterial = forwardRef<
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   const { callback, ...shader } = compileShader(
+    makeTime(),
     makeLifetime(),
     makeColor(),
     billboard && makeBillboard(),
