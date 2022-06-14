@@ -1,0 +1,75 @@
+{
+  "name": "three-shadermaker",
+  "private": false,
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "Make some Shaders!",
+  "version": "0.0.1",
+  "main": "dist/three-shadermaker.cjs.js",
+  "module": "dist/three-shadermaker.esm.js",
+  "types": "dist/three-shadermaker.cjs.d.ts",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "preconstruct watch",
+    "build": "preconstruct build",
+    "release": "yarn ci && yarn publish",
+    "test": "jest --passWithNoTests",
+    "ci": "yarn clean && yarn build && yarn test",
+    "docs": "typedoc src/index.ts"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
+    "@react-three/fiber": "^8.0.22",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@types/jest": "^28.1.1",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "@types/three": "^0.141.0",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "rimraf": "^3.0.2",
+    "three": "^0.141.0",
+    "ts-jest": "^28.0.4",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "react-merge-refs": "^1.1.0",
+    "three-custom-shader-material": "^3.4.3"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.0.0",
+    "react": ">=18.1.0",
+    "react-dom": ">=18.1.0",
+    "three": ">=0.141.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  }
+}
