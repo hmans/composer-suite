@@ -13,11 +13,13 @@ import mergeRefs from "react-merge-refs"
 import {
   Color,
   InstancedBufferAttribute,
+  InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
   Quaternion,
   Vector3
 } from "three"
+import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -65,7 +67,9 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     have to upload the entirety of all buffers every time the playhead wraps back to 0. */
     const maxInstanceCount = maxParticles + safetySize
 
-    const imesh = useRef<InstancedMesh>(null!)
+    const imesh = useRef<
+      InstancedMesh<InstancedBufferGeometry, CustomShaderMaterial>
+    >(null!)
     const playhead = useRef(0)
     const { clock } = useThree()
 
@@ -147,10 +151,11 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set times */
+          const currentTime = imesh.current.material.uniforms.u_time.value
           attributes.time.setXY(
             playhead.current,
-            clock.elapsedTime + components.delay,
-            clock.elapsedTime + components.lifetime
+            currentTime + components.delay,
+            currentTime + components.lifetime
           )
 
           /* Set velocity */
@@ -207,11 +212,6 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
       },
       [attributes]
     )
-
-    /* Every frame, advance the time uniform */
-    useFrame(() => {
-      ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
-    })
 
     return (
       <instancedMesh

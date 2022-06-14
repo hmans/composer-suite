@@ -1,4 +1,6 @@
-import React, { forwardRef } from "react"
+import { useFrame } from "@react-three/fiber"
+import React, { forwardRef, useCallback, useRef } from "react"
+import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -94,7 +96,11 @@ const makeLegacyShader = ({ billboard = false } = {}) =>
     #ifdef USE_MAP
       csm_DiffuseColor *= texture2D(map, vUv);
     #endif
-  `
+  `,
+
+    frameCallback: (material, dt) => {
+      material.uniforms.u_time.value += dt
+    }
   })
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
@@ -105,11 +111,17 @@ export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
 >(({ billboard = false, ...props }, ref) => {
+  const material = useRef<CustomShaderMaterialImpl>(null!)
+
   const { callback, ...shader } = compileShader(makeLegacyShader({ billboard }))
+
+  useFrame((state, dt) => {
+    callback(material.current, dt)
+  })
 
   return (
     <CustomShaderMaterial
-      ref={ref}
+      ref={mergeRefs([ref, material])}
       blending={CustomBlending}
       blendEquation={AddEquation}
       depthTest={true}
