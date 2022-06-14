@@ -1,6 +1,10 @@
 import { Chunk, FrameCallback, ShaderModule, Uniforms } from "./types"
 
-export function compileShader(...modules: ShaderModule[]) {
+export function compileShader(
+  ...input: (ShaderModule | false | null | undefined)[]
+) {
+  const modules = input.filter((x) => !!x) as ShaderModule[]
+
   const uniforms = mergeUniforms(modules)
 
   const uniformsChunk = compileUniforms(modules)

@@ -27,18 +27,9 @@ attribute vec3 scaleStart;
 attribute vec3 scaleEnd;
 `
 
-const makeLegacyShader = ({ billboard = false } = {}) =>
+const makeBillboard = () =>
   makeShaderModule({
-    uniforms: {
-      u_time: { type: "float", value: 0 },
-      u_billboard: { type: "bool", value: billboard }
-    },
-
     vertexHeader: /*glsl*/ `
-    ${varyings}
-    ${attributes}
-
-    /* Billboard helper */
     vec3 billboard(vec2 v, mat4 view){
       vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
       vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
@@ -48,17 +39,30 @@ const makeLegacyShader = ({ billboard = false } = {}) =>
   `,
 
     vertexMain: /*glsl*/ `
+    csm_Position = billboard(csm_Position.xy, viewMatrix);
+  `
+  })
+
+const makeLegacyShader = () =>
+  makeShaderModule({
+    uniforms: {
+      u_time: { type: "float", value: 0 }
+    },
+
+    vertexHeader: /*glsl*/ `
+    ${varyings}
+    ${attributes}
+
+    /* Billboard helper */
+  `,
+
+    vertexMain: /*glsl*/ `
     v_timeStart = time.x;
     v_timeEnd = time.y;
     v_colorStart = colorStart;
     v_colorEnd = colorEnd;
     v_age = u_time - v_timeStart;
     v_progress = v_age / (v_timeEnd - v_timeStart);
-
-    /* Apply Billboarding */
-    if (u_billboard) {
-      csm_Position = billboard(csm_Position.xy, viewMatrix);
-    }
 
     /* Start with an origin offset */
     vec3 offset = vec3(0.0, 0.0, 0.0);
@@ -113,7 +117,10 @@ export const ParticlesMaterial = forwardRef<
 >(({ billboard = false, ...props }, ref) => {
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  const { callback, ...shader } = compileShader(makeLegacyShader({ billboard }))
+  const { callback, ...shader } = compileShader(
+    billboard && makeBillboard(),
+    makeLegacyShader()
+  )
 
   useFrame((state, dt) => {
     callback(material.current, dt)
