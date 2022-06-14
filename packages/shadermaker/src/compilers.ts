@@ -3,59 +3,53 @@ import { Chunk, ShaderModule } from "./types"
 export function compileShader(...modules: ShaderModule[]) {
   const uniformsChunk = ""
 
+  const vertexHeaders = modules.map((m) => compileChunk(m.name, m.vertexHeader))
+  const vertexMains = modules.map((m) =>
+    compileWrappedChunk(m.name, m.vertexMain)
+  )
+
+  const fragmentHeaders = modules.map((m) =>
+    compileChunk(m.name, m.fragmentHeader)
+  )
+  const fragmentMains = modules.map((m) =>
+    compileWrappedChunk(m.name, m.fragmentMain)
+  )
+
   const vertexShader = /*glsl*/ `
 ${uniformsChunk}
 
-${compileChunks(
-  modules.map((m) => m.vertexHeader),
-  false
-)}
+${vertexHeaders.join("\n")}
 
 void main() {
-  ${compileChunks(
-    modules.map((m) => m.vertexMain),
-    true
-  )}
+  ${vertexMains.join("\n")}
 }
   `
 
   const fragmentShader = /*glsl*/ `
 ${uniformsChunk}
 
-${compileChunks(
-  modules.map((m) => m.fragmentHeader),
-  false
-)}
+${fragmentHeaders.join("\n")}
 
 void main() {
-  ${compileChunks(
-    modules.map((m) => m.fragmentMain),
-    true
-  )}
+  ${fragmentMains.join("\n")}
 }
   `
 
   return { vertexShader, fragmentShader }
 }
 
-export function compileChunks(chunks: Chunk[], wrap = false) {
-  return chunks
-    .map((chunk) =>
-      wrap ? compileWrappedChunk(chunk) : compileBareChunk(chunk)
-    )
-    .join("\n")
+function compileChunk(name: string, chunk: Chunk) {
+  return /*glsl*/ `
+  /* ${name} */
+  ${chunk}
+  `
 }
 
-function compileWrappedChunk(chunk: Chunk) {
+function compileWrappedChunk(name: string, chunk: Chunk) {
   return /*glsl*/ `
-  /* moo */
+  /* ${name} */
   {
     ${chunk}
-  }`
-}
-
-function compileBareChunk(chunk: Chunk) {
-  return /*glsl*/ `
-  /* moo */
-  ${chunk}`
+  }
+  `
 }

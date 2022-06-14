@@ -5,6 +5,7 @@ import { compileShader, makeShaderModule } from "three-shadermaker"
 export const ShaderMakerTest = () => {
   /* time */
   const time = makeShaderModule({
+    name: "time",
     uniforms: {
       u_time: { type: "float", value: 0 }
     }
@@ -12,6 +13,7 @@ export const ShaderMakerTest = () => {
 
   /* pretty */
   const pretty = makeShaderModule({
+    name: "pretty",
     fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(1.0, 0.3, 0.5, 1.0);`
   })
 
