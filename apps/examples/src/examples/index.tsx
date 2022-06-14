@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 import { Explosion } from "./Explosion"
 import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
+import { ShaderMakerTest } from "./ShaderMakerTest"
 import { Simple } from "./Simple"
 
 export type ExampleDefinition = {
@@ -24,5 +25,10 @@ export default [
         <GLTFParticles />
       </>
     )
+  },
+  {
+    path: "shadermaker",
+    name: "ShaderMaker Test",
+    component: <ShaderMakerTest />
   }
 ] as ExampleDefinition[]
