@@ -8,17 +8,12 @@ import { compileShader, float, makeShaderModule } from "../../shadermaker"
 
 /* Varyings */
 const varyings = /*glsl*/ `
-varying float v_timeStart;
-varying float v_timeEnd;
-varying float v_progress;
-varying float v_age;
 varying vec4 v_colorStart;
 varying vec4 v_colorEnd;
 `
 
 /* Attributes */
 const attributes = /*glsl*/ `
-attribute vec2 time;
 attribute vec3 velocity;
 attribute vec3 acceleration;
 attribute vec4 colorStart;
@@ -43,6 +38,32 @@ const makeBillboard = () =>
   `
   })
 
+const makeLifetime = () =>
+  makeShaderModule({
+    vertexHeader: /*glsl*/ `
+    attribute vec2 time;
+
+    varying float v_timeStart;
+    varying float v_timeEnd;
+    varying float v_progress;
+    varying float v_age;
+  `,
+
+    vertexMain: /*glsl*/ `
+    v_timeStart = time.x;
+    v_timeEnd = time.y;
+    v_age = u_time - v_timeStart;
+    v_progress = v_age / (v_timeEnd - v_timeStart);
+  `,
+
+    fragmentHeader: /*glsl*/ `
+    varying float v_timeStart;
+    varying float v_timeEnd;
+    varying float v_progress;
+    varying float v_age;
+`
+  })
+
 const makeLegacyShader = () =>
   makeShaderModule({
     uniforms: {
@@ -57,12 +78,8 @@ const makeLegacyShader = () =>
   `,
 
     vertexMain: /*glsl*/ `
-    v_timeStart = time.x;
-    v_timeEnd = time.y;
     v_colorStart = colorStart;
     v_colorEnd = colorEnd;
-    v_age = u_time - v_timeStart;
-    v_progress = v_age / (v_timeEnd - v_timeStart);
 
     /* Apply scale */
     csm_Position *= mix(scaleStart, scaleEnd, v_progress);
@@ -115,6 +132,7 @@ export const ParticlesMaterial = forwardRef<
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   const { callback, ...shader } = compileShader(
+    makeLifetime(),
     billboard && makeBillboard(),
     makeLegacyShader()
   )
