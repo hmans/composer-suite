@@ -1,10 +1,10 @@
 import { useFrame } from "@react-three/fiber"
-import React, { forwardRef, useCallback, useRef } from "react"
+import React, { forwardRef, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { compileShader, float, makeShaderModule } from "three-shadermaker"
+import { compileShader, makeShaderModule } from "three-shadermaker"
 
 const makeTime = () =>
   makeShaderModule({
@@ -36,21 +36,14 @@ const makeBillboard = () =>
 const makeLifetime = () =>
   makeShaderModule({
     varyings: {
-      v_timeStart: { type: "float" },
-      v_timeEnd: { type: "float" },
-      v_progress: { type: "float" },
-      v_age: { type: "float" }
+      v_timeStart: { type: "float", value: "time.x" },
+      v_timeEnd: { type: "float", value: "time.y" },
+      v_age: { type: "float", value: "u_time - v_timeStart" },
+      v_progress: { type: "float", value: "v_age / (v_timeEnd - v_timeStart)" }
     },
 
     vertexHeader: `
       attribute vec2 time;
-    `,
-
-    vertexMain: `
-      v_timeStart = time.x;
-      v_timeEnd = time.y;
-      v_age = u_time - v_timeStart;
-      v_progress = v_age / (v_timeEnd - v_timeStart);
     `,
 
     fragmentMain: `

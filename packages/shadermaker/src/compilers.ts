@@ -9,6 +9,7 @@ export function compileShader(
   const uniformsChunk = compileUniforms(modules)
 
   const varyingsChunk = compileVaryings(modules)
+  const varyingAssignmentsChunk = compileVaryingAssignments(modules)
 
   const vertexHeaders = modules.map((m) => compileChunk(m.name, m.vertexHeader))
   const vertexMains = modules.map((m) =>
@@ -22,6 +23,7 @@ export function compileShader(
     compileWrappedChunk(m.name, m.fragmentMain)
   )
 
+  /* VERTEX SHADER */
   const vertexShader = /*glsl*/ `
 ${uniformsChunk}
 ${varyingsChunk}
@@ -29,10 +31,12 @@ ${varyingsChunk}
 ${vertexHeaders.join("\n")}
 
 void main() {
+  ${varyingAssignmentsChunk}
   ${vertexMains.join("\n")}
 }
   `
 
+  /* FRAGMENT SHADER */
   const fragmentShader = /*glsl*/ `
 ${uniformsChunk}
 ${varyingsChunk}
@@ -79,8 +83,10 @@ function compileUniforms(modules: ShaderModule[]) {
 
   modules.forEach((module) => {
     const names = Object.keys(module.uniforms)
+
     if (names.length > 0) {
       parts.push(`/* ${module.name} */`)
+
       names.forEach((name) => {
         const uniform = module.uniforms[name]
         parts.push(`uniform ${uniform.type} ${name};`)
@@ -97,11 +103,35 @@ function compileVaryings(modules: ShaderModule[]) {
 
   modules.forEach((module) => {
     const names = Object.keys(module.varyings)
+
     if (names.length > 0) {
       parts.push(`/* ${module.name} */`)
+
       names.forEach((name) => {
         const varying = module.varyings[name]
         parts.push(`varying ${varying.type} ${name};`)
+      })
+    }
+  })
+
+  return parts.join("\n")
+}
+
+function compileVaryingAssignments(modules: ShaderModule[]) {
+  const parts = new Array<string>()
+  parts.push("/* VARYING ASSIGNMENTS */\n")
+
+  modules.forEach((module) => {
+    const names = Object.keys(module.varyings)
+
+    if (names.length > 0) {
+      parts.push(`/* ${module.name} */`)
+
+      names.forEach((name) => {
+        const varying = module.varyings[name]
+        if (varying.value !== undefined) {
+          parts.push(`${name} = ${varying.value};`)
+        }
       })
     }
   })
