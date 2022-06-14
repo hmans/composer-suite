@@ -11,3 +11,5 @@ export const makeShaderModule = (
   fragmentMain: "",
   ...config
 })
+
+export const float = (v: number) => v.toFixed(5)
