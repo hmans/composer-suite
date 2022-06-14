@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { compileShader, float, makeShaderModule } from "../../shadermaker"
+import { compileShader, float, makeShaderModule } from "three-shadermaker"
 
 /* Attributes */
 const attributes = /*glsl*/ `
