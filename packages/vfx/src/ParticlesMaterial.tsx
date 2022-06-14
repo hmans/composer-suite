@@ -106,7 +106,7 @@ const animateColor = () =>
     `
   })
 
-const animateScale = () =>
+const animateScale = ({ t = "v_progress" } = {}) =>
   makeShaderModule({
     vertexHeader: `
       attribute vec3 scaleStart;
@@ -114,7 +114,7 @@ const animateScale = () =>
     `,
 
     vertexMain: `
-      csm_Position *= mix(scaleStart, scaleEnd, v_progress);
+      csm_Position *= mix(scaleStart, scaleEnd, ${t});
     `
   })
 
@@ -149,7 +149,7 @@ export const ParticlesMaterial = forwardRef<
   const { callback, ...shader } = compileShader(
     makeTime(),
     makeLifetime(),
-    animateScale(),
+    animateScale({ t: "smoothstep(0.0, 1.0, sin(v_progress * PI))" }),
     billboard && makeBillboard(),
     animateColor(),
     makeLegacyShader()
