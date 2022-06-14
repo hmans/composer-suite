@@ -17,7 +17,7 @@ const time = () =>
     }
   })
 
-const billboard = () =>
+const billboard = ({ target = "csm_Position" } = {}) =>
   makeShaderModule({
     vertexHeader: `
       vec3 billboard(vec2 v, mat4 view){
@@ -28,9 +28,7 @@ const billboard = () =>
       }
     `,
 
-    vertexMain: /*glsl*/ `
-      csm_Position = billboard(csm_Position.xy, viewMatrix);
-    `
+    vertexMain: `${target} = billboard(${target}.xy, viewMatrix);`
   })
 
 const lifeTime = () =>
