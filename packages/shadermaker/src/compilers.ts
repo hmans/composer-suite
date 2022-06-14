@@ -37,9 +37,9 @@ void main() {
 }
   `
 
-  const callback: FrameCallback = (mesh, dt) => {
+  const callback: FrameCallback = (material, dt) => {
     for (const module of modules) {
-      module.frameCallback?.(mesh, dt)
+      module.frameCallback?.(material, dt)
     }
   }
 

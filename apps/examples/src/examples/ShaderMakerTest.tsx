@@ -13,8 +13,8 @@ const makeTime = ({ timeUniform = "u_time" } = {}) =>
       [timeUniform]: { type: "float", value: 0 }
     },
 
-    frameCallback: (mesh, dt) =>
-      (mesh.material.uniforms[timeUniform].value += dt)
+    frameCallback: (material, dt) =>
+      (material.uniforms[timeUniform].value += dt)
   })
 
 type WobbleProps = {
@@ -39,7 +39,7 @@ const makeWobble = ({
   })
 
 export const ShaderMakerTest = () => {
-  const mesh = useRef<Mesh<BufferGeometry, CustomShaderMaterialImpl>>(null!)
+  const material = useRef<CustomShaderMaterialImpl>(null!)
 
   /* pretty */
   const pretty = makeShaderModule({
@@ -57,16 +57,20 @@ export const ShaderMakerTest = () => {
   )
 
   /* Update time */
-  useFrame((_, dt) => callback(mesh.current, dt))
+  useFrame((_, dt) => callback(material.current, dt))
 
   /* Debug */
   console.log(shader.vertexShader)
   console.log(shader.fragmentShader)
 
   return (
-    <mesh position-y={8} ref={mesh}>
+    <mesh position-y={8}>
       <sphereGeometry args={[5]} />
-      <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shader} />
+      <CustomShaderMaterial
+        baseMaterial={MeshStandardMaterial}
+        {...shader}
+        ref={material}
+      />
     </mesh>
   )
 }

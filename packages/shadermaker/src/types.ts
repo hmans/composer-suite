@@ -1,4 +1,3 @@
-import { BufferGeometry, Material, Mesh } from "three"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 export type Chunk = string
@@ -13,7 +12,7 @@ export type Uniform = {
 export type Uniforms = Record<string, Uniform>
 
 export type FrameCallback = (
-  mesh: Mesh<BufferGeometry, CustomShaderMaterialImpl>,
+  material: CustomShaderMaterialImpl,
   dt: number
 ) => void
 
