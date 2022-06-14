@@ -70,14 +70,14 @@ const makeLegacyShader = () =>
       u_time: { type: "float", value: 0 }
     },
 
-    vertexHeader: /*glsl*/ `
+    vertexHeader: `
     ${varyings}
     ${attributes}
 
     /* Billboard helper */
   `,
 
-    vertexMain: /*glsl*/ `
+    vertexMain: `
     v_colorStart = colorStart;
     v_colorEnd = colorEnd;
 
@@ -94,11 +94,11 @@ const makeLegacyShader = () =>
     csm_Position += offset;
   `,
 
-    fragmentHeader: /*glsl*/ `
+    fragmentHeader: `
     ${varyings}
   `,
 
-    fragmentMain: /*glsl*/ `
+    fragmentMain: `
     /* Lifetime management: discard this instance if it is not in the current time range */
     if (u_time < v_timeStart || u_time > v_timeEnd) {
       discard;
