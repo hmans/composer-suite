@@ -17,6 +17,7 @@
     "react-merge-refs": "^1.1.0",
     "three": "^0.141.0",
     "three-custom-shader-material": "^3.4.3",
+    "three-shadermaker": "^0.0.1",
     "three-vfx": "^0.0.13",
     "wouter": "^2.8.0-alpha.2"
   },
