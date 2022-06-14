@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { compileShader, makeShaderModule } from "../../shadermaker"
+import { compileShader, float, makeShaderModule } from "../../shadermaker"
 
 /* Varyings */
 const varyings = /*glsl*/ `
@@ -41,6 +41,27 @@ const makeBillboard = () =>
     vertexMain: /*glsl*/ `
     csm_Position = billboard(csm_Position.xy, viewMatrix);
   `
+  })
+
+type WobbleProps = {
+  timeUniform?: string
+  axis?: "x" | "y" | "z"
+  frequency?: number
+  amplitude?: number
+}
+
+const makeWobble = ({
+  timeUniform = "u_time",
+  axis = "x",
+  frequency = 1,
+  amplitude = 1
+}: WobbleProps = {}) =>
+  makeShaderModule({
+    name: "wobble",
+    vertexMain: /*glsl*/ `
+      csm_Position.${axis} += cos(float(gl_InstanceID) + ${timeUniform}
+         * ${float(frequency)}) * ${float(amplitude)};
+      `
   })
 
 const makeLegacyShader = () =>
@@ -119,7 +140,8 @@ export const ParticlesMaterial = forwardRef<
 
   const { callback, ...shader } = compileShader(
     billboard && makeBillboard(),
-    makeLegacyShader()
+    makeLegacyShader(),
+    makeWobble({ axis: "y", frequency: 10, amplitude: 1 })
   )
 
   useFrame((state, dt) => {
