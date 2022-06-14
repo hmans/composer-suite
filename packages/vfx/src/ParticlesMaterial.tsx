@@ -6,7 +6,7 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { compileShader, makeShaderModule } from "three-shadermaker"
 
-const makeTime = () =>
+const time = () =>
   makeShaderModule({
     uniforms: {
       u_time: { type: "float", value: 0 }
@@ -17,7 +17,7 @@ const makeTime = () =>
     }
   })
 
-const makeBillboard = () =>
+const billboard = () =>
   makeShaderModule({
     vertexHeader: `
       vec3 billboard(vec2 v, mat4 view){
@@ -33,7 +33,7 @@ const makeBillboard = () =>
     `
   })
 
-const makeLifetime = () =>
+const lifeTime = () =>
   makeShaderModule({
     varyings: {
       v_timeStart: { type: "float", value: "time.x" },
@@ -92,7 +92,7 @@ const animateScale = ({ t = "v_progress" } = {}) =>
     `
   })
 
-const applyVelocity = ({ target = "csm_Position" } = {}) =>
+const velocityAndAcceleration = ({ target = "csm_Position" } = {}) =>
   makeShaderModule({
     vertexHeader: `
       attribute vec3 velocity;
@@ -113,16 +113,16 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, ...props }, ref) => {
+>(({ billboard: isBillboard = false, ...props }, ref) => {
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   const { callback, ...shader } = compileShader(
-    makeTime(),
-    makeLifetime(),
+    time(),
+    lifeTime(),
 
-    billboard && makeBillboard(),
+    isBillboard && billboard(),
     animateScale({ t: "smoothstep(0.0, 1.0, sin(v_progress * PI))" }),
-    applyVelocity(),
+    velocityAndAcceleration(),
 
     animateColor()
   )
