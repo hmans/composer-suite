@@ -38,6 +38,16 @@ const makeWobble = ({
     `
   })
 
+const wobbleScale = () =>
+  makeShaderModule({
+    name: "wobbleScale",
+    vertexMain: /*glsl*/ `
+      float t = smoothstep(0.0, 1.0, abs(sin(u_time)));
+      float scale = mix(0.5, 1.0, t);
+      csm_Position *= scale;
+  `
+  })
+
 export const ShaderMakerTest = () => {
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
@@ -51,6 +61,7 @@ export const ShaderMakerTest = () => {
   const { callback, ...shader } = compileShader(
     makeTime(),
     pretty,
+    wobbleScale(),
     makeWobble({ axis: "x", frequency: 7 }),
     makeWobble({ axis: "y", frequency: 5 }),
     makeWobble({ axis: "z", frequency: 3 })
