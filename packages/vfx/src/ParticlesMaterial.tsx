@@ -43,27 +43,6 @@ const makeBillboard = () =>
   `
   })
 
-type WobbleProps = {
-  timeUniform?: string
-  axis?: "x" | "y" | "z"
-  frequency?: number
-  amplitude?: number
-}
-
-const makeWobble = ({
-  timeUniform = "u_time",
-  axis = "x",
-  frequency = 1,
-  amplitude = 1
-}: WobbleProps = {}) =>
-  makeShaderModule({
-    name: "wobble",
-    vertexMain: /*glsl*/ `
-      csm_Position.${axis} += cos(float(gl_InstanceID) + ${timeUniform}
-         * ${float(frequency)}) * ${float(amplitude)};
-      `
-  })
-
 const makeLegacyShader = () =>
   makeShaderModule({
     uniforms: {
@@ -140,8 +119,7 @@ export const ParticlesMaterial = forwardRef<
 
   const { callback, ...shader } = compileShader(
     billboard && makeBillboard(),
-    makeLegacyShader(),
-    makeWobble({ axis: "y", frequency: 10, amplitude: 1 })
+    makeLegacyShader()
   )
 
   useFrame((state, dt) => {
