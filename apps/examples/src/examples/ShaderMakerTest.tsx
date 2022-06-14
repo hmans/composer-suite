@@ -3,16 +3,22 @@ import { MeshStandardMaterial } from "three"
 import { compileShader, makeShaderModule } from "three-shadermaker"
 
 export const ShaderMakerTest = () => {
+  /* time */
+  const time = makeShaderModule({
+    uniforms: {
+      u_time: { type: "float", value: 0 }
+    }
+  })
+
+  /* pretty */
   const pretty = makeShaderModule({
     fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(1.0, 0.3, 0.5, 1.0);`
   })
 
-  const ugly = makeShaderModule({
-    fragmentMain: /*glsl*/ `csm_DiffuseColor = vec4(0.0, 0.0, 0.0, 1.0);`
-  })
+  /* Compile Shader */
+  const { vertexShader, fragmentShader } = compileShader(time, pretty)
 
-  const { vertexShader, fragmentShader } = compileShader(pretty, ugly)
-
+  /* Debug */
   console.log(vertexShader)
   console.log(fragmentShader)
 
