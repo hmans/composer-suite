@@ -6,12 +6,6 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { compileShader, float, makeShaderModule } from "three-shadermaker"
 
-/* Attributes */
-const attributes = /*glsl*/ `
-attribute vec3 velocity;
-attribute vec3 acceleration;
-`
-
 const makeTime = () =>
   makeShaderModule({
     uniforms: {
@@ -118,22 +112,23 @@ const animateScale = ({ t = "v_progress" } = {}) =>
     `
   })
 
-const makeLegacyShader = () =>
+const applyVelocity = () =>
   makeShaderModule({
     vertexHeader: `
-    ${attributes}
-  `,
+      attribute vec3 velocity;
+      attribute vec3 acceleration;
+    `,
 
     vertexMain: `
-    /* Apply velocity and acceleration */
-    offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
+      /* Apply velocity and acceleration */
+      offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
 
-    /* Apply the instance matrix. */
-    offset *= mat3(instanceMatrix);
+      /* Apply the instance matrix. */
+      offset *= mat3(instanceMatrix);
 
-    /* Apply the offset */
-    csm_Position += offset;
-  `
+      /* Apply the offset */
+      csm_Position += offset;
+    `
   })
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
@@ -150,9 +145,9 @@ export const ParticlesMaterial = forwardRef<
     makeTime(),
     makeLifetime(),
     animateScale({ t: "smoothstep(0.0, 1.0, sin(v_progress * PI))" }),
+    applyVelocity(),
     billboard && makeBillboard(),
-    animateColor(),
-    makeLegacyShader()
+    animateColor()
   )
 
   useFrame((state, dt) => {
