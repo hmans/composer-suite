@@ -1,4 +1,4 @@
-import { Chunk, FrameCallback, ShaderModule, Uniforms } from "./types"
+import { Chunk, FrameCallback, ShaderModule, Uniforms, Varyings } from "./types"
 
 export function compileShader(
   ...input: (ShaderModule | false | null | undefined)[]
@@ -6,8 +6,9 @@ export function compileShader(
   const modules = input.filter((x) => !!x) as ShaderModule[]
 
   const uniforms = mergeUniforms(modules)
-
   const uniformsChunk = compileUniforms(modules)
+
+  const varyingsChunk = compileVaryings(modules)
 
   const vertexHeaders = modules.map((m) => compileChunk(m.name, m.vertexHeader))
   const vertexMains = modules.map((m) =>
@@ -23,6 +24,7 @@ export function compileShader(
 
   const vertexShader = /*glsl*/ `
 ${uniformsChunk}
+${varyingsChunk}
 
 ${vertexHeaders.join("\n")}
 
@@ -33,6 +35,7 @@ void main() {
 
   const fragmentShader = /*glsl*/ `
 ${uniformsChunk}
+${varyingsChunk}
 
 ${fragmentHeaders.join("\n")}
 
@@ -81,6 +84,24 @@ function compileUniforms(modules: ShaderModule[]) {
       names.forEach((name) => {
         const uniform = module.uniforms[name]
         parts.push(`uniform ${uniform.type} ${name};`)
+      })
+    }
+  })
+
+  return parts.join("\n")
+}
+
+function compileVaryings(modules: ShaderModule[]) {
+  const parts = new Array<string>()
+  parts.push("/* VARYINGS */\n")
+
+  modules.forEach((module) => {
+    const names = Object.keys(module.varyings)
+    if (names.length > 0) {
+      parts.push(`/* ${module.name} */`)
+      names.forEach((name) => {
+        const varying = module.varyings[name]
+        parts.push(`varying ${varying.type} ${name};`)
       })
     }
   })

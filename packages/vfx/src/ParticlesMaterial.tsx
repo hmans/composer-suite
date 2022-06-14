@@ -35,13 +35,15 @@ const makeBillboard = () =>
 
 const makeLifetime = () =>
   makeShaderModule({
+    varyings: {
+      v_timeStart: { type: "float" },
+      v_timeEnd: { type: "float" },
+      v_progress: { type: "float" },
+      v_age: { type: "float" }
+    },
+
     vertexHeader: `
       attribute vec2 time;
-
-      varying float v_timeStart;
-      varying float v_timeEnd;
-      varying float v_progress;
-      varying float v_age;
     `,
 
     vertexMain: `
@@ -49,13 +51,6 @@ const makeLifetime = () =>
       v_timeEnd = time.y;
       v_age = u_time - v_timeStart;
       v_progress = v_age / (v_timeEnd - v_timeStart);
-    `,
-
-    fragmentHeader: `
-      varying float v_timeStart;
-      varying float v_timeEnd;
-      varying float v_progress;
-      varying float v_age;
     `,
 
     fragmentMain: `

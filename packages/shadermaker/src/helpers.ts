@@ -5,6 +5,7 @@ export const makeShaderModule = (
 ): ShaderModule => ({
   name: "unnamed",
   uniforms: {},
+  varyings: {},
   vertexHeader: "",
   vertexMain: "",
   fragmentHeader: "",
