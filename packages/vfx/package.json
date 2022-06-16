@@ -7,7 +7,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "Visual FX!",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "main": "dist/three-vfx.cjs.js",
   "module": "dist/three-vfx.esm.js",
   "types": "dist/three-vfx.cjs.d.ts",
