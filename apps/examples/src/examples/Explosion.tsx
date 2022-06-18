@@ -106,8 +106,8 @@ const Fireball = () => (
         c.lifetime = between(0.8, 1.4)
 
         c.color[0].lerpColors(
-          new Color("red").multiplyScalar(10),
-          new Color("yellow").multiplyScalar(10),
+          new Color("red").multiplyScalar(30),
+          new Color("yellow").multiplyScalar(50),
           power(3)
         )
         c.color[1].copy(c.color[0])
