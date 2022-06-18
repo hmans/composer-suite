@@ -18,7 +18,11 @@ const direction = new Vector3()
 const SmokeRing = () => (
   <MeshParticles maxParticles={200}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="white"
+      softness={1}
+    />
 
     <Repeat times={3} interval={0.5}>
       <Emitter
@@ -82,7 +86,11 @@ const Rocks = () => (
 const Fireball = () => (
   <MeshParticles maxParticles={15}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="#fff"
+      softness={2}
+    />
 
     <Emitter
       count={() => 5 + power(3) * 10}
@@ -117,11 +125,12 @@ const SmokeCloud = () => (
       map={useTexture("/textures/smoke.png")}
       depthWrite={false}
       billboard
-      scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      softness={3}
+      // scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
     />
 
     <Emitter
-      count={() => between(60, 80)}
+      count={between(30, 60)}
       setup={(c) => {
         direction.randomDirection()
 
@@ -140,7 +149,7 @@ const SmokeCloud = () => (
         c.scale[0].setScalar(between(0.5, 1.5))
         c.scale[1].setScalar(between(6, 20))
 
-        c.delay = upTo(0.3)
+        c.delay = upTo(0.1)
         c.lifetime = between(1, 3)
 
         c.alpha = [0.5, 0]
