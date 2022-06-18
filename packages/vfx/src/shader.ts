@@ -13,7 +13,10 @@ const billboardModule = {
   `
 }
 
-export const createShader = ({ billboard = false } = {}) => {
+export const createShader = ({
+  billboard = false,
+  scaleFunction = "v_progress"
+} = {}) => {
   /* Uniforms */
   const uniformsChunk = /*glsl*/ `
     uniform float u_time;
@@ -71,7 +74,7 @@ export const createShader = ({ billboard = false } = {}) => {
       offset += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration);
 
       /* Apply scale */
-      csm_Position *= mix(scaleStart, scaleEnd, v_progress);
+      csm_Position *= mix(scaleStart, scaleEnd, ${scaleFunction});
 
       /* Apply the instance matrix. */
       offset *= mat3(instanceMatrix);

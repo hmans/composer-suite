@@ -12,7 +12,14 @@ export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
 >(({ billboard = false, ...props }, ref) => {
-  const shader = useMemo(() => createShader({ billboard }), [])
+  const shader = useMemo(
+    () =>
+      createShader({
+        billboard,
+        scaleFunction: "smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      }),
+    []
+  )
 
   return (
     <CustomShaderMaterial
