@@ -151,8 +151,7 @@ export const createShader = ({
         `,
 
         vertexMain: `
-          vec4 eh_worldPosition	= modelMatrix * vec4( position, 1.0 );
-          vec4 viewPosition = viewMatrix * eh_worldPosition;
+          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4( position, 1.0 );
           v_viewZ = viewPosition.z;
         `,
 
@@ -174,7 +173,7 @@ export const createShader = ({
           vec2 sUv = gl_FragCoord.xy / u_resolution;
           float d = readDepth(u_depth, sUv);
 
-          csm_DiffuseColor.a *= smoothstep(0.0, 5.0, v_viewZ - d);
+          csm_DiffuseColor.a *= smoothstep(1.0, 5.0, v_viewZ - d);
         `
       })
     )
