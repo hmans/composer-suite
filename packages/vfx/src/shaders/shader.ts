@@ -153,7 +153,9 @@ export const createShader = ({
 
         vertexMain: `
           v_uv = uv;
-          v_worldZ = csm_Position.z;
+
+          vec4 pos = modelViewMatrix * instanceMatrix * vec4(csm_Position, 1.0);
+          v_worldZ = pos.z;
         `,
 
         fragmentHeader: `
@@ -167,7 +169,7 @@ export const createShader = ({
 
           float readDepth(sampler2D depthSampler, vec2 coord) {
             float fragCoordZ = texture2D(depthSampler, coord).x;
-            // fragCoordZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
+            fragCoordZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
             return fragCoordZ;
           }
         `,
