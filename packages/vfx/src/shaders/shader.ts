@@ -170,12 +170,20 @@ export const createShader = ({
         `,
 
         fragmentMain: `
-          vec2 sUv = gl_FragCoord.xy / u_resolution;
-          float d = readDepth(u_depth, sUv);
+          {
+            /* Normalize fragment coordinates to screen space */
+            vec2 screenUv = gl_FragCoord.xy / u_resolution;
 
-          csm_DiffuseColor.a *= smoothstep(0.0, ${formatValue(
-            softness
-          )}, v_viewZ - d);
+            /* Get the existing depth at the fragment position */
+            float depth = readDepth(u_depth, screenUv);
+
+            /* Calculate the distance to the fragment */
+            float distance =
+              smoothstep(0.0, ${formatValue(softness)}, v_viewZ - depth);
+
+            /* Apply the distance to the fragment alpha */
+            csm_DiffuseColor.a *= distance;
+          }
         `
       })
     )
