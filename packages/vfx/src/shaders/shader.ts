@@ -23,9 +23,9 @@ export const createShader = ({
 
   const addModule = (module: Module) => {
     state.vertexHeaders += module.vertexHeader
-    state.vertexMain += module.vertexMain
+    state.vertexMain += `{ ${module.vertexMain} }`
     state.fragmentHeaders += module.fragmentHeader
-    state.fragmentMain += module.fragmentMain
+    state.fragmentMain += `{ ${module.fragmentMain} }`
   }
 
   /* Easing functions */
@@ -151,10 +151,8 @@ export const createShader = ({
         `,
 
         vertexMain: `
-          {
-            vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);
-            v_viewZ = viewPosition.z;
-          }
+          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);
+          v_viewZ = viewPosition.z;
         `,
 
         fragmentHeader: `
@@ -172,20 +170,18 @@ export const createShader = ({
         `,
 
         fragmentMain: `
-          {
-            /* Normalize fragment coordinates to screen space */
-            vec2 screenUv = gl_FragCoord.xy / u_resolution;
+          /* Normalize fragment coordinates to screen space */
+          vec2 screenUv = gl_FragCoord.xy / u_resolution;
 
-            /* Get the existing depth at the fragment position */
-            float depth = readDepth(u_depth, screenUv);
+          /* Get the existing depth at the fragment position */
+          float depth = readDepth(u_depth, screenUv);
 
-            /* Calculate the distance to the fragment */
-            float distance =
-              smoothstep(0.0, ${formatValue(softness)}, v_viewZ - depth);
+          /* Calculate the distance to the fragment */
+          float distance =
+            smoothstep(0.0, ${formatValue(softness)}, v_viewZ - depth);
 
-            /* Apply the distance to the fragment alpha */
-            csm_DiffuseColor.a *= distance;
-          }
+          /* Apply the distance to the fragment alpha */
+          csm_DiffuseColor.a *= distance;
         `
       })
     )
