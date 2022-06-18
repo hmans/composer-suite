@@ -1,12 +1,12 @@
 export const createShader = () => {
   /* Uniforms */
-  const uniforms = /*glsl*/ `
+  const uniformsChunk = /*glsl*/ `
     uniform float u_time;
     uniform bool u_billboard;
   `
 
   /* Varyings */
-  const varyings = /*glsl*/ `
+  const varyingsChunk = /*glsl*/ `
     varying float v_timeStart;
     varying float v_timeEnd;
     varying float v_progress;
@@ -16,7 +16,7 @@ export const createShader = () => {
   `
 
   /* Attributes */
-  const attributes = /*glsl*/ `
+  const attributesChunk = /*glsl*/ `
     attribute vec2 time;
     attribute vec3 velocity;
     attribute vec3 acceleration;
@@ -28,9 +28,9 @@ export const createShader = () => {
 
   /* Vertex Shader */
   const vertexShader = /* glsl */ `
-    ${uniforms}
-    ${varyings}
-    ${attributes}
+    ${uniformsChunk}
+    ${varyingsChunk}
+    ${attributesChunk}
 
     /* Billboard helper */
     vec3 billboard(vec2 v, mat4 view){
@@ -77,8 +77,8 @@ export const createShader = () => {
 
   /* Fragment Shader */
   const fragmentShader = /* glsl */ `
-    ${uniforms}
-    ${varyings}
+    ${uniformsChunk}
+    ${varyingsChunk}
 
     void main() {
       /* Lifetime management: discard this instance if it is not in the current time range */
@@ -99,5 +99,12 @@ export const createShader = () => {
     }
   `
 
-  return { vertexShader, fragmentShader }
+  const uniforms = {
+    u_time: {
+      value: 0
+    },
+    u_billboard: { value: false }
+  }
+
+  return { vertexShader, fragmentShader, uniforms }
 }

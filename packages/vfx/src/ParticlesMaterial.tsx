@@ -12,22 +12,11 @@ export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
 >(({ billboard = false, ...props }, ref) => {
-  const uniforms = useMemo(
-    () => ({
-      u_time: {
-        value: 0
-      },
-      u_billboard: { value: billboard }
-    }),
-    []
-  )
-
   const shader = useMemo(() => createShader(), [])
 
   return (
     <CustomShaderMaterial
       ref={ref}
-      uniforms={uniforms}
       blending={CustomBlending}
       blendEquation={AddEquation}
       depthTest={true}
