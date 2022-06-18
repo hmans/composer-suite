@@ -45,7 +45,7 @@ export const Game = () => {
         shadow-radius={10}
         shadow-bias={-0.0001}
       />
-      <fog attach="fog" args={["#987", 50, 100]} />
+      <fog attach="fog" args={["#987", 50, 300]} />
       <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
       <OrbitControls
