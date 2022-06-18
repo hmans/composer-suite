@@ -12,7 +12,7 @@ export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
 >(({ billboard = false, ...props }, ref) => {
-  const shader = useMemo(() => createShader(), [])
+  const shader = useMemo(() => createShader({ billboard }), [])
 
   return (
     <CustomShaderMaterial

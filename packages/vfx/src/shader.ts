@@ -1,4 +1,4 @@
-export const createShader = () => {
+export const createShader = ({ billboard = false } = {}) => {
   /* Uniforms */
   const uniformsChunk = /*glsl*/ `
     uniform float u_time;
@@ -103,7 +103,7 @@ export const createShader = () => {
     u_time: {
       value: 0
     },
-    u_billboard: { value: false }
+    u_billboard: { value: billboard }
   }
 
   return { vertexShader, fragmentShader, uniforms }
