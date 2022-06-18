@@ -39,8 +39,7 @@ export const GLTFParticles = () => {
               c.delay = upTo(1)
               c.lifetime = 20
 
-              c.alphaStart = 1
-              c.alphaEnd = 1
+              c.alpha = [1, 1]
 
               c.scale[0].setScalar(0.3)
               c.scale[1].setScalar(0.3)

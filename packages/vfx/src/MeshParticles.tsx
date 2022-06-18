@@ -31,8 +31,7 @@ const components = {
   lifetime: 1,
   scale: [new Vector3(), new Vector3()],
   color: [new Color(), new Color()],
-  alphaStart: 1,
-  alphaEnd: 0
+  alpha: [1, 0]
 }
 
 export type MeshParticlesProps = InstancedMeshProps & {
@@ -129,8 +128,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.lifetime = 1
           components.color[0].setRGB(1, 1, 1)
           components.color[1].setRGB(1, 1, 1)
-          components.alphaStart = 1
-          components.alphaEnd = 0
+          components.alpha = [1, 0]
 
           /* Run setup */
           setup?.(components)
@@ -169,14 +167,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
             components.color[0].r,
             components.color[0].g,
             components.color[0].b,
-            components.alphaStart
+            components.alpha[0]
           )
           attributes.color1.setXYZW(
             playhead.current,
             components.color[1].r,
             components.color[1].g,
             components.color[1].b,
-            components.alphaEnd
+            components.alpha[1]
           )
 
           /* Set scale */

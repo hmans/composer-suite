@@ -142,8 +142,7 @@ const SmokeCloud = () => (
         c.delay = upTo(0.3)
         c.lifetime = between(1, 3)
 
-        c.alphaStart = 0.5
-        c.alphaEnd = 0
+        c.alpha = [0.5, 0]
 
         c.color[0].lerpColors(new Color("#888"), new Color("#666"), power(3))
         c.color[1].copy(c.color[0])

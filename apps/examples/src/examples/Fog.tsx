@@ -20,8 +20,7 @@ export const Fog = () => {
     c.lifetime = 60
     c.scale[0].setScalar(between(1, 50))
     c.scale[1].setScalar(0)
-    c.alphaStart = between(0.05, 0.1)
-    c.alphaEnd = 0
+    c.alpha = [between(0.05, 0.1), 0]
   }
 
   return (
