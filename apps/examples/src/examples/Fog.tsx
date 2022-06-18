@@ -1,12 +1,6 @@
-import { updateCamera } from "@react-three/fiber/dist/declarations/src/core/utils"
-import { between, insideSphere, upTo } from "randomish"
-import { useMemo } from "react"
-import {
-  AdditiveBlending,
-  MeshStandardMaterial,
-  TextureLoader,
-  Vector3
-} from "three"
+import { useTexture } from "@react-three/drei"
+import { between, insideSphere } from "randomish"
+import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
 import {
   Delay,
   Emitter,
@@ -18,10 +12,7 @@ import {
 } from "three-vfx"
 
 export const Fog = () => {
-  const texture = useMemo(
-    () => new TextureLoader().load("/textures/smoke.png"),
-    []
-  )
+  const texture = useTexture("/textures/smoke.png")
 
   const setup: SpawnSetup = (c) => {
     c.position.copy(insideSphere(20) as Vector3)

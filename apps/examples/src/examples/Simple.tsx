@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
-import { MeshStandardMaterial, TextureLoader } from "three"
+import { MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -9,10 +9,8 @@ import {
   VisualEffect
 } from "three-vfx"
 
-const globalTexture = new TextureLoader().load("/textures/particle.png")
-
 export const Simple = () => {
-  // const texture = useTexture("/textures/particle.png")
+  const texture = useTexture("/textures/particle.png")
 
   return (
     <VisualEffect>
@@ -22,7 +20,7 @@ export const Simple = () => {
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           billboard
-          map={globalTexture}
+          map={texture}
           transparent
           depthTest={true}
           depthWrite={false}

@@ -1,4 +1,4 @@
-import { CameraShake } from "@react-three/drei"
+import { CameraShake, useTexture } from "@react-three/drei"
 import { between, plusMinus, power, upTo } from "randomish"
 import { Color, MeshStandardMaterial, TextureLoader, Vector3 } from "three"
 import {
@@ -14,8 +14,6 @@ import {
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
-
-const texture = new TextureLoader().load("/textures/smoke.png")
 
 const SmokeRing = () => (
   <MeshParticles maxParticles={200}>
@@ -116,7 +114,7 @@ const SmokeCloud = () => (
 
     <ParticlesMaterial
       baseMaterial={MeshStandardMaterial}
-      map={texture}
+      map={useTexture("/textures/smoke.png")}
       depthWrite={false}
       billboard
     />
