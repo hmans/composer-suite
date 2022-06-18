@@ -29,7 +29,7 @@ export const RenderPipeline = ({ beautiful = true }) => {
   return (
     <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
       <unrealBloomPass
-        args={[new Vector2(512, 512), 1.5, 0.1, 1]}
+        args={[new Vector2(256, 256), 1.5, 0.1, 1]}
         enabled={beautiful}
       />
       {/* <adaptiveToneMappingPass args={[true, 256]} enabled={beautiful} /> */}
