@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { DebrisExample } from "./DebrisExample"
 import { Explosion } from "./Explosion"
 import { FireflyExample } from "./FireflyExample"
 import { Fog } from "./Fog"
@@ -20,6 +21,7 @@ export default [
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
   { path: "fog", name: "Fog", component: <Fog /> },
   { path: "snow", name: "Snow", component: <Snow intensity={500} /> },
+  { path: "debris", name: "Debris", component: <DebrisExample /> },
   { path: "tornado", name: "Tornado (WIP)", component: <TornadoExample /> },
   {
     path: "softparticles",
@@ -34,6 +36,7 @@ export default [
       <>
         <Fog />
         <GLTFParticles />
+        <DebrisExample />
       </>
     )
   }
