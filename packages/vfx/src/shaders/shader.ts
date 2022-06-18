@@ -151,8 +151,10 @@ export const createShader = ({
         `,
 
         vertexMain: `
-          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4( csm_Position, 1.0 );
-          v_viewZ = viewPosition.z;
+          {
+            vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);
+            v_viewZ = viewPosition.z;
+          }
         `,
 
         fragmentHeader: `
