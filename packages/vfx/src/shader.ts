@@ -122,6 +122,11 @@ export const createShader = ({
 
       /* Apply the diffuse color */
       csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, ${colorFunction});
+
+      /* Mix in the texture */
+      #ifdef USE_MAP
+        csm_DiffuseColor *= texture2D(map, vUv);
+      #endif
     `
     })
   )
@@ -138,12 +143,6 @@ export const createShader = ({
 
       /* Apply velocity and acceleration */
       csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
-    `,
-      fragmentMain: `
-      /* Mix in the texture */
-      #ifdef USE_MAP
-        csm_DiffuseColor *= texture2D(map, vUv);
-      #endif
     `
     })
   )
