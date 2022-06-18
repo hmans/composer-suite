@@ -12,7 +12,7 @@ import { Stage } from "./Stage"
 
 export const Game = () => {
   const { beautiful, halfResolution } = useControls("Rendering", {
-    beautiful: false,
+    beautiful: true,
     halfResolution: false
   })
 
@@ -23,8 +23,7 @@ export const Game = () => {
         outputEncoding: LinearEncoding,
         alpha: false,
         depth: true,
-        stencil: false,
-        antialias: false
+        stencil: false
       }}
       dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
       shadows

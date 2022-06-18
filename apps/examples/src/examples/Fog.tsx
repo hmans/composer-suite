@@ -32,7 +32,7 @@ export const Fog = () => {
           baseMaterial={MeshStandardMaterial}
           map={texture}
           blending={AdditiveBlending}
-          depthTest={true}
+          depthTest={false}
           depthWrite={false}
           billboard
           softness={5}

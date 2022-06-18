@@ -9,6 +9,8 @@ import {
   DepthTexture,
   FloatType,
   HalfFloatType,
+  UnsignedByteType,
+  UnsignedIntType,
   UnsignedShortType
 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"

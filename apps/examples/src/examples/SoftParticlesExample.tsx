@@ -1,4 +1,3 @@
-import { useTexture } from "@react-three/drei"
 import { MeshStandardMaterial } from "three"
 import {
   Emitter,
