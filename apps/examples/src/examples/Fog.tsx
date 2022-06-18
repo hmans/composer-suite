@@ -40,10 +40,10 @@ export const Fog = () => {
           colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
         />
 
-        <Emitter count={50} setup={setup({ preDelay: 15 })} />
+        <Emitter count={30} setup={setup({ preDelay: 15 })} />
 
         <Repeat interval={5}>
-          <Emitter count={20} setup={setup()} />
+          <Emitter count={10} setup={setup()} />
         </Repeat>
       </MeshParticles>
     </VisualEffect>
