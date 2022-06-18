@@ -17,7 +17,6 @@ export const Game = () => {
 
   return (
     <Canvas
-      flat
       gl={{
         outputEncoding: LinearEncoding,
         alpha: false,

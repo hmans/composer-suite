@@ -1,44 +1,11 @@
-import { useFBO } from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
+import { useThree } from "@react-three/fiber"
 import { forwardRef, useEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
-import {
-  AddEquation,
-  CustomBlending,
-  DepthFormat,
-  DepthTexture,
-  FloatType
-} from "three"
+import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { createShader } from "./shaders/shader"
-
-function useDepthBuffer() {
-  const dpr = useThree((state) => state.viewport.dpr)
-  const width = useThree((state) => state.size.width)
-  const height = useThree((state) => state.size.height)
-  const w = width * dpr
-  const h = height * dpr
-  console.log(w, h)
-
-  const depthConfig = useMemo(() => {
-    const depthTexture = new DepthTexture(w, h)
-    depthTexture.format = DepthFormat
-    depthTexture.type = FloatType
-
-    return { depthTexture }
-  }, [w, h])
-
-  const depthFBO = useFBO(w, h, depthConfig)
-
-  useFrame((state) => {
-    state.gl.setRenderTarget(depthFBO)
-    state.gl.render(state.scene, state.camera)
-    state.gl.setRenderTarget(null)
-  })
-
-  return depthFBO.depthTexture
-}
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean

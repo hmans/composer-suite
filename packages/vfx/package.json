@@ -32,7 +32,6 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
-    "@react-three/drei": "^9.11.3",
     "@react-three/fiber": "^8.0.22",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -55,7 +54,6 @@
     "three-custom-shader-material": "^3.4.3"
   },
   "peerDependencies": {
-    "@react-three/drei": ">=9.13.2",
     "@react-three/fiber": ">=8.0.0",
     "react": ">=18.1.0",
     "react-dom": ">=18.1.0",
