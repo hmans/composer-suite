@@ -15,7 +15,8 @@ const billboardModule = {
 
 export const createShader = ({
   billboard = false,
-  scaleFunction = "v_progress"
+  scaleFunction = "v_progress",
+  colorFunction = "v_progress"
 } = {}) => {
   /* Uniforms */
   const uniformsChunk = /*glsl*/ `
@@ -99,7 +100,7 @@ export const createShader = ({
       vec4 diffuse4 = vec4(diffuse, 1.0);
 
       /* Apply the diffuse color */
-      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, v_progress);
+      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, ${colorFunction});
 
       /* Mix in the texture */
       #ifdef USE_MAP
