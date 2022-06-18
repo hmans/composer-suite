@@ -14,7 +14,7 @@ export const Snow = () => {
   const texture = useTexture("/textures/particle.png")
 
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
-    c.position.set(plusMinus(20), 30, plusMinus(20))
+    c.position.set(5 + plusMinus(20), 30, plusMinus(20))
     c.velocity.set(-2 + plusMinus(2), -10 + plusMinus(2), plusMinus(2))
     c.delay = upTo(1) - preDelay
     c.lifetime = 10
