@@ -160,11 +160,12 @@ export const createShader = ({
           uniform vec2 u_resolution;
           uniform float u_cameraNear;
           uniform float u_cameraFar;
+
           varying float v_viewZ;
 
-          float readDepth( sampler2D depthSampler, vec2 coord ) {
-            float fragCoordZ = texture2D( depthSampler, coord ).x;
-            float viewZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
+          float readDepth(vec2 coord) {
+            float depthZ = texture2D(u_depth, coord).x;
+            float viewZ = perspectiveDepthToViewZ(depthZ, u_cameraNear, u_cameraFar);
             return viewZ;
           }
         `,
@@ -174,7 +175,7 @@ export const createShader = ({
           vec2 screenUv = gl_FragCoord.xy / u_resolution;
 
           /* Get the existing depth at the fragment position */
-          float depth = readDepth(u_depth, screenUv);
+          float depth = readDepth(screenUv);
 
           /* Calculate the distance to the fragment */
           float distance =
