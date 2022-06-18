@@ -1,8 +1,3 @@
-/* Uniforms */
-const uniformsChunk = /*glsl*/ `
-    uniform bool u_billboard;
-  `
-
 /* Varyings */
 const varyingsChunk = /*glsl*/ `
     varying vec4 v_colorStart;
@@ -111,10 +106,10 @@ export const createShader = ({
     )
   }
 
+  /* Legacy */
   addModule(
     module({
       vertexHeader: `
-      ${uniformsChunk}
       ${varyingsChunk}
       ${attributesChunk}
 
@@ -143,7 +138,6 @@ export const createShader = ({
       csm_Position += offset;
     `,
       fragmentHeader: `
-      ${uniformsChunk}
       ${varyingsChunk}
     `,
       fragmentMain: `
