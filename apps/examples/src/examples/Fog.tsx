@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
-import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
+import { MeshStandardMaterial, NormalBlending, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -31,7 +31,7 @@ export const Fog = () => {
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
-          blending={AdditiveBlending}
+          blending={NormalBlending}
           depthTest={true}
           depthWrite={false}
           billboard
