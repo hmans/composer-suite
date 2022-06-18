@@ -9,7 +9,6 @@ export function useDepthBuffer() {
   const height = useThree((state) => state.size.height)
   const w = width * dpr
   const h = height * dpr
-  console.log(w, h)
 
   const depthTexture = useMemo(() => {
     const depthTexture = new DepthTexture(w, h)
