@@ -44,7 +44,7 @@ export const ParticlesMaterial = forwardRef<
         material.current.uniforms.u_depth.value = depthBuffer
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far
-        material.current.uniforms.u_resolution.value = [256, 256]
+        // material.current.uniforms.u_resolution.value = [256, 256]
       }, [depthBuffer])
     }
 
