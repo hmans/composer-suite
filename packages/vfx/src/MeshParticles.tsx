@@ -42,7 +42,7 @@ export type MeshParticlesProps = InstancedMeshProps & {
 
 export type SpawnOptions = typeof components
 
-export type SpawnSetup = (options: SpawnOptions) => void
+export type SpawnSetup = (options: SpawnOptions, index: number) => void
 
 export type ParticlesAPI = {
   spawnParticle: (count: number, setup?: SpawnSetup) => void
@@ -131,7 +131,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.alpha = [1, 0]
 
           /* Run setup */
-          setup?.(components)
+          setup?.(components, i)
 
           imesh.current.setMatrixAt(
             playhead.current,

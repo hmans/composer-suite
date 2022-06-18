@@ -50,6 +50,10 @@ export const createShader = ({
       vertexMain: `
         v_age = u_time - time.x;
         v_progress = v_age / (time.y - time.x);
+
+        if (v_progress < 0.0 || v_progress > 1.0) {
+          csm_Position *= 0.0;;
+        }
       `,
       fragmentHeader: `
         varying float v_progress;

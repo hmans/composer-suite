@@ -59,8 +59,6 @@ export const ParticlesMaterial = forwardRef<
         ref={mergeRefs([material, ref])}
         blending={CustomBlending}
         blendEquation={AddEquation}
-        depthTest={true}
-        depthWrite={false}
         {...shader}
         {...props}
       />
