@@ -1,4 +1,5 @@
 import { Module, module } from "./modules"
+import { easings } from "./modules/easings"
 
 const compile = (headers: string, main: string) => `
   ${headers}
@@ -25,6 +26,9 @@ export const createShader = ({
     state.fragmentHeaders += module.fragmentHeader
     state.fragmentMain += module.fragmentMain
   }
+
+  /* Easing functions */
+  addModule(easings)
 
   /* Effect Time */
   addModule(
