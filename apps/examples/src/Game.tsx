@@ -7,7 +7,7 @@ import { LinearEncoding } from "three"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
-import { RenderPipeline } from "./RenderPipeline"
+import { Rendering } from "./Rendering"
 import { Stage } from "./Stage"
 
 export const Game = () => {
@@ -61,6 +61,7 @@ export const Game = () => {
       </Stage>
 
       {/* Rendering, ECS, etc. */}
+      <Rendering />
       <Perf position="bottom-right" />
     </Canvas>
   )
