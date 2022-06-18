@@ -22,6 +22,7 @@ export default [
     name: "Combined",
     component: (
       <>
+        <Snow />
         <Fog />
         <GLTFParticles />
       </>
