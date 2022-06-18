@@ -1,6 +1,5 @@
 /* Uniforms */
 const uniformsChunk = /*glsl*/ `
-    uniform float u_time;
     uniform bool u_billboard;
   `
 
@@ -73,6 +72,14 @@ export const createShader = ({
     state.fragmentHeaders += module.fragmentHeader
     state.fragmentMain += module.fragmentMain
   }
+
+  /* Effect Time */
+  addModule(
+    module({
+      vertexHeader: `uniform float u_time;`,
+      fragmentHeader: `uniform float u_time;`
+    })
+  )
 
   addModule(
     module({
