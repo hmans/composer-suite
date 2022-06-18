@@ -1,11 +1,11 @@
 import { useThree } from "@react-three/fiber"
-import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { createShader } from "./shaders/shader"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
+import { createShader } from "./shaders/shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
