@@ -42,11 +42,9 @@ export const Fog = () => {
 
         <Emitter count={50} setup={setup({ preDelay: 15 })} />
 
-        <Delay seconds={5}>
-          <Repeat interval={5}>
-            <Emitter count={20} setup={setup()} />
-          </Repeat>
-        </Delay>
+        <Repeat interval={5}>
+          <Emitter count={20} setup={setup()} />
+        </Repeat>
       </MeshParticles>
     </VisualEffect>
   )
