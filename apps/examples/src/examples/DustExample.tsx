@@ -10,7 +10,7 @@ import {
   VisualEffect
 } from "three-vfx"
 
-export const DebrisExample = ({ intensity = 300 }) => {
+export const DustExample = ({ intensity = 300 }) => {
   const texture = useTexture("/textures/particle.png")
 
   return (
