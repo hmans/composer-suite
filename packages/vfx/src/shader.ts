@@ -112,15 +112,10 @@ export const createShader = ({
       vertexHeader: `
       ${varyingsChunk}
       ${attributesChunk}
-
-      /* Set the varyings we want to forward */
-      void setVaryings() {
-        v_colorStart = colorStart;
-        v_colorEnd = colorEnd;
-      }
-    `,
+      `,
       vertexMain: `
-      setVaryings();
+      v_colorStart = colorStart;
+      v_colorEnd = colorEnd;
 
       /* Start with an origin offset */
       vec3 offset = vec3(0.0, 0.0, 0.0);
