@@ -1,9 +1,3 @@
-/* Attributes */
-const attributesChunk = /*glsl*/ `
-    attribute vec3 velocity;
-    attribute vec3 acceleration;
-  `
-
 type Module = {
   vertexHeader: string
   vertexMain: string
@@ -110,6 +104,19 @@ export const createShader = ({
     })
   )
 
+  /* Velocity and acceleration */
+  addModule(
+    module({
+      vertexHeader: `
+        attribute vec3 velocity;
+        attribute vec3 acceleration;
+      `,
+      vertexMain: `
+        csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
+      `
+    })
+  )
+
   /* Color animation */
   addModule(
     module({
@@ -138,19 +145,6 @@ export const createShader = ({
       #ifdef USE_MAP
         csm_DiffuseColor *= texture2D(map, vUv);
       #endif
-    `
-    })
-  )
-
-  /* Legacy */
-  addModule(
-    module({
-      vertexHeader: `
-      ${attributesChunk}
-      `,
-      vertexMain: `
-      /* Apply velocity and acceleration */
-      csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
     `
     })
   )
