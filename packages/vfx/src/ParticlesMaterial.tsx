@@ -1,7 +1,6 @@
 import React, { forwardRef, useMemo } from "react"
 import { AddEquation, CustomBlending } from "three"
-import CustomShaderMaterial from "three-custom-shader-material"
-import { iCSMProps } from "three-custom-shader-material/types"
+import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import * as shader from "./shader"
 
