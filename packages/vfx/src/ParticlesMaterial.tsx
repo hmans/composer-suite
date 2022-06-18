@@ -1,48 +1,41 @@
 import { useFBO } from "@react-three/drei"
 import { useFrame, useThree } from "@react-three/fiber"
-import React, { forwardRef, useEffect, useMemo, useRef } from "react"
+import { forwardRef, useEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import {
   AddEquation,
   CustomBlending,
   DepthFormat,
   DepthTexture,
-  FloatType,
-  HalfFloatType,
-  UnsignedByteType,
-  UnsignedIntType,
-  UnsignedShortType
+  FloatType
 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { createShader } from "./shaders/shader"
 
-function useDepthBuffer({
-  size = 256,
-  frames = Infinity
-}: { size?: number; frames?: number } = {}) {
+function useDepthBuffer() {
   const dpr = useThree((state) => state.viewport.dpr)
-  const { width, height } = useThree((state) => state.size)
-  const w = size || width * dpr
-  const h = size || height * dpr
+  const width = useThree((state) => state.size.width)
+  const height = useThree((state) => state.size.height)
+  const w = 256
+  const h = 256
 
-  const depthConfig = React.useMemo(() => {
+  const depthConfig = useMemo(() => {
     const depthTexture = new DepthTexture(w, h)
     depthTexture.format = DepthFormat
     depthTexture.type = FloatType
-    return { depthTexture }
-  }, [w, h])
 
-  let count = 0
+    return { depthTexture }
+  }, [width, height])
+
   const depthFBO = useFBO(w, h, depthConfig)
+
   useFrame((state) => {
-    if (frames === Infinity || count < frames) {
-      state.gl.setRenderTarget(depthFBO)
-      state.gl.render(state.scene, state.camera)
-      state.gl.setRenderTarget(null)
-      count++
-    }
+    state.gl.setRenderTarget(depthFBO)
+    state.gl.render(state.scene, state.camera)
+    state.gl.setRenderTarget(null)
   })
+
   return depthFBO.depthTexture
 }
 
@@ -63,6 +56,8 @@ export const ParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
 
+    const { width, height } = useThree((state) => state.size)
+
     const shader = useMemo(
       () =>
         createShader({
@@ -77,7 +72,7 @@ export const ParticlesMaterial = forwardRef<
     if (softness) {
       const { camera } = useThree()
 
-      const depthBuffer = useDepthBuffer({ size: 512 })
+      const depthBuffer = useDepthBuffer()
 
       useEffect(() => {
         material.current.uniforms.u_depth.value = depthBuffer
@@ -87,7 +82,7 @@ export const ParticlesMaterial = forwardRef<
           window.innerWidth,
           window.innerHeight
         ]
-      }, [depthBuffer])
+      }, [depthBuffer, width, height])
     }
 
     return (
