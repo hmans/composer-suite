@@ -35,7 +35,7 @@ export const Fog = () => {
           depthTest={true}
           depthWrite={false}
           billboard
-          soft
+          softness={5}
           transparent
           colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
         />

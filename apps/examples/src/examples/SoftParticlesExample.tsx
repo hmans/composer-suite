@@ -18,7 +18,7 @@ export const SoftParticlesExample = () => {
           color="hotpink"
           billboard
           transparent
-          soft
+          softness={5}
           depthWrite={false}
         />
 

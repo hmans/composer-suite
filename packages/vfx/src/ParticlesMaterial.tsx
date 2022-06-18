@@ -46,7 +46,7 @@ function useDepthBuffer({
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
-  soft?: boolean
+  softness?: number
   scaleFunction?: string
   colorFunction?: string
 }
@@ -56,7 +56,7 @@ export const ParticlesMaterial = forwardRef<
   ParticlesMaterialProps
 >(
   (
-    { billboard = false, soft = false, scaleFunction, colorFunction, ...props },
+    { billboard = false, softness = 0, scaleFunction, colorFunction, ...props },
     ref
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
@@ -65,14 +65,14 @@ export const ParticlesMaterial = forwardRef<
       () =>
         createShader({
           billboard,
-          soft,
+          softness,
           scaleFunction,
           colorFunction
         }),
       []
     )
 
-    if (soft) {
+    if (softness) {
       const { camera } = useThree()
 
       const depthBuffer = useDepthBuffer({ size: 512 })

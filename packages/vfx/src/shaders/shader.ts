@@ -1,4 +1,4 @@
-import { Module, module } from "./modules"
+import { formatValue, Module, module } from "./modules"
 import { easings } from "./modules/easings"
 
 const compile = (headers: string, main: string) => `
@@ -10,7 +10,7 @@ const compile = (headers: string, main: string) => `
 
 export const createShader = ({
   billboard = false,
-  soft = false,
+  softness = 0,
   scaleFunction = "v_progress",
   colorFunction = "v_progress"
 } = {}) => {
@@ -143,7 +143,7 @@ export const createShader = ({
   )
 
   /* Soft particles */
-  if (soft) {
+  if (softness) {
     addModule(
       module({
         vertexHeader: `
@@ -151,7 +151,7 @@ export const createShader = ({
         `,
 
         vertexMain: `
-          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4( position, 1.0 );
+          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4( csm_Position, 1.0 );
           v_viewZ = viewPosition.z;
         `,
 
@@ -173,7 +173,9 @@ export const createShader = ({
           vec2 sUv = gl_FragCoord.xy / u_resolution;
           float d = readDepth(u_depth, sUv);
 
-          csm_DiffuseColor.a *= smoothstep(0.0, 1.0, v_viewZ - d);
+          csm_DiffuseColor.a *= smoothstep(0.0, ${formatValue(
+            softness
+          )}, v_viewZ - d);
         `
       })
     )
