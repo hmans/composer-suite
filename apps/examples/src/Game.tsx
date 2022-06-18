@@ -12,7 +12,7 @@ import { Stage } from "./Stage"
 
 export const Game = () => {
   const { beautiful, halfResolution } = useControls("Rendering", {
-    beautiful: true,
+    beautiful: false,
     halfResolution: false
   })
 
