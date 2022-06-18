@@ -6,17 +6,18 @@ import { createShader } from "./shaders/shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
+  scaleFunction?: string
 }
 
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, ...props }, ref) => {
+>(({ billboard = false, scaleFunction, ...props }, ref) => {
   const shader = useMemo(
     () =>
       createShader({
         billboard,
-        scaleFunction: "smoothstep(0.0, 1.0, sin(v_progress * PI))"
+        scaleFunction
       }),
     []
   )
