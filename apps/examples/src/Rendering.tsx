@@ -41,6 +41,7 @@ export const Rendering = () => {
       mipmapBlur: true,
       luminanceThreshold: 0.8,
       luminanceSmoothing: 0.1,
+      radius: 0.5,
       intensity: 4.0
     } as any)
     effect.inverted = true
