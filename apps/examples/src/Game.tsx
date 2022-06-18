@@ -11,8 +11,7 @@ import { RenderPipeline } from "./RenderPipeline"
 import { Stage } from "./Stage"
 
 export const Game = () => {
-  const { beautiful, halfResolution } = useControls("Rendering", {
-    beautiful: true,
+  const { halfResolution } = useControls("Rendering", {
     halfResolution: false
   })
 
@@ -63,7 +62,6 @@ export const Game = () => {
       </Stage>
 
       {/* Rendering, ECS, etc. */}
-      <RenderPipeline beautiful={beautiful} />
       <Perf position="bottom-right" />
     </Canvas>
   )
