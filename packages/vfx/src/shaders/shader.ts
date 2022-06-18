@@ -1,17 +1,4 @@
-type Module = {
-  vertexHeader: string
-  vertexMain: string
-  fragmentHeader: string
-  fragmentMain: string
-}
-
-const module = (input: Partial<Module>): Module => ({
-  vertexHeader: "",
-  vertexMain: "",
-  fragmentHeader: "",
-  fragmentMain: "",
-  ...input
-})
+import { Module, module } from "./modules"
 
 const compile = (headers: string, main: string) => `
   ${headers}
