@@ -10,9 +10,9 @@ const compile = (headers: string, main: string) => `
 
 export const createShader = ({
   billboard = false,
+  soft = false,
   scaleFunction = "v_progress",
-  colorFunction = "v_progress",
-  alphaFunction = "v_progress"
+  colorFunction = "v_progress"
 } = {}) => {
   const state = {
     vertexHeaders: "",
@@ -142,13 +142,54 @@ export const createShader = ({
     })
   )
 
+  /* Soft particles */
+  if (soft) {
+    addModule(
+      module({
+        vertexHeader: `
+        varying vec2 v_uv;
+        varying float v_worldZ;
+      `,
+
+        vertexMain: `
+        v_uv = uv;
+        v_worldZ = csm_Position.z;
+      `,
+
+        fragmentHeader: `
+        uniform sampler2D u_depth;
+        uniform float u_cameraNear;
+        uniform float u_cameraFar;
+
+        varying vec2 v_uv;
+        varying float v_worldZ;
+
+
+        float readDepth(sampler2D depthSampler, vec2 coord) {
+          float fragCoordZ = texture2D(depthSampler, coord).x;
+          // fragCoordZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
+          return fragCoordZ;
+        }
+      `,
+
+        fragmentMain: `
+        float depth = readDepth(u_depth, v_uv);
+        csm_DiffuseColor.a *= 1.0 - smoothstep(0.0, 1.0, v_worldZ - depth);
+        // csm_DiffuseColor.a *= 1.0 - depth;
+      `
+      })
+    )
+  }
+
   return {
     vertexShader: compile(state.vertexHeaders, state.vertexMain),
     fragmentShader: compile(state.fragmentHeaders, state.fragmentMain),
     uniforms: {
-      u_time: {
-        value: 0
-      }
+      u_time: { value: 0 },
+      u_depth: { value: null },
+      u_cameraNear: { value: 0 },
+      u_cameraFar: { value: 1 },
+      u_resolution: { value: [window.innerWidth, window.innerHeight] }
     }
   }
 }

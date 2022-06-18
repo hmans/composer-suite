@@ -6,6 +6,7 @@ import { createShader } from "./shaders/shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
+  soft?: boolean
   scaleFunction?: string
   colorFunction?: string
 }
@@ -13,26 +14,32 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, scaleFunction, colorFunction, ...props }, ref) => {
-  const shader = useMemo(
-    () =>
-      createShader({
-        billboard,
-        scaleFunction,
-        colorFunction
-      }),
-    []
-  )
+>(
+  (
+    { billboard = false, soft = false, scaleFunction, colorFunction, ...props },
+    ref
+  ) => {
+    const shader = useMemo(
+      () =>
+        createShader({
+          billboard,
+          soft,
+          scaleFunction,
+          colorFunction
+        }),
+      []
+    )
 
-  return (
-    <CustomShaderMaterial
-      ref={ref}
-      blending={CustomBlending}
-      blendEquation={AddEquation}
-      depthTest={true}
-      depthWrite={false}
-      {...shader}
-      {...props}
-    />
-  )
-})
+    return (
+      <CustomShaderMaterial
+        ref={ref}
+        blending={CustomBlending}
+        blendEquation={AddEquation}
+        depthTest={true}
+        depthWrite={false}
+        {...shader}
+        {...props}
+      />
+    )
+  }
+)
