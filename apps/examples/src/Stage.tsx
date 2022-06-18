@@ -16,7 +16,7 @@ export const Stage: FC<StageProps> = ({ children, speed = 0, ...props }) => {
   return (
     <group ref={stage} {...props}>
       <group position-y={-8}>
-        <mesh position-y={-0.5} receiveShadow>
+        <mesh position-y={-0} receiveShadow>
           <cylinderGeometry args={[16, 16, 1, 64]} />
           <meshStandardMaterial color="#eee" metalness={0.4} roughness={0.3} />
         </mesh>
