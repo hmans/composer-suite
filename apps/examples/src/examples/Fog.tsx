@@ -37,7 +37,7 @@ export const Fog = () => {
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
-          blending={MultiplyBlending}
+          blending={AdditiveBlending}
           depthTest={true}
           depthWrite={false}
           billboard
