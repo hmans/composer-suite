@@ -24,6 +24,7 @@ export const ParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
 
+    const dpr = useThree((state) => state.viewport.dpr)
     const { width, height } = useThree((state) => state.size)
 
     const shader = useMemo(
@@ -47,10 +48,10 @@ export const ParticlesMaterial = forwardRef<
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far
         material.current.uniforms.u_resolution.value = [
-          window.innerWidth,
-          window.innerHeight
+          window.innerWidth * dpr,
+          window.innerHeight * dpr
         ]
-      }, [depthBuffer, width, height])
+      }, [depthBuffer, width, height, dpr])
     }
 
     return (
