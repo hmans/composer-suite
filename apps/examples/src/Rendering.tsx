@@ -45,7 +45,7 @@ export const Rendering = () => {
           luminanceThreshold: 0.7,
           luminanceSmoothing: 0.3,
           intensity: 3.0
-        })
+        } as any)
       ),
     [scene, camera]
   )
