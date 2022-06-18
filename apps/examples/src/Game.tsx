@@ -17,10 +17,12 @@ export const Game = () => {
 
   return (
     <Canvas
+      flat
       gl={{
         outputEncoding: LinearEncoding,
+        powerPreference: "high-performance",
         alpha: false,
-        depth: true,
+        depth: false,
         stencil: false
       }}
       dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
