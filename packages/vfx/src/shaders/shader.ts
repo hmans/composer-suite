@@ -173,7 +173,7 @@ export const createShader = ({
           vec2 sUv = gl_FragCoord.xy / u_resolution;
           float d = readDepth(u_depth, sUv);
 
-          csm_DiffuseColor.a *= smoothstep(1.0, 5.0, v_viewZ - d);
+          csm_DiffuseColor.a *= smoothstep(0.0, 5.0, v_viewZ - d);
         `
       })
     )
