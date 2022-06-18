@@ -17,8 +17,9 @@ function useDepthBuffer() {
   const dpr = useThree((state) => state.viewport.dpr)
   const width = useThree((state) => state.size.width)
   const height = useThree((state) => state.size.height)
-  const w = 256
-  const h = 256
+  const w = width * dpr
+  const h = height * dpr
+  console.log(width, height)
 
   const depthConfig = useMemo(() => {
     const depthTexture = new DepthTexture(w, h)
@@ -26,7 +27,7 @@ function useDepthBuffer() {
     depthTexture.type = FloatType
 
     return { depthTexture }
-  }, [width, height])
+  }, [w, h])
 
   const depthFBO = useFBO(w, h, depthConfig)
 
