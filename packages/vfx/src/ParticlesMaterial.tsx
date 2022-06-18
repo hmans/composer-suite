@@ -1,5 +1,5 @@
 import { useThree } from "@react-three/fiber"
-import { forwardRef, useEffect, useMemo, useRef } from "react"
+import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -43,7 +43,7 @@ export const ParticlesMaterial = forwardRef<
 
       const depthBuffer = useDepthBuffer()
 
-      useEffect(() => {
+      useLayoutEffect(() => {
         material.current.uniforms.u_depth.value = depthBuffer
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far

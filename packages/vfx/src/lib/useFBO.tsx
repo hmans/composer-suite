@@ -13,11 +13,15 @@ export function useFBO<T extends boolean = false>(
   settings?: FBOSettings<T>
 ): THREE.WebGLRenderTarget {
   const { gl, size, viewport } = useThree()
+
   const _width = typeof width === "number" ? width : size.width * viewport.dpr
+
   const _height =
     typeof height === "number" ? height : size.height * viewport.dpr
+
   const _settings =
     (typeof width === "number" ? settings : (width as FBOSettings)) || {}
+
   const { samples, ...targetSettings } = _settings
 
   const target = React.useMemo(() => {
