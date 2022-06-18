@@ -1,3 +1,18 @@
+const billboardModule = {
+  header: `
+    /* Billboard helper */
+    vec3 billboard(vec2 v, mat4 view){
+      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
+      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
+      vec3 p = right * v.x + up * v.y;
+      return p;
+    }
+  `,
+  main: `
+    csm_Position = billboard(csm_Position.xy, viewMatrix);
+  `
+}
+
 export const createShader = ({ billboard = false } = {}) => {
   /* Uniforms */
   const uniformsChunk = /*glsl*/ `
@@ -32,13 +47,7 @@ export const createShader = ({ billboard = false } = {}) => {
     ${varyingsChunk}
     ${attributesChunk}
 
-    /* Billboard helper */
-    vec3 billboard(vec2 v, mat4 view){
-      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
-      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
-      vec3 p = right * v.x + up * v.y;
-      return p;
-    }
+    ${billboard ? billboardModule.header : ""}
 
     /* Set the varyings we want to forward */
     void setVaryings() {
@@ -53,10 +62,7 @@ export const createShader = ({ billboard = false } = {}) => {
     void main() {
       setVaryings();
 
-      /* Apply Billboarding */
-      if (u_billboard) {
-        csm_Position = billboard(csm_Position.xy, viewMatrix);
-      }
+      ${billboard ? billboardModule.main : ""}
 
       /* Start with an origin offset */
       vec3 offset = vec3(0.0, 0.0, 0.0);
@@ -102,8 +108,7 @@ export const createShader = ({ billboard = false } = {}) => {
   const uniforms = {
     u_time: {
       value: 0
-    },
-    u_billboard: { value: billboard }
+    }
   }
 
   return { vertexShader, fragmentShader, uniforms }
