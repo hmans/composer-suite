@@ -1,12 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
-import {
-  AdditiveBlending,
-  MeshStandardMaterial,
-  MultiplyBlending,
-  NormalBlending,
-  Vector3
-} from "three"
+import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
