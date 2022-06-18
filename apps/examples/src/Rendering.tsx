@@ -39,10 +39,9 @@ export const Rendering = () => {
     const effect = new SelectiveBloomEffect(scene, camera, {
       blendFunction: BlendFunction.ADD,
       mipmapBlur: true,
-      luminanceThreshold: 0.8,
+      luminanceThreshold: 1,
       luminanceSmoothing: 0.1,
-      radius: 0.5,
-      intensity: 4.0
+      intensity: 2
     } as any)
     effect.inverted = true
     return effect
