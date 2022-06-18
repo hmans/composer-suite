@@ -25,11 +25,7 @@ declare global {
   }
 }
 
-export const RenderPipeline = () => {
-  const { beautiful } = useControls("Rendering", {
-    beautiful: true
-  })
-
+export const RenderPipeline = ({ beautiful = true }) => {
   return (
     <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
       <unrealBloomPass
