@@ -26,36 +26,18 @@ declare global {
 }
 
 export const RenderPipeline = () => {
-  const {
-    adaptiveResolution,
-    bloom,
-    toneMapping,
-    vignette,
-    targetFPS
-  } = useControls("Rendering", {
-    adaptiveResolution: true,
-    targetFPS: { value: 60, min: 30, max: 120 },
-    bloom: true,
-    toneMapping: true,
-    vignette: true
+  const { beautiful } = useControls("Rendering", {
+    beautiful: true
   })
 
   return (
-    <>
-      {adaptiveResolution && (
-        <AdaptiveResolution
-          minFPS={targetFPS * 0.95}
-          maxFPS={targetFPS * 1.1}
-        />
-      )}
-      <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
-        <unrealBloomPass
-          args={[new Vector2(512, 512), 1.5, 0.1, 1]}
-          enabled={bloom}
-        />
-        <adaptiveToneMappingPass args={[true, 256]} enabled={toneMapping} />
-        <shaderPass args={[VignetteShader]} enabled={vignette} />
-      </Effects>
-    </>
+    <Effects disableGamma encoding={LinearEncoding} type={HalfFloatType}>
+      <unrealBloomPass
+        args={[new Vector2(512, 512), 1.5, 0.1, 1]}
+        enabled={beautiful}
+      />
+      {/* <adaptiveToneMappingPass args={[true, 256]} enabled={beautiful} /> */}
+      <shaderPass args={[VignetteShader]} enabled={beautiful} />
+    </Effects>
   )
 }
