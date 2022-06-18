@@ -43,26 +43,20 @@ export const createShader = ({
     module({
       vertexHeader: `
         attribute vec2 time;
-        varying float v_time0;
-        varying float v_time1;
         varying float v_progress;
         varying float v_age;
       `,
       vertexMain: `
-        v_time0 = time.x;
-        v_time1 = time.y;
-        v_age = u_time - v_time0;
-        v_progress = v_age / (v_time1 - v_time0);
+        v_age = u_time - time.x;
+        v_progress = v_age / (time.y - time.x);
       `,
       fragmentHeader: `
-        varying float v_time0;
-        varying float v_time1;
         varying float v_progress;
         varying float v_age;
       `,
       fragmentMain: `
-        /* Lifetime management: discard this instance if it is not in the current time range */
-        if (u_time < v_time0 || u_time > v_time1) {
+        /* Discard this instance if it is not in the current time range */
+        if (v_progress < 0.0 || v_progress > 1.0) {
           discard;
         }
       `
