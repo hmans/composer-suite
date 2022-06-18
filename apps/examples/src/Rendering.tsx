@@ -34,21 +34,23 @@ export const Rendering = () => {
   )
 
   usePass(composer, () => new RenderPass(scene, camera), [scene, camera])
-  usePass(
-    composer,
-    () =>
-      new EffectPass(
-        camera,
-        new SelectiveBloomEffect(scene, camera, {
-          blendFunction: BlendFunction.ADD,
-          mipmapBlur: true,
-          luminanceThreshold: 0.7,
-          luminanceSmoothing: 0.3,
-          intensity: 3.0
-        } as any)
-      ),
-    [scene, camera]
-  )
+
+  const bloomEffect = useMemo(() => {
+    const effect = new SelectiveBloomEffect(scene, camera, {
+      blendFunction: BlendFunction.ADD,
+      mipmapBlur: true,
+      luminanceThreshold: 0.7,
+      luminanceSmoothing: 0.3,
+      intensity: 3.0
+    } as any)
+    effect.inverted = true
+    return effect
+  }, [scene, camera])
+
+  usePass(composer, () => new EffectPass(camera, bloomEffect), [
+    bloomEffect,
+    camera
+  ])
 
   useFrame(() => {
     composer.render()
