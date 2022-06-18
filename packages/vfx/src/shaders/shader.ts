@@ -147,31 +147,34 @@ export const createShader = ({
     addModule(
       module({
         vertexHeader: `
-          varying float v_worldZ;
+          varying float v_viewZ;
         `,
 
         vertexMain: `
-          vec4 pos = modelViewMatrix * instanceMatrix * vec4(csm_Position, 1.0);
-          v_worldZ = pos.z;
+          vec4 eh_worldPosition	= modelMatrix * vec4( position, 1.0 );
+          vec4 viewPosition = viewMatrix * eh_worldPosition;
+          v_viewZ = viewPosition.z;
         `,
 
         fragmentHeader: `
           uniform sampler2D u_depth;
+          uniform vec2 u_resolution;
           uniform float u_cameraNear;
           uniform float u_cameraFar;
+          varying float v_viewZ;
 
-          varying float v_worldZ;
-
-          float readDepth(vec2 coord) {
-            float fragCoordZ = texture2D(u_depth, coord).x;
-            // fragCoordZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
-            return fragCoordZ;
+          float readDepth( sampler2D depthSampler, vec2 coord ) {
+            float fragCoordZ = texture2D( depthSampler, coord ).x;
+            float viewZ = perspectiveDepthToViewZ(fragCoordZ, u_cameraNear, u_cameraFar);
+            return viewZ;
           }
         `,
 
         fragmentMain: `
-          float depth = readDepth(vUv);
-          csm_DiffuseColor.a *= 1.0 - smoothstep(0.0, 1.0, v_worldZ - depth);
+          vec2 sUv = gl_FragCoord.xy / u_resolution;
+          float d = readDepth(u_depth, sUv);
+
+          csm_DiffuseColor.a *= smoothstep(0., 1., v_viewZ - d);
         `
       })
     )
