@@ -1,15 +1,7 @@
-/* Varyings */
-const varyingsChunk = /*glsl*/ `
-    varying vec4 v_colorStart;
-    varying vec4 v_colorEnd;
-  `
-
 /* Attributes */
 const attributesChunk = /*glsl*/ `
     attribute vec3 velocity;
     attribute vec3 acceleration;
-    attribute vec4 colorStart;
-    attribute vec4 colorEnd;
     attribute vec3 scaleStart;
     attribute vec3 scaleEnd;
   `
@@ -87,6 +79,7 @@ export const createShader = ({
     })
   )
 
+  /* Billboarding */
   if (billboard) {
     addModule(
       module({
@@ -106,34 +99,47 @@ export const createShader = ({
     )
   }
 
+  /* Color animation */
+  addModule(
+    module({
+      vertexHeader: `
+      attribute vec4 colorStart;
+      attribute vec4 colorEnd;
+      varying vec4 v_colorStart;
+      varying vec4 v_colorEnd;
+    `,
+      vertexMain: `
+      v_colorStart = colorStart;
+      v_colorEnd = colorEnd;
+    `,
+      fragmentHeader: `
+      varying vec4 v_colorStart;
+      varying vec4 v_colorEnd;
+    `,
+      fragmentMain: `
+      /* Get diffuse color */
+      vec4 diffuse4 = vec4(diffuse, 1.0);
+
+      /* Apply the diffuse color */
+      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, ${colorFunction});
+    `
+    })
+  )
+
   /* Legacy */
   addModule(
     module({
       vertexHeader: `
-      ${varyingsChunk}
       ${attributesChunk}
       `,
       vertexMain: `
-      v_colorStart = colorStart;
-      v_colorEnd = colorEnd;
-
       /* Apply scale */
       csm_Position *= mix(scaleStart, scaleEnd, ${scaleFunction});
 
       /* Apply velocity and acceleration */
       csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
     `,
-      fragmentHeader: `
-      ${varyingsChunk}
-    `,
       fragmentMain: `
-
-      /* Get diffuse color */
-      vec4 diffuse4 = vec4(diffuse, 1.0);
-
-      /* Apply the diffuse color */
-      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, ${colorFunction});
-
       /* Mix in the texture */
       #ifdef USE_MAP
         csm_DiffuseColor *= texture2D(map, vUv);
