@@ -1,31 +1,11 @@
-const billboardModule = {
-  header: `
-    /* Billboard helper */
-    vec3 billboard(vec2 v, mat4 view){
-      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
-      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
-      vec3 p = right * v.x + up * v.y;
-      return p;
-    }
-  `,
-  main: `
-    csm_Position = billboard(csm_Position.xy, viewMatrix);
-  `
-}
-
-export const createShader = ({
-  billboard = false,
-  scaleFunction = "v_progress",
-  colorFunction = "v_progress"
-} = {}) => {
-  /* Uniforms */
-  const uniformsChunk = /*glsl*/ `
+/* Uniforms */
+const uniformsChunk = /*glsl*/ `
     uniform float u_time;
     uniform bool u_billboard;
   `
 
-  /* Varyings */
-  const varyingsChunk = /*glsl*/ `
+/* Varyings */
+const varyingsChunk = /*glsl*/ `
     varying float v_timeStart;
     varying float v_timeEnd;
     varying float v_progress;
@@ -34,8 +14,8 @@ export const createShader = ({
     varying vec4 v_colorEnd;
   `
 
-  /* Attributes */
-  const attributesChunk = /*glsl*/ `
+/* Attributes */
+const attributesChunk = /*glsl*/ `
     attribute vec2 time;
     attribute vec3 velocity;
     attribute vec3 acceleration;
@@ -45,28 +25,78 @@ export const createShader = ({
     attribute vec3 scaleEnd;
   `
 
-  /* Vertex Shader */
-  const vertexShader = /* glsl */ `
-    ${uniformsChunk}
-    ${varyingsChunk}
-    ${attributesChunk}
+type Module = {
+  vertexHeader: string
+  vertexMain: string
+  fragmentHeader: string
+  fragmentMain: string
+}
 
-    ${billboard ? billboardModule.header : ""}
+const module = (input: Partial<Module>): Module => ({
+  vertexHeader: "",
+  vertexMain: "",
+  fragmentHeader: "",
+  fragmentMain: "",
+  ...input
+})
 
-    /* Set the varyings we want to forward */
-    void setVaryings() {
-      v_timeStart = time.x;
-      v_timeEnd = time.y;
-      v_colorStart = colorStart;
-      v_colorEnd = colorEnd;
-      v_age = u_time - v_timeStart;
-      v_progress = v_age / (v_timeEnd - v_timeStart);
+const billboardModule = module({
+  vertexHeader: `
+    /* Billboard helper */
+    vec3 billboard(vec2 v, mat4 view){
+      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
+      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
+      vec3 p = right * v.x + up * v.y;
+      return p;
     }
+  `,
+  vertexMain: `
+    csm_Position = billboard(csm_Position.xy, viewMatrix);
+  `
+})
 
-    void main() {
+export const createShader = ({
+  billboard = false,
+  scaleFunction = "v_progress",
+  colorFunction = "v_progress"
+} = {}) => {
+  const state = {
+    vertexHeaders: "",
+    vertexMain: "",
+    fragmentHeaders: "",
+    fragmentMain: ""
+  }
+
+  const addModule = (module: Module) => {
+    state.vertexHeaders += module.vertexHeader
+    state.vertexMain += module.vertexMain
+    state.fragmentHeaders += module.fragmentHeader
+    state.fragmentMain += module.fragmentMain
+  }
+
+  addModule(
+    module({
+      vertexHeader: `
+      ${uniformsChunk}
+      ${varyingsChunk}
+      ${attributesChunk}
+
+      ${billboard ? billboardModule.vertexHeader : ""}
+
+      /* Set the varyings we want to forward */
+      void setVaryings() {
+        v_timeStart = time.x;
+        v_timeEnd = time.y;
+        v_colorStart = colorStart;
+        v_colorEnd = colorEnd;
+        v_age = u_time - v_timeStart;
+        v_progress = v_age / (v_timeEnd - v_timeStart);
+      }
+    `,
+      vertexMain: `
       setVaryings();
 
-      ${billboard ? billboardModule.main : ""}
+      ${billboard ? billboardModule.vertexMain : ""}
 
       /* Start with an origin offset */
       vec3 offset = vec3(0.0, 0.0, 0.0);
@@ -82,15 +112,12 @@ export const createShader = ({
 
       /* Apply the offset */
       csm_Position += offset;
-    }
-  `
-
-  /* Fragment Shader */
-  const fragmentShader = /* glsl */ `
-    ${uniformsChunk}
-    ${varyingsChunk}
-
-    void main() {
+    `,
+      fragmentHeader: `
+      ${uniformsChunk}
+      ${varyingsChunk}
+    `,
+      fragmentMain: `
       /* Lifetime management: discard this instance if it is not in the current time range */
       if (u_time < v_timeStart || u_time > v_timeEnd) {
         discard;
@@ -106,6 +133,25 @@ export const createShader = ({
       #ifdef USE_MAP
         csm_DiffuseColor *= texture2D(map, vUv);
       #endif
+    `
+    })
+  )
+
+  /* Vertex Shader */
+  const vertexShader = /* glsl */ `
+    ${state.vertexHeaders}
+
+    void main() {
+      ${state.vertexMain}
+    }
+  `
+
+  /* Fragment Shader */
+  const fragmentShader = /* glsl */ `
+    ${state.fragmentHeaders}
+
+    void main() {
+      ${state.fragmentMain}
     }
   `
 
