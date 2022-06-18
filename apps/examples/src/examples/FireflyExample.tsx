@@ -1,12 +1,11 @@
 import { useFrame } from "@react-three/fiber"
 import { upTo } from "randomish"
-import { useCallback, useRef } from "react"
+import { useRef } from "react"
 import { Color, Mesh, MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
   ParticlesMaterial,
-  Repeat,
   VisualEffect
 } from "three-vfx"
 
