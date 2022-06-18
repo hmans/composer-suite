@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { upTo } from "randomish"
 import { useRef } from "react"
-import { Color, Mesh, MeshStandardMaterial } from "three"
+import { Color, Mesh, MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -29,6 +29,7 @@ export const FireflyExample = () => {
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           color={new Color(2, 1, 2)}
+          blending={NormalBlending}
           billboard
           depthTest={true}
           depthWrite={false}

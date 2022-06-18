@@ -1,10 +1,14 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import {
+  AdaptiveLuminancePass,
+  BlendFunction,
   BloomEffect,
   EffectComposer,
   EffectPass,
   Pass,
-  RenderPass
+  RenderPass,
+  SelectiveBloomEffect,
+  ToneMappingEffect
 } from "postprocessing"
 import { useEffect, useLayoutEffect, useMemo } from "react"
 import { HalfFloatType } from "three"
@@ -32,8 +36,18 @@ export const Rendering = () => {
   usePass(composer, () => new RenderPass(scene, camera), [scene, camera])
   usePass(
     composer,
-    () => new EffectPass(camera, new BloomEffect({ intensity: 1 })),
-    [camera]
+    () =>
+      new EffectPass(
+        camera,
+        new SelectiveBloomEffect(scene, camera, {
+          blendFunction: BlendFunction.ADD,
+          mipmapBlur: true,
+          luminanceThreshold: 0.7,
+          luminanceSmoothing: 0.3,
+          intensity: 3.0
+        })
+      ),
+    [scene, camera]
   )
 
   useFrame(() => {
