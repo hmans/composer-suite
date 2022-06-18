@@ -42,8 +42,8 @@ export const GLTFParticles = () => {
               c.alphaStart = 1
               c.alphaEnd = 1
 
-              c.scale0.setScalar(0.3)
-              c.scale1.setScalar(0.3)
+              c.scale[0].setScalar(0.3)
+              c.scale[1].setScalar(0.3)
             }}
           />
         </Repeat>

@@ -18,8 +18,8 @@ export const Fog = () => {
     c.position.copy(insideSphere(20) as Vector3)
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
     c.lifetime = 60
-    c.scale0.setScalar(between(1, 50))
-    c.scale1.setScalar(0)
+    c.scale[0].setScalar(between(1, 50))
+    c.scale[1].setScalar(0)
     c.alphaStart = between(0.05, 0.1)
     c.alphaEnd = 0
   }

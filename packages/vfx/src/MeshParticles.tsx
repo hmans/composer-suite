@@ -29,10 +29,8 @@ const components = {
   acceleration: new Vector3(),
   delay: 0,
   lifetime: 1,
-  scale0: new Vector3(),
-  scale1: new Vector3(),
-  color0: new Color(),
-  color1: new Color(),
+  scale: [new Vector3(), new Vector3()],
+  color: [new Color(), new Color()],
   alphaStart: 1,
   alphaEnd: 0
 }
@@ -125,12 +123,12 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.quaternion.set(0, 0, 0, 1)
           components.velocity.set(0, 0, 0)
           components.acceleration.set(0, 0, 0)
-          components.scale0.set(1, 1, 1)
-          components.scale1.set(1, 1, 1)
+          components.scale[0].set(1, 1, 1)
+          components.scale[1].set(1, 1, 1)
           components.delay = 0
           components.lifetime = 1
-          components.color0.setRGB(1, 1, 1)
-          components.color1.setRGB(1, 1, 1)
+          components.color[0].setRGB(1, 1, 1)
+          components.color[1].setRGB(1, 1, 1)
           components.alphaStart = 1
           components.alphaEnd = 0
 
@@ -168,27 +166,27 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           /* Set color */
           attributes.color0.setXYZW(
             playhead.current,
-            components.color0.r,
-            components.color0.g,
-            components.color0.b,
+            components.color[0].r,
+            components.color[0].g,
+            components.color[0].b,
             components.alphaStart
           )
           attributes.color1.setXYZW(
             playhead.current,
-            components.color1.r,
-            components.color1.g,
-            components.color1.b,
+            components.color[1].r,
+            components.color[1].g,
+            components.color[1].b,
             components.alphaEnd
           )
 
           /* Set scale */
           attributes.scale0.setXYZ(
             playhead.current,
-            ...components.scale0.toArray()
+            ...components.scale[0].toArray()
           )
           attributes.scale1.setXYZ(
             playhead.current,
-            ...components.scale1.toArray()
+            ...components.scale[1].toArray()
           )
 
           /* Advance playhead */
