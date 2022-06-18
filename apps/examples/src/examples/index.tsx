@@ -5,6 +5,7 @@ import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
+import { SoftParticlesExample } from "./SoftParticlesExample"
 
 export type ExampleDefinition = {
   path: string
@@ -18,6 +19,11 @@ export default [
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
   { path: "fog", name: "Fog", component: <Fog /> },
   { path: "snow", name: "Snow", component: <Snow intensity={500} /> },
+  {
+    path: "softparticles",
+    name: "Soft Particles",
+    component: <SoftParticlesExample />
+  },
   { path: "gltf", name: "GLTF Particles", component: <GLTFParticles /> },
   {
     path: "combined",
