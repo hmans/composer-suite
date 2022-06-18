@@ -2,8 +2,6 @@
 const attributesChunk = /*glsl*/ `
     attribute vec3 velocity;
     attribute vec3 acceleration;
-    attribute vec3 scaleStart;
-    attribute vec3 scaleEnd;
   `
 
 type Module = {
@@ -99,6 +97,19 @@ export const createShader = ({
     )
   }
 
+  /* Scale animation */
+  addModule(
+    module({
+      vertexHeader: `
+      attribute vec3 scaleStart;
+      attribute vec3 scaleEnd;
+    `,
+      vertexMain: `
+      csm_Position *= mix(scaleStart, scaleEnd, ${scaleFunction});
+    `
+    })
+  )
+
   /* Color animation */
   addModule(
     module({
@@ -138,9 +149,6 @@ export const createShader = ({
       ${attributesChunk}
       `,
       vertexMain: `
-      /* Apply scale */
-      csm_Position *= mix(scaleStart, scaleEnd, ${scaleFunction});
-
       /* Apply velocity and acceleration */
       csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
     `
