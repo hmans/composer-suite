@@ -11,15 +11,15 @@ export function useDepthBuffer() {
   const h = height * dpr
   console.log(w, h)
 
-  const depthConfig = useMemo(() => {
+  const depthTexture = useMemo(() => {
     const depthTexture = new DepthTexture(w, h)
     depthTexture.format = DepthFormat
     depthTexture.type = FloatType
 
-    return { depthTexture }
+    return depthTexture
   }, [w, h])
 
-  const depthFBO = useFBO(w, h, depthConfig)
+  const depthFBO = useFBO(w, h, { depthTexture })
 
   useFrame((state) => {
     state.gl.setRenderTarget(depthFBO)
