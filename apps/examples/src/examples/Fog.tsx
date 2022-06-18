@@ -19,7 +19,7 @@ export const Fog = () => {
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
     c.delay = upTo(10)
     c.lifetime = 30
-    c.scale[0].setScalar(between(1, 50))
+    c.scale[0].setScalar(between(10, 50))
     c.scale[1].setScalar(c.scale[0].x * (1.0 + plusMinus(0.3)))
     c.alpha = [0, between(0.05, 0.1)]
   }
