@@ -1,4 +1,5 @@
 import { useDepthBuffer } from "@react-three/drei"
+import { useThree } from "@react-three/fiber"
 import React, { forwardRef, useEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
@@ -35,10 +36,14 @@ export const ParticlesMaterial = forwardRef<
     )
 
     if (soft) {
+      const { camera } = useThree()
+
       const depthBuffer = useDepthBuffer()
 
       useEffect(() => {
         material.current.uniforms.u_depth.value = depthBuffer
+        material.current.uniforms.u_cameraNear.value = camera.near
+        material.current.uniforms.u_cameraFar.value = camera.far
       }, [depthBuffer])
     }
 
