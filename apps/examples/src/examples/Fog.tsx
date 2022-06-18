@@ -14,7 +14,7 @@ export const Fog = () => {
   const texture = useTexture("/textures/smoke.png")
 
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
-    c.position.copy(insideSphere(20) as Vector3)
+    c.position.set(0, 6, 0).add(insideSphere(5) as Vector3)
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
     c.delay = upTo(5) - preDelay
     c.lifetime = 30
