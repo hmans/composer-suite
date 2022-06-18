@@ -1,4 +1,4 @@
-export const makeShader = () => {
+export const createShader = () => {
   /* Uniforms */
   const uniforms = /*glsl*/ `
     uniform float u_time;

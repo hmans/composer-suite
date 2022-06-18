@@ -2,7 +2,7 @@ import React, { forwardRef, useMemo } from "react"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { makeShader } from "./shader"
+import { createShader } from "./shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -22,7 +22,7 @@ export const ParticlesMaterial = forwardRef<
     []
   )
 
-  const shader = useMemo(() => makeShader(), [])
+  const shader = useMemo(() => createShader(), [])
 
   return (
     <CustomShaderMaterial
