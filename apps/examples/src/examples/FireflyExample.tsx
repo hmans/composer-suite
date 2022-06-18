@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
-import { useRef } from "react"
-import { Mesh, MeshStandardMaterial } from "three"
+import { upTo } from "randomish"
+import { useCallback, useRef } from "react"
+import { Color, Mesh, MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -9,7 +10,7 @@ import {
   VisualEffect
 } from "three-vfx"
 
-const Firefly = () => {
+export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
 
   useFrame(({ clock }) => {
@@ -22,28 +23,35 @@ const Firefly = () => {
   })
 
   return (
-    <mesh ref={mesh}>
-      <dodecahedronGeometry args={[0.5]} />
-      <meshStandardMaterial color="white" />
-
-      <Repeat interval={1}>
-        <Emitter count={1} />
-      </Repeat>
-    </mesh>
-  )
-}
-
-export const FireflyExample = () => {
-  return (
     <VisualEffect>
       <MeshParticles>
-        <planeGeometry />
+        <planeGeometry args={[0.2, 0.2]} />
+
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
-          color="hotpink"
+          color={new Color(2, 1, 2)}
+          billboard
+          depthTest={true}
+          depthWrite={false}
+          transparent
         />
 
-        <Firefly />
+        <mesh ref={mesh}>
+          <dodecahedronGeometry args={[0.5]} />
+          <meshStandardMaterial color="hotpink" />
+        </mesh>
+
+        <Emitter
+          continuous
+          count={10}
+          setup={(c) => {
+            c.position.randomDirection().add(mesh.current.position)
+            c.delay = upTo(0.1)
+            c.velocity.randomDirection().multiplyScalar(upTo(5))
+            c.acceleration.set(0, -12, 0)
+            c.alpha = [1, 0]
+          }}
+        />
       </MeshParticles>
     </VisualEffect>
   )
