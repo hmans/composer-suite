@@ -1,4 +1,6 @@
-import React, { forwardRef, useMemo } from "react"
+import { useDepthBuffer } from "@react-three/drei"
+import React, { forwardRef, useEffect, useMemo, useRef } from "react"
+import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -19,6 +21,8 @@ export const ParticlesMaterial = forwardRef<
     { billboard = false, soft = false, scaleFunction, colorFunction, ...props },
     ref
   ) => {
+    const material = useRef<CustomShaderMaterialImpl>(null!)
+
     const shader = useMemo(
       () =>
         createShader({
@@ -30,9 +34,17 @@ export const ParticlesMaterial = forwardRef<
       []
     )
 
+    if (soft) {
+      const depthBuffer = useDepthBuffer()
+
+      useEffect(() => {
+        material.current.uniforms.u_depth.value = depthBuffer
+      }, [depthBuffer])
+    }
+
     return (
       <CustomShaderMaterial
-        ref={ref}
+        ref={mergeRefs([material, ref])}
         blending={CustomBlending}
         blendEquation={AddEquation}
         depthTest={true}

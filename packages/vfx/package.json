@@ -50,6 +50,7 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@react-three/drei": "^9.13.2",
     "react-merge-refs": "^1.1.0",
     "three-custom-shader-material": "^3.4.3"
   },

@@ -1,13 +1,6 @@
-import { useDepthBuffer, useTexture } from "@react-three/drei"
+import { useTexture } from "@react-three/drei"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
-import { useEffect, useRef } from "react"
-import {
-  AdditiveBlending,
-  Material,
-  MeshStandardMaterial,
-  ShaderMaterial,
-  Vector3
-} from "three"
+import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -19,13 +12,6 @@ import {
 
 export const Fog = () => {
   const texture = useTexture("/textures/smoke.png")
-
-  const material = useRef<Material>(null!)
-  const depthBuffer = useDepthBuffer()
-
-  useEffect(() => {
-    material.current.uniforms.u_depth.value = depthBuffer
-  }, [depthBuffer])
 
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
     c.position.copy(insideSphere(20) as Vector3)
@@ -43,7 +29,6 @@ export const Fog = () => {
         <planeGeometry />
 
         <ParticlesMaterial
-          ref={material}
           baseMaterial={MeshStandardMaterial}
           map={texture}
           blending={AdditiveBlending}
