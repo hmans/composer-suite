@@ -43,26 +43,26 @@ export const createShader = ({
     module({
       vertexHeader: `
         attribute vec2 time;
-        varying float v_timeStart;
-        varying float v_timeEnd;
+        varying float v_time0;
+        varying float v_time1;
         varying float v_progress;
         varying float v_age;
       `,
       vertexMain: `
-        v_timeStart = time.x;
-        v_timeEnd = time.y;
-        v_age = u_time - v_timeStart;
-        v_progress = v_age / (v_timeEnd - v_timeStart);
+        v_time0 = time.x;
+        v_time1 = time.y;
+        v_age = u_time - v_time0;
+        v_progress = v_age / (v_time1 - v_time0);
       `,
       fragmentHeader: `
-        varying float v_timeStart;
-        varying float v_timeEnd;
+        varying float v_time0;
+        varying float v_time1;
         varying float v_progress;
         varying float v_age;
       `,
       fragmentMain: `
         /* Lifetime management: discard this instance if it is not in the current time range */
-        if (u_time < v_timeStart || u_time > v_timeEnd) {
+        if (u_time < v_time0 || u_time > v_time1) {
           discard;
         }
       `
@@ -93,11 +93,11 @@ export const createShader = ({
   addModule(
     module({
       vertexHeader: `
-      attribute vec3 scaleStart;
-      attribute vec3 scaleEnd;
+      attribute vec3 scale0;
+      attribute vec3 scale1;
     `,
       vertexMain: `
-      csm_Position *= mix(scaleStart, scaleEnd, ${scaleFunction});
+      csm_Position *= mix(scale0, scale1, ${scaleFunction});
     `
     })
   )
@@ -119,25 +119,25 @@ export const createShader = ({
   addModule(
     module({
       vertexHeader: `
-      attribute vec4 colorStart;
-      attribute vec4 colorEnd;
-      varying vec4 v_colorStart;
-      varying vec4 v_colorEnd;
+      attribute vec4 color0;
+      attribute vec4 color1;
+      varying vec4 v_color0;
+      varying vec4 v_color1;
     `,
       vertexMain: `
-      v_colorStart = colorStart;
-      v_colorEnd = colorEnd;
+      v_color0 = color0;
+      v_color1 = color1;
     `,
       fragmentHeader: `
-      varying vec4 v_colorStart;
-      varying vec4 v_colorEnd;
+      varying vec4 v_color0;
+      varying vec4 v_color1;
     `,
       fragmentMain: `
       /* Get diffuse color */
       vec4 diffuse4 = vec4(diffuse, 1.0);
 
       /* Apply the diffuse color */
-      csm_DiffuseColor = mix(diffuse4 * v_colorStart, diffuse4 * v_colorEnd, ${colorFunction});
+      csm_DiffuseColor = mix(diffuse4 * v_color0, diffuse4 * v_color1, ${colorFunction});
 
       /* Mix in the texture */
       #ifdef USE_MAP
