@@ -13,6 +13,13 @@ const module = (input: Partial<Module>): Module => ({
   ...input
 })
 
+const compile = (headers: string, main: string) => `
+  ${headers}
+  void main() {
+    ${main}
+  }
+`
+
 export const createShader = ({
   billboard = false,
   scaleFunction = "v_progress",
@@ -149,29 +156,13 @@ export const createShader = ({
     })
   )
 
-  /* Vertex Shader */
-  const vertexShader = /* glsl */ `
-    ${state.vertexHeaders}
-
-    void main() {
-      ${state.vertexMain}
-    }
-  `
-
-  /* Fragment Shader */
-  const fragmentShader = /* glsl */ `
-    ${state.fragmentHeaders}
-
-    void main() {
-      ${state.fragmentMain}
-    }
-  `
-
-  const uniforms = {
-    u_time: {
-      value: 0
+  return {
+    vertexShader: compile(state.vertexHeaders, state.vertexMain),
+    fragmentShader: compile(state.fragmentHeaders, state.fragmentMain),
+    uniforms: {
+      u_time: {
+        value: 0
+      }
     }
   }
-
-  return { vertexShader, fragmentShader, uniforms }
 }
