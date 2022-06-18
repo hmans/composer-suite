@@ -7,19 +7,19 @@ import { createShader } from "./shaders/shader"
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
   scaleFunction?: string
-  alphaFunction?: string
+  colorFunction?: string
 }
 
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, scaleFunction, alphaFunction, ...props }, ref) => {
+>(({ billboard = false, scaleFunction, colorFunction, ...props }, ref) => {
   const shader = useMemo(
     () =>
       createShader({
         billboard,
         scaleFunction,
-        alphaFunction
+        colorFunction
       }),
     []
   )

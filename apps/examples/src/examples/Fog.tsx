@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei"
-import { between, insideSphere } from "randomish"
+import { between, insideSphere, plusMinus, upTo } from "randomish"
 import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
 import {
   Delay,
@@ -17,10 +17,11 @@ export const Fog = () => {
   const setup: SpawnSetup = (c) => {
     c.position.copy(insideSphere(20) as Vector3)
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
-    c.lifetime = 100
-    c.scale[0].setScalar(0)
-    c.scale[1].setScalar(between(1, 50))
-    c.alpha = [between(0.05, 0.1), 0]
+    c.delay = upTo(10)
+    c.lifetime = 30
+    c.scale[0].setScalar(between(1, 50))
+    c.scale[1].setScalar(c.scale[0].x * (1.0 + plusMinus(0.3)))
+    c.alpha = [0, between(0.05, 0.1)]
   }
 
   return (
@@ -36,14 +37,14 @@ export const Fog = () => {
           depthWrite={false}
           billboard
           transparent
-          scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+          colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
         />
 
         <Emitter count={50} setup={setup} />
 
-        <Delay seconds={10}>
-          <Repeat interval={10}>
-            <Emitter count={10} setup={setup} />
+        <Delay seconds={5}>
+          <Repeat interval={5}>
+            <Emitter count={20} setup={setup} />
           </Repeat>
         </Delay>
       </MeshParticles>
