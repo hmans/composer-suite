@@ -29,12 +29,9 @@ const components = {
   acceleration: new Vector3(),
   delay: 0,
   lifetime: 1,
-  scaleStart: new Vector3(),
-  scaleEnd: new Vector3(),
-  colorStart: new Color(),
-  colorEnd: new Color(),
-  alphaStart: 1,
-  alphaEnd: 0
+  scale: [new Vector3(), new Vector3()],
+  color: [new Color(), new Color()],
+  alpha: [1, 0]
 }
 
 export type MeshParticlesProps = InstancedMeshProps & {
@@ -85,10 +82,10 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         time: createAttribute(2),
         velocity: createAttribute(3),
         acceleration: createAttribute(3),
-        colorStart: createAttribute(4),
-        colorEnd: createAttribute(4),
-        scaleStart: createAttribute(3),
-        scaleEnd: createAttribute(3)
+        color0: createAttribute(4),
+        color1: createAttribute(4),
+        scale0: createAttribute(3),
+        scale1: createAttribute(3)
       }),
       [maxInstanceCount]
     )
@@ -125,14 +122,13 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.quaternion.set(0, 0, 0, 1)
           components.velocity.set(0, 0, 0)
           components.acceleration.set(0, 0, 0)
-          components.scaleStart.set(1, 1, 1)
-          components.scaleEnd.set(1, 1, 1)
+          components.scale[0].set(1, 1, 1)
+          components.scale[1].set(1, 1, 1)
           components.delay = 0
           components.lifetime = 1
-          components.colorStart.setRGB(1, 1, 1)
-          components.colorEnd.setRGB(1, 1, 1)
-          components.alphaStart = 1
-          components.alphaEnd = 0
+          components.color[0].setRGB(1, 1, 1)
+          components.color[1].setRGB(1, 1, 1)
+          components.alpha = [1, 0]
 
           /* Run setup */
           setup?.(components)
@@ -166,29 +162,29 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set color */
-          attributes.colorStart.setXYZW(
+          attributes.color0.setXYZW(
             playhead.current,
-            components.colorStart.r,
-            components.colorStart.g,
-            components.colorStart.b,
-            components.alphaStart
+            components.color[0].r,
+            components.color[0].g,
+            components.color[0].b,
+            components.alpha[0]
           )
-          attributes.colorEnd.setXYZW(
+          attributes.color1.setXYZW(
             playhead.current,
-            components.colorEnd.r,
-            components.colorEnd.g,
-            components.colorEnd.b,
-            components.alphaEnd
+            components.color[1].r,
+            components.color[1].g,
+            components.color[1].b,
+            components.alpha[1]
           )
 
           /* Set scale */
-          attributes.scaleStart.setXYZ(
+          attributes.scale0.setXYZ(
             playhead.current,
-            ...components.scaleStart.toArray()
+            ...components.scale[0].toArray()
           )
-          attributes.scaleEnd.setXYZ(
+          attributes.scale1.setXYZ(
             playhead.current,
-            ...components.scaleEnd.toArray()
+            ...components.scale[1].toArray()
           )
 
           /* Advance playhead */

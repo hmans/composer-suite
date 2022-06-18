@@ -34,13 +34,13 @@ const SmokeRing = () => (
 
           c.acceleration.copy(direction).multiplyScalar(-3)
 
-          c.scaleStart.setScalar(1 + plusMinus(0.3))
-          c.scaleEnd.setScalar(0)
+          c.scale[0].setScalar(1 + plusMinus(0.3))
+          c.scale[1].setScalar(0)
 
           c.lifetime = between(0.5, 1.5)
 
-          c.colorStart.setScalar(1)
-          c.colorEnd.setScalar(0)
+          c.color[0].setScalar(1)
+          c.color[1].setScalar(0)
         }}
       />
     </Repeat>
@@ -67,13 +67,13 @@ const Rocks = () => (
 
         c.acceleration.copy(gravity)
 
-        c.scaleStart.setScalar(0.2 + power(3) * 1)
-        c.scaleEnd.copy(c.scaleStart)
+        c.scale[0].setScalar(0.2 + power(3) * 1)
+        c.scale[1].copy(c.scale[0])
 
         c.lifetime = between(0.5, 1.5)
 
-        c.colorStart.lerpColors(new Color("#444"), new Color("#000"), power(3))
-        c.colorEnd.copy(c.colorStart)
+        c.color[0].lerpColors(new Color("#444"), new Color("#000"), power(3))
+        c.color[1].copy(c.color[0])
       }}
     />
   </MeshParticles>
@@ -91,18 +91,18 @@ const Fireball = () => (
         c.position.copy(direction).multiplyScalar(between(0, 2))
         c.velocity.copy(direction).multiplyScalar(between(2, 4))
 
-        c.scaleStart.setScalar(between(0.5, 1))
-        c.scaleEnd.setScalar(between(3, 6))
+        c.scale[0].setScalar(between(0.5, 1))
+        c.scale[1].setScalar(between(3, 6))
 
         c.delay = upTo(0.3)
         c.lifetime = between(0.8, 1.4)
 
-        c.colorStart.lerpColors(
+        c.color[0].lerpColors(
           new Color("red").multiplyScalar(10),
           new Color("yellow").multiplyScalar(10),
           power(3)
         )
-        c.colorEnd.copy(c.colorStart)
+        c.color[1].copy(c.color[0])
       }}
     />
   </MeshParticles>
@@ -117,6 +117,7 @@ const SmokeCloud = () => (
       map={useTexture("/textures/smoke.png")}
       depthWrite={false}
       billboard
+      scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
     />
 
     <Emitter
@@ -136,17 +137,16 @@ const SmokeCloud = () => (
           .multiplyScalar(between(0, 3))
           .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-        c.scaleStart.setScalar(between(0.5, 1.5))
-        c.scaleEnd.setScalar(between(6, 20))
+        c.scale[0].setScalar(between(0.5, 1.5))
+        c.scale[1].setScalar(between(6, 20))
 
         c.delay = upTo(0.3)
         c.lifetime = between(1, 3)
 
-        c.alphaStart = 0.5
-        c.alphaEnd = 0
+        c.alpha = [0.5, 0]
 
-        c.colorStart.lerpColors(new Color("#888"), new Color("#666"), power(3))
-        c.colorEnd.copy(c.colorStart)
+        c.color[0].lerpColors(new Color("#888"), new Color("#666"), power(3))
+        c.color[1].copy(c.color[0])
       }}
     />
   </MeshParticles>
