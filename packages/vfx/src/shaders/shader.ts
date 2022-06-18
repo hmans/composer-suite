@@ -11,7 +11,8 @@ const compile = (headers: string, main: string) => `
 export const createShader = ({
   billboard = false,
   scaleFunction = "v_progress",
-  colorFunction = "v_progress"
+  colorFunction = "v_progress",
+  alphaFunction = "v_progress"
 } = {}) => {
   const state = {
     vertexHeaders: "",

@@ -17,9 +17,9 @@ export const Fog = () => {
   const setup: SpawnSetup = (c) => {
     c.position.copy(insideSphere(20) as Vector3)
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
-    c.lifetime = 60
-    c.scale[0].setScalar(between(1, 50))
-    c.scale[1].setScalar(0)
+    c.lifetime = 100
+    c.scale[0].setScalar(0)
+    c.scale[1].setScalar(between(1, 50))
     c.alpha = [between(0.05, 0.1), 0]
   }
 
@@ -36,6 +36,7 @@ export const Fog = () => {
           depthWrite={false}
           billboard
           transparent
+          scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
         />
 
         <Emitter count={50} setup={setup} />
