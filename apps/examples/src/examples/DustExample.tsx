@@ -4,7 +4,7 @@ import { AdditiveBlending, DoubleSide, MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   SpawnSetup,
   VisualEffect
@@ -18,7 +18,7 @@ export const DustExample = ({ intensity = 300 }) => {
       <MeshParticles maxParticles={intensity} safetySize={0}>
         <planeGeometry />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           color="#aaa"

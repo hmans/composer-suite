@@ -7,7 +7,7 @@ import {
   Emitter,
   Lifetime,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   VisualEffect,
   VisualEffectProps
@@ -20,7 +20,7 @@ const direction = new Vector3()
 const SmokeRing: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={200}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial
+    <MeshParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       color="white"
       softness={1}
@@ -57,7 +57,7 @@ const SmokeRing: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
 const Rocks = () => (
   <MeshParticles maxParticles={100}>
     <dodecahedronGeometry />
-    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
+    <MeshParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
 
     <Emitter
       count={between(50, 100)}
@@ -89,7 +89,7 @@ const Rocks = () => (
 const Fireball = () => (
   <MeshParticles maxParticles={15}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial
+    <MeshParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       color="#fff"
       depthWrite={false}
@@ -123,7 +123,7 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={100}>
     <planeGeometry />
 
-    <ParticlesMaterial
+    <MeshParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       map={useTexture("/textures/smoke.png")}
       depthWrite={false}

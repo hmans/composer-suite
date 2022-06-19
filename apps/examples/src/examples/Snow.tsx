@@ -4,7 +4,7 @@ import { AdditiveBlending, MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   SpawnSetup,
   VisualEffect
@@ -30,7 +30,7 @@ export const Snow = ({ intensity = 100, lifetime = 10 }) => {
       <MeshParticles maxParticles={intensity * lifetime} safetySize={intensity}>
         <planeGeometry />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           blending={AdditiveBlending}

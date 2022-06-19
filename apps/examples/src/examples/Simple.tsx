@@ -4,7 +4,7 @@ import { MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   VisualEffect
 } from "three-vfx"
@@ -17,7 +17,7 @@ export const Simple = () => {
       <MeshParticles>
         <planeGeometry />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           blending={NormalBlending}
           map={texture}

@@ -4,7 +4,7 @@ import { MeshStandardMaterial, NormalBlending, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   SpawnSetup,
   VisualEffect
@@ -31,7 +31,7 @@ export const Fog = () => {
       <MeshParticles maxParticles={500}>
         <planeGeometry />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           blending={NormalBlending}

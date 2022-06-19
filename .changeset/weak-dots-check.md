@@ -2,7 +2,7 @@
 "three-vfx": minor
 ---
 
-**New:** Soft Particles support! `<ParticlesMaterial>` now has new `softness`, `softnessFunction` and `depthTexture` props.
+**New:** Soft Particles support! `<MeshParticlesMaterial>` now has new `softness`, `softnessFunction` and `depthTexture` props.
 
 ```tsx
 export const SoftParticlesExample = () => {
@@ -13,7 +13,7 @@ export const SoftParticlesExample = () => {
       <MeshParticles>
         <planeGeometry args={[20, 20]} />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           color="hotpink"
           billboard

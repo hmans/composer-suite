@@ -2,7 +2,7 @@ import { MeshStandardMaterial } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   VisualEffect
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
@@ -15,7 +15,7 @@ export const SoftParticlesExample = () => {
       <MeshParticles>
         <planeGeometry args={[20, 20]} />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           color="hotpink"
           billboard

@@ -4,7 +4,7 @@ import { Euler, Vector3 } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   Repeat,
   VisualEffect
 } from "three-vfx"
@@ -17,7 +17,7 @@ export const GLTFParticles = () => {
   return (
     <VisualEffect>
       <MeshParticles geometry={geometry} maxParticles={500}>
-        <ParticlesMaterial baseMaterial={material} depthTest depthWrite />
+        <MeshParticlesMaterial baseMaterial={material} depthTest depthWrite />
 
         <Repeat interval={1}>
           <Emitter

@@ -5,7 +5,7 @@ import { Color, Mesh, MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
-  ParticlesMaterial,
+  MeshParticlesMaterial,
   VisualEffect
 } from "three-vfx"
 
@@ -26,7 +26,7 @@ export const FireflyExample = () => {
       <MeshParticles>
         <planeGeometry args={[0.2, 0.2]} />
 
-        <ParticlesMaterial
+        <MeshParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           color={new Color(2, 1, 2)}
           blending={NormalBlending}

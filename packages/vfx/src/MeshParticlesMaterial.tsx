@@ -6,7 +6,7 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { createShader } from "./shaders/shader"
 
-type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
+type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
   softness?: number
   scaleFunction?: string
@@ -15,9 +15,9 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   depthTexture?: DepthTexture
 }
 
-export const ParticlesMaterial = forwardRef<
+export const MeshParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
-  ParticlesMaterialProps
+  MeshParticlesMaterialProps
 >(
   (
     {
