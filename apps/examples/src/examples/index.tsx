@@ -7,7 +7,6 @@ import { GLTFParticles } from "./GLTFParticles"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
-import { TornadoExample } from "./TornadoExample"
 
 export type ExampleDefinition = {
   path: string
@@ -22,7 +21,6 @@ export default [
   { path: "fog", name: "Fog", component: <Fog /> },
   { path: "snow", name: "Snow", component: <Snow intensity={500} /> },
   { path: "dust", name: "Dust", component: <DustExample /> },
-  { path: "tornado", name: "Tornado (WIP)", component: <TornadoExample /> },
   {
     path: "softparticles",
     name: "Soft Particles",
