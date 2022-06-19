@@ -76,7 +76,7 @@ const ExampleMatcher = () => {
   const [match, params] = useRoute("/:path")
   const example = match && (examples.find((e) => e.path == params!.path) as any)
 
-  return example?.component && <Example example={example} />
+  return example?.component && <Example key={Math.random()} example={example} />
 }
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
