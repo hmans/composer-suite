@@ -1,4 +1,5 @@
 import { CameraShake, useTexture } from "@react-three/drei"
+import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power, upTo } from "randomish"
 import { FC } from "react"
 import { Color, DepthTexture, MeshStandardMaterial, Vector3 } from "three"
@@ -8,9 +9,7 @@ import {
   Lifetime,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat,
-  VisualEffect,
-  VisualEffectProps
+  Repeat
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
@@ -164,11 +163,11 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   </MeshParticles>
 )
 
-export const Explosion = (props: VisualEffectProps) => {
+export const Explosion = (props: GroupProps) => {
   const depthTexture = useDepthBuffer().depthTexture
 
   return (
-    <VisualEffect {...props}>
+    <group {...props}>
       <Lifetime seconds={5}>
         <SmokeRing depthTexture={depthTexture} />
 
@@ -195,6 +194,6 @@ export const Explosion = (props: VisualEffectProps) => {
           </Delay>
         </Delay>
       </Lifetime>
-    </VisualEffect>
+    </group>
   )
 }

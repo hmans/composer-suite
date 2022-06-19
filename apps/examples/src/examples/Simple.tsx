@@ -5,42 +5,39 @@ import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat,
-  VisualEffect
+  Repeat
 } from "three-vfx"
 
 export const Simple = () => {
   const texture = useTexture("/textures/particle.png")
 
   return (
-    <VisualEffect>
-      <MeshParticles>
-        <planeGeometry />
+    <MeshParticles>
+      <planeGeometry />
 
-        <MeshParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          blending={NormalBlending}
-          map={texture}
-          color="white"
-          transparent
-          billboard
-          depthTest={false}
-          depthWrite={false}
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        blending={NormalBlending}
+        map={texture}
+        color="white"
+        transparent
+        billboard
+        depthTest={false}
+        depthWrite={false}
+      />
+
+      <Repeat times={Infinity} interval={1 / 40}>
+        <Emitter
+          count={5}
+          setup={(c) => {
+            c.velocity
+              .set(plusMinus(1), upTo(1), plusMinus(1))
+              .multiplyScalar(between(1, 5))
+
+            c.lifetime = between(0.5, 2.5)
+          }}
         />
-
-        <Repeat times={Infinity} interval={1 / 40}>
-          <Emitter
-            count={5}
-            setup={(c) => {
-              c.velocity
-                .set(plusMinus(1), upTo(1), plusMinus(1))
-                .multiplyScalar(between(1, 5))
-
-              c.lifetime = between(0.5, 2.5)
-            }}
-          />
-        </Repeat>
-      </MeshParticles>
-    </VisualEffect>
+      </Repeat>
+    </MeshParticles>
   )
 }

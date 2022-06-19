@@ -6,8 +6,7 @@ import {
   MeshParticles,
   MeshParticlesMaterial,
   Repeat,
-  SpawnSetup,
-  VisualEffect
+  SpawnSetup
 } from "three-vfx"
 
 export const Snow = ({ intensity = 100, lifetime = 10 }) => {
@@ -26,29 +25,27 @@ export const Snow = ({ intensity = 100, lifetime = 10 }) => {
   }
 
   return (
-    <VisualEffect>
-      <MeshParticles maxParticles={intensity * lifetime} safetySize={intensity}>
-        <planeGeometry />
+    <MeshParticles maxParticles={intensity * lifetime} safetySize={intensity}>
+      <planeGeometry />
 
-        <MeshParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          map={texture}
-          blending={AdditiveBlending}
-          depthTest={true}
-          depthWrite={false}
-          billboard
-          transparent
-        />
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        map={texture}
+        blending={AdditiveBlending}
+        depthTest={true}
+        depthWrite={false}
+        billboard
+        transparent
+      />
 
-        <Emitter
-          count={(intensity * lifetime) / 2}
-          setup={setup({ preDelay: true })}
-        />
+      <Emitter
+        count={(intensity * lifetime) / 2}
+        setup={setup({ preDelay: true })}
+      />
 
-        <Repeat interval={1}>
-          <Emitter count={intensity} setup={setup()} />
-        </Repeat>
-      </MeshParticles>
-    </VisualEffect>
+      <Repeat interval={1}>
+        <Emitter count={intensity} setup={setup()} />
+      </Repeat>
+    </MeshParticles>
   )
 }

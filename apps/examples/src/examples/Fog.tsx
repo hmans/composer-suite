@@ -6,8 +6,7 @@ import {
   MeshParticles,
   MeshParticlesMaterial,
   Repeat,
-  SpawnSetup,
-  VisualEffect
+  SpawnSetup
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
@@ -27,29 +26,27 @@ export const Fog = () => {
   }
 
   return (
-    <VisualEffect>
-      <MeshParticles maxParticles={500}>
-        <planeGeometry />
+    <MeshParticles maxParticles={500}>
+      <planeGeometry />
 
-        <MeshParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          map={texture}
-          blending={NormalBlending}
-          depthTest={true}
-          depthWrite={false}
-          depthTexture={depthTexture}
-          billboard
-          softness={5}
-          transparent
-          colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
-        />
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        map={texture}
+        blending={NormalBlending}
+        depthTest={true}
+        depthWrite={false}
+        depthTexture={depthTexture}
+        billboard
+        softness={5}
+        transparent
+        colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      />
 
-        <Emitter count={20} setup={setup({ preDelay: 15 })} />
+      <Emitter count={20} setup={setup({ preDelay: 15 })} />
 
-        <Repeat interval={5}>
-          <Emitter count={() => between(5, 10)} setup={setup()} />
-        </Repeat>
-      </MeshParticles>
-    </VisualEffect>
+      <Repeat interval={5}>
+        <Emitter count={() => between(5, 10)} setup={setup()} />
+      </Repeat>
+    </MeshParticles>
   )
 }

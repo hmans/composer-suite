@@ -9,28 +9,26 @@ export const SoftParticlesExample = () => {
   const depthBuffer = useDepthBuffer()
 
   return (
-    <VisualEffect>
-      <MeshParticles>
-        <planeGeometry args={[20, 20]} />
+    <MeshParticles>
+      <planeGeometry args={[20, 20]} />
 
-        <MeshParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          color="hotpink"
-          billboard
-          transparent
-          depthWrite={false}
-          softness={5}
-          depthTexture={depthBuffer.depthTexture}
-        />
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        color="hotpink"
+        billboard
+        transparent
+        depthWrite={false}
+        softness={5}
+        depthTexture={depthBuffer.depthTexture}
+      />
 
-        <Emitter
-          count={1}
-          setup={(c) => {
-            c.lifetime = Infinity
-          }}
-        />
-      </MeshParticles>
-    </VisualEffect>
+      <Emitter
+        count={1}
+        setup={(c) => {
+          c.lifetime = Infinity
+        }}
+      />
+    </MeshParticles>
   )
 }
 ```
