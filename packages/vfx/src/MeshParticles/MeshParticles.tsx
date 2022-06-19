@@ -15,6 +15,7 @@ import {
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
+  Object3D,
   Quaternion,
   Vector3
 } from "three"
@@ -45,7 +46,7 @@ export type SpawnOptions = typeof components
 export type SpawnSetup = (options: SpawnOptions, index: number) => void
 
 export type ParticlesAPI = {
-  spawnParticle: (count: number, setup?: SpawnSetup) => void
+  spawnParticle: (count: number, setup?: SpawnSetup, origin?: Object3D) => void
 }
 
 const ParticlesContext = createContext<ParticlesAPI>(null!)
@@ -103,7 +104,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     }, [attributes])
 
     const spawnParticle = useCallback(
-      (count: number, setup?: SpawnSetup) => {
+      (count: number, setup?: SpawnSetup, origin?: Object3D) => {
         const { instanceMatrix } = imesh.current
 
         /* Configure the attributes to upload only the updated parts to the GPU. */
@@ -129,6 +130,14 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           components.color[0].setRGB(1, 1, 1)
           components.color[1].setRGB(1, 1, 1)
           components.alpha = [1, 0]
+
+          /* TODO: Apply origin */
+          // if (origin) {
+          //   origin.getWorldPosition(components.position)
+          //   origin.getWorldQuaternion(components.quaternion)
+          //   origin.getWorldScale(components.scale[0])
+          //   origin.getWorldScale(components.scale[1])
+          // }
 
           /* Run setup */
           setup?.(components, i)
