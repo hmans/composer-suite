@@ -1,6 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { useLayoutEffect, useMemo } from "react"
-import { render } from "react-dom"
 import { DepthTexture, WebGLRenderTarget } from "three"
 
 export function useDepthBuffer(resolution = 0.1) {
