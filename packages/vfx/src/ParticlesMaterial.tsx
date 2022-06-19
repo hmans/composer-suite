@@ -1,5 +1,5 @@
-import { useFrame, useThree } from "@react-three/fiber"
-import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
+import { useFrame } from "@react-three/fiber"
+import React, { forwardRef, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -32,9 +32,6 @@ export const ParticlesMaterial = forwardRef<
     ref
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
-
-    const dpr = useThree((state) => state.viewport.dpr)
-    const { width, height } = useThree((state) => state.size)
 
     const shader = useMemo(
       () =>
