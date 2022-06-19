@@ -181,12 +181,18 @@ export const createShader = ({
           /* Get the existing depth at the fragment position */
           float depth = readDepth(screenUv);
 
-          /* Calculate the distance to the fragment */
-          float distance =
-            smoothstep(0.0, ${formatValue(softness)}, v_viewZ - depth);
+          {
+            /* Prepare some convenient local variables */
+            float d = depth;
+            float z = v_viewZ;
 
-          /* Apply the distance to the fragment alpha */
-          csm_DiffuseColor.a *= distance;
+            /* Calculate the distance to the fragment */
+            float distance = z - d;
+
+            /* Apply the distance to the fragment alpha */
+            csm_DiffuseColor.a *=
+              smoothstep(0.0, ${formatValue(softness)}, distance);
+          }
         `
       })
     )
