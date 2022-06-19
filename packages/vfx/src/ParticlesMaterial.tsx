@@ -58,8 +58,8 @@ export const ParticlesMaterial = forwardRef<
 
         // TODO: derive these from depthTexture
         material.current.uniforms.u_resolution.value = [
-          window.innerWidth * dpr,
-          window.innerHeight * dpr
+          window.innerWidth,
+          window.innerHeight
         ]
       }, [depthTexture, width, height, dpr])
     }
