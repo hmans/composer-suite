@@ -12,7 +12,7 @@ import {
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 export const Fog = () => {
-  const depthTexture = useDepthBuffer()
+  const depthTexture = useDepthBuffer().depthTexture
 
   const texture = useTexture("/textures/smoke.png")
 

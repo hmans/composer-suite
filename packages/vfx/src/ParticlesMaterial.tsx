@@ -49,19 +49,17 @@ export const ParticlesMaterial = forwardRef<
     )
 
     if (softness) {
-      const { camera } = useThree()
+      const { camera, size } = useThree()
 
       useLayoutEffect(() => {
+        console.log("Setting new uniforms")
         material.current.uniforms.u_depth.value = depthTexture
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far
 
         // TODO: derive these from depthTexture
-        material.current.uniforms.u_resolution.value = [
-          window.innerWidth,
-          window.innerHeight
-        ]
-      }, [depthTexture, width, height, dpr])
+        material.current.uniforms.u_resolution.value = [size.width, size.height]
+      }, [depthTexture, width, height, dpr, camera.near, camera.far])
     }
 
     return (

@@ -8,7 +8,7 @@ import {
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 export const SoftParticlesExample = () => {
-  const depthTexture = useDepthBuffer()
+  const depthBuffer = useDepthBuffer()
 
   return (
     <VisualEffect>
@@ -22,7 +22,7 @@ export const SoftParticlesExample = () => {
           transparent
           softness={5}
           depthWrite={false}
-          depthTexture={depthTexture}
+          depthTexture={depthBuffer.depthTexture}
         />
 
         <Emitter
