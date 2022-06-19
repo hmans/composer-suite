@@ -1,16 +1,13 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import {
-  AdaptiveLuminancePass,
   BlendFunction,
-  BloomEffect,
   EffectComposer,
   EffectPass,
   Pass,
   RenderPass,
-  SelectiveBloomEffect,
-  ToneMappingEffect
+  SelectiveBloomEffect
 } from "postprocessing"
-import { useEffect, useLayoutEffect, useMemo } from "react"
+import { useLayoutEffect, useMemo } from "react"
 import { HalfFloatType } from "three"
 
 const usePass = (
