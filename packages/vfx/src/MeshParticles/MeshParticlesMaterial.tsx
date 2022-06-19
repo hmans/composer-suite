@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { createShader } from "./shaders/shader"
+import { createShader } from "./shader"
 
 type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean

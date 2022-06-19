@@ -1,5 +1,5 @@
-import { formatValue, Module, module } from "./modules"
-import { easings } from "./modules/easings"
+import { formatValue, Module, module } from "../shaders"
+import { easings } from "../shaders/easings"
 
 const compile = (headers: string, main: string) => `
   ${headers}
