@@ -2,7 +2,7 @@ import { useFrame, useThree } from "@react-three/fiber"
 import { useLayoutEffect, useMemo } from "react"
 import { DepthTexture, WebGLRenderTarget } from "three"
 
-export function useDepthBuffer(resolution = 0.1) {
+export function useDepthBuffer(resolution = 0.5) {
   /* Fetch some items we need from the R3F state. */
   const size = useThree((s) => s.size)
   const dpr = useThree((s) => s.viewport.dpr)
