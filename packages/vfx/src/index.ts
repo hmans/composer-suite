@@ -1,3 +1,4 @@
 export * from "./Emitter"
 export * from "./MeshParticles"
-export * from "./utilities"
+export * from "./timeline"
+export * from "./VisualEffect"
