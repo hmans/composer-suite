@@ -1,13 +1,7 @@
 import { CameraShake, useTexture } from "@react-three/drei"
 import { between, plusMinus, power, upTo } from "randomish"
 import { FC } from "react"
-import {
-  Color,
-  DepthTexture,
-  MeshStandardMaterial,
-  TextureLoader,
-  Vector3
-} from "three"
+import { Color, DepthTexture, MeshStandardMaterial, Vector3 } from "three"
 import {
   Delay,
   Emitter,
@@ -171,7 +165,7 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
 )
 
 export const Explosion = (props: VisualEffectProps) => {
-  const depthTexture = useDepthBuffer()
+  const depthTexture = useDepthBuffer().depthTexture
 
   return (
     <VisualEffect {...props}>
