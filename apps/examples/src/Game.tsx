@@ -2,17 +2,16 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { button, useControls } from "leva"
 import { Perf } from "r3f-perf"
-import { FC, useState } from "react"
+import { FC, Suspense, useState } from "react"
 import { LinearEncoding } from "three"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
-import { RenderPipeline } from "./RenderPipeline"
+import { Rendering } from "./Rendering"
 import { Stage } from "./Stage"
 
 export const Game = () => {
-  const { beautiful, halfResolution } = useControls("Rendering", {
-    beautiful: true,
+  const { halfResolution } = useControls("Rendering", {
     halfResolution: false
   })
 
@@ -20,12 +19,11 @@ export const Game = () => {
     <Canvas
       flat
       gl={{
-        logarithmicDepthBuffer: true,
         outputEncoding: LinearEncoding,
+        powerPreference: "high-performance",
         alpha: false,
-        depth: true,
-        stencil: false,
-        antialias: false
+        depth: false,
+        stencil: false
       }}
       dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
       shadows
@@ -47,7 +45,7 @@ export const Game = () => {
         shadow-radius={10}
         shadow-bias={-0.0001}
       />
-      <fog attach="fog" args={["#987", 50, 100]} />
+      <fog attach="fog" args={["#987", 50, 300]} />
       <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
       <OrbitControls
@@ -60,12 +58,14 @@ export const Game = () => {
       {/* Scene objects */}
       <Stage>
         <Route path="/:path">
-          <ExampleMatcher />
+          <Suspense>
+            <ExampleMatcher />
+          </Suspense>
         </Route>
       </Stage>
 
       {/* Rendering, ECS, etc. */}
-      <RenderPipeline beautiful={beautiful} />
+      <Rendering />
       <Perf position="bottom-right" />
     </Canvas>
   )

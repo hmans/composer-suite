@@ -1,6 +1,7 @@
 import { CameraShake, useTexture } from "@react-three/drei"
 import { between, plusMinus, power, upTo } from "randomish"
-import { Color, MeshStandardMaterial, TextureLoader, Vector3 } from "three"
+import { FC } from "react"
+import { Color, DepthTexture, MeshStandardMaterial, Vector3 } from "three"
 import {
   Delay,
   Emitter,
@@ -11,14 +12,20 @@ import {
   VisualEffect,
   VisualEffectProps
 } from "three-vfx"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
 
-const SmokeRing = () => (
+const SmokeRing: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={200}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="white" />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="white"
+      softness={1}
+      depthTexture={depthTexture}
+    />
 
     <Repeat times={3} interval={0.5}>
       <Emitter
@@ -82,7 +89,11 @@ const Rocks = () => (
 const Fireball = () => (
   <MeshParticles maxParticles={15}>
     <sphereBufferGeometry args={[1, 8, 8]} />
-    <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="#fff" />
+    <ParticlesMaterial
+      baseMaterial={MeshStandardMaterial}
+      color="#fff"
+      depthWrite={false}
+    />
 
     <Emitter
       count={() => 5 + power(3) * 10}
@@ -98,8 +109,8 @@ const Fireball = () => (
         c.lifetime = between(0.8, 1.4)
 
         c.color[0].lerpColors(
-          new Color("red").multiplyScalar(10),
-          new Color("yellow").multiplyScalar(10),
+          new Color("red").multiplyScalar(30),
+          new Color("yellow").multiplyScalar(50),
           power(3)
         )
         c.color[1].copy(c.color[0])
@@ -108,7 +119,7 @@ const Fireball = () => (
   </MeshParticles>
 )
 
-const SmokeCloud = () => (
+const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={100}>
     <planeGeometry />
 
@@ -117,11 +128,12 @@ const SmokeCloud = () => (
       map={useTexture("/textures/smoke.png")}
       depthWrite={false}
       billboard
-      scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      softness={3}
+      depthTexture={depthTexture}
     />
 
     <Emitter
-      count={() => between(60, 80)}
+      count={between(30, 60)}
       setup={(c) => {
         direction.randomDirection()
 
@@ -140,7 +152,7 @@ const SmokeCloud = () => (
         c.scale[0].setScalar(between(0.5, 1.5))
         c.scale[1].setScalar(between(6, 20))
 
-        c.delay = upTo(0.3)
+        c.delay = upTo(0.1)
         c.lifetime = between(1, 3)
 
         c.alpha = [0.5, 0]
@@ -152,33 +164,37 @@ const SmokeCloud = () => (
   </MeshParticles>
 )
 
-export const Explosion = (props: VisualEffectProps) => (
-  <VisualEffect {...props}>
-    <Lifetime seconds={5}>
-      <SmokeRing />
+export const Explosion = (props: VisualEffectProps) => {
+  const depthTexture = useDepthBuffer().depthTexture
 
-      <Fireball />
+  return (
+    <VisualEffect {...props}>
+      <Lifetime seconds={5}>
+        <SmokeRing depthTexture={depthTexture} />
 
-      <Delay seconds={0.3}>
         <Fireball />
 
-        <CameraShake
-          maxYaw={0.02}
-          maxPitch={0.02}
-          maxRoll={0.02}
-          yawFrequency={5}
-          pitchFrequency={10}
-          rollFrequency={2}
-          decayRate={1.5}
-          decay
-        />
+        <Delay seconds={0.3}>
+          <Fireball />
 
-        <Delay seconds={0.2}>
-          <Rocks />
+          <CameraShake
+            maxYaw={0.02}
+            maxPitch={0.02}
+            maxRoll={0.02}
+            yawFrequency={5}
+            pitchFrequency={10}
+            rollFrequency={2}
+            decayRate={1.5}
+            decay
+          />
 
-          <SmokeCloud />
+          <Delay seconds={0.2}>
+            <Rocks />
+
+            <SmokeCloud depthTexture={depthTexture} />
+          </Delay>
         </Delay>
-      </Delay>
-    </Lifetime>
-  </VisualEffect>
-)
+      </Lifetime>
+    </VisualEffect>
+  )
+}

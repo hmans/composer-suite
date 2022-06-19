@@ -1,4 +1,4 @@
-import { Module, module } from "./modules"
+import { formatValue, Module, module } from "./modules"
 import { easings } from "./modules/easings"
 
 const compile = (headers: string, main: string) => `
@@ -10,9 +10,10 @@ const compile = (headers: string, main: string) => `
 
 export const createShader = ({
   billboard = false,
+  softness = 0,
   scaleFunction = "v_progress",
   colorFunction = "v_progress",
-  alphaFunction = "v_progress"
+  softnessFunction = "clamp(distance / softness, 0.0, 1.0)"
 } = {}) => {
   const state = {
     vertexHeaders: "",
@@ -23,9 +24,9 @@ export const createShader = ({
 
   const addModule = (module: Module) => {
     state.vertexHeaders += module.vertexHeader
-    state.vertexMain += module.vertexMain
+    state.vertexMain += `{ ${module.vertexMain} }`
     state.fragmentHeaders += module.fragmentHeader
-    state.fragmentMain += module.fragmentMain
+    state.fragmentMain += `{ ${module.fragmentMain} }`
   }
 
   /* Easing functions */
@@ -50,6 +51,10 @@ export const createShader = ({
       vertexMain: `
         v_age = u_time - time.x;
         v_progress = v_age / (time.y - time.x);
+
+        if (v_progress < 0.0 || v_progress > 1.0) {
+          csm_Position *= 0.0;;
+        }
       `,
       fragmentHeader: `
         varying float v_progress;
@@ -142,13 +147,67 @@ export const createShader = ({
     })
   )
 
+  /* Soft particles */
+  if (softness) {
+    addModule(
+      module({
+        vertexHeader: `
+          varying float v_viewZ;
+        `,
+
+        vertexMain: `
+          vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);
+          v_viewZ = viewPosition.z;
+        `,
+
+        fragmentHeader: `
+          uniform sampler2D u_depth;
+          uniform vec2 u_resolution;
+          uniform float u_cameraNear;
+          uniform float u_cameraFar;
+
+          varying float v_viewZ;
+
+          float readDepth(vec2 coord) {
+            float depthZ = texture2D(u_depth, coord).x;
+            float viewZ = perspectiveDepthToViewZ(depthZ, u_cameraNear, u_cameraFar);
+            return viewZ;
+          }
+        `,
+
+        fragmentMain: `
+          /* Normalize fragment coordinates to screen space */
+          vec2 screenUv = gl_FragCoord.xy / u_resolution;
+
+          /* Get the existing depth at the fragment position */
+          float depth = readDepth(screenUv);
+
+          {
+            /* Prepare some convenient local variables */
+            float d = depth;
+            float z = v_viewZ;
+            float softness = ${formatValue(softness)};
+
+            /* Calculate the distance to the fragment */
+            float distance = z - d;
+
+            /* Apply the distance to the fragment alpha */
+            csm_DiffuseColor.a *= ${softnessFunction};
+          }
+        `
+      })
+    )
+  }
+
   return {
     vertexShader: compile(state.vertexHeaders, state.vertexMain),
     fragmentShader: compile(state.fragmentHeaders, state.fragmentMain),
     uniforms: {
-      u_time: {
-        value: 0
-      }
+      u_time: { value: 0 },
+      u_depth: { value: null },
+      u_cameraNear: { value: 0 },
+      u_cameraFar: { value: 1 },
+      u_resolution: { value: [window.innerWidth, window.innerHeight] }
     }
   }
 }

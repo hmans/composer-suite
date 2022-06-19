@@ -12,3 +12,6 @@ export const module = (input: Partial<Module>): Module => ({
   fragmentMain: "",
   ...input
 })
+
+export const formatValue = (value: any) =>
+  typeof value === "number" ? value.toFixed(5) : value

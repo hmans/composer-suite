@@ -1,38 +1,67 @@
-import React, { forwardRef, useMemo } from "react"
-import { AddEquation, CustomBlending } from "three"
+import { useFrame } from "@react-three/fiber"
+import React, { forwardRef, useMemo, useRef } from "react"
+import mergeRefs from "react-merge-refs"
+import { AddEquation, CustomBlending, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { createShader } from "./shaders/shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
+  softness?: number
   scaleFunction?: string
   colorFunction?: string
+  softnessFunction?: string
+  depthTexture?: DepthTexture
 }
 
 export const ParticlesMaterial = forwardRef<
   CustomShaderMaterialImpl,
   ParticlesMaterialProps
->(({ billboard = false, scaleFunction, colorFunction, ...props }, ref) => {
-  const shader = useMemo(
-    () =>
-      createShader({
-        billboard,
-        scaleFunction,
-        colorFunction
-      }),
-    []
-  )
+>(
+  (
+    {
+      billboard = false,
+      softness = 0,
+      scaleFunction,
+      colorFunction,
+      softnessFunction,
+      depthTexture,
+      ...props
+    },
+    ref
+  ) => {
+    const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  return (
-    <CustomShaderMaterial
-      ref={ref}
-      blending={CustomBlending}
-      blendEquation={AddEquation}
-      depthTest={true}
-      depthWrite={false}
-      {...shader}
-      {...props}
-    />
-  )
-})
+    const shader = useMemo(
+      () =>
+        createShader({
+          billboard,
+          softness,
+          scaleFunction,
+          colorFunction,
+          softnessFunction
+        }),
+      []
+    )
+
+    useFrame(({ camera, size }) => {
+      if (softness) {
+        material.current.uniforms.u_depth.value = depthTexture
+        material.current.uniforms.u_cameraNear.value = camera.near
+        material.current.uniforms.u_cameraFar.value = camera.far
+        material.current.uniforms.u_resolution.value = [size.width, size.height]
+      }
+    })
+
+    return (
+      <CustomShaderMaterial
+        ref={mergeRefs([material, ref])}
+        blending={CustomBlending}
+        blendEquation={AddEquation}
+        {...shader}
+        {...props}
+      />
+    )
+  }
+)

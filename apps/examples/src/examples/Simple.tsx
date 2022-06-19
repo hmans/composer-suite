@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -19,10 +19,12 @@ export const Simple = () => {
 
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
-          billboard
+          blending={NormalBlending}
           map={texture}
+          color="white"
           transparent
-          depthTest={true}
+          billboard
+          depthTest={false}
           depthWrite={false}
         />
 
