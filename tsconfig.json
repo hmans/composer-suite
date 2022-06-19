@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "declaration": true,
     "strict": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true
