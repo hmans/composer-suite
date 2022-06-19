@@ -2,7 +2,7 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { button, useControls } from "leva"
 import { Perf } from "r3f-perf"
-import { FC, useState } from "react"
+import { FC, Suspense, useState } from "react"
 import { LinearEncoding } from "three"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
@@ -58,7 +58,9 @@ export const Game = () => {
       {/* Scene objects */}
       <Stage>
         <Route path="/:path">
-          <ExampleMatcher />
+          <Suspense>
+            <ExampleMatcher />
+          </Suspense>
         </Route>
       </Stage>
 
