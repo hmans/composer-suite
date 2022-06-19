@@ -1,7 +1,4 @@
-import { useState } from "react"
-import { Fragment } from "react"
-import { ReactNode } from "react"
-import { FC } from "react"
+import React, { FC, Fragment, ReactNode, useState } from "react"
 import { Delay } from "./Delay"
 
 type RepeatProps = { children: ReactNode; times?: number; interval?: number }

@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { useDelay } from "./Delay"
 
 type LifetimeProps = {

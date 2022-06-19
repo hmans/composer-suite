@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { FC, ReactNode, useRef, useState } from "react"
+import React, { FC, ReactNode, useRef, useState } from "react"
 
 type DelayProps = {
   children?: ReactNode

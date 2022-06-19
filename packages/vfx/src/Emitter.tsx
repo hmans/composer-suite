@@ -1,8 +1,7 @@
 import { Object3DProps, useFrame } from "@react-three/fiber"
-import { FC, useEffect } from "react"
+import React from "react"
 import { SpawnSetup, useParticles } from "./MeshParticles"
 import { getValue, ValueFactory } from "./util/ValueFactory"
-import React from "react"
 
 export type EmitterProps = Object3DProps & {
   count?: ValueFactory<number>
@@ -10,7 +9,7 @@ export type EmitterProps = Object3DProps & {
   continuous?: boolean
 }
 
-export const Emitter: FC<EmitterProps> = ({
+export const Emitter: React.FC<EmitterProps> = ({
   count = 0,
   setup,
   continuous = false,
@@ -18,7 +17,7 @@ export const Emitter: FC<EmitterProps> = ({
 }) => {
   const { spawnParticle } = useParticles()
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (continuous) return
 
     spawnParticle(getValue(count), setup)

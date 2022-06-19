@@ -3,6 +3,6 @@ import React from "react"
 
 export type VisualEffectProps = GroupProps
 
-export const VisualEffect = (props: VisualEffectProps) => {
+export const VisualEffect: React.FC<VisualEffectProps> = (props) => {
   return <group {...props} />
 }
