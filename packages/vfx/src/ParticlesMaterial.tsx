@@ -1,4 +1,4 @@
-import { useThree } from "@react-three/fiber"
+import { useFrame, useThree } from "@react-three/fiber"
 import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
@@ -48,19 +48,14 @@ export const ParticlesMaterial = forwardRef<
       []
     )
 
-    if (softness) {
-      const { camera, size } = useThree()
-
-      useLayoutEffect(() => {
-        console.log("Setting new uniforms")
+    useFrame(({ camera, size }) => {
+      if (softness) {
         material.current.uniforms.u_depth.value = depthTexture
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far
-
-        // TODO: derive these from depthTexture
         material.current.uniforms.u_resolution.value = [size.width, size.height]
-      }, [depthTexture, width, height, dpr, camera.near, camera.far])
-    }
+      }
+    })
 
     return (
       <CustomShaderMaterial
