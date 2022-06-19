@@ -2,11 +2,10 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import { DepthTexture, WebGLRenderTarget } from "three"
 
-export function useDepthBuffer(resolution = 128) {
+export function useDepthBuffer(resolution = 256) {
   const renderTarget = useMemo(() => {
-    return new WebGLRenderTarget(resolution, resolution, {
-      depthTexture: new DepthTexture(resolution, resolution)
-    })
+    const depthTexture = new DepthTexture(resolution, resolution)
+    return new WebGLRenderTarget(resolution, resolution, { depthTexture })
   }, [resolution])
 
   useFrame((state) => {
