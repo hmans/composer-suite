@@ -31,5 +31,4 @@ jobs:
           yarn changeset version --snapshot dev
           yarn release --no-git-tag --snapshot dev --tag dev
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
