@@ -9,8 +9,11 @@ import {
   SpawnSetup,
   VisualEffect
 } from "three-vfx"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 export const Fog = () => {
+  const depthTexture = useDepthBuffer()
+
   const texture = useTexture("/textures/smoke.png")
 
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
@@ -34,6 +37,7 @@ export const Fog = () => {
           blending={NormalBlending}
           depthTest={true}
           depthWrite={false}
+          depthTexture={depthTexture}
           billboard
           softness={5}
           transparent

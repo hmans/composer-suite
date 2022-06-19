@@ -1,10 +1,9 @@
 import { useThree } from "@react-three/fiber"
 import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
-import { AddEquation, CustomBlending } from "three"
+import { AddEquation, CustomBlending, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { createShader } from "./shaders/shader"
 
 type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
@@ -13,6 +12,7 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   scaleFunction?: string
   colorFunction?: string
   softnessFunction?: string
+  depthTexture?: DepthTexture
 }
 
 export const ParticlesMaterial = forwardRef<
@@ -26,6 +26,7 @@ export const ParticlesMaterial = forwardRef<
       scaleFunction,
       colorFunction,
       softnessFunction,
+      depthTexture,
       ...props
     },
     ref
@@ -50,17 +51,17 @@ export const ParticlesMaterial = forwardRef<
     if (softness) {
       const { camera } = useThree()
 
-      const depthBuffer = useDepthBuffer()
-
       useLayoutEffect(() => {
-        material.current.uniforms.u_depth.value = depthBuffer
+        material.current.uniforms.u_depth.value = depthTexture
         material.current.uniforms.u_cameraNear.value = camera.near
         material.current.uniforms.u_cameraFar.value = camera.far
+
+        // TODO: derive these from depthTexture
         material.current.uniforms.u_resolution.value = [
           window.innerWidth * dpr,
           window.innerHeight * dpr
         ]
-      }, [depthBuffer, width, height, dpr])
+      }, [depthTexture, width, height, dpr])
     }
 
     return (

@@ -5,8 +5,11 @@ import {
   ParticlesMaterial,
   VisualEffect
 } from "three-vfx"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 export const SoftParticlesExample = () => {
+  const depthTexture = useDepthBuffer()
+
   return (
     <VisualEffect>
       <MeshParticles>
@@ -19,6 +22,7 @@ export const SoftParticlesExample = () => {
           transparent
           softness={5}
           depthWrite={false}
+          depthTexture={depthTexture}
         />
 
         <Emitter
