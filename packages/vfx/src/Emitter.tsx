@@ -2,6 +2,7 @@ import { Object3DProps, useFrame } from "@react-three/fiber"
 import { FC, useEffect } from "react"
 import { SpawnSetup, useParticles } from "./MeshParticles"
 import { getValue, ValueFactory } from "./util/ValueFactory"
+import React from "react"
 
 export type EmitterProps = Object3DProps & {
   count?: ValueFactory<number>
