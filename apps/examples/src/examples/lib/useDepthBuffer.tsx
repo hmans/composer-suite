@@ -1,30 +1,27 @@
-import { useFrame, useThree } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import { DepthFormat, DepthTexture, FloatType } from "three"
+import { render } from "react-dom"
+import { DepthFormat, DepthTexture, FloatType, WebGLRenderTarget } from "three"
 import { useFBO } from "./useFBO"
 
-export function useDepthBuffer() {
-  const dpr = useThree((state) => state.viewport.dpr)
-  const width = useThree((state) => state.size.width)
-  const height = useThree((state) => state.size.height)
-  const w = width * dpr
-  const h = height * dpr
+export function useDepthBuffer(resolution = 128) {
+  const renderTarget = useMemo(() => {
+    const renderTarget = new WebGLRenderTarget(resolution, resolution)
 
-  const depthTexture = useMemo(() => {
-    const depthTexture = new DepthTexture(w, h)
-    depthTexture.format = DepthFormat
-    depthTexture.type = FloatType
+    renderTarget.depthTexture = new DepthTexture(resolution, resolution)
+    // renderTarget.depthTexture.format = DepthFormat
+    // renderTarget.depthTexture.type = FloatType
 
-    return depthTexture
-  }, [w, h])
+    console.log("Created RenderTarget:", renderTarget)
 
-  const depthFBO = useFBO(w, h, { depthTexture })
+    return renderTarget
+  }, [resolution])
 
   useFrame((state) => {
-    state.gl.setRenderTarget(depthFBO)
+    state.gl.setRenderTarget(renderTarget)
     state.gl.render(state.scene, state.camera)
     state.gl.setRenderTarget(null)
   })
 
-  return depthFBO.depthTexture
+  return renderTarget.depthTexture
 }
