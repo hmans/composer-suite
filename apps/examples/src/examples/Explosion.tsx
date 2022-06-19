@@ -1,6 +1,13 @@
 import { CameraShake, useTexture } from "@react-three/drei"
 import { between, plusMinus, power, upTo } from "randomish"
-import { Color, MeshStandardMaterial, TextureLoader, Vector3 } from "three"
+import { FC } from "react"
+import {
+  Color,
+  DepthTexture,
+  MeshStandardMaterial,
+  TextureLoader,
+  Vector3
+} from "three"
 import {
   Delay,
   Emitter,
@@ -11,17 +18,19 @@ import {
   VisualEffect,
   VisualEffectProps
 } from "three-vfx"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
 
-const SmokeRing = () => (
+const SmokeRing: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={200}>
     <sphereBufferGeometry args={[1, 8, 8]} />
     <ParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       color="white"
       softness={1}
+      depthTexture={depthTexture}
     />
 
     <Repeat times={3} interval={0.5}>
@@ -89,7 +98,7 @@ const Fireball = () => (
     <ParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       color="#fff"
-      softness={2}
+      depthWrite={false}
     />
 
     <Emitter
@@ -116,7 +125,7 @@ const Fireball = () => (
   </MeshParticles>
 )
 
-const SmokeCloud = () => (
+const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
   <MeshParticles maxParticles={100}>
     <planeGeometry />
 
@@ -126,7 +135,7 @@ const SmokeCloud = () => (
       depthWrite={false}
       billboard
       softness={3}
-      // scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      depthTexture={depthTexture}
     />
 
     <Emitter
@@ -161,33 +170,37 @@ const SmokeCloud = () => (
   </MeshParticles>
 )
 
-export const Explosion = (props: VisualEffectProps) => (
-  <VisualEffect {...props}>
-    <Lifetime seconds={5}>
-      <SmokeRing />
+export const Explosion = (props: VisualEffectProps) => {
+  const depthTexture = useDepthBuffer()
 
-      <Fireball />
+  return (
+    <VisualEffect {...props}>
+      <Lifetime seconds={5}>
+        <SmokeRing depthTexture={depthTexture} />
 
-      <Delay seconds={0.3}>
         <Fireball />
 
-        <CameraShake
-          maxYaw={0.02}
-          maxPitch={0.02}
-          maxRoll={0.02}
-          yawFrequency={5}
-          pitchFrequency={10}
-          rollFrequency={2}
-          decayRate={1.5}
-          decay
-        />
+        <Delay seconds={0.3}>
+          <Fireball />
 
-        <Delay seconds={0.2}>
-          <Rocks />
+          <CameraShake
+            maxYaw={0.02}
+            maxPitch={0.02}
+            maxRoll={0.02}
+            yawFrequency={5}
+            pitchFrequency={10}
+            rollFrequency={2}
+            decayRate={1.5}
+            decay
+          />
 
-          <SmokeCloud />
+          <Delay seconds={0.2}>
+            <Rocks />
+
+            <SmokeCloud depthTexture={depthTexture} />
+          </Delay>
         </Delay>
-      </Delay>
-    </Lifetime>
-  </VisualEffect>
-)
+      </Lifetime>
+    </VisualEffect>
+  )
+}
