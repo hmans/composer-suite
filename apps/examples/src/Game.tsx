@@ -7,12 +7,13 @@ import { LinearEncoding } from "three"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
-import { Rendering } from "./Rendering"
+import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 
 export const Game = () => {
-  const { halfResolution } = useControls("Rendering", {
-    halfResolution: false
+  const { halfResolution, postProcessing } = useControls("Rendering", {
+    halfResolution: false,
+    postProcessing: true
   })
 
   return (
@@ -22,7 +23,7 @@ export const Game = () => {
         outputEncoding: LinearEncoding,
         powerPreference: "high-performance",
         alpha: false,
-        depth: false,
+        depth: true,
         stencil: false
       }}
       dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
@@ -65,7 +66,7 @@ export const Game = () => {
       </Stage>
 
       {/* Rendering, ECS, etc. */}
-      <Rendering />
+      {postProcessing && <PostProcessing />}
       <Perf position="bottom-right" />
     </Canvas>
   )

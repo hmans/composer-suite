@@ -22,7 +22,7 @@ const usePass = (
   }, [composer, ...deps])
 }
 
-export const Rendering = () => {
+export const PostProcessing = () => {
   const { gl, scene, camera } = useThree()
 
   const composer = useMemo(
