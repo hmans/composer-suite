@@ -12,7 +12,8 @@ export const createShader = ({
   billboard = false,
   softness = 0,
   scaleFunction = "v_progress",
-  colorFunction = "v_progress"
+  colorFunction = "v_progress",
+  softnessFunction = "clamp(distance / softness, 0.0, 1.0)"
 } = {}) => {
   const state = {
     vertexHeaders: "",
@@ -191,7 +192,7 @@ export const createShader = ({
             float distance = z - d;
 
             /* Apply the distance to the fragment alpha */
-            csm_DiffuseColor.a *= smoothstep(0.0, softness, distance);
+            csm_DiffuseColor.a *= ${softnessFunction};
           }
         `
       })

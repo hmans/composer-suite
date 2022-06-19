@@ -12,6 +12,7 @@ type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   softness?: number
   scaleFunction?: string
   colorFunction?: string
+  softnessFunction?: string
 }
 
 export const ParticlesMaterial = forwardRef<
@@ -19,7 +20,14 @@ export const ParticlesMaterial = forwardRef<
   ParticlesMaterialProps
 >(
   (
-    { billboard = false, softness = 0, scaleFunction, colorFunction, ...props },
+    {
+      billboard = false,
+      softness = 0,
+      scaleFunction,
+      colorFunction,
+      softnessFunction,
+      ...props
+    },
     ref
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
@@ -33,7 +41,8 @@ export const ParticlesMaterial = forwardRef<
           billboard,
           softness,
           scaleFunction,
-          colorFunction
+          colorFunction,
+          softnessFunction
         }),
       []
     )
