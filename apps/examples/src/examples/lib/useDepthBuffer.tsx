@@ -1,20 +1,12 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import { render } from "react-dom"
-import { DepthFormat, DepthTexture, FloatType, WebGLRenderTarget } from "three"
-import { useFBO } from "./useFBO"
+import { DepthTexture, WebGLRenderTarget } from "three"
 
 export function useDepthBuffer(resolution = 128) {
   const renderTarget = useMemo(() => {
-    const renderTarget = new WebGLRenderTarget(resolution, resolution)
-
-    renderTarget.depthTexture = new DepthTexture(resolution, resolution)
-    // renderTarget.depthTexture.format = DepthFormat
-    // renderTarget.depthTexture.type = FloatType
-
-    console.log("Created RenderTarget:", renderTarget)
-
-    return renderTarget
+    return new WebGLRenderTarget(resolution, resolution, {
+      depthTexture: new DepthTexture(resolution, resolution)
+    })
   }, [resolution])
 
   useFrame((state) => {
