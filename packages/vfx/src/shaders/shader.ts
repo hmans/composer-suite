@@ -185,13 +185,13 @@ export const createShader = ({
             /* Prepare some convenient local variables */
             float d = depth;
             float z = v_viewZ;
+            float softness = ${formatValue(softness)};
 
             /* Calculate the distance to the fragment */
             float distance = z - d;
 
             /* Apply the distance to the fragment alpha */
-            csm_DiffuseColor.a *=
-              smoothstep(0.0, ${formatValue(softness)}, distance);
+            csm_DiffuseColor.a *= smoothstep(0.0, softness, distance);
           }
         `
       })
