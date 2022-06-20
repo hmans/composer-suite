@@ -23,38 +23,42 @@ export const formatValue = (value: any) =>
   typeof value === "number" ? value.toFixed(5) : value
 
 export const composableShader = () => {
-  const state = {
-    vertexHeaders: new Array<string>(),
-    vertexMain: new Array<string>(),
-    fragmentHeaders: new Array<string>(),
-    fragmentMain: new Array<string>()
+  const modules = new Array<Module>()
+
+  function addModule(module: Module) {
+    modules.push(module)
   }
 
-  const addModule = (module: Module) => {
-    state.vertexHeaders.push(module.vertexHeader)
-    state.vertexMain.push(`{ ${module.vertexMain} }`)
-    state.fragmentHeaders.push(module.fragmentHeader)
-    state.fragmentMain.push(`{ ${module.fragmentMain} }`)
+  function compileProgram(headers: string[], main: string[]) {
+    return `
+      ${headers.join("\n\n")}
+      void main() {
+        ${main.join("\n\n")}
+      }
+    `
   }
 
-  const compileProgram = (headers: string[], main: string[]) => `
-    ${headers.join("\n\n")}
-    void main() {
-      ${main.join("\n\n")}
-    }
-  `
+  function compile() {
+    return {
+      vertexShader: compileProgram(
+        modules.map((m) => m.vertexHeader),
+        modules.map((m) => `{ ${m.vertexMain} }`)
+      ),
 
-  const compile = () => ({
-    vertexShader: compileProgram(state.vertexHeaders, state.vertexMain),
-    fragmentShader: compileProgram(state.fragmentHeaders, state.fragmentMain),
-    uniforms: {
-      u_time: { value: 0 },
-      u_depth: { value: null },
-      u_cameraNear: { value: 0 },
-      u_cameraFar: { value: 1 },
-      u_resolution: { value: [window.innerWidth, window.innerHeight] }
+      fragmentShader: compileProgram(
+        modules.map((m) => m.fragmentHeader),
+        modules.map((m) => `{ ${m.fragmentMain} }`)
+      ),
+
+      uniforms: {
+        u_time: { value: 0 },
+        u_depth: { value: null },
+        u_cameraNear: { value: 0 },
+        u_cameraFar: { value: 1 },
+        u_resolution: { value: [window.innerWidth, window.innerHeight] }
+      }
     }
-  })
+  }
 
   return { addModule, compile }
 }
