@@ -1,7 +1,4 @@
-export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4" | "sampler2D"
-
 export type Uniform<T = any> = {
-  type: GLSLType
   value: T
 }
 
