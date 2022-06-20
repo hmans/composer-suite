@@ -32,6 +32,7 @@ export const composableShader = () => {
   function compileProgram(headers: string[], main: string[]) {
     return `
       ${headers.join("\n\n")}
+
       void main() {
         ${main.join("\n\n")}
       }
