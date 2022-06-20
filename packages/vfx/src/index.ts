@@ -1,4 +1,4 @@
 export * from "./Emitter"
 export * from "./MeshParticles"
-export { useParticles } from "./ParticlesContext"
+export { useParticles, type SpawnSetup } from "./ParticlesContext"
 export * from "./timeline"
