@@ -36,14 +36,17 @@ export const MeshParticlesMaterial = forwardRef<
     const shader = useMemo(() => {
       const { addModule, compile } = composableShader()
 
-      addModule(modules.easings())
+      /* The Basics */
       addModule(modules.time())
+      softness && addModule(modules.resolution())
+      addModule(modules.easings())
+
+      /* The Specifics */
       addModule(modules.lifetime())
       billboard && addModule(modules.billboarding())
       addModule(modules.scale(scaleFunction))
       addModule(modules.movement())
       addModule(modules.colors(colorFunction))
-      softness && addModule(modules.resolution())
       softness && addModule(modules.softparticles(softness, softnessFunction))
 
       return compile()
