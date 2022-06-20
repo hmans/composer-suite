@@ -60,8 +60,6 @@ export const MeshParticlesMaterial = forwardRef<
     return (
       <CustomShaderMaterial
         ref={mergeRefs([material, ref])}
-        blending={CustomBlending}
-        blendEquation={AddEquation}
         {...shader}
         {...props}
       />

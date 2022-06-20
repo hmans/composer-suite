@@ -2,7 +2,16 @@ import { CameraShake, useTexture } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power, upTo } from "randomish"
 import { FC } from "react"
-import { Color, DepthTexture, MeshStandardMaterial, Vector3 } from "three"
+import {
+  AddEquation,
+  AdditiveBlending,
+  Color,
+  CustomBlending,
+  DepthTexture,
+  MeshStandardMaterial,
+  NormalBlending,
+  Vector3
+} from "three"
 import {
   Delay,
   Emitter,
@@ -124,9 +133,11 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
 
     <MeshParticlesMaterial
       baseMaterial={MeshStandardMaterial}
+      blending={NormalBlending}
       map={useTexture("/textures/smoke.png")}
       depthWrite={false}
       billboard
+      transparent
       softness={3}
       depthTexture={depthTexture}
     />
