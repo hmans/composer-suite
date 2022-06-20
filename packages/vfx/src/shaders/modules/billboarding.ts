@@ -1,4 +1,4 @@
-import { module } from "."
+import { module } from ".."
 
 export default function billboard() {
   return module({

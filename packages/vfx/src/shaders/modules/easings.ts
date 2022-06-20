@@ -1,4 +1,4 @@
-import { module } from "."
+import { module } from ".."
 
 /* Big thanks to https://github.com/glslify/glsl-easings for the code below! */
 

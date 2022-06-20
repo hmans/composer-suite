@@ -1,4 +1,4 @@
-import { formatValue, module } from "."
+import { formatValue, module } from ".."
 
 export default function(
   softness = 1,
