@@ -15,8 +15,10 @@ type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   depthTexture?: DepthTexture
 }
 
+export type MeshParticlesMaterial = CustomShaderMaterialImpl
+
 export const MeshParticlesMaterial = forwardRef<
-  CustomShaderMaterialImpl,
+  MeshParticlesMaterial,
   MeshParticlesMaterialProps
 >(
   (
@@ -31,7 +33,7 @@ export const MeshParticlesMaterial = forwardRef<
     },
     ref
   ) => {
-    const material = useRef<CustomShaderMaterialImpl>(null!)
+    const material = useRef<MeshParticlesMaterial>(null!)
 
     const { update, ...shader } = useMemo(() => {
       const { addModule, compile } = composableShader()
