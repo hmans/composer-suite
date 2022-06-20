@@ -49,12 +49,7 @@ export const Game = () => {
       <fog attach="fog" args={["#987", 50, 300]} />
       <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        maxPolarAngle={Math.PI / 2}
-        makeDefault
-      />
+      <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
 
       {/* Scene objects */}
       <Stage>
