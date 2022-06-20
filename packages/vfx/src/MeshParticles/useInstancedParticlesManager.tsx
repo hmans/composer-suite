@@ -55,6 +55,17 @@ export function useInstancedParticlesManager(
 
       /* For every spawned particle, write some data into the attribute buffers. */
       for (let i = 0; i < count; i++) {
+        /* Safety check: if we've reached the end of the buffers, it means the user picked a safety
+           size too small for their use case. We don't want to crash the application, so let's log a
+           warning and discard the particle. */
+        if (playhead.current >= maxInstanceCount) {
+          console.warn(
+            "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
+          )
+
+          return
+        }
+
         /* Reset components */
         components.position.set(0, 0, 0)
         components.quaternion.set(0, 0, 0, 1)
