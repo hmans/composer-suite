@@ -5,11 +5,11 @@
     "moduleResolution": "node",
     "declaration": true,
     "strict": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true
   },
-  "include": ["packages/**/src/**/*", "packages/**/test/**/*"],
+  "include": ["packages/**/src/**/*", "packages/**/test/**/*", "**/*"],
   "exclude": ["node_modules", "dist"]
 }
