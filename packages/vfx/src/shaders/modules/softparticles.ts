@@ -8,8 +8,7 @@ export default function(
     uniforms: {
       u_depth: { value: null },
       u_cameraNear: { value: 0 },
-      u_cameraFar: { value: 1 },
-      u_resolution: { value: [window.innerWidth, window.innerHeight] }
+      u_cameraFar: { value: 1 }
     },
 
     vertexHeader: `
@@ -23,7 +22,6 @@ export default function(
 
     fragmentHeader: `
       uniform sampler2D u_depth;
-      uniform vec2 u_resolution;
       uniform float u_cameraNear;
       uniform float u_cameraFar;
 

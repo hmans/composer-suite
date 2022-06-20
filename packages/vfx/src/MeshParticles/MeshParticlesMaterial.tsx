@@ -43,6 +43,7 @@ export const MeshParticlesMaterial = forwardRef<
       addModule(modules.scale(scaleFunction))
       addModule(modules.movement())
       addModule(modules.colors(colorFunction))
+      softness && addModule(modules.resolution())
       softness && addModule(modules.softparticles(softness, softnessFunction))
 
       return compile()
