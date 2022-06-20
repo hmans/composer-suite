@@ -17,6 +17,7 @@ import {
   Matrix4,
   Object3D,
   Quaternion,
+  ShaderMaterial,
   Vector3
 } from "three"
 
@@ -152,10 +153,12 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
           )
 
           /* Set times */
+          const currentTime = (imesh.current.material as ShaderMaterial)
+            .uniforms.u_time.value
           attributes.time.setXY(
             playhead.current,
-            clock.elapsedTime + components.delay,
-            clock.elapsedTime + components.lifetime
+            currentTime + components.delay,
+            currentTime + components.lifetime
           )
 
           /* Set velocity */
@@ -214,8 +217,8 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     )
 
     /* Every frame, advance the time uniform */
-    useFrame(() => {
-      ;(imesh.current.material as any).uniforms.u_time.value = clock.elapsedTime
+    useFrame((_, dt) => {
+      ;(imesh.current.material as any).uniforms.u_time.value += dt
     })
 
     return (
