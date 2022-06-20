@@ -1,8 +1,13 @@
+export type Uniform<T = any> = {
+  value: T
+}
+
 export type Module = {
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string
   fragmentMain: string
+  uniforms: Record<string, Uniform>
 }
 
 export const module = (input: Partial<Module>): Module => ({
@@ -10,6 +15,7 @@ export const module = (input: Partial<Module>): Module => ({
   vertexMain: "",
   fragmentHeader: "",
   fragmentMain: "",
+  uniforms: {},
   ...input
 })
 
