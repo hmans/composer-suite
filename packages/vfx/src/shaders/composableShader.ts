@@ -51,13 +51,7 @@ export const composableShader = () => {
         modules.map((m) => `{ ${m.fragmentMain} }`)
       ),
 
-      uniforms: {
-        u_time: { value: 0 },
-        u_depth: { value: null },
-        u_cameraNear: { value: 0 },
-        u_cameraFar: { value: 1 },
-        u_resolution: { value: [window.innerWidth, window.innerHeight] }
-      }
+      uniforms: modules.reduce((acc, m) => ({ ...acc, ...m.uniforms }), {})
     }
   }
 

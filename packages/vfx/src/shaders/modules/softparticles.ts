@@ -5,6 +5,13 @@ export default function(
   fun = "clamp(distance / softness, 0.0, 1.0)"
 ) {
   return module({
+    uniforms: {
+      u_depth: { value: null },
+      u_cameraNear: { value: 0 },
+      u_cameraFar: { value: 1 },
+      u_resolution: { value: [window.innerWidth, window.innerHeight] }
+    },
+
     vertexHeader: `
       varying float v_viewZ;
     `,

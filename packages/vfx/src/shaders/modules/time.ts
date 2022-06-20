@@ -1,8 +1,11 @@
 import { module } from ".."
 
-export default function time() {
+export default function time(timeUniform = "u_time") {
   return module({
-    vertexHeader: `uniform float u_time;`,
-    fragmentHeader: `uniform float u_time;`
+    uniforms: {
+      [timeUniform]: { value: 0 }
+    },
+    vertexHeader: `uniform float ${timeUniform};`,
+    fragmentHeader: `uniform float ${timeUniform};`
   })
 }
