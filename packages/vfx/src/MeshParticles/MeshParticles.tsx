@@ -59,14 +59,16 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     { maxParticles = 1_000, safetySize = 100, children, geometry, ...props },
     ref
   ) => {
+    const imesh = useRef<InstancedMesh>(null!)
+
     /* The safetySize allows us to emit a batch of particles that would otherwise
     exceed the maximum instance count (which would make WebGL crash.) This way, we don't
     have to upload the entirety of all buffers every time the playhead wraps back to 0. */
     const maxInstanceCount = maxParticles + safetySize
 
-    const imesh = useRef<InstancedMesh>(null!)
+    /* The playhead acts as a cursor through our various buffer attributes. It automatically
+    advances every time a new particle is spawned. */
     const playhead = useRef(0)
-    const { clock } = useThree()
 
     /* Helper method to create new instanced buffer attributes */
     const createAttribute = useCallback(
