@@ -21,12 +21,12 @@ export function useInstancedParticlesManager(
   safetySize: number
 ) {
   /* The safetySize allows us to emit a batch of particles that would otherwise
-    exceed the maximum instance count (which would make WebGL crash.) This way, we don't
-    have to upload the entirety of all buffers every time the playhead wraps back to 0. */
+     exceed the maximum instance count (which would make WebGL crash.) This way, we don't
+     have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
 
   /* The playhead acts as a cursor through our various buffer attributes. It automatically
-    advances every time a new particle is spawned. */
+     advances every time a new particle is spawned. */
   const playhead = useRef(0)
 
   /* Let's define a number of attributes. */
@@ -39,6 +39,7 @@ export function useInstancedParticlesManager(
     prepareInstancedMesh(imesh.current, attributes)
   }, [attributes])
 
+  /* This function will spawn new particles. */
   const spawnParticle = useCallback(
     (count: number, setup?: SpawnSetup, origin?: Object3D) => {
       const { instanceMatrix } = imesh.current
