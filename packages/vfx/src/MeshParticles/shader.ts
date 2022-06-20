@@ -1,10 +1,10 @@
 import { formatValue, Module, module } from "../shaders"
 import { easings } from "../shaders/easings"
 
-const compile = (headers: string, main: string) => `
-  ${headers}
+const compile = (headers: string[], main: string[]) => `
+  ${headers.join("\n\n")}
   void main() {
-    ${main}
+    ${main.join("\n\n")}
   }
 `
 
@@ -16,17 +16,17 @@ export const createShader = ({
   softnessFunction = "clamp(distance / softness, 0.0, 1.0)"
 } = {}) => {
   const state = {
-    vertexHeaders: "",
-    vertexMain: "",
-    fragmentHeaders: "",
-    fragmentMain: ""
+    vertexHeaders: new Array<string>(),
+    vertexMain: new Array<string>(),
+    fragmentHeaders: new Array<string>(),
+    fragmentMain: new Array<string>()
   }
 
   const addModule = (module: Module) => {
-    state.vertexHeaders += module.vertexHeader
-    state.vertexMain += `{ ${module.vertexMain} }`
-    state.fragmentHeaders += module.fragmentHeader
-    state.fragmentMain += `{ ${module.fragmentMain} }`
+    state.vertexHeaders.push(module.vertexHeader)
+    state.vertexMain.push(`{ ${module.vertexMain} }`)
+    state.fragmentHeaders.push(module.fragmentHeader)
+    state.fragmentMain.push(`{ ${module.fragmentMain} }`)
   }
 
   /* Easing functions */
