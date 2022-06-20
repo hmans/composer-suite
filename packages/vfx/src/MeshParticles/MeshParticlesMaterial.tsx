@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { createShader } from "./shader"
+import { composableShader, modules } from "../shaders/"
 
 type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -33,17 +33,20 @@ export const MeshParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
 
-    const shader = useMemo(
-      () =>
-        createShader({
-          billboard,
-          softness,
-          scaleFunction,
-          colorFunction,
-          softnessFunction
-        }),
-      []
-    )
+    const shader = useMemo(() => {
+      const { addModule, compile } = composableShader()
+
+      addModule(modules.easings())
+      addModule(modules.time())
+      addModule(modules.lifetime())
+      billboard && addModule(modules.billboarding())
+      addModule(modules.scale(scaleFunction))
+      addModule(modules.movement())
+      addModule(modules.colors(colorFunction))
+      softness && addModule(modules.softparticles(softness, softnessFunction))
+
+      return compile()
+    }, [])
 
     useFrame(({ camera, size }) => {
       if (softness) {
