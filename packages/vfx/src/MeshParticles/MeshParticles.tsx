@@ -21,6 +21,7 @@ import {
   Vector3
 } from "three"
 import { createAttributes } from "../util/createAttributes"
+import { registerAttributes } from "../util/registerAttributes"
 
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -78,13 +79,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
     /* Register the instance attributes with the imesh. */
     useLayoutEffect(() => {
-      for (const key in attributes) {
-        imesh.current.geometry.setAttribute(
-          key,
-          attributes[key as keyof typeof attributes]
-        )
-      }
-
+      registerAttributes(imesh.current.geometry, attributes)
       imesh.current.count = 0
     }, [attributes])
 
