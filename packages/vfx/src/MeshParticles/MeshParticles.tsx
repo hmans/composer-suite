@@ -20,6 +20,7 @@ import {
   ShaderMaterial,
   Vector3
 } from "three"
+import { createAttributes } from "../util/createAttributes"
 
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -70,29 +71,10 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     advances every time a new particle is spawned. */
     const playhead = useRef(0)
 
-    /* Helper method to create new instanced buffer attributes */
-    const createAttribute = useCallback(
-      (itemSize: number) =>
-        new InstancedBufferAttribute(
-          new Float32Array(maxInstanceCount * itemSize),
-          itemSize
-        ),
-      [maxInstanceCount]
-    )
-
     /* Let's define a number of attributes. */
-    const attributes = useMemo(
-      () => ({
-        time: createAttribute(2),
-        velocity: createAttribute(3),
-        acceleration: createAttribute(3),
-        color0: createAttribute(4),
-        color1: createAttribute(4),
-        scale0: createAttribute(3),
-        scale1: createAttribute(3)
-      }),
-      [maxInstanceCount]
-    )
+    const attributes = useMemo(() => {
+      return createAttributes(maxInstanceCount, InstancedBufferAttribute)
+    }, [maxInstanceCount])
 
     /* Register the instance attributes with the imesh. */
     useLayoutEffect(() => {
