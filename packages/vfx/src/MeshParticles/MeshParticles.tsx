@@ -1,63 +1,32 @@
-import { InstancedMeshProps, useThree } from "@react-three/fiber"
+import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
-  createContext,
   forwardRef,
   ReactNode,
   useCallback,
-  useContext,
   useLayoutEffect,
   useMemo,
   useRef
 } from "react"
 import mergeRefs from "react-merge-refs"
 import {
-  Color,
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
   Object3D,
-  Quaternion,
   ShaderMaterial,
   Vector3
 } from "three"
-import {
-  createAttributes,
-  prepareInstancedMesh,
-  registerAttributes
-} from "../util/attributes"
+import { components, ParticlesContext, SpawnSetup } from "../ParticlesContext"
+import { createAttributes, prepareInstancedMesh } from "../util/attributes"
 
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
-
-const components = {
-  position: new Vector3(),
-  quaternion: new Quaternion(),
-  velocity: new Vector3(),
-  acceleration: new Vector3(),
-  delay: 0,
-  lifetime: 1,
-  scale: [new Vector3(), new Vector3()],
-  color: [new Color(), new Color()],
-  alpha: [1, 0]
-}
 
 export type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
   maxParticles?: number
   safetySize?: number
 }
-
-export type SpawnOptions = typeof components
-
-export type SpawnSetup = (options: SpawnOptions, index: number) => void
-
-export type ParticlesAPI = {
-  spawnParticle: (count: number, setup?: SpawnSetup, origin?: Object3D) => void
-}
-
-const ParticlesContext = createContext<ParticlesAPI>(null!)
-
-export const useParticles = () => useContext(ParticlesContext)
 
 export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   (

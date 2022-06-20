@@ -2,7 +2,7 @@ import { Object3DProps, useFrame } from "@react-three/fiber"
 import React from "react"
 import mergeRefs from "react-merge-refs"
 import { Object3D } from "three"
-import { SpawnSetup, useParticles } from "./MeshParticles"
+import { SpawnSetup, useParticles } from "./ParticlesContext"
 import { getValue, ValueFactory } from "./util/ValueFactory"
 
 export type EmitterProps = Object3DProps & {
