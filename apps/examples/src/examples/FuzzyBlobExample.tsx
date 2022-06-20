@@ -2,13 +2,19 @@ import { useTexture } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
 import { useRef } from "react"
-import { InstancedMesh, MeshStandardMaterial, NormalBlending } from "three"
+import {
+  InstancedMesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  NormalBlending
+} from "three"
 import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
   Repeat
 } from "three-vfx"
+import { ceilPowerOfTwo } from "three/src/math/MathUtils"
 
 export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
   const mesh = useRef<any>() // TODO: eh
@@ -20,22 +26,14 @@ export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
     mesh.current.scale.setScalar(1 + Math.sin(t.current * 0.5) * 0.1)
   })
 
-  const texture = useTexture("/textures/particle.png")
-
   return (
-    <MeshParticles
-      position-y={13}
-      maxParticles={count * 10}
-      safetySize={3000}
-      ref={mesh}
-    >
+    <MeshParticles maxParticles={count * 10} safetySize={3000} ref={mesh}>
       <boxGeometry />
 
       <MeshParticlesMaterial
         baseMaterial={MeshStandardMaterial}
         blending={NormalBlending}
-        map={texture}
-        color="#aaa"
+        color="#666"
         depthTest={true}
         depthWrite={true}
         scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
@@ -59,8 +57,42 @@ export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
   )
 }
 
+export const Sparks = () => {
+  return (
+    <MeshParticles>
+      <boxGeometry />
+
+      <MeshParticlesMaterial
+        baseMaterial={MeshBasicMaterial}
+        blending={NormalBlending}
+        color="yellow"
+        depthTest={true}
+        depthWrite={true}
+        scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+      />
+
+      <Repeat times={Infinity} interval={0.2}>
+        <Emitter
+          count={between(1, 4)}
+          setup={(c) => {
+            c.quaternion.random()
+            c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
+            c.velocity.copy(c.position).multiplyScalar(between(25, 30))
+            c.acceleration.copy(c.velocity).multiplyScalar(-1)
+
+            c.lifetime = 2
+            c.scale[0].set(0.1, 0.1, 0.1)
+            c.scale[1].copy(c.scale[0])
+          }}
+        />
+      </Repeat>
+    </MeshParticles>
+  )
+}
+
 export const FuzzyBlobExample = () => (
-  <>
+  <group position-y={13}>
     <FuzzyBlob />
-  </>
+    <Sparks />
+  </group>
 )
