@@ -10,18 +10,21 @@ import {
   Repeat
 } from "three-vfx"
 
-export const FuzzyBlobExample = ({ count = 20000, rotationSpeed = 0.4 }) => {
+export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
   const mesh = useRef<any>() // TODO: eh
+  const t = useRef(0)
 
   useFrame((_, dt) => {
     mesh.current.rotation.x = mesh.current.rotation.y += rotationSpeed * dt
+    t.current += dt
+    mesh.current.scale.setScalar(1 + Math.sin(t.current * 0.5) * 0.1)
   })
 
   const texture = useTexture("/textures/particle.png")
 
   return (
     <MeshParticles
-      position-y={10}
+      position-y={13}
       maxParticles={count * 10}
       safetySize={3000}
       ref={mesh}
@@ -47,10 +50,17 @@ export const FuzzyBlobExample = ({ count = 20000, rotationSpeed = 0.4 }) => {
 
             c.lifetime = 1.5
             c.scale[0].set(0.1, 0.1, 0.1)
-            c.scale[1].set(0.1, 0.1, between(10, 18))
+
+            c.scale[1].set(0.1, 0.1, 10 + upTo(15))
           }}
         />
       </Repeat>
     </MeshParticles>
   )
 }
+
+export const FuzzyBlobExample = () => (
+  <>
+    <FuzzyBlob />
+  </>
+)
