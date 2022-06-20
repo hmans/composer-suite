@@ -175,7 +175,11 @@ const functions = /*glsl*/ `
   }
 `
 
-export const easings = module({
+const easings = module({
   vertexHeader: functions,
   fragmentHeader: functions
 })
+
+export default function() {
+  return easings
+}
