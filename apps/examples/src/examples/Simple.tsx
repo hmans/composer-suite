@@ -22,7 +22,7 @@ export const Simple = () => {
         color="white"
         transparent
         billboard
-        depthTest={false}
+        depthTest={true}
         depthWrite={false}
       />
 
