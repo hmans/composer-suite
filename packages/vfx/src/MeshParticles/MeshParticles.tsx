@@ -1,4 +1,4 @@
-import { InstancedMeshProps, useFrame, useThree } from "@react-three/fiber"
+import { InstancedMeshProps, useThree } from "@react-three/fiber"
 import React, {
   createContext,
   forwardRef,
