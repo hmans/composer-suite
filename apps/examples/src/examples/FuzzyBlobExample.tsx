@@ -63,9 +63,10 @@ export const Sparks = () => {
       <boxGeometry />
 
       <MeshParticlesMaterial
-        baseMaterial={MeshBasicMaterial}
+        baseMaterial={MeshStandardMaterial}
         blending={NormalBlending}
         color="yellow"
+        emissive="yellow"
         depthTest={true}
         depthWrite={true}
         scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
@@ -73,7 +74,7 @@ export const Sparks = () => {
 
       <Repeat times={Infinity} interval={0.2}>
         <Emitter
-          count={between(1, 4)}
+          count={between(5, 10)}
           setup={(c) => {
             c.quaternion.random()
             c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
@@ -90,9 +91,48 @@ export const Sparks = () => {
   )
 }
 
+export const GroundCircle = () => {
+  return (
+    <MeshParticles>
+      <planeGeometry />
+
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        blending={NormalBlending}
+        color="yellow"
+        billboard
+        depthTest={true}
+        depthWrite={true}
+      />
+
+      <Repeat times={Infinity} interval={0.2}>
+        <Emitter
+          count={between(100, 100)}
+          setup={(c) => {
+            const a = upTo(Math.PI * 2)
+            c.position
+              .set(Math.cos(a), 0, Math.sin(a))
+              .multiplyScalar(between(10, 15))
+
+            c.acceleration.set(-c.position.x, between(10, 20), -c.position.z)
+
+            c.lifetime = between(0.5, 1)
+            const scale = between(0.1, 0.2)
+            c.scale[0].setScalar(scale)
+            c.scale[1].copy(c.scale[0])
+          }}
+        />
+      </Repeat>
+    </MeshParticles>
+  )
+}
+
 export const FuzzyBlobExample = () => (
-  <group position-y={13}>
-    <FuzzyBlob />
-    <Sparks />
+  <group>
+    <group position-y={13}>
+      <FuzzyBlob />
+      <Sparks />
+    </group>
+    <GroundCircle />
   </group>
 )
