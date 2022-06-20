@@ -80,7 +80,7 @@ const ExampleMatcher = () => {
 }
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
-  const [v, setV] = useState(0)
+  const [v, setV] = useState(Math.random())
 
   const { loop, interval } = useControls("Controls", {
     restart: button(() => setV(Math.random())),
