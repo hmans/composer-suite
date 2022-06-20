@@ -54,7 +54,7 @@
     "three-custom-shader-material": "^3.4.3"
   },
   "peerDependencies": {
-    "@react-three/fiber": ">=8.0.0",
+    "@react-three/fiber": ">=8.0.27",
     "react": ">=18.1.0",
     "react-dom": ">=18.1.0",
     "three": ">=0.141.0"
