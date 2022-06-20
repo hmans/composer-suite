@@ -1,4 +1,9 @@
-import { BufferAttribute } from "three"
+import {
+  BufferAttribute,
+  BufferGeometry,
+  InstancedBufferGeometry,
+  InstancedMesh
+} from "three"
 
 export function createAttributes(items: number, type = BufferAttribute) {
   /* Helper method to create new instanced buffer attributes */
@@ -15,4 +20,21 @@ export function createAttributes(items: number, type = BufferAttribute) {
     scale0: createAttribute(3),
     scale1: createAttribute(3)
   }
+}
+
+export function registerAttributes(
+  geometry: BufferGeometry,
+  attributes: Record<string, BufferAttribute>
+) {
+  for (const name in attributes) {
+    geometry.setAttribute(name, attributes[name])
+  }
+}
+
+export function prepareInstancedMesh(
+  mesh: InstancedMesh,
+  attributes: Record<string, BufferAttribute>
+) {
+  registerAttributes(mesh.geometry, attributes)
+  mesh.count = 0
 }

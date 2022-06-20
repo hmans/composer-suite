@@ -20,8 +20,11 @@ import {
   ShaderMaterial,
   Vector3
 } from "three"
-import { createAttributes } from "../util/createAttributes"
-import { registerAttributes } from "../util/registerAttributes"
+import {
+  createAttributes,
+  prepareInstancedMesh,
+  registerAttributes
+} from "../util/attributes"
 
 const tmpScale = new Vector3()
 const tmpMatrix4 = new Matrix4()
@@ -79,8 +82,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
 
     /* Register the instance attributes with the imesh. */
     useLayoutEffect(() => {
-      registerAttributes(imesh.current.geometry, attributes)
-      imesh.current.count = 0
+      prepareInstancedMesh(imesh.current, attributes)
     }, [attributes])
 
     const spawnParticle = useCallback(
