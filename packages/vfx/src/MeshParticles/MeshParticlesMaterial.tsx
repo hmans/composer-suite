@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber"
+import { useFrame, useThree } from "@react-three/fiber"
 import React, { forwardRef, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
@@ -33,12 +33,13 @@ export const MeshParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<CustomShaderMaterialImpl>(null!)
 
-    const shader = useMemo(() => {
+    const { update, ...shader } = useMemo(() => {
       const { addModule, compile } = composableShader()
 
       /* The Basics */
       addModule(modules.time())
       softness && addModule(modules.resolution())
+      softness && addModule(modules.depthTexture(depthTexture!))
       addModule(modules.easings())
 
       /* The Specifics */
@@ -52,14 +53,7 @@ export const MeshParticlesMaterial = forwardRef<
       return compile()
     }, [])
 
-    useFrame(({ camera, size }) => {
-      if (softness) {
-        material.current.uniforms.u_depth.value = depthTexture
-        material.current.uniforms.u_cameraNear.value = camera.near
-        material.current.uniforms.u_cameraFar.value = camera.far
-        material.current.uniforms.u_resolution.value = [size.width, size.height]
-      }
-    })
+    useFrame(update)
 
     return (
       <CustomShaderMaterial

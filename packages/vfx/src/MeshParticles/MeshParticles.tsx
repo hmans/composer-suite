@@ -216,11 +216,6 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
       [attributes]
     )
 
-    /* Every frame, advance the time uniform */
-    useFrame((_, dt) => {
-      ;(imesh.current.material as any).uniforms.u_time.value += dt
-    })
-
     return (
       <instancedMesh
         ref={mergeRefs([imesh, ref])}

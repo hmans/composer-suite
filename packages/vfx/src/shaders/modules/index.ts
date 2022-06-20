@@ -1,5 +1,6 @@
 export { default as billboarding } from "./billboarding"
 export { default as colors } from "./colors"
+export { default as depthTexture } from "./depthTexture"
 export { default as easings } from "./easings"
 export { default as lifetime } from "./lifetime"
 export { default as movement } from "./movement"

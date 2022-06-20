@@ -1,3 +1,5 @@
+import { RenderCallback } from "@react-three/fiber"
+
 export type Uniform<T = any> = {
   value: T
 }
@@ -8,6 +10,8 @@ export type Module = {
   fragmentHeader: string
   fragmentMain: string
   uniforms: Record<string, Uniform>
+
+  update?: RenderCallback
 }
 
 export const module = (input: Partial<Module>): Module => ({
@@ -40,6 +44,9 @@ export const composableShader = () => {
   }
 
   function compile() {
+    const update: RenderCallback = (state, dt) =>
+      modules.forEach((m) => m.update?.(state, dt))
+
     return {
       vertexShader: compileProgram(
         modules.map((m) => m.vertexHeader),
@@ -51,7 +58,9 @@ export const composableShader = () => {
         modules.map((m) => `{ ${m.fragmentMain} }`)
       ),
 
-      uniforms: modules.reduce((acc, m) => ({ ...acc, ...m.uniforms }), {})
+      uniforms: modules.reduce((acc, m) => ({ ...acc, ...m.uniforms }), {}),
+
+      update
     }
   }
 

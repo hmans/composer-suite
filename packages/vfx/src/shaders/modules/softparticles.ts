@@ -4,12 +4,13 @@ export default function(
   softness = 1,
   fun = "clamp(distance / softness, 0.0, 1.0)"
 ) {
+  const uniforms = {
+    u_cameraNear: { value: 0 },
+    u_cameraFar: { value: 1 }
+  }
+
   return module({
-    uniforms: {
-      u_depth: { value: null },
-      u_cameraNear: { value: 0 },
-      u_cameraFar: { value: 1 }
-    },
+    uniforms,
 
     vertexHeader: `
       varying float v_viewZ;
@@ -21,7 +22,6 @@ export default function(
     `,
 
     fragmentHeader: `
-      uniform sampler2D u_depth;
       uniform float u_cameraNear;
       uniform float u_cameraFar;
 
@@ -53,6 +53,11 @@ export default function(
         /* Apply the distance to the fragment alpha */
         csm_DiffuseColor.a *= ${fun};
       }
-    `
+    `,
+
+    update: ({ camera }) => {
+      uniforms.u_cameraNear.value = camera.near
+      uniforms.u_cameraFar.value = camera.far
+    }
   })
 }
