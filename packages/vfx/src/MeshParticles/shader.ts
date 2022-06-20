@@ -1,5 +1,4 @@
-import * as modules from "../shaders/modules"
-import { composableShader } from "../shaders/composableShader"
+import { composableShader, modules } from "../shaders/"
 
 type ShaderProps = {
   billboard?: boolean
