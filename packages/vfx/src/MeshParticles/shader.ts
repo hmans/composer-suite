@@ -8,12 +8,42 @@ import scale from "../shaders/scale"
 import softparticles from "../shaders/softparticles"
 import time from "../shaders/time"
 
-const compile = (headers: string[], main: string[]) => `
-  ${headers.join("\n\n")}
-  void main() {
-    ${main.join("\n\n")}
+const composableShader = () => {
+  const state = {
+    vertexHeaders: new Array<string>(),
+    vertexMain: new Array<string>(),
+    fragmentHeaders: new Array<string>(),
+    fragmentMain: new Array<string>()
   }
-`
+
+  const addModule = (module: Module) => {
+    state.vertexHeaders.push(module.vertexHeader)
+    state.vertexMain.push(`{ ${module.vertexMain} }`)
+    state.fragmentHeaders.push(module.fragmentHeader)
+    state.fragmentMain.push(`{ ${module.fragmentMain} }`)
+  }
+
+  const compileProgram = (headers: string[], main: string[]) => `
+    ${headers.join("\n\n")}
+    void main() {
+      ${main.join("\n\n")}
+    }
+  `
+
+  const compile = () => ({
+    vertexShader: compileProgram(state.vertexHeaders, state.vertexMain),
+    fragmentShader: compileProgram(state.fragmentHeaders, state.fragmentMain),
+    uniforms: {
+      u_time: { value: 0 },
+      u_depth: { value: null },
+      u_cameraNear: { value: 0 },
+      u_cameraFar: { value: 1 },
+      u_resolution: { value: [window.innerWidth, window.innerHeight] }
+    }
+  })
+
+  return { addModule, compile }
+}
 
 type ShaderProps = {
   billboard?: boolean
@@ -30,19 +60,7 @@ export const createShader = ({
   colorFunction,
   softnessFunction
 }: ShaderProps = {}) => {
-  const state = {
-    vertexHeaders: new Array<string>(),
-    vertexMain: new Array<string>(),
-    fragmentHeaders: new Array<string>(),
-    fragmentMain: new Array<string>()
-  }
-
-  const addModule = (module: Module) => {
-    state.vertexHeaders.push(module.vertexHeader)
-    state.vertexMain.push(`{ ${module.vertexMain} }`)
-    state.fragmentHeaders.push(module.fragmentHeader)
-    state.fragmentMain.push(`{ ${module.fragmentMain} }`)
-  }
+  const { addModule, compile } = composableShader()
 
   addModule(easings())
   addModule(time())
@@ -53,15 +71,5 @@ export const createShader = ({
   addModule(colors(colorFunction))
   softness && addModule(softparticles(softness, softnessFunction))
 
-  return {
-    vertexShader: compile(state.vertexHeaders, state.vertexMain),
-    fragmentShader: compile(state.fragmentHeaders, state.fragmentMain),
-    uniforms: {
-      u_time: { value: 0 },
-      u_depth: { value: null },
-      u_cameraNear: { value: 0 },
-      u_cameraFar: { value: 1 },
-      u_resolution: { value: [window.innerWidth, window.innerHeight] }
-    }
-  }
+  return compile()
 }
