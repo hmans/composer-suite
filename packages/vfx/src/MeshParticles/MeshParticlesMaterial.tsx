@@ -1,4 +1,4 @@
-import { useFrame, useThree } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 import React, { forwardRef, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { AddEquation, CustomBlending, DepthTexture } from "three"
