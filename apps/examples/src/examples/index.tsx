@@ -4,6 +4,7 @@ import { Explosion } from "./Explosion"
 import { FireflyExample } from "./FireflyExample"
 import { Fog } from "./Fog"
 import { GLTFParticles } from "./GLTFParticles"
+import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
@@ -21,6 +22,7 @@ export default [
   { path: "fog", name: "Fog", component: <Fog /> },
   { path: "snow", name: "Snow", component: <Snow intensity={500} /> },
   { path: "dust", name: "Dust", component: <DustExample /> },
+  { path: "fuzzyblob", name: "Fuzzy Blob", component: <FuzzyBlobExample /> },
   {
     path: "softparticles",
     name: "Soft Particles",
