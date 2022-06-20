@@ -22,6 +22,7 @@ If you're into visual effects and/or WebGL/Three.js development, **this library 
 ## Examples & Demos 🎓
 
 - **[Official Examples Suite](https://vfx-examples.vercel.app/)**
+- **[Official Starter Sandbox](https://codesandbox.io/s/github/hmans/three-vfx-starter?file=/src/Effect.js)** (fork it!)
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
 
 ## How this Library Works 🥳
