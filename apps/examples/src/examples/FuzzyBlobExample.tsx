@@ -1,29 +1,31 @@
-import { useTexture } from "@react-three/drei"
+import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
-import { between, plusMinus, upTo } from "randomish"
+import { between, upTo } from "randomish"
 import { useRef } from "react"
-import {
-  InstancedMesh,
-  MeshBasicMaterial,
-  MeshStandardMaterial,
-  NormalBlending
-} from "three"
+import { MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
   Repeat
 } from "three-vfx"
-import { ceilPowerOfTwo } from "three/src/math/MathUtils"
 
-export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
-  const mesh = useRef<any>() // TODO: eh
+const useTime = () => {
   const t = useRef(0)
 
   useFrame((_, dt) => {
-    mesh.current.rotation.x = mesh.current.rotation.y += rotationSpeed * dt
     t.current += dt
-    mesh.current.scale.setScalar(1 + Math.sin(t.current * 0.5) * 0.1)
+  })
+
+  return t
+}
+
+export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
+  const mesh = useRef<any>() // TODO: eh
+  const t = useTime()
+
+  useFrame((_, dt) => {
+    mesh.current.scale.setScalar(1 + Math.sin(t.current * 1.3) * 0.1)
   })
 
   return (
@@ -130,8 +132,10 @@ export const GroundCircle = () => {
 export const FuzzyBlobExample = () => (
   <group>
     <group position-y={13}>
-      <FuzzyBlob />
-      <Sparks />
+      <Float speed={3} rotationIntensity={10} floatingRange={[-0.3, 0.3]}>
+        <FuzzyBlob />
+        <Sparks />
+      </Float>
     </group>
     <GroundCircle />
   </group>
