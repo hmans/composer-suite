@@ -6,7 +6,7 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { composableShader, modules } from "../shaders/"
 
-type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
+export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
   softness?: number
   scaleFunction?: string
