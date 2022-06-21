@@ -212,7 +212,7 @@ const CrumblyFloor = () => {
 
 export const FuzzyBlobExample = () => (
   <group>
-    <group position-y={13}>
+    <group position-y={15}>
       <Float speed={3} rotationIntensity={10} floatingRange={[-0.3, 0.3]}>
         <FuzzyBlob />
       </Float>
