@@ -29,11 +29,7 @@ export function useMeshParticles(
     let playhead = 0
 
     /* This function will spawn new particles. */
-    const spawnParticle = (
-      count: number,
-      setup?: SpawnSetup,
-      origin?: Object3D
-    ) => {
+    return (count: number, setup?: SpawnSetup, origin?: Object3D) => {
       const attributes = imesh.current.geometry.attributes as {
         [key: string]: InstancedBufferAttribute
       }
@@ -146,8 +142,6 @@ export function useMeshParticles(
         playhead = 0
       }
     }
-
-    return spawnParticle
   }, [])
 
   return [imesh, { spawnParticle }]
