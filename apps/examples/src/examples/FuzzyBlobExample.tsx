@@ -95,9 +95,10 @@ const suckUpwards: SpawnSetup = (c) => {
   c.delay = upTo(0.2)
 
   const a = upTo(Math.PI * 2)
-  c.position.set(Math.cos(a), 0.02, Math.sin(a)).multiplyScalar(between(14, 15))
+  c.position
+    .set(Math.cos(a), 0.02, Math.sin(a))
+    .multiplyScalar(between(14, 15.5))
 
-  c.velocity.set(-c.position.x * 1, 0, -c.position.z * 1)
   c.acceleration.set(c.position.x * 1, between(5, 20), c.position.z * 1)
 
   c.lifetime = between(0.5, 1)
