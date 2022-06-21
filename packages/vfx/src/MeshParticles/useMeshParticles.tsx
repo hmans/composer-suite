@@ -6,7 +6,6 @@ import {
   ShaderMaterial
 } from "three"
 import { components, SpawnSetup } from "../ParticlesContext"
-import { prepareInstancedMesh } from "../util/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
 
 export function useMeshParticles(
@@ -14,40 +13,11 @@ export function useMeshParticles(
   maxParticles: number,
   safetySize: number
 ) {
-  /* The safetySize allows us to emit a batch of particles that would otherwise
-     exceed the maximum instance count (which would make WebGL crash.) This way, we don't
-     have to upload the entirety of all buffers every time the playhead wraps back to 0. */
-  const maxInstanceCount = maxParticles + safetySize
-
-  /* Execute a nice big chunk of imperative goodness. If you're wondering about this:
-     this is what we'll eventually extract to get the library one step closer to being
-     compatible with vanilla Three. */
   return useMemo(() => {
-    let attributes: Record<string, InstancedBufferAttribute> = null!
-
-    const initializeAttributes = () => {
-      if (attributes) return attributes
-
-      /* Helper method to create new instanced buffer attributes */
-      const createAttribute = (itemSize: number) =>
-        new InstancedBufferAttribute(
-          new Float32Array(maxInstanceCount * itemSize),
-          itemSize
-        )
-
-      /* Let's define a number of attributes. */
-      attributes = {
-        time: createAttribute(2),
-        velocity: createAttribute(3),
-        acceleration: createAttribute(3),
-        color0: createAttribute(4),
-        color1: createAttribute(4),
-        scale0: createAttribute(3),
-        scale1: createAttribute(3)
-      }
-
-      prepareInstancedMesh(imesh.current, attributes)
-    }
+    /* The safetySize allows us to emit a batch of particles that would otherwise
+       exceed the maximum instance count (which would make WebGL crash.) This way, we don't
+       have to upload the entirety of all buffers every time the playhead wraps back to 0. */
+    const maxInstanceCount = maxParticles + safetySize
 
     /* The playhead acts as a cursor through our various buffer attributes. It automatically
        advances every time a new particle is spawned. */
@@ -59,7 +29,9 @@ export function useMeshParticles(
       setup?: SpawnSetup,
       origin?: Object3D
     ) => {
-      if (!attributes) initializeAttributes()
+      const attributes = imesh.current.geometry.attributes as {
+        [key: string]: InstancedBufferAttribute
+      }
 
       const { instanceMatrix } = imesh.current
 
