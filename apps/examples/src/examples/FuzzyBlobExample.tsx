@@ -2,13 +2,14 @@ import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { between, upTo } from "randomish"
 import { useRef } from "react"
-import { MeshStandardMaterial, NormalBlending } from "three"
+import { AdditiveBlending, MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
   Repeat
 } from "three-vfx"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 const useTime = () => {
   const t = useRef(0)
@@ -67,8 +68,7 @@ export const Sparks = () => {
       <MeshParticlesMaterial
         baseMaterial={MeshStandardMaterial}
         blending={NormalBlending}
-        color="yellow"
-        emissive="yellow"
+        color="#555"
         depthTest={true}
         depthWrite={true}
         scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
@@ -76,7 +76,7 @@ export const Sparks = () => {
 
       <Repeat times={Infinity} interval={0.2}>
         <Emitter
-          count={between(5, 10)}
+          count={between(50, 100)}
           setup={(c) => {
             c.quaternion.random()
             c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
@@ -95,33 +95,42 @@ export const Sparks = () => {
 
 export const GroundCircle = () => {
   return (
-    <MeshParticles>
+    <MeshParticles maxParticles={5000} safetySize={500}>
       <planeGeometry />
 
       <MeshParticlesMaterial
         baseMaterial={MeshStandardMaterial}
         blending={NormalBlending}
-        color="yellow"
         billboard
         depthTest={true}
-        depthWrite={true}
+        depthWrite={false}
       />
 
       <Repeat times={Infinity} interval={0.2}>
         <Emitter
-          count={between(100, 100)}
+          count={300}
           setup={(c) => {
+            c.delay = upTo(0.2)
+
             const a = upTo(Math.PI * 2)
             c.position
-              .set(Math.cos(a), 0, Math.sin(a))
+              .set(Math.cos(a), 0.1, Math.sin(a))
               .multiplyScalar(between(10, 15))
 
-            c.acceleration.set(-c.position.x, between(10, 20), -c.position.z)
+            c.acceleration.set(
+              -c.position.x * 1,
+              between(5, 20),
+              -c.position.z * 1
+            )
 
             c.lifetime = between(0.5, 1)
-            const scale = between(0.1, 0.2)
+
+            const scale = between(0.2, 0.5)
             c.scale[0].setScalar(scale)
-            c.scale[1].copy(c.scale[0])
+            c.scale[1].setScalar(scale / 4)
+
+            c.color[0].set("#bbb")
+            c.color[1].set("#eed")
           }}
         />
       </Repeat>
@@ -134,6 +143,8 @@ export const FuzzyBlobExample = () => (
     <group position-y={13}>
       <Float speed={3} rotationIntensity={10} floatingRange={[-0.3, 0.3]}>
         <FuzzyBlob />
+      </Float>
+      <Float speed={3} rotationIntensity={20} floatingRange={[-0.3, 0.3]}>
         <Sparks />
       </Float>
     </group>
