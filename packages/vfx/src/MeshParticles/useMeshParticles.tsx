@@ -1,4 +1,4 @@
-import { MutableRefObject, useLayoutEffect, useMemo } from "react"
+import { MutableRefObject, useMemo } from "react"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
@@ -6,7 +6,7 @@ import {
   ShaderMaterial
 } from "three"
 import { components, SpawnSetup } from "../ParticlesContext"
-import { createAttributes, prepareInstancedMesh } from "../util/attributes"
+import { prepareInstancedMesh } from "../util/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
 
 export function useMeshParticles(
@@ -19,19 +19,36 @@ export function useMeshParticles(
      have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
 
-  /* Let's define a number of attributes. */
-  /* TODO: This is where we want to pass in the material's shader configuration, so it can be made dynamic.
-           Only problem is we don't have access to imesh.current here yet. Eep! */
-  const attributes = useMemo(() => {
-    return createAttributes(maxInstanceCount, InstancedBufferAttribute)
-  }, [maxInstanceCount])
-
-  /* Register the instance attributes with the imesh. */
-  useLayoutEffect(() => {
-    prepareInstancedMesh(imesh.current, attributes)
-  }, [attributes])
-
+  /* Execute a nice big chunk of imperative goodness. If you're wondering about this:
+     this is what we'll eventually extract to get the library one step closer to being
+     compatible with vanilla Three. */
   return useMemo(() => {
+    let attributes: Record<string, InstancedBufferAttribute> = null!
+
+    const initializeAttributes = () => {
+      if (attributes) return attributes
+
+      /* Helper method to create new instanced buffer attributes */
+      const createAttribute = (itemSize: number) =>
+        new InstancedBufferAttribute(
+          new Float32Array(maxInstanceCount * itemSize),
+          itemSize
+        )
+
+      /* Let's define a number of attributes. */
+      attributes = {
+        time: createAttribute(2),
+        velocity: createAttribute(3),
+        acceleration: createAttribute(3),
+        color0: createAttribute(4),
+        color1: createAttribute(4),
+        scale0: createAttribute(3),
+        scale1: createAttribute(3)
+      }
+
+      prepareInstancedMesh(imesh.current, attributes)
+    }
+
     /* The playhead acts as a cursor through our various buffer attributes. It automatically
        advances every time a new particle is spawned. */
     let playhead = 0
@@ -42,6 +59,8 @@ export function useMeshParticles(
       setup?: SpawnSetup,
       origin?: Object3D
     ) => {
+      if (!attributes) initializeAttributes()
+
       const { instanceMatrix } = imesh.current
 
       /* Configure the attributes to upload only the updated parts to the GPU. */
@@ -56,8 +75,8 @@ export function useMeshParticles(
       /* For every spawned particle, write some data into the attribute buffers. */
       for (let i = 0; i < count; i++) {
         /* Safety check: if we've reached the end of the buffers, it means the user picked a safety
-           size too small for their use case. We don't want to crash the application, so let's log a
-           warning and discard the particle. */
+              size too small for their use case. We don't want to crash the application, so let's log a
+              warning and discard the particle. */
         if (playhead >= maxInstanceCount) {
           console.warn(
             "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
@@ -152,5 +171,5 @@ export function useMeshParticles(
     }
 
     return { spawnParticle }
-  }, [attributes])
+  }, [])
 }
