@@ -1,6 +1,6 @@
 import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
-import { between, power, upTo } from "randomish"
+import { between, insideCircle, power, upTo } from "randomish"
 import { FC, ReactNode, useRef } from "react"
 import { AdditiveBlending, MeshStandardMaterial, NormalBlending } from "three"
 import {
@@ -162,6 +162,53 @@ const GroundRocks = () => {
   )
 }
 
+const CrumblyFloor = () => {
+  return (
+    <MeshParticles maxParticles={3000}>
+      <boxGeometry />
+
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        colorFunction="smoothstep(0.9, 1.0, v_progress)"
+        transparent
+      />
+
+      <Emitter
+        count={3000}
+        setup={(c) => {
+          const pos = insideCircle()
+          c.position.set(pos.x * 13, between(-0.5, 0.5), pos.y * 13)
+          c.lifetime = Infinity
+          c.quaternion.random()
+          c.scale[0].set(between(1, 2), between(1, 2), between(1, 2))
+          c.color[0].set("#bbb")
+        }}
+      />
+
+      <Repeat interval={1}>
+        <Emitter
+          count={20}
+          setup={(c) => {
+            const pos = insideCircle()
+            c.position.set(pos.x * 13, 0, pos.y * 13)
+            c.acceleration.set(-pos.x / 5, between(0.5, 1), -pos.y / 5)
+            c.lifetime = 5
+            c.delay = upTo(1)
+
+            c.quaternion.random()
+
+            c.scale[0].set(between(0.5, 1), between(0.5, 1), between(0.5, 1))
+            c.scale[1].copy(c.scale[0])
+
+            c.color[0].set("#bbb")
+            c.color[1].set("#888")
+          }}
+        />
+      </Repeat>
+    </MeshParticles>
+  )
+}
+
 export const FuzzyBlobExample = () => (
   <group>
     <group position-y={13}>
@@ -173,6 +220,7 @@ export const FuzzyBlobExample = () => (
       </Float>
     </group>
 
+    <CrumblyFloor />
     <GroundParticles />
     <GroundRocks />
   </group>
