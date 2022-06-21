@@ -1,13 +1,14 @@
 import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { between, power, upTo } from "randomish"
-import { useRef } from "react"
+import { FC, ReactNode, useRef } from "react"
 import { AdditiveBlending, MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat
+  Repeat,
+  SpawnSetup
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
@@ -90,45 +91,70 @@ export const Sparks = () => {
   )
 }
 
-export const GroundCircle = () => {
+const suckUpwards: SpawnSetup = (c) => {
+  c.delay = upTo(0.2)
+
+  const a = upTo(Math.PI * 2)
+  c.position.set(Math.cos(a), 0.02, Math.sin(a)).multiplyScalar(between(14, 15))
+
+  c.velocity.set(-c.position.x * 1, 0, -c.position.z * 1)
+  c.acceleration.set(c.position.x * 1, between(5, 20), c.position.z * 1)
+
+  c.lifetime = between(0.5, 1)
+
+  const scale = between(0.2, 0.5)
+  c.scale[0].setScalar(scale)
+  c.scale[1].setScalar(scale / 4)
+
+  c.color[0].set("#bbb")
+  c.color[1].set("#444")
+}
+
+const GroundParticles = () => {
   return (
     <MeshParticles maxParticles={5000} safetySize={500}>
       <planeGeometry />
 
       <MeshParticlesMaterial
         baseMaterial={MeshStandardMaterial}
-        blending={NormalBlending}
         billboard
-        depthTest={true}
         depthWrite={false}
         colorFunction="cubicIn(v_progress)"
       />
 
       <Repeat times={Infinity} interval={0.2}>
+        <Emitter count={300} setup={suckUpwards} />
+      </Repeat>
+    </MeshParticles>
+  )
+}
+
+const GroundRocks = () => {
+  return (
+    <MeshParticles maxParticles={5000} safetySize={500}>
+      <dodecahedronGeometry />
+
+      <MeshParticlesMaterial
+        baseMaterial={MeshStandardMaterial}
+        colorFunction="cubicIn(v_progress)"
+      />
+
+      <Repeat times={Infinity} interval={0.2}>
         <Emitter
-          count={300}
-          setup={(c) => {
-            c.delay = upTo(0.2)
+          count={5}
+          setup={(c, index) => {
+            suckUpwards(c, index)
 
-            const a = upTo(Math.PI * 2)
-            c.position
-              .set(Math.cos(a), 0, Math.sin(a))
-              .multiplyScalar(between(10, 15))
+            c.lifetime = 1
 
-            c.acceleration.set(
-              -c.position.x * 1,
-              between(5, 20),
-              -c.position.z * 1
-            )
-
-            c.lifetime = between(0.5, 1)
+            c.quaternion.random()
 
             const scale = between(0.2, 0.5)
             c.scale[0].setScalar(scale)
-            c.scale[1].setScalar(scale / 4)
+            c.scale[1].setScalar(scale)
 
             c.color[0].set("#bbb")
-            c.color[1].set("#444")
+            c.color[1].set("#888")
           }}
         />
       </Repeat>
@@ -146,6 +172,8 @@ export const FuzzyBlobExample = () => (
         <Sparks />
       </Float>
     </group>
-    <GroundCircle />
+
+    <GroundParticles />
+    <GroundRocks />
   </group>
 )
