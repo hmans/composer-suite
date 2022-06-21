@@ -1,6 +1,6 @@
 import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
-import { between, upTo } from "randomish"
+import { between, power, upTo } from "randomish"
 import { useRef } from "react"
 import { AdditiveBlending, MeshStandardMaterial, NormalBlending } from "three"
 import {
@@ -39,23 +39,20 @@ export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
         color="#666"
         depthTest={true}
         depthWrite={true}
-        scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
+        scaleFunction="smoothstep(-0.5, 1.0, sin(v_age * 4.0))"
       />
 
-      <Repeat times={Infinity} interval={0.2}>
-        <Emitter
-          count={2000}
-          setup={(c) => {
-            c.quaternion.random()
-            c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
+      <Emitter
+        count={2000}
+        setup={(c) => {
+          c.quaternion.random()
+          c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
 
-            c.lifetime = 1.5
-            c.scale[0].set(0.1, 0.1, 0.1)
-
-            c.scale[1].set(0.1, 0.1, 10 + upTo(15))
-          }}
-        />
-      </Repeat>
+          c.lifetime = Infinity
+          c.scale[0].set(0.1, 0.1, between(20, 25))
+          c.scale[1].set(0.1, 0.1, 20 + power(3) * upTo(10))
+        }}
+      />
     </MeshParticles>
   )
 }
@@ -104,6 +101,7 @@ export const GroundCircle = () => {
         billboard
         depthTest={true}
         depthWrite={false}
+        colorFunction="cubicIn(v_progress)"
       />
 
       <Repeat times={Infinity} interval={0.2}>
@@ -130,7 +128,7 @@ export const GroundCircle = () => {
             c.scale[1].setScalar(scale / 4)
 
             c.color[0].set("#bbb")
-            c.color[1].set("#eed")
+            c.color[1].set("#444")
           }}
         />
       </Repeat>
