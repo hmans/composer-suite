@@ -97,15 +97,15 @@ const suckUpwards: SpawnSetup = (c) => {
   const a = upTo(Math.PI * 2)
   c.position
     .set(Math.cos(a), 0.02, Math.sin(a))
-    .multiplyScalar(between(14, 15.5))
+    .multiplyScalar(between(12, 15.5))
 
-  c.acceleration.set(c.position.x * 1, between(5, 20), c.position.z * 1)
+  c.acceleration.set(c.position.x * 1, between(5, 50), c.position.z * 1)
 
   c.lifetime = between(0.5, 1)
 
-  const scale = between(0.2, 0.5)
+  const scale = between(0.2, 0.7)
   c.scale[0].setScalar(scale)
-  c.scale[1].setScalar(scale / 4)
+  c.scale[1].setScalar(scale / 2)
 
   c.color[0].set("#bbb")
   c.color[1].set("#444")
@@ -133,7 +133,7 @@ const GroundParticles = () => {
 const GroundRocks = () => {
   return (
     <MeshParticles maxParticles={100}>
-      <dodecahedronGeometry />
+      <boxGeometry />
 
       <MeshParticlesMaterial
         baseMaterial={MeshStandardMaterial}
@@ -150,7 +150,7 @@ const GroundRocks = () => {
 
             c.quaternion.random()
 
-            const scale = between(0.2, 0.5)
+            const scale = between(0.4, 0.8)
             c.scale[0].setScalar(scale)
             c.scale[1].setScalar(scale)
 
