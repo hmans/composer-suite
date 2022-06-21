@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import React, { forwardRef, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
-import { AddEquation, CustomBlending, DepthTexture } from "three"
+import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { composableShader, modules } from "../shaders/"
