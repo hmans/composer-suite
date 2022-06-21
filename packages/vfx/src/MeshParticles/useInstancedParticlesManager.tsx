@@ -1,10 +1,4 @@
-import {
-  MutableRefObject,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef
-} from "react"
+import { MutableRefObject, useLayoutEffect, useMemo } from "react"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
@@ -25,23 +19,27 @@ export function useInstancedParticlesManager(
      have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
 
-  /* The playhead acts as a cursor through our various buffer attributes. It automatically
-     advances every time a new particle is spawned. */
-  const playhead = useRef(0)
-
   /* Let's define a number of attributes. */
   const attributes = useMemo(() => {
     return createAttributes(maxInstanceCount, InstancedBufferAttribute)
   }, [maxInstanceCount])
 
   /* Register the instance attributes with the imesh. */
-  useLayoutEffect(() => {
-    prepareInstancedMesh(imesh.current, attributes)
-  }, [attributes])
+  useLayoutEffect(() => prepareInstancedMesh(imesh.current, attributes), [
+    attributes
+  ])
 
-  /* This function will spawn new particles. */
-  const spawnParticle = useCallback(
-    (count: number, setup?: SpawnSetup, origin?: Object3D) => {
+  return useMemo(() => {
+    /* The playhead acts as a cursor through our various buffer attributes. It automatically
+       advances every time a new particle is spawned. */
+    let playhead = 0
+
+    /* This function will spawn new particles. */
+    const spawnParticle = (
+      count: number,
+      setup?: SpawnSetup,
+      origin?: Object3D
+    ) => {
       const { instanceMatrix } = imesh.current
 
       /* Configure the attributes to upload only the updated parts to the GPU. */
@@ -49,7 +47,7 @@ export function useInstancedParticlesManager(
       const allAttributes = [instanceMatrix, ...Object.values(attributes)]
       allAttributes.forEach((attribute) => {
         attribute.needsUpdate = true
-        attribute.updateRange.offset = playhead.current * attribute.itemSize
+        attribute.updateRange.offset = playhead * attribute.itemSize
         attribute.updateRange.count = count * attribute.itemSize
       })
 
@@ -58,7 +56,7 @@ export function useInstancedParticlesManager(
         /* Safety check: if we've reached the end of the buffers, it means the user picked a safety
            size too small for their use case. We don't want to crash the application, so let's log a
            warning and discard the particle. */
-        if (playhead.current >= maxInstanceCount) {
+        if (playhead >= maxInstanceCount) {
           console.warn(
             "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
           )
@@ -90,7 +88,7 @@ export function useInstancedParticlesManager(
         setup?.(components, i)
 
         imesh.current.setMatrixAt(
-          playhead.current,
+          playhead,
           tmpMatrix4.compose(
             components.position,
             components.quaternion,
@@ -102,33 +100,30 @@ export function useInstancedParticlesManager(
         const currentTime = (imesh.current.material as ShaderMaterial).uniforms
           .u_time.value
         attributes.time.setXY(
-          playhead.current,
+          playhead,
           currentTime + components.delay,
           currentTime + components.lifetime
         )
 
         /* Set velocity */
-        attributes.velocity.setXYZ(
-          playhead.current,
-          ...components.velocity.toArray()
-        )
+        attributes.velocity.setXYZ(playhead, ...components.velocity.toArray())
 
         /* Set acceleration */
         attributes.acceleration.setXYZ(
-          playhead.current,
+          playhead,
           ...components.acceleration.toArray()
         )
 
         /* Set color */
         attributes.color0.setXYZW(
-          playhead.current,
+          playhead,
           components.color[0].r,
           components.color[0].g,
           components.color[0].b,
           components.alpha[0]
         )
         attributes.color1.setXYZW(
-          playhead.current,
+          playhead,
           components.color[1].r,
           components.color[1].g,
           components.color[1].b,
@@ -136,31 +131,24 @@ export function useInstancedParticlesManager(
         )
 
         /* Set scale */
-        attributes.scale0.setXYZ(
-          playhead.current,
-          ...components.scale[0].toArray()
-        )
-        attributes.scale1.setXYZ(
-          playhead.current,
-          ...components.scale[1].toArray()
-        )
+        attributes.scale0.setXYZ(playhead, ...components.scale[0].toArray())
+        attributes.scale1.setXYZ(playhead, ...components.scale[1].toArray())
 
         /* Advance playhead */
-        playhead.current++
+        playhead++
       }
 
       /* Increase count of imesh to match playhead */
-      if (playhead.current > imesh.current.count) {
-        imesh.current.count = playhead.current
+      if (playhead > imesh.current.count) {
+        imesh.current.count = playhead
       }
 
       /* If we've gone past the number of max particles, reset the playhead. */
-      if (playhead.current > maxParticles) {
-        playhead.current = 0
+      if (playhead > maxParticles) {
+        playhead = 0
       }
-    },
-    [attributes]
-  )
+    }
 
-  return { spawnParticle }
+    return { spawnParticle }
+  }, [attributes])
 }
