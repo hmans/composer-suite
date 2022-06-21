@@ -29,9 +29,11 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         args={[geometry, undefined, maxParticles + safetySize]}
         {...props}
       >
-        <ParticlesContext.Provider value={api}>
-          {children}
-        </ParticlesContext.Provider>
+        {api && (
+          <ParticlesContext.Provider value={api}>
+            {children}
+          </ParticlesContext.Provider>
+        )}
       </instancedMesh>
     )
   }

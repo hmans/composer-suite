@@ -20,14 +20,16 @@ export function useMeshParticles(
   const maxInstanceCount = maxParticles + safetySize
 
   /* Let's define a number of attributes. */
+  /* TODO: This is where we want to pass in the material's shader configuration, so it can be made dynamic.
+           Only problem is we don't have access to imesh.current here yet. Eep! */
   const attributes = useMemo(() => {
     return createAttributes(maxInstanceCount, InstancedBufferAttribute)
   }, [maxInstanceCount])
 
   /* Register the instance attributes with the imesh. */
-  useLayoutEffect(() => prepareInstancedMesh(imesh.current, attributes), [
-    attributes
-  ])
+  useLayoutEffect(() => {
+    prepareInstancedMesh(imesh.current, attributes)
+  }, [attributes])
 
   return useMemo(() => {
     /* The playhead acts as a cursor through our various buffer attributes. It automatically
