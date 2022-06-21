@@ -131,7 +131,7 @@ const GroundParticles = () => {
 
 const GroundRocks = () => {
   return (
-    <MeshParticles maxParticles={5000} safetySize={500}>
+    <MeshParticles maxParticles={100}>
       <dodecahedronGeometry />
 
       <MeshParticlesMaterial
