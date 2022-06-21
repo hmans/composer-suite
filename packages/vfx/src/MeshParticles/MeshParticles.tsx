@@ -3,7 +3,6 @@ import React, { forwardRef, ReactNode, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { InstancedMesh, Matrix4, Vector3 } from "three"
 import { ParticlesContext } from "../ParticlesContext"
-import { setupInstancedMesh } from "../util/attributes"
 import { useMeshParticles } from "./useMeshParticles"
 
 export const tmpScale = new Vector3()
@@ -22,10 +21,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   ) => {
     const imesh = useRef<InstancedMesh>(null!)
 
-    const api = useMeshParticles(imesh, maxParticles, safetySize)
-
-    const setup = (imesh: InstancedMesh | null) =>
-      imesh && setupInstancedMesh(imesh, maxParticles + safetySize)
+    const { setup, spawnParticle } = useMeshParticles(maxParticles, safetySize)
 
     return (
       <instancedMesh
@@ -33,7 +29,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
         args={[geometry, undefined, maxParticles + safetySize]}
         {...props}
       >
-        <ParticlesContext.Provider value={api}>
+        <ParticlesContext.Provider value={{ spawnParticle }}>
           {children}
         </ParticlesContext.Provider>
       </instancedMesh>
