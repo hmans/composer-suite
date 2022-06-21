@@ -5,6 +5,7 @@ import {
   InstancedBufferGeometry,
   InstancedMesh
 } from "three"
+import { MeshParticlesMaterial } from "../MeshParticles"
 
 function registerAttributes(
   geometry: BufferGeometry,
@@ -24,9 +25,11 @@ export function prepareInstancedMesh(
 }
 
 export const setupInstancedMesh = (
-  imesh: InstancedMesh,
+  imesh: InstancedMesh<InstancedBufferGeometry, MeshParticlesMaterial>,
   maxInstanceCount: number
 ) => {
+  console.log(imesh.material.__vfx)
+
   /* Helper method to create new instanced buffer attributes */
   const createAttribute = (itemSize: number) =>
     new InstancedBufferAttribute(

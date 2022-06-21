@@ -4,12 +4,17 @@ export type Uniform<T = any> = {
   value: T
 }
 
+export type Attribute = {
+  itemSize: number
+}
+
 export type Module = {
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string
   fragmentMain: string
   uniforms: Record<string, Uniform>
+  attributes: Record<string, Attribute>
 
   update?: RenderCallback
 }
@@ -20,6 +25,7 @@ export const module = (input: Partial<Module>): Module => ({
   fragmentHeader: "",
   fragmentMain: "",
   uniforms: {},
+  attributes: {},
   ...input
 })
 
@@ -59,6 +65,8 @@ export const composableShader = () => {
       ),
 
       uniforms: modules.reduce((acc, m) => ({ ...acc, ...m.uniforms }), {}),
+
+      attributes: modules.reduce((acc, m) => ({ ...acc, ...m.attributes }), {}),
 
       update
     }
