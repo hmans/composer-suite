@@ -1,5 +1,5 @@
 import { Object3DProps, useFrame } from "@react-three/fiber"
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { Object3D } from "three"
 import { SpawnSetup, useParticles } from "./ParticlesContext"
@@ -14,11 +14,10 @@ export type EmitterProps = Object3DProps & {
 export const Emitter = React.forwardRef<Object3D, EmitterProps>(
   ({ count = 0, setup, continuous = false, ...props }, ref) => {
     const { spawnParticle } = useParticles()
-    const object = React.useRef<Object3D>(null!)
+    const object = useRef<Object3D>(null!)
 
-    React.useEffect(() => {
+    useEffect(() => {
       if (continuous) return
-
       spawnParticle(getValue(count), setup, object.current)
     }, [])
 
