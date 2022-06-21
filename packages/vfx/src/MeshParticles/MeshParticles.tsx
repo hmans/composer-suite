@@ -19,17 +19,15 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
     { maxParticles = 1_000, safetySize = 100, children, geometry, ...props },
     ref
   ) => {
-    const imesh = useRef<InstancedMesh>(null!)
-
-    const { setup, spawnParticle } = useMeshParticles(maxParticles, safetySize)
+    const [imesh, api] = useMeshParticles(maxParticles, safetySize)
 
     return (
       <instancedMesh
-        ref={mergeRefs([imesh, ref, setup])}
+        ref={mergeRefs([imesh, ref])}
         args={[geometry, undefined, maxParticles + safetySize]}
         {...props}
       >
-        <ParticlesContext.Provider value={{ spawnParticle }}>
+        <ParticlesContext.Provider value={api}>
           {children}
         </ParticlesContext.Provider>
       </instancedMesh>

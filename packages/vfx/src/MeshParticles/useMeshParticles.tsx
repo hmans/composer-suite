@@ -1,26 +1,27 @@
-import { useMemo } from "react"
+import { MutableRefObject, useLayoutEffect, useMemo, useRef } from "react"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
   Object3D,
   ShaderMaterial
 } from "three"
-import { components, SpawnSetup } from "../ParticlesContext"
+import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
 import { setupInstancedMesh } from "../util/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
 
-export function useMeshParticles(maxParticles: number, safetySize: number) {
+export function useMeshParticles(
+  maxParticles: number,
+  safetySize: number
+): [MutableRefObject<InstancedMesh>, ParticlesAPI] {
   /* The safetySize allows us to emit a batch of particles that would otherwise
      exceed the maximum instance count (which would make WebGL crash.) This way, we don't
      have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
+  const imesh = useRef<InstancedMesh>(null!)
 
-  let imesh: InstancedMesh | null = null
-
-  const setup = (_imesh: InstancedMesh | null) => {
-    imesh = _imesh
-    imesh && setupInstancedMesh(imesh, maxInstanceCount)
-  }
+  useLayoutEffect(() => {
+    setupInstancedMesh(imesh.current, maxInstanceCount)
+  }, [])
 
   const spawnParticle = useMemo(() => {
     /* The playhead acts as a cursor through our various buffer attributes. It automatically
@@ -33,11 +34,11 @@ export function useMeshParticles(maxParticles: number, safetySize: number) {
       setup?: SpawnSetup,
       origin?: Object3D
     ) => {
-      const attributes = imesh!.geometry.attributes as {
+      const attributes = imesh.current.geometry.attributes as {
         [key: string]: InstancedBufferAttribute
       }
 
-      const { instanceMatrix } = imesh!
+      const { instanceMatrix } = imesh.current
 
       /* Configure the attributes to upload only the updated parts to the GPU. */
       /* TODO: allow the user to call spawnParticles multiple times within the same frame */
@@ -84,7 +85,7 @@ export function useMeshParticles(maxParticles: number, safetySize: number) {
         /* Run setup */
         setup?.(components, i)
 
-        imesh!.setMatrixAt(
+        imesh.current.setMatrixAt(
           playhead,
           tmpMatrix4.compose(
             components.position,
@@ -94,8 +95,8 @@ export function useMeshParticles(maxParticles: number, safetySize: number) {
         )
 
         /* Set times */
-        const currentTime = (imesh!.material as ShaderMaterial).uniforms.u_time
-          .value
+        const currentTime = (imesh.current.material as ShaderMaterial).uniforms
+          .u_time.value
         attributes.time.setXY(
           playhead,
           currentTime + components.delay,
@@ -136,8 +137,8 @@ export function useMeshParticles(maxParticles: number, safetySize: number) {
       }
 
       /* Increase count of imesh to match playhead */
-      if (playhead > imesh!.count) {
-        imesh!.count = playhead
+      if (playhead > imesh.current.count) {
+        imesh.current.count = playhead
       }
 
       /* If we've gone past the number of max particles, reset the playhead. */
@@ -149,5 +150,5 @@ export function useMeshParticles(maxParticles: number, safetySize: number) {
     return spawnParticle
   }, [])
 
-  return { setup, spawnParticle }
+  return [imesh, { spawnParticle }]
 }
