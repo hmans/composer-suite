@@ -112,7 +112,7 @@ export const GroundCircle = () => {
 
             const a = upTo(Math.PI * 2)
             c.position
-              .set(Math.cos(a), 0.1, Math.sin(a))
+              .set(Math.cos(a), 0, Math.sin(a))
               .multiplyScalar(between(10, 15))
 
             c.acceleration.set(
