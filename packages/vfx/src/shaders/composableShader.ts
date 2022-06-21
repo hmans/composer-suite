@@ -19,6 +19,14 @@ export type Module = {
   update?: RenderCallback
 }
 
+export type CompiledShader = {
+  vertexShader: string
+  fragmentShader: string
+  uniforms: Record<string, Uniform>
+  attributes: Record<string, Attribute>
+  update: RenderCallback
+}
+
 export const module = (input: Partial<Module>): Module => ({
   vertexHeader: "",
   vertexMain: "",
@@ -49,7 +57,7 @@ export const composableShader = () => {
     `
   }
 
-  function compile() {
+  function compile(): CompiledShader {
     const update: RenderCallback = (state, dt) =>
       modules.forEach((m) => m.update?.(state, dt))
 

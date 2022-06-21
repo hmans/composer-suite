@@ -2,6 +2,9 @@ import { module } from ".."
 
 export default function lifetime() {
   return module({
+    attributes: {
+      time: { itemSize: 2 }
+    },
     vertexHeader: `
       attribute vec2 time;
       varying float v_progress;

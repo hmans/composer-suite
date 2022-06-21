@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { composableShader, modules } from "../shaders/"
+import { CompiledShader, composableShader, modules } from "../shaders/"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -17,7 +17,7 @@ export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
 
 export type MeshParticlesMaterial = CustomShaderMaterialImpl & {
   __vfx: {
-    compiled: ReturnType<ReturnType<typeof composableShader>["compile"]> // TODO: eh
+    compiled: CompiledShader
   }
 }
 
