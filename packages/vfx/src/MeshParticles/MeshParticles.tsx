@@ -3,7 +3,7 @@ import React, { forwardRef, ReactNode, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { InstancedMesh, Matrix4, Vector3 } from "three"
 import { ParticlesContext } from "../ParticlesContext"
-import { useInstancedParticlesManager } from "./useInstancedParticlesManager"
+import { useMeshParticles } from "./useMeshParticles"
 
 export const tmpScale = new Vector3()
 export const tmpMatrix4 = new Matrix4()
@@ -21,7 +21,7 @@ export const MeshParticles = forwardRef<InstancedMesh, MeshParticlesProps>(
   ) => {
     const imesh = useRef<InstancedMesh>(null!)
 
-    const api = useInstancedParticlesManager(imesh, maxParticles, safetySize)
+    const api = useMeshParticles(imesh, maxParticles, safetySize)
 
     return (
       <instancedMesh

@@ -9,7 +9,7 @@ import { components, SpawnSetup } from "../ParticlesContext"
 import { createAttributes, prepareInstancedMesh } from "../util/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
 
-export function useInstancedParticlesManager(
+export function useMeshParticles(
   imesh: MutableRefObject<InstancedMesh>,
   maxParticles: number,
   safetySize: number
