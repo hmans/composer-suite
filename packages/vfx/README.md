@@ -52,6 +52,14 @@ yarn && yarn examples
 
 Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/three-vfx), or just [view them on Vercel](https://vfx-examples.vercel.app/).
 
+## Resources
+
+A couple of links to (possibly free) resources that will help you build cool visual effects.
+
+- [Kenney's Particle Pack](https://www.kenney.nl/assets/particle-pack)
+- [Kenney's Smoke Particles](https://www.kenney.nl/assets/smoke-particles)
+- [Unity's Free VFX Flipbooks](https://blog.unity.com/technology/free-vfx-image-sequences-flipbooks)
+
 ## Questions? 💬
 
 Find me on [Twitter](https://twitter.com/hmans) or the [Poimandres Discord](https://discord.gg/aAYjm2p7c7).
