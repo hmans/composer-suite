@@ -10,7 +10,11 @@ import {
   movementShader,
   colorShader,
   scaleShader,
-  resolutionShader
+  resolutionShader,
+  depthTextureShader,
+  easings,
+  billboarding,
+  softParticles
 } from "../layers"
 import { combineShaders, compileShader, Shader } from "../newShaders"
 
@@ -51,10 +55,15 @@ export const MeshParticlesMaterial = forwardRef<
       const layers = [
         timeShader(),
         resolutionShader(),
+        easings(),
+
+        softness && depthTextureShader(depthTexture!),
         lifetimeShader(),
-        scaleShader(),
+        billboard && billboarding(),
+        scaleShader(scaleFunction),
         movementShader(),
-        colorShader()
+        colorShader(colorFunction),
+        softness && softParticles(softness, softnessFunction)
       ].filter((l) => l) as Shader[]
 
       return combineShaders(layers)
