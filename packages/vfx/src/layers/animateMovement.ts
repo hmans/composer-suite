@@ -1,6 +1,6 @@
 import { createShader } from "../newShaders"
 
-export function movementShader() {
+export default function() {
   return createShader({
     attributes: {
       velocity: { type: "vec3", itemSize: 3 },

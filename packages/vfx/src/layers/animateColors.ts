@@ -1,7 +1,7 @@
 import { Color } from "three"
 import { createShader } from "../newShaders"
 
-export function colorShader(fun = "v_progress") {
+export default function(fun = "v_progress") {
   return createShader({
     attributes: {
       color0: { type: "vec4", itemSize: 4 },

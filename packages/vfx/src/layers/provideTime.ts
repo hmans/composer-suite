@@ -1,6 +1,6 @@
 import { createShader, Uniform } from "../newShaders"
 
-export const timeShader = () => {
+export default function() {
   const u_time: Uniform = { type: "float", value: 0 }
 
   return createShader({

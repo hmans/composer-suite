@@ -1,6 +1,6 @@
 import { createShader, Uniform } from "../newShaders"
 
-export function resolutionShader() {
+export default function() {
   const u_resolution: Uniform = {
     type: "vec2",
     value: [window.innerWidth, window.innerHeight]

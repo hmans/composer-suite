@@ -1,6 +1,6 @@
 import { createShader } from "../newShaders"
 
-export function scaleShader(fun = "v_progress") {
+export default function(fun = "v_progress") {
   return createShader({
     attributes: {
       scale0: { type: "vec3", itemSize: 3 },

@@ -1,6 +1,6 @@
 import { createShader } from "../newShaders"
 
-export default function billboard() {
+export default function() {
   return createShader({
     vertexHeader: `
     /* Billboard helper */

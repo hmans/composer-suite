@@ -1,6 +1,6 @@
 import { createShader } from "../newShaders"
 
-export function lifetimeShader() {
+export default function() {
   return createShader({
     attributes: {
       time: { type: "vec2", itemSize: 2 }

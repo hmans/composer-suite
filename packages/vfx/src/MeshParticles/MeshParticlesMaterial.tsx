@@ -5,17 +5,17 @@ import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import {
+  animateColors,
+  animateMovement,
+  animateScale,
   billboarding,
-  colorShader,
-  depthTextureShader,
-  easings,
-  lifetimeShader,
-  movementShader,
-  resolutionShader,
-  scaleShader,
-  softParticles,
-  timeShader
+  provideEasingFunctions,
+  provideLifetime,
+  provideResolution,
+  provideTime,
+  softParticles
 } from "../layers"
+import provideDepthTexture from "../layers/provideDepthTexture"
 import { combineShaders, compileShader, Shader } from "../newShaders"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
@@ -53,16 +53,15 @@ export const MeshParticlesMaterial = forwardRef<
 
     const shader = useMemo(() => {
       const layers = [
-        timeShader(),
-        resolutionShader(),
-        easings(),
-
-        softness && depthTextureShader(depthTexture!),
-        lifetimeShader(),
+        provideTime(),
+        provideLifetime(),
+        provideResolution(),
+        provideEasingFunctions(),
+        softness && provideDepthTexture(depthTexture!),
         billboard && billboarding(),
-        scaleShader(scaleFunction),
-        movementShader(),
-        colorShader(colorFunction),
+        animateScale(scaleFunction),
+        animateMovement(),
+        animateColors(colorFunction),
         softness && softParticles(softness, softnessFunction)
       ].filter((l) => l) as Shader[]
 
