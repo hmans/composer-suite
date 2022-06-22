@@ -39,11 +39,12 @@ export function useMeshParticles(
 
     /* This function will spawn new particles. */
     return (count: number, setup?: SpawnSetup, origin?: Object3D) => {
-      /* Get the geometry's buffer attributes. */
-      const attributes = imesh.current.geometry.attributes as Record<string, InstancedBufferAttribute>
+      /* Grab some stuff we need */
+      const { material, geometry } = imesh.current
+      const { composedShader } = material.__vfx
+      const attributes = geometry.attributes as Record<string, InstancedBufferAttribute>
 
       /* Configure the attributes to upload only the updated parts to the GPU. */
-      /* TODO: allow the user to call spawnParticles multiple times within the same frame */
       [imesh.current.instanceMatrix, ...Object.values(attributes)].forEach((attribute) => {
         attribute.needsUpdate = true
         attribute.updateRange.offset = cursor * attribute.itemSize
