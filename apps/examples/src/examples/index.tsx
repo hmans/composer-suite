@@ -40,6 +40,5 @@ export default [
         <DustExample />
       </>
     )
-  },
-  { path: "newshader", name: "New Shader", component: <NewShaderExample /> }
+  }
 ] as ExampleDefinition[]
