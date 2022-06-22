@@ -1,5 +1,9 @@
 import { Shader, Variables } from "./types"
 
+export function mutateShader(target: Shader, source: Shader) {
+  Object.assign(target, addShaders(target, source))
+}
+
 export function addShaders<
   UniformsA extends Variables,
   UniformsB extends Variables
