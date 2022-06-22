@@ -1,6 +1,6 @@
 import { Shader } from "./types"
 
-export function combineShaders(a: Shader, b: Shader): Shader {
+export function combine(a: Shader, b: Shader): Shader {
   return {
     uniforms: { ...a.uniforms, ...b.uniforms },
 
@@ -12,4 +12,8 @@ export function combineShaders(a: Shader, b: Shader): Shader {
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,
     fragmentMain: a.fragmentMain + b.fragmentMain
   }
+}
+
+export function combineShaders(...shaders: Shader[]) {
+  return shaders.reduce(combine)
 }

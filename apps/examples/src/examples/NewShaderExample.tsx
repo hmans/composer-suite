@@ -11,7 +11,13 @@ export const NewShaderExample = () => {
     vertexMain: `csm_Position.x += 10.0;`
   })
 
-  const material = compileShader(combineShaders(colorShader, wobbleShader))
+  const blahShader = createShader({
+    vertexMain: `csm_Position.y += 3.0;`
+  })
+
+  const material = compileShader(
+    combineShaders(colorShader, wobbleShader, blahShader)
+  )
 
   return (
     <group position-y={15}>
