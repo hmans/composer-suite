@@ -9,7 +9,8 @@ import {
   lifetimeShader,
   movementShader,
   colorShader,
-  scaleShader
+  scaleShader,
+  resolutionShader
 } from "../layers"
 import { combineShaders, compileShader, Shader } from "../newShaders"
 
@@ -49,6 +50,7 @@ export const MeshParticlesMaterial = forwardRef<
     const shader = useMemo(() => {
       const layers = [
         timeShader(),
+        resolutionShader(),
         lifetimeShader(),
         scaleShader(),
         movementShader(),
