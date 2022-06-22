@@ -5,16 +5,16 @@ import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import {
-  timeShader,
-  lifetimeShader,
-  movementShader,
+  billboarding,
   colorShader,
-  scaleShader,
-  resolutionShader,
   depthTextureShader,
   easings,
-  billboarding,
-  softParticles
+  lifetimeShader,
+  movementShader,
+  resolutionShader,
+  scaleShader,
+  softParticles,
+  timeShader
 } from "../layers"
 import { combineShaders, compileShader, Shader } from "../newShaders"
 
