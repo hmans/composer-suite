@@ -46,17 +46,17 @@ export const MeshParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<MeshParticlesMaterial>(null!)
 
-    const shader = useMemo(
-      () =>
-        combineShaders([
-          timeShader(),
-          lifetimeShader(),
-          scaleShader(),
-          movementShader(),
-          colorShader()
-        ]),
-      []
-    )
+    const shader = useMemo(() => {
+      const layers = [
+        timeShader(),
+        lifetimeShader(),
+        scaleShader(),
+        movementShader(),
+        colorShader()
+      ].filter((l) => l) as Shader[]
+
+      return combineShaders(layers)
+    }, [])
 
     const { update, ...attrs } = useMemo(() => compileShader(shader), [shader])
 
