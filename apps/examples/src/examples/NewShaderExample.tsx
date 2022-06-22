@@ -1,13 +1,17 @@
 import CustomShaderMaterial from "three-custom-shader-material"
 import { MeshStandardMaterial } from "three"
-import { compileShader, createShader } from "three-vfx"
+import { combineShaders, compileShader, createShader } from "three-vfx"
 
 export const NewShaderExample = () => {
-  const shader = createShader({
+  const colorShader = createShader({
     fragmentMain: `csm_DiffuseColor = vec4(1.0, 0.5, 0.0, 1.0);`
   })
 
-  const material = compileShader(shader)
+  const wobbleShader = createShader({
+    vertexMain: `csm_Position.x += 10.0;`
+  })
+
+  const material = compileShader(combineShaders(colorShader, wobbleShader))
 
   return (
     <group position-y={15}>
