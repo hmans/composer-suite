@@ -6,7 +6,7 @@ import {
   Object3D
 } from "three"
 import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
-import { setupInstancedMesh } from "../util/attributes"
+import { setupInstancedMesh } from "../shaders/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
 import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
 
