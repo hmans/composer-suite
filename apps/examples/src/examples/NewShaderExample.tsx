@@ -2,15 +2,9 @@ import { useFrame } from "@react-three/fiber"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { combineShaders, compileShader, createShader, Uniform } from "three-vfx"
+import { layers } from "three-vfx"
 
 export const NewShaderExample = () => {
-  const timeUniform: Uniform = { type: "float", value: 0 }
-
-  const timeShader = createShader({
-    uniforms: { u_time: timeUniform },
-    update: (_, dt) => (timeUniform.value += dt)
-  })
-
   const colorShader = createShader({
     fragmentMain: `csm_DiffuseColor = vec4(1.0, 0.5, 0.0, 1.0);`
   })
@@ -25,7 +19,7 @@ export const NewShaderExample = () => {
 
   const material = compileShader(
     combineShaders([
-      timeShader,
+      layers.timeShader(),
       colorShader,
       wobbleScaleShader,
       wobblePositionShader
