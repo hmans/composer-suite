@@ -1,3 +1,5 @@
+import { RenderCallback } from "@react-three/fiber"
+
 export type GLSLType =
   | "float"
   | "vec2"
@@ -31,6 +33,8 @@ export type Varying<T = any> = {
   value: T
 }
 
+export type UpdateCallback = RenderCallback
+
 export type Shader = {
   uniforms: Record<string, Uniform>
   varyings: Record<string, Varying>
@@ -38,4 +42,5 @@ export type Shader = {
   vertexMain: string
   fragmentHeader: string
   fragmentMain: string
+  update?: RenderCallback
 }

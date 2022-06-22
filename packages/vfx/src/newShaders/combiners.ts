@@ -10,7 +10,12 @@ export function combine(a: Shader, b: Shader): Shader {
     vertexMain: a.vertexMain + b.vertexMain,
 
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,
-    fragmentMain: a.fragmentMain + b.fragmentMain
+    fragmentMain: a.fragmentMain + b.fragmentMain,
+
+    update: (...args) => {
+      a.update?.(...args)
+      b.update?.(...args)
+    }
   }
 }
 
