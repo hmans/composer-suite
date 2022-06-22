@@ -8,6 +8,7 @@ import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
+import { NewShaderExample } from "./NewShaderExample"
 
 export type ExampleDefinition = {
   path: string
@@ -39,5 +40,6 @@ export default [
         <DustExample />
       </>
     )
-  }
+  },
+  { path: "newshader", name: "New Shader", component: <NewShaderExample /> }
 ] as ExampleDefinition[]
