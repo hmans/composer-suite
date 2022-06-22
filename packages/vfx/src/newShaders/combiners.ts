@@ -11,12 +11,9 @@ export function combineShaders<
 ): Shader<UniformsA & UniformsB> {
   const ab: Shader<UniformsA & UniformsB> = {
     uniforms: { ...a.uniforms, ...b.uniforms },
-
     varyings: { ...a.varyings, ...b.varyings },
-
     vertexHeader: a.vertexHeader + b.vertexHeader,
     vertexMain: a.vertexMain + b.vertexMain,
-
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,
     fragmentMain: a.fragmentMain + b.fragmentMain,
 
