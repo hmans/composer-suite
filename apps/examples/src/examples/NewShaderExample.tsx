@@ -1,8 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import { combineShaders, compileShader, createShader, Uniform } from "three-vfx"
-import { layers } from "three-vfx"
+import { combineShaders, compileShader, createShader, layers } from "three-vfx"
 
 export const NewShaderExample = () => {
   const colorShader = createShader({
