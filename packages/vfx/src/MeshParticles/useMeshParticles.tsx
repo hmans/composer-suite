@@ -8,8 +8,8 @@ import {
   Vector3
 } from "three"
 import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
-import { setupInstancedMesh } from "../shaders"
 import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
+import { setupInstancedMesh } from "./setupInstancedMesh"
 
 export const tmpScale = new Vector3()
 export const tmpMatrix4 = new Matrix4()
