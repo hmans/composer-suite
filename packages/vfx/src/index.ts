@@ -1,5 +1,5 @@
 export * from "./Emitter"
 export * from "./MeshParticles"
+export * from "./newShaders"
 export { useParticles, type SpawnSetup } from "./ParticlesContext"
-export * from "./shaders"
 export * from "./timeline"

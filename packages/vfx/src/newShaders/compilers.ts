@@ -29,7 +29,7 @@ function compileProgram(shader: Shader, header: string, main: string) {
     }`
 }
 
-export function compileMaterial(shader: Shader) {
+export function compileShader(shader: Shader) {
   return {
     uniforms: shader.uniforms,
     vertexShader: compileProgram(
