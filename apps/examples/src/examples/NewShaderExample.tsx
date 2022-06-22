@@ -1,13 +1,7 @@
-import CustomShaderMaterial from "three-custom-shader-material"
-import { MeshStandardMaterial } from "three"
-import {
-  addShaders,
-  combineShaders,
-  compileShader,
-  createShader,
-  Uniform
-} from "three-vfx"
 import { useFrame } from "@react-three/fiber"
+import { MeshStandardMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
+import { combineShaders, compileShader, createShader, Uniform } from "three-vfx"
 
 export const NewShaderExample = () => {
   const timeUniform: Uniform = { type: "float", value: 0 }
