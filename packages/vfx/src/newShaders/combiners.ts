@@ -7,6 +7,7 @@ export function addShaders<
   return {
     uniforms: { ...a.uniforms, ...b.uniforms },
     varyings: { ...a.varyings, ...b.varyings },
+    attributes: { ...a.attributes, ...b.attributes },
     vertexHeader: a.vertexHeader + b.vertexHeader,
     vertexMain: a.vertexMain + b.vertexMain,
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,

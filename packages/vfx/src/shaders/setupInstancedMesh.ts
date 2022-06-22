@@ -10,11 +10,11 @@ export const setupInstancedMesh = (
   maxInstanceCount: number
 ) => {
   /* Get the composed shader from the material */
-  const { composedShader } = imesh.material.__vfx
+  const { shader } = imesh.material.__vfx
 
   /* Now create all the attributes configured in the composed shader. */
-  for (const name in composedShader.attributes) {
-    const { itemSize } = composedShader.attributes[name]
+  for (const name in shader.attributes) {
+    const { itemSize } = shader.attributes[name]
 
     const buffer = new Float32Array(maxInstanceCount * itemSize)
     const attribute = new InstancedBufferAttribute(buffer, itemSize)

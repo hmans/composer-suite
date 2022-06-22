@@ -1,1 +1,5 @@
+export * from "./lifetimeShader"
+export * from "./movementShader"
 export * from "./timeShader"
+export * from "./colorShader"
+export * from "./scaleShader"

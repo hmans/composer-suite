@@ -26,6 +26,7 @@ export type Uniform<T = any> = {
 
 export type Attribute = {
   type: GLSLType
+  itemSize: number
 }
 
 export type Varying<T = any> = {
@@ -38,6 +39,7 @@ export type UpdateCallback = RenderCallback
 export type Shader<TUniforms extends Variables = {}> = {
   uniforms: TUniforms
   varyings: Record<string, Varying>
+  attributes: Record<string, Attribute>
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string

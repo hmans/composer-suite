@@ -41,7 +41,7 @@ export function useMeshParticles(
     return (count: number, setup?: SpawnSetup, origin?: Object3D) => {
       /* Grab some stuff we need */
       const { material, geometry } = imesh.current
-      const { composedShader } = material.__vfx
+      const { shader } = material.__vfx
       const attributes = geometry.attributes as Record<
           string,
           InstancedBufferAttribute
