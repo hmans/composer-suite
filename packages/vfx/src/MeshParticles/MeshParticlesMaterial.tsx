@@ -4,7 +4,7 @@ import mergeRefs from "react-merge-refs"
 import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { CompiledShader, composableShader, modules } from "../shaders/"
+import { ComposedShader, composableShader, modules } from "../shaders/"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -17,7 +17,7 @@ export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
 
 export type MeshParticlesMaterial = CustomShaderMaterialImpl & {
   __vfx: {
-    compiled: CompiledShader
+    composedShader: ComposedShader
   }
 }
 
@@ -39,8 +39,8 @@ export const MeshParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<MeshParticlesMaterial>(null!)
 
-    const compiled = useMemo(() => {
-      const { addModule, compile } = composableShader()
+    const composedShader = useMemo(() => {
+      const { addModule, compose } = composableShader()
 
       /* The Basics */
       addModule(modules.time())
@@ -56,14 +56,14 @@ export const MeshParticlesMaterial = forwardRef<
       addModule(modules.colors(colorFunction))
       softness && addModule(modules.softparticles(softness, softnessFunction))
 
-      return compile()
+      return compose()
     }, [])
 
     useLayoutEffect(() => {
-      material.current.__vfx = { compiled }
+      material.current.__vfx = { composedShader }
     }, [])
 
-    const { update, ...shader } = compiled
+    const { update, ...shader } = composedShader
 
     useFrame(update)
 

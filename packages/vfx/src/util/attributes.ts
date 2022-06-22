@@ -28,14 +28,18 @@ export const setupInstancedMesh = (
   imesh: InstancedMesh<InstancedBufferGeometry, MeshParticlesMaterial>,
   maxInstanceCount: number
 ) => {
-  const { compiled } = imesh.material.__vfx
+  /* Get the composed shader from the material */
+  const { composedShader } = imesh.material.__vfx
 
-  const attributes = Object.keys(compiled.attributes).reduce(
+  /* Now create all the attributes configured in the composed shader. */
+  const attributes = Object.keys(composedShader.attributes).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new InstancedBufferAttribute(
-        new Float32Array(maxInstanceCount * compiled.attributes[name].itemSize),
-        compiled.attributes[name].itemSize
+        new Float32Array(
+          maxInstanceCount * composedShader.attributes[name].itemSize
+        ),
+        composedShader.attributes[name].itemSize
       )
     }),
     {}
