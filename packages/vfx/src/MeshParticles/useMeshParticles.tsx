@@ -3,12 +3,16 @@ import {
   InstancedBufferAttribute,
   InstancedBufferGeometry,
   InstancedMesh,
-  Object3D
+  Matrix4,
+  Object3D,
+  Vector3
 } from "three"
 import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
-import { setupInstancedMesh } from "../shaders/attributes"
-import { tmpMatrix4, tmpScale } from "./MeshParticles"
+import { setupInstancedMesh } from "../shaders"
 import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
+
+export const tmpScale = new Vector3()
+export const tmpMatrix4 = new Matrix4()
 
 export type MeshParticles = InstancedMesh<
   InstancedBufferGeometry,

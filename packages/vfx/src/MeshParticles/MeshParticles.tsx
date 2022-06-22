@@ -1,12 +1,8 @@
 import { InstancedMeshProps } from "@react-three/fiber"
 import React, { forwardRef, ReactNode } from "react"
 import mergeRefs from "react-merge-refs"
-import { Matrix4, Vector3 } from "three"
 import { ParticlesContext } from "../ParticlesContext"
 import { useMeshParticles, type MeshParticles as MeshParticlesType } from "./useMeshParticles"
-
-export const tmpScale = new Vector3()
-export const tmpMatrix4 = new Matrix4()
 
 export type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
