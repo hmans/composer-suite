@@ -35,8 +35,8 @@ export type Varying<T = any> = {
 
 export type UpdateCallback = RenderCallback
 
-export type Shader = {
-  uniforms: Record<string, Uniform>
+export type Shader<TUniforms extends Variables> = {
+  uniforms: TUniforms
   varyings: Record<string, Varying>
   vertexHeader: string
   vertexMain: string

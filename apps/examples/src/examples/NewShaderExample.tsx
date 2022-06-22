@@ -1,6 +1,12 @@
 import CustomShaderMaterial from "three-custom-shader-material"
 import { MeshStandardMaterial } from "three"
-import { combineShaders, compileShader, createShader, Uniform } from "three-vfx"
+import {
+  combineShaders,
+  combine,
+  compileShader,
+  createShader,
+  Uniform
+} from "three-vfx"
 import { useFrame } from "@react-three/fiber"
 
 export const NewShaderExample = () => {
@@ -22,6 +28,8 @@ export const NewShaderExample = () => {
   const wobbleScaleShader = createShader({
     vertexMain: `csm_Position *= 1.0 + sin(u_time * 3.0) * 0.3;`
   })
+
+  const twoMaterial = compileShader(combine(timeShader, wobblePositionShader))
 
   const material = compileShader(
     combineShaders(

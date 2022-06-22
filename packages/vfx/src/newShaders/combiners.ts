@@ -1,6 +1,9 @@
-import { Shader } from "./types"
+import { Shader, Variables } from "./types"
 
-export function combine(a: Shader, b: Shader): Shader {
+export function combine<UA extends Variables, UB extends Variables>(
+  a: Shader<UA>,
+  b: Shader<UB>
+): Shader<UA & UB> {
   return {
     uniforms: { ...a.uniforms, ...b.uniforms },
 
@@ -19,6 +22,6 @@ export function combine(a: Shader, b: Shader): Shader {
   }
 }
 
-export function combineShaders(...shaders: Shader[]) {
+export function combineShaders(...shaders: Shader<unknown>[]) {
   return shaders.reduce(combine)
 }

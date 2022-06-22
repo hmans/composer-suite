@@ -37,9 +37,9 @@ function compileProgram(shader: Shader, header: string, main: string) {
     }`
 }
 
-export function compileShader(shader: Shader) {
+export function compileShader<U extends Variables>(shader: Shader<U>) {
   return {
-    uniforms: shader.uniforms,
+    uniforms: shader.uniforms as U,
 
     vertexShader: compileProgram(
       shader,
