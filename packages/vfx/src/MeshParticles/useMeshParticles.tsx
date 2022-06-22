@@ -34,9 +34,8 @@ export function useMeshParticles(
   }, [])
 
   const spawnParticle = useMemo(() => {
-    /* The playhead acts as a cursor through our various buffer attributes. It automatically
-       advances every time a new particle is spawned. */
-    let playhead = 0
+    /* The cursor automatically advances every time a new particle is spawned. */
+    let cursor = 0
 
     /* This function will spawn new particles. */
     return (count: number, setup?: SpawnSetup, origin?: Object3D) => {
@@ -47,7 +46,7 @@ export function useMeshParticles(
       /* TODO: allow the user to call spawnParticles multiple times within the same frame */
       [imesh.current.instanceMatrix, ...Object.values(attributes)].forEach((attribute) => {
         attribute.needsUpdate = true
-        attribute.updateRange.offset = playhead * attribute.itemSize
+        attribute.updateRange.offset = cursor * attribute.itemSize
         attribute.updateRange.count = count * attribute.itemSize
       })
 
@@ -56,7 +55,7 @@ export function useMeshParticles(
         /* Safety check: if we've reached the end of the buffers, it means the user picked a safety
            size too small for their use case. We don't want to crash the application, so let's log a
            warning and discard the particle. */
-        if (playhead >= maxInstanceCount) {
+        if (cursor >= maxInstanceCount) {
           console.warn(
             "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
           )
@@ -64,7 +63,7 @@ export function useMeshParticles(
           return
         }
 
-        /* Reset components */
+        /* Initialize components */
         components.position.set(0, 0, 0)
         components.quaternion.set(0, 0, 0, 1)
         components.velocity.set(0, 0, 0)
@@ -84,11 +83,13 @@ export function useMeshParticles(
         //   origin.getWorldScale(components.scale[0])
         //   origin.getWorldScale(components.scale[1])
         // }
-        /* Run setup */
+
+        /* Run the setup function, when available */
         setup?.(components, i)
 
+        /* First of all, write the particle's starting transform into the instance buffer. */
         imesh.current.setMatrixAt(
-          playhead,
+          cursor,
           tmpMatrix4.compose(
             components.position,
             components.quaternion,
@@ -99,30 +100,30 @@ export function useMeshParticles(
         /* Set times */
         const currentTime = imesh.current.material.uniforms.u_time.value
         attributes.time.setXY(
-          playhead,
+          cursor,
           currentTime + components.delay,
           currentTime + components.lifetime
         )
 
         /* Set velocity */
-        attributes.velocity.setXYZ(playhead, ...components.velocity.toArray())
+        attributes.velocity.setXYZ(cursor, ...components.velocity.toArray())
 
         /* Set acceleration */
         attributes.acceleration.setXYZ(
-          playhead,
+          cursor,
           ...components.acceleration.toArray()
         )
 
         /* Set color */
         attributes.color0.setXYZW(
-          playhead,
+          cursor,
           components.color[0].r,
           components.color[0].g,
           components.color[0].b,
           components.alpha[0]
         )
         attributes.color1.setXYZW(
-          playhead,
+          cursor,
           components.color[1].r,
           components.color[1].g,
           components.color[1].b,
@@ -130,21 +131,21 @@ export function useMeshParticles(
         )
 
         /* Set scale */
-        attributes.scale0.setXYZ(playhead, ...components.scale[0].toArray())
-        attributes.scale1.setXYZ(playhead, ...components.scale[1].toArray())
+        attributes.scale0.setXYZ(cursor, ...components.scale[0].toArray())
+        attributes.scale1.setXYZ(cursor, ...components.scale[1].toArray())
 
         /* Advance playhead */
-        playhead++
+        cursor++
       }
 
       /* Increase count of imesh to match playhead */
-      if (playhead > imesh.current.count) {
-        imesh.current.count = playhead
+      if (cursor > imesh.current.count) {
+        imesh.current.count = cursor
       }
 
       /* If we've gone past the number of max particles, reset the playhead. */
-      if (playhead > maxParticles) {
-        playhead = 0
+      if (cursor > maxParticles) {
+        cursor = 0
       }
     }
   }, [])
