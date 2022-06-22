@@ -71,26 +71,6 @@ export const MeshParticlesMaterial = forwardRef<
 
     const { update, ...attrs } = useMemo(() => compileShader(shader), [shader])
 
-    // const composedShader = useMemo(() => {
-    //   const { addModule, compose } = composableShader()
-
-    //   /* The Basics */
-    //   addModule(modules.time())
-    //   softness && addModule(modules.resolution())
-    //   softness && addModule(modules.depthTexture(depthTexture!))
-    //   addModule(modules.easings())
-
-    //   /* The Specifics */
-    //   addModule(modules.lifetime())
-    //   billboard && addModule(modules.billboarding())
-    //   addModule(modules.scale(scaleFunction))
-    //   addModule(modules.movement())
-    //   addModule(modules.colors(colorFunction))
-    //   softness && addModule(modules.softparticles(softness, softnessFunction))
-
-    //   return compose()
-    // }, [])
-
     useLayoutEffect(() => {
       material.current.__vfx = { shader }
     }, [])
