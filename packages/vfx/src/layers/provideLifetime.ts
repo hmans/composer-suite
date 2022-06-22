@@ -9,9 +9,6 @@ export default function() {
       v_progress: { type: "float" },
       v_age: { type: "float" }
     },
-    vertexHeader: `
-      attribute vec2 time;
-    `,
     vertexMain: `
       v_age = u_time - time.x;
       v_progress = v_age / (time.y - time.x);

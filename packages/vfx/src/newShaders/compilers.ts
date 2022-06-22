@@ -26,35 +26,27 @@ function compileVariables(
     .join("\n")
 }
 
-function compileProgram(shader: Shader, header: string, main: string) {
-  const { uniforms, varyings } = shader
-
+function compileProgram(shader: Shader, what: "fragment" | "vertex") {
   return `
-    ${compileVariables("uniform", uniforms, false)}
-    ${compileVariables("varying", varyings)}
-    ${header}
+    ${compileVariables("uniform", shader.uniforms, false)}
+    ${
+      what === "vertex"
+        ? compileVariables("attribute", shader.attributes, false)
+        : ""
+    }
+    ${compileVariables("varying", shader.varyings)}
+    ${shader[`${what}Header`]}
 
     void main() {
-      ${main}
+      ${shader[`${what}Main`]}
     }`
 }
 
 export function compileShader<U extends Variables>(shader: Shader<U>) {
   return {
     uniforms: shader.uniforms as U,
-
-    vertexShader: compileProgram(
-      shader,
-      shader.vertexHeader,
-      shader.vertexMain
-    ),
-
-    fragmentShader: compileProgram(
-      shader,
-      shader.fragmentHeader,
-      shader.fragmentMain
-    ),
-
+    vertexShader: compileProgram(shader, "vertex"),
+    fragmentShader: compileProgram(shader, "fragment"),
     update: shader.update!
   }
 }

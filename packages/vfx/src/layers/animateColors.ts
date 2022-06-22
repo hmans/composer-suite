@@ -12,10 +12,6 @@ export default function(fun = "v_progress") {
       v_color1: { type: "vec4" }
     },
 
-    vertexHeader: `
-    attribute vec4 color0;
-    attribute vec4 color1;
-  `,
     vertexMain: `
     v_color0 = color0;
     v_color1 = color1;
