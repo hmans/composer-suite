@@ -19,6 +19,7 @@ export function addShaders<
   }
 }
 
+/* TODO: properly type this */
 export function combineShaders(shaders: Shader[]) {
   return shaders.reduce(addShaders)
 }
