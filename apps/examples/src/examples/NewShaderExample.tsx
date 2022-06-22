@@ -1,8 +1,8 @@
 import CustomShaderMaterial from "three-custom-shader-material"
 import { MeshStandardMaterial } from "three"
 import {
+  addShaders,
   combineShaders,
-  combine,
   compileShader,
   createShader,
   Uniform
@@ -29,13 +29,15 @@ export const NewShaderExample = () => {
     vertexMain: `csm_Position *= 1.0 + sin(u_time * 3.0) * 0.3;`
   })
 
+  const m = addShaders(timeShader, colorShader)
+
   const material = compileShader(
-    combineShaders(
+    combineShaders([
       timeShader,
       colorShader,
       wobbleScaleShader,
       wobblePositionShader
-    )
+    ])
   )
 
   useFrame(material.update)
