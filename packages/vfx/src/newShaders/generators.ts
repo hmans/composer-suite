@@ -1,10 +1,10 @@
 import { Shader, Variables } from "."
 
-export function createShader<U extends Variables = {}>(
-  input: Partial<Shader<U>>
-): Shader<U> {
+export function createShader<Uniforms extends Variables = {}>(
+  input: Partial<Shader<Uniforms>>
+): Shader<Uniforms> {
   return {
-    uniforms: {} as U,
+    uniforms: {} as Uniforms,
     varyings: {},
     vertexHeader: "",
     vertexMain: "",

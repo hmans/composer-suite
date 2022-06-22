@@ -29,8 +29,6 @@ export const NewShaderExample = () => {
     vertexMain: `csm_Position *= 1.0 + sin(u_time * 3.0) * 0.3;`
   })
 
-  const twoMaterial = compileShader(combine(timeShader, wobblePositionShader))
-
   const material = compileShader(
     combineShaders(
       timeShader,
