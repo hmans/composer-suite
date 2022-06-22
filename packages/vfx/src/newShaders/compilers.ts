@@ -1,7 +1,7 @@
 import { formatValue } from "../shaders"
 import { IVariable, Shader, VariableQualifier, Variables } from "./types"
 
-export function compileVariable(
+function compileVariable(
   qualifier: VariableQualifier,
   name: string,
   { type, value }: IVariable
@@ -10,16 +10,13 @@ export function compileVariable(
   return `${qualifier} ${type} ${name}${valueString};`
 }
 
-export function compileVariables(
-  qualifier: VariableQualifier,
-  variables: Variables
-) {
+function compileVariables(qualifier: VariableQualifier, variables: Variables) {
   return Object.entries(variables)
     .map(([name, variable]) => compileVariable(qualifier, name, variable))
     .join("\n")
 }
 
-export function compileProgram(
+function compileProgram(
   shader: Shader,
   program: "vertexShader" | "fragmentShader"
 ) {
@@ -37,4 +34,12 @@ export function compileProgram(
     void main() {
       ${main}
     }`
+}
+
+export function compileMaterial(shader: Shader) {
+  return {
+    uniforms: shader.uniforms,
+    vertexShader: compileProgram(shader, "vertexShader"),
+    fragmentShader: compileProgram(shader, "fragmentShader")
+  }
 }
