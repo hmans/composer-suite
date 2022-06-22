@@ -1,9 +1,9 @@
 import { Shader, Variables } from "./types"
 
-export function addShaders<UniformsA, UniformsB>(
-  a: Shader<UniformsA>,
-  b: Shader<UniformsB>
-): Shader<UniformsA & UniformsB> {
+export function addShaders<
+  UniformsA extends Variables,
+  UniformsB extends Variables
+>(a: Shader<UniformsA>, b: Shader<UniformsB>): Shader<UniformsA & UniformsB> {
   return {
     uniforms: { ...a.uniforms, ...b.uniforms },
     varyings: { ...a.varyings, ...b.varyings },
