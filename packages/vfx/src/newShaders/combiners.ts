@@ -6,14 +6,10 @@ export function combineShaders(a: Shader, b: Shader): Shader {
 
     varyings: { ...a.varyings, ...b.varyings },
 
-    vertexShader: {
-      header: `${a.vertexShader.header} ${b.vertexShader.header}`,
-      main: `${a.vertexShader.main} ${b.vertexShader.main}`
-    },
+    vertexHeader: a.vertexHeader + b.vertexHeader,
+    vertexMain: a.vertexMain + b.vertexMain,
 
-    fragmentShader: {
-      header: `${a.fragmentShader.header} ${b.fragmentShader.header}`,
-      main: `${a.fragmentShader.main} ${b.fragmentShader.main}`
-    }
+    fragmentHeader: a.fragmentHeader + b.fragmentHeader,
+    fragmentMain: a.fragmentMain + b.fragmentMain
   }
 }

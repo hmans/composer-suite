@@ -31,14 +31,11 @@ export type Varying<T = any> = {
   value: T
 }
 
-export type Program = {
-  header: string
-  main: string
-}
-
 export type Shader = {
   uniforms: Record<string, Uniform>
   varyings: Record<string, Varying>
-  vertexShader: Program
-  fragmentShader: Program
+  vertexHeader: string
+  vertexMain: string
+  fragmentHeader: string
+  fragmentMain: string
 }

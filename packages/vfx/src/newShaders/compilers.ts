@@ -16,15 +16,8 @@ function compileVariables(qualifier: VariableQualifier, variables: Variables) {
     .join("\n")
 }
 
-function compileProgram(
-  shader: Shader,
-  program: "vertexShader" | "fragmentShader"
-) {
-  const {
-    uniforms,
-    varyings,
-    [program]: { header, main }
-  } = shader
+function compileProgram(shader: Shader, header: string, main: string) {
+  const { uniforms, varyings } = shader
 
   return `
     ${compileVariables("uniform", uniforms)}
@@ -39,7 +32,15 @@ function compileProgram(
 export function compileMaterial(shader: Shader) {
   return {
     uniforms: shader.uniforms,
-    vertexShader: compileProgram(shader, "vertexShader"),
-    fragmentShader: compileProgram(shader, "fragmentShader")
+    vertexShader: compileProgram(
+      shader,
+      shader.vertexHeader,
+      shader.vertexMain
+    ),
+    fragmentShader: compileProgram(
+      shader,
+      shader.fragmentHeader,
+      shader.fragmentMain
+    )
   }
 }
