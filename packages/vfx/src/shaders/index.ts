@@ -1,2 +1,2 @@
 export * from "./composableShader"
-export * from "./setupInstancedMesh"
+export * from "../MeshParticles/setupInstancedMesh"

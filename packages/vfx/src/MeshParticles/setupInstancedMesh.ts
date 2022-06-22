@@ -3,7 +3,7 @@ import {
   InstancedBufferGeometry,
   InstancedMesh
 } from "three"
-import { MeshParticlesMaterial } from "../MeshParticles"
+import { MeshParticlesMaterial } from "."
 
 export const setupInstancedMesh = (
   imesh: InstancedMesh<InstancedBufferGeometry, MeshParticlesMaterial>,
