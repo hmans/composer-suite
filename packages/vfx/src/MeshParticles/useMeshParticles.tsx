@@ -42,14 +42,19 @@ export function useMeshParticles(
       /* Grab some stuff we need */
       const { material, geometry } = imesh.current
       const { composedShader } = material.__vfx
-      const attributes = geometry.attributes as Record<string, InstancedBufferAttribute>
+      const attributes = geometry.attributes as Record<
+          string,
+          InstancedBufferAttribute
+        >
 
-      /* Configure the attributes to upload only the updated parts to the GPU. */
-      [imesh.current.instanceMatrix, ...Object.values(attributes)].forEach((attribute) => {
-        attribute.needsUpdate = true
-        attribute.updateRange.offset = cursor * attribute.itemSize
-        attribute.updateRange.count = count * attribute.itemSize
-      })
+        /* Configure the attributes to upload only the updated parts to the GPU. */
+      ;[imesh.current.instanceMatrix, ...Object.values(attributes)].forEach(
+        (attribute) => {
+          attribute.needsUpdate = true
+          attribute.updateRange.offset = cursor * attribute.itemSize
+          attribute.updateRange.count = count * attribute.itemSize
+        }
+      )
 
       /* For every spawned particle, write some data into the attribute buffers. */
       for (let i = 0; i < count; i++) {
@@ -76,14 +81,6 @@ export function useMeshParticles(
         components.color[0].setRGB(1, 1, 1)
         components.color[1].setRGB(1, 1, 1)
         components.alpha = [1, 0]
-
-        /* TODO: Apply origin */
-        // if (origin) {
-        //   origin.getWorldPosition(components.position)
-        //   origin.getWorldQuaternion(components.quaternion)
-        //   origin.getWorldScale(components.scale[0])
-        //   origin.getWorldScale(components.scale[1])
-        // }
 
         /* Run the setup function, when available */
         setup?.(components, i)

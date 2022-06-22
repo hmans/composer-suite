@@ -18,6 +18,7 @@ export type SetupCallback<C extends Configurator> = (
   configurator: C
 ) => void
 
+/* An individual module that can be composed together to create a shader. */
 export type Module<C extends Configurator> = {
   vertexHeader: string
   vertexMain: string
@@ -31,6 +32,7 @@ export type Module<C extends Configurator> = {
   update?: RenderCallback
 }
 
+/* The configuration for a complete shader, composed of a series of shader modules. */
 export type ComposedShader = {
   vertexShader: string
   fragmentShader: string
