@@ -2,12 +2,11 @@ import { Shader, Variables } from "./types"
 
 export function combineShaders<
   UniformsA extends Variables,
-  UniformsB extends Variables,
-  UniformsC extends Variables
+  UniformsB extends Variables
 >(
   a: Shader<UniformsA>,
   b: Shader<UniformsB>,
-  ...rest: Shader<UniformsC>[]
+  ...rest: Shader<any>[]
 ): Shader<UniformsA & UniformsB> {
   const ab: Shader<UniformsA & UniformsB> = {
     uniforms: { ...a.uniforms, ...b.uniforms },
@@ -25,6 +24,6 @@ export function combineShaders<
 
   if (!rest.length) return ab
 
-  const [c, ...rest2] = rest
-  return combineShaders(ab, c, ...rest2)
+  const [c, ...remaining] = rest
+  return combineShaders(ab, c, ...remaining)
 }
