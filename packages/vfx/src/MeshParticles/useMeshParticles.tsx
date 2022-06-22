@@ -1,23 +1,29 @@
 import { MutableRefObject, useLayoutEffect, useMemo, useRef } from "react"
 import {
   InstancedBufferAttribute,
+  InstancedBufferGeometry,
   InstancedMesh,
-  Object3D,
-  ShaderMaterial
+  Object3D
 } from "three"
 import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
 import { setupInstancedMesh } from "../util/attributes"
 import { tmpMatrix4, tmpScale } from "./MeshParticles"
+import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
+
+export type MeshParticles = InstancedMesh<
+  InstancedBufferGeometry,
+  MeshParticlesMaterial
+>
 
 export function useMeshParticles(
   maxParticles: number,
   safetySize: number
-): [MutableRefObject<InstancedMesh>, ParticlesAPI] {
+): [MutableRefObject<MeshParticles>, ParticlesAPI] {
   /* The safetySize allows us to emit a batch of particles that would otherwise
      exceed the maximum instance count (which would make WebGL crash.) This way, we don't
      have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
-  const imesh = useRef<InstancedMesh>(null!)
+  const imesh = useRef<MeshParticles>(null!)
 
   useLayoutEffect(() => {
     setupInstancedMesh(imesh.current, maxInstanceCount)
@@ -91,8 +97,7 @@ export function useMeshParticles(
         )
 
         /* Set times */
-        const currentTime = (imesh.current.material as ShaderMaterial).uniforms
-          .u_time.value
+        const currentTime = imesh.current.material.uniforms.u_time.value
         attributes.time.setXY(
           playhead,
           currentTime + components.delay,
