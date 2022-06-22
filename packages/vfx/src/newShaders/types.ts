@@ -31,7 +31,7 @@ export type Attribute = {
 
 export type Varying<T = any> = {
   type: GLSLType
-  value: T
+  value?: T
 }
 
 export type UpdateCallback = RenderCallback

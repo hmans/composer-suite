@@ -5,10 +5,12 @@ export default function() {
     attributes: {
       time: { type: "vec2", itemSize: 2 }
     },
+    varyings: {
+      v_progress: { type: "float" },
+      v_age: { type: "float" }
+    },
     vertexHeader: `
       attribute vec2 time;
-      varying float v_progress;
-      varying float v_age;
     `,
     vertexMain: `
       v_age = u_time - time.x;
@@ -17,10 +19,6 @@ export default function() {
       if (v_progress < 0.0 || v_progress > 1.0) {
         csm_Position *= 0.0;;
       }
-    `,
-    fragmentHeader: `
-      varying float v_progress;
-      varying float v_age;
     `,
     fragmentMain: `
       /* Discard this instance if it is not in the current time range */

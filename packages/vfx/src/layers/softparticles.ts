@@ -12,9 +12,9 @@ export default function(
   return createShader({
     uniforms,
 
-    vertexHeader: `
-      varying float v_viewZ;
-    `,
+    varyings: {
+      v_viewZ: { type: "float" }
+    },
 
     vertexMain: `
       vec4 viewPosition	= viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);
@@ -22,8 +22,6 @@ export default function(
     `,
 
     fragmentHeader: `
-      varying float v_viewZ;
-
       float readDepth(vec2 coord) {
         float depthZ = texture2D(u_depth, coord).x;
         float viewZ = perspectiveDepthToViewZ(depthZ, u_cameraNear, u_cameraFar);

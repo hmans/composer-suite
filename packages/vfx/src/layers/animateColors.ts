@@ -1,4 +1,3 @@
-import { Color } from "three"
 import { createShader } from "../newShaders"
 
 export default function(fun = "v_progress") {
@@ -8,19 +7,18 @@ export default function(fun = "v_progress") {
       color1: { type: "vec4", itemSize: 4 }
     },
 
+    varyings: {
+      v_color0: { type: "vec4" },
+      v_color1: { type: "vec4" }
+    },
+
     vertexHeader: `
     attribute vec4 color0;
     attribute vec4 color1;
-    varying vec4 v_color0;
-    varying vec4 v_color1;
   `,
     vertexMain: `
     v_color0 = color0;
     v_color1 = color1;
-  `,
-    fragmentHeader: `
-    varying vec4 v_color0;
-    varying vec4 v_color1;
   `,
     fragmentMain: `
     /* Get diffuse color */
