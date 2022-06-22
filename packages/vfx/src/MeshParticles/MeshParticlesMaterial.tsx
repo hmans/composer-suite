@@ -51,9 +51,9 @@ export const MeshParticlesMaterial = forwardRef<
         combineShaders([
           timeShader(),
           lifetimeShader(),
+          scaleShader(),
           movementShader(),
-          colorShader(),
-          scaleShader()
+          colorShader()
         ]),
       []
     )
