@@ -1,4 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
+import { BufferGeometry } from "three"
 
 export type Uniform<T = any> = {
   value: T
@@ -7,8 +8,17 @@ export type Uniform<T = any> = {
 export type Attribute = {
   itemSize: number
 }
+export type Configurator = Record<string, any>
 
-export type Module = {
+export type ConfiguratorCallback<C extends Configurator> = () => C
+
+export type SetupCallback<C extends Configurator> = (
+  geometry: BufferGeometry,
+  index: number,
+  configurator: C
+) => void
+
+export type Module<C extends Configurator> = {
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string
@@ -16,6 +26,8 @@ export type Module = {
   uniforms: Record<string, Uniform>
   attributes: Record<string, Attribute>
 
+  configurator?: ConfiguratorCallback<C>
+  setup?: SetupCallback<C>
   update?: RenderCallback
 }
 
@@ -27,7 +39,9 @@ export type ComposedShader = {
   update: RenderCallback
 }
 
-export const module = (input: Partial<Module>): Module => ({
+export const module = <C extends Configurator>(
+  input: Partial<Module<C>>
+): Module<C> => ({
   vertexHeader: "",
   vertexMain: "",
   fragmentHeader: "",
@@ -41,9 +55,9 @@ export const formatValue = (value: any) =>
   typeof value === "number" ? value.toFixed(5) : value
 
 export const composableShader = () => {
-  const modules = new Array<Module>()
+  const modules = new Array<Module<any>>()
 
-  function addModule(module: Module) {
+  function addModule(module: Module<any>) {
     modules.push(module)
   }
 
