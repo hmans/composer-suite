@@ -1,4 +1,11 @@
-import { Shader, Variable, VariableQualifier, Variables } from "./types"
+import {
+  Attribute,
+  Shader,
+  Uniform,
+  VariableQualifier,
+  Variables,
+  Varying
+} from "./types"
 
 export const formatValue = (value: any) =>
   typeof value === "number" ? value.toFixed(5) : value
@@ -6,12 +13,15 @@ export const formatValue = (value: any) =>
 function compileVariable(
   qualifier: VariableQualifier,
   name: string,
-  { type, value }: Variable,
+  variable: Uniform | Attribute | Varying,
   initializeValue = true
 ) {
   const valueString =
-    initializeValue && value !== undefined ? ` = ${formatValue(value)}` : ""
-  return `${qualifier} ${type} ${name}${valueString};`
+    initializeValue && "value" in variable && variable.value !== undefined
+      ? ` = ${formatValue(variable.value)}`
+      : ""
+
+  return `${qualifier} ${variable.type} ${name}${valueString};`
 }
 
 function compileVariables(
@@ -42,9 +52,9 @@ function compileProgram(shader: Shader, what: "fragment" | "vertex") {
     }`
 }
 
-export function compileShader<U extends Variables>(shader: Shader<U>) {
+export function compileShader(shader: Shader) {
   return {
-    uniforms: shader.uniforms as U,
+    uniforms: shader.uniforms,
     vertexShader: compileProgram(shader, "vertex"),
     fragmentShader: compileProgram(shader, "fragment"),
     update: shader.update!

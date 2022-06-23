@@ -13,28 +13,23 @@ export type GLSLType =
 
 export type GLSLChunk = string
 
-export type Variable<T = any> = {
-  value?: T
-  type: GLSLType
-}
-
-export type Variables = Record<string, Variable>
-
 export type VariableQualifier = "uniform" | "attribute" | "varying"
 
-export type Uniform<T = any> = Variable<T>
+export type Uniform<T = any> = { type: GLSLType; value: T }
+export type Uniforms = Record<string, Uniform>
 
-export type Varying<T = any> = Variable<T>
+export type Varying<T = any> = { type: GLSLType }
+export type Varyings = Record<string, Varying>
 
-export type Attribute<T = any> = Variable<T>
+export type Attribute<T = any> = { type: GLSLType }
+export type Attributes = Record<string, Attribute>
+
+export type Variable<T = any> = Attribute<T> | Uniform<T> | Varying<T>
+export type Variables = Record<string, Variable>
 
 export type UpdateCallback = RenderCallback
 
-export type Shader<
-  U extends Variables = Record<string, Uniform>,
-  V extends Variables = Record<string, Varying>,
-  A extends Variables = Record<string, Attribute>
-> = {
+export type Shader<U = Uniforms, V = Varyings, A = Attributes> = {
   uniforms: U
   varyings: V
   attributes: A
