@@ -32,13 +32,11 @@ export const GLTFParticles = () => {
 
             c.velocity.set(0, 0, -between(10, 70)).applyQuaternion(c.quaternion)
 
-            c.delay = upTo(1)
-            c.lifetime = 20
+            c.lifetime.delay = upTo(1)
+            c.lifetime.duration = 20
 
-            c.alpha = [1, 1]
-
-            c.scale[0].setScalar(0.3)
-            c.scale[1].setScalar(0.3)
+            c.scale.min.setScalar(0.3)
+            c.scale.max.setScalar(0.3)
           }}
         />
       </Repeat>

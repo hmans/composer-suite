@@ -26,12 +26,10 @@ export const DustExample = ({ intensity = 300 }) => {
           c.quaternion.random()
           c.position.set(plusMinus(30), plusMinus(30), plusMinus(30))
           c.velocity.randomDirection().multiplyScalar(upTo(0.2))
-          c.lifetime.duration = Infinity
 
           const scale = between(0.1, 0.2)
           c.scale.min.setScalar(scale)
           c.scale.max.setScalar(scale)
-          c.alpha = [1, 1]
         }}
       />
     </MeshParticles>

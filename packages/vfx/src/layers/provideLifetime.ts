@@ -38,7 +38,7 @@ export default function() {
 
     reset: (mesh) => {
       configurator.lifetime.delay = 0
-      configurator.lifetime.duration = 1
+      configurator.lifetime.duration = Infinity
     },
 
     apply: (mesh, cursor) => {
