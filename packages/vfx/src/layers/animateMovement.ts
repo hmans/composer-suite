@@ -11,6 +11,7 @@ export default function() {
     velocity: new Vector3(),
     acceleration: new Vector3()
   }
+
   return createShader({
     attributes: {
       velocity: { type: "vec3", itemSize: 3 },
