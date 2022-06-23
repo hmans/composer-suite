@@ -44,14 +44,14 @@ export default function(fun = "v_progress") {
 
     configurator,
 
-    reset: (mesh) => {
+    resetConfiguration: (mesh) => {
       configurator.color.min.setRGB(1, 1, 1)
       configurator.color.max.setRGB(1, 1, 1)
       configurator.alpha.min = 1
       configurator.alpha.max = 1
     },
 
-    apply: ({ geometry: { attributes } }, cursor) => {
+    applyConfiguration: ({ geometry: { attributes } }, cursor) => {
       /* Set color */
       attributes.color0.setXYZW(
         cursor,

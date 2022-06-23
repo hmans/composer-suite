@@ -74,9 +74,9 @@ export function useMeshParticles(
       /* Spawn particles, yay! */
       for (let i = 0; i < count; i++) {
         /* Initialize new particle */
-        shader.reset!(imesh.current)
+        shader.resetConfiguration!(imesh.current)
         setup?.(shader.configurator, i)
-        shader.apply!(imesh.current, cursor)
+        shader.applyConfiguration!(imesh.current, cursor)
 
         /* Advance playhead */
         cursor++

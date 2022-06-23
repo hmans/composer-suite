@@ -18,14 +18,14 @@ export function addShaders<
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,
     fragmentMain: a.fragmentMain + b.fragmentMain,
 
-    reset: (...args) => {
-      a.reset?.(...args)
-      b.reset?.(...args)
+    resetConfiguration: (...args) => {
+      a.resetConfiguration?.(...args)
+      b.resetConfiguration?.(...args)
     },
 
-    apply: (...args) => {
-      a.apply?.(...args)
-      b.apply?.(...args)
+    applyConfiguration: (...args) => {
+      a.applyConfiguration?.(...args)
+      b.applyConfiguration?.(...args)
     },
 
     update: (...args) => {

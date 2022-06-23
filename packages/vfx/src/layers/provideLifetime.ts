@@ -36,12 +36,12 @@ export default function() {
 
     configurator,
 
-    reset: (mesh) => {
+    resetConfiguration: (mesh) => {
       configurator.lifetime.delay = 0
       configurator.lifetime.duration = Infinity
     },
 
-    apply: (mesh, cursor) => {
+    applyConfiguration: (mesh, cursor) => {
       /* Set times */
       const currentTime = mesh.material.uniforms.u_time.value
       mesh.geometry.attributes.time.setXY(

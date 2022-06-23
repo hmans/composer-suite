@@ -21,12 +21,12 @@ export default function(fun = "v_progress") {
 
     configurator,
 
-    reset: (mesh) => {
+    resetConfiguration: (mesh) => {
       configurator.scale.min.setScalar(1)
       configurator.scale.max.setScalar(1)
     },
 
-    apply: ({ geometry: { attributes } }, cursor) => {
+    applyConfiguration: ({ geometry: { attributes } }, cursor) => {
       attributes.scale0.setXYZ(cursor, ...configurator.scale.min.toArray())
       attributes.scale1.setXYZ(cursor, ...configurator.scale.max.toArray())
     }

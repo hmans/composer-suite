@@ -24,14 +24,14 @@ export default function() {
 
     configurator,
 
-    reset: (mesh) => {
+    resetConfiguration: (mesh) => {
       configurator.position.set(0, 0, 0)
       configurator.quaternion.set(0, 0, 0, 1)
       configurator.velocity.set(0, 0, 0)
       configurator.acceleration.set(0, 0, 0)
     },
 
-    apply: (mesh, cursor) => {
+    applyConfiguration: (mesh, cursor) => {
       /* Set origin position of the instance */
       mesh.setMatrixAt(
         cursor,
