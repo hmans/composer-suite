@@ -1,3 +1,4 @@
+import { Quaternion, Vector3 } from "three"
 import { createShader } from "../lib/shadermaker"
 
 export default function() {
@@ -5,6 +6,13 @@ export default function() {
     attributes: {
       velocity: { type: "vec3", itemSize: 3 },
       acceleration: { type: "vec3", itemSize: 3 }
+    },
+
+    configurator: {
+      position: new Vector3(),
+      quaternion: new Quaternion(),
+      velocity: new Vector3(),
+      acceleration: new Vector3()
     },
 
     vertexMain: `

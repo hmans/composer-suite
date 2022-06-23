@@ -5,10 +5,17 @@ export default function() {
     attributes: {
       time: { type: "vec2", itemSize: 2 }
     },
+
     varyings: {
       v_progress: { type: "float" },
       v_age: { type: "float" }
     },
+
+    configurator: {
+      delay: 0,
+      duration: 1
+    },
+
     vertexMain: `
       v_age = u_time - time.x;
       v_progress = v_age / (time.y - time.x);

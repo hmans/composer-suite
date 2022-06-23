@@ -7,7 +7,7 @@ import {
   Object3D,
   Vector3
 } from "three"
-import { components, ParticlesAPI, SpawnSetup } from "../ParticlesContext"
+import { ParticlesAPI, SpawnSetup } from "../ParticlesContext"
 import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
 import { setupInstancedMesh } from "./setupInstancedMesh"
 
@@ -70,27 +70,29 @@ export function useMeshParticles(
         }
 
         /* Initialize components */
-        components.position.set(0, 0, 0)
-        components.quaternion.set(0, 0, 0, 1)
-        components.velocity.set(0, 0, 0)
-        components.acceleration.set(0, 0, 0)
-        components.scale[0].set(1, 1, 1)
-        components.scale[1].set(1, 1, 1)
-        components.delay = 0
-        components.lifetime = 1
-        components.color[0].setRGB(1, 1, 1)
-        components.color[1].setRGB(1, 1, 1)
-        components.alpha = [1, 0]
+        const config = shader.configurator
+        config.position.set(0, 0, 0)
+        config.quaternion.set(0, 0, 0, 1)
+        config.velocity.set(0, 0, 0)
+        config.acceleration.set(0, 0, 0)
+        config.scale.min.set(1, 1, 1)
+        config.scale.max.set(1, 1, 1)
+        config.delay = 0
+        config.lifetime = 1
+        config.color.min.setRGB(1, 1, 1)
+        config.color.max.setRGB(1, 1, 1)
+        config.alpha.min = 1
+        config.alpha.max = 1
 
         /* Run the setup function, when available */
-        setup?.(components, i)
+        setup?.(config, i)
 
         /* First of all, write the particle's starting transform into the instance buffer. */
         imesh.current.setMatrixAt(
           cursor,
           tmpMatrix4.compose(
-            components.position,
-            components.quaternion,
+            config.position,
+            config.quaternion,
             tmpScale.setScalar(1)
           )
         )
@@ -99,38 +101,47 @@ export function useMeshParticles(
         const currentTime = imesh.current.material.uniforms.u_time.value
         attributes.time.setXY(
           cursor,
-          currentTime + components.delay,
-          currentTime + components.lifetime
+          currentTime + config.delay,
+          currentTime + config.lifetime
         )
 
         /* Set velocity */
-        attributes.velocity.setXYZ(cursor, ...components.velocity.toArray())
+        attributes.velocity.setXYZ(
+          cursor,
+          ...(config.velocity.toArray() as [number, number, number])
+        )
 
         /* Set acceleration */
         attributes.acceleration.setXYZ(
           cursor,
-          ...components.acceleration.toArray()
+          ...(config.acceleration.toArray() as [number, number, number])
         )
 
         /* Set color */
         attributes.color0.setXYZW(
           cursor,
-          components.color[0].r,
-          components.color[0].g,
-          components.color[0].b,
-          components.alpha[0]
+          config.color.min.r,
+          config.color.min.g,
+          config.color.min.b,
+          config.alpha.min
         )
         attributes.color1.setXYZW(
           cursor,
-          components.color[1].r,
-          components.color[1].g,
-          components.color[1].b,
-          components.alpha[1]
+          config.color.max.r,
+          config.color.max.g,
+          config.color.max.b,
+          config.alpha.max
         )
 
         /* Set scale */
-        attributes.scale0.setXYZ(cursor, ...components.scale[0].toArray())
-        attributes.scale1.setXYZ(cursor, ...components.scale[1].toArray())
+        attributes.scale0.setXYZ(
+          cursor,
+          ...(config.scale.min.toArray() as [number, number, number])
+        )
+        attributes.scale1.setXYZ(
+          cursor,
+          ...(config.scale.max.toArray() as [number, number, number])
+        )
 
         /* Advance playhead */
         cursor++

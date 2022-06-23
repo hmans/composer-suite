@@ -1,3 +1,4 @@
+import { Color } from "three"
 import { createShader } from "../lib/shadermaker"
 
 export default function(fun = "v_progress") {
@@ -10,6 +11,17 @@ export default function(fun = "v_progress") {
     varyings: {
       v_color0: { type: "vec4" },
       v_color1: { type: "vec4" }
+    },
+
+    configurator: {
+      color: {
+        min: new Color(),
+        max: new Color()
+      },
+      alpha: {
+        min: 1,
+        max: 1
+      }
     },
 
     vertexMain: `

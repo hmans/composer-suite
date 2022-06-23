@@ -40,6 +40,7 @@ export type Shader<TUniforms extends Variables = {}> = {
   uniforms: TUniforms
   varyings: Record<string, Varying>
   attributes: Record<string, Attribute>
+  configurator: Record<string, any>
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string
