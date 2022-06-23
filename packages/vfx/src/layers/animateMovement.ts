@@ -1,5 +1,8 @@
-import { Quaternion, Vector3 } from "three"
+import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
 import { createShader } from "../lib/shadermaker"
+
+const tmpMatrix4 = new Matrix4()
+const tmpScale = new Vector3()
 
 export default function() {
   const configurator = {
@@ -27,7 +30,19 @@ export default function() {
       configurator.acceleration.set(0, 0, 0)
     },
 
-    apply: ({ geometry: { attributes } }, cursor) => {
+    apply: (mesh, cursor) => {
+      /* Set origin position of the instance */
+      ;(mesh as InstancedMesh).setMatrixAt(
+        cursor,
+        tmpMatrix4.compose(
+          configurator.position,
+          configurator.quaternion,
+          tmpScale.setScalar(1)
+        )
+      )
+
+      /* Set attributes */
+      const { attributes } = mesh.geometry
       attributes.velocity.setXYZ(cursor, ...configurator.velocity.toArray())
       attributes.acceleration.setXYZ(
         cursor,

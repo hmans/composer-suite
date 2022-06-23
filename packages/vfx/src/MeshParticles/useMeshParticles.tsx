@@ -75,38 +75,12 @@ export function useMeshParticles(
         setup?.(config, i)
         shader.apply?.(imesh.current, cursor)
 
-        /* First of all, write the particle's starting transform into the instance buffer. */
-        imesh.current.setMatrixAt(
-          cursor,
-          tmpMatrix4.compose(
-            config.position,
-            config.quaternion,
-            tmpScale.setScalar(1)
-          )
-        )
-
         /* Set times */
         const currentTime = imesh.current.material.uniforms.u_time.value
         attributes.time.setXY(
           cursor,
           currentTime + config.delay,
           currentTime + config.lifetime
-        )
-
-        /* Set color */
-        attributes.color0.setXYZW(
-          cursor,
-          config.color.min.r,
-          config.color.min.g,
-          config.color.min.b,
-          config.alpha.min
-        )
-        attributes.color1.setXYZW(
-          cursor,
-          config.color.max.r,
-          config.color.max.g,
-          config.color.max.b,
-          config.alpha.max
         )
 
         /* Advance playhead */

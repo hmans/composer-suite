@@ -49,6 +49,24 @@ export default function(fun = "v_progress") {
       configurator.color.max.setRGB(1, 1, 1)
       configurator.alpha.min = 1
       configurator.alpha.max = 1
+    },
+
+    apply: ({ geometry: { attributes } }, cursor) => {
+      /* Set color */
+      attributes.color0.setXYZW(
+        cursor,
+        configurator.color.min.r,
+        configurator.color.min.g,
+        configurator.color.min.b,
+        configurator.alpha.min
+      )
+      attributes.color1.setXYZW(
+        cursor,
+        configurator.color.max.r,
+        configurator.color.max.g,
+        configurator.color.max.b,
+        configurator.alpha.max
+      )
     }
 
     // setup: (geometry, index) => {
