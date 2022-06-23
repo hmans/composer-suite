@@ -71,14 +71,12 @@ export function useMeshParticles(
         attribute.updateRange.count = count * attribute.itemSize
       })
 
-      /* For every spawned particle, write some data into the attribute buffers. */
+      /* Spawn particles, yay! */
       for (let i = 0; i < count; i++) {
         /* Initialize new particle */
-        if (setup && shader.reset && shader.apply) {
-          shader.reset(imesh.current)
-          setup(shader.configurator, i)
-          shader.apply(imesh.current, cursor)
-        }
+        shader.reset!(imesh.current)
+        setup?.(shader.configurator, i)
+        shader.apply!(imesh.current, cursor)
 
         /* Advance playhead */
         cursor++
