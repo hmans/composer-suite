@@ -1,10 +1,10 @@
-import { createShader, formatValue, Variables } from "../shaders"
+import { createShader, formatValue, Uniforms } from "../shaders"
 
 export default function(
   softness = 1,
   fun = "clamp(distance / softness, 0.0, 1.0)"
 ) {
-  const uniforms: Variables = {
+  const uniforms: Uniforms = {
     u_cameraNear: { type: "float", value: 0 },
     u_cameraFar: { type: "float", value: 1 }
   }
