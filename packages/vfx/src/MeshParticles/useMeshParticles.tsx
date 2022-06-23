@@ -4,7 +4,6 @@ import {
   InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
-  Object3D,
   Vector3
 } from "three"
 import { ParticlesAPI, SpawnSetup } from "../ParticlesContext"
@@ -38,7 +37,7 @@ export function useMeshParticles(
     let cursor = 0
 
     /* This function will spawn new particles. */
-    return (count: number, setup?: SpawnSetup, origin?: Object3D) => {
+    return (count: number, setup?: SpawnSetup) => {
       /* Grab some stuff we need */
       const { material, geometry } = imesh.current
       const { shader } = material.__vfx
