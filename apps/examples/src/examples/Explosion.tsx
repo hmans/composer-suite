@@ -90,7 +90,6 @@ const Rocks = () => (
 
         c.color.min.lerpColors(new Color("#444"), new Color("#000"), power(3))
         c.color.max.copy(c.color.min)
-        c.alpha.max = 0
       }}
     />
   </MeshParticles>
@@ -103,6 +102,7 @@ const Fireball = () => (
       baseMaterial={MeshStandardMaterial}
       color="#fff"
       depthWrite={false}
+      transparent
     />
 
     <Emitter
@@ -169,7 +169,7 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
         c.lifetime.duration = between(1, 3)
 
         c.alpha.min = 0.5
-        c.alpha.max = 1
+        c.alpha.max = 0
 
         c.color.min.lerpColors(new Color("#888"), new Color("#666"), power(3))
         c.color.max.copy(c.color.min)
