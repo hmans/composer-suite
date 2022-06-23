@@ -15,13 +15,12 @@ export const Snow = ({ intensity = 100, lifetime = 10 }) => {
   const setup = ({ preDelay = false } = {}): SpawnSetup => (c) => {
     c.position.set(5 + plusMinus(20), 40, plusMinus(20))
     c.velocity.set(-2 + plusMinus(2), -10 + plusMinus(2), plusMinus(2))
-    c.delay = upTo(1) - (preDelay ? upTo(lifetime) : 0)
-    c.lifetime = lifetime
+    c.lifetime.delay = upTo(1) - (preDelay ? upTo(lifetime) : 0)
+    c.lifetime.duration = lifetime
 
     const scale = between(0.1, 0.2)
-    c.scale[0].setScalar(scale)
-    c.scale[1].setScalar(scale)
-    c.alpha = [1, 1]
+    c.scale.min.setScalar(scale)
+    c.scale.max.setScalar(scale)
   }
 
   return (
