@@ -29,7 +29,11 @@ export function useMeshParticles(
   const imesh = useRef<MeshParticles>(null!)
 
   useLayoutEffect(() => {
-    prepareInstancedMesh(imesh.current, maxInstanceCount)
+    prepareInstancedMesh(
+      imesh.current,
+      imesh.current.material.__vfx.shader,
+      maxInstanceCount
+    )
   }, [])
 
   const spawnParticle = useMemo(() => {

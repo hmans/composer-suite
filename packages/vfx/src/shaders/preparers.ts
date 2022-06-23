@@ -1,10 +1,11 @@
 import {
   InstancedBufferAttribute,
   InstancedBufferGeometry,
-  InstancedMesh
+  InstancedMesh,
+  ShaderMaterial
 } from "three"
 import { MeshParticlesMaterial } from "../MeshParticles"
-import { GLSLType } from "../shaders"
+import { GLSLType, Shader } from "../shaders"
 
 const itemSizes: Record<GLSLType, number> = {
   float: 1,
@@ -18,13 +19,11 @@ const itemSizes: Record<GLSLType, number> = {
 }
 
 export const prepareInstancedMesh = (
-  imesh: InstancedMesh<InstancedBufferGeometry, MeshParticlesMaterial>,
+  imesh: InstancedMesh<InstancedBufferGeometry>,
+  shader: Shader,
   maxInstanceCount: number
 ) => {
-  /* Get the composed shader from the material */
-  const { shader } = imesh.material.__vfx
-
-  /* Now create all the attributes configured in the composed shader. */
+  /* Create all the attributes configured in the shader. */
   for (const name in shader.attributes) {
     const itemSize = itemSizes[shader.attributes[name].type]
     const buffer = new Float32Array(maxInstanceCount * itemSize)
@@ -33,5 +32,6 @@ export const prepareInstancedMesh = (
     imesh.geometry.setAttribute(name, attribute)
   }
 
+  /* Start with an instance count of zero. */
   imesh.count = 0
 }
