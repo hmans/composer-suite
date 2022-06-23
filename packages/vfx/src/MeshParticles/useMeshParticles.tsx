@@ -43,18 +43,21 @@ export function useMeshParticles(
       const { material, geometry } = imesh.current
       const { shader } = material.__vfx
       const attributes = geometry.attributes as Record<
-          string,
-          InstancedBufferAttribute
-        >
+        string,
+        InstancedBufferAttribute
+      >
 
-        /* Configure the attributes to upload only the updated parts to the GPU. */
-      ;[imesh.current.instanceMatrix, ...Object.values(attributes)].forEach(
-        (attribute) => {
-          attribute.needsUpdate = true
-          attribute.updateRange.offset = cursor * attribute.itemSize
-          attribute.updateRange.count = count * attribute.itemSize
-        }
-      )
+      /* Configure the attributes to upload only the updated parts to the GPU. */
+      const allAttributes = [
+        imesh.current.instanceMatrix,
+        ...Object.values(attributes)
+      ]
+
+      allAttributes.forEach((attribute) => {
+        attribute.needsUpdate = true
+        attribute.updateRange.offset = cursor * attribute.itemSize
+        attribute.updateRange.count = count * attribute.itemSize
+      })
 
       /* For every spawned particle, write some data into the attribute buffers. */
       for (let i = 0; i < count; i++) {
@@ -69,10 +72,9 @@ export function useMeshParticles(
           return
         }
 
-        /* Initialize components */
-        const config = shader.configurator
+        /* Initialize new particle */
         shader.reset?.(imesh.current)
-        setup?.(config, i)
+        setup?.(shader.configurator, i)
         shader.apply?.(imesh.current, cursor)
 
         /* Advance playhead */
