@@ -71,20 +71,7 @@ export function useMeshParticles(
 
         /* Initialize components */
         const config = shader.configurator
-        config.position.set(0, 0, 0)
-        config.quaternion.set(0, 0, 0, 1)
-        config.velocity.set(0, 0, 0)
-        config.acceleration.set(0, 0, 0)
-        config.scale.min.set(1, 1, 1)
-        config.scale.max.set(1, 1, 1)
-        config.delay = 0
-        config.lifetime = 1
-        config.color.min.setRGB(1, 1, 1)
-        config.color.max.setRGB(1, 1, 1)
-        config.alpha.min = 1
-        config.alpha.max = 1
-
-        /* Run the setup function, when available */
+        shader.reset?.(imesh.current)
         setup?.(config, i)
 
         /* First of all, write the particle's starting transform into the instance buffer. */

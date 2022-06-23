@@ -35,6 +35,10 @@ export const Simple = () => {
               .multiplyScalar(between(1, 5))
 
             c.lifetime = between(0.5, 2.5)
+
+            c.alpha.max = 0
+
+            c.scale.max.setScalar(5)
           }}
         />
       </Repeat>

@@ -1,4 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
+import { Mesh } from "three"
 
 export type GLSLType =
   | "float"
@@ -40,10 +41,13 @@ export type Shader<TUniforms extends Variables = {}> = {
   uniforms: TUniforms
   varyings: Record<string, Varying>
   attributes: Record<string, Attribute>
-  configurator: Record<string, any>
   vertexHeader: string
   vertexMain: string
   fragmentHeader: string
   fragmentMain: string
+
+  configurator: Record<string, any>
+  reset?: (mesh: Mesh) => void
+  apply?: (mesh: Mesh, index: number) => void
   update?: RenderCallback
 }

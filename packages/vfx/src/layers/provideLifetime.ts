@@ -1,6 +1,11 @@
 import { createShader } from "../lib/shadermaker"
 
 export default function() {
+  const configurator = {
+    delay: 0,
+    duration: 1
+  }
+
   return createShader({
     attributes: {
       time: { type: "vec2", itemSize: 2 }
@@ -11,11 +16,6 @@ export default function() {
       v_age: { type: "float" }
     },
 
-    configurator: {
-      delay: 0,
-      duration: 1
-    },
-
     vertexMain: `
       v_age = u_time - time.x;
       v_progress = v_age / (time.y - time.x);
@@ -24,11 +24,19 @@ export default function() {
         csm_Position *= 0.0;;
       }
     `,
+
     fragmentMain: `
       /* Discard this instance if it is not in the current time range */
       if (v_progress < 0.0 || v_progress > 1.0) {
         discard;
       }
-    `
+    `,
+
+    configurator,
+
+    reset: (mesh) => {
+      configurator.delay = 0
+      configurator.duration = 1
+    }
   })
 }
