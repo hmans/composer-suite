@@ -49,13 +49,14 @@ const SmokeRing: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
 
           c.acceleration.copy(direction).multiplyScalar(-3)
 
-          c.scale[0].setScalar(1 + plusMinus(0.3))
-          c.scale[1].setScalar(0)
+          c.scale.min.setScalar(1 + plusMinus(0.3))
+          c.scale.max.setScalar(0)
 
-          c.lifetime = between(0.5, 1.5)
+          c.lifetime.duration = between(0.5, 1.5)
 
-          c.color[0].setScalar(1)
-          c.color[1].setScalar(0)
+          c.color.min.setScalar(1)
+          c.color.max.setScalar(0)
+          c.alpha.max = 0
         }}
       />
     </Repeat>
@@ -82,13 +83,14 @@ const Rocks = () => (
 
         c.acceleration.copy(gravity)
 
-        c.scale[0].setScalar(0.2 + power(3) * 1)
-        c.scale[1].copy(c.scale[0])
+        c.scale.min.setScalar(0.2 + power(3) * 1)
+        c.scale.max.copy(c.scale.min)
 
-        c.lifetime = between(0.5, 1.5)
+        c.lifetime.duration = between(0.5, 1.5)
 
-        c.color[0].lerpColors(new Color("#444"), new Color("#000"), power(3))
-        c.color[1].copy(c.color[0])
+        c.color.min.lerpColors(new Color("#444"), new Color("#000"), power(3))
+        c.color.max.copy(c.color.min)
+        c.alpha.max = 0
       }}
     />
   </MeshParticles>
@@ -110,18 +112,19 @@ const Fireball = () => (
         c.position.copy(direction).multiplyScalar(between(0, 2))
         c.velocity.copy(direction).multiplyScalar(between(2, 4))
 
-        c.scale[0].setScalar(between(0.5, 1))
-        c.scale[1].setScalar(between(3, 6))
+        c.scale.min.setScalar(between(0.5, 1))
+        c.scale.max.setScalar(between(3, 6))
 
-        c.delay = upTo(0.3)
-        c.lifetime = between(0.8, 1.4)
+        c.lifetime.delay = upTo(0.3)
+        c.lifetime.duration = between(0.8, 1.4)
 
-        c.color[0].lerpColors(
+        c.color.min.lerpColors(
           new Color("red").multiplyScalar(30),
           new Color("yellow").multiplyScalar(50),
           power(3)
         )
-        c.color[1].copy(c.color[0])
+        c.color.max.copy(c.color.min)
+        c.alpha.max = 0
       }}
     />
   </MeshParticles>
@@ -159,16 +162,17 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
           .multiplyScalar(between(0, 3))
           .add(direction.clone().multiplyScalar(-between(2, 5)))
 
-        c.scale[0].setScalar(between(0.5, 1.5))
-        c.scale[1].setScalar(between(6, 20))
+        c.scale.min.setScalar(between(0.5, 1.5))
+        c.scale.max.setScalar(between(6, 20))
 
-        c.delay = upTo(0.1)
-        c.lifetime = between(1, 3)
+        c.lifetime.delay = upTo(0.1)
+        c.lifetime.duration = between(1, 3)
 
-        c.alpha = [0.5, 0]
+        c.alpha.min = 0.5
+        c.alpha.max = 1
 
-        c.color[0].lerpColors(new Color("#888"), new Color("#666"), power(3))
-        c.color[1].copy(c.color[0])
+        c.color.min.lerpColors(new Color("#888"), new Color("#666"), power(3))
+        c.color.max.copy(c.color.min)
       }}
     />
   </MeshParticles>

@@ -18,11 +18,12 @@ export const Fog = () => {
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
     c.position.set(0, 6, 0).add(insideSphere(5) as Vector3)
     c.velocity.randomDirection().multiplyScalar(between(0, 1))
-    c.delay = upTo(5) - preDelay
-    c.lifetime = 30
-    c.scale[0].setScalar(between(10, 50))
-    c.scale[1].setScalar(c.scale[0].x * (1.0 + plusMinus(0.3)))
-    c.alpha = [0, between(0.05, 0.1)]
+    c.lifetime.delay = upTo(5) - preDelay
+    c.lifetime.duration = 30
+    c.scale.min.setScalar(between(10, 50))
+    c.scale.max.setScalar(c.scale.min.x * (1.0 + plusMinus(0.3)))
+    c.alpha.min = 0
+    c.alpha.max = between(0.05, 0.1)
   }
 
   return (
