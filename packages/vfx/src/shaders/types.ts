@@ -26,9 +26,7 @@ export type Uniform<T = any> = Variable<T>
 
 export type Varying<T = any> = Variable<T>
 
-export type Attribute<T = any> = Variable<T> & {
-  itemSize: number
-}
+export type Attribute<T = any> = Variable<T>
 
 export type UpdateCallback = RenderCallback
 

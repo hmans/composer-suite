@@ -14,8 +14,8 @@ export default function() {
 
   return createShader({
     attributes: {
-      velocity: { type: "vec3", itemSize: 3 },
-      acceleration: { type: "vec3", itemSize: 3 }
+      velocity: { type: "vec3" },
+      acceleration: { type: "vec3" }
     },
 
     vertexMain: `

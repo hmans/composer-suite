@@ -11,8 +11,8 @@ export default function(fun = "v_progress") {
 
   return createShader({
     attributes: {
-      scale0: { type: "vec3", itemSize: 3 },
-      scale1: { type: "vec3", itemSize: 3 }
+      scale0: { type: "vec3" },
+      scale1: { type: "vec3" }
     },
 
     vertexMain: `

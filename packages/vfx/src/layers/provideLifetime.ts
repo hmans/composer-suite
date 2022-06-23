@@ -10,7 +10,7 @@ export default function() {
 
   return createShader({
     attributes: {
-      time: { type: "vec2", itemSize: 2 }
+      time: { type: "vec2" }
     },
 
     varyings: {

@@ -15,8 +15,8 @@ export default function(fun = "v_progress") {
 
   return createShader({
     attributes: {
-      color0: { type: "vec4", itemSize: 4 },
-      color1: { type: "vec4", itemSize: 4 }
+      color0: { type: "vec4" },
+      color1: { type: "vec4" }
     },
 
     varyings: {
