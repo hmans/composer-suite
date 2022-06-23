@@ -16,7 +16,7 @@ import {
   softParticles
 } from "../layers"
 import provideDepthTexture from "../layers/provideDepthTexture"
-import { combineShaders, compileShader, Shader } from "../lib/shadermaker"
+import { combineShaders, compileShader, Shader } from "../shaders"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean

@@ -1,4 +1,4 @@
-import { createShader, Uniform } from "../lib/shadermaker"
+import { createShader, Uniform } from "../shaders"
 
 export default function() {
   const u_resolution: Uniform = {

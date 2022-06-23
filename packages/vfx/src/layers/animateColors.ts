@@ -1,5 +1,5 @@
 import { Color } from "three"
-import { createShader } from "../lib/shadermaker"
+import { createShader } from "../shaders"
 
 export default function(fun = "v_progress") {
   const configurator = {

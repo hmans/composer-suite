@@ -1,6 +1,6 @@
 export * from "./Emitter"
 export * from "./MeshParticles"
-export * from "./lib/shadermaker"
+export * from "./shaders"
 export { useParticles, type SpawnSetup } from "./ParticlesContext"
 export * from "./timeline"
 export * as layers from "./layers"

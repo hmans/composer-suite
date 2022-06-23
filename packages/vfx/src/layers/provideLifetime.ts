@@ -1,4 +1,4 @@
-import { createShader } from "../lib/shadermaker"
+import { createShader } from "../shaders"
 
 export default function() {
   const configurator = {

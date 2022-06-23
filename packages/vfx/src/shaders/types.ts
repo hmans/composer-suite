@@ -1,5 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
-import { MeshParticles } from "../../MeshParticles/useMeshParticles"
+import { MeshParticles } from "../MeshParticles/useMeshParticles"
 
 export type GLSLType =
   | "float"

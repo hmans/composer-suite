@@ -1,5 +1,5 @@
 import { Matrix4, Quaternion, Vector3 } from "three"
-import { createShader } from "../lib/shadermaker"
+import { createShader } from "../shaders"
 
 const tmpMatrix4 = new Matrix4()
 const tmpScale = new Vector3()
