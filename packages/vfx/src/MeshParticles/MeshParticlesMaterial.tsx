@@ -1,10 +1,22 @@
 import { useFrame } from "@react-three/fiber"
-import React, { forwardRef, useMemo, useRef } from "react"
+import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import { DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import { composableShader, modules } from "../shaders/"
+import {
+  animateColors,
+  animateMovement,
+  animateScale,
+  billboarding,
+  provideEasingFunctions,
+  provideLifetime,
+  provideResolution,
+  provideTime,
+  softParticles
+} from "../layers"
+import provideDepthTexture from "../layers/provideDepthTexture"
+import { combineShaders, compileShader, Shader } from "../shaders"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -15,7 +27,11 @@ export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   depthTexture?: DepthTexture
 }
 
-export type MeshParticlesMaterial = CustomShaderMaterialImpl
+export type MeshParticlesMaterial = CustomShaderMaterialImpl & {
+  __vfx: {
+    shader: Shader
+  }
+}
 
 export const MeshParticlesMaterial = forwardRef<
   MeshParticlesMaterial,
@@ -35,24 +51,27 @@ export const MeshParticlesMaterial = forwardRef<
   ) => {
     const material = useRef<MeshParticlesMaterial>(null!)
 
-    const { update, ...shader } = useMemo(() => {
-      const { addModule, compile } = composableShader()
+    const shader = useMemo(() => {
+      const layers = [
+        provideTime(),
+        provideLifetime(),
+        provideResolution(),
+        provideEasingFunctions(),
+        softness && provideDepthTexture(depthTexture!),
+        billboard && billboarding(),
+        animateScale(scaleFunction),
+        animateMovement(),
+        animateColors(colorFunction),
+        softness && softParticles(softness, softnessFunction)
+      ].filter((l) => l) as Shader[]
 
-      /* The Basics */
-      addModule(modules.time())
-      softness && addModule(modules.resolution())
-      softness && addModule(modules.depthTexture(depthTexture!))
-      addModule(modules.easings())
+      return combineShaders(layers)
+    }, [])
 
-      /* The Specifics */
-      addModule(modules.lifetime())
-      billboard && addModule(modules.billboarding())
-      addModule(modules.scale(scaleFunction))
-      addModule(modules.movement())
-      addModule(modules.colors(colorFunction))
-      softness && addModule(modules.softparticles(softness, softnessFunction))
+    const { update, ...attrs } = useMemo(() => compileShader(shader), [shader])
 
-      return compile()
+    useLayoutEffect(() => {
+      material.current.__vfx = { shader }
     }, [])
 
     useFrame(update)
@@ -60,7 +79,7 @@ export const MeshParticlesMaterial = forwardRef<
     return (
       <CustomShaderMaterial
         ref={mergeRefs([material, ref])}
-        {...shader}
+        {...attrs}
         {...props}
       />
     )

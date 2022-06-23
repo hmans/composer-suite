@@ -34,7 +34,9 @@ export const Simple = () => {
               .set(plusMinus(1), upTo(1), plusMinus(1))
               .multiplyScalar(between(1, 5))
 
-            c.lifetime = between(0.5, 2.5)
+            c.lifetime.duration = between(0.5, 2.5)
+
+            c.alpha.max = 0
           }}
         />
       </Repeat>

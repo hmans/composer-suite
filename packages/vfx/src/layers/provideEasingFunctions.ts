@@ -1,6 +1,6 @@
-import { module } from ".."
-
 /* Big thanks to https://github.com/glslify/glsl-easings for the code below! */
+
+import { createShader } from "../shaders"
 
 const functions = /*glsl*/ `
   #ifndef HALF_PI
@@ -175,7 +175,7 @@ const functions = /*glsl*/ `
   }
 `
 
-const easings = module({
+const easings = createShader({
   vertexHeader: functions,
   fragmentHeader: functions
 })
