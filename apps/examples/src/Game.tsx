@@ -29,40 +29,40 @@ export const Game = () => {
       dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
       shadows
     >
-      <Suspense>
-        {/* Lights, fog, camera, etc. */}
-        <color attach="background" args={["#987"]} />
-        <ambientLight intensity={0.4} />
-        <directionalLight
-          position={[10, 10, 10]}
-          intensity={1}
-          castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-camera-far={50}
-          shadow-camera-left={-20}
-          shadow-camera-right={20}
-          shadow-camera-top={20}
-          shadow-camera-bottom={-20}
-          shadow-radius={10}
-          shadow-bias={-0.0001}
-        />
-        <fog attach="fog" args={["#987", 50, 300]} />
-        <PerspectiveCamera position={[0, 10, 50]} makeDefault />
+      {/* Lights, fog, camera, etc. */}
+      <color attach="background" args={["#987"]} />
+      <ambientLight intensity={0.4} />
+      <directionalLight
+        position={[10, 10, 10]}
+        intensity={1}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-camera-far={50}
+        shadow-camera-left={-20}
+        shadow-camera-right={20}
+        shadow-camera-top={20}
+        shadow-camera-bottom={-20}
+        shadow-radius={10}
+        shadow-bias={-0.0001}
+      />
+      <fog attach="fog" args={["#987", 50, 300]} />
+      <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
-        <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
+      <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
 
-        {/* Scene objects */}
-        <Stage>
-          <Route path="/:path">
+      {/* Scene objects */}
+      <Stage>
+        <Route path="/:path">
+          <Suspense>
             <ExampleMatcher />
-          </Route>
-        </Stage>
+          </Suspense>
+        </Route>
+      </Stage>
 
-        {/* Rendering, ECS, etc. */}
-        {postProcessing && <PostProcessing />}
-        <Perf position="bottom-right" />
-      </Suspense>
+      {/* Rendering, ECS, etc. */}
+      {postProcessing && <PostProcessing />}
+      <Perf position="bottom-right" />
     </Canvas>
   )
 }
