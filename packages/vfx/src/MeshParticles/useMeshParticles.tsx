@@ -46,6 +46,19 @@ export function useMeshParticles(
         InstancedBufferAttribute
       >
 
+      /*
+      Safety check: if we've reached the end of the buffers, it means the user picked a safety
+      size too small for their use case. We don't want to crash the application, so let's log a
+      warning and discard the particle.
+      */
+      if (cursor + count > maxInstanceCount) {
+        console.warn(
+          "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
+        )
+
+        return
+      }
+
       /* Configure the attributes to upload only the updated parts to the GPU. */
       const allAttributes = [
         imesh.current.instanceMatrix,
@@ -60,17 +73,6 @@ export function useMeshParticles(
 
       /* For every spawned particle, write some data into the attribute buffers. */
       for (let i = 0; i < count; i++) {
-        /* Safety check: if we've reached the end of the buffers, it means the user picked a safety
-           size too small for their use case. We don't want to crash the application, so let's log a
-           warning and discard the particle. */
-        if (cursor >= maxInstanceCount) {
-          console.warn(
-            "Spawned too many particles this frame. Discarding. Consider increasing the safetySize."
-          )
-
-          return
-        }
-
         /* Initialize new particle */
         if (setup && shader.reset && shader.apply) {
           shader.reset(imesh.current)
