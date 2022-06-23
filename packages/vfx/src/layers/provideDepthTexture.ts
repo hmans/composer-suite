@@ -1,5 +1,5 @@
 import { DepthTexture } from "three"
-import { createShader } from "../newShaders"
+import { createShader } from "../lib/shadermaker"
 
 export default function(depthTexture: DepthTexture) {
   return createShader({

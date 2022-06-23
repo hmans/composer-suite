@@ -1,6 +1,6 @@
 /* Big thanks to https://github.com/glslify/glsl-easings for the code below! */
 
-import { createShader } from "../newShaders"
+import { createShader } from "../lib/shadermaker"
 
 const functions = /*glsl*/ `
   #ifndef HALF_PI

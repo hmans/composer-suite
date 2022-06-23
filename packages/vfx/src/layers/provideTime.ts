@@ -1,4 +1,4 @@
-import { createShader, Uniform } from "../newShaders"
+import { createShader, Uniform } from "../lib/shadermaker"
 
 export default function() {
   const u_time: Uniform = { type: "float", value: 0 }

@@ -1,4 +1,4 @@
-import { createShader } from "../newShaders"
+import { createShader } from "../lib/shadermaker"
 
 export default function() {
   return createShader({

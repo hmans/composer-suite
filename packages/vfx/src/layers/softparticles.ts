@@ -1,4 +1,4 @@
-import { createShader, formatValue, Variables } from "../newShaders"
+import { createShader, formatValue, Variables } from "../lib/shadermaker"
 
 export default function(
   softness = 1,
