@@ -40,10 +40,10 @@ export const FireflyExample = () => {
         count={10}
         setup={(c) => {
           c.position.randomDirection().add(mesh.current.position)
-          c.delay = upTo(0.1)
+          c.lifetime.delay = upTo(0.1)
           c.velocity.randomDirection().multiplyScalar(upTo(5))
           c.acceleration.set(0, -12, 0)
-          c.alpha = [1, 0]
+          c.alpha.max = 0
         }}
       />
     </MeshParticles>
