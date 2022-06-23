@@ -1,8 +1,8 @@
 import { Float } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { between, insideCircle, power, upTo } from "randomish"
-import { FC, ReactNode, useRef } from "react"
-import { AdditiveBlending, MeshStandardMaterial, NormalBlending } from "three"
+import { useRef } from "react"
+import { MeshStandardMaterial, NormalBlending } from "three"
 import {
   Emitter,
   MeshParticles,
@@ -10,7 +10,6 @@ import {
   Repeat,
   SpawnSetup
 } from "three-vfx"
-import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 const useTime = () => {
   const t = useRef(0)
@@ -49,9 +48,9 @@ export const FuzzyBlob = ({ count = 20000, rotationSpeed = 0.4 }) => {
           c.quaternion.random()
           c.position.set(0, 1, 0).applyQuaternion(c.quaternion)
 
-          c.lifetime = Infinity
-          c.scale[0].set(0.1, 0.1, between(20, 25))
-          c.scale[1].set(0.1, 0.1, 20 + power(3) * upTo(10))
+          c.lifetime.duration = Infinity
+          c.scale.min.set(0.1, 0.1, between(20, 25))
+          c.scale.max.set(0.1, 0.1, 20 + power(3) * upTo(10))
         }}
       />
     </MeshParticles>
@@ -81,9 +80,9 @@ export const Sparks = () => {
             c.velocity.copy(c.position).multiplyScalar(between(25, 30))
             c.acceleration.copy(c.velocity).multiplyScalar(-1)
 
-            c.lifetime = 2
-            c.scale[0].set(0.1, 0.1, 0.1)
-            c.scale[1].copy(c.scale[0])
+            c.lifetime.duration = 2
+            c.scale.min.set(0.1, 0.1, 0.1)
+            c.scale.max.copy(c.scale.min)
           }}
         />
       </Repeat>
@@ -101,14 +100,14 @@ const suckUpwards: SpawnSetup = (c) => {
 
   c.acceleration.set(c.position.x * 1, between(5, 50), c.position.z * 1)
 
-  c.lifetime = between(0.5, 1)
+  c.lifetime.duration = between(0.5, 1)
 
   const scale = between(0.2, 0.7)
-  c.scale[0].setScalar(scale)
-  c.scale[1].setScalar(scale / 2)
+  c.scale.min.setScalar(scale)
+  c.scale.max.setScalar(scale / 2)
 
-  c.color[0].set("#bbb")
-  c.color[1].set("#444")
+  c.color.min.set("#bbb")
+  c.color.max.set("#444")
 }
 
 const GroundParticles = () => {
@@ -146,16 +145,16 @@ const GroundRocks = () => {
           setup={(c, index) => {
             suckUpwards(c, index)
 
-            c.lifetime = 1
+            c.lifetime.duration = 1
 
             c.quaternion.random()
 
             const scale = between(0.4, 0.8)
-            c.scale[0].setScalar(scale)
-            c.scale[1].setScalar(scale)
+            c.scale.min.setScalar(scale)
+            c.scale.max.setScalar(scale)
 
-            c.color[0].set("#bbb")
-            c.color[1].set("#888")
+            c.color.min.set("#bbb")
+            c.color.max.set("#888")
           }}
         />
       </Repeat>
@@ -179,10 +178,10 @@ const CrumblyFloor = () => {
         setup={(c) => {
           const pos = insideCircle()
           c.position.set(pos.x * 13, between(-0.5, 0.5), pos.y * 13)
-          c.lifetime = Infinity
+          c.lifetime.duration = Infinity
           c.quaternion.random()
-          c.scale[0].set(between(1, 2), between(1, 2), between(1, 2))
-          c.color[0].set("#bbb")
+          c.scale.min.set(between(1, 2), between(1, 2), between(1, 2))
+          c.color.min.set("#bbb")
         }}
       />
 
@@ -193,16 +192,16 @@ const CrumblyFloor = () => {
             const pos = insideCircle()
             c.position.set(pos.x * 13, 0, pos.y * 13)
             c.acceleration.set(-pos.x / 5, between(0.5, 1), -pos.y / 5)
-            c.lifetime = 5
-            c.delay = upTo(1)
+            c.lifetime.duration = 5
+            c.lifetime.delay = upTo(1)
 
             c.quaternion.random()
 
-            c.scale[0].set(between(0.5, 1), between(0.5, 1), between(0.5, 1))
-            c.scale[1].copy(c.scale[0])
+            c.scale.min.set(between(0.5, 1), between(0.5, 1), between(0.5, 1))
+            c.scale.max.copy(c.scale.min)
 
-            c.color[0].set("#bbb")
-            c.color[1].set("#888")
+            c.color.min.set("#bbb")
+            c.color.max.set("#888")
           }}
         />
       </Repeat>
