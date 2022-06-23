@@ -11,6 +11,8 @@ export type GLSLType =
   | "samplerCube"
   | "bool"
 
+export type GLSLChunk = string
+
 export type Variable<T = any> = {
   value?: T
   type: GLSLType
@@ -20,31 +22,28 @@ export type Variables = Record<string, Variable>
 
 export type VariableQualifier = "uniform" | "attribute" | "varying"
 
-export type Uniform<T = any> = {
-  value: T
-  type: GLSLType
-}
+export type Uniform<T = any> = Variable<T>
 
-export type Attribute = {
-  type: GLSLType
+export type Varying<T = any> = Variable<T>
+
+export type Attribute<T = any> = Variable<T> & {
   itemSize: number
-}
-
-export type Varying<T = any> = {
-  type: GLSLType
-  value?: T
 }
 
 export type UpdateCallback = RenderCallback
 
-export type Shader<TUniforms extends Variables = {}> = {
-  uniforms: TUniforms
-  varyings: Record<string, Varying>
-  attributes: Record<string, Attribute>
-  vertexHeader: string
-  vertexMain: string
-  fragmentHeader: string
-  fragmentMain: string
+export type Shader<
+  U extends Variables = Record<string, Uniform>,
+  V extends Variables = Record<string, Varying>,
+  A extends Variables = Record<string, Attribute>
+> = {
+  uniforms: U
+  varyings: V
+  attributes: A
+  vertexHeader: GLSLChunk
+  vertexMain: GLSLChunk
+  fragmentHeader: GLSLChunk
+  fragmentMain: GLSLChunk
 
   config: Record<string, any>
   resetConfig?: (mesh: MeshParticles) => void
