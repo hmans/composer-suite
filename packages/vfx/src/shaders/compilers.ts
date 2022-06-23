@@ -1,10 +1,12 @@
 import {
   Attribute,
+  Attributes,
   Shader,
   Uniform,
+  Uniforms,
   VariableQualifier,
-  Variables,
-  Varying
+  Varying,
+  Varyings
 } from "./types"
 
 export const formatValue = (value: any) =>
@@ -26,7 +28,7 @@ function compileVariable(
 
 function compileVariables(
   qualifier: VariableQualifier,
-  variables: Variables,
+  variables: Uniforms | Attributes | Varyings,
   initializeValue = true
 ) {
   return Object.entries(variables)

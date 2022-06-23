@@ -24,9 +24,6 @@ export type Varyings = Record<string, Varying>
 export type Attribute<T = any> = { type: GLSLType }
 export type Attributes = Record<string, Attribute>
 
-export type Variable<T = any> = Attribute<T> | Uniform<T> | Varying<T>
-export type Variables = Record<string, Variable>
-
 export type UpdateCallback = RenderCallback
 
 export type Shader<U = Uniforms, V = Varyings, A = Attributes> = {
