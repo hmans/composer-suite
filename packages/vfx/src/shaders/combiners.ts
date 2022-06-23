@@ -12,20 +12,20 @@ export function addShaders<
     uniforms: { ...a.uniforms, ...b.uniforms },
     varyings: { ...a.varyings, ...b.varyings },
     attributes: { ...a.attributes, ...b.attributes },
-    configurator: { ...a.configurator, ...b.configurator },
+    config: { ...a.config, ...b.config },
     vertexHeader: a.vertexHeader + b.vertexHeader,
     vertexMain: a.vertexMain + b.vertexMain,
     fragmentHeader: a.fragmentHeader + b.fragmentHeader,
     fragmentMain: a.fragmentMain + b.fragmentMain,
 
-    resetConfiguration: (...args) => {
-      a.resetConfiguration?.(...args)
-      b.resetConfiguration?.(...args)
+    resetConfig: (...args) => {
+      a.resetConfig?.(...args)
+      b.resetConfig?.(...args)
     },
 
-    applyConfiguration: (...args) => {
-      a.applyConfiguration?.(...args)
-      b.applyConfiguration?.(...args)
+    applyConfig: (...args) => {
+      a.applyConfig?.(...args)
+      b.applyConfig?.(...args)
     },
 
     update: (...args) => {

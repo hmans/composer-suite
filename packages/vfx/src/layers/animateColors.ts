@@ -2,7 +2,7 @@ import { Color } from "three"
 import { createShader } from "../shaders"
 
 export default function(fun = "v_progress") {
-  const configurator = {
+  const config = {
     color: {
       min: new Color(),
       max: new Color()
@@ -42,30 +42,30 @@ export default function(fun = "v_progress") {
       #endif
     `,
 
-    configurator,
+    config,
 
-    resetConfiguration: (mesh) => {
-      configurator.color.min.setRGB(1, 1, 1)
-      configurator.color.max.setRGB(1, 1, 1)
-      configurator.alpha.min = 1
-      configurator.alpha.max = 1
+    resetConfig: (mesh) => {
+      config.color.min.setRGB(1, 1, 1)
+      config.color.max.setRGB(1, 1, 1)
+      config.alpha.min = 1
+      config.alpha.max = 1
     },
 
-    applyConfiguration: ({ geometry: { attributes } }, cursor) => {
+    applyConfig: ({ geometry: { attributes } }, cursor) => {
       /* Set color */
       attributes.color0.setXYZW(
         cursor,
-        configurator.color.min.r,
-        configurator.color.min.g,
-        configurator.color.min.b,
-        configurator.alpha.min
+        config.color.min.r,
+        config.color.min.g,
+        config.color.min.b,
+        config.alpha.min
       )
       attributes.color1.setXYZW(
         cursor,
-        configurator.color.max.r,
-        configurator.color.max.g,
-        configurator.color.max.b,
-        configurator.alpha.max
+        config.color.max.r,
+        config.color.max.g,
+        config.color.max.b,
+        config.alpha.max
       )
     }
   })

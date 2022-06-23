@@ -1,7 +1,7 @@
 import { createShader } from "../shaders"
 
 export default function() {
-  const configurator = {
+  const config = {
     lifetime: {
       delay: 0,
       duration: 1
@@ -34,22 +34,20 @@ export default function() {
       }
     `,
 
-    configurator,
+    config,
 
-    resetConfiguration: (mesh) => {
-      configurator.lifetime.delay = 0
-      configurator.lifetime.duration = Infinity
+    resetConfig: (mesh) => {
+      config.lifetime.delay = 0
+      config.lifetime.duration = Infinity
     },
 
-    applyConfiguration: (mesh, cursor) => {
+    applyConfig: (mesh, cursor) => {
       /* Set times */
       const currentTime = mesh.material.uniforms.u_time.value
       mesh.geometry.attributes.time.setXY(
         cursor,
-        currentTime + configurator.lifetime.delay,
-        currentTime +
-          configurator.lifetime.delay +
-          configurator.lifetime.duration
+        currentTime + config.lifetime.delay,
+        currentTime + config.lifetime.delay + config.lifetime.duration
       )
     }
   })

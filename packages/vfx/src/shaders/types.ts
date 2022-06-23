@@ -46,8 +46,8 @@ export type Shader<TUniforms extends Variables = {}> = {
   fragmentHeader: string
   fragmentMain: string
 
-  configurator: Record<string, any>
-  resetConfiguration?: (mesh: MeshParticles) => void
-  applyConfiguration?: (mesh: MeshParticles, index: number) => void
+  config: Record<string, any>
+  resetConfig?: (mesh: MeshParticles) => void
+  applyConfig?: (mesh: MeshParticles, index: number) => void
   update?: RenderCallback
 }

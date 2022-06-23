@@ -5,7 +5,7 @@ const tmpMatrix4 = new Matrix4()
 const tmpScale = new Vector3()
 
 export default function() {
-  const configurator = {
+  const config = {
     position: new Vector3(),
     quaternion: new Quaternion(),
     velocity: new Vector3(),
@@ -22,33 +22,30 @@ export default function() {
       csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
     `,
 
-    configurator,
+    config,
 
-    resetConfiguration: (mesh) => {
-      configurator.position.set(0, 0, 0)
-      configurator.quaternion.set(0, 0, 0, 1)
-      configurator.velocity.set(0, 0, 0)
-      configurator.acceleration.set(0, 0, 0)
+    resetConfig: (mesh) => {
+      config.position.set(0, 0, 0)
+      config.quaternion.set(0, 0, 0, 1)
+      config.velocity.set(0, 0, 0)
+      config.acceleration.set(0, 0, 0)
     },
 
-    applyConfiguration: (mesh, cursor) => {
+    applyConfig: (mesh, cursor) => {
       /* Set origin position of the instance */
       mesh.setMatrixAt(
         cursor,
         tmpMatrix4.compose(
-          configurator.position,
-          configurator.quaternion,
+          config.position,
+          config.quaternion,
           tmpScale.setScalar(1)
         )
       )
 
       /* Set attributes */
       const { attributes } = mesh.geometry
-      attributes.velocity.setXYZ(cursor, ...configurator.velocity.toArray())
-      attributes.acceleration.setXYZ(
-        cursor,
-        ...configurator.acceleration.toArray()
-      )
+      attributes.velocity.setXYZ(cursor, ...config.velocity.toArray())
+      attributes.acceleration.setXYZ(cursor, ...config.acceleration.toArray())
     }
   })
 }

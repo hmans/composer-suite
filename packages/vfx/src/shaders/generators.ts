@@ -7,7 +7,7 @@ export function createShader<Uniforms extends Variables = {}>(
     uniforms: {} as Uniforms,
     varyings: {},
     attributes: {},
-    configurator: {},
+    config: {},
     vertexHeader: "",
     vertexMain: "",
     fragmentHeader: "",
