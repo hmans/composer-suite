@@ -1,4 +1,4 @@
-import { IVariable, Shader, VariableQualifier, Variables } from "./types"
+import { Shader, Variable, VariableQualifier, Variables } from "./types"
 
 export const formatValue = (value: any) =>
   typeof value === "number" ? value.toFixed(5) : value
@@ -6,7 +6,7 @@ export const formatValue = (value: any) =>
 function compileVariable(
   qualifier: VariableQualifier,
   name: string,
-  { type, value }: IVariable,
+  { type, value }: Variable,
   initializeValue = true
 ) {
   const valueString =

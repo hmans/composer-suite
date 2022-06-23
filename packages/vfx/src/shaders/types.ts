@@ -11,12 +11,12 @@ export type GLSLType =
   | "samplerCube"
   | "bool"
 
-export interface IVariable<T = any> {
+export type Variable<T = any> = {
   value?: T
   type: GLSLType
 }
 
-export type Variables = Record<string, IVariable>
+export type Variables = Record<string, Variable>
 
 export type VariableQualifier = "uniform" | "attribute" | "varying"
 
