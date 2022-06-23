@@ -1,4 +1,4 @@
-import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
+import { Matrix4, Quaternion, Vector3 } from "three"
 import { createShader } from "../lib/shadermaker"
 
 const tmpMatrix4 = new Matrix4()
@@ -32,7 +32,7 @@ export default function() {
 
     apply: (mesh, cursor) => {
       /* Set origin position of the instance */
-      ;(mesh as InstancedMesh).setMatrixAt(
+      mesh.setMatrixAt(
         cursor,
         tmpMatrix4.compose(
           configurator.position,

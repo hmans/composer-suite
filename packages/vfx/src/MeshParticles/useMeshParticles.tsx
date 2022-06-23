@@ -75,14 +75,6 @@ export function useMeshParticles(
         setup?.(config, i)
         shader.apply?.(imesh.current, cursor)
 
-        /* Set times */
-        const currentTime = imesh.current.material.uniforms.u_time.value
-        attributes.time.setXY(
-          cursor,
-          currentTime + config.delay,
-          currentTime + config.lifetime
-        )
-
         /* Advance playhead */
         cursor++
       }

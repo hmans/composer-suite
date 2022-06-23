@@ -68,13 +68,5 @@ export default function(fun = "v_progress") {
         configurator.alpha.max
       )
     }
-
-    // setup: (geometry, index) => {
-    //   const color = [new Color(), new Color()]
-    //   const attributes = geometry.attributes
-
-    //   attributes.color0.setXYZW(index, color[0].r, color[0].g, color[0].b, 1)
-    //   attributes.color1.setXYZW(index, color[1].r, color[1].g, color[1].b, 1)
-    // }
   })
 }

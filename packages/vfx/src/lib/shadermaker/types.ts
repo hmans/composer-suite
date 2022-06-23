@@ -1,5 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
-import { Mesh } from "three"
+import { MeshParticles } from "../../MeshParticles/useMeshParticles"
 
 export type GLSLType =
   | "float"
@@ -47,7 +47,7 @@ export type Shader<TUniforms extends Variables = {}> = {
   fragmentMain: string
 
   configurator: Record<string, any>
-  reset?: (mesh: Mesh) => void
-  apply?: (mesh: Mesh, index: number) => void
+  reset?: (mesh: MeshParticles) => void
+  apply?: (mesh: MeshParticles, index: number) => void
   update?: RenderCallback
 }

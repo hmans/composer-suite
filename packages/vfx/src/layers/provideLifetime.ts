@@ -3,7 +3,7 @@ import { createShader } from "../lib/shadermaker"
 export default function() {
   const configurator = {
     delay: 0,
-    duration: 1
+    lifetime: 1
   }
 
   return createShader({
@@ -36,7 +36,17 @@ export default function() {
 
     reset: (mesh) => {
       configurator.delay = 0
-      configurator.duration = 1
+      configurator.lifetime = 1
+    },
+
+    apply: (mesh, cursor) => {
+      /* Set times */
+      const currentTime = mesh.material.uniforms.u_time.value
+      mesh.geometry.attributes.time.setXY(
+        cursor,
+        currentTime + configurator.delay,
+        currentTime + configurator.lifetime
+      )
     }
   })
 }
