@@ -73,6 +73,7 @@ export function useMeshParticles(
         const config = shader.configurator
         shader.reset?.(imesh.current)
         setup?.(config, i)
+        shader.apply?.(imesh.current, cursor)
 
         /* First of all, write the particle's starting transform into the instance buffer. */
         imesh.current.setMatrixAt(
@@ -92,18 +93,6 @@ export function useMeshParticles(
           currentTime + config.lifetime
         )
 
-        /* Set velocity */
-        attributes.velocity.setXYZ(
-          cursor,
-          ...(config.velocity.toArray() as [number, number, number])
-        )
-
-        /* Set acceleration */
-        attributes.acceleration.setXYZ(
-          cursor,
-          ...(config.acceleration.toArray() as [number, number, number])
-        )
-
         /* Set color */
         attributes.color0.setXYZW(
           cursor,
@@ -118,16 +107,6 @@ export function useMeshParticles(
           config.color.max.g,
           config.color.max.b,
           config.alpha.max
-        )
-
-        /* Set scale */
-        attributes.scale0.setXYZ(
-          cursor,
-          ...(config.scale.min.toArray() as [number, number, number])
-        )
-        attributes.scale1.setXYZ(
-          cursor,
-          ...(config.scale.max.toArray() as [number, number, number])
         )
 
         /* Advance playhead */

@@ -24,11 +24,11 @@ export default function(fun = "v_progress") {
     reset: (mesh) => {
       configurator.scale.min.setScalar(1)
       configurator.scale.max.setScalar(1)
-    }
+    },
 
-    // setup: ({ attributes }, index, { scale: { min, max } }) => {
-    //   attributes.scale0.setXYZ(index, ...min.toArray())
-    //   attributes.scale1.setXYZ(index, ...max.toArray())
-    // }
+    apply: ({ geometry: { attributes } }, cursor) => {
+      attributes.scale0.setXYZ(cursor, ...configurator.scale.min.toArray())
+      attributes.scale1.setXYZ(cursor, ...configurator.scale.max.toArray())
+    }
   })
 }

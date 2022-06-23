@@ -25,6 +25,14 @@ export default function() {
       configurator.quaternion.set(0, 0, 0, 1)
       configurator.velocity.set(0, 0, 0)
       configurator.acceleration.set(0, 0, 0)
+    },
+
+    apply: ({ geometry: { attributes } }, cursor) => {
+      attributes.velocity.setXYZ(cursor, ...configurator.velocity.toArray())
+      attributes.acceleration.setXYZ(
+        cursor,
+        ...configurator.acceleration.toArray()
+      )
     }
   })
 }
