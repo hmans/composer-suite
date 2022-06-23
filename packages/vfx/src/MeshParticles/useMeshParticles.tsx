@@ -7,8 +7,8 @@ import {
   Vector3
 } from "three"
 import { ParticlesAPI, SpawnSetup } from "../ParticlesContext"
+import { prepareInstancedMesh } from "../shaders"
 import { MeshParticlesMaterial } from "./MeshParticlesMaterial"
-import { setupInstancedMesh } from "./setupInstancedMesh"
 
 export const tmpScale = new Vector3()
 export const tmpMatrix4 = new Matrix4()
@@ -29,7 +29,7 @@ export function useMeshParticles(
   const imesh = useRef<MeshParticles>(null!)
 
   useLayoutEffect(() => {
-    setupInstancedMesh(imesh.current, maxInstanceCount)
+    prepareInstancedMesh(imesh.current, maxInstanceCount)
   }, [])
 
   const spawnParticle = useMemo(() => {

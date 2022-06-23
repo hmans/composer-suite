@@ -3,7 +3,7 @@ import {
   InstancedBufferGeometry,
   InstancedMesh
 } from "three"
-import { MeshParticlesMaterial } from "."
+import { MeshParticlesMaterial } from "../MeshParticles"
 import { GLSLType } from "../shaders"
 
 const itemSizes: Record<GLSLType, number> = {
@@ -17,7 +17,7 @@ const itemSizes: Record<GLSLType, number> = {
   bool: 1
 }
 
-export const setupInstancedMesh = (
+export const prepareInstancedMesh = (
   imesh: InstancedMesh<InstancedBufferGeometry, MeshParticlesMaterial>,
   maxInstanceCount: number
 ) => {
@@ -27,7 +27,6 @@ export const setupInstancedMesh = (
   /* Now create all the attributes configured in the composed shader. */
   for (const name in shader.attributes) {
     const itemSize = itemSizes[shader.attributes[name].type]
-
     const buffer = new Float32Array(maxInstanceCount * itemSize)
     const attribute = new InstancedBufferAttribute(buffer, itemSize)
 
