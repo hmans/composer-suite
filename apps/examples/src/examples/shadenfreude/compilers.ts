@@ -2,15 +2,23 @@ import { ShaderNode } from "./types"
 
 type Program = "vertex" | "fragment"
 
+function nodeTitle(node: ShaderNode) {
+  return `/** Node: ${node.name} **/`
+}
+
 function compileHeader(node: ShaderNode, program: Program): string {
   return `
+    ${nodeTitle(node)}
     ${node[program].header}
   `
 }
 
 function compileBody(node: ShaderNode, program: Program): string {
   return `
-    ${node[program].body}
+    ${nodeTitle(node)}
+    {
+      ${node[program].body}
+    }
   `
 }
 
