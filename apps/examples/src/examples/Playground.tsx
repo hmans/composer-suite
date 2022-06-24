@@ -4,7 +4,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 import { useMemo } from "react"
 import { ShaderNode } from "./shadenfreude/types"
 import { compileShader } from "./shadenfreude/compilers"
-import { variable } from "./shadenfreude/variables"
+import { variable } from "./shadenfreude/factories"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
