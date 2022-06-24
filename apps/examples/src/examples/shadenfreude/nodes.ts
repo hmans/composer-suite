@@ -66,3 +66,42 @@ export const operator = (
 
 export const add = (a: Variable, b: Variable) =>
   operator(a.type, "+", { a, b }).outputs.result
+
+export const fresnelNode = () =>
+  node({
+    name: "Fresnel",
+    inputs: {
+      color: vec3("vec3(1.0, 1.0, 1.0)"),
+      alpha: float(1),
+      bias: float(0),
+      intensity: float(1),
+      power: float(2),
+      factor: float(1)
+    },
+    outputs: {
+      fresnel: vec3()
+    },
+    vertex: {
+      header: `
+        varying vec3 v_worldPosition;
+        varying vec3 v_worldNormal;
+      `,
+      body: `
+        v_worldPosition = vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2]);
+        v_worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
+      `
+    },
+    fragment: {
+      header: `
+        varying vec3 v_worldPosition;
+        varying vec3 v_worldNormal;
+      `,
+      body: `
+        float f_a = (factor  + dot(v_worldPosition, v_worldNormal));
+        float f_fresnel = bias + intensity * pow(abs(f_a), power);
+        f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+        // return vec4(f_fresnel * color, u_alpha);
+        fresnel.rgb = f_fresnel * color;
+      `
+    }
+  })

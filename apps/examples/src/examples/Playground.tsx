@@ -6,6 +6,7 @@ import { compileShader } from "./shadenfreude/compilers"
 import { float, node, vec3 } from "./shadenfreude/factories"
 import {
   add,
+  fresnelNode,
   masterNode,
   operator,
   timeNode,
@@ -35,8 +36,10 @@ function useShader() {
   return useMemo(() => {
     const { time } = timeNode().outputs
 
+    const { fresnel } = fresnelNode().outputs
+
     const root = masterNode({
-      diffuseColor: colorValueNode().outputs.color,
+      diffuseColor: fresnel, // colorValueNode().outputs.color,
 
       position: add(
         wobble({ time }).outputs.offset,
