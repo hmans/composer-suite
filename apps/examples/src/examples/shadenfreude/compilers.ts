@@ -7,7 +7,7 @@ function compileVariable(variable: Variable) {
     variable.value !== undefined ? ` = ${formatValue(variable.value)}` : ""
 
   return `
-    ${variable.type} ${variable.globalName}${valueString};
+    ${variable.type} ${variable.name}${valueString};
   `
 }
 
@@ -37,13 +37,7 @@ function compileBody(node: ShaderNode, program: Program): string {
     {
       /* Inputs */
       ${Object.entries(node.inputs)
-        .map(([name, variable]) =>
-          compileVariable({
-            globalName: name,
-            type: variable.type,
-            value: variable.value
-          })
-        )
+        .map(([name, variable]) => compileVariable({ ...variable, name }))
         .join("\n")}
 
       /* Code */

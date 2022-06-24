@@ -12,19 +12,19 @@ function useShader() {
   return useMemo(() => {
     const node: ShaderNode = {
       name: "Test",
+      inputs: {
+        color: variable("vec3", "vec3(1.0, 0.0, 0.5)")
+      },
+      outputs: {
+        foo: variable("float")
+      },
       vertex: {
         header: "",
         body: ""
       },
       fragment: {
         header: "",
-        body: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
-      },
-      inputs: {
-        color: variable("vec3")
-      },
-      outputs: {
-        foo: variable("float")
+        body: "csm_DiffuseColor.rgb = color;"
       }
     }
 
