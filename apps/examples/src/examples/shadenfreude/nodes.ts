@@ -1,5 +1,5 @@
 import { variable, node, vec3, float } from "./factories"
-import { Variable } from "./types"
+import { GLSLType, Operator, Variable } from "./types"
 
 export const timeNode = () => {
   const u_time = variable("float", 0)
@@ -41,3 +41,29 @@ export const masterNode = (inputs: {
       body: "csm_DiffuseColor.rgb = diffuseColor;"
     }
   })
+
+export const operator = (
+  type: GLSLType,
+  operator: Operator,
+  inputs: { a: Variable; b: Variable }
+) =>
+  node({
+    name: `Perform ${operator} on ${type}`,
+    inputs: {
+      a: variable(type, inputs.a),
+      b: variable(type, inputs.b)
+    },
+    outputs: {
+      result: variable(type)
+    },
+    vertex: {
+      body: `result = a ${operator} b;`
+    },
+    fragment: {
+      body: `result = a ${operator} b;`
+    }
+  })
+
+export function add(a: Variable, b: Variable) {
+  return operator(a.type, "+", { a, b }).outputs.result
+}

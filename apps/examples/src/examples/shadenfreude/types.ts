@@ -9,6 +9,8 @@ export type GLSLType =
   | "mat4"
   | "sampler2D"
 
+export type Operator = "*" | "/" | "+" | "-"
+
 export type Qualifier = "uniform" | "varying" | "attribute"
 
 export type Variable<T = any> = {
