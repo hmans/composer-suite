@@ -20,7 +20,9 @@ function useShader() {
         header: "",
         body: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
       },
-      inputs: {},
+      inputs: {
+        color: variable("vec3")
+      },
       outputs: {
         foo: variable("float")
       }

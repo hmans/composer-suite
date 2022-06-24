@@ -35,6 +35,18 @@ function compileBody(node: ShaderNode, program: Program): string {
       .join("\n")}
 
     {
+      /* Inputs */
+      ${Object.entries(node.inputs)
+        .map(([name, variable]) =>
+          compileVariable({
+            globalName: name,
+            type: variable.type,
+            value: variable.value
+          })
+        )
+        .join("\n")}
+
+      /* Code */
       ${node[program].body}
     }
   `
