@@ -21,6 +21,11 @@ export type Variable<T = any> = {
 
 export type Variables = Record<string, Variable>
 
+export type Program = {
+  header: string
+  body: string
+}
+
 export type ShaderNode = {
   name: string
 
@@ -28,14 +33,8 @@ export type ShaderNode = {
   uniforms: Variables
 
   /* Programs */
-  vertex: {
-    header: string
-    body: string
-  }
-  fragment: {
-    header: string
-    body: string
-  }
+  vertex: Program
+  fragment: Program
 
   /* Variables */
   inputs: Variables
