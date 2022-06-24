@@ -6,12 +6,8 @@ export const timeNode = () => {
 
   return node({
     name: "Time Uniform",
-
     uniforms: { u_time },
-
-    outputs: {
-      time: variable("float", u_time)
-    },
+    outputs: { time: variable("float", u_time) },
 
     update: (_, dt) => {
       u_time.value! += dt
