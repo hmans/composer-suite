@@ -77,47 +77,35 @@ function compileBody(
 ): string {
   const parts = new Array<string>()
 
-  /* Add dependents */
-  for (const [name, variable] of Object.entries(node.inputs)) {
-    if (variable.value._variable) {
-      const dependency = variablesToNodes.get(variable.value)!
-      if (!dependency) throw new Error("Dependency not found")
+  performWithDependencies(node, (node) => {
+    parts.push(`
+      ${nodeTitle(node)}
 
-      if (!state.renderedNodes.has(dependency)) {
-        parts.push(compileBody(dependency, program, state))
+      ${Object.entries(node.outputs)
+        .map(([name, variable]) => compileVariable(variable))
+        .join("\n")}
+
+      {
+        /* Inputs */
+        ${Object.entries(node.inputs)
+          .map(([name, variable]) => compileVariable({ ...variable, name }))
+          .join("\n")}
+
+        /* Outputs */
+        ${Object.entries(node.outputs)
+          .map(([name, variable]) => compileVariable({ ...variable, name }))
+          .join("\n")}
+
+        /* Code */
+        ${node[program].body}
+
+        /* Update globals */
+        ${Object.entries(node.outputs)
+          .map(([name, variable]) => `${variable.name} = ${name};`)
+          .join("\n")}
       }
-    }
-  }
-
-  parts.push(`
-    ${nodeTitle(node)}
-
-    ${Object.entries(node.outputs)
-      .map(([name, variable]) => compileVariable(variable))
-      .join("\n")}
-
-    {
-      /* Inputs */
-      ${Object.entries(node.inputs)
-        .map(([name, variable]) => compileVariable({ ...variable, name }))
-        .join("\n")}
-
-      /* Outputs */
-      ${Object.entries(node.outputs)
-        .map(([name, variable]) => compileVariable({ ...variable, name }))
-        .join("\n")}
-
-      /* Code */
-      ${node[program].body}
-
-      /* Update globals */
-      ${Object.entries(node.outputs)
-        .map(([name, variable]) => `${variable.name} = ${name};`)
-        .join("\n")}
-    }
-  `)
-
-  state.renderedNodes.add(node)
+    `)
+  })
 
   return parts.join("\n\n\n")
 }
