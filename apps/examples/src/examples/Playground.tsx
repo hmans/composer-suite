@@ -12,6 +12,7 @@ const timeNode = () => {
   const u_time = variable("float", 0)
 
   return node({
+    name: "Time Uniform",
     uniforms: { u_time },
     outputs: {
       time: variable("float", "u_time")
@@ -66,6 +67,10 @@ function useShader() {
       },
       outputs: {
         offset: variable("vec3", `vec3(0.0, 0.0, 0.0)`)
+      },
+      vertex: {
+        header: "",
+        body: `offset.x = sin(u_time) * 5.0;`
       }
     }).outputs
 
@@ -81,7 +86,7 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const { update, ...shaderProps } = useShader()
 
   console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
+  // console.log(shaderProps.fragmentShader)
 
   useFrame(update)
 

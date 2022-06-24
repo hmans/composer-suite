@@ -94,8 +94,18 @@ function compileBody(
         .map(([name, variable]) => compileVariable({ ...variable, name }))
         .join("\n")}
 
+      /* Outputs */
+      ${Object.entries(node.outputs)
+        .map(([name, variable]) => compileVariable({ ...variable, name }))
+        .join("\n")}
+
       /* Code */
       ${node[program].body}
+
+      /* Update globals */
+      ${Object.entries(node.outputs)
+        .map(([name, variable]) => `${variable.name} = ${name};`)
+        .join("\n")}
     }
   `)
 
@@ -133,6 +143,30 @@ function getUpdateCallback(
   }
 }
 
+function getUniforms(
+  node: ShaderNode,
+  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
+) {
+  const uniforms = {}
+
+  /* Add dependencies */
+  for (const [name, variable] of Object.entries(node.inputs)) {
+    if (variable.value._variable) {
+      const dependency = variablesToNodes.get(variable.value)!
+      if (!dependency) throw new Error("Dependency not found")
+
+      if (!state.renderedNodes.has(dependency)) {
+        Object.assign(uniforms, getUniforms(dependency, state))
+      }
+    }
+  }
+
+  Object.assign(uniforms, node.uniforms)
+  state.renderedNodes.add(node)
+
+  return uniforms
+}
+
 export function compileShader(root: ShaderNode) {
   const vertexShader = `
     /*** VERTEX SHADER ***/
@@ -152,7 +186,7 @@ export function compileShader(root: ShaderNode) {
       ${compileBody(root, "fragment")}
     }`
 
-  const uniforms = {}
+  const uniforms = getUniforms(root)
 
   const update = getUpdateCallback(root)
 
