@@ -104,6 +104,12 @@ function compileBody(
   return parts.join("\n\n\n")
 }
 
+function getUpdateCallback(node: Shadernode): RenderCallback {
+  return (...args) => {
+    console.log("hi")
+  }
+}
+
 export function compileShader(root: ShaderNode) {
   const vertexShader = `
     /*** VERTEX SHADER ***/
@@ -125,9 +131,7 @@ export function compileShader(root: ShaderNode) {
 
   const uniforms = {}
 
-  const update: RenderCallback = (...args) => {
-    console.log("hi")
-  }
+  const update = getUpdateCallback(root)
 
   return { vertexShader, fragmentShader, uniforms, update }
 }
