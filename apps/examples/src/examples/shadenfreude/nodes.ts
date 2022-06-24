@@ -64,6 +64,5 @@ export const operator = (
     }
   })
 
-export function add(a: Variable, b: Variable) {
-  return operator(a.type, "+", { a, b }).outputs.result
-}
+export const add = (a: Variable, b: Variable) =>
+  operator(a.type, "+", { a, b }).outputs.result
