@@ -29,12 +29,7 @@ function nodeTitle(node: ShaderNode) {
   return `/** Node: ${node.name} **/`
 }
 
-function performWithDependencies(
-  node: ShaderNode,
-  callback: (dependency: ShaderNode) => void,
-  seen = new Set<ShaderNode>()
-) {
-  /* Perform for dependencies */
+function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
   for (const [_, variable] of Object.entries(node.inputs)) {
     if (variable.value._variable) {
       /* get dependency */
@@ -42,88 +37,71 @@ function performWithDependencies(
       if (!dependency) throw new Error("Dependency not found")
 
       /* If we haven't seen this dependency yet, invoke the callback */
-      if (!seen.has(dependency)) {
-        performWithDependencies(dependency, callback, seen)
+      if (!deps.includes(dependency)) {
+        dependencies(dependency, deps)
       }
     }
   }
 
-  /* Perform for this node */
-  seen.add(node)
-  callback(node)
+  deps.push(node)
+  return deps
 }
 
 function compileHeader(node: ShaderNode, program: Program) {
-  const parts = new Array<string>()
-
-  performWithDependencies(node, (node) => {
-    parts.push(`
-      ${nodeTitle(node)}
-      ${node[program].header}
-    `)
-  })
-
-  return parts.join("\n\n\n")
+  return dependencies(node)
+    .map(
+      (n) => `
+        ${nodeTitle(n)}
+        ${n[program].header}
+      `
+    )
+    .join("\n\n\n")
 }
 
 function compileBody(node: ShaderNode, program: Program) {
-  const parts = new Array<string>()
+  return dependencies(node)
+    .map(
+      (node) => `
+        ${nodeTitle(node)}
 
-  performWithDependencies(node, (node) => {
-    parts.push(`
-      ${nodeTitle(node)}
-
-      ${Object.entries(node.outputs)
-        .map(([name, variable]) => compileVariable(variable))
-        .join("\n")}
-
-      {
-        /* Inputs */
-        ${Object.entries(node.inputs)
-          .map(([name, variable]) => compileVariable({ ...variable, name }))
-          .join("\n")}
-
-        /* Outputs */
         ${Object.entries(node.outputs)
-          .map(([name, variable]) => compileVariable({ ...variable, name }))
+          .map(([name, variable]) => compileVariable(variable))
           .join("\n")}
 
-        /* Code */
-        ${node[program].body}
+        {
+          /* Inputs */
+          ${Object.entries(node.inputs)
+            .map(([name, variable]) => compileVariable({ ...variable, name }))
+            .join("\n")}
 
-        /* Update globals */
-        ${Object.entries(node.outputs)
-          .map(([name, variable]) => `${variable.name} = ${name};`)
-          .join("\n")}
-      }
-    `)
-  })
+          /* Outputs */
+          ${Object.entries(node.outputs)
+            .map(([name, variable]) => compileVariable({ ...variable, name }))
+            .join("\n")}
 
-  return parts.join("\n\n\n")
+          /* Code */
+          ${node[program].body}
+
+          /* Update globals */
+          ${Object.entries(node.outputs)
+            .map(([name, variable]) => `${variable.name} = ${name};`)
+            .join("\n")}
+        }
+      `
+    )
+    .join("\n\n\n")
 }
 
 function getUpdateCallback(node: ShaderNode): RenderCallback {
-  const callbacks = new Array<RenderCallback>()
-
-  performWithDependencies(node, (node) => {
-    if (node.update) {
-      callbacks.push(node.update)
-    }
-  })
+  const callbacks = dependencies(node).map((node) => node.update)
 
   return (...args) => {
-    callbacks.forEach((callback) => callback(...args))
+    callbacks.forEach((callback) => callback?.(...args))
   }
 }
 
 function getUniforms(node: ShaderNode) {
-  const uniforms = {}
-
-  performWithDependencies(node, (node) => {
-    Object.assign(uniforms, node.uniforms)
-  })
-
-  return uniforms
+  return Object.assign({}, ...dependencies(node).map((node) => node.uniforms))
 }
 
 export function compileShader(root: ShaderNode) {
