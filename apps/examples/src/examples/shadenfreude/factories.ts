@@ -14,6 +14,7 @@ export function variable<T>(type: GLSLType, value?: T): Variable<T> {
 export function node(template: Partial<ShaderNode>) {
   const node: ShaderNode = {
     name: "Unnamed",
+    uniforms: {},
     inputs: {},
     outputs: {},
     vertex: { header: "", body: "" },

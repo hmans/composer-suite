@@ -24,7 +24,7 @@ function compileVariable(variable: Variable) {
   `
 }
 
-function formatValue(v: any) {
+export function formatValue(v: any) {
   return typeof v === "number" ? v.toFixed(5) : v
 }
 
@@ -32,11 +32,33 @@ function nodeTitle(node: ShaderNode) {
   return `/** Node: ${node.name} **/`
 }
 
-function compileHeader(node: ShaderNode, program: Program): string {
-  return `
+function compileHeader(
+  node: ShaderNode,
+  program: Program,
+  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
+): string {
+  const parts = new Array<string>()
+
+  /* Add dependents */
+  for (const [name, variable] of Object.entries(node.inputs)) {
+    if (variable.value._variable) {
+      const dependency = variablesToNodes.get(variable.value)!
+      if (!dependency) throw new Error("Dependency not found")
+
+      if (!state.renderedNodes.has(dependency)) {
+        parts.push(compileHeader(dependency, program, state))
+      }
+    }
+  }
+
+  parts.push(`
     ${nodeTitle(node)}
     ${node[program].header}
-  `
+  `)
+
+  state.renderedNodes.add(node)
+
+  return parts.join("\n\n\n")
 }
 
 function compileBody(

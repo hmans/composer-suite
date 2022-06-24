@@ -1,11 +1,30 @@
 import { useMemo } from "react"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
-import { compileShader } from "./shadenfreude/compilers"
+import { compileShader, formatValue } from "./shadenfreude/compilers"
 import { node, variable } from "./shadenfreude/factories"
 import { Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
+
+const timeNode = () => {
+  const u_time = variable("float", 0)
+
+  return node({
+    uniforms: { u_time },
+    outputs: {
+      time: variable("float", "u_time")
+    },
+    vertex: {
+      header: "uniform float u_time;",
+      body: ""
+    },
+    fragment: {
+      header: "uniform float u_time;",
+      body: ""
+    }
+  })
+}
 
 const colorValueNode = () =>
   node({
@@ -34,9 +53,15 @@ const masterNode = (inputs: { diffuseColor?: Variable; offset?: Variable }) =>
 
 function useShader() {
   return useMemo(() => {
+    const { time } = timeNode().outputs
+
     const { offset } = node({
+      name: "Wobble",
+      inputs: {
+        time: variable("float", time)
+      },
       outputs: {
-        offset: variable("vec3", "vec3(0.0, 0.0, 0.0)")
+        offset: variable("vec3", `vec3(0.0, 0.0, 0.0)`)
       }
     }).outputs
 
