@@ -15,11 +15,16 @@ const colorValueNode = () =>
     }
   })
 
-const masterNode = (inputs: { diffuseColor: Color | Variable }) =>
+const masterNode = (inputs: { diffuseColor?: Variable; offset?: Variable }) =>
   node({
-    name: "Test",
+    name: "Master Node",
     inputs: {
-      diffuseColor: variable("vec3", inputs.diffuseColor)
+      diffuseColor: variable("vec3", inputs.diffuseColor),
+      offset: variable("vec3", inputs.offset)
+    },
+    vertex: {
+      header: "",
+      body: "csm_Position += offset;"
     },
     fragment: {
       header: "",
@@ -29,9 +34,15 @@ const masterNode = (inputs: { diffuseColor: Color | Variable }) =>
 
 function useShader() {
   return useMemo(() => {
+    const { offset } = node({
+      outputs: {
+        offset: variable("vec3", "vec3(0.0, 0.0, 0.0)")
+      }
+    }).outputs
+
     const { color } = colorValueNode().outputs
 
-    const root = masterNode({ diffuseColor: color })
+    const root = masterNode({ diffuseColor: color, offset })
 
     return compileShader(root)
   }, [])
