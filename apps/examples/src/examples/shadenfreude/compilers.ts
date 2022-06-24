@@ -57,7 +57,7 @@ function performWithDependencies(
   callback(node)
 }
 
-function compileHeader(node: ShaderNode, program: Program): string {
+function compileHeader(node: ShaderNode, program: Program) {
   const parts = new Array<string>()
 
   performWithDependencies(node, (node) => {
@@ -70,11 +70,7 @@ function compileHeader(node: ShaderNode, program: Program): string {
   return parts.join("\n\n\n")
 }
 
-function compileBody(
-  node: ShaderNode,
-  program: Program,
-  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
-): string {
+function compileBody(node: ShaderNode, program: Program) {
   const parts = new Array<string>()
 
   performWithDependencies(node, (node) => {
@@ -110,55 +106,26 @@ function compileBody(
   return parts.join("\n\n\n")
 }
 
-function getUpdateCallback(
-  node: ShaderNode,
-  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
-): RenderCallback {
+function getUpdateCallback(node: ShaderNode): RenderCallback {
   const callbacks = new Array<RenderCallback>()
 
-  /* Add dependencies */
-  for (const [name, variable] of Object.entries(node.inputs)) {
-    if (variable.value._variable) {
-      const dependency = variablesToNodes.get(variable.value)!
-      if (!dependency) throw new Error("Dependency not found")
-
-      if (!state.renderedNodes.has(dependency)) {
-        callbacks.push(getUpdateCallback(dependency, state))
-      }
+  performWithDependencies(node, (node) => {
+    if (node.update) {
+      callbacks.push(node.update)
     }
-  }
-
-  if (node.update) {
-    callbacks.push(node.update)
-  }
-
-  state.renderedNodes.add(node)
+  })
 
   return (...args) => {
     callbacks.forEach((callback) => callback(...args))
   }
 }
 
-function getUniforms(
-  node: ShaderNode,
-  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
-) {
+function getUniforms(node: ShaderNode) {
   const uniforms = {}
 
-  /* Add dependencies */
-  for (const [name, variable] of Object.entries(node.inputs)) {
-    if (variable.value._variable) {
-      const dependency = variablesToNodes.get(variable.value)!
-      if (!dependency) throw new Error("Dependency not found")
-
-      if (!state.renderedNodes.has(dependency)) {
-        Object.assign(uniforms, getUniforms(dependency, state))
-      }
-    }
-  }
-
-  Object.assign(uniforms, node.uniforms)
-  state.renderedNodes.add(node)
+  performWithDependencies(node, (node) => {
+    Object.assign(uniforms, node.uniforms)
+  })
 
   return uniforms
 }
