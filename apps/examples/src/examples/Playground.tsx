@@ -27,7 +27,6 @@ function useShader() {
       vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
     })
 
-    /* Connect things programmatically */
     plug(time).into(wobble.inputs.time)
 
     const { color } = colorValueNode().outputs
