@@ -4,10 +4,6 @@ import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
-type CompileState = {
-  renderedNodes: Set<ShaderNode>
-}
-
 function compileVariableValue(variable: Variable): string {
   if (variable.value._variable) {
     return variable.value.name
@@ -36,7 +32,7 @@ function nodeTitle(node: ShaderNode) {
 function performWithDependencies(
   node: ShaderNode,
   callback: (dependency: ShaderNode) => void,
-  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
+  seen = new Set<ShaderNode>()
 ) {
   /* Perform for dependencies */
   for (const [_, variable] of Object.entries(node.inputs)) {
@@ -46,14 +42,14 @@ function performWithDependencies(
       if (!dependency) throw new Error("Dependency not found")
 
       /* If we haven't seen this dependency yet, invoke the callback */
-      if (!state.renderedNodes.has(dependency)) {
-        performWithDependencies(dependency, callback, state)
+      if (!seen.has(dependency)) {
+        performWithDependencies(dependency, callback, seen)
       }
     }
   }
 
   /* Perform for this node */
-  state.renderedNodes.add(node)
+  seen.add(node)
   callback(node)
 }
 
