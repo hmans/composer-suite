@@ -33,13 +33,13 @@ const wobble = (inputs?: { time?: Variable }) =>
 
 function useShader() {
   return useMemo(() => {
-    // plug(time).into(wobble.inputs.time)
+    const { time } = timeNode().outputs
 
     const root = masterNode({
       diffuseColor: colorValueNode().outputs.color,
 
       position: add(
-        wobble({ time: timeNode().outputs.time }).outputs.offset,
+        wobble({ time }).outputs.offset,
         vertexPositionNode().outputs.position
       )
     })
