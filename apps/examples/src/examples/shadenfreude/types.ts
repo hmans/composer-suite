@@ -2,8 +2,11 @@ import { RenderCallback } from "@react-three/fiber"
 
 export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4"
 
+export type Qualifier = "uniform" | "varying" | "attribute"
+
 export type Variable<T = any> = {
   _variable: true
+  qualifier?: Qualifier
   value?: T
   type: GLSLType
   name: string

@@ -14,10 +14,12 @@ function compileVariableValue(variable: Variable): string {
 
 function compileVariable(variable: Variable) {
   const valueString =
-    variable.value !== undefined ? ` = ${compileVariableValue(variable)}` : ""
+    variable.qualifier !== "uniform" && variable.value !== undefined
+      ? ` = ${compileVariableValue(variable)}`
+      : ""
 
   return `
-    ${variable.type} ${variable.name}${valueString};
+    ${variable.qualifier ?? ""} ${variable.type} ${variable.name}${valueString};
   `
 }
 
@@ -48,13 +50,18 @@ function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
 }
 
 function compileHeader(node: ShaderNode, program: Program) {
+  const header = (n: ShaderNode) => `
+    ${nodeTitle(n)}
+    ${Object.entries(n.uniforms)
+      .map(([name, variable]) =>
+        compileVariable({ ...variable, name, qualifier: "uniform" })
+      )
+      .join("\n")}
+    ${n[program].header}
+  `
+
   return dependencies(node)
-    .map(
-      (n) => `
-        ${nodeTitle(n)}
-        ${n[program].header}
-      `
-    )
+    .map(header)
     .join("\n\n\n")
 }
 

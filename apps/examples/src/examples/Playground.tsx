@@ -17,14 +17,6 @@ const timeNode = () => {
     outputs: {
       time: variable("float", "u_time")
     },
-    vertex: {
-      header: "uniform float u_time;",
-      body: ""
-    },
-    fragment: {
-      header: "uniform float u_time;",
-      body: ""
-    },
     update: (_, dt) => {
       u_time.value! += dt
     }
