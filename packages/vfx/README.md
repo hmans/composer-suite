@@ -1,8 +1,8 @@
 ![vfx Logo](https://user-images.githubusercontent.com/1061/172030500-4142969b-a0be-403b-94a1-a6d23e20cfa3.png)
 
-[![Version](https://img.shields.io/npm/v/vfx?style=for-the-badge)](https://www.npmjs.com/package/vfx)
-[![Downloads](https://img.shields.io/npm/dt/vfx.svg?style=for-the-badge)](https://www.npmjs.com/package/vfx)
-[![Bundle Size](https://img.shields.io/bundlephobia/min/vfx?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=vfx)
+[![Version](https://img.shields.io/npm/v/three-vfx?style=for-the-badge)](https://www.npmjs.com/package/three-vfx)
+[![Downloads](https://img.shields.io/npm/dt/three-vfx.svg?style=for-the-badge)](https://www.npmjs.com/package/three-vfx)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/three-vfx?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=three-vfx)
 
 > **Warning**
 > This library is (extremely!) work-in-progress. **Use at your own risk.**
@@ -15,15 +15,15 @@
 
 This library is currently under heavy development, and is most definitely **not ready for any sort of production use whatsoever**. If you're interested in giving it a try, you are, however, invited to play with any of the example sandboxes listed below!
 
-## Help Wanted! 🙏
-
-If you're into visual effects and/or WebGL/Three.js development, **this library could benefit from your help**. There are a couple of issues and missing features that could use the help (or input) of people much more familiar with these domains than I am -- please [refer to the Roadmap](https://github.com/hmans/three-vfx/issues/4) for details.
-
 ## Examples & Demos 🎓
 
-- **[Official Examples Suite](https://vfx-examples.vercel.app/)**
+- **[Official Examples Suite](https://three-vfx-examples.vercel.app/)**
 - **[Official Starter Sandbox](https://codesandbox.io/s/github/hmans/three-vfx-starter?file=/src/Effect.js)** (fork it!)
 - [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
+
+## Where is the Documentation?
+
+I'm afraid there's currently **no documentation available** outside of the sandboxes linked to above. As much as I would like to provide documentation, the library is still too much in flux, with breaking changes landing on `main` on almost a daily basis. There _will_ be extensiv documentation as soon as things start to settle down -- until then, if you want to play around with the library, please feel free to use/fork one of the available sandboxes.
 
 ## How this Library Works 🥳
 
