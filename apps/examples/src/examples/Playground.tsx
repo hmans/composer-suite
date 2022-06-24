@@ -66,11 +66,11 @@ function useShader() {
         time: variable("float", time)
       },
       outputs: {
-        offset: variable("vec3", `vec3(0.0, 0.0, 0.0)`)
+        offset: variable("vec3")
       },
       vertex: {
         header: "",
-        body: `offset.x = sin(u_time) * 5.0;`
+        body: `offset.x = sin(u_time * 2.5) * 5.0;`
       }
     }).outputs
 
