@@ -4,6 +4,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 import { useMemo } from "react"
 import { ShaderNode } from "./shadenfreude/types"
 import { compileShader } from "./shadenfreude/compilers"
+import { variable } from "./shadenfreude/variables"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -18,6 +19,10 @@ function useShader() {
       fragment: {
         header: "",
         body: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
+      },
+      inputs: {},
+      outputs: {
+        foo: variable("float")
       }
     }
 

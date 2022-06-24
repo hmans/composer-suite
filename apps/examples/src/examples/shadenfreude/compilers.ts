@@ -1,6 +1,19 @@
-import { ShaderNode } from "./types"
+import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
+
+function compileVariable(variable: Variable) {
+  const valueString =
+    variable.value !== undefined ? ` = ${formatValue(variable.value)}` : ""
+
+  return `
+    ${variable.type} ${variable.globalName}${valueString};
+  `
+}
+
+function formatValue(v: any) {
+  return typeof v === "number" ? v.toFixed(5) : v
+}
 
 function nodeTitle(node: ShaderNode) {
   return `/** Node: ${node.name} **/`
@@ -16,6 +29,11 @@ function compileHeader(node: ShaderNode, program: Program): string {
 function compileBody(node: ShaderNode, program: Program): string {
   return `
     ${nodeTitle(node)}
+
+    ${Object.entries(node.outputs)
+      .map(([name, variable]) => compileVariable(variable))
+      .join("\n")}
+
     {
       ${node[program].body}
     }
