@@ -3,9 +3,9 @@ import { useMemo } from "react"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
-import { float, node, plug, vec3 } from "./shadenfreude/factories"
+import { float, node, plug, variable, vec3 } from "./shadenfreude/factories"
 import { masterNode, timeNode } from "./shadenfreude/nodes"
-import { Variable } from "./shadenfreude/types"
+import { GLSLType, Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -17,21 +17,27 @@ const colorValueNode = () =>
     }
   })
 
-const vec3Add = (inputs: { a: Variable; b: Variable }) =>
+type Operator = "*" | "/" | "+" | "-"
+
+const operator = (
+  type: GLSLType,
+  operator: Operator,
+  inputs: { a: Variable; b: Variable }
+) =>
   node({
-    name: "Add Vector3",
+    name: `Perform ${operator} on ${type}`,
     inputs: {
-      a: vec3(inputs.a),
-      b: vec3(inputs.b)
+      a: variable(type, inputs.a),
+      b: variable(type, inputs.b)
     },
     outputs: {
-      sum: vec3()
+      result: variable(type)
     },
     vertex: {
-      body: `sum = a + b;`
+      body: `result = a ${operator} b;`
     },
     fragment: {
-      body: `sum = a + b;`
+      body: `result = a ${operator} b;`
     }
   })
 
@@ -56,16 +62,13 @@ function useShader() {
 
     plug(time).into(wobble.inputs.time)
 
-    const { sum } = vec3Add({
-      a: originalPosition.outputs.position,
-      b: wobble.outputs.offset
-    }).outputs
-
-    const { color } = colorValueNode().outputs
-
     const root = masterNode({
-      diffuseColor: color,
-      position: sum
+      diffuseColor: colorValueNode().outputs.color,
+
+      position: operator("vec3", "+", {
+        a: originalPosition.outputs.position,
+        b: wobble.outputs.offset
+      }).outputs.result
     })
 
     return compileShader(root)
