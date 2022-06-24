@@ -3,7 +3,7 @@ import { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useMemo } from "react"
 import { ShaderNode } from "./shadenfreude/types"
-import { compileShaderNode } from "./shadenfreude/compilers"
+import { compileShader } from "./shadenfreude/compilers"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -17,12 +17,15 @@ function useShader() {
       fragmentBody: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
     }
 
-    return compileShaderNode(node)
+    return compileShader(node)
   }, [])
 }
 
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const shaderProps = useShader()
+
+  console.log(shaderProps.vertexShader)
+  console.log(shaderProps.fragmentShader)
 
   return <CustomShaderMaterial {...props} {...shaderProps} />
 }

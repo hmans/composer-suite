@@ -1,18 +1,22 @@
 import { ShaderNode } from "./types"
 
-export function compileShaderNode(node: ShaderNode) {
+export function compileShader(root: ShaderNode) {
   const vertexShader = `
-    ${node.vertexHeader}
+    /*** VERTEX SHADER ***/
+
+    ${root.vertexHeader}
 
     void main() {
-      ${node.vertexBody}
+      ${root.vertexBody}
     }`
 
   const fragmentShader = `
-    ${node.fragmentHeader}
+    /*** FRAGMENT SHADER ***/
+
+    ${root.fragmentHeader}
 
     void main() {
-      ${node.fragmentBody}
+      ${root.fragmentBody}
     }`
 
   const uniforms = {}
