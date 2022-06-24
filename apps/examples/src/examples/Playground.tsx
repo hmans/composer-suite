@@ -1,46 +1,12 @@
-import { useFrame } from "@react-three/fiber"
-import { createContext, useContext, useMemo } from "react"
-import { MeshStandardMaterial } from "three"
-import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
+import { MeshStandardMaterialProps } from "@react-three/fiber"
 
-const ModularShaderMaterialContext = createContext<any>(null!)
-
-type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
-
-function useUniform<T>(value: T) {
-  return useMemo(() => ({ value }), [])
-}
+type ModularShaderMaterialProps = MeshStandardMaterialProps
 
 function ModularShaderMaterial({
   children,
   ...props
 }: ModularShaderMaterialProps) {
-  const u_time = useUniform(0)
-
-  const shaderProps = useMemo(() => {
-    const vertexShader = `
-      uniform float u_time;
-
-      void main() {
-        csm_Position.x += sin(u_time) * 3.0;
-      }
-    `
-    const fragmentShader = ""
-
-    return { vertexShader, fragmentShader, uniforms: { u_time } }
-  }, [u_time])
-
-  useFrame((_, dt) => {
-    u_time.value += dt
-  })
-
-  return (
-    <CustomShaderMaterial {...props} {...shaderProps}>
-      <ModularShaderMaterialContext.Provider value={123}>
-        {children}
-      </ModularShaderMaterialContext.Provider>
-    </CustomShaderMaterial>
-  )
+  return <meshStandardMaterial {...props}>{children}</meshStandardMaterial>
 }
 
 export default function Playground() {
@@ -49,9 +15,7 @@ export default function Playground() {
       <mesh>
         <sphereGeometry args={[7]} />
 
-        <ModularShaderMaterial
-          baseMaterial={MeshStandardMaterial}
-        ></ModularShaderMaterial>
+        <ModularShaderMaterial color="red"></ModularShaderMaterial>
       </mesh>
     </group>
   )
