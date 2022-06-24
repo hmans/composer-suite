@@ -149,9 +149,10 @@ export function compileShader(root: ShaderNode) {
       ${compileBody(root, "fragment")}
     }`
 
-  const uniforms = getUniforms(root)
-
-  const update = getUpdateCallback(root)
-
-  return { vertexShader, fragmentShader, uniforms, update }
+  return {
+    vertexShader,
+    fragmentShader,
+    uniforms: getUniforms(root),
+    update: getUpdateCallback(root)
+  }
 }
