@@ -5,6 +5,7 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
 import { float, node, plug, vec3 } from "./shadenfreude/factories"
 import { masterNode, timeNode } from "./shadenfreude/nodes"
+import { Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -13,6 +14,24 @@ const colorValueNode = () =>
     name: "Color Value",
     outputs: {
       color: vec3("vec3(1.0, 0.5, 1.0)")
+    }
+  })
+
+const vec3Add = (inputs: { a: Variable; b: Variable }) =>
+  node({
+    name: "Add Vector3",
+    inputs: {
+      a: vec3(inputs.a),
+      b: vec3(inputs.b)
+    },
+    outputs: {
+      sum: vec3()
+    },
+    vertex: {
+      body: `sum = a + b;`
+    },
+    fragment: {
+      body: `sum = a + b;`
     }
   })
 
@@ -27,13 +46,26 @@ function useShader() {
       vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
     })
 
+    const originalPosition = node({
+      name: "Original Position",
+      outputs: { position: vec3() },
+      vertex: {
+        body: "position = csm_Position;"
+      }
+    })
+
     plug(time).into(wobble.inputs.time)
+
+    const { sum } = vec3Add({
+      a: originalPosition.outputs.position,
+      b: wobble.outputs.offset
+    }).outputs
 
     const { color } = colorValueNode().outputs
 
     const root = masterNode({
       diffuseColor: color,
-      offset: wobble.outputs.offset
+      position: sum
     })
 
     return compileShader(root)

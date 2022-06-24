@@ -17,16 +17,16 @@ export const timeNode = () => {
 
 export const masterNode = (inputs: {
   diffuseColor?: Variable
-  offset?: Variable
+  position?: Variable
 }) =>
   node({
     name: "Master Node",
     inputs: {
       diffuseColor: variable("vec3", inputs.diffuseColor),
-      offset: variable("vec3", inputs.offset)
+      position: variable("vec3", inputs.position)
     },
     vertex: {
-      body: "csm_Position += offset;"
+      body: "csm_Position = position;"
     },
     fragment: {
       body: "csm_DiffuseColor.rgb = diffuseColor;"
