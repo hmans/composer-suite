@@ -34,7 +34,7 @@ function nodeTitle(node: ShaderNode) {
 
 function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
   for (const [_, variable] of Object.entries(node.inputs)) {
-    if (variable.value._variable) {
+    if (variable.value?._variable) {
       /* get dependency */
       const dependency = variablesToNodes.get(variable.value)!
       if (!dependency) throw new Error("Dependency not found")

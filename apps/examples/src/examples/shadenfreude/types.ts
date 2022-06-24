@@ -1,6 +1,13 @@
 import { RenderCallback } from "@react-three/fiber"
 
-export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4"
+export type GLSLType =
+  | "bool"
+  | "float"
+  | "vec2"
+  | "vec3"
+  | "vec4"
+  | "mat4"
+  | "sampler2D"
 
 export type Qualifier = "uniform" | "varying" | "attribute"
 
