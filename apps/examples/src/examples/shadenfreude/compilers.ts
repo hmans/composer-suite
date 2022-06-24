@@ -2,9 +2,17 @@ import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
+function compileVariableValue(variable: Variable): string {
+  if (variable.value._variable) {
+    return compileVariableValue(variable.value)
+  } else {
+    return formatValue(variable.value)
+  }
+}
+
 function compileVariable(variable: Variable) {
   const valueString =
-    variable.value !== undefined ? ` = ${formatValue(variable.value)}` : ""
+    variable.value !== undefined ? ` = ${compileVariableValue(variable)}` : ""
 
   return `
     ${variable.type} ${variable.name}${valueString};

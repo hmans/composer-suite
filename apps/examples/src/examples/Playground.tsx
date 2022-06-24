@@ -8,17 +8,17 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 function useShader() {
   return useMemo(() => {
-    const colorValue = node({
+    const { color } = node({
       name: "Color Value",
       outputs: {
-        color: variable("vec3", "vec3(1.0, 1.0, 1.0)")
+        color: variable("vec3", "vec3(1.0, 0.5, 1.0)")
       }
-    })
+    }).outputs
 
     const root = node({
       name: "Test",
       inputs: {
-        color: variable("vec3", "vec3(1.0, 0.0, 0.5)")
+        color: variable("vec3", color)
       },
       outputs: {
         foo: variable("float")

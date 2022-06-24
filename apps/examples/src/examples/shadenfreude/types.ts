@@ -1,6 +1,7 @@
 export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4"
 
 export type Variable<T = any> = {
+  _variable: true
   value?: T
   type: GLSLType
   name: string
