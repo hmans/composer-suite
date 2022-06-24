@@ -8,6 +8,7 @@ import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
+import Playground from "./Playground"
 
 export type ExampleDefinition = {
   path: string
@@ -16,6 +17,7 @@ export type ExampleDefinition = {
 }
 
 export default [
+  { path: "playground", name: "Playground", component: <Playground /> },
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "explosion", name: "Explosion", component: <Explosion /> },
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
