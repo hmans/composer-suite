@@ -11,10 +11,14 @@ function useShader() {
   return useMemo(() => {
     const node: ShaderNode = {
       name: "Test",
-      vertexHeader: "",
-      vertexBody: "",
-      fragmentHeader: "",
-      fragmentBody: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
+      vertex: {
+        header: "",
+        body: ""
+      },
+      fragment: {
+        header: "",
+        body: "csm_DiffuseColor.rgb = vec3(1.0, 0.5, 0.0);"
+      }
     }
 
     return compileShader(node)

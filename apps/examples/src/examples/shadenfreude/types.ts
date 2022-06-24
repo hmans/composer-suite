@@ -1,7 +1,11 @@
 export type ShaderNode = {
   name: string
-  vertexHeader: string
-  vertexBody: string
-  fragmentHeader: string
-  fragmentBody: string
+  vertex: {
+    header: string
+    body: string
+  }
+  fragment: {
+    header: string
+    body: string
+  }
 }

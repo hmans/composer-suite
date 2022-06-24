@@ -1,22 +1,36 @@
 import { ShaderNode } from "./types"
 
+type Program = "vertex" | "fragment"
+
+function compileHeader(node: ShaderNode, program: Program): string {
+  return `
+    ${node[program].header}
+  `
+}
+
+function compileBody(node: ShaderNode, program: Program): string {
+  return `
+    ${node[program].body}
+  `
+}
+
 export function compileShader(root: ShaderNode) {
   const vertexShader = `
     /*** VERTEX SHADER ***/
 
-    ${root.vertexHeader}
+    ${compileHeader(root, "vertex")}
 
     void main() {
-      ${root.vertexBody}
+      ${compileBody(root, "vertex")}
     }`
 
   const fragmentShader = `
     /*** FRAGMENT SHADER ***/
 
-    ${root.fragmentHeader}
+    ${compileHeader(root, "fragment")}
 
     void main() {
-      ${root.fragmentBody}
+      ${compileBody(root, "fragment")}
     }`
 
   const uniforms = {}
