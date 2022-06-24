@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
 import { node, variable } from "./shadenfreude/factories"
@@ -15,18 +15,15 @@ const colorValueNode = () =>
     }
   })
 
-const masterNode = (inputs: { color: Variable }) =>
+const masterNode = (inputs: { diffuseColor: Color | Variable }) =>
   node({
     name: "Test",
     inputs: {
-      color: variable("vec3", inputs.color)
-    },
-    outputs: {
-      foo: variable("float")
+      diffuseColor: variable("vec3", inputs.diffuseColor)
     },
     fragment: {
       header: "",
-      body: "csm_DiffuseColor.rgb = color;"
+      body: "csm_DiffuseColor.rgb = diffuseColor;"
     }
   })
 
@@ -34,7 +31,7 @@ function useShader() {
   return useMemo(() => {
     const { color } = colorValueNode().outputs
 
-    const root = masterNode({ color })
+    const root = masterNode({ diffuseColor: color })
 
     return compileShader(root)
   }, [])
