@@ -1,3 +1,5 @@
+import { RenderCallback } from "@react-three/fiber"
+
 export type GLSLType = "float" | "vec2" | "vec3" | "vec4" | "mat4"
 
 export type Variable<T = any> = {
@@ -28,4 +30,7 @@ export type ShaderNode = {
   /* Variables */
   inputs: Variables
   outputs: Variables
+
+  /* etc. */
+  update?: RenderCallback
 }

@@ -1,3 +1,4 @@
+import { RenderCallback } from "@react-three/fiber"
 import { variablesToNodes } from "./factories"
 import { ShaderNode, Variable } from "./types"
 
@@ -124,5 +125,9 @@ export function compileShader(root: ShaderNode) {
 
   const uniforms = {}
 
-  return { vertexShader, fragmentShader, uniforms }
+  const update: RenderCallback = (...args) => {
+    console.log("hi")
+  }
+
+  return { vertexShader, fragmentShader, uniforms, update }
 }

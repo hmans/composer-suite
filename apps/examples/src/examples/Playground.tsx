@@ -1,9 +1,10 @@
+import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader, formatValue } from "./shadenfreude/compilers"
 import { node, variable } from "./shadenfreude/factories"
-import { Variable } from "./shadenfreude/types"
+import { ShaderNode, Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -22,7 +23,8 @@ const timeNode = () => {
     fragment: {
       header: "uniform float u_time;",
       body: ""
-    }
+    },
+    update: (_, dt) => (u_time.value! += dt)
   })
 }
 
@@ -74,10 +76,12 @@ function useShader() {
 }
 
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
-  const shaderProps = useShader()
+  const { update, ...shaderProps } = useShader()
 
   console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
+
+  useFrame(update)
 
   return <CustomShaderMaterial {...props} {...shaderProps} />
 }
