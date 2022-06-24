@@ -12,6 +12,7 @@ const itemSizes: Record<GLSLType, number> = {
   vec2: 2,
   vec3: 3,
   vec4: 4,
+  mat3: 9,
   mat4: 16,
   sampler2D: 1,
   samplerCube: 1,
