@@ -3,9 +3,8 @@ import { useMemo } from "react"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
-import { node, variable } from "./shadenfreude/factories"
-import { timeNode } from "./shadenfreude/nodes"
-import { Variable } from "./shadenfreude/types"
+import { float, node, plug, vec3 } from "./shadenfreude/factories"
+import { masterNode, timeNode } from "./shadenfreude/nodes"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -13,22 +12,7 @@ const colorValueNode = () =>
   node({
     name: "Color Value",
     outputs: {
-      color: variable("vec3", "vec3(1.0, 0.5, 1.0)")
-    }
-  })
-
-const masterNode = (inputs: { diffuseColor?: Variable; offset?: Variable }) =>
-  node({
-    name: "Master Node",
-    inputs: {
-      diffuseColor: variable("vec3", inputs.diffuseColor),
-      offset: variable("vec3", inputs.offset)
-    },
-    vertex: {
-      body: "csm_Position += offset;"
-    },
-    fragment: {
-      body: "csm_DiffuseColor.rgb = diffuseColor;"
+      color: vec3("vec3(1.0, 0.5, 1.0)")
     }
   })
 
@@ -36,22 +20,22 @@ function useShader() {
   return useMemo(() => {
     const { time } = timeNode().outputs
 
-    const { offset } = node({
+    const wobble = node({
       name: "Wobble",
-      inputs: {
-        time: variable("float", time)
-      },
-      outputs: {
-        offset: variable("vec3")
-      },
-      vertex: {
-        body: `offset.x = sin(time * 2.5) * 5.0;`
-      }
-    }).outputs
+      inputs: { time: float() },
+      outputs: { offset: vec3() },
+      vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
+    })
+
+    /* Connect things programmatically */
+    plug(time).into(wobble.inputs.time)
 
     const { color } = colorValueNode().outputs
 
-    const root = masterNode({ diffuseColor: color, offset })
+    const root = masterNode({
+      diffuseColor: color,
+      offset: wobble.outputs.offset
+    })
 
     return compileShader(root)
   }, [])

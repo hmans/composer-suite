@@ -1,3 +1,4 @@
+import { Vector, Vector3 } from "three"
 import { GLSLType, ShaderNode, Variable } from "./types"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
@@ -10,6 +11,12 @@ export function variable<T>(type: GLSLType, value?: T): Variable<T> {
     value
   }
 }
+
+export const float = (value?: number | Variable<number>) =>
+  variable("float", value)
+
+export const vec3 = (value?: Vector3 | string | Variable<Vector3>) =>
+  variable("vec3", value)
 
 export function node(template: Partial<ShaderNode>) {
   const node: ShaderNode = {
@@ -28,4 +35,12 @@ export function node(template: Partial<ShaderNode>) {
   }
 
   return node
+}
+
+export function plug(source: Variable) {
+  return {
+    into: (target: Variable) => {
+      target.value = source
+    }
+  }
 }
