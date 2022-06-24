@@ -8,6 +8,15 @@ export function variable<T>(type: GLSLType, value?: T): Variable<T> {
   }
 }
 
-export function node(template: ShaderNode) {
-  return [template.outputs, template] as const
+export function node(template: Partial<ShaderNode>) {
+  const node: ShaderNode = {
+    name: "Unnamed",
+    inputs: {},
+    outputs: {},
+    vertex: { header: "", body: "" },
+    fragment: { header: "", body: "" },
+    ...template
+  }
+
+  return node
 }
