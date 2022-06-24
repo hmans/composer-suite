@@ -33,31 +33,39 @@ function nodeTitle(node: ShaderNode) {
   return `/** Node: ${node.name} **/`
 }
 
-function compileHeader(
+function performWithDependencies(
   node: ShaderNode,
-  program: Program,
+  callback: (dependency: ShaderNode) => void,
   state: CompileState = { renderedNodes: new Set<ShaderNode>() }
-): string {
-  const parts = new Array<string>()
-
-  /* Add dependents */
-  for (const [name, variable] of Object.entries(node.inputs)) {
+) {
+  /* Perform for dependencies */
+  for (const [_, variable] of Object.entries(node.inputs)) {
     if (variable.value._variable) {
+      /* get dependency */
       const dependency = variablesToNodes.get(variable.value)!
       if (!dependency) throw new Error("Dependency not found")
 
+      /* If we haven't seen this dependency yet, invoke the callback */
       if (!state.renderedNodes.has(dependency)) {
-        parts.push(compileHeader(dependency, program, state))
+        performWithDependencies(dependency, callback, state)
       }
     }
   }
 
-  parts.push(`
-    ${nodeTitle(node)}
-    ${node[program].header}
-  `)
-
+  /* Perform for this node */
   state.renderedNodes.add(node)
+  callback(node)
+}
+
+function compileHeader(node: ShaderNode, program: Program): string {
+  const parts = new Array<string>()
+
+  performWithDependencies(node, (node) => {
+    parts.push(`
+      ${nodeTitle(node)}
+      ${node[program].header}
+    `)
+  })
 
   return parts.join("\n\n\n")
 }
