@@ -34,6 +34,11 @@ export function node(template: Partial<ShaderNode>) {
     variablesToNodes.set(variable, node)
   }
 
+  /* Create shorthands for outputs */
+  // for (const [name, variable] of Object.entries(node.outputs)) {
+  //   Object.assign(node, { [`$${name}`]: variable })
+  // }
+
   return node
 }
 
