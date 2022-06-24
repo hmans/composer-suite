@@ -1,10 +1,11 @@
+import { variablesToNodes } from "./factories"
 import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
 function compileVariableValue(variable: Variable): string {
   if (variable.value._variable) {
-    return compileVariableValue(variable.value)
+    return variable.value.name
   } else {
     return formatValue(variable.value)
   }
@@ -35,7 +36,18 @@ function compileHeader(node: ShaderNode, program: Program): string {
 }
 
 function compileBody(node: ShaderNode, program: Program): string {
-  return `
+  const parts = new Array<string>()
+
+  /* Add dependents */
+  for (const [name, variable] of Object.entries(node.inputs)) {
+    if (variable.value._variable) {
+      /* TODO: track which dependencies we've already rendered */
+      const dependency = variablesToNodes.get(variable.value)!
+      parts.push(compileBody(dependency, program))
+    }
+  }
+
+  parts.push(`
     ${nodeTitle(node)}
 
     ${Object.entries(node.outputs)
@@ -51,7 +63,9 @@ function compileBody(node: ShaderNode, program: Program): string {
       /* Code */
       ${node[program].body}
     }
-  `
+  `)
+
+  return parts.join("\n\n\n")
 }
 
 export function compileShader(root: ShaderNode) {
