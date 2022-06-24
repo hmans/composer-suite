@@ -1,3 +1,10 @@
 export default function Playground() {
-  return null
+  return (
+    <group position-y={15}>
+      <mesh>
+        <sphereGeometry args={[7]} />
+        <meshStandardMaterial />
+      </mesh>
+    </group>
+  )
 }
