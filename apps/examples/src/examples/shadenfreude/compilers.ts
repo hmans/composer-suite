@@ -60,7 +60,7 @@ function compileHeader(node: ShaderNode, program: Program) {
       )
       .join("\n")}
 
-    ${n[program].header}
+    ${n[program].header ?? ""}
   `
 
   return dependencies(node)
@@ -90,7 +90,7 @@ function compileBody(node: ShaderNode, program: Program) {
             .join("\n")}
 
           /* Code */
-          ${node[program].body}
+          ${node[program].body ?? ""}
 
           /* Update globals */
           ${Object.entries(node.outputs)

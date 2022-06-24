@@ -25,11 +25,9 @@ const masterNode = (inputs: { diffuseColor?: Variable; offset?: Variable }) =>
       offset: variable("vec3", inputs.offset)
     },
     vertex: {
-      header: "",
       body: "csm_Position += offset;"
     },
     fragment: {
-      header: "",
       body: "csm_DiffuseColor.rgb = diffuseColor;"
     }
   })
@@ -47,7 +45,6 @@ function useShader() {
         offset: variable("vec3")
       },
       vertex: {
-        header: "",
         body: `offset.x = sin(time * 2.5) * 5.0;`
       }
     }).outputs

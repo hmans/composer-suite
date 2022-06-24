@@ -22,8 +22,8 @@ export type Variable<T = any> = {
 export type Variables = Record<string, Variable>
 
 export type Program = {
-  header: string
-  body: string
+  header?: string
+  body?: string
 }
 
 export type ShaderNode = {
