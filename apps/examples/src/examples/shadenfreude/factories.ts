@@ -1,4 +1,4 @@
-import { GLSLType, Variable } from "./types"
+import { GLSLType, ShaderNode, Variable } from "./types"
 
 export function variable<T>(type: GLSLType, value?: T): Variable<T> {
   return {
@@ -6,4 +6,8 @@ export function variable<T>(type: GLSLType, value?: T): Variable<T> {
     type,
     value
   }
+}
+
+export function node(template: ShaderNode) {
+  return [template.outputs, template] as const
 }

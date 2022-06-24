@@ -1,16 +1,14 @@
-import { MeshStandardMaterial } from "three"
-import { iCSMProps } from "three-custom-shader-material"
-import CustomShaderMaterial from "three-custom-shader-material"
 import { useMemo } from "react"
-import { ShaderNode } from "./shadenfreude/types"
+import { MeshStandardMaterial } from "three"
+import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
-import { variable } from "./shadenfreude/factories"
+import { node, variable } from "./shadenfreude/factories"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 function useShader() {
   return useMemo(() => {
-    const node: ShaderNode = {
+    const [outputs, root] = node({
       name: "Test",
       inputs: {
         color: variable("vec3", "vec3(1.0, 0.0, 0.5)")
@@ -26,9 +24,9 @@ function useShader() {
         header: "",
         body: "csm_DiffuseColor.rgb = color;"
       }
-    }
+    })
 
-    return compileShader(node)
+    return compileShader(root)
   }, [])
 }
 
