@@ -1,4 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
+import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { ShaderNode, Variable } from "./types"
 
@@ -52,11 +53,13 @@ function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
 function compileHeader(node: ShaderNode, program: Program) {
   const header = (n: ShaderNode) => `
     ${nodeTitle(n)}
+
     ${Object.entries(n.uniforms)
-      .map(([name, variable]) =>
-        compileVariable({ ...variable, name, qualifier: "uniform" })
+      .map(([_, variable]) =>
+        compileVariable({ ...variable, qualifier: "uniform" })
       )
       .join("\n")}
+
     ${n[program].header}
   `
 
@@ -72,7 +75,7 @@ function compileBody(node: ShaderNode, program: Program) {
         ${nodeTitle(node)}
 
         ${Object.entries(node.outputs)
-          .map(([name, variable]) => compileVariable(variable))
+          .map(([_, variable]) => compileVariable(variable))
           .join("\n")}
 
         {
@@ -108,7 +111,15 @@ function getUpdateCallback(node: ShaderNode): RenderCallback {
 }
 
 function getUniforms(node: ShaderNode) {
-  return Object.assign({}, ...dependencies(node).map((node) => node.uniforms))
+  const uniforms = {} as Record<string, IUniform>
+
+  dependencies(node).forEach((node) => {
+    Object.entries(node.uniforms).forEach(([name, variable]) => {
+      uniforms[variable.name] = variable as IUniform
+    })
+  })
+
+  return uniforms
 }
 
 export function compileShader(root: ShaderNode) {

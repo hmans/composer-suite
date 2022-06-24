@@ -4,24 +4,10 @@ import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
 import { node, variable } from "./shadenfreude/factories"
+import { timeNode } from "./shadenfreude/nodes"
 import { Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
-
-const timeNode = () => {
-  const u_time = variable("float", 0)
-
-  return node({
-    name: "Time Uniform",
-    uniforms: { u_time },
-    outputs: {
-      time: variable("float", "u_time")
-    },
-    update: (_, dt) => {
-      u_time.value! += dt
-    }
-  })
-}
 
 const colorValueNode = () =>
   node({
@@ -62,7 +48,7 @@ function useShader() {
       },
       vertex: {
         header: "",
-        body: `offset.x = sin(u_time * 2.5) * 5.0;`
+        body: `offset.x = sin(time * 2.5) * 5.0;`
       }
     }).outputs
 
