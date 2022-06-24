@@ -15,6 +15,12 @@ export const timeNode = () => {
   })
 }
 
+export const floatValueNode = (value: number) =>
+  node({
+    name: "Float Value",
+    outputs: { value: float(value) }
+  })
+
 export const vertexPositionNode = () =>
   node({
     name: "Vertex Position",
@@ -66,6 +72,25 @@ export const operator = (
 
 export const add = (a: Variable, b: Variable) =>
   operator(a.type, "+", { a, b }).outputs.result
+
+export const mix = (a: Variable, b: Variable, factor: Variable) =>
+  node({
+    name: "Mix",
+    inputs: {
+      a: variable(a.type, a),
+      b: variable(b.type, b),
+      factor: variable("float", factor)
+    },
+    outputs: {
+      result: variable(a.type)
+    },
+    vertex: {
+      body: `result = mix(a, b, factor);`
+    },
+    fragment: {
+      body: `result = mix(a, b, factor);`
+    }
+  }).outputs.result
 
 export const fresnelNode = () =>
   node({
