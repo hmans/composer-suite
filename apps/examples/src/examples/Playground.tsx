@@ -1,22 +1,11 @@
-import { MeshStandardMaterialProps } from "@react-three/fiber"
-import { useLayoutEffect, useRef } from "react"
 import { MeshStandardMaterial } from "three"
+import { iCSMProps } from "three-custom-shader-material"
+import CustomShaderMaterial from "three-custom-shader-material"
 
-type ModularShaderMaterialProps = MeshStandardMaterialProps
+type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-function ModularShaderMaterial({
-  children,
-  ...props
-}: ModularShaderMaterialProps) {
-  const material = useRef<MeshStandardMaterial>(null!)
-
-  useLayoutEffect(() => {}, [])
-
-  return (
-    <meshStandardMaterial ref={material} {...props}>
-      {children}
-    </meshStandardMaterial>
-  )
+function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
+  return <CustomShaderMaterial {...props} />
 }
 
 export default function Playground() {
@@ -25,7 +14,10 @@ export default function Playground() {
       <mesh>
         <sphereGeometry args={[7]} />
 
-        <ModularShaderMaterial color="red"></ModularShaderMaterial>
+        <MyMaterial
+          color="red"
+          baseMaterial={MeshStandardMaterial}
+        ></MyMaterial>
       </mesh>
     </group>
   )
