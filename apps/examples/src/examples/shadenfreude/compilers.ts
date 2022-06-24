@@ -104,9 +104,32 @@ function compileBody(
   return parts.join("\n\n\n")
 }
 
-function getUpdateCallback(node: Shadernode): RenderCallback {
+function getUpdateCallback(
+  node: ShaderNode,
+  state: CompileState = { renderedNodes: new Set<ShaderNode>() }
+): RenderCallback {
+  const callbacks = new Array<RenderCallback>()
+
+  /* Add dependencies */
+  for (const [name, variable] of Object.entries(node.inputs)) {
+    if (variable.value._variable) {
+      const dependency = variablesToNodes.get(variable.value)!
+      if (!dependency) throw new Error("Dependency not found")
+
+      if (!state.renderedNodes.has(dependency)) {
+        callbacks.push(getUpdateCallback(dependency, state))
+      }
+    }
+  }
+
+  if (node.update) {
+    callbacks.push(node.update)
+  }
+
+  state.renderedNodes.add(node)
+
   return (...args) => {
-    console.log("hi")
+    callbacks.forEach((callback) => callback(...args))
   }
 }
 
