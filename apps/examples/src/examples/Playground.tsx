@@ -4,7 +4,7 @@ import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
 import { float, node, plug, variable, vec3 } from "./shadenfreude/factories"
-import { masterNode, timeNode } from "./shadenfreude/nodes"
+import { masterNode, timeNode, vertexPositionNode } from "./shadenfreude/nodes"
 import { GLSLType, Variable } from "./shadenfreude/types"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
@@ -41,33 +41,24 @@ const operator = (
     }
   })
 
+const wobble = (inputs?: { time?: Variable }) =>
+  node({
+    name: "Wobble",
+    inputs: { time: float(inputs?.time) },
+    outputs: { offset: vec3() },
+    vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
+  })
+
 function useShader() {
   return useMemo(() => {
-    const { time } = timeNode().outputs
-
-    const wobble = node({
-      name: "Wobble",
-      inputs: { time: float() },
-      outputs: { offset: vec3() },
-      vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
-    })
-
-    const originalPosition = node({
-      name: "Original Position",
-      outputs: { position: vec3() },
-      vertex: {
-        body: "position = csm_Position;"
-      }
-    })
-
-    plug(time).into(wobble.inputs.time)
+    // plug(time).into(wobble.inputs.time)
 
     const root = masterNode({
       diffuseColor: colorValueNode().outputs.color,
 
       position: operator("vec3", "+", {
-        a: originalPosition.outputs.position,
-        b: wobble.outputs.offset
+        a: vertexPositionNode().outputs.position,
+        b: wobble({ time: timeNode().outputs.time }).outputs.offset
       }).outputs.result
     })
 
