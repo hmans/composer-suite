@@ -19,7 +19,11 @@ export default function() {
     },
 
     vertexMain: `
-      csm_Position += vec3(v_age * velocity + 0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
+      /* Apply velocity */
+      csm_Position += vec3(v_age * velocity) * mat3(instanceMatrix);
+
+      /* Apply acceleration */
+      csm_Position += vec3(0.5 * v_age * v_age * acceleration) * mat3(instanceMatrix);
     `,
 
     config,
