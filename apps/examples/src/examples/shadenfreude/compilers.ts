@@ -1,5 +1,5 @@
 import { RenderCallback } from "@react-three/fiber"
-import { IUniform } from "three"
+import { IUniform, Vector3 } from "three"
 import { variablesToNodes } from "./factories"
 import { ShaderNode, Variable } from "./types"
 
@@ -24,8 +24,11 @@ function compileVariable(variable: Variable) {
   `
 }
 
-export function formatValue(v: any) {
-  return typeof v === "number" ? v.toFixed(5) : v
+export function formatValue(v: any): string {
+  if (typeof v === "number") return v.toFixed(5)
+  else if (v instanceof Vector3)
+    return `vec3(${formatValue(v.x)}, ${formatValue(v.y)}, ${formatValue(v.z)})`
+  else return v
 }
 
 function nodeTitle(node: ShaderNode) {

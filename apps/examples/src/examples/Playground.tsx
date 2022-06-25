@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import { compileShader } from "./shadenfreude/compilers"
 import { float, node, vec3 } from "./shadenfreude/factories"
@@ -10,7 +10,6 @@ import {
   fresnelNode,
   masterNode,
   mix,
-  operator,
   timeNode,
   vertexPositionNode
 } from "./shadenfreude/nodes"
@@ -22,7 +21,7 @@ const colorValueNode = () =>
   node({
     name: "Color Value",
     outputs: {
-      color: vec3("vec3(0.5, 0.3, 0.2)")
+      color: vec3(new Vector3(1, 0.6, 0.1))
     }
   })
 
@@ -70,7 +69,7 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <sphereGeometry args={[8]} />
+        <sphereGeometry args={[8, 32, 32]} />
 
         <MyMaterial baseMaterial={MeshStandardMaterial}></MyMaterial>
       </mesh>
