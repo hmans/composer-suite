@@ -19,9 +19,9 @@ function compileVariable(variable: Variable) {
       ? ` = ${compileVariableValue(variable)}`
       : ""
 
-  return `
-    ${variable.qualifier ?? ""} ${variable.type} ${variable.name}${valueString};
-  `
+  return `${variable.qualifier ?? ""} ${variable.type} ${
+    variable.name
+  }${valueString};`
 }
 
 export function formatValue(v: any): string {
@@ -79,18 +79,18 @@ function compileBody(node: ShaderNode, program: Program) {
 
         ${Object.entries(node.outputs)
           .map(([_, variable]) => compileVariable(variable))
-          .join("\n")}
+          .join("")}
 
         {
           /* Inputs */
           ${Object.entries(node.inputs)
             .map(([name, variable]) => compileVariable({ ...variable, name }))
-            .join("\n")}
+            .join("")}
 
           /* Outputs */
           ${Object.entries(node.outputs)
             .map(([name, variable]) => compileVariable({ ...variable, name }))
-            .join("\n")}
+            .join("")}
 
           /* Code */
           ${node[program].body ?? ""}
