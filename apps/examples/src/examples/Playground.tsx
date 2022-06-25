@@ -1,21 +1,21 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import { MeshStandardMaterial, Vector3 } from "three"
-import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
-import { compileShader } from "./shadenfreude/compilers"
-import { float, node, vec3 } from "./shadenfreude/factories"
 import {
   add,
+  compileShader,
+  float,
   floatValueNode,
   fresnelNode,
   masterNode,
-  mix,
-  multiply,
+  node,
   softlightBlendNode,
   timeNode,
+  Variable,
+  vec3,
   vertexPositionNode
-} from "./shadenfreude/nodes"
-import { Variable } from "./shadenfreude/types"
+} from "shadenfreude"
+import { MeshStandardMaterial, Vector3 } from "three"
+import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 

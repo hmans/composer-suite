@@ -15,6 +15,7 @@
     "r3f-perf": "^6.2.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "shadenfreude": "0.1.1",
     "three": "^0.141.0",
     "three-custom-shader-material": "^3.4.4",
     "three-vfx": "^0.1.0",
