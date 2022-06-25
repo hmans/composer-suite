@@ -1,4 +1,4 @@
-import { Vector, Vector3 } from "three"
+import { Vector3 } from "three"
 import { GLSLType, ShaderNode, Variable } from "./types"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
