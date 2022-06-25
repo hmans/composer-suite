@@ -70,7 +70,7 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <capsuleGeometry args={[5, 8]} />
+        <sphereGeometry args={[8]} />
 
         <MyMaterial
           color="red"
