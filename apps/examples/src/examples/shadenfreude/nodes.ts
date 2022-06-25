@@ -1,5 +1,5 @@
-import { variable, node, vec3, float } from "./factories"
-import { GLSLType, Operator, Variable } from "./types"
+import { variable, node, vec3, float, vec4 } from "./factories"
+import { GLSLType, Operator, Program, Variable } from "./types"
 
 export const timeNode = () => {
   const u_time = variable("float", 0)
@@ -73,6 +73,9 @@ export const operator = (
 export const add = (a: Variable, b: Variable) =>
   operator(a.type, "+", { a, b }).outputs.result
 
+export const multiply = (a: Variable, b: Variable) =>
+  operator(a.type, "*", { a, b }).outputs.result
+
 export const mix = (a: Variable, b: Variable, factor: Variable) =>
   node({
     name: "Mix",
@@ -141,3 +144,43 @@ export const fresnelNode = () =>
       `
     }
   })
+
+export const softlightBlendNode = (input: {
+  a: Variable
+  b: Variable
+  opacity: Variable<number>
+}) => {
+  const program: Program = {
+    header: `
+      float blend_softlight(const in float x, const in float y) {
+        return (y < 0.5) ?
+          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
+          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
+      }
+    `,
+    body: `
+      vec3 z = vec3(
+        blend_softlight(a.r, b.r),
+        blend_softlight(a.g, b.g),
+        blend_softlight(a.b, b.b)
+      );
+
+      result = vec3(z.xyz * opacity + a.xyz * (1.0 - opacity));
+      result = z.xyz * opacity;;
+    `
+  }
+
+  return node({
+    name: "Softlight Blend",
+    inputs: {
+      a: vec3(input.a),
+      b: vec3(input.b),
+      opacity: float(input.opacity)
+    },
+    outputs: {
+      result: vec3()
+    },
+    vertex: program,
+    fragment: program
+  })
+}

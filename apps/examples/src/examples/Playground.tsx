@@ -10,6 +10,8 @@ import {
   fresnelNode,
   masterNode,
   mix,
+  multiply,
+  softlightBlendNode,
   timeNode,
   vertexPositionNode
 } from "./shadenfreude/nodes"
@@ -38,11 +40,11 @@ function useShader() {
     const { time } = timeNode().outputs
 
     const root = masterNode({
-      diffuseColor: mix(
-        fresnelNode().outputs.fresnel,
-        colorValueNode().outputs.color,
-        floatValueNode(0.5).outputs.value
-      ),
+      diffuseColor: softlightBlendNode({
+        a: colorValueNode().outputs.color,
+        b: fresnelNode().outputs.fresnel,
+        opacity: floatValueNode(1).outputs.value
+      }).outputs.result,
 
       position: add(
         wobble({ time }).outputs.offset,
@@ -57,8 +59,8 @@ function useShader() {
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const { update, ...shaderProps } = useShader()
 
-  console.log(shaderProps.vertexShader)
-  // console.log(shaderProps.fragmentShader)
+  // console.log(shaderProps.vertexShader)
+  console.log(shaderProps.fragmentShader)
 
   useFrame(update)
 
