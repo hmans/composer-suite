@@ -62,7 +62,7 @@ export const Game = () => {
 
       {/* Rendering, ECS, etc. */}
       {postProcessing && <PostProcessing />}
-      <Perf position="bottom-right" />
+      <Perf position="bottom-right" deepAnalyze />
     </Canvas>
   )
 }
