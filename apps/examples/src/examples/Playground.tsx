@@ -72,10 +72,7 @@ export default function Playground() {
       <mesh>
         <sphereGeometry args={[8]} />
 
-        <MyMaterial
-          color="red"
-          baseMaterial={MeshStandardMaterial}
-        ></MyMaterial>
+        <MyMaterial baseMaterial={MeshStandardMaterial}></MyMaterial>
       </mesh>
     </group>
   )
