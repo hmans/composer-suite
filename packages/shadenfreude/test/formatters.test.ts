@@ -23,4 +23,28 @@ describe("formatValue", () => {
       )
     })
   })
+
+  describe("argument is THREE.Vector2", () => {
+    it("should render the vector's vec2 representation", () => {
+      expect(formatValue(new THREE.Vector2(1, 2))).toBe(
+        "vec2(1.00000, 2.00000)"
+      )
+    })
+  })
+
+  describe("argument is THREE.Vector3", () => {
+    it("should render the vector's vec3 representation", () => {
+      expect(formatValue(new THREE.Vector3(1, 2, 3))).toBe(
+        "vec3(1.00000, 2.00000, 3.00000)"
+      )
+    })
+  })
+
+  describe("argument is THREE.Vector4", () => {
+    it("should render the vector's vec4 representation", () => {
+      expect(formatValue(new THREE.Vector4(1, 2, 3, 4))).toBe(
+        "vec4(1.00000, 2.00000, 3.00000, 4.00000)"
+      )
+    })
+  })
 })
