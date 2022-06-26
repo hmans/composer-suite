@@ -1,5 +1,9 @@
 import { Color, Vector2, Vector3, Vector4 } from "three"
 
+function formatNumber(n: number) {
+  return n.toFixed(5)
+}
+
 function formatVec2(a: number, b: number) {
   return `vec2(${formatValue(a)}, ${formatValue(b)})`
 }
@@ -20,7 +24,7 @@ export function formatValue(
   if (typeof value === "string") {
     return value
   } else if (typeof value === "number") {
-    return value.toFixed(5)
+    return formatNumber(value)
   } else if (value instanceof Color) {
     return formatVec3(value.r, value.g, value.b)
   } else if (value instanceof Vector2) {
