@@ -1,7 +1,7 @@
-import { variable, node, vec3, float, vec4 } from "./factories"
-import { GLSLType, Operator, Program, Variable } from "./types"
+import { variable, node, vec3, float } from "../factories"
+import { GLSLType, Operator, Program, Variable } from "../types"
 
-export const timeNode = () => {
+export const time = () => {
   const u_time = variable("float", 0)
 
   return node({
@@ -15,7 +15,7 @@ export const timeNode = () => {
   })
 }
 
-export const floatValueNode = (value: number) =>
+export const floatValue = (value: number) =>
   node({
     name: "Float Value",
     outputs: { value: float(value) }
@@ -30,7 +30,7 @@ export const vertexPositionNode = () =>
     }
   })
 
-export const masterNode = (inputs: {
+export const master = (inputs: {
   diffuseColor?: Variable
   position?: Variable
 }) =>
@@ -95,7 +95,7 @@ export const mix = (a: Variable, b: Variable, factor: Variable) =>
     }
   }).outputs.result
 
-export const fresnelNode = () =>
+export const fresnel = () =>
   node({
     name: "Fresnel",
     inputs: {
@@ -145,7 +145,7 @@ export const fresnelNode = () =>
     }
   })
 
-export const softlightBlendNode = (input: {
+export const softlightBlend = (input: {
   a: Variable
   b: Variable
   opacity: Variable<number>

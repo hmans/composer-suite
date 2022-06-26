@@ -1,25 +1,12 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import {
-  add,
-  compileShader,
-  float,
-  floatValueNode,
-  fresnelNode,
-  masterNode,
-  node,
-  softlightBlendNode,
-  timeNode,
-  Variable,
-  vec3,
-  vertexPositionNode
-} from "shadenfreude"
+import { compileShader, float, node, Variable, vec3, nodes } from "shadenfreude"
 import { MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const colorValueNode = () =>
+const colorValue = () =>
   node({
     name: "Color Value",
     outputs: {
@@ -37,18 +24,18 @@ const wobble = (inputs?: { time?: Variable }) =>
 
 function useShader() {
   return useMemo(() => {
-    const { time } = timeNode().outputs
+    const { time } = nodes.time().outputs
 
-    const root = masterNode({
-      diffuseColor: softlightBlendNode({
-        a: colorValueNode().outputs.color,
-        b: fresnelNode().outputs.fresnel,
-        opacity: floatValueNode(1).outputs.value
+    const root = nodes.master({
+      diffuseColor: nodes.softlightBlend({
+        a: colorValue().outputs.color,
+        b: nodes.fresnel().outputs.fresnel,
+        opacity: nodes.floatValue(1).outputs.value
       }).outputs.result,
 
-      position: add(
+      position: nodes.add(
         wobble({ time }).outputs.offset,
-        vertexPositionNode().outputs.position
+        nodes.vertexPositionNode().outputs.position
       )
     })
 
