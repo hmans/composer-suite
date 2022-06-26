@@ -2,7 +2,7 @@ import { RenderCallback } from "@react-three/fiber"
 import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
-import { ShaderNode, Variable } from "./types"
+import { isVariable, ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
@@ -30,8 +30,8 @@ function nodeTitle(node: ShaderNode) {
 }
 
 function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
-  for (const [_, variable] of Object.entries(node.inputs)) {
-    if (variable.value?._variable) {
+  for (const variable of Object.values(node.inputs)) {
+    if (isVariable(variable.value)) {
       /* get dependency */
       const dependency = variablesToNodes.get(variable.value)!
       if (!dependency) throw new Error("Dependency not found")

@@ -48,3 +48,7 @@ export type ShaderNode<T = any> = {
   /* etc. */
   update?: RenderCallback
 }
+
+export function isVariable(value: any): value is Variable {
+  return !!value._variable
+}
