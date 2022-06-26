@@ -23,7 +23,7 @@ const ColorValueNode = () =>
   node({
     name: "Color Value",
     outputs: {
-      color: vec3(new Vector3(1, 0.6, 0.1))
+      value: vec3(new Vector3(1, 0.6, 0.1))
     }
   })
 
@@ -31,25 +31,22 @@ const WobbleNode = (inputs?: { time?: Variable }) =>
   node({
     name: "Wobble",
     inputs: { time: float(inputs?.time) },
-    outputs: { offset: vec3() },
-    vertex: { body: `offset.x = sin(time * 2.5) * 5.0;` }
+    outputs: { value: vec3() },
+    vertex: { body: `value.x = sin(time * 2.5) * 5.0;` }
   })
 
 function useShader() {
   return useMemo(() => {
-    const { time } = TimeNode().outputs
+    const { value: time } = TimeNode().outputs
 
     const root = MasterNode({
       diffuseColor: BlendNode({
-        a: ColorValueNode().outputs.color,
-        b: FresnelNode().outputs.fresnel,
-        opacity: FloatValueNode(1).outputs.value
-      }).outputs.result,
+        a: ColorValueNode().value,
+        b: FresnelNode().value,
+        opacity: FloatValueNode(1).value
+      }).value,
 
-      position: AddNode(
-        WobbleNode({ time }).outputs.offset,
-        VertexPositionNode().outputs.position
-      )
+      position: AddNode(WobbleNode({ time }).value, VertexPositionNode().value)
     })
 
     return compileShader(root)

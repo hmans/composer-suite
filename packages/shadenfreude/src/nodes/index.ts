@@ -7,7 +7,7 @@ export const TimeNode = () => {
   return node({
     name: "Time Uniform",
     uniforms: { u_time },
-    outputs: { time: float(u_time) },
+    outputs: { value: float(u_time) },
 
     update: (_, dt) => {
       u_time.value! += dt
@@ -24,9 +24,9 @@ export const FloatValueNode = (value: number) =>
 export const VertexPositionNode = () =>
   node({
     name: "Vertex Position",
-    outputs: { position: vec3() },
+    outputs: { value: vec3() },
     vertex: {
-      body: "position = csm_Position;"
+      body: "value = csm_Position;"
     }
   })
 
@@ -60,21 +60,21 @@ export const OperatorNode = (
       b: variable(type, inputs.b)
     },
     outputs: {
-      result: variable(type)
+      value: variable(type)
     },
     vertex: {
-      body: `result = a ${operator} b;`
+      body: `value = a ${operator} b;`
     },
     fragment: {
-      body: `result = a ${operator} b;`
+      body: `value = a ${operator} b;`
     }
   })
 
 export const AddNode = (a: Variable, b: Variable) =>
-  OperatorNode(a.type, "+", { a, b }).outputs.result
+  OperatorNode(a.type, "+", { a, b }).value
 
 export const MultiplyNode = (a: Variable, b: Variable) =>
-  OperatorNode(a.type, "*", { a, b }).outputs.result
+  OperatorNode(a.type, "*", { a, b }).value
 
 export const MixNode = (a: Variable, b: Variable, factor: Variable) =>
   node({
@@ -85,13 +85,13 @@ export const MixNode = (a: Variable, b: Variable, factor: Variable) =>
       factor: variable("float", factor)
     },
     outputs: {
-      result: variable(a.type)
+      value: variable(a.type)
     },
     vertex: {
-      body: `result = mix(a, b, factor);`
+      body: `value = mix(a, b, factor);`
     },
     fragment: {
-      body: `result = mix(a, b, factor);`
+      body: `value = mix(a, b, factor);`
     }
   }).outputs.result
 
@@ -107,7 +107,7 @@ export const FresnelNode = () =>
       factor: float(1)
     },
     outputs: {
-      fresnel: vec3()
+      value: vec3()
     },
     vertex: {
       header: `
@@ -140,7 +140,7 @@ export const FresnelNode = () =>
 
         // return vec4(f_fresnel * color, u_alpha);
 
-        fresnel.rgb = f_fresnel * color;
+        value.rgb = f_fresnel * color;
       `
     }
   })
@@ -165,8 +165,8 @@ export const BlendNode = (input: {
         blend_softlight(a.b, b.b)
       );
 
-      result = vec3(z.xyz * opacity + a.xyz * (1.0 - opacity));
-      result = z.xyz * opacity;;
+      value = vec3(z.xyz * opacity + a.xyz * (1.0 - opacity));
+      value = z.xyz * opacity;;
     `
   }
 
@@ -178,7 +178,7 @@ export const BlendNode = (input: {
       opacity: float(input.opacity)
     },
     outputs: {
-      result: vec3()
+      value: vec3()
     },
     vertex: program,
     fragment: program

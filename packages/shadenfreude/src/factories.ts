@@ -29,18 +29,17 @@ export function node(template: Partial<ShaderNode>) {
     outputs: {},
     vertex: { header: "", body: "" },
     fragment: { header: "", body: "" },
-    ...template
+    ...template,
+
+    get value() {
+      return this.outputs.value
+    }
   }
 
   /* Register outputs */
   for (const [_, variable] of Object.entries(node.outputs)) {
     variablesToNodes.set(variable, node)
   }
-
-  /* Create shorthands for outputs */
-  // for (const [name, variable] of Object.entries(node.outputs)) {
-  //   Object.assign(node, { [`$${name}`]: variable })
-  // }
 
   return node
 }

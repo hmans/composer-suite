@@ -41,6 +41,7 @@ export type ShaderNode = {
   /* Variables */
   inputs: Variables
   outputs: Variables
+  value: Variable
 
   /* etc. */
   update?: RenderCallback
