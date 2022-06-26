@@ -1,18 +1,22 @@
 import { Color, Vector2, Vector3, Vector4 } from "three"
 
-function formatNumber(n: number) {
+export function formatInt(n: number) {
+  return Math.round(n).toString()
+}
+
+export function formatFloat(n: number) {
   return n.toFixed(5)
 }
 
-function formatVec2(a: number, b: number) {
+export function formatVec2(a: number, b: number) {
   return `vec2(${formatValue(a)}, ${formatValue(b)})`
 }
 
-function formatVec3(a: number, b: number, c: number) {
+export function formatVec3(a: number, b: number, c: number) {
   return `vec3(${formatValue(a)}, ${formatValue(b)}, ${formatValue(c)})`
 }
 
-function formatVec4(a: number, b: number, c: number, d: number) {
+export function formatVec4(a: number, b: number, c: number, d: number) {
   return `vec4(${formatValue(a)}, ${formatValue(b)}, ${formatValue(
     c
   )}, ${formatValue(d)})`
@@ -24,7 +28,7 @@ export function formatValue(
   if (typeof value === "string") {
     return value
   } else if (typeof value === "number") {
-    return formatNumber(value)
+    return formatFloat(value)
   } else if (value instanceof Color) {
     return formatVec3(value.r, value.g, value.b)
   } else if (value instanceof Vector2) {
