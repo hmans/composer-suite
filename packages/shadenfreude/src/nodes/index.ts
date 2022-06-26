@@ -30,21 +30,36 @@ export const VertexPositionNode = () =>
     }
   })
 
-export const CSMMasterNode = (inputs: {
+export const CSMMasterNode = ({
+  diffuseColor,
+  emissiveColor,
+  position,
+  normal
+}: {
   diffuseColor?: Variable
+  emissiveColor?: Variable
   position?: Variable
+  normal?: Variable
 }) =>
   node({
     name: "Master Node",
     inputs: {
-      diffuseColor: vec3(inputs.diffuseColor),
-      position: vec3(inputs.position)
+      diffuseColor: vec3(diffuseColor),
+      emissiveColor: vec3(emissiveColor),
+      position: vec3(position),
+      normal: vec3(normal)
     },
     vertex: {
-      body: "csm_Position = position;"
+      body: `
+        csm_Position = position;
+        // csm_Normal = normal;
+      `
     },
     fragment: {
-      body: "csm_DiffuseColor.rgb = diffuseColor;"
+      body: `
+        csm_DiffuseColor.rgb = diffuseColor;
+        // csm_EmissiveColor.rgb = emissiveColor;
+      `
     }
   })
 
