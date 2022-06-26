@@ -1,16 +1,16 @@
 import { Vector3 } from "three"
-import { node, variable } from "../src"
+import { node, Variable, variable } from "../src"
 import { compileShader, compileVariable } from "../src/compilers"
 import "./helpers"
 
 describe("compileShader", () => {
   it("should compile a shader", () => {
-    const TestNode = () =>
+    const TestNode = (input: { offset?: Variable<Vector3> } = {}) =>
       node({
         name: "Root",
 
         inputs: {
-          offset: variable("vec3", new Vector3(1, 2, 3))
+          offset: variable("vec3", input.offset || new Vector3(1, 2, 3))
         },
 
         vertex: {
