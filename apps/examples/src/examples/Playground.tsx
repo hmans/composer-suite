@@ -4,10 +4,10 @@ import {
   AddNode,
   BlendNode,
   compileShader,
+  CSMMasterNode,
   float,
   FloatValueNode,
   FresnelNode,
-  CSMMasterNode,
   node,
   TimeNode,
   VariableValue,
@@ -19,11 +19,13 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const ColorValueNode = () =>
+const ColorValueNode = ({
+  color = new Vector3(0.8, 0.5, 0.25)
+}: { color?: VariableValue<Vector3> } = {}) =>
   node({
     name: "Color Value",
     outputs: {
-      value: vec3(new Vector3(1, 0.6, 0.1))
+      value: vec3(color)
     }
   })
 
