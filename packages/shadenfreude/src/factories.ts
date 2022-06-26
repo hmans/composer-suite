@@ -18,7 +18,9 @@ export const vec3 = (value?: Value<Vector3 | Color>) => variable("vec3", value)
 
 export const vec4 = (value?: Value<Vector4>) => variable("vec4", value)
 
-export function node(template: Partial<ShaderNode>) {
+type ShaderNodeTemplate = Partial<ShaderNode>
+
+export function node(template: ShaderNodeTemplate) {
   const node: ShaderNode = {
     name: "Unnamed",
     uniforms: {},
