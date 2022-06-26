@@ -9,9 +9,7 @@ import {
   FresnelNode,
   MasterNode,
   node,
-  ShaderNode,
   TimeNode,
-  Variable,
   VariableValue,
   vec3,
   VertexPositionNode

@@ -10,7 +10,7 @@ export const TimeNode = () => {
     outputs: { value: float(u_time) },
 
     update: (_, dt) => {
-      u_time.value! += dt
+      ;(u_time.value as number)! += dt
     }
   })
 }

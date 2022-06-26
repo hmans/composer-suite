@@ -21,7 +21,7 @@ export type Variable<T = any> = {
   name: string
 }
 
-export type VariableValue<T = any> = T | Variable<T> | ShaderNode<T>
+export type VariableValue<T = any> = T | Variable<T> | string
 
 export type Variables = Record<string, Variable>
 
