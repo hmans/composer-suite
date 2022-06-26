@@ -31,9 +31,9 @@ const ColorValueNode = ({
   })
 
 type ShaderNodeProps = { [key: string]: any }
-type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs: P) => ShaderNode
+type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs?: P) => ShaderNode
 
-const floatNode: ShaderNodeFactory<{ a: Value<number> }> = ({ a }) =>
+const floatNode: ShaderNodeFactory<{ a?: Value<number> }> = ({ a = 1 } = {}) =>
   node({
     inputs: {
       a: float(a)
@@ -77,7 +77,7 @@ function useShader() {
 
         WobbleNode({
           time: TimeNode().value,
-          amplitude: floatNode({ a: 1 }).value,
+          amplitude: floatNode().value,
           frequency: floatNode({ a: 10 }).value
         }).value
       )
