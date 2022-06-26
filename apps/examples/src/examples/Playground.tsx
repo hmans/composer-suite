@@ -9,8 +9,10 @@ import {
   FresnelNode,
   MasterNode,
   node,
+  ShaderNode,
   TimeNode,
   Variable,
+  VariableValue,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -27,7 +29,7 @@ const ColorValueNode = () =>
     }
   })
 
-const WobbleNode = (inputs?: { time?: Variable }) =>
+const WobbleNode = (inputs?: { time?: VariableValue<number> }) =>
   node({
     name: "Wobble",
     inputs: { time: float(inputs?.time) },

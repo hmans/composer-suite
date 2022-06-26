@@ -16,10 +16,12 @@ export type Qualifier = "uniform" | "varying" | "attribute"
 export type Variable<T = any> = {
   _variable: true
   qualifier?: Qualifier
-  value?: T
+  value?: VariableValue<T>
   type: GLSLType
   name: string
 }
+
+export type VariableValue<T = any> = T | Variable<T>
 
 export type Variables = Record<string, Variable>
 
