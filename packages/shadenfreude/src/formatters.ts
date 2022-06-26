@@ -22,6 +22,10 @@ export function formatVec4(a: number, b: number, c: number, d: number) {
   )}, ${formatValue(d)})`
 }
 
+export function formatColor(color: Color) {
+  return formatVec3(color.r, color.g, color.b)
+}
+
 export function formatValue(
   value: string | number | Color | Vector2 | Vector3 | Vector4
 ): string {
@@ -30,7 +34,7 @@ export function formatValue(
   } else if (typeof value === "number") {
     return formatFloat(value)
   } else if (value instanceof Color) {
-    return formatVec3(value.r, value.g, value.b)
+    return formatColor(value)
   } else if (value instanceof Vector2) {
     return formatVec2(value.x, value.y)
   } else if (value instanceof Vector3) {
