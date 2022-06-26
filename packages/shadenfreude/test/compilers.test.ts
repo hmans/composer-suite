@@ -7,8 +7,13 @@ describe("compileShader", () => {
   it("should compile a shader", () => {
     const root = node({
       name: "Root",
+
+      inputs: {
+        offset: variable("vec3", new Vector3(1, 2, 3))
+      },
+
       vertex: {
-        body: "csm_Position.x += 1.0;"
+        body: "csm_Position += offset;"
       }
     })
 

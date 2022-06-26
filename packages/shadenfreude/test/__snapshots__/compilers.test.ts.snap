@@ -21,7 +21,7 @@ Object {
 
         {
           /* Inputs */
-          
+           vec3 offset = vec3(1.0, 2.0, 3.0);
 
           /* Outputs */
           
@@ -55,13 +55,13 @@ Object {
 
         {
           /* Inputs */
-          
+           vec3 offset = vec3(1.0, 2.0, 3.0);
 
           /* Outputs */
           
 
           /* Code */
-          csm_Position.x += 1.0;
+          csm_Position += offset;
 
           /* Update globals */
           
