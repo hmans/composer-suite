@@ -6,7 +6,7 @@ import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
-export function compileVariableValue(variable: Variable): string {
+function compileVariableValue(variable: Variable): string {
   if (variable.value._variable) {
     return variable.value.name
   } else {
@@ -22,7 +22,7 @@ export function compileVariable(variable: Variable) {
 
   return `${variable.qualifier ?? ""} ${variable.type} ${
     variable.name
-  }${valueString};`.trim()
+  }${valueString};`
 }
 
 function nodeTitle(node: ShaderNode) {
