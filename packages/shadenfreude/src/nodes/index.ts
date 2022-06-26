@@ -1,3 +1,4 @@
+import { Color, Vector3 } from "three"
 import { variable, node, vec3, float } from "../factories"
 import { GLSLType, Operator, Program, Variable } from "../types"
 
@@ -36,10 +37,10 @@ export const CSMMasterNode = ({
   position,
   normal
 }: {
-  diffuseColor?: Variable
-  emissiveColor?: Variable
-  position?: Variable
-  normal?: Variable
+  diffuseColor?: Variable | Vector3
+  emissiveColor?: Variable | Vector3
+  position?: Variable<Vector3> | Vector3
+  normal?: Variable<Vector3> | Vector3
 }) =>
   node({
     name: "Master Node",
@@ -51,14 +52,14 @@ export const CSMMasterNode = ({
     },
     vertex: {
       body: `
-        csm_Position = position;
-        // csm_Normal = normal;
+        ${position ? "csm_Position = position;" : ""}
+        ${normal ? "csm_Normal = normal;" : ""}
       `
     },
     fragment: {
       body: `
-        csm_DiffuseColor.rgb = diffuseColor;
-        // csm_EmissiveColor.rgb = emissiveColor;
+        ${diffuseColor ? "csm_DiffuseColor.rgb = diffuseColor;" : ""}
+        ${emissiveColor ? "csm_EmissiveColor.rgb = emissiveColor;" : ""}
       `
     }
   })
