@@ -17,7 +17,6 @@ export type ExampleDefinition = {
 }
 
 export default [
-  { path: "playground", name: "Playground", component: <Playground /> },
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "explosion", name: "Explosion", component: <Explosion /> },
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
@@ -41,5 +40,10 @@ export default [
         <DustExample />
       </>
     )
+  },
+  {
+    path: "playground",
+    name: "Shadenfreude Playground",
+    component: <Playground />
   }
 ] as ExampleDefinition[]
