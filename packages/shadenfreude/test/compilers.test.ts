@@ -12,6 +12,7 @@ declare global {
   }
 }
 
+/* TODO: move this into some global support file */
 expect.extend({
   toBeGLSL(received, expected) {
     const pass = glsl(received) === glsl(expected)
