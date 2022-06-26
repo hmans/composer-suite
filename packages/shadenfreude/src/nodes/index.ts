@@ -1,7 +1,7 @@
 import { variable, node, vec3, float } from "../factories"
 import { GLSLType, Operator, Program, Variable } from "../types"
 
-export const time = () => {
+export const TimeNode = () => {
   const u_time = variable("float", 0)
 
   return node({
@@ -15,13 +15,13 @@ export const time = () => {
   })
 }
 
-export const floatValue = (value: number) =>
+export const FloatValueNode = (value: number) =>
   node({
     name: "Float Value",
     outputs: { value: float(value) }
   })
 
-export const vertexPositionNode = () =>
+export const VertexPositionNode = () =>
   node({
     name: "Vertex Position",
     outputs: { position: vec3() },
@@ -30,7 +30,7 @@ export const vertexPositionNode = () =>
     }
   })
 
-export const master = (inputs: {
+export const MasterNode = (inputs: {
   diffuseColor?: Variable
   position?: Variable
 }) =>
@@ -48,7 +48,7 @@ export const master = (inputs: {
     }
   })
 
-export const operator = (
+export const OperatorNode = (
   type: GLSLType,
   operator: Operator,
   inputs: { a: Variable; b: Variable }
@@ -70,13 +70,13 @@ export const operator = (
     }
   })
 
-export const add = (a: Variable, b: Variable) =>
-  operator(a.type, "+", { a, b }).outputs.result
+export const AddNode = (a: Variable, b: Variable) =>
+  OperatorNode(a.type, "+", { a, b }).outputs.result
 
-export const multiply = (a: Variable, b: Variable) =>
-  operator(a.type, "*", { a, b }).outputs.result
+export const MultiplyNode = (a: Variable, b: Variable) =>
+  OperatorNode(a.type, "*", { a, b }).outputs.result
 
-export const mix = (a: Variable, b: Variable, factor: Variable) =>
+export const MixNode = (a: Variable, b: Variable, factor: Variable) =>
   node({
     name: "Mix",
     inputs: {
@@ -95,7 +95,7 @@ export const mix = (a: Variable, b: Variable, factor: Variable) =>
     }
   }).outputs.result
 
-export const fresnel = () =>
+export const FresnelNode = () =>
   node({
     name: "Fresnel",
     inputs: {
@@ -145,7 +145,7 @@ export const fresnel = () =>
     }
   })
 
-export const softlightBlend = (input: {
+export const BlendNode = (input: {
   a: Variable
   b: Variable
   opacity: Variable<number>
