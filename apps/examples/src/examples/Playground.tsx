@@ -9,6 +9,7 @@ import {
   FloatValueNode,
   FresnelNode,
   node,
+  ShaderNode,
   TimeNode,
   Value,
   vec3,
@@ -29,7 +30,10 @@ const ColorValueNode = ({
     }
   })
 
-const floatNode = ({ a = 1 }: { a: Value<number> }) =>
+type ShaderNodeProps = { [key: string]: any }
+type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs: P) => ShaderNode
+
+const floatNode: ShaderNodeFactory<{ a: Value<number> }> = ({ a }) =>
   node({
     inputs: {
       a: float(a)
