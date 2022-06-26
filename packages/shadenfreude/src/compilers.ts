@@ -99,27 +99,24 @@ function compileBody(node: ShaderNode, program: Program) {
     .join("\n\n\n")
 }
 
-function getUpdateCallback(node: ShaderNode): RenderCallback {
-  const callbacks = dependencies(node).map((node) => node.update)
-
-  return (...args) => {
-    callbacks.forEach((callback) => callback?.(...args))
-  }
-}
-
-function getUniforms(node: ShaderNode) {
+export function compileShader(root: ShaderNode) {
+  /* Build uniforms */
   const uniforms = {} as Record<string, IUniform>
 
-  dependencies(node).forEach((node) => {
+  dependencies(root).forEach((node) => {
     Object.entries(node.uniforms).forEach(([name, variable]) => {
       uniforms[variable.name] = variable as IUniform
     })
   })
 
-  return uniforms
-}
+  /* Build callbacks */
+  const callbacks = dependencies(root).map((node) => node.update)
 
-export function compileShader(root: ShaderNode) {
+  const update: RenderCallback = (...args) => {
+    callbacks.forEach((callback) => callback?.(...args))
+  }
+
+  /* Build vertex shader program */
   const vertexShader = `
     /*** VERTEX SHADER ***/
 
@@ -129,6 +126,7 @@ export function compileShader(root: ShaderNode) {
       ${compileBody(root, "vertex")}
     }`
 
+  /* Build fragment shader program */
   const fragmentShader = `
     /*** FRAGMENT SHADER ***/
 
@@ -141,7 +139,7 @@ export function compileShader(root: ShaderNode) {
   return {
     vertexShader,
     fragmentShader,
-    uniforms: getUniforms(root),
-    update: getUpdateCallback(root)
+    uniforms,
+    update
   }
 }
