@@ -1,4 +1,5 @@
-import { formatValue } from "../src/compilers"
+import { formatValue } from "../src/formatters"
+import * as THREE from "three"
 
 describe("formatValue", () => {
   describe("argument is number", () => {
@@ -12,6 +13,14 @@ describe("formatValue", () => {
   describe("argument is string", () => {
     it("should just plain render out the argument", () => {
       expect(formatValue("foo")).toBe("foo")
+    })
+  })
+
+  describe("argument is THREE.Color", () => {
+    it("should render the color's vec3 representation", () => {
+      expect(formatValue(new THREE.Color(0.1, 0.2, 0.3))).toBe(
+        "vec3(0.10000, 0.20000, 0.30000)"
+      )
     })
   })
 })
