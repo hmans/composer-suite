@@ -6,7 +6,7 @@ import { ShaderNode, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
-function compileVariableValue(variable: Variable): string {
+export function compileVariableValue(variable: Variable): string {
   if (variable.value._variable) {
     return variable.value.name
   } else {
@@ -14,7 +14,7 @@ function compileVariableValue(variable: Variable): string {
   }
 }
 
-function compileVariable(variable: Variable) {
+export function compileVariable(variable: Variable) {
   const valueString =
     variable.qualifier !== "uniform" && variable.value !== undefined
       ? ` = ${compileVariableValue(variable)}`
@@ -22,7 +22,7 @@ function compileVariable(variable: Variable) {
 
   return `${variable.qualifier ?? ""} ${variable.type} ${
     variable.name
-  }${valueString};`
+  }${valueString};`.trim()
 }
 
 function nodeTitle(node: ShaderNode) {
