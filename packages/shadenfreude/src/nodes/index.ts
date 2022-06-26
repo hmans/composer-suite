@@ -30,7 +30,7 @@ export const VertexPositionNode = () =>
     }
   })
 
-export const MasterNode = (inputs: {
+export const CSMMasterNode = (inputs: {
   diffuseColor?: Variable
   position?: Variable
 }) =>

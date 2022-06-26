@@ -7,7 +7,7 @@ import {
   float,
   FloatValueNode,
   FresnelNode,
-  MasterNode,
+  CSMMasterNode,
   node,
   TimeNode,
   VariableValue,
@@ -37,7 +37,7 @@ const WobbleNode = (inputs?: { time?: VariableValue<number> }) =>
 
 function useShader() {
   return useMemo(() => {
-    const root = MasterNode({
+    const root = CSMMasterNode({
       diffuseColor: BlendNode({
         a: ColorValueNode().value,
         b: FresnelNode().value,
