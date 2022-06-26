@@ -46,7 +46,7 @@ function useShader() {
 
       position: AddNode(
         VertexPositionNode().value,
-        WobbleNode({ time: TimeNode().outputs.value }).value
+        WobbleNode({ time: TimeNode().value }).value
       )
     })
 
