@@ -1,6 +1,6 @@
 import { Color, Vector3 } from "three"
 import { variable, node, vec3, float } from "../factories"
-import { GLSLType, Operator, Program, Variable } from "../types"
+import { GLSLType, Operator, Program, Variable, VariableValue } from "../types"
 
 export const TimeNode = () => {
   const u_time = variable("float", 0)
@@ -39,12 +39,12 @@ export const CSMMasterNode = ({
   fragColor,
   emissiveColor
 }: {
-  position?: Variable<Vector3> | Vector3
-  normal?: Variable<Vector3> | Vector3
-  pointSize?: Variable<number> | number
-  diffuseColor?: Variable | Vector3
-  fragColor?: Variable | Vector3
-  emissiveColor?: Variable | Vector3
+  position?: VariableValue<Vector3>
+  normal?: VariableValue<Vector3>
+  pointSize?: VariableValue<number>
+  diffuseColor?: VariableValue<Vector3>
+  fragColor?: VariableValue<Vector3>
+  emissiveColor?: VariableValue<Vector3>
 }) =>
   node({
     name: "Master Node",
