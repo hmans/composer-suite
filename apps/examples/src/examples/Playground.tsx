@@ -29,12 +29,34 @@ const ColorValueNode = ({
     }
   })
 
-const WobbleNode = (inputs?: { time?: Value<number> }) =>
+const floatNode = ({ a = 1 }: { a: Value<number> }) =>
+  node({
+    inputs: {
+      a: float(a)
+    },
+    outputs: {
+      value: float(a)
+    }
+  })
+
+const WobbleNode = ({
+  amplitude = 1,
+  frequency = 1,
+  time
+}: {
+  amplitude?: Value<number>
+  frequency?: Value<number>
+  time?: Value<number>
+} = {}) =>
   node({
     name: "Wobble",
-    inputs: { time: float(inputs?.time) },
+    inputs: {
+      amplitude: float(amplitude),
+      frequency: float(frequency),
+      time: float(time)
+    },
     outputs: { value: vec3() },
-    vertex: { body: `value.x = sin(time * 2.5) * 5.0;` }
+    vertex: { body: `value.x = sin(time * frequency) * amplitude;` }
   })
 
 function useShader() {
@@ -48,7 +70,12 @@ function useShader() {
 
       position: AddNode(
         VertexPositionNode().value,
-        WobbleNode({ time: TimeNode().value }).value
+
+        WobbleNode({
+          time: TimeNode().value,
+          amplitude: floatNode({ a: 1 }).value,
+          frequency: floatNode({ a: 10 }).value
+        }).value
       )
     })
 
