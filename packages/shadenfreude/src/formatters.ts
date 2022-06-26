@@ -5,7 +5,8 @@ export function formatInt(n: number) {
 }
 
 export function formatFloat(n: number) {
-  return n.toFixed(5)
+  const s = n.toString()
+  return s.includes(".") || s.includes("e") ? s : s + ".0"
 }
 
 export function formatVec2(a: number, b: number) {
