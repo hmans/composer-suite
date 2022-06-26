@@ -5,19 +5,20 @@ import "./helpers"
 
 describe("compileShader", () => {
   it("should compile a shader", () => {
-    const root = node({
-      name: "Root",
+    const TestNode = () =>
+      node({
+        name: "Root",
 
-      inputs: {
-        offset: variable("vec3", new Vector3(1, 2, 3))
-      },
+        inputs: {
+          offset: variable("vec3", new Vector3(1, 2, 3))
+        },
 
-      vertex: {
-        body: "csm_Position += offset;"
-      }
-    })
+        vertex: {
+          body: "csm_Position += offset;"
+        }
+      })
 
-    const shader = compileShader(root)
+    const shader = compileShader(TestNode())
     expect(shader).toMatchSnapshot()
   })
 })
