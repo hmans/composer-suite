@@ -10,7 +10,7 @@ import {
   FresnelNode,
   node,
   TimeNode,
-  VariableValue,
+  Value,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -21,7 +21,7 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 const ColorValueNode = ({
   color = new Vector3(0.8, 0.5, 0.25)
-}: { color?: VariableValue<Vector3> } = {}) =>
+}: { color?: Value<Vector3> } = {}) =>
   node({
     name: "Color Value",
     outputs: {
@@ -29,7 +29,7 @@ const ColorValueNode = ({
     }
   })
 
-const WobbleNode = (inputs?: { time?: VariableValue<number> }) =>
+const WobbleNode = (inputs?: { time?: Value<number> }) =>
   node({
     name: "Wobble",
     inputs: { time: float(inputs?.time) },
