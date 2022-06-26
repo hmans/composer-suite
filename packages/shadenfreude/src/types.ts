@@ -50,5 +50,5 @@ export type ShaderNode<T = any> = {
 }
 
 export function isVariable(value: any): value is Variable {
-  return !!value._variable
+  return !!value?._variable
 }
