@@ -37,8 +37,6 @@ const WobbleNode = (inputs?: { time?: Variable }) =>
 
 function useShader() {
   return useMemo(() => {
-    const { value: time } = TimeNode().outputs
-
     const root = MasterNode({
       diffuseColor: BlendNode({
         a: ColorValueNode().value,
@@ -46,7 +44,10 @@ function useShader() {
         opacity: FloatValueNode(1).value
       }).value,
 
-      position: AddNode(WobbleNode({ time }).value, VertexPositionNode().value)
+      position: AddNode(
+        WobbleNode({ time: TimeNode().outputs.value }).value,
+        VertexPositionNode().value
+      )
     })
 
     return compileShader(root)
