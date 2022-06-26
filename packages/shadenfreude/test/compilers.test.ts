@@ -20,8 +20,9 @@ describe("compileShader", () => {
 
     const shader = compileShader(TestNode())
 
-    expect(shader.vertexShader).toBeGLSL(`
+    expect(shader.vertexShader).toBeGLSL(/*glsl*/ `
       /*** VERTEX SHADER ***/
+
       /** Node: Root **/
 
       void main() {
