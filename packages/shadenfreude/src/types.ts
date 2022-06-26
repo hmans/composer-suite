@@ -21,7 +21,7 @@ export type Variable<T = any> = {
   name: string
 }
 
-export type VariableValue<T = any> = T | Variable<T>
+export type VariableValue<T = any> = T | Variable<T> | ShaderNode<T>
 
 export type Variables = Record<string, Variable>
 
@@ -30,7 +30,7 @@ export type Program = {
   body?: string
 }
 
-export type ShaderNode = {
+export type ShaderNode<T = any> = {
   name: string
 
   /* Header Variables */
@@ -43,7 +43,7 @@ export type ShaderNode = {
   /* Variables */
   inputs: Variables
   outputs: Variables
-  value: Variable
+  value: Variable<T>
 
   /* etc. */
   update?: RenderCallback
