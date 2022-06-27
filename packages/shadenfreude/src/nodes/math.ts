@@ -30,6 +30,7 @@ export const MultiplyNode = nodeFactory<{ a: Variable; b: Variable }>(
   ({ a, b }) => OperatorNode("*", { a, b })
 )
 
+/* TODO: change this to accept Value args, not Variable! */
 export const MixNode = nodeFactory<{
   a: Variable
   b: Variable

@@ -24,23 +24,23 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 const WobbleNode = nodeFactory<{
   amplitude?: Value<"float">
   frequency?: Value<"float">
-  time?: Value<"float">
-}>(({ amplitude = 1, frequency = 1, time }) => ({
+  x?: Value<"float">
+}>(({ amplitude = 1, frequency = 1, x }) => ({
   name: "Wobble",
   inputs: {
     amplitude: float(amplitude),
     frequency: float(frequency),
-    time: float(time)
+    x: float(x)
   },
   outputs: { value: vec3() },
-  vertex: { body: `value.x = sin(time * frequency) * amplitude;` }
+  vertex: { body: `value.x = sin(x * frequency) * amplitude;` }
 }))
 
 function useShader() {
   return useMemo(() => {
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
-        a: ColorNode({ color: new Color("#dd8833") }).value,
+        a: new Color("#dd8833"),
         b: MultiplyNode({
           a: ColorNode({ color: new Color("#ffffff") }).value,
           b: FresnelNode().value
@@ -51,9 +51,9 @@ function useShader() {
       position: AddNode({
         a: VertexPositionNode().value,
         b: WobbleNode({
-          time: TimeNode().value,
-          amplitude: FloatNode({ value: 3 }).value,
-          frequency: FloatNode({ value: 10 }).value
+          x: TimeNode().value, // link to other nodes...
+          amplitude: 3, // ...or just use normal values!
+          frequency: 10
         }).value
       }).value
     })
