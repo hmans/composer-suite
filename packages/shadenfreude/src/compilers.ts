@@ -2,19 +2,18 @@ import { RenderCallback } from "@react-three/fiber"
 import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
-import { isVariable, ShaderNode, Variable } from "./types"
+import { isVariable, ShaderNode, Value, Variable } from "./types"
 
 type Program = "vertex" | "fragment"
 
-function compileVariableValue(variable: Variable): string {
-  const { value } = variable
+export function compileVariableValue(value: Value): string {
   return isVariable(value) ? value.name : formatValue(value)
 }
 
 export function compileVariable(variable: Variable) {
   const valueString =
     variable.qualifier !== "uniform" && variable.value !== undefined
-      ? ` = ${compileVariableValue(variable)}`
+      ? ` = ${compileVariableValue(variable.value)}`
       : ""
 
   return `${variable.qualifier ?? ""} ${variable.type} ${

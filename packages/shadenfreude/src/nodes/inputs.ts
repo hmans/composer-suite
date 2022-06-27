@@ -1,3 +1,4 @@
+import { compileVariableValue } from "../compilers"
 import { nodeFactory, variable, node, float, vec3 } from "../factories"
 import { Value } from "../types"
 
@@ -16,13 +17,15 @@ export const TimeNode = nodeFactory(() => {
 })
 
 export const VertexPositionNode = nodeFactory(() => ({
-  ...VaryingNode({ value: "position" }),
+  ...Vec3VaryingNode({ value: "position" }),
   name: "Vertex Position"
 }))
 
-export const VaryingNode = nodeFactory<{ value: string }>(({ value }) => ({
-  varyings: { v: vec3() },
-  outputs: { value: vec3() },
-  vertex: { body: `value = v = ${value};` },
-  fragment: { body: `value = v;` }
-}))
+export const Vec3VaryingNode = nodeFactory<{ value: Value<"vec3"> }>(
+  ({ value }) => ({
+    varyings: { v: vec3() },
+    outputs: { value: vec3() },
+    vertex: { body: `value = v = ${compileVariableValue(value)};` },
+    fragment: { body: `value = v;` }
+  })
+)
