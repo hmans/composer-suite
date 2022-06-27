@@ -6023,6 +6023,11 @@ react-merge-refs@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
+react-merge-refs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-2.0.0.tgz#4bca0d1bc67bc33723369b5800bb8d3fd75b7b10"
+  integrity sha512-r4oyTTJrwvjNUbbCaKKf4jeOGeQ7o8zwDvqX2u4/iN6w3ooKXFduv5dh2pLNAc7sZ7jLJL/CpsTD7lZVpjPZ7w==
+
 react-reconciler@^0.27.0:
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.27.0.tgz#360124fdf2d76447c7491ee5f0e04503ed9acf5b"
