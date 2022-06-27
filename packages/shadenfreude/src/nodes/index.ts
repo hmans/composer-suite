@@ -1,6 +1,6 @@
 import { Color } from "three"
 import { float, node, nodeFactory, variable, vec3 } from "../factories"
-import { GLSLType, Operator, Program, Value, Variable } from "../types"
+import { Operator, Program, Value, Variable } from "../types"
 
 export const TimeNode = nodeFactory(() => {
   const u_time = variable("float", 0)
