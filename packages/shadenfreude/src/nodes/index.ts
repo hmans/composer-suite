@@ -107,24 +107,27 @@ export const MultiplyNode = nodeFactory<{ a: Variable; b: Variable }>(
   ({ a, b }) => OperatorNode(a.type, "*", { a, b })
 )
 
-export const MixNode = (a: Variable, b: Variable, factor: Variable) =>
-  node({
-    name: "Mix",
-    inputs: {
-      a: variable(a.type, a),
-      b: variable(b.type, b),
-      factor: variable("float", factor)
-    },
-    outputs: {
-      value: variable(a.type)
-    },
-    vertex: {
-      body: `value = mix(a, b, factor);`
-    },
-    fragment: {
-      body: `value = mix(a, b, factor);`
-    }
-  }).outputs.result
+export const MixNode = nodeFactory<{
+  a: Variable
+  b: Variable
+  factor: Value<"float">
+}>(({ a, b, factor }) => ({
+  name: "Mix",
+  inputs: {
+    a: variable(a.type, a),
+    b: variable(b.type, b),
+    factor: variable("float", factor)
+  },
+  outputs: {
+    value: variable(a.type)
+  },
+  vertex: {
+    body: `value = mix(a, b, factor);`
+  },
+  fragment: {
+    body: `value = mix(a, b, factor);`
+  }
+}))
 
 export const FresnelNode = () =>
   node({
