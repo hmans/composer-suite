@@ -36,6 +36,51 @@ export type MeshParticlesMaterial = CustomShaderMaterialImpl & {
   }
 }
 
+const LifetimeNode = nodeFactory<{
+  time: Value<"float">
+  startTime: Value<"float">
+  endTime: Value<"float">
+}>(({ time, startTime, endTime }) => ({
+  inputs: {
+    time: float(time),
+    startTime: float(startTime),
+    endTime: float(endTime)
+  },
+  outputs: {
+    age: float(`time - startTime`),
+    value: float(`age / (endTime - startTime)`)
+  },
+  fragment: {
+    body: `if (value < 0.0 || value > 1.0) { discard; }`
+  }
+}))
+
+const StatelessVelocityNode = nodeFactory<{
+  time: Value<"float">
+  velocity: Value<"vec3">
+}>(({ time, velocity }) => ({
+  inputs: {
+    time: float(time),
+    velocity: vec3(velocity)
+  },
+  outputs: {
+    value: vec3(`time * velocity`)
+  }
+}))
+
+const StatelessAccelerationNode = nodeFactory<{
+  time: Value<"float">
+  acceleration: Value<"vec3">
+}>(({ time, acceleration }) => ({
+  inputs: {
+    time: float(time),
+    acceleration: vec3(acceleration)
+  },
+  outputs: {
+    value: vec3(`0.5 * time * time * acceleration;`)
+  }
+}))
+
 export const MeshParticlesMaterial = forwardRef<
   MeshParticlesMaterial,
   MeshParticlesMaterialProps
@@ -56,52 +101,6 @@ export const MeshParticlesMaterial = forwardRef<
 
     const shader = useMemo(() => {
       const time = TimeNode()
-
-      const StatelessVelocityNode = nodeFactory<{
-        time: Value<"float">
-        velocity: Value<"vec3">
-      }>(({ time, velocity }) => ({
-        inputs: {
-          time: float(time),
-          velocity: vec3(velocity)
-        },
-        outputs: {
-          value: vec3(`time * velocity`)
-        }
-      }))
-
-      const StatelessAccelerationNode = nodeFactory<{
-        time: Value<"float">
-        acceleration: Value<"vec3">
-      }>(({ time, acceleration }) => ({
-        inputs: {
-          time: float(time),
-          acceleration: vec3(acceleration)
-        },
-        outputs: {
-          value: vec3(`0.5 * time * time * acceleration;`)
-        }
-      }))
-
-      const LifetimeNode = nodeFactory<{
-        time: Value<"float">
-        startTime: Value<"float">
-        endTime: Value<"float">
-      }>(({ time, startTime, endTime }) => ({
-        inputs: {
-          time: float(time),
-          startTime: float(startTime),
-          endTime: float(endTime)
-        },
-        outputs: {
-          age: float(`time - startTime`),
-          value: float(`age / (endTime - startTime)`)
-        },
-        fragment: {
-          body: `if (value < 0.0 || value > 1.0) { discard; }`
-        }
-      }))
-
       const lifetime = LifetimeNode({ time, startTime: 0, endTime: 1 })
 
       const movement = AddNode({
