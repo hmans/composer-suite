@@ -7,11 +7,8 @@ import { isVariable, ShaderNode, Variable } from "./types"
 type Program = "vertex" | "fragment"
 
 function compileVariableValue(variable: Variable): string {
-  if (variable.value._variable) {
-    return variable.value.name
-  } else {
-    return formatValue(variable.value)
-  }
+  const { value } = variable
+  return isVariable(value) ? value.name : formatValue(value)
 }
 
 export function compileVariable(variable: Variable) {

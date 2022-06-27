@@ -1,27 +1,56 @@
-import { RenderCallback } from "@react-three/fiber"
+import { RenderCallback, Vector2, Vector3, Vector4 } from "@react-three/fiber"
+import { Color, Matrix3, Matrix4, Texture } from "three"
 
 export type GLSLType =
   | "bool"
+  | "int"
   | "float"
   | "vec2"
   | "vec3"
   | "vec4"
+  | "mat3"
   | "mat4"
   | "sampler2D"
+
+export type JSType = number | boolean | Vector2 | Vector3 | Vector4 | Color
+
+/** Maps GLSL types to JS types. */
+export type GLSLtoJSType<T extends GLSLType> = T extends "bool"
+  ? boolean
+  : T extends "float"
+  ? number
+  : T extends "int"
+  ? number
+  : T extends "vec2"
+  ? Vector2
+  : T extends "vec3"
+  ? Vector3 | Color
+  : T extends "vec4"
+  ? Vector4
+  : T extends "mat3"
+  ? Matrix3
+  : T extends "mat4"
+  ? Matrix4
+  : T extends "sampler2D"
+  ? Texture
+  : never
 
 export type Operator = "*" | "/" | "+" | "-"
 
 export type Qualifier = "uniform" | "varying" | "attribute"
 
-export type Variable<T = any> = {
+export type Variable<T extends GLSLType = any> = {
   _variable: true
   qualifier?: Qualifier
   value?: Value<T>
-  type: GLSLType
+  type: T
   name: string
 }
 
-export type Value<T = any> = T | Variable<T> | string
+export type Value<T extends GLSLType = any> =
+  | GLSLtoJSType<T>
+  | Variable<T>
+  | string
 
 export type Variables = Record<string, Variable>
 
@@ -30,7 +59,7 @@ export type Program = {
   body?: string
 }
 
-export type ShaderNode<T = any> = {
+export type ShaderNode<T extends GLSLType = any> = {
   name: string
 
   /* Header Variables */

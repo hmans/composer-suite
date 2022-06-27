@@ -1,9 +1,11 @@
-import { Color, Vector3, Vector4 } from "three"
-import { GLSLType, ShaderNode, Variable, Value } from "./types"
+import { GLSLType, ShaderNode, Value, Variable } from "./types"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
 
-export function variable<T>(type: GLSLType, value?: T): Variable<T> {
+export function variable<T extends GLSLType>(
+  type: T,
+  value?: Value<T>
+): Variable<T> {
   return {
     _variable: true,
     name: `var_${Math.floor(Math.random() * 100000)}`,
@@ -12,11 +14,11 @@ export function variable<T>(type: GLSLType, value?: T): Variable<T> {
   }
 }
 
-export const float = (value?: Value<number>) => variable("float", value)
+export const float = (value?: Value<"float">) => variable("float", value)
 
-export const vec3 = (value?: Value<Vector3 | Color>) => variable("vec3", value)
+export const vec3 = (value?: Value<"vec3">) => variable("vec3", value)
 
-export const vec4 = (value?: Value<Vector4>) => variable("vec4", value)
+export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 
 export type ShaderNodeTemplate = Partial<ShaderNode>
 

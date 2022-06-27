@@ -27,9 +27,7 @@ export function formatColor(color: Color) {
   return formatVec3(color.r, color.g, color.b)
 }
 
-export function formatValue(
-  value: string | number | Color | Vector2 | Vector3 | Vector4
-): string {
+export function formatValue(value: any): string {
   if (typeof value === "string") {
     return value
   } else if (typeof value === "number") {
