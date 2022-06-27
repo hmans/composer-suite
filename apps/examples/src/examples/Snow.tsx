@@ -8,9 +8,10 @@ import {
   Repeat,
   SpawnSetup
 } from "three-vfx"
+import { particleUrl } from "./textures"
 
 export const Snow = ({ intensity = 100, lifetime = 10 }) => {
-  const texture = useTexture("/textures/particle.png")
+  const texture = useTexture(particleUrl)
 
   const setup = ({ preDelay = false } = {}): SpawnSetup => (c) => {
     c.position.set(5 + plusMinus(20), 40, plusMinus(20))
