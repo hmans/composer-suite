@@ -23,7 +23,8 @@ function useShader() {
       color: new Color(2, 2, 2)
     })
 
-    const fresnel = OperatorNode("*", {
+    const fresnel = OperatorNode({
+      operator: "*",
       a: highlight,
       b: FresnelNode()
     })
