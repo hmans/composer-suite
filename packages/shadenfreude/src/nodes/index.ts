@@ -1,5 +1,6 @@
 import { float, nodeFactory, vec3 } from "../factories"
 import { Program, Value } from "../types"
+import { Vec3VaryingNode } from "./inputs"
 export * from "./inputs"
 export * from "./masters"
 export * from "./math"
@@ -29,12 +30,13 @@ export const WorldPositionNode = nodeFactory(() => ({
 }))
 
 export const WorldNormalNode = nodeFactory(() => ({
+  name: "World Normal (?)",
+  varyings: {
+    v_worldNormal: vec3()
+  },
   vertex: {
-    header: `
-      varying vec3 v_worldNormal;
-    `,
     body: `
-      v_worldNormal = normalize(
+      value = v_worldNormal = normalize(
         mat3(
           modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
         ) * normal
@@ -42,12 +44,10 @@ export const WorldNormalNode = nodeFactory(() => ({
   `
   },
   fragment: {
-    header: `
-      varying vec3 v_worldNormal;
-    `
+    body: "value = v_worldNormal;"
   },
   outputs: {
-    value: vec3("v_worldNormal")
+    value: vec3()
   }
 }))
 

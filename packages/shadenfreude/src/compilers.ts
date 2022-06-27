@@ -76,7 +76,9 @@ function compileBody(node: ShaderNode, program: Program) {
         {
           /* Varying References */
           ${Object.entries(node.varyings)
-            .map(([name, variable]) => compileVariable({ ...variable, name }))
+            .map(([name, variable]) =>
+              compileVariable({ ...variable, name, value: variable.name })
+            )
             .join("")}
 
           /* Inputs */
