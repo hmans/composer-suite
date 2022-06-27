@@ -57,28 +57,43 @@ export const MeshParticlesMaterial = forwardRef<
     const shader = useMemo(() => {
       const time = TimeNode()
 
-      const StatelessMovementNode = nodeFactory<{
+      const StatelessVelocityNode = nodeFactory<{
         time: Value<"float">
         velocity: Value<"vec3">
-        acceleration: Value<"vec3">
-      }>(({ time, velocity, acceleration }) => ({
+      }>(({ time, velocity }) => ({
         inputs: {
           time: float(time),
-          velocity: vec3(velocity),
-          acceleration: vec3(acceleration)
+          velocity: vec3(velocity)
         },
         outputs: {
-          value: vec3(`time * velocity + 0.5 * time * time * acceleration;`)
+          value: vec3(`time * velocity`)
         }
       }))
 
-      const position = AddNode({
-        a: VertexPositionNode(),
-        b: StatelessMovementNode({
+      const StatelessAccelerationNode = nodeFactory<{
+        time: Value<"float">
+        acceleration: Value<"vec3">
+      }>(({ time, acceleration }) => ({
+        inputs: {
+          time: float(time),
+          acceleration: vec3(acceleration)
+        },
+        outputs: {
+          value: vec3(`0.5 * time * time * acceleration;`)
+        }
+      }))
+
+      const movement = AddNode({
+        a: StatelessVelocityNode({ time, velocity: new Vector3(0, 0, 0) }),
+        b: StatelessAccelerationNode({
           time,
-          velocity: new Vector3(0, 0, 0),
           acceleration: new Vector3(0, -10, 0)
         })
+      })
+
+      const position = AddNode({
+        a: VertexPositionNode(),
+        b: movement
       })
 
       const root = CSMMasterNode({
