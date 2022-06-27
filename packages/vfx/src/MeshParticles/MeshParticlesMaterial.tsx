@@ -95,8 +95,6 @@ const LifetimeAttributeNode = nodeFactory(({}) => ({
 
 const add = (a: Value, b: Value) => AddNode({ a, b })
 
-const multiply = (a: Value, b: Value) => MultiplyNode({ a, b })
-
 export const MeshParticlesMaterial = forwardRef<
   MeshParticlesMaterial,
   MeshParticlesMaterialProps
@@ -124,23 +122,26 @@ export const MeshParticlesMaterial = forwardRef<
         endTime: lifetimeAttribute.outputs.duration
       })
 
-      const movement = add(
-        StatelessVelocityNode({
+      const movement = AddNode({
+        a: StatelessVelocityNode({
           time: time,
           velocity: new Vector3(0, 0, 0)
         }),
-        StatelessAccelerationNode({
+        b: StatelessAccelerationNode({
           time: time,
           acceleration: new Vector3(0, -10, 0)
         })
-      )
+      })
 
-      const position = add(VertexPositionNode(), movement)
+      const position = AddNode({
+        a: VertexPositionNode(),
+        b: movement
+      })
 
-      const diffuseColor = multiply(
-        ColorNode({ color: new Color("#fff") }),
-        lifetime
-      )
+      const diffuseColor = MultiplyNode({
+        a: ColorNode({ color: new Color("#fff") }),
+        b: lifetime
+      })
 
       const root = CSMMasterNode({
         position,
