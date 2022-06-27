@@ -3,7 +3,7 @@ import { nodeFactory, variable, node, float, vec3 } from "../factories"
 import { Value } from "../types"
 
 export const TimeNode = nodeFactory(() => {
-  const u_time = variable("float", 0)
+  const u_time = float(0)
 
   return node({
     name: "Time Uniform",
