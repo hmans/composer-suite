@@ -99,11 +99,13 @@ export const OperatorNode = (
     }
   })
 
-export const AddNode = (a: Variable, b: Variable) =>
-  OperatorNode(a.type, "+", { a, b }).value
+export const AddNode = nodeFactory<{ a: Variable; b: Variable }>(({ a, b }) =>
+  OperatorNode(a.type, "+", { a, b })
+)
 
-export const MultiplyNode = (a: Variable, b: Variable) =>
-  OperatorNode(a.type, "*", { a, b }).value
+export const MultiplyNode = nodeFactory<{ a: Variable; b: Variable }>(
+  ({ a, b }) => OperatorNode(a.type, "*", { a, b })
+)
 
 export const MixNode = (a: Variable, b: Variable, factor: Variable) =>
   node({

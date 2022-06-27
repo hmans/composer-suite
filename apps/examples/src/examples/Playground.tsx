@@ -44,15 +44,14 @@ function useShader() {
         opacity: FloatNode({ value: 1 }).value
       }).value,
 
-      position: AddNode(
-        VertexPositionNode().value,
-
-        WobbleNode({
+      position: AddNode({
+        a: VertexPositionNode().value,
+        b: WobbleNode({
           time: TimeNode().value,
           amplitude: FloatNode({ value: 3 }).value,
           frequency: FloatNode({ value: 10 }).value
         }).value
-      )
+      }).value
     })
 
     return compileShader(root)
