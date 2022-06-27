@@ -9,6 +9,7 @@ import {
   FloatValueNode,
   FresnelNode,
   node,
+  nodeFactory,
   ShaderNode,
   TimeNode,
   Value,
@@ -30,14 +31,7 @@ const ColorValueNode = nodeFactory<{ color?: Value<"vec3"> }>(
     })
 )
 
-type ShaderNodeProps = { [key: string]: any }
-type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs: P) => ShaderNode
-
-function nodeFactory<P extends ShaderNodeProps>(factory: ShaderNodeFactory<P>) {
-  return (props: P = {} as P) => factory(props)
-}
-
-const floatNode = nodeFactory<{ a?: Value<"float"> }>(({ a = 1 }) =>
+const floatNode = nodeFactory(({ a = 1 }) =>
   node({
     inputs: {
       a: float(a)
@@ -52,7 +46,7 @@ const WobbleNode = nodeFactory<{
   amplitude?: Value<"float">
   frequency?: Value<"float">
   time?: Value<"float">
-}>(({ amplitude = 1, frequency = 1, time } = {}) =>
+}>(({ amplitude = 1, frequency = 1, time }) =>
   node({
     name: "Wobble",
     inputs: {
@@ -69,7 +63,7 @@ function useShader() {
   return useMemo(() => {
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
-        a: ColorValueNode().value,
+        a: ColorValueNode({ color: new Color("#dd8833") }).value,
         b: FresnelNode().value,
         opacity: FloatValueNode(1).value
       }).value,

@@ -46,6 +46,12 @@ export function node(template: ShaderNodeTemplate) {
   return node
 }
 
+export function nodeFactory<P extends { [key: string]: any }>(
+  factory: (inputs: P) => ShaderNode
+) {
+  return (props: P = {} as P) => factory(props)
+}
+
 export function plug(source: Variable) {
   return {
     into: (target: Variable) => {
