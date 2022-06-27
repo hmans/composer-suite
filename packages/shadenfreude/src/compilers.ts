@@ -70,7 +70,9 @@ function compileBody(node: ShaderNode, program: Program) {
         ${nodeTitle(node)}
 
         ${Object.entries(node.outputs)
-          .map(([_, variable]) => compileVariable(variable))
+          .map(([_, variable]) =>
+            compileVariable({ ...variable, value: undefined })
+          )
           .join("")}
 
         {
