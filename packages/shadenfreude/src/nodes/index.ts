@@ -17,7 +17,7 @@ export const WorldPositionNode = nodeFactory(() => ({
     `
   }),
 
-  name: "World Normal (?)"
+  name: "World Position (?)"
 }))
 
 export const WorldNormalNode = nodeFactory(() => ({
