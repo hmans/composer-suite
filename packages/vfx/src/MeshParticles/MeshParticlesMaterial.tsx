@@ -1,22 +1,17 @@
 import { useFrame } from "@react-three/fiber"
 import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
-import { DepthTexture } from "three"
+import {
+  BlendNode,
+  ColorNode,
+  compileShader,
+  CSMMasterNode,
+  FresnelNode,
+  MultiplyNode
+} from "shadenfreude"
+import { Color, DepthTexture } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-import {
-  animateColors,
-  animateMovement,
-  animateScale,
-  billboarding,
-  provideEasingFunctions,
-  provideLifetime,
-  provideResolution,
-  provideTime,
-  softParticles
-} from "../layers"
-import provideDepthTexture from "../layers/provideDepthTexture"
-import { combineShaders, compileShader, Shader } from "../shaders"
 
 export type MeshParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
@@ -52,23 +47,33 @@ export const MeshParticlesMaterial = forwardRef<
     const material = useRef<MeshParticlesMaterial>(null!)
 
     const shader = useMemo(() => {
-      const layers = [
-        provideTime(),
-        provideLifetime(),
-        provideResolution(),
-        provideEasingFunctions(),
-        softness && provideDepthTexture(depthTexture!),
-        billboard && billboarding(),
-        animateScale(scaleFunction),
-        animateMovement(),
-        animateColors(colorFunction),
-        softness && softParticles(softness, softnessFunction)
-      ].filter((l) => l) as Shader[]
+      const baseColor = ColorNode({
+        color: new Color("hotpink")
+      })
 
-      return combineShaders(layers)
+      const root = CSMMasterNode({
+        diffuseColor: baseColor
+      })
+
+      return compileShader(root)
+
+      // const layers = [
+      //   provideTime(),
+      //   provideLifetime(),
+      //   provideResolution(),
+      //   provideEasingFunctions(),
+      //   softness && provideDepthTexture(depthTexture!),
+      //   billboard && billboarding(),
+      //   animateScale(scaleFunction),
+      //   animateMovement(),
+      //   animateColors(colorFunction),
+      //   softness && softParticles(softness, softnessFunction)
+      // ].filter((l) => l) as Shader[]
+
+      // return combineShaders(layers)
     }, [])
 
-    const { update, ...attrs } = useMemo(() => compileShader(shader), [shader])
+    const { update, ...attrs } = shader
 
     useLayoutEffect(() => {
       material.current.__vfx = { shader }

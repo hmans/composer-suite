@@ -1,10 +1,8 @@
 import {
   InstancedBufferAttribute,
   InstancedBufferGeometry,
-  InstancedMesh,
-  ShaderMaterial
+  InstancedMesh
 } from "three"
-import { MeshParticlesMaterial } from "../MeshParticles"
 import { GLSLType, Shader } from "../shaders"
 
 const itemSizes: Record<GLSLType, number> = {

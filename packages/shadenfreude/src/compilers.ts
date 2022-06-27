@@ -1,6 +1,6 @@
 import { RenderCallback } from "@react-three/fiber"
 import { render } from "react-dom"
-import { IUniform } from "three"
+import { IUniform, Mesh } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
 import {
@@ -181,6 +181,10 @@ export function compileShader(root: ShaderNode) {
     vertexShader,
     fragmentShader,
     uniforms,
-    update
+    update,
+
+    /* TODO: implement these */
+    resetConfig: (mesh: Mesh) => {},
+    applyConfig: (mesh: Mesh, cursor: number) => {}
   }
 }
