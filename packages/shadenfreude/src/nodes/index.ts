@@ -39,7 +39,7 @@ export const VertexPositionNode = nodeFactory(() =>
     name: "Vertex Position",
     outputs: { value: vec3() },
     vertex: {
-      body: "value = csm_Position;"
+      body: "value = position;"
     }
   })
 )
