@@ -34,12 +34,17 @@ export const FloatNode = nodeFactory<{ value: Value<"float"> }>(
   })
 )
 
-export const VertexPositionNode = nodeFactory(() =>
+export const PositionNode = nodeFactory(() =>
   node({
     name: "Vertex Position",
     outputs: { value: vec3() },
     vertex: {
-      body: "value = position;"
+      header: "varying vec3 v_position;",
+      body: "value = v_position = position;"
+    },
+    fragment: {
+      header: "varying vec3 v_position;",
+      body: "value = v_position;"
     }
   })
 )
