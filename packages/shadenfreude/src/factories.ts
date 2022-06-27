@@ -23,6 +23,7 @@ export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 export type ShaderNodeTemplate = Partial<ShaderNode>
 
 export function node(template: ShaderNodeTemplate) {
+  /* Create node from template */
   const node: ShaderNode = {
     name: "Unnamed",
     uniforms: {},

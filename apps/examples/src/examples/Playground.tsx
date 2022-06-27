@@ -87,7 +87,7 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const { update, ...shaderProps } = useShader()
 
   // console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
+  // console.log(shaderProps.fragmentShader)
 
   useFrame(update)
 
