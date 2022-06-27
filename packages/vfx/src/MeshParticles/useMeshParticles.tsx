@@ -93,7 +93,6 @@ export function useMeshParticles(
           )
         )
 
-        console.log(clock.elapsedTime)
         imesh.current.geometry.attributes.lifetime.setXY(
           cursor,
           clock.elapsedTime,

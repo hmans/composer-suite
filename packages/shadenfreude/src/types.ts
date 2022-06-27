@@ -66,6 +66,7 @@ export type ShaderNode<T extends GLSLType = any> = {
   name: string
 
   /* Header Variables */
+  attributes: Variables
   uniforms: Variables
   varyings: Variables
 

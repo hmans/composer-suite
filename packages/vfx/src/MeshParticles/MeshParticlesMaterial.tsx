@@ -85,13 +85,20 @@ const StatelessAccelerationNode = nodeFactory<{
   }
 }))
 
-const LifetimeAttributeNode = nodeFactory(({}) => ({
+// TODO: automatically provide attribute values as a varying - I think?
+const LifetimeAttributeNode = nodeFactory(() => ({
   varyings: {
     v_lifetime: vec2()
   },
   vertex: {
-    header: "attribute vec2 lifetime;",
-    body: "v_lifetime = lifetime;"
+    header: `
+      attribute vec2 lifetime;
+    `,
+    body: `
+      v_lifetime = lifetime;
+      startTime = v_lifetime.x;
+      endTime = v_lifetime.y;
+    `
   },
   outputs: {
     startTime: float("v_lifetime.x"),

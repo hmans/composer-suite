@@ -54,7 +54,7 @@ export default function() {
         <sphereGeometry args={[0.25]} />
         <MeshParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
-        <Repeat interval={0.5}>
+        <Repeat interval={0.2}>
           <Emitter count={1} />
         </Repeat>
       </MeshParticles>
