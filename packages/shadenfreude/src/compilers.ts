@@ -55,7 +55,7 @@ function compileHeader(node: ShaderNode, program: Program) {
       .map((variable) => compileVariable({ ...variable, qualifier: "varying" }))
       .join("\n")}
 
-    ${n[program].header ?? ""}
+    ${n[program].header || ""}
   `
 
   return dependencies(node)
@@ -94,7 +94,7 @@ function compileBody(node: ShaderNode, program: Program) {
             .join("")}
 
           /* Code */
-          ${node[program].body ?? ""}
+          ${node[program].body || ""}
 
           /* Update globals */
           ${Object.entries(node.outputs)
