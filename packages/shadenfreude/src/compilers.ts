@@ -48,10 +48,12 @@ function compileHeader(node: ShaderNode, program: Program) {
   const header = (n: ShaderNode) => `
     ${nodeTitle(n)}
 
-    ${Object.entries(n.uniforms)
-      .map(([_, variable]) =>
-        compileVariable({ ...variable, qualifier: "uniform" })
-      )
+    ${Object.values(n.uniforms)
+      .map((variable) => compileVariable({ ...variable, qualifier: "uniform" }))
+      .join("\n")}
+
+    ${Object.values(n.varyings)
+      .map((variable) => compileVariable({ ...variable, qualifier: "varying" }))
       .join("\n")}
 
     ${n[program].header ?? ""}

@@ -27,6 +27,7 @@ export function node(template: ShaderNodeTemplate) {
   const node: ShaderNode = {
     name: "Unnamed",
     uniforms: {},
+    varyings: {},
     inputs: {},
     outputs: {},
     vertex: { header: "", body: "" },

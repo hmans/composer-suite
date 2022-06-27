@@ -64,6 +64,7 @@ export type ShaderNode<T extends GLSLType = any> = {
 
   /* Header Variables */
   uniforms: Variables
+  varyings: Variables
 
   /* Programs */
   vertex: Program
