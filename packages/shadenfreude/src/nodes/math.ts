@@ -1,66 +1,20 @@
-import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { node, nodeFactory, variable } from "../factories"
-import {
-  GLSLType,
-  isShaderNode,
-  isVariable,
-  Operator,
-  Value,
-  Variable
-} from "../types"
-
-function glslType(value: Value): GLSLType {
-  if (isVariable(value)) {
-    return value.type
-  } else if (isShaderNode(value)) {
-    return glslType(value.value)
-  } else if (typeof value === "number") {
-    return "float"
-  } else if (typeof value === "boolean") {
-    return "bool"
-  } else if (value instanceof Color) {
-    return "vec3"
-  } else if (value instanceof Vector2) {
-    return "vec2"
-  } else if (value instanceof Vector3) {
-    return "vec3"
-  } else if (value instanceof Vector4) {
-    return "vec4"
-  } else if (value instanceof Matrix3) {
-    return "mat3"
-  } else if (value instanceof Matrix4) {
-    return "mat4"
-  } else {
-    throw new Error(`Could not find a GLSL type for: ${value}`)
-  }
-}
-
-function wrapVariable(a: Value): Variable {
-  if (isVariable(a)) {
-    return variable(a.type, a)
-  } else if (isShaderNode(a)) {
-    return wrapVariable(a.value)
-  } else {
-    return variable(glslType(a), a)
-  }
-}
+import { float, node, nodeFactory, wrapVariable } from "../factories"
+import { glslType } from "../helpers"
+import { Operator, Value } from "../types"
 
 export const OperatorNode = nodeFactory<{
   operator: Operator
   a: Value
   b: Value
-}>(({ a, b, operator }) => {
-  const A = wrapVariable(a)
-  const B = wrapVariable(b)
-
-  return node({
-    name: `Perform ${operator} on ${A.type}`,
+}>(({ a, b, operator }) =>
+  node({
+    name: `Perform ${operator} on ${glslType(a)}`,
     inputs: {
-      a: A,
-      b: B
+      a: wrapVariable(a),
+      b: wrapVariable(b)
     },
     outputs: {
-      value: variable(glslType(a))
+      value: wrapVariable(a)
     },
     vertex: {
       body: `value = a ${operator} b;`
@@ -69,7 +23,7 @@ export const OperatorNode = nodeFactory<{
       body: `value = a ${operator} b;`
     }
   })
-})
+)
 
 export const AddNode = nodeFactory<{
   a: Value
@@ -87,18 +41,15 @@ export const MixNode = nodeFactory<{
   b: Value
   factor: Value<"float">
 }>(({ a, b, factor }) => {
-  const A = wrapVariable(a)
-  const B = wrapVariable(b)
-
   return {
     name: "Mix",
     inputs: {
-      a: A,
-      b: B,
-      factor: wrapVariable(factor)
+      a: wrapVariable(a),
+      b: wrapVariable(b),
+      factor: float(factor)
     },
     outputs: {
-      value: variable(glslType(a))
+      value: wrapVariable(a)
     },
     vertex: {
       body: `value = mix(a, b, factor);`

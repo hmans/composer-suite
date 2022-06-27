@@ -1,4 +1,12 @@
-import { GLSLType, ShaderNode, Value, Variable } from "./types"
+import { glslType } from "./helpers"
+import {
+  GLSLType,
+  isShaderNode,
+  isVariable,
+  ShaderNode,
+  Value,
+  Variable
+} from "./types"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
 
@@ -19,6 +27,16 @@ export const float = (value?: Value<"float">) => variable("float", value)
 export const vec3 = (value?: Value<"vec3">) => variable("vec3", value)
 
 export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
+
+export function wrapVariable(a: Value): Variable {
+  if (isVariable(a)) {
+    return variable(a.type, a)
+  } else if (isShaderNode(a)) {
+    return wrapVariable(a.value)
+  } else {
+    return variable(glslType(a), a)
+  }
+}
 
 export type ShaderNodeTemplate = Partial<ShaderNode>
 
