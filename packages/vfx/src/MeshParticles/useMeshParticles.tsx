@@ -1,9 +1,11 @@
+import { useThree } from "@react-three/fiber"
 import { MutableRefObject, useLayoutEffect, useMemo, useRef } from "react"
 import {
   InstancedBufferAttribute,
   InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
+  Quaternion,
   Vector3
 } from "three"
 import { ParticlesAPI, SpawnSetup } from "../ParticlesContext"
@@ -27,6 +29,8 @@ export function useMeshParticles(
      have to upload the entirety of all buffers every time the playhead wraps back to 0. */
   const maxInstanceCount = maxParticles + safetySize
   const imesh = useRef<MeshParticles>(null!)
+
+  const { clock } = useThree()
 
   useLayoutEffect(() => {
     prepareInstancedMesh(
@@ -77,10 +81,29 @@ export function useMeshParticles(
 
       /* Spawn particles, yay! */
       for (let i = 0; i < count; i++) {
+        // TODO: move this stuff somewhere else
+
+        /* Spawn a single particle */
+        imesh.current.setMatrixAt(
+          cursor,
+          new Matrix4().compose(
+            new Vector3(),
+            new Quaternion().identity(),
+            new Vector3(1, 1, 1)
+          )
+        )
+
+        console.log(clock.elapsedTime)
+        imesh.current.geometry.attributes.lifetime.setXY(
+          cursor,
+          clock.elapsedTime,
+          clock.elapsedTime + 1
+        )
+
         /* Initialize new particle */
-        shader.resetConfig!(imesh.current)
-        setup?.(shader.config, i)
-        shader.applyConfig!(imesh.current, cursor)
+        // shader.resetConfig!(imesh.current)
+        // setup?.(shader.config, i)
+        // shader.applyConfig!(imesh.current, cursor)
 
         /* Advance playhead */
         cursor++

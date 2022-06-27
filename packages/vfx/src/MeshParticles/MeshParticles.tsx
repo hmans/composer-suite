@@ -22,18 +22,11 @@ export const MeshParticles = forwardRef<MeshParticlesType, MeshParticlesProps>(
     const [imesh, api] = useMeshParticles(maxParticles, safetySize)
 
     useLayoutEffect(() => {
-      /* Fake the lifetime attribute */
+      // TODO: move this somewhere else
       imesh.current.geometry.setAttribute(
         "lifetime",
         new InstancedBufferAttribute(new Float32Array(maxParticles * 2), 2)
       )
-
-      imesh.current.geometry.attributes.lifetime.setXY(0, 0, 1)
-      imesh.current.geometry.attributes.lifetime.needsUpdate = true
-
-      /* Spawn a single particle */
-      imesh.current.setMatrixAt(0, new Matrix4())
-      imesh.current.count = 1
     }, [])
 
     return (

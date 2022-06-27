@@ -62,7 +62,10 @@ const StatelessVelocityNode = nodeFactory<{
     velocity: vec3(velocity)
   },
   outputs: {
-    value: vec3(`time * velocity`)
+    value: vec3()
+  },
+  vertex: {
+    body: "value = velocity * time * mat3(instanceMatrix);"
   }
 }))
 
@@ -75,7 +78,10 @@ const StatelessAccelerationNode = nodeFactory<{
     acceleration: vec3(acceleration)
   },
   outputs: {
-    value: vec3(`0.5 * time * time * acceleration;`)
+    value: vec3()
+  },
+  vertex: {
+    body: "value = 0.5 * time * time * acceleration * mat3(instanceMatrix);"
   }
 }))
 
@@ -88,8 +94,8 @@ const LifetimeAttributeNode = nodeFactory(({}) => ({
     body: "v_lifetime = lifetime;"
   },
   outputs: {
-    delay: float("v_lifetime.x"),
-    duration: float("v_lifetime.y")
+    startTime: float("v_lifetime.x"),
+    endTime: float("v_lifetime.y")
   }
 }))
 
@@ -116,17 +122,17 @@ export const MeshParticlesMaterial = forwardRef<
       const lifetimeAttribute = LifetimeAttributeNode()
       const lifetime = LifetimeNode({
         time,
-        startTime: lifetimeAttribute.outputs.delay,
-        endTime: lifetimeAttribute.outputs.duration
+        startTime: lifetimeAttribute.outputs.startTime,
+        endTime: lifetimeAttribute.outputs.endTime
       })
 
       const movement = AddNode({
         a: StatelessVelocityNode({
-          time: time,
+          time: lifetime.outputs.age,
           velocity: new Vector3(0, 0, 0)
         }),
         b: StatelessAccelerationNode({
-          time: time,
+          time: lifetime.outputs.age,
           acceleration: new Vector3(0, -10, 0)
         })
       })

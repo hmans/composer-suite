@@ -9,7 +9,12 @@ import {
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import { iCSMProps } from "three-custom-shader-material"
-import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
+import {
+  Emitter,
+  MeshParticles,
+  MeshParticlesMaterial,
+  Repeat
+} from "three-vfx"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -49,7 +54,9 @@ export default function() {
         <sphereGeometry args={[0.25]} />
         <MeshParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
-        <Emitter count={1} />
+        <Repeat interval={0.5}>
+          <Emitter count={1} />
+        </Repeat>
       </MeshParticles>
     </group>
   )
