@@ -5,7 +5,7 @@ import "./helpers"
 
 describe("compileShader", () => {
   it("should compile a shader", () => {
-    const TestNode = (input: { offset?: Variable<Vector3> } = {}) =>
+    const TestNode = (input: { offset?: Variable<"vec3"> } = {}) =>
       node({
         name: "Root",
 
