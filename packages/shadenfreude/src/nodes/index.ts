@@ -81,18 +81,17 @@ export const CSMMasterNode = nodeFactory<{
 )
 
 export const OperatorNode = (
-  type: GLSLType,
   operator: Operator,
   inputs: { a: Variable; b: Variable }
 ) =>
   node({
-    name: `Perform ${operator} on ${type}`,
+    name: `Perform ${operator} on ${inputs.a.type}`,
     inputs: {
-      a: variable(type, inputs.a),
-      b: variable(type, inputs.b)
+      a: variable(inputs.a.type, inputs.a),
+      b: variable(inputs.b.type, inputs.b)
     },
     outputs: {
-      value: variable(type)
+      value: variable(inputs.a.type)
     },
     vertex: {
       body: `value = a ${operator} b;`
@@ -103,11 +102,11 @@ export const OperatorNode = (
   })
 
 export const AddNode = nodeFactory<{ a: Variable; b: Variable }>(({ a, b }) =>
-  OperatorNode(a.type, "+", { a, b })
+  OperatorNode("+", { a, b })
 )
 
 export const MultiplyNode = nodeFactory<{ a: Variable; b: Variable }>(
-  ({ a, b }) => OperatorNode(a.type, "*", { a, b })
+  ({ a, b }) => OperatorNode("*", { a, b })
 )
 
 export const MixNode = nodeFactory<{
@@ -135,7 +134,6 @@ export const MixNode = nodeFactory<{
 export const FresnelNode = nodeFactory(() => ({
   name: "Fresnel",
   inputs: {
-    color: vec3("vec3(1.0, 1.0, 1.0)"),
     alpha: float(1),
     bias: float(0),
     intensity: float(1),
@@ -143,7 +141,7 @@ export const FresnelNode = nodeFactory(() => ({
     factor: float(1)
   },
   outputs: {
-    value: vec3()
+    value: float()
   },
   vertex: {
     header: `
@@ -172,11 +170,7 @@ export const FresnelNode = nodeFactory(() => ({
     body: `
       float f_a = (factor + dot(v_worldPosition, v_worldNormal));
       float f_fresnel = bias + intensity * pow(abs(f_a), power);
-      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
-
-      // return vec4(f_fresnel * color, u_alpha);
-
-      value.rgb = f_fresnel * color;
+      value = clamp(f_fresnel, 0.0, 1.0);
     `
   }
 }))

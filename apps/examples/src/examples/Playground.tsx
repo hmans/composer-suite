@@ -13,7 +13,8 @@ import {
   TimeNode,
   Value,
   vec3,
-  PositionNode
+  PositionNode,
+  MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -40,7 +41,10 @@ function useShader() {
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
         a: ColorNode({ color: new Color("#dd8833") }).value,
-        b: FresnelNode().value,
+        b: MultiplyNode({
+          a: ColorNode({ color: new Color("#ffffff") }).value,
+          b: FresnelNode().value
+        }).value,
         opacity: FloatNode({ value: 1 }).value
       }).value,
 
