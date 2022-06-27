@@ -1,59 +1,41 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
-  AddNode,
   BlendNode,
+  ColorNode,
   compileShader,
   CSMMasterNode,
-  float,
   FresnelNode,
-  MultiplyNode,
-  nodeFactory,
-  TimeNode,
-  Value,
-  vec3,
-  VertexPositionNode
+  MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const WobbleNode = nodeFactory<{
-  amplitude?: Value<"float">
-  frequency?: Value<"float">
-  x?: Value<"float">
-}>(({ amplitude = 1, frequency = 1, x }) => ({
-  name: "Wobble",
-  inputs: {
-    amplitude: float(amplitude),
-    frequency: float(frequency),
-    x: float(x)
-  },
-  outputs: { value: vec3() },
-  vertex: { body: `value.x = sin(x * frequency) * amplitude;` }
-}))
-
 function useShader() {
   return useMemo(() => {
-    const root = CSMMasterNode({
-      diffuseColor: BlendNode({
-        a: new Color("#dd8833"),
-        b: MultiplyNode({
-          a: new Color("#ffffff"),
-          b: FresnelNode()
-        }),
-        opacity: 1
-      }),
+    const baseColor = ColorNode({
+      color: new Color("#800")
+    })
 
-      position: AddNode({
-        a: VertexPositionNode(),
-        b: WobbleNode({
-          x: TimeNode(),
-          amplitude: 3,
-          frequency: 10
-        })
-      })
+    const highlight = ColorNode({
+      color: new Color(2, 2, 2)
+    })
+
+    const fresnel = MultiplyNode({
+      a: highlight,
+      b: FresnelNode()
+    })
+
+    const diffuseColor = BlendNode({
+      a: baseColor,
+      b: fresnel,
+      opacity: 1
+    })
+
+    const root = CSMMasterNode({
+      diffuseColor
     })
 
     return compileShader(root)
@@ -71,7 +53,7 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   return <CustomShaderMaterial {...props} {...shaderProps} />
 }
 
-export default function Playground() {
+export default function() {
   return (
     <group position-y={15}>
       <mesh>

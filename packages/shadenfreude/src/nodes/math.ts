@@ -1,18 +1,20 @@
-import { node, variable, nodeFactory } from "../factories"
-import { Operator, Variable, Value } from "../types"
+import { float, node, nodeFactory, inferVariable } from "../factories"
+import { glslType } from "../helpers"
+import { Operator, Value } from "../types"
 
-export const OperatorNode = (
-  operator: Operator,
-  inputs: { a: Variable; b: Variable }
-) =>
+export const OperatorNode = nodeFactory<{
+  operator: Operator
+  a: Value
+  b: Value
+}>(({ a, b, operator }) =>
   node({
-    name: `Perform ${operator} on ${inputs.a.type}`,
+    name: `Perform ${operator} on ${glslType(a)}`,
     inputs: {
-      a: variable(inputs.a.type, inputs.a),
-      b: variable(inputs.b.type, inputs.b)
+      a: inferVariable(a),
+      b: inferVariable(b)
     },
     outputs: {
-      value: variable(inputs.a.type)
+      value: inferVariable(a)
     },
     vertex: {
       body: `value = a ${operator} b;`
@@ -21,34 +23,39 @@ export const OperatorNode = (
       body: `value = a ${operator} b;`
     }
   })
-
-export const AddNode = nodeFactory<{ a: Variable; b: Variable }>(({ a, b }) =>
-  OperatorNode("+", { a, b })
 )
 
-export const MultiplyNode = nodeFactory<{ a: Variable; b: Variable }>(
-  ({ a, b }) => OperatorNode("*", { a, b })
-)
+export const AddNode = nodeFactory<{
+  a: Value
+  b: Value
+}>(({ a, b }) => OperatorNode({ operator: "+", a, b }))
+
+export const MultiplyNode = nodeFactory<{
+  a: Value
+  b: Value
+}>(({ a, b }) => OperatorNode({ operator: "*", a, b }))
 
 /* TODO: change this to accept Value args, not Variable! */
 export const MixNode = nodeFactory<{
-  a: Variable
-  b: Variable
+  a: Value
+  b: Value
   factor: Value<"float">
-}>(({ a, b, factor }) => ({
-  name: "Mix",
-  inputs: {
-    a: variable(a.type, a),
-    b: variable(b.type, b),
-    factor: variable("float", factor)
-  },
-  outputs: {
-    value: variable(a.type)
-  },
-  vertex: {
-    body: `value = mix(a, b, factor);`
-  },
-  fragment: {
-    body: `value = mix(a, b, factor);`
+}>(({ a, b, factor }) => {
+  return {
+    name: "Mix",
+    inputs: {
+      a: inferVariable(a),
+      b: inferVariable(b),
+      factor: float(factor)
+    },
+    outputs: {
+      value: inferVariable(a)
+    },
+    vertex: {
+      body: `value = mix(a, b, factor);`
+    },
+    fragment: {
+      body: `value = mix(a, b, factor);`
+    }
   }
-}))
+})

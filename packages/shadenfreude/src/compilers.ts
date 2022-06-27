@@ -3,12 +3,28 @@ import { render } from "react-dom"
 import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
-import { isVariable, ShaderNode, Value, Variable, Variables } from "./types"
+import {
+  isShaderNode,
+  isVariable,
+  ShaderNode,
+  Value,
+  Variable,
+  Variables
+} from "./types"
 
 type Program = "vertex" | "fragment"
 
+export function resolveValue(v: Value): Value | undefined {
+  if (isShaderNode(v)) {
+    return v.value
+  } else {
+    return v
+  }
+}
+
 export function compileVariableValue(value: Value): string {
-  return isVariable(value) ? value.name : formatValue(value)
+  const v = resolveValue(value)
+  return isVariable(v) ? v.name : formatValue(v)
 }
 
 export function compileVariable(variable: Variable) {
@@ -28,9 +44,13 @@ function nodeTitle(node: ShaderNode) {
 
 function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
   for (const variable of Object.values(node.inputs)) {
-    if (isVariable(variable.value)) {
+    const dependencyVariable = isShaderNode(variable.value)
+      ? variable.value.value
+      : variable.value
+
+    if (isVariable(dependencyVariable)) {
       /* get dependency */
-      const dependency = variablesToNodes.get(variable.value)!
+      const dependency = variablesToNodes.get(dependencyVariable)!
       if (!dependency) throw new Error("Dependency not found")
 
       /* If we haven't seen this dependency yet, invoke the callback */

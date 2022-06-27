@@ -50,6 +50,7 @@ export type Variable<T extends GLSLType = any> = {
 export type Value<T extends GLSLType = any> =
   | GLSLtoJSType<T>
   | Variable<T>
+  | ShaderNode<T>
   | string
 
 export type Variables = Record<string, Variable>
@@ -60,6 +61,8 @@ export type Program = {
 }
 
 export type ShaderNode<T extends GLSLType = any> = {
+  _shaderNode: true
+
   name: string
 
   /* Header Variables */
@@ -81,4 +84,8 @@ export type ShaderNode<T extends GLSLType = any> = {
 
 export function isVariable(value: any): value is Variable {
   return !!value?._variable
+}
+
+export function isShaderNode(value: any): value is ShaderNode {
+  return !!value?._shaderNode
 }

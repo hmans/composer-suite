@@ -1,4 +1,5 @@
 export * from "./compilers"
 export * from "./factories"
+export * from "./helpers"
 export * from "./nodes"
 export * from "./types"
