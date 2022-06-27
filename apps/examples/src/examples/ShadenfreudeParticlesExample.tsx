@@ -10,6 +10,7 @@ import {
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
+import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -42,13 +43,15 @@ function useShader() {
   }, [])
 }
 
-function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
+function ModularShaderMaterial({
+  children,
+  ...props
+}: ModularShaderMaterialProps) {
   const { update, ...shaderProps } = useShader()
+  useFrame(update)
 
   // console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
-
-  useFrame(update)
+  // console.log(shaderProps.fragmentShader)
 
   return <CustomShaderMaterial {...props} {...shaderProps} />
 }
@@ -56,11 +59,12 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
 export default function() {
   return (
     <group position-y={15}>
-      <mesh>
-        <sphereGeometry args={[8, 32, 32]} />
+      <MeshParticles>
+        <sphereGeometry args={[0.25]} />
+        <MeshParticlesMaterial baseMaterial={MeshStandardMaterial} />
 
-        <MyMaterial baseMaterial={MeshStandardMaterial}></MyMaterial>
-      </mesh>
+        <Emitter count={1} />
+      </MeshParticles>
     </group>
   )
 }
