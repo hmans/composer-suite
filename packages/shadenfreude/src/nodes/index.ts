@@ -5,22 +5,10 @@ export * from "./masters"
 export * from "./math"
 export * from "./values"
 
-export const FresnelNode = nodeFactory(() => ({
-  name: "Fresnel",
-  inputs: {
-    alpha: float(1),
-    bias: float(0),
-    intensity: float(1),
-    power: float(2),
-    factor: float(1)
-  },
-  outputs: {
-    value: float()
-  },
+export const WorldPositionNode = nodeFactory(() => ({
   vertex: {
     header: `
       varying vec3 v_worldPosition;
-      varying vec3 v_worldNormal;
     `,
     body: `
       v_worldPosition = vec3(
@@ -28,21 +16,58 @@ export const FresnelNode = nodeFactory(() => ({
         -viewMatrix[1][2],
         -viewMatrix[2][2]
       );
-
-      v_worldNormal = normalize(
-        mat3(
-          modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
-        ) * normal
-      );
     `
   },
   fragment: {
     header: `
       varying vec3 v_worldPosition;
+    `
+  },
+  outputs: {
+    value: vec3("v_worldPosition")
+  }
+}))
+
+export const WorldNormalNode = nodeFactory(() => ({
+  vertex: {
+    header: `
       varying vec3 v_worldNormal;
     `,
     body: `
-      float f_a = (factor + dot(v_worldPosition, v_worldNormal));
+      v_worldNormal = normalize(
+        mat3(
+          modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
+        ) * normal
+      );
+  `
+  },
+  fragment: {
+    header: `
+      varying vec3 v_worldNormal;
+    `
+  },
+  outputs: {
+    value: vec3("v_worldNormal")
+  }
+}))
+
+export const FresnelNode = nodeFactory(() => ({
+  name: "Fresnel",
+  inputs: {
+    alpha: float(1),
+    bias: float(0),
+    intensity: float(1),
+    power: float(2),
+    factor: float(1),
+    worldPosition: vec3(WorldPositionNode().value),
+    worldNormal: vec3(WorldNormalNode().value)
+  },
+  outputs: {
+    value: float()
+  },
+  fragment: {
+    body: `
+      float f_a = (factor + dot(worldPosition, worldNormal));
       float f_fresnel = bias + intensity * pow(abs(f_a), power);
       f_fresnel = clamp(f_fresnel, 0.0, 1.0);
       value = f_fresnel;
