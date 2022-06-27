@@ -42,20 +42,20 @@ function useShader() {
       diffuseColor: BlendNode({
         a: new Color("#dd8833"),
         b: MultiplyNode({
-          a: ColorNode({ color: new Color("#ffffff") }).value,
-          b: FresnelNode().value
-        }).value,
-        opacity: FloatNode({ value: 1 }).value
+          a: ColorNode({ color: new Color("#ffffff") }),
+          b: FresnelNode()
+        }),
+        opacity: 1
       }).value,
 
       position: AddNode({
-        a: VertexPositionNode().value,
+        a: VertexPositionNode(),
         b: WobbleNode({
-          x: TimeNode().value, // link to other nodes...
-          amplitude: 3, // ...or just use normal values!
+          x: TimeNode(),
+          amplitude: 3,
           frequency: 10
-        }).value
-      }).value
+        })
+      })
     })
 
     return compileShader(root)

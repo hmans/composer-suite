@@ -25,6 +25,7 @@ export type ShaderNodeTemplate = Partial<ShaderNode>
 export function node(template: ShaderNodeTemplate) {
   /* Create node from template */
   const node: ShaderNode = {
+    _shaderNode: true,
     name: "Unnamed",
     uniforms: {},
     varyings: {},

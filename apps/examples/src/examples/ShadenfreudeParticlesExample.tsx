@@ -6,8 +6,7 @@ import {
   compileShader,
   CSMMasterNode,
   FresnelNode,
-  MixNode,
-  MultiplyNode
+  OperatorNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -17,23 +16,23 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 function useShader() {
   return useMemo(() => {
     const baseColor = ColorNode({
-      color: new Color("#555")
-    }).value
+      color: new Color("#800")
+    })
 
     const highlight = ColorNode({
       color: new Color(2, 2, 2)
-    }).value
+    })
 
-    const fresnel = MultiplyNode({
+    const fresnel = OperatorNode("*", {
       a: highlight,
-      b: FresnelNode().value
-    }).value
+      b: FresnelNode()
+    })
 
     const diffuseColor = BlendNode({
       a: baseColor,
       b: fresnel,
       opacity: 1
-    }).value
+    })
 
     const root = CSMMasterNode({
       diffuseColor
