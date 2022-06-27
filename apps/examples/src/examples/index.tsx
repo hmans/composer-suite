@@ -8,6 +8,7 @@ import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
+import Playground from "./Playground"
 
 export type ExampleDefinition = {
   path: string
@@ -39,5 +40,10 @@ export default [
         <DustExample />
       </>
     )
+  },
+  {
+    path: "playground",
+    name: "Shadenfreude Playground",
+    component: <Playground />
   }
 ] as ExampleDefinition[]

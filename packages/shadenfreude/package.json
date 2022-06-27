@@ -1,0 +1,67 @@
+{
+  "name": "shadenfreude",
+  "private": false,
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "Node-based Shader Composition!",
+  "version": "0.1.1",
+  "main": "dist/shadenfreude.cjs.js",
+  "module": "dist/shadenfreude.esm.js",
+  "types": "dist/shadenfreude.cjs.d.ts",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "preconstruct watch",
+    "build": "preconstruct build",
+    "release": "yarn ci && yarn publish",
+    "test": "jest --passWithNoTests",
+    "ci": "yarn clean && yarn build && yarn test",
+    "docs": "typedoc src/index.ts"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
+    "@react-three/fiber": "^8.0.22",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@types/jest": "^28.1.1",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "@types/three": "^0.141.0",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
+    "rimraf": "^3.0.2",
+    "three": "^0.141.0",
+    "ts-jest": "^28.0.4",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.3"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.0.27",
+    "three": ">=0.141.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  }
+}
