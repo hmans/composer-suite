@@ -13,7 +13,7 @@ import {
   TimeNode,
   Value,
   vec3,
-  PositionNode,
+  VertexPositionNode,
   MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
@@ -49,7 +49,7 @@ function useShader() {
       }).value,
 
       position: AddNode({
-        a: PositionNode().value,
+        a: VertexPositionNode().value,
         b: WobbleNode({
           time: TimeNode().value,
           amplitude: FloatNode({ value: 3 }).value,
