@@ -83,10 +83,34 @@ export const MeshParticlesMaterial = forwardRef<
         }
       }))
 
+      const LifetimeNode = nodeFactory<{
+        time: Value<"float">
+        startTime: Value<"float">
+        endTime: Value<"float">
+      }>(({ time, startTime, endTime }) => ({
+        inputs: {
+          time: float(time),
+          startTime: float(startTime),
+          endTime: float(endTime)
+        },
+        outputs: {
+          age: float(`time - startTime`),
+          value: float(`age / (endTime - startTime)`)
+        },
+        fragment: {
+          body: `if (value < 0.0 || value > 1.0) { discard; }`
+        }
+      }))
+
+      const lifetime = LifetimeNode({ time, startTime: 0, endTime: 1 })
+
       const movement = AddNode({
-        a: StatelessVelocityNode({ time, velocity: new Vector3(0, 0, 0) }),
+        a: StatelessVelocityNode({
+          time: lifetime,
+          velocity: new Vector3(0, 0, 0)
+        }),
         b: StatelessAccelerationNode({
-          time,
+          time: lifetime,
           acceleration: new Vector3(0, -10, 0)
         })
       })
