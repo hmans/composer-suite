@@ -1,12 +1,13 @@
 import { node, nodeFactory, variable } from "../factories"
 import { isShaderNode, Operator, ShaderNode, Value, Variable } from "../types"
 
-export const OperatorNode = (
-  operator: Operator,
-  inputs: { a: Variable | ShaderNode; b: Variable | ShaderNode }
-) => {
-  const A = isShaderNode(inputs.a) ? inputs.a.value : inputs.a
-  const B = isShaderNode(inputs.b) ? inputs.b.value : inputs.b
+export const OperatorNode = nodeFactory<{
+  operator: Operator
+  a: Variable | ShaderNode
+  b: Variable | ShaderNode
+}>(({ a, b, operator }) => {
+  const A = isShaderNode(a) ? a.value : a
+  const B = isShaderNode(b) ? b.value : b
 
   return node({
     name: `Perform ${operator} on ${A.type}`,
@@ -24,17 +25,17 @@ export const OperatorNode = (
       body: `value = a ${operator} b;`
     }
   })
-}
+})
 
 export const AddNode = nodeFactory<{
   a: Variable | ShaderNode
   b: Variable | ShaderNode
-}>(({ a, b }) => OperatorNode("+", { a, b }))
+}>(({ a, b }) => OperatorNode({ operator: "+", a, b }))
 
 export const MultiplyNode = nodeFactory<{
   a: Variable | ShaderNode
   b: Variable | ShaderNode
-}>(({ a, b }) => OperatorNode("*", { a, b }))
+}>(({ a, b }) => OperatorNode({ operator: "*", a, b }))
 
 /* TODO: change this to accept Value args, not Variable! */
 export const MixNode = nodeFactory<{
