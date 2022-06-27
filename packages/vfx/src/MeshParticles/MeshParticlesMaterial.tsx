@@ -88,8 +88,8 @@ const LifetimeAttributeNode = nodeFactory(({}) => ({
     body: "v_lifetime = lifetime;"
   },
   outputs: {
-    delay: float(0),
-    duration: float(10)
+    delay: float("v_lifetime.x"),
+    duration: float("v_lifetime.y")
   }
 }))
 
@@ -116,8 +116,8 @@ export const MeshParticlesMaterial = forwardRef<
       const lifetimeAttribute = LifetimeAttributeNode()
       const lifetime = LifetimeNode({
         time,
-        startTime: 0,
-        endTime: 1
+        startTime: lifetimeAttribute.outputs.delay,
+        endTime: lifetimeAttribute.outputs.duration
       })
 
       const movement = AddNode({
