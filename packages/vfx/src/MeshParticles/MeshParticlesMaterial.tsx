@@ -2,14 +2,22 @@ import { useFrame } from "@react-three/fiber"
 import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import {
+  AddNode,
   BlendNode,
   ColorNode,
   compileShader,
   CSMMasterNode,
+  float,
   FresnelNode,
-  MultiplyNode
+  MultiplyNode,
+  node,
+  nodeFactory,
+  TimeNode,
+  Value,
+  vec3,
+  VertexPositionNode
 } from "shadenfreude"
-import { Color, DepthTexture } from "three"
+import { Color, DepthTexture, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -47,12 +55,35 @@ export const MeshParticlesMaterial = forwardRef<
     const material = useRef<MeshParticlesMaterial>(null!)
 
     const shader = useMemo(() => {
-      const baseColor = ColorNode({
-        color: new Color("hotpink")
+      const time = TimeNode()
+
+      const MovementNode = nodeFactory<{
+        time: Value<"float">
+        velocity: Value<"vec3">
+        acceleration: Value<"vec3">
+      }>(({ time, velocity, acceleration }) => ({
+        inputs: {
+          time: float(time),
+          velocity: vec3(velocity),
+          acceleration: vec3(acceleration)
+        },
+        outputs: { value: vec3() },
+        vertex: {
+          body: `value = time * velocity + 0.5 * time * time * acceleration;`
+        }
+      }))
+
+      const position = AddNode({
+        a: VertexPositionNode(),
+        b: MovementNode({
+          time,
+          velocity: new Vector3(0, 0, 0),
+          acceleration: new Vector3(0, -10, 0)
+        })
       })
 
       const root = CSMMasterNode({
-        diffuseColor: baseColor
+        position
       })
 
       return compileShader(root)

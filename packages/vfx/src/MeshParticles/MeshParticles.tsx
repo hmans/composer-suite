@@ -1,8 +1,12 @@
 import { InstancedMeshProps } from "@react-three/fiber"
-import React, { forwardRef, ReactNode } from "react"
+import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
 import mergeRefs from "react-merge-refs"
+import { InstancedBufferAttribute, Matrix4 } from "three"
 import { ParticlesContext } from "../ParticlesContext"
-import { useMeshParticles, type MeshParticles as MeshParticlesType } from "./useMeshParticles"
+import {
+  useMeshParticles,
+  MeshParticles as MeshParticlesType
+} from "./useMeshParticles"
 
 export type MeshParticlesProps = InstancedMeshProps & {
   children?: ReactNode
@@ -16,6 +20,19 @@ export const MeshParticles = forwardRef<MeshParticlesType, MeshParticlesProps>(
     ref
   ) => {
     const [imesh, api] = useMeshParticles(maxParticles, safetySize)
+
+    useLayoutEffect(() => {
+      /* Fake the lifetime attribute */
+      imesh.current.geometry.setAttribute(
+        "lifetime",
+        new InstancedBufferAttribute(new Float32Array(maxParticles), 2)
+      )
+
+      imesh.current.geometry.attributes.lifetime.setXY(0, 0, 1)
+
+      /* Spawn a single particle */
+      imesh.current.setMatrixAt(0, new Matrix4())
+    }, [])
 
     return (
       <instancedMesh
