@@ -9,8 +9,12 @@ import {
   Variable
 } from "../types"
 
-function glslType(value: any): GLSLType {
-  if (typeof value === "number") {
+function glslType(value: Value): GLSLType {
+  if (isVariable(value)) {
+    return value.type
+  } else if (isShaderNode(value)) {
+    return glslType(value.value)
+  } else if (typeof value === "number") {
     return "float"
   } else if (typeof value === "boolean") {
     return "bool"
@@ -56,7 +60,7 @@ export const OperatorNode = nodeFactory<{
       b: B
     },
     outputs: {
-      value: variable(A.type)
+      value: variable(glslType(a))
     },
     vertex: {
       body: `value = a ${operator} b;`
@@ -94,7 +98,7 @@ export const MixNode = nodeFactory<{
       factor: wrapVariable(factor)
     },
     outputs: {
-      value: variable(A.type)
+      value: variable(glslType(a))
     },
     vertex: {
       body: `value = mix(a, b, factor);`
