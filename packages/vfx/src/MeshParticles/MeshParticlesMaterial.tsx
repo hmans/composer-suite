@@ -67,9 +67,8 @@ export const MeshParticlesMaterial = forwardRef<
           velocity: vec3(velocity),
           acceleration: vec3(acceleration)
         },
-        outputs: { value: vec3() },
-        vertex: {
-          body: `value = time * velocity + 0.5 * time * time * acceleration;`
+        outputs: {
+          value: vec3(`time * velocity + 0.5 * time * time * acceleration;`)
         }
       }))
 
