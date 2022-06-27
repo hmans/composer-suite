@@ -75,6 +75,11 @@ function compileBody(node: ShaderNode, program: Program) {
           .join("")}
 
         {
+          /* Varying References */
+          ${Object.entries(node.varyings)
+            .map(([name, variable]) => compileVariable({ ...variable, name }))
+            .join("")}
+
           /* Inputs */
           ${Object.entries(node.inputs)
             .map(([name, variable]) => compileVariable({ ...variable, name }))
@@ -92,7 +97,14 @@ function compileBody(node: ShaderNode, program: Program) {
           ${Object.entries(node.outputs)
             .map(([name, variable]) => `${variable.name} = ${name};`)
             .join("\n")}
-        }
+          ${
+            program === "vertex"
+              ? Object.entries(node.varyings)
+                  .map(([name, variable]) => `${variable.name} = ${name};`)
+                  .join("")
+              : ""
+          }
+          }
       `
     )
     .join("\n\n\n")

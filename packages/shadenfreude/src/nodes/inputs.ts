@@ -14,25 +14,17 @@ export const TimeNode = nodeFactory(() => {
   })
 })
 
-export const VertexPositionNode = nodeFactory(() => {
-  const v_position = vec3()
+export const VertexPositionNode = nodeFactory(() => ({
+  name: "Vertex Position",
 
-  return {
-    name: "Vertex Position",
-    varyings: { v_position },
+  varyings: { v_position: vec3() },
+  outputs: { value: vec3() },
 
-    outputs: {
-      value: vec3(v_position)
-    },
+  vertex: {
+    body: `value = v_position = position;`
+  },
 
-    vertex: {
-      body: `
-        ${v_position.name} = position;
-        value = position;
-      `
-    },
-    fragment: {
-      body: `value = ${v_position.name};`
-    }
+  fragment: {
+    body: `value = v_position;`
   }
-})
+}))
