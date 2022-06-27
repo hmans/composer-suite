@@ -44,7 +44,8 @@ export const FresnelNode = nodeFactory(() => ({
     body: `
       float f_a = (factor + dot(v_worldPosition, v_worldNormal));
       float f_fresnel = bias + intensity * pow(abs(f_a), power);
-      value = clamp(f_fresnel, 0.0, 1.0);
+      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+      value = f_fresnel;
     `
   }
 }))
