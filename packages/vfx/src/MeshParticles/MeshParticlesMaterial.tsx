@@ -3,17 +3,15 @@ import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import {
   AddNode,
-  BlendNode,
   ColorNode,
   compileShader,
   CSMMasterNode,
   float,
-  FresnelNode,
   MultiplyNode,
-  node,
   nodeFactory,
   TimeNode,
   Value,
+  vec2,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -81,6 +79,20 @@ const StatelessAccelerationNode = nodeFactory<{
   }
 }))
 
+const LifetimeAttributeNode = nodeFactory(({}) => ({
+  varyings: {
+    v_lifetime: vec2()
+  },
+  vertex: {
+    header: "attribute vec2 lifetime;",
+    body: "v_lifetime = lifetime;"
+  },
+  outputs: {
+    delay: float(0),
+    duration: float(10)
+  }
+}))
+
 export const MeshParticlesMaterial = forwardRef<
   MeshParticlesMaterial,
   MeshParticlesMaterialProps
@@ -101,15 +113,20 @@ export const MeshParticlesMaterial = forwardRef<
 
     const shader = useMemo(() => {
       const time = TimeNode()
-      const lifetime = LifetimeNode({ time, startTime: 0, endTime: 1 })
+      const lifetimeAttribute = LifetimeAttributeNode()
+      const lifetime = LifetimeNode({
+        time,
+        startTime: 0,
+        endTime: 1
+      })
 
       const movement = AddNode({
         a: StatelessVelocityNode({
-          time: lifetime,
+          time: time,
           velocity: new Vector3(0, 0, 0)
         }),
         b: StatelessAccelerationNode({
-          time: lifetime,
+          time: time,
           acceleration: new Vector3(0, -10, 0)
         })
       })
@@ -119,8 +136,14 @@ export const MeshParticlesMaterial = forwardRef<
         b: movement
       })
 
+      const diffuseColor = MultiplyNode({
+        a: ColorNode({ color: new Color("#fff") }),
+        b: lifetime
+      })
+
       const root = CSMMasterNode({
-        position
+        position,
+        diffuseColor
       })
 
       return compileShader(root)

@@ -25,13 +25,15 @@ export const MeshParticles = forwardRef<MeshParticlesType, MeshParticlesProps>(
       /* Fake the lifetime attribute */
       imesh.current.geometry.setAttribute(
         "lifetime",
-        new InstancedBufferAttribute(new Float32Array(maxParticles), 2)
+        new InstancedBufferAttribute(new Float32Array(maxParticles * 2), 2)
       )
 
-      imesh.current.geometry.attributes.lifetime.setXY(0, 0, 1)
+      imesh.current.geometry.attributes.lifetime.setXY(0, 0, 3)
+      imesh.current.geometry.attributes.lifetime.needsUpdate = true
 
       /* Spawn a single particle */
       imesh.current.setMatrixAt(0, new Matrix4())
+      imesh.current.count = 1
     }, [])
 
     return (
