@@ -1,6 +1,5 @@
-import { Shader } from "three-vfx"
-import { node, variable, nodeFactory } from "../factories"
-import { Operator, Variable, Value, ShaderNode, isShaderNode } from "../types"
+import { node, nodeFactory, variable } from "../factories"
+import { isShaderNode, Operator, ShaderNode, Value, Variable } from "../types"
 
 export const OperatorNode = (
   operator: Operator,
