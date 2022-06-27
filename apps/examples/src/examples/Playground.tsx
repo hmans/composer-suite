@@ -48,11 +48,11 @@ const floatNode = nodeFactory<{ a?: Value<"float"> }>(({ a = 1 }) =>
   })
 )
 
-const WobbleNode: ShaderNodeFactory<{
+const WobbleNode = nodeFactory<{
   amplitude?: Value<"float">
   frequency?: Value<"float">
   time?: Value<"float">
-}> = ({ amplitude = 1, frequency = 1, time } = {}) =>
+}>(({ amplitude = 1, frequency = 1, time } = {}) =>
   node({
     name: "Wobble",
     inputs: {
@@ -63,6 +63,7 @@ const WobbleNode: ShaderNodeFactory<{
     outputs: { value: vec3() },
     vertex: { body: `value.x = sin(time * frequency) * amplitude;` }
   })
+)
 
 function useShader() {
   return useMemo(() => {
