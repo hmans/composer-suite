@@ -1,5 +1,5 @@
-import { nodeFactory, node, vec3 } from "../factories"
-import { Value } from "../types"
+import { nodeFactory, node, vec3 } from "../../factories"
+import { Value } from "../../types"
 
 export const CSMMasterNode = nodeFactory<{
   position?: Value<"vec3">
