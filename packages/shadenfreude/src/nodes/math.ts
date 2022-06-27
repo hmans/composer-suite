@@ -9,7 +9,7 @@ import {
   Variable
 } from "../types"
 
-function lookupGLSLType(value: any): GLSLType {
+function glslType(value: any): GLSLType {
   if (typeof value === "number") {
     return "float"
   } else if (typeof value === "boolean") {
@@ -37,7 +37,7 @@ function wrapVariable(a: Value): Variable {
   } else if (isShaderNode(a)) {
     return wrapVariable(a.value)
   } else {
-    return variable(lookupGLSLType(a), a)
+    return variable(glslType(a), a)
   }
 }
 
