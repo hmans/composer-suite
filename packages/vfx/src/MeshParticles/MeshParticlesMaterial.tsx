@@ -93,8 +93,6 @@ const LifetimeAttributeNode = nodeFactory(({}) => ({
   }
 }))
 
-const add = (a: Value, b: Value) => AddNode({ a, b })
-
 export const MeshParticlesMaterial = forwardRef<
   MeshParticlesMaterial,
   MeshParticlesMaterialProps
