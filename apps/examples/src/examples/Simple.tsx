@@ -7,9 +7,10 @@ import {
   MeshParticlesMaterial,
   Repeat
 } from "three-vfx"
+import textureUrl from "./textures/particle.png"
 
 export const Simple = () => {
-  const texture = useTexture("/textures/particle.png")
+  const texture = useTexture(textureUrl)
 
   return (
     <MeshParticles>

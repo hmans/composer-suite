@@ -9,11 +9,12 @@ import {
   SpawnSetup
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
+import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const depthTexture = useDepthBuffer().depthTexture
 
-  const texture = useTexture("/textures/smoke.png")
+  const texture = useTexture(smokeUrl)
 
   const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
     c.position.set(0, 6, 0).add(insideSphere(5) as Vector3)

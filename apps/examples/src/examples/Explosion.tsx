@@ -3,10 +3,7 @@ import { GroupProps } from "@react-three/fiber"
 import { between, plusMinus, power, upTo } from "randomish"
 import { FC } from "react"
 import {
-  AddEquation,
-  AdditiveBlending,
   Color,
-  CustomBlending,
   DepthTexture,
   MeshStandardMaterial,
   NormalBlending,
@@ -21,6 +18,7 @@ import {
   Repeat
 } from "three-vfx"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
+import { smokeUrl } from "./textures"
 
 const gravity = new Vector3(0, -20, 0)
 const direction = new Vector3()
@@ -137,7 +135,7 @@ const SmokeCloud: FC<{ depthTexture: DepthTexture }> = ({ depthTexture }) => (
     <MeshParticlesMaterial
       baseMaterial={MeshStandardMaterial}
       blending={NormalBlending}
-      map={useTexture("/textures/smoke.png")}
+      map={useTexture(smokeUrl)}
       depthWrite={false}
       billboard
       transparent

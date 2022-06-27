@@ -2,9 +2,10 @@ import { useTexture } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
 import { AdditiveBlending, DoubleSide, MeshStandardMaterial } from "three"
 import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
+import { particleUrl } from "./textures"
 
 export const DustExample = ({ intensity = 300 }) => {
-  const texture = useTexture("/textures/particle.png")
+  const texture = useTexture(particleUrl)
 
   return (
     <MeshParticles maxParticles={intensity} safetySize={0}>
