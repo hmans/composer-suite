@@ -57,7 +57,7 @@ export const MeshParticlesMaterial = forwardRef<
     const shader = useMemo(() => {
       const time = TimeNode()
 
-      const MovementNode = nodeFactory<{
+      const StatelessMovementNode = nodeFactory<{
         time: Value<"float">
         velocity: Value<"vec3">
         acceleration: Value<"vec3">
@@ -74,7 +74,7 @@ export const MeshParticlesMaterial = forwardRef<
 
       const position = AddNode({
         a: VertexPositionNode(),
-        b: MovementNode({
+        b: StatelessMovementNode({
           time,
           velocity: new Vector3(0, 0, 0),
           acceleration: new Vector3(0, -10, 0)
