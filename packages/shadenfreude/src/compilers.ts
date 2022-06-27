@@ -16,7 +16,7 @@ export function compileVariable(variable: Variable) {
       ? ` = ${compileVariableValue(variable.value)}`
       : ""
 
-  return `${variable.qualifier ?? ""} ${variable.type} ${
+  return `${variable.qualifier || ""} ${variable.type} ${
     variable.name
   }${valueString};`
 }
