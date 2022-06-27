@@ -34,20 +34,18 @@ export const FloatNode = nodeFactory<{ value: Value<"float"> }>(
   })
 )
 
-export const PositionNode = nodeFactory(() =>
-  node({
-    name: "Vertex Position",
-    outputs: { value: vec3() },
-    vertex: {
-      header: "varying vec3 v_position;",
-      body: "value = v_position = position;"
-    },
-    fragment: {
-      header: "varying vec3 v_position;",
-      body: "value = v_position;"
-    }
-  })
-)
+export const PositionNode = nodeFactory(() => ({
+  name: "Vertex Position",
+  outputs: { value: vec3() },
+  vertex: {
+    header: "varying vec3 v_position;",
+    body: "value = v_position = position;"
+  },
+  fragment: {
+    header: "varying vec3 v_position;",
+    body: "value = v_position;"
+  }
+}))
 
 export const CSMMasterNode = nodeFactory<{
   position?: Value<"vec3">
