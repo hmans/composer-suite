@@ -1,6 +1,6 @@
-import { Color, Vector3 } from "three"
-import { variable, node, vec3, float, nodeFactory } from "../factories"
-import { GLSLType, Operator, Program, Variable, Value } from "../types"
+import { Color } from "three"
+import { float, node, nodeFactory, variable, vec3 } from "../factories"
+import { GLSLType, Operator, Program, Value, Variable } from "../types"
 
 export const TimeNode = nodeFactory(() => {
   const u_time = variable("float", 0)
@@ -178,11 +178,11 @@ export const FresnelNode = nodeFactory(() => ({
   }
 }))
 
-export const BlendNode = (input: {
-  a: Variable
-  b: Variable
-  opacity: Variable<"float">
-}) => {
+export const BlendNode = nodeFactory<{
+  a: Value<"vec3">
+  b: Value<"vec3">
+  opacity: Value<"float">
+}>((props) => {
   const program: Program = {
     header: `
       float blend_softlight(const in float x, const in float y) {
@@ -203,17 +203,17 @@ export const BlendNode = (input: {
     `
   }
 
-  return node({
+  return {
     name: "Softlight Blend",
     inputs: {
-      a: vec3(input.a),
-      b: vec3(input.b),
-      opacity: float(input.opacity)
+      a: vec3(props.a),
+      b: vec3(props.b),
+      opacity: float(props.opacity)
     },
     outputs: {
       value: vec3()
     },
     vertex: program,
     fragment: program
-  })
-}
+  }
+})
