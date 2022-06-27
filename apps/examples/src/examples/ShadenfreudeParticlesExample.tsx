@@ -1,19 +1,12 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
-  AddNode,
   BlendNode,
   ColorNode,
   compileShader,
   CSMMasterNode,
-  float,
-  FloatNode,
   FresnelNode,
-  nodeFactory,
-  TimeNode,
-  Value,
-  vec3,
-  VertexPositionNode,
+  MixNode,
   MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
@@ -23,7 +16,28 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 function useShader() {
   return useMemo(() => {
-    const root = CSMMasterNode({})
+    const baseColor = ColorNode({
+      color: new Color("#555")
+    }).value
+
+    const highlight = ColorNode({
+      color: new Color(2, 2, 2)
+    }).value
+
+    const fresnel = MultiplyNode({
+      a: highlight,
+      b: FresnelNode().value
+    }).value
+
+    const diffuseColor = BlendNode({
+      a: baseColor,
+      b: fresnel,
+      opacity: 1
+    }).value
+
+    const root = CSMMasterNode({
+      diffuseColor
+    })
 
     return compileShader(root)
   }, [])
