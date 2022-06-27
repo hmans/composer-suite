@@ -8,9 +8,7 @@ import {
   float,
   FloatValueNode,
   FresnelNode,
-  node,
   nodeFactory,
-  ShaderNode,
   TimeNode,
   Value,
   vec3,
@@ -21,49 +19,42 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const ColorValueNode = nodeFactory<{ color?: Value<"vec3"> }>(
-  ({ color = new Color(1.0, 1.0, 1.0) }) =>
-    node({
-      name: "Color Value",
-      outputs: {
-        value: vec3(color)
-      }
-    })
-)
-
-const floatNode = nodeFactory(({ a = 1 }) =>
-  node({
-    inputs: {
-      a: float(a)
-    },
+const ColorNode = nodeFactory<{ color?: Value<"vec3"> }>(
+  ({ color = new Color(1.0, 1.0, 1.0) }) => ({
+    name: "Constant Color Value",
     outputs: {
-      value: float(a)
+      value: vec3(color)
     }
   })
 )
+
+const FloatNode = nodeFactory<{ a?: Value<"float"> }>(({ a = 1 }) => ({
+  name: "Constant Float Value",
+  outputs: {
+    value: float(a)
+  }
+}))
 
 const WobbleNode = nodeFactory<{
   amplitude?: Value<"float">
   frequency?: Value<"float">
   time?: Value<"float">
-}>(({ amplitude = 1, frequency = 1, time }) =>
-  node({
-    name: "Wobble",
-    inputs: {
-      amplitude: float(amplitude),
-      frequency: float(frequency),
-      time: float(time)
-    },
-    outputs: { value: vec3() },
-    vertex: { body: `value.x = sin(time * frequency) * amplitude;` }
-  })
-)
+}>(({ amplitude = 1, frequency = 1, time }) => ({
+  name: "Wobble",
+  inputs: {
+    amplitude: float(amplitude),
+    frequency: float(frequency),
+    time: float(time)
+  },
+  outputs: { value: vec3() },
+  vertex: { body: `value.x = sin(time * frequency) * amplitude;` }
+}))
 
 function useShader() {
   return useMemo(() => {
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
-        a: ColorValueNode({ color: new Color("#dd8833") }).value,
+        a: ColorNode({ color: new Color("#dd8833") }).value,
         b: FresnelNode().value,
         opacity: FloatValueNode(1).value
       }).value,
@@ -73,8 +64,8 @@ function useShader() {
 
         WobbleNode({
           time: TimeNode().value,
-          amplitude: floatNode({ a: 3 }).value,
-          frequency: floatNode({ a: 10 }).value
+          amplitude: FloatNode({ a: 3 }).value,
+          frequency: FloatNode({ a: 10 }).value
         }).value
       )
     })
