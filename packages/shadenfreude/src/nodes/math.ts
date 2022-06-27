@@ -1,4 +1,4 @@
-import { Color, Vector2, Vector3, Vector4 } from "three"
+import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { node, nodeFactory, variable } from "../factories"
 import {
   GLSLType,
@@ -12,6 +12,8 @@ import {
 function lookupGLSLType(value: any): GLSLType {
   if (typeof value === "number") {
     return "float"
+  } else if (typeof value === "boolean") {
+    return "bool"
   } else if (value instanceof Color) {
     return "vec3"
   } else if (value instanceof Vector2) {
@@ -20,6 +22,10 @@ function lookupGLSLType(value: any): GLSLType {
     return "vec3"
   } else if (value instanceof Vector4) {
     return "vec4"
+  } else if (value instanceof Matrix3) {
+    return "mat3"
+  } else if (value instanceof Matrix4) {
+    return "mat4"
   } else {
     throw new Error(`Could not find a GLSL type for: ${value}`)
   }
