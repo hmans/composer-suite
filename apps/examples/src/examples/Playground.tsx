@@ -20,20 +20,24 @@ import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const ColorValueNode: ShaderNodeFactory<{ color?: Value<"vec3"> }> = ({
-  color = new Color(1.0, 1.0, 1.0)
-} = {}) =>
-  node({
-    name: "Color Value",
-    outputs: {
-      value: vec3(color)
-    }
-  })
+const ColorValueNode = nodeFactory<{ color?: Value<"vec3"> }>(
+  ({ color = new Color(1.0, 1.0, 1.0) }) =>
+    node({
+      name: "Color Value",
+      outputs: {
+        value: vec3(color)
+      }
+    })
+)
 
 type ShaderNodeProps = { [key: string]: any }
-type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs?: P) => ShaderNode
+type ShaderNodeFactory<P extends ShaderNodeProps> = (inputs: P) => ShaderNode
 
-const floatNode: ShaderNodeFactory<{ a?: Value<"float"> }> = ({ a = 1 } = {}) =>
+function nodeFactory<P extends ShaderNodeProps>(factory: ShaderNodeFactory<P>) {
+  return (props: P = {} as P) => factory(props)
+}
+
+const floatNode = nodeFactory<{ a?: Value<"float"> }>(({ a = 1 }) =>
   node({
     inputs: {
       a: float(a)
@@ -42,6 +46,7 @@ const floatNode: ShaderNodeFactory<{ a?: Value<"float"> }> = ({ a = 1 } = {}) =>
       value: float(a)
     }
   })
+)
 
 const WobbleNode: ShaderNodeFactory<{
   amplitude?: Value<"float">
@@ -73,7 +78,7 @@ function useShader() {
 
         WobbleNode({
           time: TimeNode().value,
-          amplitude: floatNode().value,
+          amplitude: floatNode({ a: 3 }).value,
           frequency: floatNode({ a: 10 }).value
         }).value
       )
