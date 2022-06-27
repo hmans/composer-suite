@@ -6,7 +6,7 @@ import {
   compileShader,
   CSMMasterNode,
   FresnelNode,
-  OperatorNode
+  MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -23,8 +23,7 @@ function useShader() {
       color: new Color(2, 2, 2)
     })
 
-    const fresnel = OperatorNode({
-      operator: "*",
+    const fresnel = MultiplyNode({
       a: highlight,
       b: FresnelNode()
     })

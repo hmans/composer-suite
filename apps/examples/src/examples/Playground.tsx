@@ -3,18 +3,16 @@ import { useMemo } from "react"
 import {
   AddNode,
   BlendNode,
-  ColorNode,
   compileShader,
   CSMMasterNode,
   float,
-  FloatNode,
   FresnelNode,
+  MultiplyNode,
   nodeFactory,
   TimeNode,
   Value,
   vec3,
-  VertexPositionNode,
-  MultiplyNode
+  VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -42,11 +40,11 @@ function useShader() {
       diffuseColor: BlendNode({
         a: new Color("#dd8833"),
         b: MultiplyNode({
-          a: ColorNode({ color: new Color("#ffffff") }),
+          a: new Color("#ffffff"),
           b: FresnelNode()
         }),
         opacity: 1
-      }).value,
+      }),
 
       position: AddNode({
         a: VertexPositionNode(),
