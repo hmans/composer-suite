@@ -1,4 +1,6 @@
-# Shade-n-Freude
+# Shadenfreude
+
+### /Shádenfreude/, German: the joy of shading
 
 An experiment in node-based shader composition.
 
