@@ -1,8 +1,9 @@
 import { RenderCallback } from "@react-three/fiber"
+import { render } from "react-dom"
 import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
-import { isVariable, ShaderNode, Value, Variable } from "./types"
+import { isVariable, ShaderNode, Value, Variable, Variables } from "./types"
 
 type Program = "vertex" | "fragment"
 
@@ -63,51 +64,57 @@ function compileHeader(node: ShaderNode, program: Program) {
     .join("\n\n\n")
 }
 
+function renderVariables(
+  variables: Variables,
+  callback: (localName: string, variable: Variable) => string
+) {
+  return Object.entries(variables)
+    .map(([name, variable]) => callback(name, variable))
+    .join("\n")
+}
+
 function compileBody(node: ShaderNode, program: Program) {
   return dependencies(node)
     .map(
       (node) => `
         ${nodeTitle(node)}
 
-        ${Object.entries(node.outputs)
-          .map(([_, variable]) =>
-            compileVariable({ ...variable, value: undefined })
-          )
-          .join("")}
+        ${renderVariables(node.outputs, (_, variable) =>
+          compileVariable({ ...variable, value: undefined })
+        )}
 
         {
           /* Varying References */
-          ${Object.entries(node.varyings)
-            .map(([name, variable]) =>
-              compileVariable({ ...variable, name, value: variable.name })
-            )
-            .join("")}
+          ${renderVariables(node.varyings, (name, variable) =>
+            compileVariable({ ...variable, name, value: variable.name })
+          )}
 
           /* Inputs */
-          ${Object.entries(node.inputs)
-            .map(([name, variable]) => compileVariable({ ...variable, name }))
-            .join("")}
+          ${renderVariables(node.inputs, (name, variable) =>
+            compileVariable({ ...variable, name })
+          )}
 
           /* Outputs */
-          ${Object.entries(node.outputs)
-            .map(([name, variable]) => compileVariable({ ...variable, name }))
-            .join("")}
+          ${renderVariables(node.outputs, (name, variable) =>
+            compileVariable({ ...variable, name })
+          )}
 
           /* Code */
           ${node[program].body || ""}
 
           /* Update globals */
-          ${Object.entries(node.outputs)
-            .map(([name, variable]) => `${variable.name} = ${name};`)
-            .join("\n")}
-          ${
-            program === "vertex"
-              ? Object.entries(node.varyings)
-                  .map(([name, variable]) => `${variable.name} = ${name};`)
-                  .join("")
-              : ""
-          }
-          }
+          ${renderVariables(
+            node.outputs,
+            (name, variable) => `${variable.name} = ${name};`
+          )}
+
+          ${(program === "vertex" &&
+            renderVariables(
+              node.varyings,
+              (name, variable) => `${variable.name} = ${name};`
+            )) ||
+            ""}
+        }
       `
     )
     .join("\n\n\n")
