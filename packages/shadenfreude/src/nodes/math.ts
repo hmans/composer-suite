@@ -5,13 +5,9 @@ import {
   isShaderNode,
   isVariable,
   Operator,
-  ShaderNode,
   Value,
   Variable
 } from "../types"
-
-/* TODO: naming... oof */
-type VariableArgument = Variable | ShaderNode
 
 function lookupGLSLType(value: any): GLSLType {
   if (typeof value === "number") {
@@ -37,10 +33,6 @@ function wrapVariable(a: Value): Variable {
   } else {
     return variable(lookupGLSLType(a), a)
   }
-}
-
-function resolveVariableArgument(a: VariableArgument) {
-  return isShaderNode(a) ? a.value : a
 }
 
 export const OperatorNode = nodeFactory<{
@@ -81,19 +73,19 @@ export const MultiplyNode = nodeFactory<{
 
 /* TODO: change this to accept Value args, not Variable! */
 export const MixNode = nodeFactory<{
-  a: VariableArgument
-  b: VariableArgument
+  a: Value
+  b: Value
   factor: Value<"float">
 }>(({ a, b, factor }) => {
-  const A = resolveVariableArgument(a)
-  const B = resolveVariableArgument(b)
+  const A = wrapVariable(a)
+  const B = wrapVariable(b)
 
   return {
     name: "Mix",
     inputs: {
-      a: variable(A.type, A),
-      b: variable(B.type, B),
-      factor: variable("float", factor)
+      a: A,
+      b: B,
+      factor: wrapVariable(factor)
     },
     outputs: {
       value: variable(A.type)
