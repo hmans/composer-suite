@@ -1,4 +1,3 @@
-import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
   BlendNode,
@@ -9,7 +8,7 @@ import {
   MultiplyNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
-import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
+import { iCSMProps } from "three-custom-shader-material"
 import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
@@ -41,19 +40,6 @@ function useShader() {
 
     return compileShader(root)
   }, [])
-}
-
-function ModularShaderMaterial({
-  children,
-  ...props
-}: ModularShaderMaterialProps) {
-  const { update, ...shaderProps } = useShader()
-  useFrame(update)
-
-  // console.log(shaderProps.vertexShader)
-  // console.log(shaderProps.fragmentShader)
-
-  return <CustomShaderMaterial {...props} {...shaderProps} />
 }
 
 export default function() {
