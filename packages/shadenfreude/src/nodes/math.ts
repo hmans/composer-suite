@@ -1,4 +1,4 @@
-import { float, node, nodeFactory, wrapVariable } from "../factories"
+import { float, node, nodeFactory, inferVariable } from "../factories"
 import { glslType } from "../helpers"
 import { Operator, Value } from "../types"
 
@@ -10,11 +10,11 @@ export const OperatorNode = nodeFactory<{
   node({
     name: `Perform ${operator} on ${glslType(a)}`,
     inputs: {
-      a: wrapVariable(a),
-      b: wrapVariable(b)
+      a: inferVariable(a),
+      b: inferVariable(b)
     },
     outputs: {
-      value: wrapVariable(a)
+      value: inferVariable(a)
     },
     vertex: {
       body: `value = a ${operator} b;`
@@ -44,12 +44,12 @@ export const MixNode = nodeFactory<{
   return {
     name: "Mix",
     inputs: {
-      a: wrapVariable(a),
-      b: wrapVariable(b),
+      a: inferVariable(a),
+      b: inferVariable(b),
       factor: float(factor)
     },
     outputs: {
-      value: wrapVariable(a)
+      value: inferVariable(a)
     },
     vertex: {
       body: `value = mix(a, b, factor);`

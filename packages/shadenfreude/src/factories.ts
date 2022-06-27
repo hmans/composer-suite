@@ -28,11 +28,14 @@ export const vec3 = (value?: Value<"vec3">) => variable("vec3", value)
 
 export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 
-export function wrapVariable(a: Value): Variable {
+/**
+ * Creates a new variable with the GLSL type inferred from the specified value.
+ */
+export function inferVariable(a: Value): Variable {
   if (isVariable(a)) {
     return variable(a.type, a)
   } else if (isShaderNode(a)) {
-    return wrapVariable(a.value)
+    return inferVariable(a.value)
   } else {
     return variable(glslType(a), a)
   }

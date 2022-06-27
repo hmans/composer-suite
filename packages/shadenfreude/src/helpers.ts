@@ -1,6 +1,5 @@
-import { Color, Vector2, Vector3, Vector4, Matrix3, Matrix4 } from "three"
-import { variable } from "./factories"
-import { GLSLType, isShaderNode, isVariable, Value, Variable } from "./types"
+import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import { GLSLType, isShaderNode, isVariable, Value } from "./types"
 
 export function glslType(value: Value): GLSLType {
   if (isVariable(value)) {
