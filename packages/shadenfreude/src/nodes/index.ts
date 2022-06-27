@@ -1,8 +1,8 @@
 import { Color, Vector3 } from "three"
-import { variable, node, vec3, float } from "../factories"
+import { variable, node, vec3, float, nodeFactory } from "../factories"
 import { GLSLType, Operator, Program, Variable, Value } from "../types"
 
-export const TimeNode = () => {
+export const TimeNode = nodeFactory(() => {
   const u_time = variable("float", 0)
 
   return node({
@@ -14,15 +14,27 @@ export const TimeNode = () => {
       ;(u_time.value as number)! += dt
     }
   })
-}
+})
 
-export const FloatValueNode = (value: number) =>
-  node({
-    name: "Float Value",
-    outputs: { value: float(value) }
+export const ColorNode = nodeFactory<{ color?: Value<"vec3"> }>(
+  ({ color = new Color(1.0, 1.0, 1.0) }) => ({
+    name: "Constant Color Value",
+    outputs: {
+      value: vec3(color)
+    }
   })
+)
 
-export const VertexPositionNode = () =>
+export const FloatNode = nodeFactory<{ value: Value<"float"> }>(
+  ({ value }) => ({
+    name: "Constant Float Value",
+    outputs: {
+      value: float(value)
+    }
+  })
+)
+
+export const VertexPositionNode = nodeFactory(() =>
   node({
     name: "Vertex Position",
     outputs: { value: vec3() },
@@ -30,22 +42,16 @@ export const VertexPositionNode = () =>
       body: "value = csm_Position;"
     }
   })
+)
 
-export const CSMMasterNode = ({
-  position,
-  normal,
-  pointSize,
-  diffuseColor,
-  fragColor,
-  emissiveColor
-}: {
-  position?: Value<Vector3>
-  normal?: Value<Vector3>
-  pointSize?: Value<number>
-  diffuseColor?: Value<Vector3>
-  fragColor?: Value<Vector3>
-  emissiveColor?: Value<Vector3>
-}) =>
+export const CSMMasterNode = nodeFactory<{
+  position?: Value<"vec3">
+  normal?: Value<"vec3">
+  pointSize?: Value<"float">
+  diffuseColor?: Value<"vec3">
+  fragColor?: Value<"vec3">
+  emissiveColor?: Value<"vec3">
+}>(({ position, normal, pointSize, diffuseColor, fragColor, emissiveColor }) =>
   node({
     name: "Master Node",
     inputs: {
@@ -69,6 +75,7 @@ export const CSMMasterNode = ({
       `
     }
   })
+)
 
 export const OperatorNode = (
   type: GLSLType,
@@ -170,7 +177,7 @@ export const FresnelNode = () =>
 export const BlendNode = (input: {
   a: Variable
   b: Variable
-  opacity: Variable<number>
+  opacity: Variable<"float">
 }) => {
   const program: Program = {
     header: `

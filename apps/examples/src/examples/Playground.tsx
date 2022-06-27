@@ -3,10 +3,11 @@ import { useMemo } from "react"
 import {
   AddNode,
   BlendNode,
+  ColorNode,
   compileShader,
   CSMMasterNode,
   float,
-  FloatValueNode,
+  FloatNode,
   FresnelNode,
   nodeFactory,
   TimeNode,
@@ -18,22 +19,6 @@ import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
-
-const ColorNode = nodeFactory<{ color?: Value<"vec3"> }>(
-  ({ color = new Color(1.0, 1.0, 1.0) }) => ({
-    name: "Constant Color Value",
-    outputs: {
-      value: vec3(color)
-    }
-  })
-)
-
-const FloatNode = nodeFactory<{ a?: Value<"float"> }>(({ a = 1 }) => ({
-  name: "Constant Float Value",
-  outputs: {
-    value: float(a)
-  }
-}))
 
 const WobbleNode = nodeFactory<{
   amplitude?: Value<"float">
@@ -56,7 +41,7 @@ function useShader() {
       diffuseColor: BlendNode({
         a: ColorNode({ color: new Color("#dd8833") }).value,
         b: FresnelNode().value,
-        opacity: FloatValueNode(1).value
+        opacity: FloatNode({ value: 1 }).value
       }).value,
 
       position: AddNode(
@@ -64,8 +49,8 @@ function useShader() {
 
         WobbleNode({
           time: TimeNode().value,
-          amplitude: FloatNode({ a: 3 }).value,
-          frequency: FloatNode({ a: 10 }).value
+          amplitude: FloatNode({ value: 3 }).value,
+          frequency: FloatNode({ value: 10 }).value
         }).value
       )
     })
