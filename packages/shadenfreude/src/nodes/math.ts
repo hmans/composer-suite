@@ -46,23 +46,28 @@ export const MultiplyNode = nodeFactory<{
 
 /* TODO: change this to accept Value args, not Variable! */
 export const MixNode = nodeFactory<{
-  a: Variable
-  b: Variable
+  a: VariableArgument
+  b: VariableArgument
   factor: Value<"float">
-}>(({ a, b, factor }) => ({
-  name: "Mix",
-  inputs: {
-    a: variable(a.type, a),
-    b: variable(b.type, b),
-    factor: variable("float", factor)
-  },
-  outputs: {
-    value: variable(a.type)
-  },
-  vertex: {
-    body: `value = mix(a, b, factor);`
-  },
-  fragment: {
-    body: `value = mix(a, b, factor);`
+}>(({ a, b, factor }) => {
+  const A = resolveVariableArgument(a)
+  const B = resolveVariableArgument(b)
+
+  return {
+    name: "Mix",
+    inputs: {
+      a: variable(A.type, A),
+      b: variable(B.type, B),
+      factor: variable("float", factor)
+    },
+    outputs: {
+      value: variable(A.type)
+    },
+    vertex: {
+      body: `value = mix(a, b, factor);`
+    },
+    fragment: {
+      body: `value = mix(a, b, factor);`
+    }
   }
-}))
+})
