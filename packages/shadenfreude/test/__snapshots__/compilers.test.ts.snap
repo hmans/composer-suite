@@ -11,6 +11,8 @@ Object {
     
 
     
+
+    
   
 
     void main() {
@@ -20,6 +22,9 @@ Object {
         
 
         {
+          /* Varying References */
+          
+
           /* Inputs */
            vec3 offset = vec3(1.0, 2.0, 3.0);
 
@@ -31,7 +36,8 @@ Object {
 
           /* Update globals */
           
-        }
+          
+          }
       
     }",
   "uniforms": Object {},
@@ -45,6 +51,8 @@ Object {
     
 
     
+
+    
   
 
     void main() {
@@ -54,6 +62,9 @@ Object {
         
 
         {
+          /* Varying References */
+          
+
           /* Inputs */
            vec3 offset = vec3(1.0, 2.0, 3.0);
 
@@ -65,7 +76,8 @@ Object {
 
           /* Update globals */
           
-        }
+          
+          }
       
     }",
 }

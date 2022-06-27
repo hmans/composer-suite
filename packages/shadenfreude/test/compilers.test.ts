@@ -20,28 +20,6 @@ describe("compileShader", () => {
 
     const shader = compileShader(TestNode())
 
-    expect(shader.vertexShader).toBeGLSL(/*glsl*/ `
-      /*** VERTEX SHADER ***/
-
-      /** Node: Root **/
-
-      void main() {
-        /** Node: Root **/
-        {
-          /* Inputs */
-          vec3 offset = vec3(1.0, 2.0, 3.0);
-
-          /* Outputs */
-
-          /* Code */
-
-          csm_Position += offset;
-
-          /* Update globals */
-        }
-      }
-    `)
-
     expect(shader).toMatchSnapshot()
   })
 })
