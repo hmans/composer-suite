@@ -7,48 +7,31 @@ export * from "./math"
 export * from "./values"
 
 export const WorldPositionNode = nodeFactory(() => ({
-  vertex: {
-    header: `
-      varying vec3 v_worldPosition;
-    `,
-    body: `
-      v_worldPosition = vec3(
+  ...Vec3VaryingNode({
+    value: `
+      vec3(
         -viewMatrix[0][2],
         -viewMatrix[1][2],
         -viewMatrix[2][2]
-      );
+      )
     `
-  },
-  fragment: {
-    header: `
-      varying vec3 v_worldPosition;
-    `
-  },
-  outputs: {
-    value: vec3("v_worldPosition")
-  }
+  }),
+
+  name: "World Normal (?)"
 }))
 
 export const WorldNormalNode = nodeFactory(() => ({
-  name: "World Normal (?)",
-  varyings: {
-    v_worldNormal: vec3()
-  },
-  vertex: {
-    body: `
-      value = v_worldNormal = normalize(
+  ...Vec3VaryingNode({
+    value: `
+      normalize(
         mat3(
           modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
         ) * normal
-      );
+      )
   `
-  },
-  fragment: {
-    body: "value = v_worldNormal;"
-  },
-  outputs: {
-    value: vec3()
-  }
+  }),
+
+  name: "World Normal (?)"
 }))
 
 export const FresnelNode = nodeFactory(() => ({
