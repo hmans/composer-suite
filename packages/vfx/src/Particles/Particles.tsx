@@ -44,6 +44,11 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
       //   imesh.current.material.__vfx.shader,
       //   maxInstanceCount
       // )
+
+      imesh.current.geometry.setAttribute(
+        "lifetime",
+        new InstancedBufferAttribute(new Float32Array(maxInstanceCount * 2), 2)
+      )
     }, [])
 
     const spawnParticle = useMemo(() => {
@@ -127,14 +132,6 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
     }, [])
 
     const api = useMemo(() => ({ spawnParticle }), [spawnParticle])
-
-    useLayoutEffect(() => {
-      // TODO: move this somewhere else
-      imesh.current.geometry.setAttribute(
-        "lifetime",
-        new InstancedBufferAttribute(new Float32Array(maxParticles * 2), 2)
-      )
-    }, [])
 
     return (
       <instancedMesh
