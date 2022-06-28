@@ -112,7 +112,7 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
           imesh.current.geometry.attributes.lifetime.setXY(
             cursor,
             clock.elapsedTime,
-            clock.elapsedTime + 1
+            clock.elapsedTime + 1 + Math.random() * 2
           )
 
           imesh.current.geometry.attributes.velocity.setXYZ(
