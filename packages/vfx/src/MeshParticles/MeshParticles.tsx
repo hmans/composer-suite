@@ -1,11 +1,11 @@
 import { InstancedMeshProps } from "@react-three/fiber"
 import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
 import mergeRefs from "react-merge-refs"
-import { InstancedBufferAttribute, Matrix4 } from "three"
+import { InstancedBufferAttribute } from "three"
 import { ParticlesContext } from "../ParticlesContext"
 import {
-  useMeshParticles,
-  MeshParticles as MeshParticlesType
+  MeshParticles as MeshParticlesType,
+  useMeshParticles
 } from "./useMeshParticles"
 
 export type MeshParticlesProps = InstancedMeshProps & {
