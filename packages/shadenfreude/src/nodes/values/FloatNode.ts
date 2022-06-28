@@ -3,13 +3,13 @@ import { Value } from "../../types"
 import { float } from "../../variables"
 
 export type FloatNodeProps = {
-  value?: Value<"float">
+  value: Value<"float">
 }
 
-export const FloatNode = (props?: FloatNodeProps) =>
+export const FloatNode = (props: FloatNodeProps) =>
   node({
     name: "Constant Float Value",
     outputs: {
-      value: float(props?.value ?? 0)
+      value: float(props.value)
     }
   })

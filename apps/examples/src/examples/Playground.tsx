@@ -8,7 +8,6 @@ import {
   float,
   FresnelNode,
   MultiplyNode,
-  nodeFactory,
   TimeNode,
   UniformNode,
   Value,
