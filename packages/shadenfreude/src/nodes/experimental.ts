@@ -1,10 +1,13 @@
-import { float, node, Program, Value, vec3 } from ".."
-import { Vec3VaryingNode } from "./util"
+import { node } from "../factories"
+import { Value, Program } from "../types"
+import { float, vec3 } from "../variables"
+import { VaryingNode } from "./util"
 
 export const WorldPositionNode = () =>
-  node({
-    ...Vec3VaryingNode({
-      value: `
+  node<"vec3">({
+    ...VaryingNode({
+      type: "vec3",
+      source: `
       vec3(
         -viewMatrix[0][2],
         -viewMatrix[1][2],
@@ -17,9 +20,10 @@ export const WorldPositionNode = () =>
   })
 
 export const WorldNormalNode = () =>
-  node({
-    ...Vec3VaryingNode({
-      value: `
+  node<"vec3">({
+    ...VaryingNode({
+      type: "vec3",
+      source: `
       normalize(
         mat3(
           modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
