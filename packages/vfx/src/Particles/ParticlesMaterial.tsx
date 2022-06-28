@@ -87,7 +87,7 @@ const VaryingNode = nodeFactory<{ type: GLSLType; source: Value }>(
       value: variable(type)
     },
     vertex: {
-      body: `v_value = ${source};`
+      body: `value = v_value = ${source};`
     },
     fragment: {
       body: "value = v_value;"
