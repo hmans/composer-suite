@@ -1,7 +1,10 @@
-import { nodeFactory, Value } from "../.."
+import { Value } from "../../types"
 import { OperatorNode } from "./OperatorNode"
 
-export const SubtractNode = nodeFactory<{
+export type SubtractNodeProps = {
   a: Value
   b: Value
-}>(({ a, b }) => OperatorNode({ operator: "-", a, b }))
+}
+
+export const SubtractNode = ({ a, b }: SubtractNodeProps) =>
+  OperatorNode({ operator: "-", a, b })

@@ -1,7 +1,10 @@
-import { nodeFactory, Value } from "../.."
+import { Value } from "../../types"
 import { OperatorNode } from "./OperatorNode"
 
-export const MultiplyNode = nodeFactory<{
+export type MultiplyNodeProps = {
   a: Value
   b: Value
-}>(({ a, b }) => OperatorNode({ operator: "*", a, b }))
+}
+
+export const MultiplyNode = ({ a, b }: MultiplyNodeProps) =>
+  OperatorNode({ operator: "*", a, b })

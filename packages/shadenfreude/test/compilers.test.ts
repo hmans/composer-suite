@@ -1,33 +1,23 @@
 import { Color, Vector3 } from "three"
-import {
-  ColorNode,
-  CSMMasterNode,
-  node,
-  nodeFactory,
-  Variable,
-  variable,
-  Vector3Node
-} from "../src"
+import { ColorNode, CSMMasterNode, node, variable, Vector3Node } from "../src"
 import { compileShader, compileVariable } from "../src/compilers"
 import "./helpers"
 
 describe("compileShader", () => {
   it("compiles a node into a shader", () => {
-    const TestNode = nodeFactory<{ offset?: Variable<"vec3"> }>(
-      ({ offset = new Vector3(1, 2, 3) }) => ({
-        name: "Root",
+    const testNode = node({
+      name: "Root",
 
-        inputs: {
-          offset: variable("vec3", offset)
-        },
+      inputs: {
+        offset: variable("vec3", new Vector3(1, 2, 3))
+      },
 
-        vertex: {
-          body: "csm_Position += offset;"
-        }
-      })
-    )
+      vertex: {
+        body: "csm_Position += offset;"
+      }
+    })
 
-    const shader = compileShader(TestNode())
+    const shader = compileShader(testNode)
 
     expect(shader).toMatchSnapshot()
   })

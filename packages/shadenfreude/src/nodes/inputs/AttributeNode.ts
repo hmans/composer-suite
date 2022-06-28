@@ -1,10 +1,12 @@
-import { nodeFactory } from "../../factories"
+import { node } from "../../factories"
 import { GLSLType } from "../../types"
 import { variable } from "../../variables"
 import { VaryingNode } from "../util"
 
-export const AttributeNode = nodeFactory<{ name: string; type: GLSLType }>(
-  ({ name, type }) => ({
+export type AttributeNodeProps = { name: string; type: GLSLType }
+
+export const AttributeNode = ({ name, type }: AttributeNodeProps) =>
+  node({
     inputs: {
       v_value: variable(type, VaryingNode({ type, source: name }))
     },
@@ -15,4 +17,3 @@ export const AttributeNode = nodeFactory<{ name: string; type: GLSLType }>(
       header: `attribute ${type} ${name};`
     }
   })
-)

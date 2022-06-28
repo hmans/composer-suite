@@ -1,15 +1,26 @@
-import { node, nodeFactory, Value, vec3 } from "../.."
+import { node } from "../../factories"
+import { Value } from "../../types"
+import { vec3 } from "../../variables"
 
-export const CSMMasterNode = nodeFactory<{
+export type CSMMasterNodeprops = {
   position?: Value<"vec3">
   normal?: Value<"vec3">
   pointSize?: Value<"float">
   diffuseColor?: Value<"vec3">
   fragColor?: Value<"vec3">
   emissiveColor?: Value<"vec3">
-}>(({ position, normal, pointSize, diffuseColor, fragColor, emissiveColor }) =>
+}
+
+export const CSMMasterNode = ({
+  position,
+  normal,
+  pointSize,
+  diffuseColor,
+  fragColor,
+  emissiveColor
+}: CSMMasterNodeprops) =>
   node({
-    name: "Master Node",
+    name: "CSM Master Node",
     inputs: {
       diffuseColor: vec3(diffuseColor),
       emissiveColor: vec3(emissiveColor),
@@ -31,4 +42,3 @@ export const CSMMasterNode = nodeFactory<{
       `
     }
   })
-)
