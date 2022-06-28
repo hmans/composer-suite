@@ -19,6 +19,12 @@ import { Color, DepthTexture, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
+export type ParticlesMaterial = CustomShaderMaterialImpl & {
+  __vfx: {
+    /* TODO */
+  }
+}
+
 export type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   billboard?: boolean
   softness?: number
@@ -26,12 +32,6 @@ export type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   colorFunction?: string
   softnessFunction?: string
   depthTexture?: DepthTexture
-}
-
-export type ParticlesMaterial = CustomShaderMaterialImpl & {
-  __vfx: {
-    shader: Shader
-  }
 }
 
 const LifetimeNode = nodeFactory<{
