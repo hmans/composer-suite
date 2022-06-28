@@ -79,7 +79,7 @@ export type ShaderNode<T extends GLSLType = any> = {
 
   /* Variables */
   inputs: Variables
-  outputs: Variables & T extends GLSLType ? { value: Variable<T> } : {}
+  outputs: Variables & { value: Variable<T> }
 
   /* etc. */
   update?: RenderCallback
