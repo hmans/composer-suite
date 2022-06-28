@@ -169,7 +169,7 @@ export const ParticlesMaterial = forwardRef<
 
       position = MultiplyNode({
         a: position,
-        b: particleAge
+        b: AddNode({ a: particleAge, b: 1 })
       })
 
       position = AddNode({
