@@ -14,9 +14,12 @@ export function variable<T extends GLSLType>(
   type: T,
   value?: Value<T>
 ): Variable<T> {
+  /* By default, we'll give the variable a random name. */
+  const name = `var_${type}_${Math.floor(Math.random() * 100000)}`
+
   return {
     _variable: true,
-    name: `var_${Math.floor(Math.random() * 100000)}`,
+    name,
     type,
     value
   }
