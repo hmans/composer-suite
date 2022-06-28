@@ -7,10 +7,12 @@ import {
   compileShader,
   CSMMasterNode,
   float,
+  GLSLType,
   MultiplyNode,
   nodeFactory,
   TimeNode,
   Value,
+  variable,
   vec2,
   vec3,
   VertexPositionNode
@@ -85,24 +87,31 @@ const StatelessAccelerationNode = nodeFactory<{
   }
 }))
 
-// TODO: automatically provide attribute values as a varying - I think?
+const AttributeNode = nodeFactory<{ name: string; type: GLSLType }>(
+  ({ name, type }) => ({
+    varyings: {
+      v_value: variable(type)
+    },
+    outputs: {
+      value: variable(type)
+    },
+    vertex: {
+      header: `attribute ${type} ${name};`,
+      body: `value = v_value = ${name};`
+    },
+    fragment: {
+      body: `value = v_value;`
+    }
+  })
+)
+
 const LifetimeAttributeNode = nodeFactory(() => ({
-  varyings: {
-    v_lifetime: vec2()
-  },
-  vertex: {
-    header: `
-      attribute vec2 lifetime;
-    `,
-    body: `
-      v_lifetime = lifetime;
-      startTime = v_lifetime.x;
-      endTime = v_lifetime.y;
-    `
+  inputs: {
+    data: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
   },
   outputs: {
-    startTime: float("v_lifetime.x"),
-    endTime: float("v_lifetime.y")
+    startTime: float("data.x"),
+    endTime: float("data.y")
   }
 }))
 
