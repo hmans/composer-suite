@@ -1,5 +1,4 @@
-import { nodeFactory, float } from "../../factories"
-import { Value } from "../../types"
+import { float, nodeFactory, Value } from "../.."
 
 export const FloatNode = nodeFactory<{ value: Value<"float"> }>(
   ({ value }) => ({

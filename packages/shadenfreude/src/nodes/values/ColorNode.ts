@@ -1,6 +1,5 @@
 import { Color } from "three"
-import { nodeFactory, vec3 } from "../../factories"
-import { Value } from "../../types"
+import { nodeFactory, Value, vec3 } from "../.."
 
 export const ColorNode = nodeFactory<{ color?: Value<"vec3"> }>(
   ({ color = new Color(1.0, 1.0, 1.0) }) => ({

@@ -1,6 +1,6 @@
 import { RenderCallback } from "@react-three/fiber"
 import { IUniform } from "three"
-import { variablesToNodes } from "./factories"
+import { variablesToNodes } from "./variables"
 import { formatValue } from "./formatters"
 import {
   GLSLType,
