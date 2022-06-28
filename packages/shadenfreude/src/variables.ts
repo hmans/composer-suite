@@ -46,7 +46,7 @@ export function inferVariable(a: Value): Variable {
   if (isVariable(a)) {
     return variable(a.type, a)
   } else if (isShaderNode(a)) {
-    return inferVariable(a.value)
+    return inferVariable(a.outputs.value)
   } else {
     return variable(glslType(a), a)
   }

@@ -14,11 +14,7 @@ export function node(template: ShaderNodeTemplate) {
     outputs: {},
     vertex: { header: "", body: "" },
     fragment: { header: "", body: "" },
-    ...template,
-
-    get value() {
-      return this.outputs.value
-    }
+    ...template
   }
 
   /* Register outputs */

@@ -37,8 +37,8 @@ export const FresnelNode = nodeFactory(() => ({
     intensity: float(1),
     power: float(2),
     factor: float(1),
-    worldPosition: vec3(WorldPositionNode().value),
-    worldNormal: vec3(WorldNormalNode().value)
+    worldPosition: vec3(WorldPositionNode()),
+    worldNormal: vec3(WorldNormalNode())
   },
   outputs: {
     value: float()
