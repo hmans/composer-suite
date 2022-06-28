@@ -13,11 +13,13 @@ import {
   node,
   TimeNode,
   Value,
+  Variable,
   VaryingNode,
   vec2,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
+import { Vector2Node } from "shadenfreude/src"
 import { Color, DepthTexture, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -115,17 +117,6 @@ const StatelessScaleAnimationNode = () =>
     name: "Stateless Scale Animation"
   })
 
-const LifetimeAttributeNode = () =>
-  node({
-    inputs: {
-      data: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
-    },
-    outputs: {
-      startTime: float("data.x"),
-      endTime: float("data.y")
-    }
-  })
-
 export const ParticlesMaterial = forwardRef<
   ParticlesMaterial,
   ParticlesMaterialProps
@@ -145,21 +136,31 @@ export const ParticlesMaterial = forwardRef<
     const material = useRef<ParticlesMaterial>(null!)
 
     const shader = useMemo(() => {
+      /* Get the time */
       const time = TimeNode()
-      const lifetimeAttribute = LifetimeAttributeNode()
-      const lifetime = ParticleAgeNode({
+
+      /* Grab the particle lifetime configuration from the lifetime attributes */
+      const lifetimeAttribute = Vector2Node({
+        value: AttributeNode({
+          name: "lifetime",
+          type: "vec2"
+        })
+      })
+
+      /* Determine the particle's aliveness */
+      const particleAge = ParticleAgeNode({
         time,
-        startTime: lifetimeAttribute.outputs.startTime,
-        endTime: lifetimeAttribute.outputs.endTime
+        startTime: lifetimeAttribute.outputs.x as Variable<"float">,
+        endTime: lifetimeAttribute.outputs.y as Variable<"float">
       })
 
       const movement = AddNode({
         a: StatelessVelocityNode({
-          time: lifetime.outputs.age,
+          time: particleAge.outputs.age,
           velocity: AttributeNode({ name: "velocity", type: "vec3" })
         }),
         b: StatelessAccelerationNode({
-          time: lifetime.outputs.age,
+          time: particleAge.outputs.age,
           acceleration: new Vector3(0, -10, 0)
         })
       })
@@ -168,7 +169,7 @@ export const ParticlesMaterial = forwardRef<
 
       position = MultiplyNode({
         a: position,
-        b: lifetime
+        b: particleAge
       })
 
       position = AddNode({
@@ -178,7 +179,7 @@ export const ParticlesMaterial = forwardRef<
 
       const diffuseColor = MultiplyNode({
         a: ColorNode({ color: new Color("#fff") }),
-        b: lifetime
+        b: particleAge
       })
 
       const root = CSMMasterNode({
