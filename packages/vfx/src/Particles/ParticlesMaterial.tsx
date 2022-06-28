@@ -3,6 +3,7 @@ import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import mergeRefs from "react-merge-refs"
 import {
   AddNode,
+  AttributeNode,
   ColorNode,
   compileShader,
   CSMMasterNode,
@@ -86,24 +87,6 @@ const StatelessAccelerationNode = nodeFactory<{
     body: "value = 0.5 * time * time * acceleration * mat3(instanceMatrix);"
   }
 }))
-
-const AttributeNode = nodeFactory<{ name: string; type: GLSLType }>(
-  ({ name, type }) => ({
-    varyings: {
-      v_value: variable(type)
-    },
-    outputs: {
-      value: variable(type)
-    },
-    vertex: {
-      header: `attribute ${type} ${name};`,
-      body: `value = v_value = ${name};`
-    },
-    fragment: {
-      body: `value = v_value;`
-    }
-  })
-)
 
 const LifetimeAttributeNode = nodeFactory(() => ({
   inputs: {
