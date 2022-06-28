@@ -1,10 +1,10 @@
-import { Value } from "../../types"
+import { GLSLType, Value } from "../../types"
 import { OperatorNode } from "./OperatorNode"
 
-export type AddNodeProps = {
-  a: Value
-  b: Value
+export type AddNodeProps<T extends GLSLType> = {
+  a: Value<T>
+  b: Value<any>
 }
 
-export const AddNode = ({ a, b }: AddNodeProps) =>
+export const AddNode = <T extends GLSLType>({ a, b }: AddNodeProps<T>) =>
   OperatorNode({ operator: "+", a, b })
