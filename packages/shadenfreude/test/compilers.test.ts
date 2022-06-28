@@ -1,22 +1,23 @@
 import { Vector3 } from "three"
-import { node, Variable, variable } from "../src"
+import { node, nodeFactory, Variable, variable } from "../src"
 import { compileShader, compileVariable } from "../src/compilers"
 import "./helpers"
 
 describe("compileShader", () => {
-  it("should compile a shader", () => {
-    const TestNode = (input: { offset?: Variable<"vec3"> } = {}) =>
-      node({
+  it("compiles a node into a shader", () => {
+    const TestNode = nodeFactory<{ offset?: Variable<"vec3"> }>(
+      ({ offset = new Vector3(1, 2, 3) }) => ({
         name: "Root",
 
         inputs: {
-          offset: variable("vec3", input.offset || new Vector3(1, 2, 3))
+          offset: variable("vec3", offset)
         },
 
         vertex: {
           body: "csm_Position += offset;"
         }
       })
+    )
 
     const shader = compileShader(TestNode())
 

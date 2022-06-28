@@ -1,5 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`compileShader compiles a node into a shader 1`] = `
+Object {
+  "fragmentShader": "
+    /*** FRAGMENT SHADER ***/
+
+    
+    /** Node: Root **/
+
+    
+
+    
+
+    
+  
+
+    void main() {
+      
+        /** Node: Root **/
+
+        
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+           vec3 offset = vec3(1.0, 2.0, 3.0);
+
+          /* Outputs */
+          
+
+          /* Code */
+          
+
+          /* Update globals */
+          
+
+          
+        }
+      
+    }",
+  "uniforms": Object {},
+  "update": [Function],
+  "vertexShader": "
+    /*** VERTEX SHADER ***/
+
+    
+    /** Node: Root **/
+
+    
+
+    
+
+    
+  
+
+    void main() {
+      
+        /** Node: Root **/
+
+        
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+           vec3 offset = vec3(1.0, 2.0, 3.0);
+
+          /* Outputs */
+          
+
+          /* Code */
+          csm_Position += offset;
+
+          /* Update globals */
+          
+
+          
+        }
+      
+    }",
+}
+`;
+
 exports[`compileShader should compile a shader 1`] = `
 Object {
   "fragmentShader": "
