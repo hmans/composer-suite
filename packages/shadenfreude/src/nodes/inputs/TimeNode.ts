@@ -1,15 +1,31 @@
-import { nodeFactory, node, float } from "../.."
+import { node, nodeFactory } from "../../factories"
+import { ShaderNode } from "../../types"
+import { float } from "../../variables"
+import { UniformNode } from "./UniformNode"
 
-export const TimeNode = nodeFactory(() => {
-  const u_time = float(0)
+export const TimeNode = nodeFactory<{ uniformName: string }>(
+  ({ uniformName = "u_time" }) => {
+    /* TODO: insert memoization here */
+    const uniform: ShaderNode = UniformNode({
+      name: uniformName,
+      type: "float",
+      initialValue: 0
+    })
 
-  return node({
-    name: "Time Uniform",
-    uniforms: { u_time },
-    outputs: { value: float(u_time) },
-
-    update: (_, dt) => {
-      ;(u_time.value as number)! += dt
+    uniform.update = (_, dt) => {
+      ;(uniform.uniforms[uniformName].value as number) += dt
     }
-  })
-})
+
+    return node({
+      name: "Time",
+      inputs: {
+        time: float(uniform)
+      },
+      outputs: {
+        value: float("time"),
+        sinTime: float("sin(time)"),
+        cosTime: float("sin(time)")
+      }
+    })
+  }
+)
