@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compileShader should compile a shader 1`] = `
+exports[`compileShader compiles a node into a shader 1`] = `
 Object {
   "fragmentShader": "
     /*** FRAGMENT SHADER ***/
@@ -74,6 +74,253 @@ Object {
 
           /* Code */
           csm_Position += offset;
+
+          /* Update globals */
+          
+
+          
+        }
+      
+    }",
+}
+`;
+
+exports[`compileShader resolves dependencies to other nodes 1`] = `
+Object {
+  "fragmentShader": "
+    /*** FRAGMENT SHADER ***/
+
+    
+    /** Node: Constant Color Value **/
+
+    
+
+    
+
+    
+  
+
+
+
+    /** Node: Constant Vector3 Value **/
+
+    
+
+    
+
+    
+  
+
+
+
+    /** Node: Master Node **/
+
+    
+
+    
+
+    
+  
+
+    void main() {
+      
+        /** Node: Constant Color Value **/
+
+         vec3 node_1_constant_color_value_output_vec3_value;
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+          
+
+          /* Outputs */
+           vec3 value = vec3(1.0, 0.4117647058823529, 0.7058823529411765);
+
+          /* Code */
+          
+
+          /* Update globals */
+          node_1_constant_color_value_output_vec3_value = value;
+
+          
+        }
+      
+
+
+
+        /** Node: Constant Vector3 Value **/
+
+         vec3 node_2_constant_vector3_value_output_vec3_value;
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+          
+
+          /* Outputs */
+           vec3 value = vec3(1.0, 2.0, 3.0);
+
+          /* Code */
+          
+
+          /* Update globals */
+          node_2_constant_vector3_value_output_vec3_value = value;
+
+          
+        }
+      
+
+
+
+        /** Node: Master Node **/
+
+        
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+           vec3 diffuseColor = node_1_constant_color_value_output_vec3_value;
+ vec3 emissiveColor;
+ vec3 position = node_2_constant_vector3_value_output_vec3_value;
+ vec3 normal;
+
+          /* Outputs */
+          
+
+          /* Code */
+          
+        csm_DiffuseColor.rgb = diffuseColor;
+        
+        
+      
+
+          /* Update globals */
+          
+
+          
+        }
+      
+    }",
+  "uniforms": Object {},
+  "update": [Function],
+  "vertexShader": "
+    /*** VERTEX SHADER ***/
+
+    
+    /** Node: Constant Color Value **/
+
+    
+
+    
+
+    
+  
+
+
+
+    /** Node: Constant Vector3 Value **/
+
+    
+
+    
+
+    
+  
+
+
+
+    /** Node: Master Node **/
+
+    
+
+    
+
+    
+  
+
+    void main() {
+      
+        /** Node: Constant Color Value **/
+
+         vec3 node_1_constant_color_value_output_vec3_value;
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+          
+
+          /* Outputs */
+           vec3 value = vec3(1.0, 0.4117647058823529, 0.7058823529411765);
+
+          /* Code */
+          
+
+          /* Update globals */
+          node_1_constant_color_value_output_vec3_value = value;
+
+          
+        }
+      
+
+
+
+        /** Node: Constant Vector3 Value **/
+
+         vec3 node_2_constant_vector3_value_output_vec3_value;
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+          
+
+          /* Outputs */
+           vec3 value = vec3(1.0, 2.0, 3.0);
+
+          /* Code */
+          
+
+          /* Update globals */
+          node_2_constant_vector3_value_output_vec3_value = value;
+
+          
+        }
+      
+
+
+
+        /** Node: Master Node **/
+
+        
+
+        {
+          /* Varying References */
+          
+
+          /* Inputs */
+           vec3 diffuseColor = node_1_constant_color_value_output_vec3_value;
+ vec3 emissiveColor;
+ vec3 position = node_2_constant_vector3_value_output_vec3_value;
+ vec3 normal;
+
+          /* Outputs */
+          
+
+          /* Code */
+          
+        
+        csm_Position = position;
+        
+      
 
           /* Update globals */
           

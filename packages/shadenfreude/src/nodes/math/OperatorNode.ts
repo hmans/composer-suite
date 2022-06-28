@@ -1,5 +1,4 @@
-import { node, nodeFactory, inferVariable } from "../../factories"
-import { glslType } from "../../helpers"
+import { glslType, inferVariable, node, nodeFactory } from "../.."
 import { Operator, Value } from "../../types"
 
 export const OperatorNode = nodeFactory<{

@@ -1,5 +1,4 @@
-import { nodeFactory } from "../../factories"
-import { Value } from "../../types"
+import { nodeFactory, Value } from "../.."
 import { OperatorNode } from "./OperatorNode"
 
 export const SubtractNode = nodeFactory<{
