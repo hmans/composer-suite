@@ -175,21 +175,6 @@ export const ParticlesMaterial = forwardRef<
       })
 
       return compileShader(root)
-
-      // const layers = [
-      //   provideTime(),
-      //   provideLifetime(),
-      //   provideResolution(),
-      //   provideEasingFunctions(),
-      //   softness && provideDepthTexture(depthTexture!),
-      //   billboard && billboarding(),
-      //   animateScale(scaleFunction),
-      //   animateMovement(),
-      //   animateColors(colorFunction),
-      //   softness && softParticles(softness, softnessFunction)
-      // ].filter((l) => l) as Shader[]
-
-      // return combineShaders(layers)
     }, [])
 
     const { update, ...attrs } = shader
