@@ -166,14 +166,14 @@ export const ParticlesMaterial = forwardRef<
 
       let position = VertexPositionNode()
 
-      position = AddNode({
+      position = MultiplyNode({
         a: position,
-        b: movement
+        b: lifetime
       })
 
       position = AddNode({
         a: position,
-        b: new Vector3(10, 0, 0)
+        b: movement
       })
 
       const diffuseColor = MultiplyNode({
