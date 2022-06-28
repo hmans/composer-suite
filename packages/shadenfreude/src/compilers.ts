@@ -70,14 +70,6 @@ function compileHeader(node: ShaderNode, program: Program) {
   const header = (n: ShaderNode) => `
     ${nodeTitle(n)}
 
-    ${
-      program === "vertex"
-        ? renderVariables(n.attributes, (_, variable) =>
-            compileVariable({ ...variable, qualifier: "attribute" })
-          )
-        : ""
-    }
-
     ${Object.values(n.uniforms)
       .map((variable) => compileVariable({ ...variable, qualifier: "uniform" }))
       .join("\n")}

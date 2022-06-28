@@ -9,7 +9,6 @@ export function node(template: ShaderNodeTemplate) {
     _shaderNode: true,
     name: "Unnamed",
     uniforms: {},
-    attributes: {},
     varyings: {},
     inputs: {},
     outputs: {},
