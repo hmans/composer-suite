@@ -38,12 +38,6 @@ const WobbleNode = nodeFactory<{
 
 function useShader() {
   return useMemo(() => {
-    const timeUniform = UniformNode({
-      name: "u_time",
-      type: "float",
-      initialValue: 0
-    })
-
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
         a: new Color("#dd8833"),
@@ -57,9 +51,7 @@ function useShader() {
       position: AddNode({
         a: VertexPositionNode(),
         b: WobbleNode({
-          x: TimeNode({
-            source: timeUniform
-          }),
+          x: TimeNode(),
           amplitude: 3,
           frequency: 10
         })
@@ -77,9 +69,7 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   // console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
 
-  useFrame((_, dt) => {
-    material.current.uniforms.u_time.value += dt
-  })
+  useFrame(update)
 
   return <CustomShaderMaterial {...props} {...shaderProps} ref={material} />
 }
