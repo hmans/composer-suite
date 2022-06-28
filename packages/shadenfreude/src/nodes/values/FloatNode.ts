@@ -1,10 +1,15 @@
-import { float, nodeFactory, Value } from "../.."
+import { node } from "../../factories"
+import { Value } from "../../types"
+import { float } from "../../variables"
 
-export const FloatNode = nodeFactory<{ value: Value<"float"> }>(
-  ({ value }) => ({
+export type FloatNodeProps = {
+  value?: Value<"float">
+}
+
+export const FloatNode = (props?: FloatNodeProps) =>
+  node({
     name: "Constant Float Value",
     outputs: {
-      value: float(value)
+      value: float(props?.value ?? 0)
     }
   })
-)
