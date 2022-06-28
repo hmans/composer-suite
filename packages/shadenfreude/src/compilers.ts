@@ -178,8 +178,7 @@ export function compileShader(root: ShaderNode) {
     /* Determine a unique name for the node */
     const prefix = `node_${nextId()}_${node.prefix || tableize(node.name)}`
 
-    /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
-    tweakVariableNames(node.uniforms, prefix, "uniform")
+    /* Give node-specific global names to varyings, inputs, and outputs. */
     tweakVariableNames(node.varyings, prefix, "varying")
     tweakVariableNames(node.inputs, prefix, "input")
     tweakVariableNames(node.outputs, prefix, "output")

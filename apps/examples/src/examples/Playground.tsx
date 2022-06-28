@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { useMemo } from "react"
+import { useMemo, useRef } from "react"
 import {
   AddNode,
   BlendNode,
@@ -10,12 +10,14 @@ import {
   MultiplyNode,
   nodeFactory,
   TimeNode,
+  UniformNode,
   Value,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
+import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
@@ -36,6 +38,12 @@ const WobbleNode = nodeFactory<{
 
 function useShader() {
   return useMemo(() => {
+    const timeUniform = UniformNode({
+      name: "u_time",
+      type: "float",
+      initialValue: 0
+    })
+
     const root = CSMMasterNode({
       diffuseColor: BlendNode({
         a: new Color("#dd8833"),
@@ -49,7 +57,9 @@ function useShader() {
       position: AddNode({
         a: VertexPositionNode(),
         b: WobbleNode({
-          x: TimeNode(),
+          x: TimeNode({
+            source: timeUniform
+          }),
           amplitude: 3,
           frequency: 10
         })
@@ -62,13 +72,16 @@ function useShader() {
 
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const { update, ...shaderProps } = useShader()
+  const material = useRef<CustomShaderMaterialImpl>(null!)
 
   // console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
 
-  useFrame(update)
+  useFrame((_, dt) => {
+    material.current.uniforms.u_time.value += dt
+  })
 
-  return <CustomShaderMaterial {...props} {...shaderProps} />
+  return <CustomShaderMaterial {...props} {...shaderProps} ref={material} />
 }
 
 export default function Playground() {

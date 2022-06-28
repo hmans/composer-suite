@@ -1,16 +1,19 @@
 import { node, nodeFactory } from "../../factories"
+import { Value } from "../../types"
 import { float } from "../../variables"
 
-export const TimeNode = nodeFactory(() => {
-  const u_time = float(0)
-
-  return node({
-    name: "Time Uniform",
-    uniforms: { u_time },
-    outputs: { value: float(u_time) },
-
-    update: (_, dt) => {
-      ;(u_time.value as number)! += dt
-    }
-  })
-})
+export const TimeNode = nodeFactory<{ source: Value<"float"> }>(
+  ({ source }) => {
+    return node({
+      name: "Time Uniform",
+      inputs: {
+        time: float(source)
+      },
+      outputs: {
+        value: float("time"),
+        sinTime: float("sin(time)"),
+        cosTime: float("sin(time)")
+      }
+    })
+  }
+)
