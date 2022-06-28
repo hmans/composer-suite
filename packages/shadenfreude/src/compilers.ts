@@ -12,7 +12,7 @@ import {
   Variable,
   Variables
 } from "./types"
-import { tableize } from "./util"
+import { idGenerator, tableize } from "./util"
 
 type Program = "vertex" | "fragment"
 
@@ -168,14 +168,14 @@ function tweakVariableNames(
 }
 
 export function compileShader(root: ShaderNode) {
+  const nextId = idGenerator()
+
   /* Prepare all nodes */
   dependencies(root).forEach((node) => {
-    /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
-    const tableizedNodeName = tableize(node.name)
-    const prefix = `${tableizedNodeName}_${Math.floor(
-      Math.random() * 10000000
-    )}`
+    /* Determine a unique name for the node */
+    const prefix = `node_${nextId()}_${tableize(node.name)}`
 
+    /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
     tweakVariableNames(node.uniforms, prefix, "uniform")
     tweakVariableNames(node.varyings, prefix, "varying")
     tweakVariableNames(node.inputs, prefix, "input")
