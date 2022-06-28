@@ -74,31 +74,34 @@ const StatelessVelocityNode = nodeFactory<{
   }
 }))
 
-const VaryingNode = nodeFactory<{ type: GLSLType; value: Value }>(
-  ({ type }) => ({
+const VaryingNode = nodeFactory<{ type: GLSLType; source: Value }>(
+  ({ type, source }) => ({
     name: "Varying",
     varyings: {
       v_value: variable(type)
     },
+    inputs: {
+      source: variable(type)
+    },
     outputs: {
-      value: variable(type, "v_value")
+      value: variable(type)
     },
     vertex: {
-      body: "v_value = value;"
+      body: `v_value = ${source};`
+    },
+    fragment: {
+      body: "value = v_value;"
     }
   })
 )
 
 const InstanceMatrixNode = nodeFactory(() => ({
   name: "Instance Matrix",
-  varyings: {
-    v_instanceMatrix: mat4()
-  },
-  vertex: {
-    body: `v_instanceMatrix = instanceMatrix;`
+  inputs: {
+    v_value: mat4(VaryingNode({ type: "mat4", source: "instanceMatrix" }))
   },
   outputs: {
-    value: mat4("v_instanceMatrix")
+    value: mat4("v_value")
   }
 }))
 
