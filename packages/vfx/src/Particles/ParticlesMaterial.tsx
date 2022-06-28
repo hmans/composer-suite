@@ -8,14 +8,11 @@ import {
   compileShader,
   CSMMasterNode,
   float,
-  GLSLType,
-  glslType,
   mat4,
   MultiplyNode,
-  nodeFactory,
+  node,
   TimeNode,
   Value,
-  variable,
   VaryingNode,
   vec2,
   vec3,
@@ -40,74 +37,89 @@ export type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   depthTexture?: DepthTexture
 }
 
-const ParticleAgeNode = nodeFactory<{
+const ParticleAgeNode = ({
+  time,
+  startTime,
+  endTime
+}: {
   time: Value<"float">
   startTime: Value<"float">
   endTime: Value<"float">
-}>(({ time, startTime, endTime }) => ({
-  inputs: {
-    time: float(time),
-    startTime: float(startTime),
-    endTime: float(endTime)
-  },
-  outputs: {
-    age: float(`time - startTime`),
-    value: float(`age / (endTime - startTime)`)
-  },
-  fragment: {
-    body: `if (value < 0.0 || value > 1.0) { discard; }`
-  }
-}))
+}) =>
+  node({
+    inputs: {
+      time: float(time),
+      startTime: float(startTime),
+      endTime: float(endTime)
+    },
+    outputs: {
+      age: float(`time - startTime`),
+      value: float(`age / (endTime - startTime)`)
+    },
+    fragment: {
+      body: `if (value < 0.0 || value > 1.0) { discard; }`
+    }
+  })
 
-const StatelessVelocityNode = nodeFactory<{
+const StatelessVelocityNode = ({
+  time,
+  velocity
+}: {
   time: Value<"float">
   velocity: Value<"vec3">
-}>(({ time, velocity }) => ({
-  inputs: {
-    time: float(time),
-    velocity: vec3(velocity)
-  },
-  outputs: {
-    value: vec3()
-  },
-  vertex: {
-    body: "value = velocity * time * mat3(instanceMatrix);"
-  }
-}))
+}) =>
+  node({
+    inputs: {
+      time: float(time),
+      velocity: vec3(velocity)
+    },
+    outputs: {
+      value: vec3()
+    },
+    vertex: {
+      body: "value = velocity * time * mat3(instanceMatrix);"
+    }
+  })
 
-const InstanceMatrixNode = nodeFactory(() => ({
-  name: "Instance Matrix",
-  inputs: {
-    v_value: mat4(VaryingNode({ type: "mat4", source: "instanceMatrix" }))
-  },
-  outputs: {
-    value: mat4("v_value")
-  }
-}))
+const InstanceMatrixNode = () =>
+  node({
+    name: "Instance Matrix",
+    inputs: {
+      v_value: mat4(VaryingNode({ type: "mat4", source: "instanceMatrix" }))
+    },
+    outputs: {
+      value: mat4("v_value")
+    }
+  })
 
-const StatelessAccelerationNode = nodeFactory<{
+const StatelessAccelerationNode = ({
+  time,
+  acceleration
+}: {
   time: Value<"float">
   acceleration: Value<"vec3">
-}>(({ time, acceleration }) => ({
-  inputs: {
-    time: float(time),
-    acceleration: vec3(acceleration),
-    instanceMatrix: mat4(InstanceMatrixNode())
-  },
-  outputs: {
-    value: vec3(`0.5 * time * time * acceleration`)
-  }
-}))
+}) =>
+  node({
+    inputs: {
+      time: float(time),
+      acceleration: vec3(acceleration),
+      instanceMatrix: mat4(InstanceMatrixNode())
+    },
+    outputs: {
+      value: vec3(`0.5 * time * time * acceleration`)
+    }
+  })
 
-const LifetimeAttributeNode = nodeFactory(() => ({
-  inputs: {
-    data: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
-  },
-  outputs: {
-    startTime: float("data.x"),
-    endTime: float("data.y")
-  }
-}))
+const LifetimeAttributeNode = () =>
+  node({
+    inputs: {
+      data: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
+    },
+    outputs: {
+      startTime: float("data.x"),
+      endTime: float("data.y")
+    }
+  })
 
 export const ParticlesMaterial = forwardRef<
   ParticlesMaterial,
