@@ -1,5 +1,6 @@
 import { RenderCallback } from "@react-three/fiber"
-import { IUniform, Mesh } from "three"
+import { IUniform } from "three"
+import { variablesToNodes } from "./variables"
 import { formatValue } from "./formatters"
 import {
   GLSLType,
@@ -12,7 +13,6 @@ import {
   Variables
 } from "./types"
 import { idGenerator, tableize } from "./util"
-import { variablesToNodes } from "./variables"
 
 type Program = "vertex" | "fragment"
 
