@@ -37,7 +37,7 @@ export type ParticlesMaterialProps = Omit<iCSMProps, "ref"> & {
   depthTexture?: DepthTexture
 }
 
-const LifetimeNode = nodeFactory<{
+const ParticleAgeNode = nodeFactory<{
   time: Value<"float">
   startTime: Value<"float">
   endTime: Value<"float">
@@ -119,7 +119,7 @@ export const ParticlesMaterial = forwardRef<
     const shader = useMemo(() => {
       const time = TimeNode()
       const lifetimeAttribute = LifetimeAttributeNode()
-      const lifetime = LifetimeNode({
+      const lifetime = ParticleAgeNode({
         time,
         startTime: lifetimeAttribute.outputs.startTime,
         endTime: lifetimeAttribute.outputs.endTime
