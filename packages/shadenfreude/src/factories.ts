@@ -107,6 +107,24 @@ export function node(template: ShaderNodeTemplate) {
     )
   })
 
+  Object.entries(node.varyings).forEach(([localName, variable]) => {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      "varying"
+    )
+  })
+
+  Object.entries(node.uniforms).forEach(([localName, variable]) => {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      "uniform"
+    )
+  })
+
   /* Register outputs */
   for (const [_, variable] of Object.entries(node.outputs)) {
     variablesToNodes.set(variable, node)
