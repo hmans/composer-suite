@@ -225,10 +225,6 @@ export function compileShader(root: ShaderNode) {
     vertexShader,
     fragmentShader,
     uniforms,
-    update,
-
-    /* TODO: implement these */
-    resetConfig: (mesh: Mesh) => {},
-    applyConfig: (mesh: Mesh, cursor: number) => {}
+    update
   }
 }
