@@ -3,13 +3,10 @@ import {
   GLSLType,
   isShaderNode,
   isVariable,
-  Qualifier,
   ShaderNode,
   Value,
-  Variable,
-  Variables
+  Variable
 } from "./types"
-import { tableize } from "./util"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
 
@@ -55,31 +52,6 @@ export function inferVariable(a: Value): Variable {
   }
 }
 
-function generateVariableName(
-  prefix: string,
-  type: GLSLType,
-  localName: string,
-  qualifier: Qualifier | "input" | "output"
-) {
-  const parts = [prefix, qualifier, type, localName]
-  return parts.join("_").replace(/_{2,}/, "_")
-}
-
-function tweakVariableNames(
-  variables: Variables,
-  prefix: string,
-  qualifier: Qualifier | "input" | "output"
-) {
-  for (const [localName, variable] of Object.entries(variables)) {
-    variable.name = generateVariableName(
-      prefix,
-      variable.type,
-      localName,
-      qualifier
-    )
-  }
-}
-
 export type ShaderNodeTemplate = Partial<ShaderNode>
 
 export function node(template: ShaderNodeTemplate) {
@@ -99,15 +71,6 @@ export function node(template: ShaderNodeTemplate) {
       return this.outputs.value
     }
   }
-
-  /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
-  const tableizedNodeName = tableize(node.name)
-  const prefix = `${tableizedNodeName}_${Math.floor(Math.random() * 10000000)}`
-
-  tweakVariableNames(node.uniforms, prefix, "uniform")
-  tweakVariableNames(node.varyings, prefix, "varying")
-  tweakVariableNames(node.inputs, prefix, "input")
-  tweakVariableNames(node.outputs, prefix, "output")
 
   /* Register outputs */
   for (const [_, variable] of Object.entries(node.outputs)) {

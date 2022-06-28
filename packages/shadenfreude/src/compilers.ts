@@ -1,16 +1,18 @@
 import { RenderCallback } from "@react-three/fiber"
-import { render } from "react-dom"
 import { IUniform } from "three"
 import { variablesToNodes } from "./factories"
 import { formatValue } from "./formatters"
 import {
+  GLSLType,
   isShaderNode,
   isVariable,
+  Qualifier,
   ShaderNode,
   Value,
   Variable,
   Variables
 } from "./types"
+import { tableize } from "./util"
 
 type Program = "vertex" | "fragment"
 
@@ -140,7 +142,46 @@ function compileBody(node: ShaderNode, program: Program) {
     .join("\n\n\n")
 }
 
+function generateVariableName(
+  prefix: string,
+  type: GLSLType,
+  localName: string,
+  qualifier: Qualifier | "input" | "output"
+) {
+  const parts = [prefix, qualifier, type, localName]
+  return parts.join("_").replace(/_{2,}/, "_")
+}
+
+function tweakVariableNames(
+  variables: Variables,
+  prefix: string,
+  qualifier: Qualifier | "input" | "output"
+) {
+  for (const [localName, variable] of Object.entries(variables)) {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      qualifier
+    )
+  }
+}
+
 export function compileShader(root: ShaderNode) {
+  /* Prepare all nodes */
+  dependencies(root).forEach((node) => {
+    /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
+    const tableizedNodeName = tableize(node.name)
+    const prefix = `${tableizedNodeName}_${Math.floor(
+      Math.random() * 10000000
+    )}`
+
+    tweakVariableNames(node.uniforms, prefix, "uniform")
+    tweakVariableNames(node.varyings, prefix, "varying")
+    tweakVariableNames(node.inputs, prefix, "input")
+    tweakVariableNames(node.outputs, prefix, "output")
+  })
+
   /* Build uniforms */
   const uniforms = {} as Record<string, IUniform>
 
