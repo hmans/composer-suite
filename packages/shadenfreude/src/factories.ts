@@ -3,10 +3,12 @@ import {
   GLSLType,
   isShaderNode,
   isVariable,
+  Qualifier,
   ShaderNode,
   Value,
   Variable
 } from "./types"
+import { tableize } from "./util"
 
 export const variablesToNodes = new Map<Variable, ShaderNode>()
 
@@ -14,9 +16,12 @@ export function variable<T extends GLSLType>(
   type: T,
   value?: Value<T>
 ): Variable<T> {
+  /* By default, we'll give the variable a random name. */
+  const name = `var_${type}_${Math.floor(Math.random() * 100000)}`
+
   return {
     _variable: true,
-    name: `var_${Math.floor(Math.random() * 100000)}`,
+    name,
     type,
     value
   }
@@ -49,6 +54,17 @@ export function inferVariable(a: Value): Variable {
   }
 }
 
+function generateVariableName(
+  prefix: string,
+  type: GLSLType,
+  localName: string,
+  qualifier: Qualifier | "input" | "output"
+) {
+  const parts = [prefix, qualifier, type, localName]
+
+  return parts.join("_").replace(/_{2,}/, "_")
+}
+
 export type ShaderNodeTemplate = Partial<ShaderNode>
 
 export function node(template: ShaderNodeTemplate) {
@@ -68,6 +84,28 @@ export function node(template: ShaderNodeTemplate) {
       return this.outputs.value
     }
   }
+
+  /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
+  const tableizedNodeName = tableize(node.name)
+  const prefix = `${tableizedNodeName}_${Math.floor(Math.random() * 10000000)}`
+
+  Object.entries(node.inputs).forEach(([localName, variable]) => {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      "input"
+    )
+  })
+
+  Object.entries(node.outputs).forEach(([localName, variable]) => {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      "output"
+    )
+  })
 
   /* Register outputs */
   for (const [_, variable] of Object.entries(node.outputs)) {
