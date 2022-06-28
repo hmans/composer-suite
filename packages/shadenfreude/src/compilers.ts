@@ -149,7 +149,10 @@ function generateVariableName(
   qualifier: Qualifier | "input" | "output"
 ) {
   const parts = [prefix, qualifier, type, localName]
-  return parts.join("_").replace(/_{2,}/, "_")
+  return parts
+    .join("_")
+    .replace(/_{2,}/, "_")
+    .toLowerCase()
 }
 
 function tweakVariableNames(
@@ -173,7 +176,7 @@ export function compileShader(root: ShaderNode) {
   /* Prepare all nodes */
   dependencies(root).forEach((node) => {
     /* Determine a unique name for the node */
-    const prefix = `node_${nextId()}_${tableize(node.name)}`
+    const prefix = `node_${nextId()}_${node.prefix || tableize(node.name)}`
 
     /* Give node-specific global names to uniforms, varyings, inputs, and outputs. */
     tweakVariableNames(node.uniforms, prefix, "uniform")

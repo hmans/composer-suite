@@ -63,7 +63,11 @@ export type Program = {
 export type ShaderNode<T extends GLSLType = any> = {
   _shaderNode: true
 
+  /** Human-readable name */
   name: string
+
+  /** Machine-readable, snake_case prefix  */
+  prefix?: string
 
   /* Header Variables */
   uniforms: Variables
