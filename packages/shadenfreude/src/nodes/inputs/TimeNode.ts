@@ -1,4 +1,5 @@
-import { nodeFactory, node, float } from "../.."
+import { node, nodeFactory } from "../../factories"
+import { float } from "../../variables"
 
 export const TimeNode = nodeFactory(() => {
   const u_time = float(0)
