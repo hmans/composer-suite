@@ -18,7 +18,7 @@ type Program = "vertex" | "fragment"
 
 export function resolveValue(v: Value): Value | undefined {
   if (isShaderNode(v)) {
-    return v.value
+    return v.outputs.value
   } else {
     return v
   }
@@ -47,7 +47,7 @@ function nodeTitle(node: ShaderNode) {
 function dependencies(node: ShaderNode, deps = new Array<ShaderNode>()) {
   for (const variable of Object.values(node.inputs)) {
     const dependencyVariable = isShaderNode(variable.value)
-      ? variable.value.value
+      ? variable.value.outputs.value
       : variable.value
 
     if (isVariable(dependencyVariable)) {
