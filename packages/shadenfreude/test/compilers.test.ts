@@ -1,5 +1,13 @@
-import { Vector3 } from "three"
-import { node, nodeFactory, Variable, variable } from "../src"
+import { Color, Vector3 } from "three"
+import {
+  ColorNode,
+  CSMMasterNode,
+  node,
+  nodeFactory,
+  Variable,
+  variable,
+  Vector3Node
+} from "../src"
 import { compileShader, compileVariable } from "../src/compilers"
 import "./helpers"
 
@@ -21,6 +29,18 @@ describe("compileShader", () => {
 
     const shader = compileShader(TestNode())
 
+    expect(shader).toMatchSnapshot()
+  })
+
+  it("resolves dependencies to other nodes", () => {
+    const color = ColorNode({ color: new Color("hotpink") })
+    const offset = Vector3Node({ value: new Vector3(1, 2, 3) })
+    const root = CSMMasterNode({
+      position: offset,
+      diffuseColor: color
+    })
+
+    const shader = compileShader(root)
     expect(shader).toMatchSnapshot()
   })
 })
