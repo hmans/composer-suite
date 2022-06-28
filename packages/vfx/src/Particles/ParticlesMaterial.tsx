@@ -9,6 +9,8 @@ import {
   CSMMasterNode,
   float,
   GLSLType,
+  glslType,
+  mat4,
   MultiplyNode,
   nodeFactory,
   TimeNode,
@@ -72,19 +74,45 @@ const StatelessVelocityNode = nodeFactory<{
   }
 }))
 
+const VaryingNode = nodeFactory<{ type: GLSLType; value: Value }>(
+  ({ type }) => ({
+    name: "Varying",
+    varyings: {
+      v_value: variable(type)
+    },
+    outputs: {
+      value: variable(type, "v_value")
+    },
+    vertex: {
+      body: "v_value = value;"
+    }
+  })
+)
+
+const InstanceMatrixNode = nodeFactory(() => ({
+  name: "Instance Matrix",
+  varyings: {
+    v_instanceMatrix: mat4()
+  },
+  vertex: {
+    body: `v_instanceMatrix = instanceMatrix;`
+  },
+  outputs: {
+    value: mat4("v_instanceMatrix")
+  }
+}))
+
 const StatelessAccelerationNode = nodeFactory<{
   time: Value<"float">
   acceleration: Value<"vec3">
 }>(({ time, acceleration }) => ({
   inputs: {
     time: float(time),
-    acceleration: vec3(acceleration)
+    acceleration: vec3(acceleration),
+    instanceMatrix: mat4(InstanceMatrixNode())
   },
   outputs: {
-    value: vec3()
-  },
-  vertex: {
-    body: "value = 0.5 * time * time * acceleration * mat3(instanceMatrix);"
+    value: vec3(`0.5 * time * time * acceleration`)
   }
 }))
 
