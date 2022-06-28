@@ -100,9 +100,9 @@ export function useMeshParticles(
         )
 
         /* Initialize new particle */
-        // shader.resetConfig!(imesh.current)
-        // setup?.(shader.config, i)
-        // shader.applyConfig!(imesh.current, cursor)
+        shader.resetConfig!(imesh.current)
+        setup?.(shader.config, i)
+        shader.applyConfig!(imesh.current, cursor)
 
         /* Advance playhead */
         cursor++
