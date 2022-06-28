@@ -1,5 +1,4 @@
-import { float, nodeFactory, vec3 } from "../factories"
-import { Program, Value } from "../types"
+import { float, nodeFactory, Program, Value, vec3 } from ".."
 import { Vec3VaryingNode } from "./util"
 
 export const WorldPositionNode = nodeFactory(() => ({

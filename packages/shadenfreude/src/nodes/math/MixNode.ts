@@ -1,5 +1,4 @@
-import { float, nodeFactory, inferVariable } from "../../factories"
-import { Value } from "../../types"
+import { float, inferVariable, nodeFactory, Value } from "../.."
 
 export const MixNode = nodeFactory<{
   a: Value

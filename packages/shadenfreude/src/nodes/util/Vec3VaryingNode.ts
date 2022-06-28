@@ -1,6 +1,4 @@
-import { compileVariableValue } from "../../compilers"
-import { nodeFactory, vec3 } from "../../factories"
-import { Value } from "../../types"
+import { compileVariableValue, nodeFactory, Value, vec3 } from "../.."
 
 export const Vec3VaryingNode = nodeFactory<{ value: Value<"vec3"> }>(
   ({ value }) => ({

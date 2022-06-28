@@ -1,4 +1,4 @@
-import { nodeFactory, node, float } from "../../factories"
+import { nodeFactory, node, float } from "../.."
 
 export const TimeNode = nodeFactory(() => {
   const u_time = float(0)
