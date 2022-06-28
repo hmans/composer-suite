@@ -1,13 +1,17 @@
 import { glslType, inferVariable, node } from "../.."
-import { Operator, Value } from "../../types"
+import { GLSLType, Operator, Value, Variable } from "../../types"
 
-export type OperatorNodeProps = {
+export type OperatorNodeProps<T extends GLSLType> = {
   operator: Operator
-  a: Value
-  b: Value
+  a: Value<T>
+  b: Value<any>
 }
 
-export const OperatorNode = ({ a, b, operator }: OperatorNodeProps) =>
+export const OperatorNode = <T extends GLSLType>({
+  a,
+  b,
+  operator
+}: OperatorNodeProps<T>) =>
   node({
     name: `Perform ${operator} on ${glslType(a)}`,
     inputs: {
@@ -15,7 +19,7 @@ export const OperatorNode = ({ a, b, operator }: OperatorNodeProps) =>
       b: inferVariable(b)
     },
     outputs: {
-      value: inferVariable(a)
+      value: inferVariable(a) as Variable<T>
     },
     vertex: {
       body: `value = a ${operator} b;`
