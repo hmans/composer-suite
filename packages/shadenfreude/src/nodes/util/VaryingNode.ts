@@ -1,24 +1,25 @@
-import { nodeFactory } from "../../factories"
-import { GLSLType, Value } from "../../types"
+import { node } from "../../factories"
+import { GLSLType, Value, Variable } from "../../types"
 import { variable } from "../../variables"
 
-export const VaryingNode = nodeFactory<{ type: GLSLType; source: Value }>(
-  ({ type, source }) => ({
+export type VaryingNodeProps = { type: GLSLType; source: Value }
+
+export const VaryingNode = <T extends GLSLType>(props: VaryingNodeProps) =>
+  node<T>({
     name: "Varying",
     varyings: {
-      v_value: variable(type)
+      v_value: variable(props.type)
     },
     inputs: {
-      source: variable(type)
+      source: variable(props.type)
     },
     outputs: {
-      value: variable(type)
+      value: variable(props.type) as Variable<T>
     },
     vertex: {
-      body: `value = v_value = ${source};`
+      body: `value = v_value = ${props.source};`
     },
     fragment: {
       body: "value = v_value;"
     }
   })
-)

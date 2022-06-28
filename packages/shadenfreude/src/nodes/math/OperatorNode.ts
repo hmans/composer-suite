@@ -1,11 +1,13 @@
-import { glslType, inferVariable, node, nodeFactory } from "../.."
+import { glslType, inferVariable, node } from "../.."
 import { Operator, Value } from "../../types"
 
-export const OperatorNode = nodeFactory<{
+export type OperatorNodeProps = {
   operator: Operator
   a: Value
   b: Value
-}>(({ a, b, operator }) =>
+}
+
+export const OperatorNode = ({ a, b, operator }: OperatorNodeProps) =>
   node({
     name: `Perform ${operator} on ${glslType(a)}`,
     inputs: {
@@ -22,4 +24,3 @@ export const OperatorNode = nodeFactory<{
       body: `value = a ${operator} b;`
     }
   })
-)

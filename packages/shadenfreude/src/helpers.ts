@@ -5,7 +5,11 @@ export function glslType(value: Value): GLSLType {
   if (isVariable(value)) {
     return value.type
   } else if (isShaderNode(value)) {
-    return glslType(value.value)
+    if (value.outputs.value === undefined) {
+      throw new Error("No value output on node")
+    } else {
+      return glslType(value.outputs.value)
+    }
   } else if (typeof value === "number") {
     return "float"
   } else if (typeof value === "boolean") {

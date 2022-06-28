@@ -1,11 +1,15 @@
-import { float, inferVariable, nodeFactory, Value } from "../.."
+import { node } from "../../factories"
+import { Value } from "../../types"
+import { inferVariable, float } from "../../variables"
 
-export const MixNode = nodeFactory<{
+export type MixNodeProps = {
   a: Value
   b: Value
   factor: Value<"float">
-}>(({ a, b, factor }) => {
-  return {
+}
+
+export const MixNode = ({ a, b, factor }: MixNodeProps) =>
+  node({
     name: "Mix",
     inputs: {
       a: inferVariable(a),
@@ -21,5 +25,4 @@ export const MixNode = nodeFactory<{
     fragment: {
       body: `value = mix(a, b, factor);`
     }
-  }
-})
+  })

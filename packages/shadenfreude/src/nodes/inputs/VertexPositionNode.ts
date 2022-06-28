@@ -1,7 +1,10 @@
-import { nodeFactory } from "../.."
-import { Vec3VaryingNode } from "../util/Vec3VaryingNode"
+import { node } from "../../factories"
+import { VaryingNode } from "../util"
 
-export const VertexPositionNode = nodeFactory(() => ({
-  ...Vec3VaryingNode({ value: "position" }),
-  name: "Vertex Position"
-}))
+export type VertexPositionNodeProps = {}
+
+export const VertexPositionNode = () =>
+  node({
+    ...VaryingNode({ type: "vec3", source: "position" }),
+    name: "Vertex Position"
+  })

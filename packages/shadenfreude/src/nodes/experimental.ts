@@ -1,63 +1,72 @@
-import { float, nodeFactory, Program, Value, vec3 } from ".."
-import { Vec3VaryingNode } from "./util"
+import { node } from "../factories"
+import { Value, Program } from "../types"
+import { float, vec3 } from "../variables"
+import { VaryingNode } from "./util"
 
-export const WorldPositionNode = nodeFactory(() => ({
-  ...Vec3VaryingNode({
-    value: `
+export const WorldPositionNode = () =>
+  node<"vec3">({
+    ...VaryingNode({
+      type: "vec3",
+      source: `
       vec3(
         -viewMatrix[0][2],
         -viewMatrix[1][2],
         -viewMatrix[2][2]
       )
     `
-  }),
+    }),
 
-  name: "World Position (?)"
-}))
+    name: "World Position (?)"
+  })
 
-export const WorldNormalNode = nodeFactory(() => ({
-  ...Vec3VaryingNode({
-    value: `
+export const WorldNormalNode = () =>
+  node<"vec3">({
+    ...VaryingNode({
+      type: "vec3",
+      source: `
       normalize(
         mat3(
           modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
         ) * normal
       )
   `
-  }),
+    }),
 
-  name: "World Normal (?)"
-}))
+    name: "World Normal (?)"
+  })
 
-export const FresnelNode = nodeFactory(() => ({
-  name: "Fresnel",
-  inputs: {
-    alpha: float(1),
-    bias: float(0),
-    intensity: float(1),
-    power: float(2),
-    factor: float(1),
-    worldPosition: vec3(WorldPositionNode().value),
-    worldNormal: vec3(WorldNormalNode().value)
-  },
-  outputs: {
-    value: float()
-  },
-  fragment: {
-    body: `
+export const FresnelNode = () =>
+  node({
+    name: "Fresnel",
+    inputs: {
+      alpha: float(1),
+      bias: float(0),
+      intensity: float(1),
+      power: float(2),
+      factor: float(1),
+      worldPosition: vec3(WorldPositionNode()),
+      worldNormal: vec3(WorldNormalNode())
+    },
+    outputs: {
+      value: float()
+    },
+    fragment: {
+      body: `
       float f_a = (factor + dot(worldPosition, worldNormal));
       float f_fresnel = bias + intensity * pow(abs(f_a), power);
       f_fresnel = clamp(f_fresnel, 0.0, 1.0);
       value = f_fresnel;
     `
-  }
-}))
+    }
+  })
 
-export const BlendNode = nodeFactory<{
+export type BlendNodeProps = {
   a: Value<"vec3">
   b: Value<"vec3">
   opacity: Value<"float">
-}>((props) => {
+}
+
+export const BlendNode = (props: BlendNodeProps) => {
   const program: Program = {
     header: `
       float blend_softlight(const in float x, const in float y) {
@@ -78,7 +87,7 @@ export const BlendNode = nodeFactory<{
     `
   }
 
-  return {
+  return node({
     name: "Softlight Blend",
     inputs: {
       a: vec3(props.a),
@@ -90,5 +99,5 @@ export const BlendNode = nodeFactory<{
     },
     vertex: program,
     fragment: program
-  }
-})
+  })
+}

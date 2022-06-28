@@ -1,11 +1,11 @@
-import { ShaderNode, Variable } from "./types"
-import { variablesToNodes } from "./variables"
+import { GLSLType, ShaderNode, Variable } from "./types"
+import { float, variablesToNodes } from "./variables"
 
-export type ShaderNodeTemplate = Partial<ShaderNode>
+export type ShaderNodeTemplate<T extends GLSLType> = Partial<ShaderNode<T>>
 
-export function node(template: ShaderNodeTemplate) {
+export function node<T extends GLSLType>(template: ShaderNodeTemplate<T>) {
   /* Create node from template */
-  const node: ShaderNode = {
+  const node: ShaderNode<T> = {
     _shaderNode: true,
     name: "Unnamed",
     uniforms: {},
@@ -14,11 +14,7 @@ export function node(template: ShaderNodeTemplate) {
     outputs: {},
     vertex: { header: "", body: "" },
     fragment: { header: "", body: "" },
-    ...template,
-
-    get value() {
-      return this.outputs.value
-    }
+    ...template
   }
 
   /* Register outputs */
@@ -27,12 +23,6 @@ export function node(template: ShaderNodeTemplate) {
   }
 
   return node
-}
-
-export function nodeFactory<P = {}>(
-  factory: (inputs: P) => ShaderNodeTemplate
-) {
-  return (props: P = {} as P) => node(factory(props))
 }
 
 export function plug(source: Variable) {
