@@ -6,7 +6,8 @@ import {
   Qualifier,
   ShaderNode,
   Value,
-  Variable
+  Variable,
+  Variables
 } from "./types"
 import { tableize } from "./util"
 
@@ -61,8 +62,22 @@ function generateVariableName(
   qualifier: Qualifier | "input" | "output"
 ) {
   const parts = [prefix, qualifier, type, localName]
-
   return parts.join("_").replace(/_{2,}/, "_")
+}
+
+function tweakVariableNames(
+  variables: Variables,
+  prefix: string,
+  qualifier: Qualifier | "input" | "output"
+) {
+  for (const [localName, variable] of Object.entries(variables)) {
+    variable.name = generateVariableName(
+      prefix,
+      variable.type,
+      localName,
+      qualifier
+    )
+  }
 }
 
 export type ShaderNodeTemplate = Partial<ShaderNode>
@@ -89,41 +104,10 @@ export function node(template: ShaderNodeTemplate) {
   const tableizedNodeName = tableize(node.name)
   const prefix = `${tableizedNodeName}_${Math.floor(Math.random() * 10000000)}`
 
-  Object.entries(node.inputs).forEach(([localName, variable]) => {
-    variable.name = generateVariableName(
-      prefix,
-      variable.type,
-      localName,
-      "input"
-    )
-  })
-
-  Object.entries(node.outputs).forEach(([localName, variable]) => {
-    variable.name = generateVariableName(
-      prefix,
-      variable.type,
-      localName,
-      "output"
-    )
-  })
-
-  Object.entries(node.varyings).forEach(([localName, variable]) => {
-    variable.name = generateVariableName(
-      prefix,
-      variable.type,
-      localName,
-      "varying"
-    )
-  })
-
-  Object.entries(node.uniforms).forEach(([localName, variable]) => {
-    variable.name = generateVariableName(
-      prefix,
-      variable.type,
-      localName,
-      "uniform"
-    )
-  })
+  tweakVariableNames(node.uniforms, prefix, "uniform")
+  tweakVariableNames(node.varyings, prefix, "varying")
+  tweakVariableNames(node.inputs, prefix, "input")
+  tweakVariableNames(node.outputs, prefix, "output")
 
   /* Register outputs */
   for (const [_, variable] of Object.entries(node.outputs)) {
