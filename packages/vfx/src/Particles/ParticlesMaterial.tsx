@@ -110,6 +110,11 @@ const StatelessAccelerationNode = ({
     }
   })
 
+const StatelessScaleAnimationNode = () =>
+  node({
+    name: "Stateless Scale Animation"
+  })
+
 const LifetimeAttributeNode = () =>
   node({
     inputs: {
@@ -151,7 +156,7 @@ export const ParticlesMaterial = forwardRef<
       const movement = AddNode({
         a: StatelessVelocityNode({
           time: lifetime.outputs.age,
-          velocity: new Vector3(0, 0, 0)
+          velocity: AttributeNode({ name: "velocity", type: "vec3" })
         }),
         b: StatelessAccelerationNode({
           time: lifetime.outputs.age,
@@ -159,9 +164,16 @@ export const ParticlesMaterial = forwardRef<
         })
       })
 
-      const position = AddNode({
-        a: VertexPositionNode(),
+      let position = VertexPositionNode()
+
+      position = AddNode({
+        a: position,
         b: movement
+      })
+
+      position = AddNode({
+        a: position,
+        b: new Vector3(10, 0, 0)
       })
 
       const diffuseColor = MultiplyNode({

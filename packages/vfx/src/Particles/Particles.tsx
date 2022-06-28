@@ -49,6 +49,11 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
         "lifetime",
         new InstancedBufferAttribute(new Float32Array(maxInstanceCount * 2), 2)
       )
+
+      imesh.current.geometry.setAttribute(
+        "velocity",
+        new InstancedBufferAttribute(new Float32Array(maxInstanceCount * 3), 3)
+      )
     }, [])
 
     const spawnParticle = useMemo(() => {
@@ -108,6 +113,14 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
             cursor,
             clock.elapsedTime,
             clock.elapsedTime + 1
+          )
+
+          imesh.current.geometry.attributes.velocity.setXYZ(
+            cursor,
+            ...new Vector3()
+              .randomDirection()
+              .multiplyScalar(Math.random() * 5)
+              .toArray()
           )
 
           /* Initialize new particle */
