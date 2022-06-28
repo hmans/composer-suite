@@ -19,7 +19,7 @@ Object {
       
         /** Node: Root **/
 
-         float node_1_root_output_float_value;
+        
 
         {
           /* Varying References */
@@ -29,13 +29,13 @@ Object {
            vec3 offset = vec3(1.0, 2.0, 3.0);
 
           /* Outputs */
-           float value;
+          
 
           /* Code */
           
 
           /* Update globals */
-          node_1_root_output_float_value = value;
+          
 
           
         }
@@ -60,7 +60,7 @@ Object {
       
         /** Node: Root **/
 
-         float node_1_root_output_float_value;
+        
 
         {
           /* Varying References */
@@ -70,13 +70,13 @@ Object {
            vec3 offset = vec3(1.0, 2.0, 3.0);
 
           /* Outputs */
-           float value;
+          
 
           /* Code */
           csm_Position += offset;
 
           /* Update globals */
-          node_1_root_output_float_value = value;
+          
 
           
         }
@@ -187,7 +187,7 @@ node_2_constant_vector3_value_output_float_z = z;
 
         /** Node: CSM Master Node **/
 
-         float node_3_csm_master_node_output_float_value;
+        
 
         {
           /* Varying References */
@@ -200,7 +200,7 @@ node_2_constant_vector3_value_output_float_z = z;
  vec3 normal;
 
           /* Outputs */
-           float value;
+          
 
           /* Code */
           
@@ -210,7 +210,7 @@ node_2_constant_vector3_value_output_float_z = z;
       
 
           /* Update globals */
-          node_3_csm_master_node_output_float_value = value;
+          
 
           
         }
@@ -318,7 +318,7 @@ node_2_constant_vector3_value_output_float_z = z;
 
         /** Node: CSM Master Node **/
 
-         float node_3_csm_master_node_output_float_value;
+        
 
         {
           /* Varying References */
@@ -331,7 +331,7 @@ node_2_constant_vector3_value_output_float_z = z;
  vec3 normal;
 
           /* Outputs */
-           float value;
+          
 
           /* Code */
           
@@ -341,7 +341,7 @@ node_2_constant_vector3_value_output_float_z = z;
       
 
           /* Update globals */
-          node_3_csm_master_node_output_float_value = value;
+          
 
           
         }

@@ -11,7 +11,7 @@ export function node<T extends GLSLType>(template: ShaderNodeTemplate<T>) {
     uniforms: {},
     varyings: {},
     inputs: {},
-    outputs: { value: float() as Variable<T> },
+    outputs: {},
     vertex: { header: "", body: "" },
     fragment: { header: "", body: "" },
     ...template
