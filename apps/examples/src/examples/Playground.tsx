@@ -8,8 +8,8 @@ import {
   float,
   FresnelNode,
   MultiplyNode,
+  node,
   TimeNode,
-  UniformNode,
   Value,
   vec3,
   VertexPositionNode
@@ -20,20 +20,23 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const WobbleNode = nodeFactory<{
+type WobbleProps = {
   amplitude?: Value<"float">
   frequency?: Value<"float">
   x?: Value<"float">
-}>(({ amplitude = 1, frequency = 1, x }) => ({
-  name: "Wobble",
-  inputs: {
-    amplitude: float(amplitude),
-    frequency: float(frequency),
-    x: float(x)
-  },
-  outputs: { value: vec3() },
-  vertex: { body: `value.x = sin(x * frequency) * amplitude;` }
-}))
+}
+
+const WobbleNode = ({ amplitude = 1, frequency = 1, x }: WobbleProps) =>
+  node({
+    name: "Wobble",
+    inputs: {
+      amplitude: float(amplitude),
+      frequency: float(frequency),
+      x: float(x)
+    },
+    outputs: { value: vec3() },
+    vertex: { body: `value.x = sin(x * frequency) * amplitude;` }
+  })
 
 function useShader() {
   return useMemo(() => {

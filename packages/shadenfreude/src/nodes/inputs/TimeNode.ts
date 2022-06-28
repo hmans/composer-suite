@@ -3,9 +3,9 @@ import { ShaderNode } from "../../types"
 import { float } from "../../variables"
 import { UniformNode } from "./UniformNode"
 
-export type TimeNodeProps = { uniformName: string }
+export type TimeNodeProps = { uniformName?: string }
 
-export const TimeNode = ({ uniformName = "u_time" }: TimeNodeProps) => {
+export const TimeNode = ({ uniformName = "u_time" }: TimeNodeProps = {}) => {
   /* TODO: insert memoization here */
   const uniform: ShaderNode = UniformNode({
     name: uniformName,

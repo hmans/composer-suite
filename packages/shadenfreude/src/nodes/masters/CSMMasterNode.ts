@@ -20,7 +20,7 @@ export const CSMMasterNode = ({
   emissiveColor
 }: CSMMasterNodeprops) =>
   node({
-    name: "Master Node",
+    name: "CSM Master Node",
     inputs: {
       diffuseColor: vec3(diffuseColor),
       emissiveColor: vec3(emissiveColor),
