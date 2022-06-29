@@ -26,6 +26,8 @@ export class Variable<T extends GLSLType = any> {
   }
 
   renderValue(): string | undefined {
+    /* TODO: add support for Vector3 and other Three types */
+
     if (this.value === undefined) {
       return undefined
     } else if (typeof this.value === "number") {
