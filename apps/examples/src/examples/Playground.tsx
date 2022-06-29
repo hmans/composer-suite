@@ -8,21 +8,26 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 class FloatNode extends ShaderNode<"float"> {
+  name = "Float Value"
+
   inputs = {
     float: this.float()
   }
 
   outputs = {
-    value: this.float(this.inputs.float.value)
+    // value: this.float(this.inputs.float.value)
+    value: this.float(12)
   }
 }
 
 class Root extends RootNode {
+  name = "Root"
+
   inputs = {
     offset: this.float()
   }
 
-  vertex = { body: "csm_Position.x += 12.0;" }
+  vertex = { body: "csm_Position.x += input_offset;" }
 }
 
 function useShader() {
@@ -42,7 +47,7 @@ function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
+  // console.log(shaderProps.fragmentShader)
 
   // useFrame(update)
 

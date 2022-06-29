@@ -40,6 +40,7 @@ export class Compiler {
     programType: ProgramType
   ): string {
     const dependencies = node.getDependencies()
+    console.log(dependencies)
 
     return `
       ${dependencies
@@ -49,18 +50,32 @@ export class Compiler {
       /*** BEGIN: ${this.root.name} ***/
 
       /* Output Variables */
-      ${this.renderVariables(node.outputs, (_, variable) => variable.render())}
+      ${this.renderVariables(node.outputs, (localName, variable) =>
+        variable.render(false)
+      )}
 
       {
         /* Input Variables */
         ${this.renderVariables(node.inputs, (localName, variable) =>
-          variable.renderWithName("input_" + localName)
+          variable.renderWithName("input_" + localName, true)
+        )}
+
+        /* Local Output Variables */
+        ${this.renderVariables(node.outputs, (localName, variable) =>
+          variable.renderWithName("output_" + localName)
         )}
 
         /* Body Chunk */
-        ${node[programType].body ?? ""}
+        {
+          ${node[programType].body ?? ""}
+        }
 
         /* TODO: Assign Output Variables */
+        ${this.renderVariables(
+          node.outputs,
+          (localName, variable) => `
+        ${variable.globalName} = output_${localName};`
+        )}
       }
 
       /*** END: ${this.root.name} ***/
