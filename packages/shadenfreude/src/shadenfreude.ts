@@ -62,9 +62,9 @@ export type Variable<T extends GLSLType> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type Values<V extends Variables | undefined> = V extends Variables
-  ? { [K in keyof V]: V[K]["value"] }
-  : never
+export type VariableValues<
+  V extends Variables | undefined
+> = V extends Variables ? { [K in keyof V]: V[K]["value"] } : never
 
 /*
 
