@@ -164,6 +164,10 @@ export const ParticlesMaterial = forwardRef<
           acceleration: new Vector3(0, -10, 0)
         })
       })
+      const diffuseColor = MultiplyNode({
+        a: ColorNode({ color: new Color("#fff") }),
+        b: particleAge
+      })
 
       let position = VertexPositionNode()
 
@@ -175,11 +179,6 @@ export const ParticlesMaterial = forwardRef<
       position = AddNode({
         a: position,
         b: movement
-      })
-
-      const diffuseColor = MultiplyNode({
-        a: ColorNode({ color: new Color("#fff") }),
-        b: particleAge
       })
 
       const root = CSMMasterNode({
