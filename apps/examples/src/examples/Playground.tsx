@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react"
-import { Compiler, float, Value } from "shadenfreude"
+import { Compiler, float, pipe, Value } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -15,6 +15,9 @@ const FloatNode = (props?: FloatProps) => ({
   },
   inputs: {
     a: float(props?.a)
+  },
+  outputs: {
+    value: float(props?.a)
   }
 })
 
@@ -32,6 +35,8 @@ function useShader() {
   return useMemo(() => {
     const root = RootNode()
     const float = FloatNode()
+
+    pipe(float.outputs.value).into(root.inputs.offset)
 
     return Compiler(root)
   }, [])

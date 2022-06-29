@@ -110,6 +110,12 @@ export const variable = <T extends GLSLType>(type: T, value?: Value<T>) => ({
 
 export const float = (value?: Value<"float">) => variable("float", value)
 
+export const pipe = <T extends GLSLType>(source: Variable<T>) => ({
+  into: (target: Variable<T>) => {
+    target.value = source
+  }
+})
+
 /*
 
  _______  _______  __   __  _______  ___   ___      _______  ______    _______
