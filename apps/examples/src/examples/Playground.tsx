@@ -1,12 +1,32 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { Compiler, ShaderNode } from "shadenfreude"
+import { Compiler, GLSLType, ShaderNode, Variable } from "shadenfreude"
 import { RootNode } from "shadenfreude/src/ShaderNode"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, Uniform } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
+
+class UniformNode<T extends GLSLType> extends ShaderNode {
+  outputs: { value: Variable<T> }
+
+  constructor(public type: T, public name: string) {
+    super()
+
+    this.outputs = {
+      value: this.variable(this.type)
+    }
+
+    this.vertex = {
+      header: `uniform ${this.type} ${this.name};`
+    }
+
+    this.fragment = {
+      header: `uniform ${this.type} ${this.name};`
+    }
+  }
+}
 
 class TimeNode extends ShaderNode {
   name = "Time Node"
@@ -68,10 +88,12 @@ function useShader() {
   return useMemo(() => {
     const float = new FloatNode()
     const vector3 = new Vector3Node()
+    const u_time = new UniformNode("float", "u_fooooo")
+
     const time = new TimeNode()
     const root = new Root()
 
-    root.inputs.offset.set(time.outputs.sin)
+    root.inputs.offset.set(u_time)
 
     return new Compiler(root).compile()
   }, [])

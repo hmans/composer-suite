@@ -4,6 +4,7 @@ import { Variable } from "./Variable"
 export type GLSLChunk = string | string[]
 
 export type GLSLType =
+  | "string"
   | "bool"
   | "float"
   | "vec2"

@@ -1,10 +1,6 @@
 import { GLSLType, Program, Variables } from "./types"
 import { Value, Variable } from "./Variable"
 
-type Outputs<T extends GLSLType | undefined> = T extends GLSLType
-  ? Variables & { value: Variable<T> }
-  : Variables
-
 export abstract class ShaderNode {
   /** Human-readable name. */
   name: string = "Unnamed Shader Node"
@@ -17,7 +13,7 @@ export abstract class ShaderNode {
 
   inputs: Variables = {}
 
-  abstract outputs: Outputs<GLSLType | undefined>
+  outputs: Variables = {}
 
   /** Returns this node's immediate dependencies. */
   getDependencies() {
@@ -47,6 +43,4 @@ export abstract class ShaderNode {
   }
 }
 
-export abstract class RootNode extends ShaderNode {
-  outputs: Outputs<undefined> = {}
-}
+export abstract class RootNode extends ShaderNode {}
