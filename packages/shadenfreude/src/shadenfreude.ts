@@ -113,6 +113,11 @@ export const variable = <T extends GLSLType, V extends Variable<T>>(
   } as V)
 
 export const float = (value?: Value<"float">) => variable("float", value)
+export const vec2 = (value?: Value<"vec2">) => variable("vec2", value)
+export const vec3 = (value?: Value<"vec3">) => variable("vec3", value)
+export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
+export const mat3 = (value?: Value<"mat3">) => variable("mat3", value)
+export const mat4 = (value?: Value<"mat4">) => variable("mat4", value)
 
 export const pipe = <T extends GLSLType>(source: Variable<T>) => ({
   into: (target: Variable<T>) => {
