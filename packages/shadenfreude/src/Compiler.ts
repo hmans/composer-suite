@@ -13,7 +13,6 @@ export class Compiler {
 
   private compileProgram(programType: ProgramType) {
     return `
-      /* START: ${this.root.name} */
       ${this.compileProgramHeader(this.root, programType)}
 
       void main() {
@@ -27,18 +26,32 @@ export class Compiler {
     programType: ProgramType
   ) {
     return `
+      /* TODO: Dependencies */
+
+      /*** BEGIN: ${this.root.name} ***/
       ${node[programType].header ?? ""}
+      /*** END: ${this.root.name} ***/
     `
   }
 
   private compileProgramBody(node: ShaderNode<any>, programType: ProgramType) {
     return `
+      /*** BEGIN: ${this.root.name} ***/
+
+      /* TODO: Dependencies */
+
+      /* TODO: Output Variables */
+
       {
-        /* Input Variables */
+        /* TODO: Input Variables */
 
         /* Body Chunk */
         ${node[programType].body ?? ""}
+
+        /* TODO: Assign Output Variables */
       }
+
+      /*** END: ${this.root.name} ***/
     `
   }
 }
