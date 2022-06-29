@@ -14,17 +14,6 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 type FloatProps = { a?: Value<"float"> }
 
-const apply = <N extends ShaderNode>(
-  node: N,
-  props: VariableValues<N["inputs"]>
-) => {
-  Object.entries(props).forEach(([name, value]) => {
-    node.inputs![name].value = value
-  })
-
-  return node
-}
-
 const FloatNode = (props?: FloatProps) => ({
   name: "Float Value",
   vertex: {
@@ -49,7 +38,6 @@ function useShader() {
   return useMemo(() => {
     const root = RootNode()
     const float = FloatNode()
-    apply(float, { a: 12 })
 
     return Compiler(root)
   }, [])
