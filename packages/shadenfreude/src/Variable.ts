@@ -5,7 +5,6 @@ import { GLSLtoJSType, GLSLType } from "./types"
 export type Value<T extends GLSLType> =
   | GLSLtoJSType<T>
   | Variable<T>
-  | ShaderNode<T>
   | GLSLChunk
 
 export class Variable<T extends GLSLType = any> {
@@ -21,8 +20,12 @@ export class Variable<T extends GLSLType = any> {
     this.globalName = `var_${Math.floor(Math.random() * 1000000)}`
   }
 
-  set(value: Value<T>) {
-    this.value = value
+  set(value: Value<T> | ShaderNode<T>) {
+    if (value instanceof ShaderNode) {
+      this.value = value.outputs.value as Value<T>
+    } else {
+      this.value = value
+    }
   }
 
   renderValue(): string | undefined {
@@ -37,8 +40,6 @@ export class Variable<T extends GLSLType = any> {
       return this.value
     } else if (this.value instanceof Variable) {
       return this.value.renderValue()
-    } else if (this.value instanceof ShaderNode) {
-      return this.value.outputs.value.renderValue()
     } else {
       throw new Error("Could not render value: " + this.value)
     }

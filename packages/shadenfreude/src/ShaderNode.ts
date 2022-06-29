@@ -20,9 +20,7 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
     const dependencies = new Set<ShaderNode<GLSLType>>()
 
     for (const input of Object.values(this.inputs)) {
-      if (input.value instanceof ShaderNode) {
-        dependencies.add(input.value)
-      } else if (input.value instanceof Variable) {
+      if (input.value instanceof Variable) {
         dependencies.add(input.value.node)
       }
     }
