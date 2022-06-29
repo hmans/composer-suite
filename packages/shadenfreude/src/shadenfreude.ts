@@ -54,7 +54,6 @@ export type Value<T extends GLSLType> =
 
 export type Variables = { [localName: string]: Variable<GLSLType> }
 
-export type ShaderNodeProps = any
 export type ShaderNodeOptions = { [key: string]: any }
 
 /*
@@ -68,6 +67,21 @@ export type ShaderNodeOptions = { [key: string]: any }
 |_|  |__||_______||______| |_______||_______|
 
 */
+
+export type ShaderNodeProps<T extends ShaderNode> = {
+  [Key in keyof T["inputs"]]: T["inputs"][Key]["value"]
+}
+
+export function node<T extends ShaderNode>(
+  klass: new (...args: any[]) => T,
+  props: ShaderNodeProps<T>
+): T {
+  const node = new klass(props)
+  Object.entries(props).forEach(([key, value]) => {
+    node.inputs[key].set(value)
+  })
+  return node
+}
 
 export abstract class ShaderNode<O extends ShaderNodeOptions = {}> {
   constructor(protected props: any = {}, protected opts: O = {} as O) {}
