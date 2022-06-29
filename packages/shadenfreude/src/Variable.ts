@@ -8,7 +8,7 @@ export type Value<T extends GLSLType> =
   | ShaderNode<T>
   | GLSLChunk
 
-export class Variable<T extends GLSLType> {
+export class Variable<T extends GLSLType = any> {
   node: ShaderNode
   type: T
   value?: Value<T>

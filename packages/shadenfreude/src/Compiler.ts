@@ -1,5 +1,6 @@
 import { ShaderNode } from "./ShaderNode"
-import { ProgramType } from "./types"
+import { ProgramType, Variables } from "./types"
+import { Variable } from "./Variable"
 
 export class Compiler {
   constructor(public root: ShaderNode<any>) {}
@@ -40,10 +41,16 @@ export class Compiler {
 
       /* TODO: Dependencies */
 
-      /* TODO: Output Variables */
-
+      /* Output Variables */
+      ${this.renderVariables(node.outputs, (localName, variable) => `/*moo*/`)}
       {
         /* TODO: Input Variables */
+        ${this.renderVariables(
+          node.inputs,
+          (localName, variable) => `
+          ${variable.type} ${localName};
+        `
+        )}
 
         /* Body Chunk */
         ${node[programType].body ?? ""}
@@ -53,5 +60,14 @@ export class Compiler {
 
       /*** END: ${this.root.name} ***/
     `
+  }
+
+  private renderVariables(
+    variables: Variables,
+    callback: (localName: string, variable: Variable) => string
+  ) {
+    return Object.entries(variables)
+      .map(([name, variable]) => callback(name, variable))
+      .join("\n")
   }
 }
