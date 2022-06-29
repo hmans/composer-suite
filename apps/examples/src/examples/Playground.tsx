@@ -6,17 +6,34 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-class FloatNode extends ShaderNode<"float"> {}
+class FloatNode extends ShaderNode<"float"> {
+  constructor(value: number) {
+    super("float")
+    this.inputs.float.value = value
+    this.outputs.value.value = this.inputs.float.value
+  }
 
-class Dummy extends ShaderNode<never> {
+  inputs = {
+    float: new Variable("float")
+  }
+}
+
+class Dummy extends ShaderNode<"float"> {
+  inputs = {
+    offset: new Variable("float")
+  }
+
   vertex = { body: "csm_Position.x += 12.0;" }
 }
 
 function useShader() {
   return useMemo(() => {
-    const root = new Dummy()
+    const float = new FloatNode(5)
 
-    return new Compiler(root).compile()
+    const dummy = new Dummy("float")
+    dummy.inputs.offset.value = float.outputs.value
+
+    return new Compiler(dummy).compile()
   }, [])
 }
 
