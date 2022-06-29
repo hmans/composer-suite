@@ -91,9 +91,9 @@ export type ShaderNode = {
 
 export const node = <S extends ShaderNode>(node: S): S => {
   /* Process input variables */
-  Object.entries(node.inputs || {}).forEach(([localName, variable]) => {
+  Object.values(node.outputs || {}).forEach((variable) => {
     variable.node = node
-    variable.name = ["var", variable.type, variable.name].join("_n")
+    variable.name = ["processed", variable.type, variable.name].join("_")
   })
 
   return node
@@ -181,40 +181,45 @@ export const Compiler = (root: ShaderNode) => {
   }
 
   const compileBody = (node: ShaderNode, programType: ProgramType): any[] => {
-    const dependencies = getDependencies(node)
-    console.log(dependencies)
-
     return [
-      // dependencies.map((dependency) => compileBody(dependency, programType)),
+      node.inputs &&
+        Object.values(node.inputs)
+          .map(({ value }) =>
+            isVariable(value) ? compileBody(value.node!, programType) : ""
+          )
+          .flat(),
 
       `  /*** BEGIN: ${node.name} ***/\n`,
 
-      node.outputs && [
-        "/* Output variables */",
-        ...compileVariables(node.outputs, (localName, variable) =>
-          compileVariable({ ...variable, value: undefined })
-        ),
-        ""
-      ],
+      node.outputs &&
+        [
+          "/* Output variables */",
+          compileVariables(node.outputs, (localName, variable) =>
+            compileVariable({ ...variable, value: undefined })
+          ),
+          ""
+        ].flat(),
 
       [
         "{",
 
-        node.inputs && [
-          "/* Input Variables */",
-          ...compileVariables(node.inputs, (localName, variable) =>
-            compileVariable({ ...variable, name: localName })
-          ),
-          ""
-        ],
+        node.inputs &&
+          [
+            "/* Input Variables */",
+            compileVariables(node.inputs, (localName, variable) =>
+              compileVariable({ ...variable, name: localName })
+            ),
+            ""
+          ].flat(),
 
-        node.outputs && [
-          "/* Local output variables */",
-          ...compileVariables(node.outputs, (localName, variable) =>
-            compileVariable({ ...variable, name: localName })
-          ),
-          ""
-        ],
+        node.outputs &&
+          [
+            "/* Local output variables */",
+            compileVariables(node.outputs, (localName, variable) =>
+              compileVariable({ ...variable, name: localName })
+            ),
+            ""
+          ].flat(),
 
         node[programType]?.body && [
           "/* Body Chunk */",
@@ -222,13 +227,14 @@ export const Compiler = (root: ShaderNode) => {
           ""
         ],
 
-        node.outputs && [
-          "/* Output variable assignments */",
-          ...compileVariables(node.outputs, (localName, variable) =>
-            statement(variable.name, "=", localName)
-          ),
-          ""
-        ],
+        node.outputs &&
+          [
+            "/* Output variable assignments */",
+            compileVariables(node.outputs, (localName, variable) =>
+              statement(variable.name, "=", localName)
+            ),
+            ""
+          ].flat(),
 
         "}\n"
       ],
@@ -282,8 +288,9 @@ const statement = (...parts: Lines) =>
 
 const getDependencies = ({ inputs }: ShaderNode) => [
   ...Object.values(inputs || {}).reduce((set, { value }) => {
-    if (value && isVariable(value)) {
-      value.node && set.add(value.node!)
+    console.log("checking", value)
+    if (value !== undefined && isVariable(value)) {
+      value.node && set.add(value.node)
     }
     return set
   }, new Set<ShaderNode>())

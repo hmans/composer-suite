@@ -32,12 +32,12 @@ const RootNode = (props?: { offset: Value<"float"> }) =>
 
 function useShader() {
   return useMemo(() => {
-    const root = RootNode()
     const float = FloatNode()
+    const root = RootNode({ offset: float.outputs.value })
 
-    pipe(float.outputs.value).into(root.inputs.offset)
+    // pipe(float.outputs.value).into(root.inputs.offset)
 
-    return Compiler(float)
+    return Compiler(root)
   }, [])
 }
 
