@@ -3,9 +3,9 @@ import { ProgramType, Variables } from "./types"
 import { Variable } from "./Variable"
 
 export class Compiler {
-  constructor(public root: ShaderNode<any>) {}
+  constructor(public root: ShaderNode) {}
 
-  private renderedDependencies: ShaderNode<any>[] = []
+  private renderedDependencies: ShaderNode[] = []
   private nodeCounter = 0
 
   compile() {
@@ -23,7 +23,7 @@ export class Compiler {
     return { vertexShader, fragmentShader, uniforms, update }
   }
 
-  private prepareNode(node: ShaderNode<any> = this.root) {
+  private prepareNode(node: ShaderNode = this.root) {
     /* Generate slug if none is given */
     node.slug =
       node.slug ||
@@ -62,7 +62,7 @@ export class Compiler {
   }
 
   private compileProgramHeader(
-    node: ShaderNode<any>,
+    node: ShaderNode,
     programType: ProgramType
   ): string {
     if (this.renderedDependencies.includes(node)) return ""
@@ -82,7 +82,7 @@ export class Compiler {
   }
 
   private compileProgramBody(
-    node: ShaderNode<any>,
+    node: ShaderNode,
     programType: ProgramType
   ): string {
     if (this.renderedDependencies.includes(node)) return ""

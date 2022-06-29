@@ -5,7 +5,7 @@ type Outputs<T extends GLSLType | undefined> = T extends GLSLType
   ? Variables & { value: Variable<T> }
   : Variables
 
-export abstract class ShaderNode<T extends GLSLType | undefined = any> {
+export abstract class ShaderNode {
   /** Human-readable name. */
   name: string = "Unnamed Shader Node"
 
@@ -17,11 +17,11 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
 
   inputs: Variables = {}
 
-  abstract outputs: Outputs<T>
+  abstract outputs: Outputs<GLSLType | undefined>
 
   /** Returns this node's immediate dependencies. */
   getDependencies() {
-    const dependencies = new Set<ShaderNode<GLSLType>>()
+    const dependencies = new Set<ShaderNode>()
 
     for (const input of Object.values(this.inputs)) {
       if (input.value instanceof Variable) {
@@ -38,11 +38,15 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
     return variable
   }
 
-  float(value?: Value<"float">): Variable<"float"> {
+  float(value?: Value<"float">) {
     return this.variable("float", value)
+  }
+
+  vec3(value?: Value<"vec3">) {
+    return this.variable("vec3", value)
   }
 }
 
-export abstract class RootNode extends ShaderNode<undefined> {
+export abstract class RootNode extends ShaderNode {
   outputs: Outputs<undefined> = {}
 }

@@ -8,7 +8,7 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-class TimeNode extends ShaderNode<"float"> {
+class TimeNode extends ShaderNode {
   name = "Time Node"
 
   outputs = {
@@ -30,7 +30,19 @@ class TimeNode extends ShaderNode<"float"> {
   }
 }
 
-class FloatNode extends ShaderNode<"float"> {
+class Vector3Node extends ShaderNode {
+  name = "Vector3 Value"
+
+  inputs = {
+    vector: this.vec3()
+  }
+
+  outputs = {
+    value: this.vec3(this.inputs.vector)
+  }
+}
+
+class FloatNode extends ShaderNode {
   name = "Float Value"
 
   inputs = {
@@ -55,10 +67,11 @@ class Root extends RootNode {
 function useShader() {
   return useMemo(() => {
     const float = new FloatNode()
+    const vector3 = new Vector3Node()
     const time = new TimeNode()
     const root = new Root()
 
-    root.inputs.offset.set(time.outputs.cos)
+    root.inputs.offset.set(time.outputs.sin)
 
     return new Compiler(root).compile()
   }, [])
