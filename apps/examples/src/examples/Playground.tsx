@@ -31,7 +31,7 @@ function useShader() {
     float.inputs.float.set(5)
 
     const root = new Root()
-    root.inputs.offset.set(float.outputs.value)
+    root.inputs.offset.set(float)
 
     return new Compiler(root).compile()
   }, [])
