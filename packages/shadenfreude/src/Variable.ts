@@ -39,7 +39,7 @@ export class Variable<T extends GLSLType = any> {
     } else if (typeof this.value === "string") {
       return this.value
     } else if (this.value instanceof Variable) {
-      return this.value.renderValue()
+      return this.value.globalName
     } else {
       throw new Error("Could not render value: " + this.value)
     }

@@ -1,8 +1,8 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { Compiler, GLSLType, ShaderNode, Variable } from "shadenfreude"
+import { Compiler, GLSLType, ShaderNode } from "shadenfreude"
 import { RootNode } from "shadenfreude/src/ShaderNode"
-import { MeshStandardMaterial, Uniform } from "three"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -12,8 +12,10 @@ class UniformNode<T extends GLSLType> extends ShaderNode<{
   type: T
   name: string
 }> {
+  name = "Uniform " + this.opts.name
+
   outputs = {
-    value: this.variable(this.opts.type)
+    value: this.variable(this.opts.type, this.opts.name)
   }
 
   vertex = {
@@ -28,22 +30,21 @@ class UniformNode<T extends GLSLType> extends ShaderNode<{
 class TimeNode extends ShaderNode {
   name = "Time Node"
 
+  inputs = {
+    uniform: this.float(
+      new UniformNode({}, { name: "u_time", type: "float" }).outputs.value
+    )
+  }
+
   outputs = {
-    value: this.float("u_time"),
+    /* The absolute time, in seconds */
+    value: this.float("inputs_uniform"),
 
     /** Sine of the times */
-    sin: this.float("sin(u_time)"),
+    sin: this.float("sin(inputs_uniform)"),
 
     /** Cosine of the times */
-    cos: this.float("cos(u_time)")
-  }
-
-  vertex = {
-    header: `uniform float u_time;`
-  }
-
-  fragment = {
-    header: `uniform float u_time;`
+    cos: this.float("cos(inputs_uniform)")
   }
 }
 
@@ -90,7 +91,7 @@ function useShader() {
     const time = new TimeNode()
     const root = new Root()
 
-    root.inputs.offset.set(u_time)
+    root.inputs.offset.set(time.outputs.cos)
 
     return new Compiler(root).compile()
   }, [])
