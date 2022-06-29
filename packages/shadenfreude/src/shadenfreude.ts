@@ -109,8 +109,34 @@ export type ShaderNodeFactory = () => ShaderNode
 */
 
 export const Compiler = (root: ShaderNode) => {
-  const vertexShader = "/* yo */"
-  const fragmentShader = "/* yo */"
+  const compileHeader = (node: ShaderNode, programType: ProgramType) => {
+    return `
+      /* TODO: dependencies */
+
+      ${node[programType]?.header ?? ""}
+    `
+  }
+
+  const compileBody = (node: ShaderNode, programType: ProgramType) => {
+    return `
+      /* TODO: dependencies */
+
+      ${node[programType]?.header ?? ""}
+    `
+  }
+
+  const compileProgram = (programType: ProgramType) => {
+    return `
+      ${compileHeader(root, programType)}
+
+      void main() {
+        ${compileBody(root, programType)}
+      }
+    `
+  }
+
+  const vertexShader = compileProgram("vertex")
+  const fragmentShader = compileProgram("fragment")
 
   return { vertexShader, fragmentShader }
 }
