@@ -1,7 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { Compiler, GLSLType, ShaderNode } from "shadenfreude"
-import { RootNode } from "shadenfreude/src/ShaderNode"
+import { Compiler, GLSLType, RootNode, ShaderNode } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
