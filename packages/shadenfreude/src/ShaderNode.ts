@@ -1,7 +1,12 @@
 import { GLSLType, Program, Variables } from "./types"
 import { Value, Variable } from "./Variable"
 
-export abstract class ShaderNode {
+export type ShaderNodeProps = any
+export type ShaderNodeOptions = { [key: string]: any }
+
+export abstract class ShaderNode<O extends ShaderNodeOptions = {}> {
+  constructor(protected props: any = {}, protected opts: O = {} as O) {}
+
   /** Human-readable name. */
   name: string = "Unnamed Shader Node"
 

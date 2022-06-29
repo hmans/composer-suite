@@ -8,23 +8,20 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-class UniformNode<T extends GLSLType> extends ShaderNode {
-  outputs: { value: Variable<T> }
+class UniformNode<T extends GLSLType> extends ShaderNode<{
+  type: T
+  name: string
+}> {
+  outputs = {
+    value: this.variable(this.opts.type)
+  }
 
-  constructor(public type: T, public name: string) {
-    super()
+  vertex = {
+    header: `uniform ${this.opts.type} ${this.opts.name};`
+  }
 
-    this.outputs = {
-      value: this.variable(this.type)
-    }
-
-    this.vertex = {
-      header: `uniform ${this.type} ${this.name};`
-    }
-
-    this.fragment = {
-      header: `uniform ${this.type} ${this.name};`
-    }
+  fragment = {
+    header: `uniform ${this.opts.type} ${this.opts.name};`
   }
 }
 
@@ -88,7 +85,7 @@ function useShader() {
   return useMemo(() => {
     const float = new FloatNode()
     const vector3 = new Vector3Node()
-    const u_time = new UniformNode("float", "u_fooooo")
+    const u_time = new UniformNode({}, { type: "float", name: "u_fooooo" })
 
     const time = new TimeNode()
     const root = new Root()
