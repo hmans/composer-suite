@@ -1,11 +1,11 @@
 import { GLSLType, Program, Variables } from "./types"
-import { Variable } from "./Variable"
+import { Value, Variable } from "./Variable"
 
 type Outputs<T extends GLSLType | undefined> = T extends GLSLType
   ? Variables & { value: Variable<T> }
   : Variables
 
-export abstract class ShaderNode<T extends GLSLType | undefined = undefined> {
+export abstract class ShaderNode<T extends GLSLType | undefined = any> {
   name: string = "Unnamed Shader Node"
 
   vertex: Program = {}
@@ -28,6 +28,15 @@ export abstract class ShaderNode<T extends GLSLType | undefined = undefined> {
     }
 
     return dependencies
+  }
+
+  variable<T extends GLSLType>(type: T, value?: Value<T>): Variable<T> {
+    const variable = new Variable(this, type, value)
+    return variable
+  }
+
+  float(value?: Value<"float">): Variable<"float"> {
+    return this.variable("float", value)
   }
 }
 

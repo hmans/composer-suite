@@ -9,17 +9,17 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 class FloatNode extends ShaderNode<"float"> {
   inputs = {
-    float: new Variable("float")
+    float: this.float()
   }
 
   outputs = {
-    value: new Variable("float", this.inputs.float.value)
+    value: this.float(this.inputs.float.value)
   }
 }
 
 class Root extends RootNode {
   inputs = {
-    offset: new Variable("float")
+    offset: this.float()
   }
 
   vertex = { body: "csm_Position.x += 12.0;" }
