@@ -89,6 +89,16 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
+export const node = <S extends ShaderNode>(node: S): S => {
+  /* Process input variables */
+  Object.entries(node.inputs || {}).forEach(([localName, variable]) => {
+    variable.node = node
+    variable.name = ["var", variable.type, variable.name].join("_n")
+  })
+
+  return node
+}
+
 /*
 
  __   __  _______  ______    ___   _______  _______  ___      _______  _______
@@ -146,26 +156,45 @@ export const Compiler = (root: ShaderNode) => {
       callback(localName, variable)
     )
 
+  const compileValue = (value: Value): string => {
+    if (typeof value === "string") {
+      return value
+    } else if (typeof value === "number") {
+      return value.toFixed(5) // TODO: no, make this better
+    } else if (isVariable(value)) {
+      return value.name
+    } else {
+      throw new Error("Could not render value for" + value)
+    }
+  }
+
   const compileVariable = (variable: Variable) =>
-    [variable.type, variable.name, ";"].join(" ")
+    statement(
+      variable.type,
+      variable.name,
+      variable.value !== undefined && ["=", compileValue(variable.value)]
+    )
 
   const compileHeader = (node: ShaderNode, programType: ProgramType) => {
     /* TODO: dependencies */
     return [node[programType]?.header]
   }
 
-  const compileBody = (node: ShaderNode, programType: ProgramType) => {
-    /* TODO: dependencies */
+  const compileBody = (node: ShaderNode, programType: ProgramType): any[] => {
+    const dependencies = getDependencies(node)
+    console.log(dependencies)
 
     return [
-      `  /*** BEGIN: ${node.name} ***/`,
+      // dependencies.map((dependency) => compileBody(dependency, programType)),
+
+      `  /*** BEGIN: ${node.name} ***/\n`,
 
       node.outputs && [
         "/* Output variables */",
-        ...compileVariables(
-          node.outputs,
-          (localName, variable) => `/*var ${localName}*/`
-        )
+        ...compileVariables(node.outputs, (localName, variable) =>
+          compileVariable({ ...variable, value: undefined })
+        ),
+        ""
       ],
 
       [
@@ -173,17 +202,35 @@ export const Compiler = (root: ShaderNode) => {
 
         node.inputs && [
           "/* Input Variables */",
-          ...compileVariables(node.inputs || {}, (localName, variable) =>
+          ...compileVariables(node.inputs, (localName, variable) =>
             compileVariable({ ...variable, name: localName })
-          )
+          ),
+          ""
+        ],
+
+        node.outputs && [
+          "/* Local output variables */",
+          ...compileVariables(node.outputs, (localName, variable) =>
+            compileVariable({ ...variable, name: localName })
+          ),
+          ""
         ],
 
         node[programType]?.body && [
           "/* Body Chunk */",
-          node[programType]?.body
+          node[programType]?.body,
+          ""
         ],
 
-        "}"
+        node.outputs && [
+          "/* Output variable assignments */",
+          ...compileVariables(node.outputs, (localName, variable) =>
+            statement(variable.name, "=", localName)
+          ),
+          ""
+        ],
+
+        "}\n"
       ],
 
       `  /*** END: ${node.name} ***/`
@@ -216,17 +263,30 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-const lines = (...inputs: Array<any>): string =>
+type Lines = any[]
+
+const lines = (...inputs: Lines): string =>
   inputs
-    .filter((l) => l !== undefined)
+    .filter((l) => l !== undefined && l !== null)
     .map((l) => (Array.isArray(l) ? lines(...l) : l))
     .join("\n")
     .split("\n")
     .map((l) => "  " + l)
     .join("\n")
 
-const getDependencies = ({ inputs }: ShaderNode) =>
-  Object.values(inputs || {}).reduce((set, { node }) => {
-    node && set.add(node)
+const statement = (...parts: Lines) =>
+  parts
+    .flat()
+    .filter((p) => ![undefined, null, false].includes(p))
+    .join(" ") + ";"
+
+const getDependencies = ({ inputs }: ShaderNode) => [
+  ...Object.values(inputs || {}).reduce((set, { value }) => {
+    if (value && isVariable(value)) {
+      value.node && set.add(value.node!)
+    }
     return set
   }, new Set<ShaderNode>())
+]
+
+const isVariable = (value: any): value is Variable => !!value.__variable
