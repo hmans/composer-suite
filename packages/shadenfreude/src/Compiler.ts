@@ -14,7 +14,13 @@ export class Compiler {
     const vertexShader = this.compileProgram("vertex")
     const fragmentShader = this.compileProgram("fragment")
 
-    return { vertexShader, fragmentShader }
+    const uniforms = { u_time: { value: 0 } }
+
+    const update = (dt: number) => {
+      uniforms.u_time.value += dt
+    }
+
+    return { vertexShader, fragmentShader, uniforms, update }
   }
 
   private prepareNode(node: ShaderNode<any> = this.root) {

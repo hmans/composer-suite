@@ -1,3 +1,4 @@
+import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import { Compiler, ShaderNode, Variable } from "shadenfreude"
 import { RootNode } from "shadenfreude/src/ShaderNode"
@@ -58,13 +59,13 @@ function useShader() {
 }
 
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
-  const { ...shaderProps } = useShader()
+  const { update, ...shaderProps } = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   console.log(shaderProps.vertexShader)
   // console.log(shaderProps.fragmentShader)
 
-  // useFrame(update)
+  useFrame((_, dt) => update(dt))
 
   return <CustomShaderMaterial {...props} {...shaderProps} ref={material} />
 }
