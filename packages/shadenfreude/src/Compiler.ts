@@ -25,9 +25,13 @@ export class Compiler {
   private compileProgramHeader(
     node: ShaderNode<any>,
     programType: ProgramType
-  ) {
+  ): string {
+    const dependencies = node.getDependencies()
+
     return `
-      /* TODO: Dependencies */
+      ${dependencies
+        .map((dependency) => this.compileProgramHeader(dependency, programType))
+        .join("\n\n")}
 
       /*** BEGIN: ${node.name} ***/
       ${node[programType].header ?? ""}
