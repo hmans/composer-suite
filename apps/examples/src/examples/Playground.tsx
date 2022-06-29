@@ -12,7 +12,13 @@ class TimeNode extends ShaderNode<"float"> {
   name = "Time Node"
 
   outputs = {
-    value: this.float("u_time")
+    value: this.float("u_time"),
+
+    /** Sine of the times */
+    sin: this.float("sin(u_time)"),
+
+    /** Cosine of the times */
+    cos: this.float("cos(u_time)")
   }
 
   vertex = {
@@ -52,7 +58,7 @@ function useShader() {
     const time = new TimeNode()
     const root = new Root()
 
-    root.inputs.offset.set(time)
+    root.inputs.offset.set(time.outputs.cos)
 
     return new Compiler(root).compile()
   }, [])
