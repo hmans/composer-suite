@@ -47,14 +47,14 @@ export type Program = {
 
 export type ProgramType = "vertex" | "fragment"
 
-export type Value<T extends GLSLType> =
+export type Value<T extends GLSLType = any> =
   | GLSLtoJSType<T>
   | Variable<T>
   | GLSLChunk
 
-export type Variable<T extends GLSLType> = {
+export type Variable<T extends GLSLType = any> = {
   __variable: boolean
-  globalName: string
+  name: string
   type: T
   value?: Value<T>
   node?: ShaderNode
@@ -107,7 +107,7 @@ export const variable = <T extends GLSLType, V extends Variable<T>>(
 ) =>
   ({
     __variable: true,
-    globalName: `var_${Math.floor(Math.random() * 10000000)}`,
+    name: `var_${Math.floor(Math.random() * 10000000)}`,
     type,
     value
   } as V)
@@ -138,21 +138,59 @@ export const pipe = <T extends GLSLType>(source: Variable<T>) => ({
 */
 
 export const Compiler = (root: ShaderNode) => {
+  const compileVariables = (
+    variables: Variables,
+    callback: (localName: string, variable: Variable) => string
+  ) =>
+    Object.entries(variables).map(([localName, variable]) =>
+      callback(localName, variable)
+    )
+
+  const compileVariable = (variable: Variable) =>
+    [variable.type, variable.name, ";"].join(" ")
+
   const compileHeader = (node: ShaderNode, programType: ProgramType) => {
     /* TODO: dependencies */
-    return lines(node[programType]?.header)
+    return [node[programType]?.header]
   }
 
   const compileBody = (node: ShaderNode, programType: ProgramType) => {
     /* TODO: dependencies */
-    return lines(node[programType]?.body)
+
+    return [
+      node.outputs && [
+        "/* Output variables */",
+        ...compileVariables(
+          node.outputs,
+          (localName, variable) => `/*var ${localName}*/`
+        )
+      ],
+
+      [
+        "{",
+
+        node.inputs && [
+          "/* Input Variables */",
+          ...compileVariables(node.inputs || {}, (localName, variable) =>
+            compileVariable({ ...variable, name: localName })
+          )
+        ],
+
+        node[programType]?.body && [
+          "/* Body Chunk */",
+          node[programType]?.body
+        ],
+
+        "}"
+      ]
+    ]
   }
 
   const compileProgram = (programType: ProgramType) => {
     return lines(
-      compileHeader(root, programType),
+      ...compileHeader(root, programType),
       "void main() {",
-      compileBody(root, programType),
+      ...compileBody(root, programType),
       "}"
     )
   }
@@ -174,5 +212,17 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-const lines = (...lines: Array<any>) =>
-  lines.filter((l) => l !== undefined).join("\n")
+const lines = (...inputs: Array<any>): string =>
+  inputs
+    .filter((l) => l !== undefined)
+    .map((l) => (Array.isArray(l) ? lines(...l) : l))
+    .join("\n")
+    .split("\n")
+    .map((l) => "  " + l)
+    .join("\n") + "\n"
+
+const getDependencies = ({ inputs }: ShaderNode) =>
+  Object.values(inputs || {}).reduce((set, { node }) => {
+    node && set.add(node)
+    return set
+  }, new Set<ShaderNode>())
