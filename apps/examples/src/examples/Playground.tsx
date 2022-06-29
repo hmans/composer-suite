@@ -14,17 +14,17 @@ const FloatNode = (props?: FloatProps) => ({
     body: "csm_Position.x += 12.0;"
   },
   inputs: {
-    a: float(props?.a)
+    a: float(props?.a || 0)
   },
   outputs: {
-    value: float(props?.a)
+    value: float(props?.a || 0)
   }
 })
 
 const RootNode = (props?: { offset: Value<"float"> }) => ({
   name: "Root Node",
   inputs: {
-    offset: float(props?.offset)
+    offset: float(props?.offset || 0)
   },
   vertex: {
     body: "csm_Position.x += 12.0;"

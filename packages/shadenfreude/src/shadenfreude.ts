@@ -101,12 +101,16 @@ export type ShaderNode = {
 
 */
 
-export const variable = <T extends GLSLType>(type: T, value?: Value<T>) => ({
-  __variable: true,
-  globalName: `var_${Math.floor(Math.random() * 10000000)}`,
-  type,
-  value
-})
+export const variable = <T extends GLSLType, V extends Variable<T>>(
+  type: T,
+  value?: Value<T>
+) =>
+  ({
+    __variable: true,
+    globalName: `var_${Math.floor(Math.random() * 10000000)}`,
+    type,
+    value
+  } as V)
 
 export const float = (value?: Value<"float">) => variable("float", value)
 
