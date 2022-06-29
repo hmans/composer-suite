@@ -16,4 +16,8 @@ export class Variable<T extends GLSLType> {
     this.type = type
     this.value = value
   }
+
+  set(value: Value<T>) {
+    this.value = value
+  }
 }
