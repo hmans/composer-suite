@@ -6,7 +6,10 @@ type Outputs<T extends GLSLType | undefined> = T extends GLSLType
   : Variables
 
 export abstract class ShaderNode<T extends GLSLType | undefined = any> {
+  /** Human-readable name. */
   name: string = "Unnamed Shader Node"
+
+  /** Machine-readable name; will be used as part of GLSL variable names. */
   slug: string = this.name
     .replace(/[^a-zA-Z0-9_]/g, "_")
     .replace(/_{2,}/g, "_")
@@ -19,7 +22,7 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
 
   abstract outputs: Outputs<T>
 
-  /** Return this node's immediate dependencies. */
+  /** Returns this node's immediate dependencies. */
   getDependencies() {
     const dependencies = new Set<ShaderNode<GLSLType>>()
 
@@ -32,6 +35,7 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
     return [...dependencies]
   }
 
+  /** Creates a variable of the specified type, linked to this node. */
   variable<T extends GLSLType>(type: T, value?: Value<T>): Variable<T> {
     const variable = new Variable(this, type, value)
     return variable
