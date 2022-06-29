@@ -1,5 +1,17 @@
 import { Matrix3, Vector2, Vector3, Vector4 } from "three"
 
+/*
+
+_______  __   __  _______  _______  _______
+|       ||  | |  ||       ||       ||       |
+|_     _||  |_|  ||    _  ||    ___||  _____|
+  |   |  |       ||   |_| ||   |___ | |_____
+  |   |  |_     _||    ___||    ___||_____  |
+  |   |    |   |  |   |    |   |___  _____| |
+  |___|    |___|  |___|    |_______||_______|
+
+  */
+
 export type GLSLChunk = string | string[]
 
 export type GLSLType =
@@ -45,6 +57,18 @@ export type Variables = { [localName: string]: Variable<GLSLType> }
 export type ShaderNodeProps = any
 export type ShaderNodeOptions = { [key: string]: any }
 
+/*
+
+ __    _  _______  ______   _______  _______
+|  |  | ||       ||      | |       ||       |
+|   |_| ||   _   ||  _    ||    ___||  _____|
+|       ||  | |  || | |   ||   |___ | |_____
+|  _    ||  |_|  || |_|   ||    ___||_____  |
+| | |   ||       ||       ||   |___  _____| |
+|_|  |__||_______||______| |_______||_______|
+
+*/
+
 export abstract class ShaderNode<O extends ShaderNodeOptions = {}> {
   constructor(protected props: any = {}, protected opts: O = {} as O) {}
 
@@ -88,6 +112,18 @@ export abstract class ShaderNode<O extends ShaderNodeOptions = {}> {
 }
 
 export abstract class RootNode extends ShaderNode {}
+
+/*
+
+ __   __  _______  ______    ___   _______  _______  ___      _______  _______
+|  | |  ||   _   ||    _ |  |   | |   _   ||  _    ||   |    |       ||       |
+|  |_|  ||  |_|  ||   | ||  |   | |  |_|  || |_|   ||   |    |    ___||  _____|
+|       ||       ||   |_||_ |   | |       ||       ||   |    |   |___ | |_____
+|       ||       ||    __  ||   | |       ||  _   | |   |___ |    ___||_____  |
+ |     | |   _   ||   |  | ||   | |   _   || |_|   ||       ||   |___  _____| |
+  |___|  |__| |__||___|  |_||___| |__| |__||_______||_______||_______||_______|
+
+*/
 
 export class Variable<T extends GLSLType = any> {
   node: ShaderNode
@@ -136,6 +172,18 @@ export class Variable<T extends GLSLType = any> {
     return this.renderWithName(this.globalName, includeValue)
   }
 }
+
+/*
+
+ _______  _______  __   __  _______  ___   ___      _______  ______    _______
+|       ||       ||  |_|  ||       ||   | |   |    |       ||    _ |  |       |
+|       ||   _   ||       ||    _  ||   | |   |    |    ___||   | ||  |  _____|
+|       ||  | |  ||       ||   |_| ||   | |   |    |   |___ |   |_||_ | |_____
+|      _||  |_|  ||       ||    ___||   | |   |___ |    ___||    __  ||_____  |
+|     |_ |       || ||_|| ||   |    |   | |       ||   |___ |   |  | | _____| |
+|_______||_______||_|   |_||___|    |___| |_______||_______||___|  |_||_______|
+
+*/
 
 export class Compiler {
   constructor(public root: ShaderNode) {}
