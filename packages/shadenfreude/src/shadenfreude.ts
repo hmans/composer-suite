@@ -89,7 +89,9 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
-export type ShaderNodeFactory = () => ShaderNode
+export type Props = { [key: string]: any }
+
+export type Factory<P extends Props> = (props?: P) => ShaderNode
 
 /*
 
