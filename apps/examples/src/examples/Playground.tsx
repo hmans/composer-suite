@@ -38,13 +38,13 @@ class TimeNode extends ShaderNode {
 
   outputs = {
     /* The absolute time, in seconds */
-    value: this.float("inputs_uniform"),
+    value: this.float("in_uniform"),
 
     /** Sine of the times */
-    sin: this.float("sin(inputs_uniform)"),
+    sin: this.float("sin(in_uniform)"),
 
     /** Cosine of the times */
-    cos: this.float("cos(inputs_uniform)")
+    cos: this.float("cos(in_uniform)")
   }
 }
 
@@ -79,7 +79,7 @@ class Root extends RootNode {
     offset: this.float()
   }
 
-  vertex = { body: "csm_Position.x += inputs_offset;" }
+  vertex = { body: "csm_Position.x += in_offset;" }
 }
 
 function useShader() {

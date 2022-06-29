@@ -105,12 +105,12 @@ export class Compiler {
       {
         /* Input Variables */
         ${this.renderVariables(node.inputs, (localName, variable) =>
-          variable.renderWithName("inputs_" + localName, true)
+          variable.renderWithName("in_" + localName, true)
         )}
 
         /* Local Output Variables */
         ${this.renderVariables(node.outputs, (localName, variable) =>
-          variable.renderWithName("outputs_" + localName)
+          variable.renderWithName("out_" + localName)
         )}
 
         /* Body Chunk */
@@ -122,7 +122,7 @@ export class Compiler {
         ${this.renderVariables(
           node.outputs,
           (localName, variable) => `
-        ${variable.globalName} = outputs_${localName};`
+        ${variable.globalName} = out_${localName};`
         )}
       }
 
