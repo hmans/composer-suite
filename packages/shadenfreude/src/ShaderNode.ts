@@ -10,10 +10,7 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
   name: string = "Unnamed Shader Node"
 
   /** Machine-readable name; will be used as part of GLSL variable names. */
-  slug: string = this.name
-    .replace(/[^a-zA-Z0-9_]/g, "_")
-    .replace(/_{2,}/g, "_")
-    .toLowerCase()
+  slug?: string
 
   vertex: Program = {}
   fragment: Program = {}

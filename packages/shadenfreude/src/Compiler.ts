@@ -9,7 +9,7 @@ export class Compiler {
   private nodeCounter = 0
 
   compile() {
-    this.prepare()
+    this.prepareNode()
 
     const vertexShader = this.compileProgram("vertex")
     const fragmentShader = this.compileProgram("fragment")
@@ -17,7 +17,15 @@ export class Compiler {
     return { vertexShader, fragmentShader }
   }
 
-  private prepare(node: ShaderNode<any> = this.root) {
+  private prepareNode(node: ShaderNode<any> = this.root) {
+    /* Generate slug if none is given */
+    node.slug =
+      node.slug ||
+      node.name
+        .replace(/[^a-zA-Z0-9_]/g, "_")
+        .replace(/_{2,}/g, "_")
+        .toLowerCase()
+
     /* Assign better names to output variables */
     for (const [localName, variable] of Object.entries(node.outputs)) {
       variable.globalName = [
@@ -28,7 +36,7 @@ export class Compiler {
       ].join("_")
     }
 
-    node.getDependencies().forEach((dependency) => this.prepare(dependency))
+    node.getDependencies().forEach((dependency) => this.prepareNode(dependency))
   }
 
   private compileProgram(programType: ProgramType) {
@@ -79,9 +87,9 @@ export class Compiler {
     return `
       ${dependencies
         .map((dependency) => this.compileProgramBody(dependency, programType))
-        .join("\n\n")}
+        .join("\n\n\n")}
 
-      /*** BEGIN: ${this.root.name} ***/
+      /*** BEGIN: ${node.name} ***/
 
       /* Output Variables */
       ${this.renderVariables(node.outputs, (localName, variable) =>
@@ -112,7 +120,7 @@ export class Compiler {
         )}
       }
 
-      /*** END: ${this.root.name} ***/
+      /*** END: ${node.name} ***/
     `
   }
 

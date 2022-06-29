@@ -7,6 +7,22 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
+class TimeNode extends ShaderNode<"float"> {
+  name = "Time Node"
+
+  outputs = {
+    value: this.float("u_time")
+  }
+
+  vertex = {
+    header: `uniform float u_time;`
+  }
+
+  fragment = {
+    header: `uniform float u_time;`
+  }
+}
+
 class FloatNode extends ShaderNode<"float"> {
   name = "Float Value"
 
@@ -32,10 +48,10 @@ class Root extends RootNode {
 function useShader() {
   return useMemo(() => {
     const float = new FloatNode()
-    float.inputs.float.set(5)
-
+    const time = new TimeNode()
     const root = new Root()
-    root.inputs.offset.set(float)
+
+    root.inputs.offset.set(time)
 
     return new Compiler(root).compile()
   }, [])
