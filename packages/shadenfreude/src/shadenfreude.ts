@@ -158,6 +158,8 @@ export const Compiler = (root: ShaderNode) => {
     /* TODO: dependencies */
 
     return [
+      `  /*** BEGIN: ${node.name} ***/`,
+
       node.outputs && [
         "/* Output variables */",
         ...compileVariables(
@@ -182,7 +184,9 @@ export const Compiler = (root: ShaderNode) => {
         ],
 
         "}"
-      ]
+      ],
+
+      `  /*** END: ${node.name} ***/`
     ]
   }
 
@@ -219,7 +223,7 @@ const lines = (...inputs: Array<any>): string =>
     .join("\n")
     .split("\n")
     .map((l) => "  " + l)
-    .join("\n") + "\n"
+    .join("\n")
 
 const getDependencies = ({ inputs }: ShaderNode) =>
   Object.values(inputs || {}).reduce((set, { node }) => {
