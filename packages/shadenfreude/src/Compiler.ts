@@ -35,21 +35,26 @@ export class Compiler {
     `
   }
 
-  private compileProgramBody(node: ShaderNode<any>, programType: ProgramType) {
+  private compileProgramBody(
+    node: ShaderNode<any>,
+    programType: ProgramType
+  ): string {
+    const dependencies = node.getDependencies()
+
     return `
+      ${dependencies
+        .map((dependency) => this.compileProgramBody(dependency, programType))
+        .join("\n\n")}
+
       /*** BEGIN: ${this.root.name} ***/
 
-      /* TODO: Dependencies */
-
       /* Output Variables */
-      ${this.renderVariables(node.outputs, (localName, variable) => `/*moo*/`)}
+      ${this.renderVariables(node.outputs, (_, variable) => variable.render())}
+
       {
-        /* TODO: Input Variables */
-        ${this.renderVariables(
-          node.inputs,
-          (localName, variable) => `
-          ${variable.type} ${localName};
-        `
+        /* Input Variables */
+        ${this.renderVariables(node.inputs, (localName, variable) =>
+          variable.renderWithName("input_" + localName)
         )}
 
         /* Body Chunk */

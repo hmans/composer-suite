@@ -27,7 +27,7 @@ export abstract class ShaderNode<T extends GLSLType | undefined = any> {
       }
     }
 
-    return dependencies
+    return [...dependencies]
   }
 
   variable<T extends GLSLType>(type: T, value?: Value<T>): Variable<T> {
