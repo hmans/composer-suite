@@ -15,9 +15,7 @@ export abstract class ShaderNode<O extends ShaderNodeOptions = {}> {
 
   vertex: Program = {}
   fragment: Program = {}
-
   inputs: Variables = {}
-
   outputs: Variables = {}
 
   /** Returns this node's immediate dependencies. */
