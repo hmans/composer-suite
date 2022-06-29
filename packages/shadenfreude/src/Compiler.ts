@@ -29,9 +29,9 @@ export class Compiler {
     return `
       /* TODO: Dependencies */
 
-      /*** BEGIN: ${this.root.name} ***/
+      /*** BEGIN: ${node.name} ***/
       ${node[programType].header ?? ""}
-      /*** END: ${this.root.name} ***/
+      /*** END: ${node.name} ***/
     `
   }
 
@@ -40,7 +40,6 @@ export class Compiler {
     programType: ProgramType
   ): string {
     const dependencies = node.getDependencies()
-    console.log(dependencies)
 
     return `
       ${dependencies
@@ -57,12 +56,12 @@ export class Compiler {
       {
         /* Input Variables */
         ${this.renderVariables(node.inputs, (localName, variable) =>
-          variable.renderWithName("input_" + localName, true)
+          variable.renderWithName("inputs_" + localName, true)
         )}
 
         /* Local Output Variables */
         ${this.renderVariables(node.outputs, (localName, variable) =>
-          variable.renderWithName("output_" + localName)
+          variable.renderWithName("outputs_" + localName)
         )}
 
         /* Body Chunk */
@@ -74,7 +73,7 @@ export class Compiler {
         ${this.renderVariables(
           node.outputs,
           (localName, variable) => `
-        ${variable.globalName} = output_${localName};`
+        ${variable.globalName} = outputs_${localName};`
         )}
       }
 

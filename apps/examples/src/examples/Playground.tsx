@@ -15,8 +15,7 @@ class FloatNode extends ShaderNode<"float"> {
   }
 
   outputs = {
-    // value: this.float(this.inputs.float.value)
-    value: this.float(12)
+    value: this.float(this.inputs.float)
   }
 }
 
@@ -27,7 +26,7 @@ class Root extends RootNode {
     offset: this.float()
   }
 
-  vertex = { body: "csm_Position.x += input_offset;" }
+  vertex = { body: "csm_Position.x += inputs_offset;" }
 }
 
 function useShader() {
@@ -36,7 +35,7 @@ function useShader() {
     float.inputs.float.set(5)
 
     const root = new Root()
-    root.inputs.offset.set(float)
+    root.inputs.offset.set(float.outputs.value)
 
     return new Compiler(root).compile()
   }, [])
