@@ -1,12 +1,18 @@
 import { useMemo, useRef } from "react"
-import { ShaderNode } from "shadenfreude"
+import { ShaderNode, Variable } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-class Dummy extends ShaderNode {
+class FloatNode extends ShaderNode<"float"> {
+  outputs = {
+    ...super.outputs
+  }
+}
+
+class Dummy extends ShaderNode<never> {
   vertex = { body: "csm_Position.x += 1.0;" }
 }
 
