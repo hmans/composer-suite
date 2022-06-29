@@ -20,11 +20,11 @@ export class Variable<T extends GLSLType = any> {
     this.globalName = `var_${Math.floor(Math.random() * 1000000)}`
   }
 
-  set(value: Value<T> | ShaderNode<T>) {
+  set(value: Value<T> | { outputs: { value: Value<T> } }) {
     if (value instanceof ShaderNode) {
       this.value = value.outputs.value as Value<T>
     } else {
-      this.value = value
+      this.value = value as Value<T>
     }
   }
 
