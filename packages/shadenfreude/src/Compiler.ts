@@ -11,15 +11,33 @@ export class Compiler {
     return { vertexShader, fragmentShader }
   }
 
-  private compileProgram(type: ProgramType) {
-    const { header, body } = this.root[type]
-
+  private compileProgram(programType: ProgramType) {
     return `
       /* START: ${this.root.name} */
-      ${header ?? ""}
+      ${this.compileProgramHeader(this.root, programType)}
 
       void main() {
-        ${body ?? ""}
+        ${this.compileProgramBody(this.root, programType)}
+      }
+    `
+  }
+
+  private compileProgramHeader(
+    node: ShaderNode<any>,
+    programType: ProgramType
+  ) {
+    return `
+      ${node[programType].header ?? ""}
+    `
+  }
+
+  private compileProgramBody(node: ShaderNode<any>, programType: ProgramType) {
+    return `
+      {
+        /* Input Variables */
+
+        /* Body Chunk */
+        ${node[programType].body ?? ""}
       }
     `
   }

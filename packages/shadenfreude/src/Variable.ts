@@ -11,6 +11,7 @@ export type Value<T extends GLSLType> =
 export class Variable<T extends GLSLType> {
   type: T
   value?: Value<T>
+  globalName: string = `var_${Math.floor(Math.random() * 1000000)}`
 
   constructor(type: T, value?: Value<T>) {
     this.type = type
