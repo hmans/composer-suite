@@ -53,14 +53,14 @@ export type Value<T extends GLSLType> =
   | GLSLChunk
 
 export type Variable<T extends GLSLType> = {
-  __variable: true
+  __variable: boolean
   globalName: string
   type: T
   value?: Value<T>
   node?: ShaderNode
 }
 
-export type Variables = { [localName: string]: Variable<GLSLType> }
+export type Variables = { [localName: string]: Variable<any> }
 
 /*
 
@@ -80,6 +80,9 @@ export type ShaderNode = {
 
   vertex?: Program
   fragment?: Program
+
+  inputs?: Variables
+  outputs?: Variables
 }
 
 export type ShaderNodeFactory = () => ShaderNode
@@ -95,6 +98,15 @@ export type ShaderNodeFactory = () => ShaderNode
   |___|  |__| |__||___|  |_||___| |__| |__||_______||_______||_______||_______|
 
 */
+
+export const variable = <T extends GLSLType>(type: T, value?: Value<T>) => ({
+  __variable: true,
+  globalName: `var_${Math.floor(Math.random() * 10000000)}`,
+  type,
+  value
+})
+
+export const float = (value?: Value<"float">) => variable("float", value)
 
 /*
 
