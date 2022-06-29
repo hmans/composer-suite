@@ -5,6 +5,8 @@ import { Variable } from "./Variable"
 export class Compiler {
   constructor(public root: ShaderNode<any>) {}
 
+  private renderedDependencies: ShaderNode<any>[] = []
+
   compile() {
     const vertexShader = this.compileProgram("vertex")
     const fragmentShader = this.compileProgram("fragment")
@@ -13,11 +15,17 @@ export class Compiler {
   }
 
   private compileProgram(programType: ProgramType) {
+    this.renderedDependencies = []
+    const header = this.compileProgramHeader(this.root, programType)
+
+    this.renderedDependencies = []
+    const body = this.compileProgramBody(this.root, programType)
+
     return `
-      ${this.compileProgramHeader(this.root, programType)}
+      ${header}
 
       void main() {
-        ${this.compileProgramBody(this.root, programType)}
+        ${body}
       }
     `
   }
@@ -26,6 +34,9 @@ export class Compiler {
     node: ShaderNode<any>,
     programType: ProgramType
   ): string {
+    if (this.renderedDependencies.includes(node)) return ""
+    this.renderedDependencies.push(node)
+
     const dependencies = node.getDependencies()
 
     return `
@@ -43,6 +54,9 @@ export class Compiler {
     node: ShaderNode<any>,
     programType: ProgramType
   ): string {
+    if (this.renderedDependencies.includes(node)) return ""
+    this.renderedDependencies.push(node)
+
     const dependencies = node.getDependencies()
 
     return `
