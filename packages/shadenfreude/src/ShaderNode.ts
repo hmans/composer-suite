@@ -7,6 +7,10 @@ type Outputs<T extends GLSLType | undefined> = T extends GLSLType
 
 export abstract class ShaderNode<T extends GLSLType | undefined = any> {
   name: string = "Unnamed Shader Node"
+  slug: string = this.name
+    .replace(/[^a-zA-Z0-9_]/g, "_")
+    .replace(/_{2,}/g, "_")
+    .toLowerCase()
 
   vertex: Program = {}
   fragment: Program = {}

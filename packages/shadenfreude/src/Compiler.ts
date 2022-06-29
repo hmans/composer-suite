@@ -6,12 +6,29 @@ export class Compiler {
   constructor(public root: ShaderNode<any>) {}
 
   private renderedDependencies: ShaderNode<any>[] = []
+  private nodeCounter = 0
 
   compile() {
+    this.prepare()
+
     const vertexShader = this.compileProgram("vertex")
     const fragmentShader = this.compileProgram("fragment")
 
     return { vertexShader, fragmentShader }
+  }
+
+  private prepare(node: ShaderNode<any> = this.root) {
+    /* Assign better names to output variables */
+    for (const [localName, variable] of Object.entries(node.outputs)) {
+      variable.globalName = [
+        node.slug,
+        this.nodeCounter++,
+        variable.type,
+        localName
+      ].join("_")
+    }
+
+    node.getDependencies().forEach((dependency) => this.prepare(dependency))
   }
 
   private compileProgram(programType: ProgramType) {
