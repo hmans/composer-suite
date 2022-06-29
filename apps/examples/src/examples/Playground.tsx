@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { Compiler, GLSLType, RootNode, ShaderNode } from "shadenfreude"
+import { Compiler, GLSLType, node, RootNode, ShaderNode } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -86,6 +86,8 @@ function useShader() {
     const float = new FloatNode()
     const vector3 = new Vector3Node()
     const u_time = new UniformNode({}, { type: "float", name: "u_fooooo" })
+
+    const floaty = node(FloatNode, { float: 123 })
 
     const time = new TimeNode()
     const root = new Root()
