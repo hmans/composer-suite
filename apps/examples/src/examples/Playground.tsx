@@ -1,12 +1,16 @@
 import { useMemo, useRef } from "react"
-import { Compiler, float, ShaderNodeFactory } from "shadenfreude"
+import { Compiler, float, ShaderNodeFactory, Variables } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const FloatNode: ShaderNodeFactory = () => ({
+type Values<V extends Variables> = {
+  [K in keyof V]: V[K]["value"]
+}
+
+const MakeFloatNode = () => ({
   name: "Float Value",
   vertex: {
     body: "csm_Position.x += 12.0;"
@@ -16,7 +20,10 @@ const FloatNode: ShaderNodeFactory = () => ({
   }
 })
 
-const RootNode: ShaderNodeFactory = () => ({
+const FloatNode = (props: Values<ReturnType<typeof MakeFloatNode>["inputs"]>) =>
+  MakeFloatNode()
+
+const RootNode = () => ({
   name: "Root Node",
   vertex: {
     body: "csm_Position.x += 12.0;"
@@ -26,6 +33,8 @@ const RootNode: ShaderNodeFactory = () => ({
 function useShader() {
   return useMemo(() => {
     const root = RootNode()
+    const float = FloatNode({ a: 12 })
+
     return Compiler(root)
   }, [])
 }
