@@ -7,7 +7,10 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 const RootNode: ShaderNodeFactory = () => ({
-  name: "Root Node"
+  name: "Root Node",
+  vertex: {
+    body: "csm_Position.x += 12.0;"
+  }
 })
 
 function useShader() {
