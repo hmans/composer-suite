@@ -1,3 +1,4 @@
+import { Vector3 } from "three"
 import { TimeNode } from "../src"
 import {
   float,
@@ -5,7 +6,8 @@ import {
   variable,
   compileShader,
   plug,
-  Factory
+  Factory,
+  vec3
 } from "../src/shadenfreude"
 
 describe("ShaderNode", () => {
@@ -60,7 +62,8 @@ describe("compileShader", () => {
     const n = ShaderNode({
       name: "Test Node",
       in: {
-        a: float()
+        a: float(),
+        vec: vec3(new Vector3(1, 2, 3))
       },
       out: {
         value: float("a * 2.0")
@@ -70,6 +73,7 @@ describe("compileShader", () => {
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
+
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
@@ -79,6 +83,11 @@ describe("compileShader", () => {
         float out_Test_Node_1_value;
         {
           float in_a;
+          vec3 in_vec = 
+              vec3(
+                1.00000,
+                2.00000,
+                3.00000);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }
@@ -89,6 +98,7 @@ describe("compileShader", () => {
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
+
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
@@ -98,6 +108,11 @@ describe("compileShader", () => {
         float out_Test_Node_1_value;
         {
           float in_a;
+          vec3 in_vec = 
+              vec3(
+                1.00000,
+                2.00000,
+                3.00000);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }

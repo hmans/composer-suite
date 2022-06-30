@@ -161,6 +161,24 @@ export const compileShader = (root: ShaderNode) => {
       return value
     } else if (typeof value === "number") {
       return value.toFixed(5) // TODO: no, make this better
+    } else if (value instanceof Vector2) {
+      return `
+        vec2(
+          ${compileValue(value.x)},
+          ${compileValue(value.y)})`
+    } else if (value instanceof Vector3) {
+      return `
+        vec3(
+          ${compileValue(value.x)},
+          ${compileValue(value.y)},
+          ${compileValue(value.z)})`
+    } else if (value instanceof Vector4) {
+      return `
+        vec4(
+          ${compileValue(value.x)},
+          ${compileValue(value.y)},
+          ${compileValue(value.z)},
+          ${compileValue(value.w)})`
     } else if (isVariable(value)) {
       return value.name
     } else {

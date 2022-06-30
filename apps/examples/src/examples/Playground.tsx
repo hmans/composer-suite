@@ -1,36 +1,25 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import {
-  compileShader,
-  Factory,
-  float,
-  FloatNode,
-  plug,
-  TimeNode
-} from "shadenfreude"
-import { MeshStandardMaterial } from "three"
+import { compileShader, Factory, vec3 } from "shadenfreude"
+import { MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const RootNode = Factory(() => ({
-  name: "Root Node",
+const CSMMasterNode = Factory(() => ({
+  name: "CSM Master",
   in: {
-    offset: float()
+    position: vec3()
   },
   vertex: {
-    body: "csm_Position.x += in_offset;"
+    body: "csm_Position += in_position;"
   }
 }))
 
 function useShader() {
   return useMemo(() => {
-    const time = TimeNode()
-    const float = FloatNode({ a: 12 })
-    const root = RootNode()
-
-    plug(time.out.sin).into(root.in.offset)
+    const root = CSMMasterNode({ position: new Vector3() })
 
     return compileShader(root)
   }, [])
