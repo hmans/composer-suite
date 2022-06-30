@@ -189,6 +189,9 @@ export const compileShader = (root: ShaderNode) => {
     ]
   }
 
+  const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
+  const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
+
   const compileBody = (node: ShaderNode, programType: ProgramType): Lines => {
     const dependencies = mapVariables(node.inputs, (_, { value }) =>
       isVariable(value) ? compileBody(value.node!, programType) : ""
@@ -242,9 +245,6 @@ export const compileShader = (root: ShaderNode) => {
 
   return { vertexShader, fragmentShader }
 }
-
-const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
-const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
 /*
 __   __  _______  ___      _______  _______  ______    _______
