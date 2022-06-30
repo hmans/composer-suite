@@ -45,10 +45,12 @@ export interface IVariableWithOutValue<T extends ValueType = any> {
   out: { value: Variable<T> }
 }
 
+export type VariableProp<V extends Variable> =
+  | Value<V["type"]>
+  | IVariableWithOutValue<V["type"]>
+
 export type VariableProps<V extends Variables | undefined> = V extends Variables
-  ? {
-      [K in keyof V]: Value<V[K]["type"]> | IVariableWithOutValue<V[K]["type"]>
-    }
+  ? { [K in keyof V]: VariableProp<V[K]> }
   : {}
 
 export const variable = <T extends ValueType, V extends Variable<T>>(
