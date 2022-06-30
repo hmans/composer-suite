@@ -120,7 +120,7 @@ export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Value<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Value<"mat4">) => variable("mat4", value)
 
-export const pipe = <T extends ValueType>(source: Variable<T>) => ({
+export const plug = <T extends ValueType>(source: Variable<T>) => ({
   into: (target: Variable<T>) => {
     target.value = source
   }
