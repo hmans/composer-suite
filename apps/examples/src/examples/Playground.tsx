@@ -54,8 +54,7 @@ function useShader() {
 
     const root = CSMMasterNode({
       position: CombineVector3Node({
-        x: WobbleNode({ t: time.out.value, frequency: 8, amplitude: 3 }).out
-          .value,
+        x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }).out.value,
         y: WobbleNode({ t: time.out.value, frequency: 5, amplitude: 3 }).out
           .value,
         z: WobbleNode({ t: time.out.value, frequency: 3, amplitude: 3 }).out

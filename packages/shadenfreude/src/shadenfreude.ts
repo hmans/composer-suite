@@ -1,4 +1,5 @@
 import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import { FloatNode } from "./nodes"
 
 /*
 
@@ -40,9 +41,15 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableValues<
-  V extends Variables | undefined
-> = V extends Variables ? { [K in keyof V]: Value<V[K]["type"]> } : {}
+export interface IVariableWithOutValue<T extends ValueType = any> {
+  out: { value: Variable<T> }
+}
+
+export type VariableProps<V extends Variables | undefined> = V extends Variables
+  ? {
+      [K in keyof V]: Value<V[K]["type"]> | IVariableWithOutValue<V[K]["type"]>
+    }
+  : {}
 
 export const variable = <T extends ValueType, V extends Variable<T>>(
   type: T,
@@ -99,11 +106,10 @@ export type ShaderNode = {
   out?: Variables
 }
 
-export type ShaderNodeProps<S extends ShaderNode> = Partial<
-  VariableValues<S["in"]>
->
-
-export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
+export const ShaderNode = <
+  S extends ShaderNode,
+  P extends Partial<VariableProps<S["in"]>>
+>(
   node: S,
   props: P = {} as P
 ): S => {
@@ -124,7 +130,11 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   /* Assign props to input variables */
   Object.entries(props).forEach(([name, prop]) => {
     const variable = node.in?.[name]
-    if (variable) {
+    if (!variable) return
+
+    if (isVariableWithOutValue(prop)) {
+      variable.value = prop.out.value
+    } else {
       variable.value = prop
     }
   })
@@ -135,7 +145,7 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
 export const Factory = <
   F extends (...args: any[]) => ShaderNode,
   S extends ShaderNode = ReturnType<F>,
-  P = VariableValues<S["in"]>
+  P = VariableProps<S["in"]>
 >(
   fac: F
 ) => (props: P = {} as P) => ShaderNode(fac(), props) as S
@@ -342,6 +352,9 @@ const statement = (...parts: Parts) =>
     .join(" ") + ";"
 
 const isVariable = (value: any): value is Variable => !!value?.__variable
+
+const isVariableWithOutValue = (value: any): value is IVariableWithOutValue =>
+  value?.out?.value !== undefined
 
 const unique = (array: any[]) => [...new Set(array)]
 
