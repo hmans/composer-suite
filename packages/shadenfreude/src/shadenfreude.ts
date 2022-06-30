@@ -78,15 +78,7 @@ const assignVariableOwners = (node: ShaderNode) => {
 
 */
 
-export type ValueType =
-  | "string"
-  | "bool"
-  | "float"
-  | "vec2"
-  | "vec3"
-  | "vec4"
-  | "mat3"
-  | "mat4"
+export type ValueType = keyof ValueToJSType
 
 export type ValueToJSType = {
   string: string
