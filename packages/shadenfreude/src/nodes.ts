@@ -1,48 +1,34 @@
-import { float, ShaderNode, Value, VariableValues } from "./shadenfreude"
+import { Factory, float, ShaderNode } from "./shadenfreude"
 
-const Factory = <
-  F extends (...args: any[]) => ShaderNode,
-  S extends ShaderNode = ReturnType<F>,
-  P = VariableValues<S["in"]>
->(
-  fac: F
-) => (props: P = {} as P) => fac(props) as S
+export const FloatNode = Factory(() => ({
+  name: "Float Value",
+  in: {
+    a: float()
+  },
+  out: {
+    value: float("in_a")
+  }
+}))
 
-const FloatNode = Factory(() =>
-  ShaderNode({
-    name: "Float Value",
-    in: {
-      a: float()
-    },
-    out: {
-      value: float("in_a")
-    }
-  })
-)
+export const TimeNode = Factory(() => ({
+  name: "Time",
 
-const node = FloatNode({ a: 1, b: 2 })
-console.log(node.out.value)
+  out: {
+    /** The absolute time, in seconds */
+    value: float("u_time"),
 
-export const TimeNode = () =>
-  ShaderNode({
-    name: "Time",
+    /** Sine of the times */
+    sin: float("sin(u_time)"),
 
-    out: {
-      /** The absolute time, in seconds */
-      value: float("u_time"),
+    /** Cosine of the times */
+    cos: float("cos(u_time)")
+  },
 
-      /** Sine of the times */
-      sin: float("sin(u_time)"),
+  vertex: {
+    header: "uniform float u_time;"
+  },
 
-      /** Cosine of the times */
-      cos: float("cos(u_time)")
-    },
-
-    vertex: {
-      header: "uniform float u_time;"
-    },
-
-    fragment: {
-      header: "uniform float u_time;"
-    }
-  })
+  fragment: {
+    header: "uniform float u_time;"
+  }
+}))

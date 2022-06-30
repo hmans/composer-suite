@@ -2,8 +2,9 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
   compileShader,
+  Factory,
   float,
-  FloatNodeDirect,
+  FloatNode,
   plug,
   ShaderNode,
   TimeNode,
@@ -15,24 +16,20 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const RootNode = (props?: { offset: Value<"float"> }) =>
-  ShaderNode(
-    {
-      name: "Root Node",
-      in: {
-        offset: float()
-      },
-      vertex: {
-        body: "csm_Position.x += in_offset;"
-      }
-    },
-    props
-  )
+const RootNode = Factory(() => ({
+  name: "Root Node",
+  in: {
+    offset: float()
+  },
+  vertex: {
+    body: "csm_Position.x += in_offset;"
+  }
+}))
 
 function useShader() {
   return useMemo(() => {
     const time = TimeNode()
-    const float = FloatNodeDirect({ a: 12 })
+    const float = FloatNode({ a: 12 })
     const root = RootNode()
 
     plug(time.out.sin).into(root.in.offset)
