@@ -1,4 +1,4 @@
-import { Factory, float, ShaderNode } from "./shadenfreude"
+import { Factory, float, ShaderNode } from "../shadenfreude"
 
 export const FloatNode = Factory(() => ({
   name: "Float Value",
