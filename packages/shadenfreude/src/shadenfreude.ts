@@ -145,7 +145,7 @@ export const ShaderNode = <
 export const Factory = <
   F extends (...args: any[]) => ShaderNode,
   S extends ShaderNode = ReturnType<F>,
-  P = VariableProps<S["in"]>
+  P = Partial<VariableProps<S["in"]>>
 >(
   fac: F
 ) => (props: P = {} as P) => ShaderNode(fac(), props) as S
