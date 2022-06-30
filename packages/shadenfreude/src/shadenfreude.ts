@@ -81,7 +81,11 @@ export type ShaderNode = {
 }
 
 export const node = <S extends ShaderNode>(node: S): S => {
-  /* Process input variables */
+  assignVariableOwners(node)
+  return node
+}
+
+const assignVariableOwners = (node: ShaderNode) => {
   const variables = [
     ...Object.values(node.outputs || {}),
     ...Object.values(node.inputs || {})
@@ -91,8 +95,6 @@ export const node = <S extends ShaderNode>(node: S): S => {
     variable.node = node
     variable.name = ["processed", variable.type, variable.name].join("_")
   })
-
-  return node
 }
 
 /*
