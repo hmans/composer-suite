@@ -26,6 +26,7 @@ const CSMMasterNode = Factory(() => ({
 
 const WobbleNode = Factory(() => ({
   name: "Wobble",
+
   in: {
     /** The time offset */
     t: float(),
@@ -57,17 +58,21 @@ const CombineVector3Node = Factory(() => ({
 
 function useShader() {
   return useMemo(() => {
+    /* Instantiate nodes without props... */
     const time = TimeNode()
 
+    /* ...instantiate them with props... */
     const position = CombineVector3Node({
       y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),
       z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
     })
 
+    /* ...or connect variables after the fact! */
     plug(WobbleNode({ t: time, frequency: 8, amplitude: 3 })).into(
       position.in.x
     )
 
+    /* Destructuring FTW */
     const root = CSMMasterNode({
       position
     })
