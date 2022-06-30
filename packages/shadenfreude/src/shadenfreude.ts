@@ -358,10 +358,11 @@ const statement = (...parts: Parts) =>
     .filter((p) => ![undefined, null, false].includes(p))
     .join(" ") + ";"
 
-const isVariable = (value: any): value is Variable => !!value?.__variable
+export const isVariable = (value: any): value is Variable => !!value?.__variable
 
-const isVariableWithOutValue = (value: any): value is IVariableWithOutValue =>
-  value?.out?.value !== undefined
+export const isVariableWithOutValue = (
+  value: any
+): value is IVariableWithOutValue => value?.out?.value !== undefined
 
 const unique = (array: any[]) => [...new Set(array)]
 
