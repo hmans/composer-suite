@@ -1,6 +1,4 @@
 import {
-  Factory,
-  float,
   inferVariable,
   ShaderNode,
   Value,
@@ -8,17 +6,23 @@ import {
   Variable
 } from "../shadenfreude"
 
-export const SinNode = Factory(() => ({
-  name: "Sine",
-  in: { value: float() },
-  out: { value: float("sin(in_value)") }
-}))
+function makeFunctionNode(fun: string) {
+  return function<T extends ValueType>({ a }: OperatorNodeProps<T>) {
+    return ShaderNode({
+      name: `${fun} Function`,
+      in: { a: inferVariable(a) },
+      out: {
+        value: {
+          ...inferVariable(a),
+          value: `${fun}(in_a)`
+        } as Variable<T>
+      }
+    })
+  }
+}
 
-export const CosNode = Factory(() => ({
-  name: "Cosine",
-  in: { value: float() },
-  out: { value: float("cos(in_value)") }
-}))
+export const SinNode = makeFunctionNode("sin")
+export const CosNode = makeFunctionNode("cos")
 
 type Operator = "+" | "-" | "*" | "/"
 
@@ -30,7 +34,7 @@ type OperatorNodeProps<T extends ValueType> = {
 function makeOperatorNode(operator: Operator) {
   return function<T extends ValueType>({ a, b }: OperatorNodeProps<T>) {
     return ShaderNode({
-      name: "Addition",
+      name: `Operator: ${operator}`,
       in: { a: inferVariable(a), b: inferVariable(b) },
       out: {
         value: {
