@@ -166,19 +166,13 @@ export const compileShader = (root: ShaderNode) => {
       variable.value !== undefined && ["=", compileValue(variable.value)]
     )
 
-  const mapVariables = (
-    variables: Variables | undefined,
-    callback: (localName: string, variable: Variable) => any
-  ) =>
-    variables &&
-    Object.entries(variables).map(([localName, variable]) =>
-      callback(localName, variable)
-    )
+  const getVariables = (variables: Variables | undefined) =>
+    Object.entries(variables || {})
 
   const compileHeader = (node: ShaderNode, programType: ProgramType): Lines => {
     return [
       /* Dependencies */
-      mapVariables(node.inputs, (_, { value }) =>
+      getVariables(node.inputs).map(([_, { value }]) =>
         isVariable(value) ? compileHeader(value.node!, programType) : ""
       ),
 
@@ -193,28 +187,29 @@ export const compileShader = (root: ShaderNode) => {
   const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
   const compileBody = (node: ShaderNode, programType: ProgramType): Lines => {
-    const dependencies = mapVariables(node.inputs, (_, { value }) =>
+    const inputs = getVariables(node.inputs)
+    const outputs = getVariables(node.outputs)
+
+    const dependencies = inputs.map(([_, { value }]) =>
       isVariable(value) ? compileBody(value.node!, programType) : ""
     )
 
-    const outputVariableDeclarations = mapVariables(
-      node.outputs,
-      (_, variable) => compileVariable({ ...variable, value: undefined })
+    const outputVariableDeclarations = outputs.map(([_, variable]) =>
+      compileVariable({ ...variable, value: undefined })
     )
 
-    const inputVariables = mapVariables(node.inputs, (localName, variable) =>
+    const inputVariables = inputs.map(([localName, variable]) =>
       compileVariable({ ...variable, name: localName })
     )
 
-    const outputVariables = mapVariables(node.outputs, (localName, variable) =>
+    const outputVariables = outputs.map(([localName, variable]) =>
       compileVariable({ ...variable, name: localName })
     )
 
     const body = node[programType]?.body && [node[programType]?.body]
 
-    const outputVariableAssignments = mapVariables(
-      node.outputs,
-      (localName, variable) => statement(variable.name, "=", localName)
+    const outputVariableAssignments = outputs.map(([localName, variable]) =>
+      statement(variable.name, "=", localName)
     )
 
     return [
@@ -239,6 +234,17 @@ export const compileShader = (root: ShaderNode) => {
       "}"
     )
   }
+
+  const tweakVariableNames = (node: ShaderNode) => {
+    /* Tweak this node's output variable names */
+    getVariables(node.outputs).map(([_, variable]) => {
+      variable.name = ["processed", variable.type, variable.name].join("_")
+    })
+
+    /* TODO: Do the same for all dependencies */
+  }
+
+  tweakVariableNames(root)
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
