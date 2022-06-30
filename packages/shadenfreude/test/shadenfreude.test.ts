@@ -11,6 +11,12 @@ describe("node", () => {
     expect(n.inputs.a.node).toBe(n)
     expect(n.outputs.value.node).toBe(n)
   })
+
+  it("assigns props when given as a second argument", () => {
+    const props = { a: 1 }
+    const n = node({ inputs: { a: float() } }, props)
+    expect(n.inputs.a.value).toBe(1)
+  })
 })
 
 describe("variable", () => {
