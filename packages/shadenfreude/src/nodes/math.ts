@@ -1,11 +1,13 @@
 import {
   glslType,
   inferVariable,
+  IVariableWithOutValue,
   ShaderNode,
   Value,
   ValueType,
   Variable
 } from "../shadenfreude"
+import { FloatNode, Vector3Node } from "./values"
 
 function makeFunctionNode(fun: string) {
   return function<T extends ValueType>({ a }: OperatorProps<T>) {
@@ -28,8 +30,8 @@ export const CosNode = makeFunctionNode("cos")
 type Operator = "+" | "-" | "*" | "/"
 
 type OperatorProps<T extends ValueType> = {
-  a: Value<T>
-  b: Value<any>
+  a: Value<T> | IVariableWithOutValue<T>
+  b: Value<any> | IVariableWithOutValue<any>
 }
 
 export const OperatorNode = <T extends ValueType>({
@@ -65,3 +67,8 @@ export const DivideNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
 
 export const MultiplyNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
   OperatorNode({ operator: "*", a, b })
+
+const a = FloatNode({ value: 1 })
+const b = FloatNode({ value: 1 })
+const v = Vector3Node()
+const add = AddNode({ a: v, b })
