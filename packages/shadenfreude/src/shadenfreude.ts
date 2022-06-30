@@ -175,12 +175,21 @@ export const compileShader = (root: ShaderNode) => {
       callback(localName, variable)
     )
 
-  const compileHeader = (node: ShaderNode, programType: ProgramType) => {
-    /* TODO: dependencies */
-    return [node[programType]?.header]
+  const compileHeader = (node: ShaderNode, programType: ProgramType): Lines => {
+    return [
+      /* Dependencies */
+      mapVariables(node.inputs, (_, { value }) =>
+        isVariable(value) ? compileHeader(value.node!, programType) : ""
+      ),
+
+      /* Actual chunk */
+      `\n/*** BEGIN: ${node.name} ***/`,
+      node[programType]?.header,
+      `/*** END: ${node.name} ***/\n`
+    ]
   }
 
-  const compileBody = (node: ShaderNode, programType: ProgramType): any[] => {
+  const compileBody = (node: ShaderNode, programType: ProgramType): Lines => {
     const dependencies = mapVariables(node.inputs, (_, { value }) =>
       isVariable(value) ? compileBody(value.node!, programType) : ""
     )
@@ -245,14 +254,16 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-const lines = (...inputs: any[]): string =>
+type Lines = any[]
+
+const lines = (...inputs: Lines): string =>
   inputs
     .filter((l) => l !== undefined && l !== null)
     .map((l) => (Array.isArray(l) ? lines(...l) : l))
     .flat()
     .join("\n")
 
-const statement = (...parts: any[]) =>
+const statement = (...parts: Lines) =>
   parts
     .flat()
     .filter((p) => ![undefined, null, false].includes(p))

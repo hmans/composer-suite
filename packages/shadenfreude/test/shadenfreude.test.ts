@@ -42,6 +42,9 @@ describe("compileShader", () => {
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
+      /*** BEGIN: A Blank Shader Node ***/
+      /*** END: A Blank Shader Node ***/
+
       void main() {
 
       /*** BEGIN: A Blank Shader Node ***/
@@ -54,6 +57,9 @@ describe("compileShader", () => {
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
+      /*** BEGIN: A Blank Shader Node ***/
+      /*** END: A Blank Shader Node ***/
+
       void main() {
 
       /*** BEGIN: A Blank Shader Node ***/
