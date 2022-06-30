@@ -87,7 +87,7 @@ export const plug = <S extends Variable, T extends Variable>(
  * Documentation is hard.
  */
 export const inferVariable = (a: Value): Variable => {
-  return variable(glslType(a), a)
+  return variable(glslType(a), isVariableWithOutValue(a) ? a.out.value : a)
 }
 
 /**
