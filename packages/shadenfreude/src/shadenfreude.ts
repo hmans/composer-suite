@@ -212,7 +212,7 @@ export const compileShader = (root: ShaderNode) => {
   }
 
   const compileBody = (node: ShaderNode, programType: ProgramType): Parts => {
-    const inputs = getVariables(node.in)
+    const ins = getVariables(node.in)
     const outs = getVariables(node.out)
 
     return [
@@ -228,7 +228,7 @@ export const compileShader = (root: ShaderNode) => {
 
       block(
         /* Input Variables */
-        inputs.map(([localName, variable]) =>
+        ins.map(([localName, variable]) =>
           compileVariable({ ...variable, name: "in_" + localName })
         ),
 
