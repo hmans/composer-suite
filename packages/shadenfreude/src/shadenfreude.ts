@@ -183,9 +183,9 @@ export const compileShader = (root: ShaderNode) => {
       ),
 
       /* Actual chunk */
-      `\n/*** BEGIN: ${node.name} ***/`,
+      nodeBegin(node),
       node[programType]?.header,
-      `/*** END: ${node.name} ***/\n`
+      nodeEnd(node)
     ]
   }
 
@@ -216,7 +216,7 @@ export const compileShader = (root: ShaderNode) => {
 
     return [
       dependencies,
-      `\n/*** BEGIN: ${node.name} ***/`,
+      nodeBegin(node),
       outputVariableDeclarations,
       "{",
       inputVariables,
@@ -224,7 +224,7 @@ export const compileShader = (root: ShaderNode) => {
       body,
       outputVariableAssignments,
       "}",
-      `/*** END: ${node.name} ***/\n`
+      nodeEnd(node)
     ]
   }
 
@@ -242,6 +242,9 @@ export const compileShader = (root: ShaderNode) => {
 
   return { vertexShader, fragmentShader }
 }
+
+const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
+const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
 /*
 __   __  _______  ___      _______  _______  ______    _______
