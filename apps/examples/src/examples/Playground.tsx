@@ -9,8 +9,8 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 type FloatProps = { a?: Value<"float"> }
 
 const FloatNode = (props?: FloatProps) =>
-  set(
-    node({
+  node(
+    {
       name: "Float Value",
       inputs: {
         a: float()
@@ -18,12 +18,13 @@ const FloatNode = (props?: FloatProps) =>
       outputs: {
         value: float("a")
       }
-    })
-  ).to(props)
+    },
+    props
+  )
 
 const RootNode = (props?: { offset: Value<"float"> }) =>
-  set(
-    node({
+  node(
+    {
       name: "Root Node",
       inputs: {
         offset: float()
@@ -31,8 +32,9 @@ const RootNode = (props?: { offset: Value<"float"> }) =>
       vertex: {
         body: "csm_Position.x += offset;"
       }
-    })
-  ).to(props)
+    },
+    props
+  )
 
 function useShader() {
   return useMemo(() => {

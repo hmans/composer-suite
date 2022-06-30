@@ -80,22 +80,6 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
-export const node = <S extends ShaderNode>(node: S, props: any = {}): S => {
-  assignVariableOwners(node)
-  return node
-}
-
-export const apply = <S extends ShaderNode>(node: S, props: any) => {
-  Object.entries(props).forEach(([name, value]) => {
-    const variable = node.inputs?.[name]
-    if (variable) {
-      variable.value = value
-    }
-  })
-
-  return node
-}
-
 type VariableValues<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: Value<V[K]["type"]> }
   : {}
@@ -104,11 +88,22 @@ type ShaderNodeProps<S extends ShaderNode> = Partial<
   VariableValues<S["inputs"]>
 >
 
-export function set<S extends ShaderNode, P extends ShaderNodeProps<S>>(
-  node: S
-) {
-  const to = (props: P = {} as P) => apply(node, props)
-  return { to }
+export const node = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
+  node: S,
+  props: P = {} as P
+): S => {
+  assignVariableOwners(node)
+  assignPropsToInputs(node, props)
+  return node
+}
+
+const assignPropsToInputs = <S extends ShaderNode>(node: S, props: any) => {
+  Object.entries(props).forEach(([name, value]) => {
+    const variable = node.inputs?.[name]
+    if (variable) {
+      variable.value = value
+    }
+  })
 }
 
 const assignVariableOwners = (node: ShaderNode) => {
