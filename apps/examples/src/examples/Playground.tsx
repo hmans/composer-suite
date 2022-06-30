@@ -4,9 +4,11 @@ import {
   compileShader,
   Factory,
   float,
+  FloatNode,
   plug,
   TimeNode,
-  vec3
+  vec3,
+  Vector3Node
 } from "shadenfreude"
 import { FloatType, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
