@@ -272,4 +272,4 @@ const statement = (...parts: Lines) =>
     .filter((p) => ![undefined, null, false].includes(p))
     .join(" ") + ";"
 
-const isVariable = (value: any): value is Variable => !!value.__variable
+const isVariable = (value: any): value is Variable => !!value?.__variable
