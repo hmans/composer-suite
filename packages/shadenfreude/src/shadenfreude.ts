@@ -1,4 +1,4 @@
-import { Matrix3, Vector2, Vector3, Vector4 } from "three"
+import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 
 /*
 
@@ -24,21 +24,16 @@ export type GLSLType =
   | "mat3"
   | "mat4"
 
-export type GLSLtoJSType<T extends GLSLType> = T extends "bool"
-  ? boolean
-  : T extends "float"
-  ? number
-  : T extends "vec2"
-  ? Vector2
-  : T extends "vec3"
-  ? Vector3
-  : T extends "vec4"
-  ? Vector4
-  : T extends "mat3"
-  ? Matrix3
-  : T extends "mat4"
-  ? Matrix3
-  : never
+export type GLSLtoJSType = {
+  string: string
+  bool: boolean
+  float: number
+  vec2: Vector2
+  vec3: Vector3
+  vec4: Vector4
+  mat3: Matrix3
+  mat4: Matrix4
+}
 
 export type Program = {
   header?: GLSLChunk
@@ -48,7 +43,7 @@ export type Program = {
 export type ProgramType = "vertex" | "fragment"
 
 export type Value<T extends GLSLType = any> =
-  | GLSLtoJSType<T>
+  | GLSLtoJSType[T]
   | Variable<T>
   | GLSLChunk
 
