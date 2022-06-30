@@ -65,9 +65,9 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          float a;
-          float value = a * 2.0;
-          out_Test_Node_1_value = value;
+          float in_a;
+          float out_value = a * 2.0;
+          out_Test_Node_1_value = out_value;
         }
         /*** END: Test Node ***/
 
@@ -84,9 +84,9 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          float a;
-          float value = a * 2.0;
-          out_Test_Node_1_value = value;
+          float in_a;
+          float out_value = a * 2.0;
+          out_Test_Node_1_value = out_value;
         }
         /*** END: Test Node ***/
 

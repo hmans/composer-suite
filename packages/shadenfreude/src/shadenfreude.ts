@@ -221,12 +221,12 @@ export const compileShader = (root: ShaderNode) => {
       block(
         /* Input Variables */
         inputs.map(([localName, variable]) =>
-          compileVariable({ ...variable, name: localName })
+          compileVariable({ ...variable, name: "in_" + localName })
         ),
 
         /* Output Variables */
         outputs.map(([localName, variable]) =>
-          compileVariable({ ...variable, name: localName })
+          compileVariable({ ...variable, name: "out_" + localName })
         ),
 
         /* Body */
@@ -234,7 +234,7 @@ export const compileShader = (root: ShaderNode) => {
 
         /* Assign local output variables back to global variables */
         outputs.map(([localName, variable]) =>
-          statement(variable.name, "=", localName)
+          statement(variable.name, "=", "out_" + localName)
         )
       ),
       nodeEnd(node)

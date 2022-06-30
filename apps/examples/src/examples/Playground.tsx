@@ -23,7 +23,7 @@ const RootNode = (props?: { offset: Value<"float"> }) =>
         offset: float()
       },
       vertex: {
-        body: "csm_Position.x += offset;"
+        body: "csm_Position.x += in_offset;"
       }
     },
     props

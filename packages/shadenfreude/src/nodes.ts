@@ -8,7 +8,7 @@ export const FloatNode = (props?: { a?: Value<"float"> }) =>
         a: float()
       },
       outputs: {
-        value: float("a")
+        value: float("in_a")
       }
     },
     props
