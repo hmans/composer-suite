@@ -19,8 +19,13 @@ export const TimeNode = () =>
     name: "Time",
 
     outputs: {
+      /** The absolute time, in seconds */
       value: float("u_time"),
+
+      /** Sine of the times */
       sin: float("sin(u_time)"),
+
+      /** Cosine of the times */
       cos: float("cos(u_time)")
     },
 

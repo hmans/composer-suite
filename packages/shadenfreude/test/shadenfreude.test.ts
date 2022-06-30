@@ -1,4 +1,11 @@
-import { float, ShaderNode, variable, compileShader } from "../src/shadenfreude"
+import { TimeNode } from "../src"
+import {
+  float,
+  ShaderNode,
+  variable,
+  compileShader,
+  plug
+} from "../src/shadenfreude"
 
 describe("ShaderNode", () => {
   it("creates a shader node", () => {
@@ -89,5 +96,17 @@ describe("compileShader", () => {
 })
 
 describe("plug", () => {
-  it("connects the given variables", () => {})
+  it("connects the given variables", () => {
+    const time = TimeNode()
+
+    const offset = ShaderNode({
+      inputs: {
+        x: float()
+      }
+    })
+
+    plug(time.outputs.value).into(offset.inputs.x)
+
+    expect(offset.inputs.x.value).toBe(time.outputs.value)
+  })
 })
