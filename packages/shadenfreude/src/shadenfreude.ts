@@ -175,9 +175,10 @@ export const compileShader = (root: ShaderNode) => {
     )
 
   const compileVariables = (
-    variables: Variables,
+    variables: Variables | undefined,
     callback: (localName: string, variable: Variable) => string
   ) =>
+    variables &&
     Object.entries(variables).map(([localName, variable]) =>
       callback(localName, variable)
     )
@@ -194,31 +195,27 @@ export const compileShader = (root: ShaderNode) => {
         isVariable(value) ? compileBody(value.node!, programType) : ""
       )
 
-    const outputVariableDeclarations =
-      node.outputs &&
-      compileVariables(node.outputs, (localName, variable) =>
-        compileVariable({ ...variable, value: undefined })
-      )
+    const outputVariableDeclarations = compileVariables(
+      node.outputs,
+      (_, variable) => compileVariable({ ...variable, value: undefined })
+    )
 
-    const inputVariables =
-      node.inputs &&
-      compileVariables(node.inputs, (localName, variable) =>
-        compileVariable({ ...variable, name: localName })
-      )
+    const inputVariables = compileVariables(
+      node.inputs,
+      (localName, variable) => compileVariable({ ...variable, name: localName })
+    )
 
-    const outputVariables =
-      node.outputs &&
-      compileVariables(node.outputs, (localName, variable) =>
-        compileVariable({ ...variable, name: localName })
-      )
+    const outputVariables = compileVariables(
+      node.outputs,
+      (localName, variable) => compileVariable({ ...variable, name: localName })
+    )
 
     const body = node[programType]?.body && [node[programType]?.body]
 
-    const outputVariableAssignments =
-      node.outputs &&
-      compileVariables(node.outputs, (localName, variable) =>
-        statement(variable.name, "=", localName)
-      )
+    const outputVariableAssignments = compileVariables(
+      node.outputs,
+      (localName, variable) => statement(variable.name, "=", localName)
+    )
 
     return [
       dependencies,
