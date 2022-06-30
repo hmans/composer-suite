@@ -2,38 +2,17 @@ import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 
 /*
 
-_______  __   __  _______  _______  _______
-|       ||  | |  ||       ||       ||       |
-|_     _||  |_|  ||    _  ||    ___||  _____|
-  |   |  |       ||   |_| ||   |___ | |_____
-  |   |  |_     _||    ___||    ___||_____  |
-  |   |    |   |  |   |    |   |___  _____| |
-  |___|    |___|  |___|    |_______||_______|
+ __    _  _______  ______   _______  _______
+|  |  | ||       ||      | |       ||       |
+|   |_| ||   _   ||  _    ||    ___||  _____|
+|       ||  | |  || | |   ||   |___ | |_____
+|  _    ||  |_|  || |_|   ||    ___||_____  |
+| | |   ||       ||       ||   |___  _____| |
+|_|  |__||_______||______| |_______||_______|
 
-  */
+*/
 
 export type Chunk = string | string[]
-
-export type ValueType =
-  | "string"
-  | "bool"
-  | "float"
-  | "vec2"
-  | "vec3"
-  | "vec4"
-  | "mat3"
-  | "mat4"
-
-export type ValueToJSType = {
-  string: string
-  bool: boolean
-  float: number
-  vec2: Vector2
-  vec3: Vector3
-  vec4: Vector4
-  mat3: Matrix3
-  mat4: Matrix4
-}
 
 export type Program = {
   header?: Chunk
@@ -41,21 +20,6 @@ export type Program = {
 }
 
 export type ProgramType = "vertex" | "fragment"
-
-export type Value<T extends ValueType = any> =
-  | ValueToJSType[T]
-  | Variable<T>
-  | Chunk
-
-export type Variable<T extends ValueType = any> = {
-  __variable: boolean
-  name: string
-  type: T
-  value?: Value<T>
-  node?: ShaderNode
-}
-
-export type Variables = { [localName: string]: Variable<any> }
 
 export type ShaderNode = {
   name?: string
@@ -68,25 +32,9 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
-export type VariableValues<
-  V extends Variables | undefined
-> = V extends Variables ? { [K in keyof V]: Value<V[K]["type"]> } : {}
-
 export type ShaderNodeProps<S extends ShaderNode> = Partial<
   VariableValues<S["inputs"]>
 >
-
-/*
-
- __    _  _______  ______   _______  _______
-|  |  | ||       ||      | |       ||       |
-|   |_| ||   _   ||  _    ||    ___||  _____|
-|       ||  | |  || | |   ||   |___ | |_____
-|  _    ||  |_|  || |_|   ||    ___||_____  |
-| | |   ||       ||       ||   |___  _____| |
-|_|  |__||_______||______| |_______||_______|
-
-*/
 
 export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   node: S,
@@ -129,6 +77,46 @@ const assignVariableOwners = (node: ShaderNode) => {
   |___|  |__| |__||___|  |_||___| |__| |__||_______||_______||_______||_______|
 
 */
+
+export type ValueType =
+  | "string"
+  | "bool"
+  | "float"
+  | "vec2"
+  | "vec3"
+  | "vec4"
+  | "mat3"
+  | "mat4"
+
+export type ValueToJSType = {
+  string: string
+  bool: boolean
+  float: number
+  vec2: Vector2
+  vec3: Vector3
+  vec4: Vector4
+  mat3: Matrix3
+  mat4: Matrix4
+}
+
+export type Value<T extends ValueType = any> =
+  | ValueToJSType[T]
+  | Variable<T>
+  | Chunk
+
+export type Variable<T extends ValueType = any> = {
+  __variable: boolean
+  name: string
+  type: T
+  value?: Value<T>
+  node?: ShaderNode
+}
+
+export type Variables = { [localName: string]: Variable<any> }
+
+export type VariableValues<
+  V extends Variables | undefined
+> = V extends Variables ? { [K in keyof V]: Value<V[K]["type"]> } : {}
 
 export const variable = <T extends ValueType, V extends Variable<T>>(
   type: T,
