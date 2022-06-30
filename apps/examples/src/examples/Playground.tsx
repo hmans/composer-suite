@@ -1,3 +1,4 @@
+import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import { compileShader, float, plug, ShaderNode, Value } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
@@ -11,7 +12,9 @@ const TimeNode = () =>
     name: "Time",
 
     outputs: {
-      value: float("u_time")
+      value: float("u_time"),
+      sin: float("sin(u_time)"),
+      cos: float("cos(u_time)")
     },
 
     vertex: {
@@ -57,22 +60,22 @@ function useShader() {
   return useMemo(() => {
     const time = TimeNode()
     const float = FloatNode({ a: 12 })
-    const root = RootNode({ offset: float.outputs.value })
+    const root = RootNode()
 
-    plug(time.outputs.value).into(root.inputs.offset)
+    plug(time.outputs.sin).into(root.inputs.offset)
 
     return compileShader(root)
   }, [])
 }
 
 function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
-  const { ...shaderProps } = useShader()
+  const [shaderProps, update] = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   console.log(shaderProps.vertexShader)
   // console.log(shaderProps.fragmentShader)
 
-  // useFrame((_, dt) => update(dt))
+  useFrame((_, dt) => update(dt))
 
   return <CustomShaderMaterial {...props} {...shaderProps} ref={material} />
 }

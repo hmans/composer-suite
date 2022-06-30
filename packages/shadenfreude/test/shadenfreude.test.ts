@@ -46,7 +46,7 @@ describe("compileShader", () => {
         value: float("a * 2.0")
       }
     })
-    const c = compileShader(n)
+    const [c] = compileShader(n)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "

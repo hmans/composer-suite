@@ -275,8 +275,10 @@ export const compileShader = (root: ShaderNode) => {
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
+  const uniforms = { u_time: { value: 0 } }
+  const update = (dt: number) => (uniforms.u_time.value += dt)
 
-  return { vertexShader, fragmentShader }
+  return [{ vertexShader, fragmentShader, uniforms }, update] as const
 }
 
 /*
