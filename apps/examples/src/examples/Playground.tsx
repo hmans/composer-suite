@@ -64,7 +64,7 @@ function useShader() {
       z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
     })
 
-    plug(WobbleNode({ t: time, frequency: 8, amplitude: 3 }).out.value).into(
+    plug(WobbleNode({ t: time, frequency: 8, amplitude: 3 })).into(
       position.in.x
     )
 

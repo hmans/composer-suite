@@ -71,9 +71,15 @@ export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Value<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Value<"mat4">) => variable("mat4", value)
 
-export const plug = <T extends ValueType>(source: Variable<T>) => ({
-  into: (target: Variable<T>) => {
-    target.value = source
+export const plug = <S extends Variable, T extends Variable>(
+  source: VariableProp<S>
+) => ({
+  into: (target: T) => {
+    if (isVariableWithOutValue(source)) {
+      target.value = source.out.value
+    } else {
+      target.value = source
+    }
   }
 })
 
