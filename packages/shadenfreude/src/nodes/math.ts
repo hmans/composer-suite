@@ -27,18 +27,32 @@ export const CosNode = Factory(() => ({
 
 type Operator = "+" | "-" | "*" | "/"
 
-type AddNodeProps<T extends ValueType> = {
+type OperatorNodeProps<T extends ValueType> = {
   a: Value<T>
   b: Value<any>
 }
 
-export const AddNode = <T extends ValueType>({ a, b }: AddNodeProps<T>) =>
+const makeOperatorNode = (operator: Operator) => <T extends ValueType>({
+  a,
+  b
+}: OperatorNodeProps<T>) =>
   ShaderNode({
     name: "Addition",
     in: { a: inferVariable(a), b: inferVariable(b) },
-    out: { value: { ...inferVariable(a), value: "in_a + in_b" } as Variable<T> }
+    out: {
+      value: {
+        ...inferVariable(a),
+        value: `in_a ${operator} in_b`
+      } as Variable<T>
+    }
   })
 
+export const AddNode = makeOperatorNode("+")
+export const SubtractNode = makeOperatorNode("-")
+export const MultiplyNode = makeOperatorNode("*")
+export const DivideNode = makeOperatorNode("/")
+
+// Tests
 const a = FloatNode({ value: 1 })
 const v = Vector3Node({ value: new Vector3(1, 2, 3) })
 const b = FloatNode({ value: 2 })
@@ -46,13 +60,7 @@ const b = FloatNode({ value: 2 })
 const add = AddNode({ a: a.out.value, b: b.out.value })
 
 const inferVariable = (a: Value): Variable => {
-  if (isVariable(a)) {
-    return variable(a.type, a)
-  } else if (isVariableWithOutValue(a)) {
-    return inferVariable(a.out.value)
-  } else {
-    return variable(glslType(a), a)
-  }
+  return variable(glslType(a), a)
 }
 
 function glslType(value: Value): ValueType {
