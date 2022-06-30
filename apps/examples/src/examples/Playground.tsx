@@ -6,9 +6,7 @@ import {
   float,
   FloatNode,
   plug,
-  ShaderNode,
-  TimeNode,
-  Value
+  TimeNode
 } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"

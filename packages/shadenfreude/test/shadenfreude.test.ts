@@ -4,7 +4,8 @@ import {
   ShaderNode,
   variable,
   compileShader,
-  plug
+  plug,
+  Factory
 } from "../src/shadenfreude"
 
 describe("ShaderNode", () => {
@@ -26,6 +27,18 @@ describe("ShaderNode", () => {
     const props = { a: 1 }
     const n = ShaderNode({ in: { a: float() } }, props)
     expect(n.in.a.value).toBe(1)
+  })
+})
+
+describe("Factory", () => {
+  it("creates a shader node factory that can assign inputs props", () => {
+    const TestNode = Factory(() => ({
+      in: { a: float() }
+    }))
+
+    const node = TestNode({ a: 123 })
+
+    expect(node.in.a.value).toBe(123)
   })
 })
 
