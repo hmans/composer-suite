@@ -190,7 +190,7 @@ export const compileShader = (root: ShaderNode) => {
         .map(([_, variable]) => variable.value.node)
     )
 
-  const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
+  const nodeBegin = (node: ShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
   const compileHeader = (node: ShaderNode, programType: ProgramType): Parts => {
@@ -248,10 +248,9 @@ export const compileShader = (root: ShaderNode) => {
   const compileProgram = (programType: ProgramType) => {
     return lines(
       compileHeader(root, programType),
-      "void main() {",
-      compileBody(root, programType),
-      "}"
-    )
+      "void main()",
+      block(compileBody(root, programType))
+    ).join("\n")
   }
 
   const tweakVariableNames = (
@@ -293,14 +292,18 @@ __   __  _______  ___      _______  _______  ______    _______
 
 type Parts = any[]
 
-const block = (...parts: Parts) => lines("{", ...parts, "}")
+const block = (...parts: Parts) =>
+  lines(
+    "{",
+    lines(parts).map((p) => "  " + p),
+    "}"
+  )
 
-const lines = (...parts: Parts): string =>
+const lines = (...parts: Parts): string[] =>
   parts
-    .filter((l) => l !== undefined && l !== null)
-    .map((l) => (Array.isArray(l) ? lines(...l) : l))
+    .filter((p) => ![undefined, null, false].includes(p))
+    .map((p) => (Array.isArray(p) ? lines(...p) : p))
     .flat()
-    .join("\n")
 
 const statement = (...parts: Parts) =>
   parts

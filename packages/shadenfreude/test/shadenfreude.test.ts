@@ -50,42 +50,38 @@ describe("compileShader", () => {
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
-
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
-      void main() {
-
-
-      /*** BEGIN: Test Node ***/
-      float out_Test_Node_1_value;
+      void main()
       {
-      float a;
-      float value = a * 2.0;
-      out_Test_Node_1_value = value;
-      }
-      /*** END: Test Node ***/
+        /*** BEGIN: Test Node ***/
+        float out_Test_Node_1_value;
+        {
+          float a;
+          float value = a * 2.0;
+          out_Test_Node_1_value = value;
+        }
+        /*** END: Test Node ***/
 
       }"
     `)
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
-
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
-      void main() {
-
-
-      /*** BEGIN: Test Node ***/
-      float out_Test_Node_1_value;
+      void main()
       {
-      float a;
-      float value = a * 2.0;
-      out_Test_Node_1_value = value;
-      }
-      /*** END: Test Node ***/
+        /*** BEGIN: Test Node ***/
+        float out_Test_Node_1_value;
+        {
+          float a;
+          float value = a * 2.0;
+          out_Test_Node_1_value = value;
+        }
+        /*** END: Test Node ***/
 
       }"
     `)
