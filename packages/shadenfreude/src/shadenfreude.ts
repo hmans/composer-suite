@@ -249,28 +249,17 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-type Lines = any[]
-
-const lines = (...inputs: Lines): string =>
+const lines = (...inputs: any[]): string =>
   inputs
     .filter((l) => l !== undefined && l !== null)
     .map((l) => (Array.isArray(l) ? lines(...l) : l))
     .flat()
     .join("\n")
 
-const statement = (...parts: Lines) =>
+const statement = (...parts: any[]) =>
   parts
     .flat()
     .filter((p) => ![undefined, null, false].includes(p))
     .join(" ") + ";"
-
-const getDependencies = ({ inputs }: ShaderNode) => [
-  ...Object.values(inputs || {}).reduce((set, { value }) => {
-    if (value !== undefined && isVariable(value)) {
-      value.node && set.add(value.node)
-    }
-    return set
-  }, new Set<ShaderNode>())
-]
 
 const isVariable = (value: any): value is Variable => !!value.__variable
