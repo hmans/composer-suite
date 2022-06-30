@@ -1,20 +1,23 @@
-import { float, node, variable, compileShader } from "../src/shadenfreude"
+import { float, ShaderNode, variable, compileShader } from "../src/shadenfreude"
 
-describe("node", () => {
+describe("ShaderNode", () => {
   it("creates a shader node", () => {
-    const n = node({ name: "A Blank Shader Node" })
+    const n = ShaderNode({ name: "A Blank Shader Node" })
     expect(n).toEqual({ name: "A Blank Shader Node" })
   })
 
   it("assigns the node to its input and output variables", () => {
-    const n = node({ inputs: { a: float() }, outputs: { value: float() } })
+    const n = ShaderNode({
+      inputs: { a: float() },
+      outputs: { value: float() }
+    })
     expect(n.inputs.a.node).toBe(n)
     expect(n.outputs.value.node).toBe(n)
   })
 
   it("assigns props when given as a second argument", () => {
     const props = { a: 1 }
-    const n = node({ inputs: { a: float() } }, props)
+    const n = ShaderNode({ inputs: { a: float() } }, props)
     expect(n.inputs.a.value).toBe(1)
   })
 })
@@ -34,7 +37,7 @@ describe("variable", () => {
 
 describe("compileShader", () => {
   it("compiles the given node into a shader", () => {
-    const n = node({ name: "A Blank Shader Node" })
+    const n = ShaderNode({ name: "A Blank Shader Node" })
     const c = compileShader(n)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`

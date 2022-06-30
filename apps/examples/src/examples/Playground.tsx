@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react"
-import { compileShader, float, node, set, Value } from "shadenfreude"
+import { compileShader, float, ShaderNode, Value } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
@@ -9,7 +9,7 @@ type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 type FloatProps = { a?: Value<"float"> }
 
 const FloatNode = (props?: FloatProps) =>
-  node(
+  ShaderNode(
     {
       name: "Float Value",
       inputs: {
@@ -23,7 +23,7 @@ const FloatNode = (props?: FloatProps) =>
   )
 
 const RootNode = (props?: { offset: Value<"float"> }) =>
-  node(
+  ShaderNode(
     {
       name: "Root Node",
       inputs: {

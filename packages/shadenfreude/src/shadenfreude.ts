@@ -88,7 +88,7 @@ export type ShaderNodeProps<S extends ShaderNode> = Partial<
 
 */
 
-export const node = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
+export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   node: S,
   props: P = {} as P
 ): S => {
