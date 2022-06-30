@@ -4,10 +4,10 @@ export const FloatNode = (props?: { a?: Value<"float"> }) =>
   ShaderNode(
     {
       name: "Float Value",
-      inputs: {
+      in: {
         a: float()
       },
-      outputs: {
+      out: {
         value: float("in_a")
       }
     },
@@ -18,7 +18,7 @@ export const TimeNode = () =>
   ShaderNode({
     name: "Time",
 
-    outputs: {
+    out: {
       /** The absolute time, in seconds */
       value: float("u_time"),
 

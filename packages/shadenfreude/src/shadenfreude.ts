@@ -95,12 +95,12 @@ export type ShaderNode = {
   vertex?: Program
   fragment?: Program
 
-  inputs?: Variables
-  outputs?: Variables
+  in?: Variables
+  out?: Variables
 }
 
 export type ShaderNodeProps<S extends ShaderNode> = Partial<
-  VariableValues<S["inputs"]>
+  VariableValues<S["in"]>
 >
 
 export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
@@ -112,8 +112,8 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
 
   /* Assign variable owners */
   const variables = [
-    ...Object.values(node.outputs || {}),
-    ...Object.values(node.inputs || {})
+    ...Object.values(node.out || {}),
+    ...Object.values(node.in || {})
   ]
 
   variables.forEach((variable) => {
@@ -123,7 +123,7 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
 
   /* Assign props to input variables */
   Object.entries(props).forEach(([name, prop]) => {
-    const variable = node.inputs?.[name]
+    const variable = node.in?.[name]
     if (variable) {
       variable.value = prop
     }
@@ -181,7 +181,7 @@ export const compileShader = (root: ShaderNode) => {
    */
   const getDependencies = (node: ShaderNode) =>
     unique(
-      getVariables(node.inputs)
+      getVariables(node.in)
         .filter(([_, variable]) => isVariable(variable.value))
         .map(([_, variable]) => variable.value.node)
     )
@@ -192,7 +192,7 @@ export const compileShader = (root: ShaderNode) => {
   const compileHeader = (node: ShaderNode, programType: ProgramType): Parts => {
     return [
       /* Dependencies */
-      getVariables(node.inputs).map(([_, { value }]) =>
+      getVariables(node.in).map(([_, { value }]) =>
         isVariable(value) ? compileHeader(value.node!, programType) : ""
       ),
 
@@ -204,8 +204,8 @@ export const compileShader = (root: ShaderNode) => {
   }
 
   const compileBody = (node: ShaderNode, programType: ProgramType): Parts => {
-    const inputs = getVariables(node.inputs)
-    const outputs = getVariables(node.outputs)
+    const inputs = getVariables(node.in)
+    const outs = getVariables(node.out)
 
     return [
       /* Dependencies */
@@ -214,7 +214,7 @@ export const compileShader = (root: ShaderNode) => {
       nodeBegin(node),
 
       /* Output Variable Declarations */
-      outputs.map(([_, variable]) =>
+      outs.map(([_, variable]) =>
         compileVariable({ ...variable, value: undefined })
       ),
 
@@ -225,7 +225,7 @@ export const compileShader = (root: ShaderNode) => {
         ),
 
         /* Output Variables */
-        outputs.map(([localName, variable]) =>
+        outs.map(([localName, variable]) =>
           compileVariable({ ...variable, name: "out_" + localName })
         ),
 
@@ -233,7 +233,7 @@ export const compileShader = (root: ShaderNode) => {
         node[programType]?.body,
 
         /* Assign local output variables back to global variables */
-        outputs.map(([localName, variable]) =>
+        outs.map(([localName, variable]) =>
           statement(variable.name, "=", "out_" + localName)
         )
       ),
@@ -254,7 +254,7 @@ export const compileShader = (root: ShaderNode) => {
     state: { id: number } = { id: 0 }
   ) => {
     /* Tweak this node's output variable names */
-    getVariables(node.outputs).map(([localName, variable]) => {
+    getVariables(node.out).map(([localName, variable]) => {
       variable.name = [
         "out",
         sluggify(variable.node!.name || "node"),

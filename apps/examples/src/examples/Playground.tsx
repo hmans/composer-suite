@@ -19,7 +19,7 @@ const RootNode = (props?: { offset: Value<"float"> }) =>
   ShaderNode(
     {
       name: "Root Node",
-      inputs: {
+      in: {
         offset: float()
       },
       vertex: {
@@ -35,7 +35,7 @@ function useShader() {
     const float = FloatNode({ a: 12 })
     const root = RootNode()
 
-    plug(time.outputs.sin).into(root.inputs.offset)
+    plug(time.out.sin).into(root.in.offset)
 
     return compileShader(root)
   }, [])
