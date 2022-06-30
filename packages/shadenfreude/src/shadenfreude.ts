@@ -110,21 +110,7 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   /* Assign a default name */
   node.name = node.name || "Unnamed Node"
 
-  assignVariableOwners(node)
-  assignPropsToInputs(node, props)
-  return node
-}
-
-const assignPropsToInputs = <S extends ShaderNode>(node: S, props: any) => {
-  Object.entries(props).forEach(([name, value]) => {
-    const variable = node.inputs?.[name]
-    if (variable) {
-      variable.value = value
-    }
-  })
-}
-
-const assignVariableOwners = (node: ShaderNode) => {
+  /* Assign variable owners */
   const variables = [
     ...Object.values(node.outputs || {}),
     ...Object.values(node.inputs || {})
@@ -134,6 +120,16 @@ const assignVariableOwners = (node: ShaderNode) => {
     variable.node = node
     variable.name = ["processed", variable.type, variable.name].join("_")
   })
+
+  /* Assign props to input variables */
+  Object.entries(props).forEach(([name, prop]) => {
+    const variable = node.inputs?.[name]
+    if (variable) {
+      variable.value = prop
+    }
+  })
+
+  return node
 }
 
 /*

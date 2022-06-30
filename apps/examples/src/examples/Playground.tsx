@@ -1,46 +1,19 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { compileShader, float, plug, ShaderNode, Value } from "shadenfreude"
+import {
+  compileShader,
+  float,
+  FloatNode,
+  plug,
+  ShaderNode,
+  TimeNode,
+  Value
+} from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
-
-const TimeNode = () =>
-  ShaderNode({
-    name: "Time",
-
-    outputs: {
-      value: float("u_time"),
-      sin: float("sin(u_time)"),
-      cos: float("cos(u_time)")
-    },
-
-    vertex: {
-      header: "uniform float u_time;"
-    },
-
-    fragment: {
-      header: "uniform float u_time;"
-    }
-  })
-
-type FloatProps = { a?: Value<"float"> }
-
-const FloatNode = (props?: FloatProps) =>
-  ShaderNode(
-    {
-      name: "Float Value",
-      inputs: {
-        a: float()
-      },
-      outputs: {
-        value: float("a")
-      }
-    },
-    props
-  )
 
 const RootNode = (props?: { offset: Value<"float"> }) =>
   ShaderNode(

@@ -87,3 +87,7 @@ describe("compileShader", () => {
     `)
   })
 })
+
+describe("plug", () => {
+  it("connects the given variables", () => {})
+})
