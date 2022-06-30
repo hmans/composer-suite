@@ -162,23 +162,15 @@ export const compileShader = (root: ShaderNode) => {
     } else if (typeof value === "number") {
       return value.toFixed(5) // TODO: no, make this better
     } else if (value instanceof Vector2) {
-      return `
-        vec2(
-          ${compileValue(value.x)},
-          ${compileValue(value.y)})`
+      return `vec2(${compileValue(value.x)}, ${compileValue(value.y)})`
     } else if (value instanceof Vector3) {
-      return `
-        vec3(
-          ${compileValue(value.x)},
-          ${compileValue(value.y)},
-          ${compileValue(value.z)})`
+      return `vec3(${compileValue(value.x)}, ${compileValue(
+        value.y
+      )}, ${compileValue(value.z)})`
     } else if (value instanceof Vector4) {
-      return `
-        vec4(
-          ${compileValue(value.x)},
-          ${compileValue(value.y)},
-          ${compileValue(value.z)},
-          ${compileValue(value.w)})`
+      return `vec4(${compileValue(value.x)}, ${compileValue(
+        value.y
+      )}, ${compileValue(value.z)}, ${compileValue(value.w)})`
     } else if (isVariable(value)) {
       return value.name
     } else {
@@ -215,11 +207,18 @@ export const compileShader = (root: ShaderNode) => {
   const nodeBegin = (node: ShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
-  const compileHeader = (node: ShaderNode, programType: ProgramType): Parts => {
+  const compileHeader = (
+    node: ShaderNode,
+    programType: ProgramType,
+    seen: Set<ShaderNode> = new Set()
+  ): Parts => {
+    if (seen.has(node)) return []
+    seen.add(node)
+
     return [
       /* Dependencies */
       getVariables(node.in).map(([_, { value }]) =>
-        isVariable(value) ? compileHeader(value.node!, programType) : ""
+        isVariable(value) ? compileHeader(value.node!, programType, seen) : ""
       ),
 
       /* Actual chunk */
@@ -229,13 +228,20 @@ export const compileShader = (root: ShaderNode) => {
     ]
   }
 
-  const compileBody = (node: ShaderNode, programType: ProgramType): Parts => {
+  const compileBody = (
+    node: ShaderNode,
+    programType: ProgramType,
+    seen: Set<ShaderNode> = new Set()
+  ): Parts => {
+    if (seen.has(node)) return []
+    seen.add(node)
+
     const ins = getVariables(node.in)
     const outs = getVariables(node.out)
 
     return [
       /* Dependencies */
-      getDependencies(node).map((dep) => compileBody(dep, programType)),
+      getDependencies(node).map((dep) => compileBody(dep, programType, seen)),
 
       nodeBegin(node),
 

@@ -1,5 +1,5 @@
 import { Vector3 } from "three"
-import { TimeNode } from "../src"
+import { FloatNode, TimeNode } from "../src"
 import {
   float,
   ShaderNode,
@@ -59,10 +59,14 @@ describe("variable", () => {
 
 describe("compileShader", () => {
   it("compiles the given node into a shader", () => {
+    const f = FloatNode({ a: 1 })
+
     const n = ShaderNode({
       name: "Test Node",
       in: {
-        a: float(),
+        /* Dependencies that are used multiple times only appear in the GLSL once */
+        a: float(f.out.value),
+        b: float(f.out.value),
         vec: vec3(new Vector3(1, 2, 3))
       },
       out: {
@@ -73,21 +77,30 @@ describe("compileShader", () => {
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
+      /*** BEGIN: Float Value ***/
+      /*** END: Float Value ***/
+
 
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
       void main()
       {
+        /*** BEGIN: Float Value ***/
+        float out_Float_Value_2_value;
+        {
+          float in_a = 1.00000;
+          float out_value = in_a;
+          out_Float_Value_2_value = out_value;
+        }
+        /*** END: Float Value ***/
+
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          float in_a;
-          vec3 in_vec = 
-              vec3(
-                1.00000,
-                2.00000,
-                3.00000);
+          float in_a = out_Float_Value_2_value;
+          float in_b = out_Float_Value_2_value;
+          vec3 in_vec = vec3(1.00000, 2.00000, 3.00000);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }
@@ -98,21 +111,30 @@ describe("compileShader", () => {
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
+      /*** BEGIN: Float Value ***/
+      /*** END: Float Value ***/
+
 
       /*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
       void main()
       {
+        /*** BEGIN: Float Value ***/
+        float out_Float_Value_2_value;
+        {
+          float in_a = 1.00000;
+          float out_value = in_a;
+          out_Float_Value_2_value = out_value;
+        }
+        /*** END: Float Value ***/
+
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          float in_a;
-          vec3 in_vec = 
-              vec3(
-                1.00000,
-                2.00000,
-                3.00000);
+          float in_a = out_Float_Value_2_value;
+          float in_b = out_Float_Value_2_value;
+          vec3 in_vec = vec3(1.00000, 2.00000, 3.00000);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }

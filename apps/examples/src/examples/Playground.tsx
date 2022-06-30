@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
-import { compileShader, Factory, vec3 } from "shadenfreude"
-import { MeshStandardMaterial, Vector3 } from "three"
+import { compileShader, Factory, float, TimeNode, vec3 } from "shadenfreude"
+import { FloatType, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -17,9 +17,51 @@ const CSMMasterNode = Factory(() => ({
   }
 }))
 
+const WobbleNode = Factory(() => ({
+  name: "Wobble",
+  in: {
+    /** The time offset */
+    t: float(),
+
+    /** How fast to wobble */
+    frequency: float(1),
+
+    /** How hard to wobble */
+    amplitude: float(1)
+  },
+
+  out: {
+    /** The wobble value */
+    value: float("sin(in_t * in_frequency) * in_amplitude")
+  }
+}))
+
+const CombineVector3Node = Factory(() => ({
+  name: "Combine Vector3",
+  in: {
+    x: float(),
+    y: float(),
+    z: float()
+  },
+  out: {
+    value: vec3("vec3(in_x, in_y, in_z)")
+  }
+}))
+
 function useShader() {
   return useMemo(() => {
-    const root = CSMMasterNode({ position: new Vector3() })
+    const time = TimeNode()
+
+    const root = CSMMasterNode({
+      position: CombineVector3Node({
+        x: WobbleNode({ t: time.out.value, frequency: 8, amplitude: 3 }).out
+          .value,
+        y: WobbleNode({ t: time.out.value, frequency: 5, amplitude: 3 }).out
+          .value,
+        z: WobbleNode({ t: time.out.value, frequency: 3, amplitude: 3 }).out
+          .value
+      }).out.value
+    })
 
     return compileShader(root)
   }, [])
