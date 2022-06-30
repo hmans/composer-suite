@@ -234,7 +234,7 @@ export const compileShader = (root: ShaderNode) => {
         ),
 
         /* Body */
-        node[programType]?.body && [node[programType]?.body],
+        node[programType]?.body && block(node[programType]?.body),
 
         /* Assign local output variables back to global variables */
         outputs.map(([localName, variable]) =>
