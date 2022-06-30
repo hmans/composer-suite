@@ -15,17 +15,17 @@ describe("ShaderNode", () => {
 
   it("assigns the node to its input and output variables", () => {
     const n = ShaderNode({
-      inputs: { a: float() },
-      outputs: { value: float() }
+      in: { a: float() },
+      out: { value: float() }
     })
-    expect(n.inputs.a.node).toBe(n)
-    expect(n.outputs.value.node).toBe(n)
+    expect(n.in.a.node).toBe(n)
+    expect(n.out.value.node).toBe(n)
   })
 
   it("assigns props when given as a second argument", () => {
     const props = { a: 1 }
-    const n = ShaderNode({ inputs: { a: float() } }, props)
-    expect(n.inputs.a.value).toBe(1)
+    const n = ShaderNode({ in: { a: float() } }, props)
+    expect(n.in.a.value).toBe(1)
   })
 })
 
@@ -46,10 +46,10 @@ describe("compileShader", () => {
   it("compiles the given node into a shader", () => {
     const n = ShaderNode({
       name: "Test Node",
-      inputs: {
+      in: {
         a: float()
       },
-      outputs: {
+      out: {
         value: float("a * 2.0")
       }
     })
@@ -100,13 +100,13 @@ describe("plug", () => {
     const time = TimeNode()
 
     const offset = ShaderNode({
-      inputs: {
+      in: {
         x: float()
       }
     })
 
-    plug(time.outputs.value).into(offset.inputs.x)
+    plug(time.out.value).into(offset.in.x)
 
-    expect(offset.inputs.x.value).toBe(time.outputs.value)
+    expect(offset.in.x.value).toBe(time.out.value)
   })
 })
