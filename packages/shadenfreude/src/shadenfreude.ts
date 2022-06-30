@@ -147,6 +147,9 @@ const assignVariableOwners = (node: ShaderNode) => {
 */
 
 export const compileShader = (root: ShaderNode) => {
+  /**
+   * Renders the GLSL representation of a given variable value.
+   */
   const compileValue = (value: Value): string => {
     if (typeof value === "string") {
       return value
@@ -159,6 +162,9 @@ export const compileShader = (root: ShaderNode) => {
     }
   }
 
+  /**
+   * Renders the GLSL representation of the given variable's declaration.
+   */
   const compileVariable = (variable: Variable) =>
     statement(
       variable.type,
@@ -166,8 +172,24 @@ export const compileShader = (root: ShaderNode) => {
       variable.value !== undefined && ["=", compileValue(variable.value)]
     )
 
+  /**
+   * Returns an array of [localName, variable] pairs for the given variables object.
+   */
   const getVariables = (variables: Variables | undefined) =>
     Object.entries(variables || {})
+
+  /**
+   * Returns the dependencies of the given shader node.
+   */
+  const getDependencies = (node: ShaderNode) =>
+    unique(
+      getVariables(node.inputs)
+        .filter(([_, variable]) => isVariable(variable.value))
+        .map(([_, variable]) => variable.value.node)
+    )
+
+  const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
+  const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
   const compileHeader = (node: ShaderNode, programType: ProgramType): Lines => {
     return [
@@ -183,16 +205,10 @@ export const compileShader = (root: ShaderNode) => {
     ]
   }
 
-  const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
-  const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
-
   const compileBody = (node: ShaderNode, programType: ProgramType): Lines => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
-
-    const dependencies = inputs.map(([_, { value }]) =>
-      isVariable(value) ? compileBody(value.node!, programType) : ""
-    )
+    const dependencies = getDependencies(node)
 
     const outputVariableDeclarations = outputs.map(([_, variable]) =>
       compileVariable({ ...variable, value: undefined })
@@ -213,7 +229,8 @@ export const compileShader = (root: ShaderNode) => {
     )
 
     return [
-      dependencies,
+      /* Dependencies */
+      dependencies.map((dep) => compileBody(dep, programType)),
       nodeBegin(node),
       outputVariableDeclarations,
       "{",
@@ -235,13 +252,17 @@ export const compileShader = (root: ShaderNode) => {
     )
   }
 
-  const tweakVariableNames = (node: ShaderNode) => {
+  const tweakVariableNames = (
+    node: ShaderNode,
+    state: { id: number } = { id: 0 }
+  ) => {
     /* Tweak this node's output variable names */
     getVariables(node.outputs).map(([_, variable]) => {
-      variable.name = ["processed", variable.type, variable.name].join("_")
+      variable.name = ["processed", variable.type, ++state.id].join("_")
     })
 
-    /* TODO: Do the same for all dependencies */
+    /* Do the same for all dependencies */
+    getDependencies(node).forEach((dep) => tweakVariableNames(dep, state))
   }
 
   tweakVariableNames(root)
@@ -279,3 +300,5 @@ const statement = (...parts: Lines) =>
     .join(" ") + ";"
 
 const isVariable = (value: any): value is Variable => !!value?.__variable
+
+const unique = (array: any[]) => [...new Set(array)]
