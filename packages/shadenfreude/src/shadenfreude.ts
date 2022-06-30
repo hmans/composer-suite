@@ -80,8 +80,19 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
-export const node = <S extends ShaderNode>(node: S): S => {
+export const node = <S extends ShaderNode>(node: S, props: any = {}): S => {
   assignVariableOwners(node)
+  return node
+}
+
+export const apply = (node: ShaderNode, props: any) => {
+  Object.entries(props).forEach(([name, value]) => {
+    const variable = node.inputs?.[name]
+    if (variable) {
+      variable.value = value
+    }
+  })
+
   return node
 }
 
