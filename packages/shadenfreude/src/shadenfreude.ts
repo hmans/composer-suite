@@ -91,7 +91,6 @@ export type ProgramType = "vertex" | "fragment"
 
 export type ShaderNode = {
   name?: string
-  slug?: string
 
   vertex?: Program
   fragment?: Program
@@ -108,6 +107,9 @@ export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   node: S,
   props: P = {} as P
 ): S => {
+  /* Assign a default name */
+  node.name = node.name || "Unnamed Node"
+
   assignVariableOwners(node)
   assignPropsToInputs(node, props)
   return node
@@ -257,8 +259,13 @@ export const compileShader = (root: ShaderNode) => {
     state: { id: number } = { id: 0 }
   ) => {
     /* Tweak this node's output variable names */
-    getVariables(node.outputs).map(([_, variable]) => {
-      variable.name = ["processed", variable.type, ++state.id].join("_")
+    getVariables(node.outputs).map(([localName, variable]) => {
+      variable.name = [
+        "out",
+        sluggify(variable.node!.name || "node"),
+        ++state.id,
+        localName
+      ].join("_")
     })
 
     /* Do the same for all dependencies */
@@ -302,3 +309,6 @@ const statement = (...parts: Lines) =>
 const isVariable = (value: any): value is Variable => !!value?.__variable
 
 const unique = (array: any[]) => [...new Set(array)]
+
+const sluggify = (str: string) =>
+  str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
