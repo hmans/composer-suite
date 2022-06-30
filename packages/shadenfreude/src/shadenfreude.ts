@@ -193,7 +193,7 @@ export const compileShader = (root: ShaderNode) => {
   const nodeBegin = (node: ShaderNode) => `\n/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
 
-  const compileHeader = (node: ShaderNode, programType: ProgramType): Lines => {
+  const compileHeader = (node: ShaderNode, programType: ProgramType): Parts => {
     return [
       /* Dependencies */
       getVariables(node.inputs).map(([_, { value }]) =>
@@ -207,40 +207,40 @@ export const compileShader = (root: ShaderNode) => {
     ]
   }
 
-  const compileBody = (node: ShaderNode, programType: ProgramType): Lines => {
+  const compileBody = (node: ShaderNode, programType: ProgramType): Parts => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
-    const dependencies = getDependencies(node)
-
-    const outputVariableDeclarations = outputs.map(([_, variable]) =>
-      compileVariable({ ...variable, value: undefined })
-    )
-
-    const inputVariables = inputs.map(([localName, variable]) =>
-      compileVariable({ ...variable, name: localName })
-    )
-
-    const outputVariables = outputs.map(([localName, variable]) =>
-      compileVariable({ ...variable, name: localName })
-    )
-
-    const body = node[programType]?.body && [node[programType]?.body]
-
-    const outputVariableAssignments = outputs.map(([localName, variable]) =>
-      statement(variable.name, "=", localName)
-    )
 
     return [
       /* Dependencies */
-      dependencies.map((dep) => compileBody(dep, programType)),
+      getDependencies(node).map((dep) => compileBody(dep, programType)),
+
       nodeBegin(node),
-      outputVariableDeclarations,
-      "{",
-      inputVariables,
-      outputVariables,
-      body,
-      outputVariableAssignments,
-      "}",
+
+      /* Output Variable Declarations */
+      outputs.map(([_, variable]) =>
+        compileVariable({ ...variable, value: undefined })
+      ),
+
+      block(
+        /* Input Variables */
+        inputs.map(([localName, variable]) =>
+          compileVariable({ ...variable, name: localName })
+        ),
+
+        /* Output Variables */
+        outputs.map(([localName, variable]) =>
+          compileVariable({ ...variable, name: localName })
+        ),
+
+        /* Body */
+        node[programType]?.body && [node[programType]?.body],
+
+        /* Assign local output variables back to global variables */
+        outputs.map(([localName, variable]) =>
+          statement(variable.name, "=", localName)
+        )
+      ),
       nodeEnd(node)
     ]
   }
@@ -291,16 +291,18 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-type Lines = any[]
+type Parts = any[]
 
-const lines = (...inputs: Lines): string =>
-  inputs
+const block = (...parts: Parts) => lines("{", ...parts, "}")
+
+const lines = (...parts: Parts): string =>
+  parts
     .filter((l) => l !== undefined && l !== null)
     .map((l) => (Array.isArray(l) ? lines(...l) : l))
     .flat()
     .join("\n")
 
-const statement = (...parts: Lines) =>
+const statement = (...parts: Parts) =>
   parts
     .flat()
     .filter((p) => ![undefined, null, false].includes(p))
