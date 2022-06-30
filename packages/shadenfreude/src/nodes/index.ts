@@ -1,14 +1,5 @@
-import { Factory, float, ShaderNode } from "../shadenfreude"
-
-export const FloatNode = Factory(() => ({
-  name: "Float Value",
-  in: {
-    a: float()
-  },
-  out: {
-    value: float("in_a")
-  }
-}))
+import { Factory, float } from "../shadenfreude"
+export * from "./values"
 
 export const TimeNode = Factory(() => ({
   name: "Time",

@@ -110,7 +110,7 @@ describe("compileShader", () => {
   })
 
   it("only includes dependencies in the GLSL once", () => {
-    const f = FloatNode({ a: 1 })
+    const f = FloatNode({ value: 1 })
 
     const n = ShaderNode({
       in: {
@@ -133,8 +133,8 @@ describe("compileShader", () => {
         /*** BEGIN: Float Value ***/
         float out_Float_Value_1_value;
         {
-          float in_a = 1.00000;
-          float out_value = in_a;
+          float in_value = 1.00000;
+          float out_value = in_value;
           out_Float_Value_1_value = out_value;
         }
         /*** END: Float Value ***/
@@ -162,8 +162,8 @@ describe("compileShader", () => {
         /*** BEGIN: Float Value ***/
         float out_Float_Value_1_value;
         {
-          float in_a = 1.00000;
-          float out_value = in_a;
+          float in_value = 1.00000;
+          float out_value = in_value;
           out_Float_Value_1_value = out_value;
         }
         /*** END: Float Value ***/
