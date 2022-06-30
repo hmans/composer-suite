@@ -37,35 +37,55 @@ describe("variable", () => {
 
 describe("compileShader", () => {
   it("compiles the given node into a shader", () => {
-    const n = ShaderNode({ name: "A Blank Shader Node" })
+    const n = ShaderNode({
+      name: "Test Node",
+      inputs: {
+        a: float()
+      },
+      outputs: {
+        value: float("a * 2.0")
+      }
+    })
     const c = compileShader(n)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
-      /*** BEGIN: A Blank Shader Node ***/
-      /*** END: A Blank Shader Node ***/
+
+      /*** BEGIN: Test Node ***/
+      /*** END: Test Node ***/
 
       void main() {
 
-      /*** BEGIN: A Blank Shader Node ***/
+
+      /*** BEGIN: Test Node ***/
+      float processed_float_var_1426776;
       {
+      float a;
+      float value = a * 2.0;
+      processed_float_var_1426776 = value;
       }
-      /*** END: A Blank Shader Node ***/
+      /*** END: Test Node ***/
 
       }"
     `)
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
-      /*** BEGIN: A Blank Shader Node ***/
-      /*** END: A Blank Shader Node ***/
+
+      /*** BEGIN: Test Node ***/
+      /*** END: Test Node ***/
 
       void main() {
 
-      /*** BEGIN: A Blank Shader Node ***/
+
+      /*** BEGIN: Test Node ***/
+      float processed_float_var_1426776;
       {
+      float a;
+      float value = a * 2.0;
+      processed_float_var_1426776 = value;
       }
-      /*** END: A Blank Shader Node ***/
+      /*** END: Test Node ***/
 
       }"
     `)
