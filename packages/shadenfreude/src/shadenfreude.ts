@@ -168,7 +168,7 @@ export const compileShader = (root: ShaderNode) => {
 
   const compileVariables = (
     variables: Variables | undefined,
-    callback: (localName: string, variable: Variable) => string
+    callback: (localName: string, variable: Variable) => any
   ) =>
     variables &&
     Object.entries(variables).map(([localName, variable]) =>
@@ -181,11 +181,9 @@ export const compileShader = (root: ShaderNode) => {
   }
 
   const compileBody = (node: ShaderNode, programType: ProgramType): any[] => {
-    const dependencies =
-      node.inputs &&
-      Object.values(node.inputs).map(({ value }) =>
-        isVariable(value) ? compileBody(value.node!, programType) : ""
-      )
+    const dependencies = compileVariables(node.inputs, (_, { value }) =>
+      isVariable(value) ? compileBody(value.node!, programType) : ""
+    )
 
     const outputVariableDeclarations = compileVariables(
       node.outputs,
