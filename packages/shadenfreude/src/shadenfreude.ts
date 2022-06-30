@@ -57,18 +57,6 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-/*
-
- __    _  _______  ______   _______  _______
-|  |  | ||       ||      | |       ||       |
-|   |_| ||   _   ||  _    ||    ___||  _____|
-|       ||  | |  || | |   ||   |___ | |_____
-|  _    ||  |_|  || |_|   ||    ___||_____  |
-| | |   ||       ||       ||   |___  _____| |
-|_|  |__||_______||______| |_______||_______|
-
-*/
-
 export type ShaderNode = {
   name?: string
   slug?: string
@@ -80,13 +68,25 @@ export type ShaderNode = {
   outputs?: Variables
 }
 
-type VariableValues<V extends Variables | undefined> = V extends Variables
-  ? { [K in keyof V]: Value<V[K]["type"]> }
-  : {}
+export type VariableValues<
+  V extends Variables | undefined
+> = V extends Variables ? { [K in keyof V]: Value<V[K]["type"]> } : {}
 
-type ShaderNodeProps<S extends ShaderNode> = Partial<
+export type ShaderNodeProps<S extends ShaderNode> = Partial<
   VariableValues<S["inputs"]>
 >
+
+/*
+
+ __    _  _______  ______   _______  _______
+|  |  | ||       ||      | |       ||       |
+|   |_| ||   _   ||  _    ||    ___||  _____|
+|       ||  | |  || | |   ||   |___ | |_____
+|  _    ||  |_|  || |_|   ||    ___||_____  |
+| | |   ||       ||       ||   |___  _____| |
+|_|  |__||_______||______| |_______||_______|
+
+*/
 
 export const node = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
   node: S,
