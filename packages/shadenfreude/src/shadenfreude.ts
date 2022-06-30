@@ -12,9 +12,9 @@ _______  __   __  _______  _______  _______
 
   */
 
-export type GLSLChunk = string | string[]
+export type Chunk = string | string[]
 
-export type GLSLType =
+export type ValueType =
   | "string"
   | "bool"
   | "float"
@@ -24,7 +24,7 @@ export type GLSLType =
   | "mat3"
   | "mat4"
 
-export type GLSLtoJSType = {
+export type ValueToJSType = {
   string: string
   bool: boolean
   float: number
@@ -36,18 +36,18 @@ export type GLSLtoJSType = {
 }
 
 export type Program = {
-  header?: GLSLChunk
-  body?: GLSLChunk
+  header?: Chunk
+  body?: Chunk
 }
 
 export type ProgramType = "vertex" | "fragment"
 
-export type Value<T extends GLSLType = any> =
-  | GLSLtoJSType[T]
+export type Value<T extends ValueType = any> =
+  | ValueToJSType[T]
   | Variable<T>
-  | GLSLChunk
+  | Chunk
 
-export type Variable<T extends GLSLType = any> = {
+export type Variable<T extends ValueType = any> = {
   __variable: boolean
   name: string
   type: T
@@ -56,10 +56,6 @@ export type Variable<T extends GLSLType = any> = {
 }
 
 export type Variables = { [localName: string]: Variable<any> }
-
-export type VariableValues<
-  V extends Variables | undefined
-> = V extends Variables ? { [K in keyof V]: V[K]["value"] } : never
 
 /*
 
@@ -106,7 +102,7 @@ export const node = <S extends ShaderNode>(node: S): S => {
 
 */
 
-export const variable = <T extends GLSLType, V extends Variable<T>>(
+export const variable = <T extends ValueType, V extends Variable<T>>(
   type: T,
   value?: Value<T>
 ) =>
@@ -124,7 +120,7 @@ export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Value<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Value<"mat4">) => variable("mat4", value)
 
-export const pipe = <T extends GLSLType>(source: Variable<T>) => ({
+export const pipe = <T extends ValueType>(source: Variable<T>) => ({
   into: (target: Variable<T>) => {
     target.value = source
   }
