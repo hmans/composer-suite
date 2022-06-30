@@ -1,4 +1,4 @@
-import { float, node, variable } from "../src/shadenfreude"
+import { float, node, variable, compileShader } from "../src/shadenfreude"
 
 describe("node", () => {
   it("creates a shader node", () => {
@@ -23,5 +23,36 @@ describe("variable", () => {
   it("assigns the given value", () => {
     const v = variable("float", 123)
     expect(v.value).toBe(123)
+  })
+})
+
+describe("compileShader", () => {
+  it("compiles the given node into a shader", () => {
+    const n = node({ name: "A Blank Shader Node" })
+    const c = compileShader(n)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "
+      void main() {
+
+      /*** BEGIN: A Blank Shader Node ***/
+      {
+      }
+      /*** END: A Blank Shader Node ***/
+
+      }"
+    `)
+
+    expect(c.fragmentShader).toMatchInlineSnapshot(`
+      "
+      void main() {
+
+      /*** BEGIN: A Blank Shader Node ***/
+      {
+      }
+      /*** END: A Blank Shader Node ***/
+
+      }"
+    `)
   })
 })

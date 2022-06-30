@@ -143,7 +143,7 @@ export const plug = <T extends ValueType>(source: Variable<T>) => ({
 
 */
 
-export const Compiler = (root: ShaderNode) => {
+export const compileShader = (root: ShaderNode) => {
   const compileVariables = (
     variables: Variables,
     callback: (localName: string, variable: Variable) => string
