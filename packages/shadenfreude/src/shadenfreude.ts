@@ -2,72 +2,6 @@ import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 
 /*
 
- __    _  _______  ______   _______  _______
-|  |  | ||       ||      | |       ||       |
-|   |_| ||   _   ||  _    ||    ___||  _____|
-|       ||  | |  || | |   ||   |___ | |_____
-|  _    ||  |_|  || |_|   ||    ___||_____  |
-| | |   ||       ||       ||   |___  _____| |
-|_|  |__||_______||______| |_______||_______|
-
-*/
-
-export type Chunk = string | string[]
-
-export type Program = {
-  header?: Chunk
-  body?: Chunk
-}
-
-export type ProgramType = "vertex" | "fragment"
-
-export type ShaderNode = {
-  name?: string
-  slug?: string
-
-  vertex?: Program
-  fragment?: Program
-
-  inputs?: Variables
-  outputs?: Variables
-}
-
-export type ShaderNodeProps<S extends ShaderNode> = Partial<
-  VariableValues<S["inputs"]>
->
-
-export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
-  node: S,
-  props: P = {} as P
-): S => {
-  assignVariableOwners(node)
-  assignPropsToInputs(node, props)
-  return node
-}
-
-const assignPropsToInputs = <S extends ShaderNode>(node: S, props: any) => {
-  Object.entries(props).forEach(([name, value]) => {
-    const variable = node.inputs?.[name]
-    if (variable) {
-      variable.value = value
-    }
-  })
-}
-
-const assignVariableOwners = (node: ShaderNode) => {
-  const variables = [
-    ...Object.values(node.outputs || {}),
-    ...Object.values(node.inputs || {})
-  ]
-
-  variables.forEach((variable) => {
-    variable.node = node
-    variable.name = ["processed", variable.type, variable.name].join("_")
-  })
-}
-
-/*
-
  __   __  _______  ______    ___   _______  _______  ___      _______  _______
 |  | |  ||   _   ||    _ |  |   | |   _   ||  _    ||   |    |       ||       |
 |  |_|  ||  |_|  ||   | ||  |   | |  |_|  || |_|   ||   |    |    ___||  _____|
@@ -133,6 +67,72 @@ export const plug = <T extends ValueType>(source: Variable<T>) => ({
     target.value = source
   }
 })
+
+/*
+
+ __    _  _______  ______   _______  _______
+|  |  | ||       ||      | |       ||       |
+|   |_| ||   _   ||  _    ||    ___||  _____|
+|       ||  | |  || | |   ||   |___ | |_____
+|  _    ||  |_|  || |_|   ||    ___||_____  |
+| | |   ||       ||       ||   |___  _____| |
+|_|  |__||_______||______| |_______||_______|
+
+*/
+
+export type Chunk = string | string[]
+
+export type Program = {
+  header?: Chunk
+  body?: Chunk
+}
+
+export type ProgramType = "vertex" | "fragment"
+
+export type ShaderNode = {
+  name?: string
+  slug?: string
+
+  vertex?: Program
+  fragment?: Program
+
+  inputs?: Variables
+  outputs?: Variables
+}
+
+export type ShaderNodeProps<S extends ShaderNode> = Partial<
+  VariableValues<S["inputs"]>
+>
+
+export const ShaderNode = <S extends ShaderNode, P extends ShaderNodeProps<S>>(
+  node: S,
+  props: P = {} as P
+): S => {
+  assignVariableOwners(node)
+  assignPropsToInputs(node, props)
+  return node
+}
+
+const assignPropsToInputs = <S extends ShaderNode>(node: S, props: any) => {
+  Object.entries(props).forEach(([name, value]) => {
+    const variable = node.inputs?.[name]
+    if (variable) {
+      variable.value = value
+    }
+  })
+}
+
+const assignVariableOwners = (node: ShaderNode) => {
+  const variables = [
+    ...Object.values(node.outputs || {}),
+    ...Object.values(node.inputs || {})
+  ]
+
+  variables.forEach((variable) => {
+    variable.node = node
+    variable.name = ["processed", variable.type, variable.name].join("_")
+  })
+}
 
 /*
 
