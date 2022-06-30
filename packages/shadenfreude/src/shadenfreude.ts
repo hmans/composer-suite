@@ -96,6 +96,18 @@ export const apply = <S extends ShaderNode>(node: S, props: any) => {
   return node
 }
 
+type VariableValues<V extends Variables | undefined> = V extends Variables
+  ? { [K in keyof V]: Value<V[K]["type"]> }
+  : {}
+
+export function set<
+  S extends ShaderNode,
+  P extends Partial<VariableValues<S["inputs"]>>
+>(node: S) {
+  const to = (props: P = {} as P) => apply(node, props)
+  return { to }
+}
+
 const assignVariableOwners = (node: ShaderNode) => {
   const variables = [
     ...Object.values(node.outputs || {}),
