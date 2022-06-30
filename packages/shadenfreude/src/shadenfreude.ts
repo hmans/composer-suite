@@ -155,14 +155,6 @@ export const plug = <T extends ValueType>(source: Variable<T>) => ({
 */
 
 export const compileShader = (root: ShaderNode) => {
-  const compileVariables = (
-    variables: Variables,
-    callback: (localName: string, variable: Variable) => string
-  ) =>
-    Object.entries(variables).map(([localName, variable]) =>
-      callback(localName, variable)
-    )
-
   const compileValue = (value: Value): string => {
     if (typeof value === "string") {
       return value
@@ -182,6 +174,14 @@ export const compileShader = (root: ShaderNode) => {
       variable.value !== undefined && ["=", compileValue(variable.value)]
     )
 
+  const compileVariables = (
+    variables: Variables,
+    callback: (localName: string, variable: Variable) => string
+  ) =>
+    Object.entries(variables).map(([localName, variable]) =>
+      callback(localName, variable)
+    )
+
   const compileHeader = (node: ShaderNode, programType: ProgramType) => {
     /* TODO: dependencies */
     return [node[programType]?.header]
@@ -194,31 +194,31 @@ export const compileShader = (root: ShaderNode) => {
         isVariable(value) ? compileBody(value.node!, programType) : ""
       )
 
-    const outputVariableDeclarations = node.outputs && [
+    const outputVariableDeclarations =
+      node.outputs &&
       compileVariables(node.outputs, (localName, variable) =>
         compileVariable({ ...variable, value: undefined })
       )
-    ]
 
-    const inputVariables = node.inputs && [
+    const inputVariables =
+      node.inputs &&
       compileVariables(node.inputs, (localName, variable) =>
         compileVariable({ ...variable, name: localName })
       )
-    ]
 
-    const outputVariables = node.outputs && [
+    const outputVariables =
+      node.outputs &&
       compileVariables(node.outputs, (localName, variable) =>
         compileVariable({ ...variable, name: localName })
       )
-    ]
 
     const body = node[programType]?.body && [node[programType]?.body]
 
-    const outputVariableAssignments = node.outputs && [
+    const outputVariableAssignments =
+      node.outputs &&
       compileVariables(node.outputs, (localName, variable) =>
         statement(variable.name, "=", localName)
       )
-    ]
 
     return [
       dependencies,
