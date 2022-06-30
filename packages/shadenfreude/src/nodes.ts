@@ -1,6 +1,6 @@
-import { float, ShaderNode, Value } from "./shadenfreude"
+import { float, ShaderNode, Value, VariableValues } from "./shadenfreude"
 
-export const FloatNode = (props?: { a?: Value<"float"> }) =>
+export const FloatNodeDirect = (props: any) =>
   ShaderNode(
     {
       name: "Float Value",
@@ -13,6 +13,19 @@ export const FloatNode = (props?: { a?: Value<"float"> }) =>
     },
     props
   )
+
+const Factory = <
+  F extends (...args: any[]) => ShaderNode,
+  S extends ShaderNode = ReturnType<F>,
+  P = VariableValues<S["in"]>
+>(
+  fac: F
+) => (props: P = {} as P) => fac(props) as S
+
+const FloatNode = Factory(FloatNodeDirect)
+
+const node = FloatNode({ a: 1, b: 2 })
+console.log(node.out.value)
 
 export const TimeNode = () =>
   ShaderNode({

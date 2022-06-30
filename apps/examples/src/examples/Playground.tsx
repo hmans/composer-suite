@@ -3,7 +3,7 @@ import { useMemo, useRef } from "react"
 import {
   compileShader,
   float,
-  FloatNode,
+  FloatNodeDirect,
   plug,
   ShaderNode,
   TimeNode,
@@ -32,7 +32,7 @@ const RootNode = (props?: { offset: Value<"float"> }) =>
 function useShader() {
   return useMemo(() => {
     const time = TimeNode()
-    const float = FloatNode({ a: 12 })
+    const float = FloatNodeDirect({ a: 12 })
     const root = RootNode()
 
     plug(time.out.sin).into(root.in.offset)
