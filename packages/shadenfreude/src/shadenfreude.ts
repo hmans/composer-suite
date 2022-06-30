@@ -82,7 +82,12 @@ export type ShaderNode = {
 
 export const node = <S extends ShaderNode>(node: S): S => {
   /* Process input variables */
-  Object.values(node.outputs || {}).forEach((variable) => {
+  const variables = [
+    ...Object.values(node.outputs || {}),
+    ...Object.values(node.inputs || {})
+  ]
+
+  variables.forEach((variable) => {
     variable.node = node
     variable.name = ["processed", variable.type, variable.name].join("_")
   })
