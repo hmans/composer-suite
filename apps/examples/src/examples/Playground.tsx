@@ -1,14 +1,5 @@
 import { useMemo, useRef } from "react"
-import {
-  apply,
-  compileShader,
-  connect,
-  float,
-  node,
-  plug,
-  set,
-  Value
-} from "shadenfreude"
+import { compileShader, float, node, set, Value } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
