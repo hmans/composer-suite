@@ -7,7 +7,6 @@ import {
   ValueType,
   Variable
 } from "../shadenfreude"
-import { FloatNode, Vector3Node } from "./values"
 
 function makeFunctionNode(fun: string) {
   return function<T extends ValueType>({ a }: OperatorProps<T>) {
@@ -41,18 +40,15 @@ export const OperatorNode = <T extends ValueType>({
 }: OperatorProps<T> & { operator: Operator }) =>
   ShaderNode({
     name: `Perform ${operator} on ${glslType(a)}`,
-    inputs: {
+    in: {
       a: inferVariable(a),
       b: inferVariable(b)
     },
-    outputs: {
-      value: inferVariable(a) as Variable<T>
-    },
-    vertex: {
-      body: `value = a ${operator} b;`
-    },
-    fragment: {
-      body: `value = a ${operator} b;`
+    out: {
+      value: {
+        ...inferVariable(a),
+        value: `in_a ${operator} in_b`
+      } as Variable<T>
     }
   })
 
@@ -67,8 +63,3 @@ export const DivideNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
 
 export const MultiplyNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
   OperatorNode({ operator: "*", a, b })
-
-const a = FloatNode({ value: 1 })
-const b = FloatNode({ value: 1 })
-const v = Vector3Node()
-const add = AddNode({ a: v, b })

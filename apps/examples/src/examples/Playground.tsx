@@ -1,16 +1,15 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
+  AddNode,
   compileShader,
   Factory,
   float,
-  FloatNode,
-  plug,
   TimeNode,
   vec3,
   Vector3Node
 } from "shadenfreude"
-import { FloatType, MeshStandardMaterial, Vector3 } from "three"
+import { MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -64,15 +63,16 @@ function useShader() {
     const time = TimeNode()
 
     /* ...instantiate them with props... */
-    const position = CombineVector3Node({
+    const wobble = CombineVector3Node({
+      x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }),
       y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),
       z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
     })
 
-    /* ...or connect variables after the fact! */
-    plug(WobbleNode({ t: time, frequency: 8, amplitude: 3 })).into(
-      position.in.x
-    )
+    const position = AddNode({
+      a: Vector3Node({ value: new Vector3(8, 2, 3) }),
+      b: wobble
+    }).out.value
 
     /* Destructuring FTW */
     const root = CSMMasterNode({
