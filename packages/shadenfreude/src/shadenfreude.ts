@@ -85,7 +85,7 @@ export const node = <S extends ShaderNode>(node: S, props: any = {}): S => {
   return node
 }
 
-export const apply = (node: ShaderNode, props: any) => {
+export const apply = <S extends ShaderNode>(node: S, props: any) => {
   Object.entries(props).forEach(([name, value]) => {
     const variable = node.inputs?.[name]
     if (variable) {
