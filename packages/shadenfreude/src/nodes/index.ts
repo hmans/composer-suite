@@ -1,4 +1,5 @@
 import { Factory, float } from "../shadenfreude"
+export * from "./math"
 export * from "./values"
 
 export const TimeNode = Factory(() => ({
