@@ -1,11 +1,32 @@
 import {
+  Factory,
+  float,
   getValueType,
   inferVariable,
   Parameter,
   ShaderNode,
   ValueType,
-  Variable
+  Variable,
+  vec2,
+  vec3,
+  vec4
 } from "../shadenfreude"
+
+export const ComposeNode = Factory(() => ({
+  name: "Compose components",
+  in: {
+    x: float(),
+    y: float(),
+    z: float(),
+    w: float()
+  },
+  out: {
+    value: vec4("vec4(in_x, in_y, in_z, in_w)"),
+    vec4: vec4("vec4(in_x, in_y, in_z, in_w)"),
+    vec3: vec3("vec3(in_x, in_y, in_z)"),
+    vec2: vec2("vec2(in_x, in_y)")
+  }
+}))
 
 function makeFunctionNode(fun: string) {
   return function<T extends ValueType>({ a }: OperatorProps<T>) {

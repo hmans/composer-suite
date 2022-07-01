@@ -3,12 +3,15 @@ import { useMemo, useRef } from "react"
 import {
   AddNode,
   compileShader,
+  ComposeNode,
   Factory,
   float,
   Parameter,
   PositionNode,
   TimeNode,
-  vec3
+  vec2,
+  vec3,
+  vec4
 } from "shadenfreude"
 import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
@@ -46,18 +49,6 @@ const WobbleNode = Factory(() => ({
   }
 }))
 
-const CombineVector3Node = Factory(() => ({
-  name: "Combine Vector3",
-  in: {
-    x: float(),
-    y: float(),
-    z: float()
-  },
-  out: {
-    value: vec3("vec3(in_x, in_y, in_z)")
-  }
-}))
-
 type WobbleProps = {
   frequency?: number
   amplitude?: number
@@ -69,16 +60,16 @@ const WobbleAnimation = ({
   amplitude = 1,
   time = TimeNode()
 }: WobbleProps) =>
-  CombineVector3Node({
+  ComposeNode({
     x: WobbleNode({ time, frequency: 8 * frequency, amplitude }),
     y: WobbleNode({ time, frequency: 5 * frequency, amplitude }),
     z: WobbleNode({ time, frequency: 3 * frequency, amplitude })
-  })
+  }).out.vec3
 
 function useShader() {
-  const time = TimeNode()
-
   return useMemo(() => {
+    const time = TimeNode()
+
     const root = CSMMasterNode({
       position: AddNode({
         a: PositionNode(),
