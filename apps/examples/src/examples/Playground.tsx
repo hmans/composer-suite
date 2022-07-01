@@ -5,7 +5,10 @@ import {
   compileShader,
   Factory,
   float,
+  ShaderNode,
   TimeNode,
+  ValueToJSType,
+  Variable,
   vec3,
   Vector3Node
 } from "shadenfreude"
@@ -74,9 +77,11 @@ function useShader() {
       b: wobble
     })
 
+    const position2 = Vector3Node({ value: new Vector3(8, 2, 3) })
+
     /* Destructuring FTW */
     const root = CSMMasterNode({
-      position
+      position: position //as { out: { value: Variable<"vec3"> } }
     })
 
     return compileShader(root)

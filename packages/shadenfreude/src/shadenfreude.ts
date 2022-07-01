@@ -109,7 +109,7 @@ export type Value<T extends ValueType = any> =
   | Variable<T>
   | Chunk
 
-export type ValueParameter<T extends ValueType = any> =
+export type Parameter<T extends ValueType = any> =
   | Value<T>
   | IShaderNodeWithOutVariable<T>
 
@@ -123,7 +123,7 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableProp<V extends Variable> = ValueParameter<V["type"]>
+export type VariableProp<V extends Variable> = Parameter<V["type"]>
 
 export type VariableProps<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: VariableProp<V[K]> }
@@ -131,40 +131,42 @@ export type VariableProps<V extends Variables | undefined> = V extends Variables
 
 export const variable = <T extends ValueType, V extends Variable<T>>(
   type: T,
-  value?: Value<T>
+  value?: Parameter<T>
 ) =>
   ({
     __variable: true,
     name: `var_${Math.floor(Math.random() * 10000000)}`,
     type,
-    value
+    value: isShaderNodeWithOutVariable(value) ? value.out.value : value
   } as V)
 
-export const float = (value?: Value<"float">) => variable("float", value)
-export const vec2 = (value?: Value<"vec2">) => variable("vec2", value)
-export const vec3 = (value?: Value<"vec3">) => variable("vec3", value)
-export const vec4 = (value?: Value<"vec4">) => variable("vec4", value)
-export const mat3 = (value?: Value<"mat3">) => variable("mat3", value)
-export const mat4 = (value?: Value<"mat4">) => variable("mat4", value)
+export const float = (value?: Parameter<"float">) => variable("float", value)
+export const vec2 = (value?: Parameter<"vec2">) => variable("vec2", value)
+export const vec3 = (value?: Parameter<"vec3">) => variable("vec3", value)
+export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
+export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
+export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
 export const plug = <S extends Variable, T extends Variable>(
   source: VariableProp<S>
 ) => ({
-  into: (target: T) => {
-    if (isShaderNodeWithOutVariable(source)) {
-      target.value = source.out.value
-    } else {
-      target.value = source
-    }
-  }
+  into: (target: T) => assign(target, source)
 })
+
+const assign = <T extends ValueType>(
+  variable: Variable<T>,
+  value: Parameter<T>
+) =>
+  (variable.value = isShaderNodeWithOutVariable(value)
+    ? value.out.value
+    : value)
 
 /**
  * Creates a new variable based on the given value's type, and sets its value... to the value.
  * Documentation is hard.
  */
 export const inferVariable = (a: Value): Variable => {
-  return variable(glslType(a), isShaderNodeWithOutVariable(a) ? a.out.value : a)
+  return variable(glslType(a), a)
 }
 
 /**

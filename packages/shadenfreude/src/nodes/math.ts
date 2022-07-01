@@ -1,9 +1,8 @@
 import {
   glslType,
   inferVariable,
-  IVariableWithOutValue,
+  Parameter,
   ShaderNode,
-  Value,
   ValueType,
   Variable
 } from "../shadenfreude"
@@ -29,8 +28,8 @@ export const CosNode = makeFunctionNode("cos")
 type Operator = "+" | "-" | "*" | "/"
 
 type OperatorProps<T extends ValueType> = {
-  a: Value<T> | IVariableWithOutValue<T>
-  b: Value<any> | IVariableWithOutValue<any>
+  a: Parameter<T>
+  b: Parameter<any>
 }
 
 export const OperatorNode = <T extends ValueType>({
