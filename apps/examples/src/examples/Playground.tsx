@@ -1,4 +1,5 @@
 import { useFrame } from "@react-three/fiber"
+import { BlendMode } from "postprocessing"
 import { useMemo, useRef } from "react"
 import {
   AddNode,
@@ -10,6 +11,7 @@ import {
   MultiplyNode,
   Parameter,
   PositionNode,
+  Program,
   TimeNode,
   vec3
 } from "shadenfreude"
@@ -71,6 +73,41 @@ const FresnelNode = Factory(() => ({
   }
 }))
 
+export const BlendNode = Factory(() => {
+  const program: Program = {
+    header: `
+      float blend_softlight(const in float x, const in float y) {
+        return (y < 0.5) ?
+          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
+          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
+      }
+    `,
+    body: `
+      vec3 z = vec3(
+        blend_softlight(in_a.r, in_b.r),
+        blend_softlight(in_a.g, in_b.g),
+        blend_softlight(in_a.b, in_b.b)
+      );
+      out_value = vec3(z.xyz * in_opacity + in_a.xyz * (1.0 - in_opacity));
+      out_value = z.xyz * in_opacity;
+    `
+  }
+
+  return {
+    name: "Softlight Blend",
+    in: {
+      a: vec3(),
+      b: vec3(),
+      opacity: float(1)
+    },
+    out: {
+      value: vec3()
+    },
+    vertex: program,
+    fragment: program
+  }
+})
+
 const CSMMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
   in: {
@@ -130,15 +167,20 @@ function useShader() {
   return useMemo(() => {
     const time = TimeNode()
 
+    const fresnel = MultiplyNode({
+      a: ColorNode({ value: new Color("white") }),
+      b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
+    })
+
     const root = CSMMasterNode({
       position: AddNode({
         a: PositionNode(),
         b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
       }),
 
-      diffuseColor: MultiplyNode({
-        a: ColorNode({ value: new Color("hotpink") }),
-        b: FresnelNode()
+      diffuseColor: BlendNode({
+        a: ColorNode({ value: new Color("#c42") }),
+        b: fresnel
       })
     })
 
