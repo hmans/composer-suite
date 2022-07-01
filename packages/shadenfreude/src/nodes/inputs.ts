@@ -3,6 +3,10 @@ import { Factory, float } from "../shadenfreude"
 export const TimeNode = Factory(() => ({
   name: "Time",
 
+  uniforms: {
+    u_time: float()
+  },
+
   out: {
     /** The absolute time, in seconds */
     value: float("u_time"),
@@ -12,13 +16,5 @@ export const TimeNode = Factory(() => ({
 
     /** Cosine of the times */
     cos: float("cos(u_time)")
-  },
-
-  vertex: {
-    header: "uniform float u_time;"
-  },
-
-  fragment: {
-    header: "uniform float u_time;"
   }
 }))

@@ -109,6 +109,47 @@ describe("compileShader", () => {
     `)
   })
 
+  it("creates uniforms for nodes that use them", () => {
+    const node = ShaderNode({
+      name: "Node referencing a uniform",
+      uniforms: {
+        u_time: float()
+      }
+    })
+
+    const [c] = compileShader(node)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Node referencing a uniform ***/
+      uniform float u_time;
+      /*** END: Node referencing a uniform ***/
+
+      void main()
+      {
+        /*** BEGIN: Node referencing a uniform ***/
+        {
+        }
+        /*** END: Node referencing a uniform ***/
+
+      }"
+    `)
+
+    expect(c.fragmentShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Node referencing a uniform ***/
+      uniform float u_time;
+      /*** END: Node referencing a uniform ***/
+
+      void main()
+      {
+        /*** BEGIN: Node referencing a uniform ***/
+        {
+        }
+        /*** END: Node referencing a uniform ***/
+
+      }"
+    `)
+  })
+
   it("supports the dynamic creation of varyings", () => {
     const node = ShaderNode({
       name: "Node with a Varying",

@@ -27,6 +27,7 @@ export interface IShaderNode {
   vertex?: Program
   fragment?: Program
 
+  uniforms?: Variables
   varyings?: Variables
   in?: Variables
   out?: Variables
@@ -290,6 +291,11 @@ export const compileShader = (root: IShaderNode) => {
       ),
 
       nodeBegin(node),
+
+      /* Uniforms */
+      getVariables(node.uniforms).map(([name, v]) =>
+        compileVariable({ ...v, qualifier: "uniform", name, value: undefined })
+      ),
 
       /* Varyings */
       getVariables(node.varyings).map(([_, v]) =>
