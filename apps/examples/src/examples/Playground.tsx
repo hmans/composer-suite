@@ -2,30 +2,90 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
   AddNode,
+  ColorNode,
   compileShader,
   ComposeNode,
   Factory,
   float,
+  MultiplyNode,
   Parameter,
   PositionNode,
   TimeNode,
-  vec2,
-  vec3,
-  vec4
+  vec3
 } from "shadenfreude"
-import { MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
+const WorldPositionNode = Factory(() => ({
+  name: "World Position (?)",
+  varyings: {
+    v_worldPosition: vec3(
+      "vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])"
+    )
+  },
+  out: {
+    value: vec3("v_worldPosition")
+  }
+}))
+
+const WorldNormalNode = Factory(() => ({
+  name: "World Normal (?)",
+  varyings: {
+    v_worldNormal: vec3(`
+      normalize(
+        mat3(
+          modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
+        ) * normal
+      )
+    `)
+  },
+  out: {
+    value: vec3("v_worldNormal")
+  }
+}))
+
+const FresnelNode = Factory(() => ({
+  name: "Fresnel",
+  in: {
+    alpha: float(1),
+    bias: float(0),
+    intensity: float(1),
+    power: float(2),
+    factor: float(1),
+    worldPosition: vec3(WorldPositionNode()),
+    worldNormal: vec3(WorldNormalNode())
+  },
+  out: {
+    value: float()
+  },
+  fragment: {
+    body: `
+      float f_a = (in_factor + dot(in_worldPosition, in_worldNormal));
+      float f_fresnel = in_bias + in_intensity * pow(abs(f_a), in_power);
+      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+      out_value = f_fresnel;
+    `
+  }
+}))
+
 const CSMMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
   in: {
-    position: vec3()
+    position: vec3(),
+    diffuseColor: vec3(new Color(1, 1, 1))
   },
   vertex: {
-    body: "csm_Position = in_position;"
+    body: `
+      csm_Position = in_position;
+    `
+  },
+  fragment: {
+    body: `
+      csm_DiffuseColor = vec4(in_diffuseColor, 1.0);
+    `
   }
 }))
 
@@ -74,6 +134,11 @@ function useShader() {
       position: AddNode({
         a: PositionNode(),
         b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
+      }),
+
+      diffuseColor: MultiplyNode({
+        a: ColorNode({ value: new Color("hotpink") }),
+        b: FresnelNode()
       })
     })
 
