@@ -5,9 +5,9 @@ import {
   ColorNode,
   compileShader,
   ComposeNode,
+  CustomShaderMaterialMasterNode,
   Factory,
   float,
-  GeometryNormalNode,
   GeometryPositionNode,
   MultiplyNode,
   Parameter,
@@ -108,28 +108,6 @@ export const BlendNode = Factory(() => {
   }
 })
 
-const CSMMasterNode = Factory(() => ({
-  name: "CustomShaderMaterial Master",
-  in: {
-    position: vec3(GeometryPositionNode()),
-    normal: vec3(GeometryNormalNode()),
-    diffuseColor: vec3(new Color(1, 1, 1)),
-    emissiveColor: vec3(new Color(0, 0, 0))
-  },
-  vertex: {
-    body: `
-      csm_Position = in_position;
-      csm_Normal = in_normal;
-    `
-  },
-  fragment: {
-    body: `
-      csm_DiffuseColor.rgb = in_diffuseColor;
-      csm_Emissive.rgb = in_emissiveColor;
-    `
-  }
-}))
-
 const WobbleNode = Factory(() => ({
   name: "Wobble",
 
@@ -176,7 +154,7 @@ function useShader() {
       b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
     })
 
-    const root = CSMMasterNode({
+    const root = CustomShaderMaterialMasterNode({
       position: AddNode({
         a: GeometryPositionNode(),
         b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
