@@ -21,7 +21,7 @@ export type Program = {
 
 export type ProgramType = "vertex" | "fragment"
 
-export type ShaderNode = {
+export interface IShaderNode {
   name?: string
 
   vertex?: Program
@@ -37,7 +37,7 @@ export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
 }
 
 export const ShaderNode = <
-  S extends ShaderNode,
+  S extends IShaderNode,
   P extends Partial<VariableProps<S["in"]>>
 >(
   node: S,
@@ -73,8 +73,8 @@ export const ShaderNode = <
 }
 
 export const Factory = <
-  F extends (...args: any[]) => ShaderNode,
-  S extends ShaderNode = ReturnType<F>,
+  F extends (...args: any[]) => IShaderNode,
+  S extends IShaderNode = ReturnType<F>,
   P = Partial<VariableProps<S["in"]>>
 >(
   fac: F
@@ -121,7 +121,7 @@ export type Variable<T extends ValueType = any> = {
   name: string
   type: T
   value?: Value<T>
-  node?: ShaderNode
+  node?: IShaderNode
   qualifier?: Qualifier
 }
 
@@ -214,7 +214,7 @@ export function getValueType(value: Value): ValueType {
 
 */
 
-export const compileShader = (root: ShaderNode) => {
+export const compileShader = (root: IShaderNode) => {
   /**
    * Renders the GLSL representation of a given variable value.
    */
@@ -264,20 +264,20 @@ export const compileShader = (root: ShaderNode) => {
   /**
    * Returns the dependencies of the given shader node.
    */
-  const getDependencies = (node: ShaderNode) =>
+  const getDependencies = (node: IShaderNode) =>
     unique(
       getVariables(node.in)
         .filter(([_, variable]) => isVariable(variable.value))
         .map(([_, variable]) => variable.value.node)
     )
 
-  const nodeBegin = (node: ShaderNode) => `/*** BEGIN: ${node.name} ***/`
-  const nodeEnd = (node: ShaderNode) => `/*** END: ${node.name} ***/\n`
+  const nodeBegin = (node: IShaderNode) => `/*** BEGIN: ${node.name} ***/`
+  const nodeEnd = (node: IShaderNode) => `/*** END: ${node.name} ***/\n`
 
   const compileHeader = (
-    node: ShaderNode,
+    node: IShaderNode,
     programType: ProgramType,
-    seen: Set<ShaderNode> = new Set()
+    seen: Set<IShaderNode> = new Set()
   ): Parts => {
     if (seen.has(node)) return []
     seen.add(node)
@@ -303,9 +303,9 @@ export const compileShader = (root: ShaderNode) => {
   }
 
   const compileBody = (
-    node: ShaderNode,
+    node: IShaderNode,
     programType: ProgramType,
-    seen: Set<ShaderNode> = new Set()
+    seen: Set<IShaderNode> = new Set()
   ): Parts => {
     if (seen.has(node)) return []
     seen.add(node)
@@ -375,7 +375,7 @@ export const compileShader = (root: ShaderNode) => {
   }
 
   const tweakVariableNames = (
-    node: ShaderNode,
+    node: IShaderNode,
     state: { id: number } = { id: 0 }
   ) => {
     ++state.id
