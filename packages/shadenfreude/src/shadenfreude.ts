@@ -98,7 +98,7 @@ export type ValueToJSType = {
   bool: boolean
   float: number
   vec2: Vector2
-  vec3: Vector3
+  vec3: Vector3 | Color
   vec4: Vector4
   mat3: Matrix3
   mat4: Matrix4
