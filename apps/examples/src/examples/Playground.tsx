@@ -21,7 +21,7 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
-const WorldPositionNode = Factory(() => ({
+const ViewDirectionNode = Factory(() => ({
   name: "World Position (?)",
   varyings: {
     v_worldPosition: vec3(
@@ -33,7 +33,7 @@ const WorldPositionNode = Factory(() => ({
   }
 }))
 
-const WorldNormalNode = Factory(() => ({
+const NormalWorldNode = Factory(() => ({
   name: "World Normal (?)",
   varyings: {
     v_worldNormal: vec3(`
@@ -57,8 +57,8 @@ const FresnelNode = Factory(() => ({
     intensity: float(1),
     power: float(2),
     factor: float(1),
-    worldPosition: vec3(WorldPositionNode()),
-    worldNormal: vec3(WorldNormalNode())
+    worldPosition: vec3(ViewDirectionNode()),
+    worldNormal: vec3(NormalWorldNode())
   },
   out: {
     value: float()
