@@ -12,10 +12,11 @@ import {
   MultiplyNode,
   Parameter,
   Program,
+  ShaderMaterialMasterNode,
   TimeNode,
   vec3
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, ShaderMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -152,13 +153,13 @@ function useShader() {
       b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
     })
 
-    const root = CustomShaderMaterialMasterNode({
+    const root = ShaderMaterialMasterNode({
       position: AddNode({
         a: GeometryPositionNode(),
-        b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
+        b: WobbleAnimation({ frequency: 0.8, amplitude: 3.5, time })
       }),
 
-      diffuseColor: BlendNode({
+      color: BlendNode({
         a: ColorNode({ value: new Color("#c42") }),
         b: fresnel
       })
@@ -170,7 +171,7 @@ function useShader() {
 
 export default function Playground() {
   const [shaderProps, update] = useShader()
-  const material = useRef<CustomShaderMaterialImpl>(null!)
+  const material = useRef<ShaderMaterial>(null!)
 
   console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
@@ -181,11 +182,14 @@ export default function Playground() {
     <group position-y={15}>
       <mesh>
         <sphereGeometry args={[8, 32, 32]} />
-        <CustomShaderMaterial
+
+        <shaderMaterial ref={material} {...shaderProps} />
+
+        {/* <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shaderProps}
           ref={material}
-        />
+        /> */}
       </mesh>
     </group>
   )

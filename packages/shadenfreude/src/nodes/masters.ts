@@ -1,6 +1,28 @@
 import { Color } from "three"
-import { Factory, vec3 } from "../shadenfreude"
+import { Factory, float, vec3 } from "../shadenfreude"
 import { GeometryPositionNode, GeometryNormalNode } from "./geometry"
+
+export const ShaderMaterialMasterNode = Factory(() => ({
+  name: "ShaderMaterial Master",
+
+  in: {
+    position: vec3("position"),
+    color: vec3(new Color(1, 1, 1)),
+    opacity: float(1)
+  },
+
+  vertex: {
+    body: `
+      gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_position, 1.0);
+    `
+  },
+
+  fragment: {
+    body: `
+      gl_FragColor = vec4(in_color, in_opacity);
+    `
+  }
+}))
 
 export const CustomShaderMaterialMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
