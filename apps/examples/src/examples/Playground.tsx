@@ -72,7 +72,7 @@ function useShader() {
     const position = AddNode({
       a: Vector3Node({ value: new Vector3(8, 2, 3) }),
       b: wobble
-    }).out.value
+    })
 
     /* Destructuring FTW */
     const root = CSMMasterNode({
