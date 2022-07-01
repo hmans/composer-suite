@@ -5,10 +5,7 @@ import {
   compileShader,
   Factory,
   float,
-  ShaderNode,
   TimeNode,
-  ValueToJSType,
-  Variable,
   vec3,
   Vector3Node
 } from "shadenfreude"
@@ -62,26 +59,17 @@ const CombineVector3Node = Factory(() => ({
 
 function useShader() {
   return useMemo(() => {
-    /* Instantiate nodes without props... */
     const time = TimeNode()
 
-    /* ...instantiate them with props... */
-    const wobble = CombineVector3Node({
-      x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }),
-      y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),
-      z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
-    })
-
-    const position = AddNode({
-      a: Vector3Node({ value: new Vector3(8, 2, 3) }),
-      b: wobble
-    })
-
-    const position2 = Vector3Node({ value: new Vector3(8, 2, 3) })
-
-    /* Destructuring FTW */
     const root = CSMMasterNode({
-      position: position //as { out: { value: Variable<"vec3"> } }
+      position: AddNode({
+        a: Vector3Node({ value: new Vector3(8, 2, 3) }),
+        b: CombineVector3Node({
+          x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }),
+          y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),
+          z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
+        })
+      })
     })
 
     return compileShader(root)
