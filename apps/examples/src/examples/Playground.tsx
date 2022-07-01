@@ -16,10 +16,8 @@ import {
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
-import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
+import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-
-type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
 const ViewDirectionNode = Factory(() => ({
   name: "World Position (?)",
@@ -170,25 +168,24 @@ function useShader() {
   }, [])
 }
 
-function MyMaterial({ children, ...props }: ModularShaderMaterialProps) {
+export default function Playground() {
   const [shaderProps, update] = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
   console.log(shaderProps.vertexShader)
-  // console.log(shaderProps.fragmentShader)
+  console.log(shaderProps.fragmentShader)
 
   useFrame((_, dt) => update(dt))
 
-  return <CustomShaderMaterial {...props} {...shaderProps} ref={material} />
-}
-
-export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
         <sphereGeometry args={[8, 32, 32]} />
-
-        <MyMaterial baseMaterial={MeshStandardMaterial}></MyMaterial>
+        <CustomShaderMaterial
+          baseMaterial={MeshStandardMaterial}
+          {...shaderProps}
+          ref={material}
+        />
       </mesh>
     </group>
   )
