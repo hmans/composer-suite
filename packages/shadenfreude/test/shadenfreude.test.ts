@@ -109,6 +109,59 @@ describe("compileShader", () => {
     `)
   })
 
+  it("supports the dynamic creation of varyings", () => {
+    const node = ShaderNode({
+      name: "Node with a Varying",
+      varyings: {
+        v_pos: vec3("position")
+      },
+      out: {
+        value: vec3("v_pos")
+      }
+    })
+
+    const [c] = compileShader(node)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Node with a Varying ***/
+      varying vec3 v_Node_with_a_Varying_1_v_pos;
+      /*** END: Node with a Varying ***/
+
+      void main()
+      {
+        /*** BEGIN: Node with a Varying ***/
+        vec3 out_Node_with_a_Varying_1_value;
+        {
+          vec3 v_pos = position;
+          vec3 out_value = v_pos;
+          out_Node_with_a_Varying_1_value = out_value;
+          v_Node_with_a_Varying_1_v_pos = v_pos;
+        }
+        /*** END: Node with a Varying ***/
+
+      }"
+    `)
+
+    expect(c.fragmentShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Node with a Varying ***/
+      varying vec3 v_Node_with_a_Varying_1_v_pos;
+      /*** END: Node with a Varying ***/
+
+      void main()
+      {
+        /*** BEGIN: Node with a Varying ***/
+        vec3 out_Node_with_a_Varying_1_value;
+        {
+          vec3 v_pos = v_Node_with_a_Varying_1_v_pos;
+          vec3 out_value = v_pos;
+          out_Node_with_a_Varying_1_value = out_value;
+        }
+        /*** END: Node with a Varying ***/
+
+      }"
+    `)
+  })
+
   it("only includes dependencies in the GLSL once", () => {
     const f = FloatNode({ value: 1 })
 
@@ -131,18 +184,18 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Float Value ***/
-        float out_Float_Value_1_value;
+        float out_Float_Value_2_value;
         {
           float in_value = 1.00000;
           float out_value = in_value;
-          out_Float_Value_1_value = out_value;
+          out_Float_Value_2_value = out_value;
         }
         /*** END: Float Value ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Float_Value_1_value;
-          float in_b = out_Float_Value_1_value;
+          float in_a = out_Float_Value_2_value;
+          float in_b = out_Float_Value_2_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -160,18 +213,18 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Float Value ***/
-        float out_Float_Value_1_value;
+        float out_Float_Value_2_value;
         {
           float in_value = 1.00000;
           float out_value = in_value;
-          out_Float_Value_1_value = out_value;
+          out_Float_Value_2_value = out_value;
         }
         /*** END: Float Value ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Float_Value_1_value;
-          float in_b = out_Float_Value_1_value;
+          float in_a = out_Float_Value_2_value;
+          float in_b = out_Float_Value_2_value;
         }
         /*** END: Unnamed Node ***/
 
