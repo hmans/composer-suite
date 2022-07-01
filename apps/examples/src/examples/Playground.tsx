@@ -5,6 +5,7 @@ import {
   compileShader,
   Factory,
   float,
+  Parameter,
   PositionNode,
   TimeNode,
   vec3
@@ -57,18 +58,32 @@ const CombineVector3Node = Factory(() => ({
   }
 }))
 
-function useShader() {
-  return useMemo(() => {
-    const time = TimeNode()
+type WobbleProps = {
+  frequency?: number
+  amplitude?: number
+  time?: Parameter<"float">
+}
 
+function WobbleAnimation({
+  frequency = 1,
+  amplitude = 1,
+  time: t = TimeNode()
+}: WobbleProps) {
+  return CombineVector3Node({
+    x: WobbleNode({ t, frequency: 8 * frequency, amplitude }),
+    y: WobbleNode({ t, frequency: 5 * frequency, amplitude }),
+    z: WobbleNode({ t, frequency: 3 * frequency, amplitude })
+  })
+}
+
+function useShader() {
+  const time = TimeNode()
+
+  return useMemo(() => {
     const root = CSMMasterNode({
       position: AddNode({
         a: PositionNode(),
-        b: CombineVector3Node({
-          x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }),
-          y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),
-          z: WobbleNode({ t: time, frequency: 3, amplitude: 3 })
-        })
+        b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
       })
     })
 
