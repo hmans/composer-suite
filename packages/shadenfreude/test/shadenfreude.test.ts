@@ -1,14 +1,13 @@
 import { Vector3 } from "three"
 import { FloatNode, TimeNode } from "../src"
 import {
+  compileShader,
+  Factory,
   float,
+  plug,
   ShaderNode,
   variable,
-  compileShader,
-  plug,
-  Factory,
-  vec3,
-  ValueType
+  vec3
 } from "../src/shadenfreude"
 
 describe("ShaderNode", () => {
