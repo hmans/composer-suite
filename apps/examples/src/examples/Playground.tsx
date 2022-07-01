@@ -31,7 +31,7 @@ const WobbleNode = Factory(() => ({
 
   in: {
     /** The time offset */
-    t: float(),
+    time: float(),
 
     /** How fast to wobble */
     frequency: float(1),
@@ -42,7 +42,7 @@ const WobbleNode = Factory(() => ({
 
   out: {
     /** The wobble value */
-    value: float("sin(in_t * in_frequency) * in_amplitude")
+    value: float("sin(in_time * in_frequency) * in_amplitude")
   }
 }))
 
@@ -64,17 +64,16 @@ type WobbleProps = {
   time?: Parameter<"float">
 }
 
-function WobbleAnimation({
+const WobbleAnimation = ({
   frequency = 1,
   amplitude = 1,
-  time: t = TimeNode()
-}: WobbleProps) {
-  return CombineVector3Node({
-    x: WobbleNode({ t, frequency: 8 * frequency, amplitude }),
-    y: WobbleNode({ t, frequency: 5 * frequency, amplitude }),
-    z: WobbleNode({ t, frequency: 3 * frequency, amplitude })
+  time = TimeNode()
+}: WobbleProps) =>
+  CombineVector3Node({
+    x: WobbleNode({ time, frequency: 8 * frequency, amplitude }),
+    y: WobbleNode({ time, frequency: 5 * frequency, amplitude }),
+    z: WobbleNode({ time, frequency: 3 * frequency, amplitude })
   })
-}
 
 function useShader() {
   const time = TimeNode()
