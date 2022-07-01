@@ -175,27 +175,27 @@ describe("compileShader", () => {
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
       "
-      /*** BEGIN: Float Value ***/
-      /*** END: Float Value ***/
+      /*** BEGIN: Value (float) ***/
+      /*** END: Value (float) ***/
 
       /*** BEGIN: Unnamed Node ***/
       /*** END: Unnamed Node ***/
 
       void main()
       {
-        /*** BEGIN: Float Value ***/
-        float out_Float_Value_2_value;
+        /*** BEGIN: Value (float) ***/
+        float out_Value_float_2_value;
         {
           float in_value = 1.00000;
           float out_value = in_value;
-          out_Float_Value_2_value = out_value;
+          out_Value_float_2_value = out_value;
         }
-        /*** END: Float Value ***/
+        /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Float_Value_2_value;
-          float in_b = out_Float_Value_2_value;
+          float in_a = out_Value_float_2_value;
+          float in_b = out_Value_float_2_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -204,27 +204,27 @@ describe("compileShader", () => {
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
       "
-      /*** BEGIN: Float Value ***/
-      /*** END: Float Value ***/
+      /*** BEGIN: Value (float) ***/
+      /*** END: Value (float) ***/
 
       /*** BEGIN: Unnamed Node ***/
       /*** END: Unnamed Node ***/
 
       void main()
       {
-        /*** BEGIN: Float Value ***/
-        float out_Float_Value_2_value;
+        /*** BEGIN: Value (float) ***/
+        float out_Value_float_2_value;
         {
           float in_value = 1.00000;
           float out_value = in_value;
-          out_Float_Value_2_value = out_value;
+          out_Value_float_2_value = out_value;
         }
-        /*** END: Float Value ***/
+        /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Float_Value_2_value;
-          float in_b = out_Float_Value_2_value;
+          float in_a = out_Value_float_2_value;
+          float in_b = out_Value_float_2_value;
         }
         /*** END: Unnamed Node ***/
 
