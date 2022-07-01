@@ -40,13 +40,9 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export interface IVariableWithOutValue<T extends ValueType = any> {
-  out: { value: Variable<T> }
-}
-
 export type VariableProp<V extends Variable> =
   | Value<V["type"]>
-  | IVariableWithOutValue<V["type"]>
+  | IShaderNodeWithOutVariable<V["type"]>
 
 export type VariableProps<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: VariableProp<V[K]> }
@@ -74,7 +70,7 @@ export const plug = <S extends Variable, T extends Variable>(
   source: VariableProp<S>
 ) => ({
   into: (target: T) => {
-    if (isVariableWithOutValue(source)) {
+    if (isShaderNodeWithOutVariable(source)) {
       target.value = source.out.value
     } else {
       target.value = source
@@ -87,7 +83,7 @@ export const plug = <S extends Variable, T extends Variable>(
  * Documentation is hard.
  */
 export const inferVariable = (a: Value): Variable => {
-  return variable(glslType(a), isVariableWithOutValue(a) ? a.out.value : a)
+  return variable(glslType(a), isShaderNodeWithOutVariable(a) ? a.out.value : a)
 }
 
 /**
@@ -96,7 +92,7 @@ export const inferVariable = (a: Value): Variable => {
 export function glslType(value: Value): ValueType {
   if (isVariable(value)) {
     return value.type
-  } else if (isVariableWithOutValue(value)) {
+  } else if (isShaderNodeWithOutVariable(value)) {
     return glslType(value.out.value)
   } else if (typeof value === "number") {
     return "float"
@@ -150,6 +146,10 @@ export type ShaderNode = {
   out?: Variables
 }
 
+export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
+  out: { value: Variable<T> }
+}
+
 export const ShaderNode = <
   S extends ShaderNode,
   P extends Partial<VariableProps<S["in"]>>
@@ -176,7 +176,7 @@ export const ShaderNode = <
     const variable = node.in?.[name]
     if (!variable) return
 
-    if (isVariableWithOutValue(prop)) {
+    if (isShaderNodeWithOutVariable(prop)) {
       variable.value = prop.out.value
     } else {
       variable.value = prop
@@ -397,9 +397,9 @@ const statement = (...parts: Parts) =>
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
-export const isVariableWithOutValue = (
+export const isShaderNodeWithOutVariable = (
   value: any
-): value is IVariableWithOutValue => value?.out?.value !== undefined
+): value is IShaderNodeWithOutVariable => value?.out?.value !== undefined
 
 const unique = (array: any[]) => [...new Set(array)]
 
