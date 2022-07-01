@@ -1,4 +1,16 @@
-import { Factory, float } from "../shadenfreude"
+import { Factory, float, ValueType, variable } from "../shadenfreude"
+
+export const UniformNode = Factory<{ name: string; type: ValueType }>(
+  ({ name, type }) => ({
+    name: "Uniform",
+    uniforms: {
+      [name]: variable(type)
+    },
+    out: {
+      value: variable(type, name)
+    }
+  })
+)
 
 export const TimeNode = Factory(() => ({
   name: "Time",
