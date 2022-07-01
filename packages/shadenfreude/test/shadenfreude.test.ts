@@ -150,6 +150,119 @@ describe("compileShader", () => {
     `)
   })
 
+  it("makes sure uniforms are only ever declared once", () => {
+    const node = ShaderNode({
+      name: "A Node using two TimeNodes for some reason",
+      in: {
+        a: float(TimeNode()),
+        b: float(TimeNode())
+      }
+    })
+
+    const [c] = compileShader(node)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Time ***/
+      uniform float u_time;
+      /*** END: Time ***/
+
+      /*** BEGIN: Time ***/
+      /*** END: Time ***/
+
+      /*** BEGIN: A Node using two TimeNodes for some reason ***/
+      /*** END: A Node using two TimeNodes for some reason ***/
+
+      void main()
+      {
+        /*** BEGIN: Time ***/
+        float out_Time_2_value;
+        float out_Time_2_sin;
+        float out_Time_2_cos;
+        {
+          float out_value = u_time;
+          float out_sin = sin(u_time);
+          float out_cos = cos(u_time);
+          out_Time_2_value = out_value;
+          out_Time_2_sin = out_sin;
+          out_Time_2_cos = out_cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
+        float out_Time_3_value;
+        float out_Time_3_sin;
+        float out_Time_3_cos;
+        {
+          float out_value = u_time;
+          float out_sin = sin(u_time);
+          float out_cos = cos(u_time);
+          out_Time_3_value = out_value;
+          out_Time_3_sin = out_sin;
+          out_Time_3_cos = out_cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: A Node using two TimeNodes for some reason ***/
+        {
+          float in_a = out_Time_2_value;
+          float in_b = out_Time_3_value;
+        }
+        /*** END: A Node using two TimeNodes for some reason ***/
+
+      }"
+    `)
+    expect(c.fragmentShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Time ***/
+      uniform float u_time;
+      /*** END: Time ***/
+
+      /*** BEGIN: Time ***/
+      /*** END: Time ***/
+
+      /*** BEGIN: A Node using two TimeNodes for some reason ***/
+      /*** END: A Node using two TimeNodes for some reason ***/
+
+      void main()
+      {
+        /*** BEGIN: Time ***/
+        float out_Time_2_value;
+        float out_Time_2_sin;
+        float out_Time_2_cos;
+        {
+          float out_value = u_time;
+          float out_sin = sin(u_time);
+          float out_cos = cos(u_time);
+          out_Time_2_value = out_value;
+          out_Time_2_sin = out_sin;
+          out_Time_2_cos = out_cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
+        float out_Time_3_value;
+        float out_Time_3_sin;
+        float out_Time_3_cos;
+        {
+          float out_value = u_time;
+          float out_sin = sin(u_time);
+          float out_cos = cos(u_time);
+          out_Time_3_value = out_value;
+          out_Time_3_sin = out_sin;
+          out_Time_3_cos = out_cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: A Node using two TimeNodes for some reason ***/
+        {
+          float in_a = out_Time_2_value;
+          float in_b = out_Time_3_value;
+        }
+        /*** END: A Node using two TimeNodes for some reason ***/
+
+      }"
+    `)
+  })
+
   it("supports the dynamic creation of varyings", () => {
     const node = ShaderNode({
       name: "Node with a Varying",

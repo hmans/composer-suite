@@ -279,23 +279,33 @@ export const compileShader = (root: IShaderNode) => {
   const compileHeader = (
     node: IShaderNode,
     programType: ProgramType,
-    seen: Set<IShaderNode> = new Set()
+    state = {
+      seenNodes: new Set<IShaderNode>(),
+      seenGlobals: new Set<string>()
+    }
   ): Parts => {
-    if (seen.has(node)) return []
-    seen.add(node)
+    if (state.seenNodes.has(node)) return []
+    state.seenNodes.add(node)
 
     const header = [
       /* Dependencies */
       getVariables(node.in).map(([_, { value }]) =>
-        isVariable(value) ? compileHeader(value.node!, programType, seen) : ""
+        isVariable(value) ? compileHeader(value.node!, programType, state) : ""
       ),
 
       nodeBegin(node),
 
       /* Uniforms */
-      getVariables(node.uniforms).map(([name, v]) =>
-        compileVariable({ ...v, qualifier: "uniform", name, value: undefined })
-      ),
+      getVariables(node.uniforms).map(([name, v]) => {
+        if (state.seenGlobals.has(name)) return
+        state.seenGlobals.add(name)
+        return compileVariable({
+          ...v,
+          qualifier: "uniform",
+          name,
+          value: undefined
+        })
+      }),
 
       /* Varyings */
       getVariables(node.varyings).map(([_, v]) =>
