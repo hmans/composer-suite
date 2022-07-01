@@ -2,6 +2,85 @@ import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 
 /*
 
+ __    _  _______  ______   _______  _______
+|  |  | ||       ||      | |       ||       |
+|   |_| ||   _   ||  _    ||    ___||  _____|
+|       ||  | |  || | |   ||   |___ | |_____
+|  _    ||  |_|  || |_|   ||    ___||_____  |
+| | |   ||       ||       ||   |___  _____| |
+|_|  |__||_______||______| |_______||_______|
+
+*/
+
+export type Chunk = string | string[]
+
+export type Program = {
+  header?: Chunk
+  body?: Chunk
+}
+
+export type ProgramType = "vertex" | "fragment"
+
+export type ShaderNode = {
+  name?: string
+
+  vertex?: Program
+  fragment?: Program
+
+  in?: Variables
+  out?: Variables
+}
+
+export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
+  out: { value: Variable<T> }
+}
+
+export const ShaderNode = <
+  S extends ShaderNode,
+  P extends Partial<VariableProps<S["in"]>>
+>(
+  node: S,
+  props: P = {} as P
+): S => {
+  /* Assign a default name */
+  node.name = node.name || "Unnamed Node"
+
+  /* Assign variable owners */
+  const variables = [
+    ...Object.values(node.out || {}),
+    ...Object.values(node.in || {})
+  ]
+
+  variables.forEach((variable) => {
+    variable.node = node
+    variable.name = ["processed", variable.type, variable.name].join("_")
+  })
+
+  /* Assign props to input variables */
+  Object.entries(props).forEach(([name, prop]) => {
+    const variable = node.in?.[name]
+    if (!variable) return
+
+    if (isShaderNodeWithOutVariable(prop)) {
+      variable.value = prop.out.value
+    } else {
+      variable.value = prop
+    }
+  })
+
+  return node
+}
+
+export const Factory = <
+  F extends (...args: any[]) => ShaderNode,
+  S extends ShaderNode = ReturnType<F>,
+  P = Partial<VariableProps<S["in"]>>
+>(
+  fac: F
+) => (props: P = {} as P) => ShaderNode(fac(), props) as S
+
+/*
+
  __   __  _______  ______    ___   _______  _______  ___      _______  _______
 |  | |  ||   _   ||    _ |  |   | |   _   ||  _    ||   |    |       ||       |
 |  |_|  ||  |_|  ||   | ||  |   | |  |_|  || |_|   ||   |    |    ___||  _____|
@@ -114,85 +193,6 @@ export function glslType(value: Value): ValueType {
     throw new Error(`Could not find a GLSL type for: ${value}`)
   }
 }
-
-/*
-
- __    _  _______  ______   _______  _______
-|  |  | ||       ||      | |       ||       |
-|   |_| ||   _   ||  _    ||    ___||  _____|
-|       ||  | |  || | |   ||   |___ | |_____
-|  _    ||  |_|  || |_|   ||    ___||_____  |
-| | |   ||       ||       ||   |___  _____| |
-|_|  |__||_______||______| |_______||_______|
-
-*/
-
-export type Chunk = string | string[]
-
-export type Program = {
-  header?: Chunk
-  body?: Chunk
-}
-
-export type ProgramType = "vertex" | "fragment"
-
-export type ShaderNode = {
-  name?: string
-
-  vertex?: Program
-  fragment?: Program
-
-  in?: Variables
-  out?: Variables
-}
-
-export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
-  out: { value: Variable<T> }
-}
-
-export const ShaderNode = <
-  S extends ShaderNode,
-  P extends Partial<VariableProps<S["in"]>>
->(
-  node: S,
-  props: P = {} as P
-): S => {
-  /* Assign a default name */
-  node.name = node.name || "Unnamed Node"
-
-  /* Assign variable owners */
-  const variables = [
-    ...Object.values(node.out || {}),
-    ...Object.values(node.in || {})
-  ]
-
-  variables.forEach((variable) => {
-    variable.node = node
-    variable.name = ["processed", variable.type, variable.name].join("_")
-  })
-
-  /* Assign props to input variables */
-  Object.entries(props).forEach(([name, prop]) => {
-    const variable = node.in?.[name]
-    if (!variable) return
-
-    if (isShaderNodeWithOutVariable(prop)) {
-      variable.value = prop.out.value
-    } else {
-      variable.value = prop
-    }
-  })
-
-  return node
-}
-
-export const Factory = <
-  F extends (...args: any[]) => ShaderNode,
-  S extends ShaderNode = ReturnType<F>,
-  P = Partial<VariableProps<S["in"]>>
->(
-  fac: F
-) => (props: P = {} as P) => ShaderNode(fac(), props) as S
 
 /*
 
