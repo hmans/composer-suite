@@ -387,7 +387,9 @@ export const compileShader = (root: ShaderNode) => {
         sluggify(variable.node!.name || "node"),
         state.id,
         localName
-      ].join("_")
+      ]
+        .join("_")
+        .replace(/_{2,}/g, "_")
     })
 
     /* Tweak this node's varying names */
@@ -397,7 +399,9 @@ export const compileShader = (root: ShaderNode) => {
         sluggify(variable.node!.name || "node"),
         state.id,
         localName
-      ].join("_")
+      ]
+        .join("_")
+        .replace(/_{2,}/g, "_")
     })
 
     /* Do the same for all dependencies */
