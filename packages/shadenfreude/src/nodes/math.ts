@@ -1,5 +1,5 @@
 import {
-  glslType,
+  getValueType,
   inferVariable,
   Parameter,
   ShaderNode,
@@ -38,7 +38,7 @@ export const OperatorNode = <T extends ValueType>({
   operator
 }: OperatorProps<T> & { operator: Operator }) =>
   ShaderNode({
-    name: `Perform ${operator} on ${glslType(a)}`,
+    name: `Perform ${operator} on ${getValueType(a)}`,
     in: {
       a: inferVariable(a),
       b: inferVariable(b)

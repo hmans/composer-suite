@@ -166,17 +166,17 @@ const assign = <T extends ValueType>(
  * Documentation is hard.
  */
 export const inferVariable = (a: Value): Variable => {
-  return variable(glslType(a), a)
+  return variable(getValueType(a), a)
 }
 
 /**
  * Returns the value type for the given value.
  */
-export function glslType(value: Value): ValueType {
+export function getValueType(value: Value): ValueType {
   if (isVariable(value)) {
     return value.type
   } else if (isShaderNodeWithOutVariable(value)) {
-    return glslType(value.out.value)
+    return getValueType(value.out.value)
   } else if (typeof value === "number") {
     return "float"
   } else if (typeof value === "boolean") {
