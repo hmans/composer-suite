@@ -229,6 +229,10 @@ export const compileShader = (root: ShaderNode) => {
       return `vec3(${compileValue(value.x)}, ${compileValue(
         value.y
       )}, ${compileValue(value.z)})`
+    } else if (value instanceof Color) {
+      return `vec3(${compileValue(value.r)}, ${compileValue(
+        value.g
+      )}, ${compileValue(value.b)})`
     } else if (value instanceof Vector4) {
       return `vec4(${compileValue(value.x)}, ${compileValue(
         value.y
