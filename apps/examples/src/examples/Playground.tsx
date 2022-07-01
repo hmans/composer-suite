@@ -5,25 +5,15 @@ import {
   compileShader,
   Factory,
   float,
+  PositionNode,
   TimeNode,
-  vec3,
-  Vector3Node
+  vec3
 } from "shadenfreude"
-import { MeshStandardMaterial, Vector3 } from "three"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, { iCSMProps } from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
-
-const PositionNode = Factory(() => ({
-  name: "Position",
-  varyings: {
-    v_position: vec3("position")
-  },
-  out: {
-    value: vec3("v_position")
-  }
-}))
 
 const CSMMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",

@@ -1,4 +1,5 @@
 import { Factory, float } from "../shadenfreude"
+export * from "./inputs"
 export * from "./math"
 export * from "./values"
 
