@@ -284,7 +284,7 @@ export const compileShader = (root: IShaderNode) => {
     if (seen.has(node)) return []
     seen.add(node)
 
-    return [
+    const header = [
       /* Dependencies */
       getVariables(node.in).map(([_, { value }]) =>
         isVariable(value) ? compileHeader(value.node!, programType, seen) : ""
@@ -307,6 +307,8 @@ export const compileShader = (root: IShaderNode) => {
 
       nodeEnd(node)
     ]
+
+    return header
   }
 
   const compileBody = (
@@ -442,21 +444,12 @@ const block = (...parts: Parts) =>
   )
 
 const lines = (...parts: Parts): string[] =>
-  parts
-    .filter((p) => ![undefined, null, false].includes(p))
-    .map((p) => (Array.isArray(p) ? lines(...p) : p))
-    .flat()
+  compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
 
-const statement = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter((p) => ![undefined, null, false].includes(p))
-    .join(" ") + ";"
+const statement = (...parts: Parts) => compact(parts.flat()).join(" ") + ";"
 
 const identifier = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter((p) => ![undefined, null, false].includes(p))
+  compact(parts.flat())
     .join("_")
     .replace(/_{2,}/g, "_")
 
@@ -467,6 +460,9 @@ export const isShaderNodeWithOutVariable = (
 ): value is IShaderNodeWithOutVariable => value?.out?.value !== undefined
 
 const unique = (array: any[]) => [...new Set(array)]
+
+const compact = (array: any[]) =>
+  array.filter((p) => ![undefined, null, false].includes(p))
 
 const sluggify = (str: string) =>
   str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
