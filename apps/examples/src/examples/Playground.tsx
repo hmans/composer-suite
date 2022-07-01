@@ -15,13 +15,23 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 type ModularShaderMaterialProps = Omit<iCSMProps, "ref">
 
+const PositionNode = Factory(() => ({
+  name: "Position",
+  varyings: {
+    v_position: vec3("position")
+  },
+  out: {
+    value: vec3("v_position")
+  }
+}))
+
 const CSMMasterNode = Factory(() => ({
-  name: "CSM Master",
+  name: "CustomShaderMaterial Master",
   in: {
     position: vec3()
   },
   vertex: {
-    body: "csm_Position += in_position;"
+    body: "csm_Position = in_position;"
   }
 }))
 
@@ -63,7 +73,7 @@ function useShader() {
 
     const root = CSMMasterNode({
       position: AddNode({
-        a: Vector3Node({ value: new Vector3(8, 2, 3) }),
+        a: PositionNode(),
         b: CombineVector3Node({
           x: WobbleNode({ t: time, frequency: 8, amplitude: 3 }),
           y: WobbleNode({ t: time, frequency: 5, amplitude: 3 }),

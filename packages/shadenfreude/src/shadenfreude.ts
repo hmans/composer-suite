@@ -27,6 +27,7 @@ export type ShaderNode = {
   vertex?: Program
   fragment?: Program
 
+  varyings?: Variables
   in?: Variables
   out?: Variables
 }
@@ -47,13 +48,13 @@ export const ShaderNode = <
 
   /* Assign variable owners */
   const variables = [
+    ...Object.values(node.varyings || {}),
     ...Object.values(node.out || {}),
     ...Object.values(node.in || {})
   ]
 
   variables.forEach((variable) => {
     variable.node = node
-    variable.name = ["processed", variable.type, variable.name].join("_")
   })
 
   /* Assign props to input variables */
@@ -104,6 +105,8 @@ export type ValueToJSType = {
   mat4: Matrix4
 }
 
+export type Qualifier = "varying" | "attribute" | "uniform"
+
 export type Value<T extends ValueType = any> =
   | ValueToJSType[T]
   | Variable<T>
@@ -119,6 +122,7 @@ export type Variable<T extends ValueType = any> = {
   type: T
   value?: Value<T>
   node?: ShaderNode
+  qualifier?: Qualifier
 }
 
 export type Variables = { [localName: string]: Variable<any> }
@@ -241,6 +245,7 @@ export const compileShader = (root: ShaderNode) => {
    */
   const compileVariable = (variable: Variable) =>
     statement(
+      variable.qualifier,
       variable.type,
       variable.name,
       variable.value !== undefined && ["=", compileValue(variable.value)]
@@ -279,9 +284,16 @@ export const compileShader = (root: ShaderNode) => {
         isVariable(value) ? compileHeader(value.node!, programType, seen) : ""
       ),
 
-      /* Actual chunk */
       nodeBegin(node),
+
+      /* Varyings */
+      getVariables(node.varyings).map(([_, v]) =>
+        compileVariable({ ...v, qualifier: "varying", value: undefined })
+      ),
+
+      /* Actual chunk */
       node[programType]?.header,
+
       nodeEnd(node)
     ]
   }
@@ -314,6 +326,19 @@ export const compileShader = (root: ShaderNode) => {
           compileVariable({ ...variable, name: "in_" + localName })
         ),
 
+        /* Local Varyings */
+        programType === "vertex"
+          ? getVariables(node.varyings).map(([localName, variable]) =>
+              compileVariable({ ...variable, name: localName })
+            )
+          : getVariables(node.varyings).map(([localName, variable]) =>
+              compileVariable({
+                ...variable,
+                name: localName,
+                value: variable.name
+              })
+            ),
+
         /* Output Variables */
         outs.map(([localName, variable]) =>
           compileVariable({ ...variable, name: "out_" + localName })
@@ -325,7 +350,13 @@ export const compileShader = (root: ShaderNode) => {
         /* Assign local output variables back to global variables */
         outs.map(([localName, variable]) =>
           statement(variable.name, "=", "out_" + localName)
-        )
+        ),
+
+        /* Assign Varyings */
+        programType === "vertex" &&
+          getVariables(node.varyings).map(
+            ([localName, variable]) => `${variable.name} = ${localName};`
+          )
       ),
       nodeEnd(node)
     ]
@@ -343,12 +374,24 @@ export const compileShader = (root: ShaderNode) => {
     node: ShaderNode,
     state: { id: number } = { id: 0 }
   ) => {
+    ++state.id
+
     /* Tweak this node's output variable names */
     getVariables(node.out).map(([localName, variable]) => {
       variable.name = [
         "out",
         sluggify(variable.node!.name || "node"),
-        ++state.id,
+        state.id,
+        localName
+      ].join("_")
+    })
+
+    /* Tweak this node's varying names */
+    getVariables(node.varyings).map(([localName, variable]) => {
+      variable.name = [
+        "v",
+        sluggify(variable.node!.name || "node"),
+        state.id,
         localName
       ].join("_")
     })
