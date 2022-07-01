@@ -109,6 +109,10 @@ export type Value<T extends ValueType = any> =
   | Variable<T>
   | Chunk
 
+export type ValueParameter<T extends ValueType = any> =
+  | Value<T>
+  | IShaderNodeWithOutVariable<T>
+
 export type Variable<T extends ValueType = any> = {
   __variable: boolean
   name: string
@@ -119,9 +123,7 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableProp<V extends Variable> =
-  | Value<V["type"]>
-  | IShaderNodeWithOutVariable<V["type"]>
+export type VariableProp<V extends Variable> = ValueParameter<V["type"]>
 
 export type VariableProps<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: VariableProp<V[K]> }
