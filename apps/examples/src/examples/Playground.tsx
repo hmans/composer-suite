@@ -9,11 +9,13 @@ import {
   Factory,
   float,
   GeometryPositionNode,
+  GeometryUVNode,
   MultiplyNode,
   Parameter,
   Program,
   ShaderMaterialMasterNode,
   TimeNode,
+  vec2,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, ShaderMaterial } from "three"
@@ -144,6 +146,22 @@ const WobbleAnimation = ({
     z: WobbleNode({ time, frequency: 3 * frequency, amplitude })
   }).out.vec3
 
+const Squeezed = Factory(() => ({
+  in: {
+    position: vec3(),
+    time: float(),
+    uv: vec2(GeometryUVNode())
+  },
+  out: {
+    value: vec3(
+      `vec3(
+        in_position.x * (1.0 + sin(in_time * 2.0 + in_uv.y * 13.0) * 0.3),
+        in_position.y * (1.0 + cos(in_time * 2.3 + in_uv.y * 11.0) * 0.2),
+        in_position.z * (1.0 + sin(in_time * 2.0 + in_uv.y * 13.0) * 0.1))`
+    )
+  }
+}))
+
 function useShader() {
   return useMemo(() => {
     const time = TimeNode()
@@ -155,8 +173,8 @@ function useShader() {
 
     const root = ShaderMaterialMasterNode({
       position: AddNode({
-        a: GeometryPositionNode(),
-        b: WobbleAnimation({ frequency: 0.8, amplitude: 3.5, time })
+        a: Squeezed({ position: GeometryPositionNode(), time }),
+        b: WobbleAnimation({ frequency: 0.2, amplitude: 3.5, time })
       }),
 
       color: BlendNode({

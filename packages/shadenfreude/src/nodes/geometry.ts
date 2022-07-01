@@ -1,4 +1,4 @@
-import { Factory, vec3 } from "../shadenfreude"
+import { Factory, vec2, vec3 } from "../shadenfreude"
 
 export const GeometryPositionNode = Factory(() => ({
   name: "Position",
@@ -17,5 +17,15 @@ export const GeometryNormalNode = Factory(() => ({
   },
   out: {
     value: vec3("v_normal")
+  }
+}))
+
+export const GeometryUVNode = Factory(() => ({
+  name: "UV",
+  varyings: {
+    v_uv: vec2("uv")
+  },
+  out: {
+    value: vec2("v_uv")
   }
 }))
