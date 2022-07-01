@@ -382,26 +382,22 @@ export const compileShader = (root: ShaderNode) => {
 
     /* Tweak this node's output variable names */
     getVariables(node.out).map(([localName, variable]) => {
-      variable.name = [
+      variable.name = identifier(
         "out",
         sluggify(variable.node!.name || "node"),
         state.id,
         localName
-      ]
-        .join("_")
-        .replace(/_{2,}/g, "_")
+      )
     })
 
     /* Tweak this node's varying names */
     getVariables(node.varyings).map(([localName, variable]) => {
-      variable.name = [
+      variable.name = identifier(
         "v",
         sluggify(variable.node!.name || "node"),
         state.id,
         localName
-      ]
-        .join("_")
-        .replace(/_{2,}/g, "_")
+      )
     })
 
     /* Do the same for all dependencies */
@@ -449,6 +445,13 @@ const statement = (...parts: Parts) =>
     .flat()
     .filter((p) => ![undefined, null, false].includes(p))
     .join(" ") + ";"
+
+const identifier = (...parts: Parts) =>
+  parts
+    .flat()
+    .filter((p) => ![undefined, null, false].includes(p))
+    .join("_")
+    .replace(/_{2,}/g, "_")
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
