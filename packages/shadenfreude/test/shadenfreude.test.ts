@@ -80,7 +80,7 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          vec3 in_vec = vec3(1.00000, 2.00000, 3.00000);
+          vec3 in_vec = vec3(1.0, 2.0, 3.0);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }
@@ -99,7 +99,7 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          vec3 in_vec = vec3(1.00000, 2.00000, 3.00000);
+          vec3 in_vec = vec3(1.0, 2.0, 3.0);
           float out_value = a * 2.0;
           out_Test_Node_1_value = out_value;
         }
@@ -186,7 +186,7 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_value = 1.00000;
+          float in_value = 1.0;
           float out_value = in_value;
           out_Value_float_2_value = out_value;
         }
@@ -215,7 +215,7 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_value = 1.00000;
+          float in_value = 1.0;
           float out_value = in_value;
           out_Value_float_2_value = out_value;
         }

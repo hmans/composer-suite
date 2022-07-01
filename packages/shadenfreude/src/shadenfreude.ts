@@ -222,7 +222,8 @@ export const compileShader = (root: IShaderNode) => {
     if (typeof value === "string") {
       return value
     } else if (typeof value === "number") {
-      return value.toFixed(5) // TODO: no, make this better
+      const s = value.toString()
+      return s.match(/[.e]/) ? s : s + ".0"
     } else if (value instanceof Vector2) {
       return `vec2(${compileValue(value.x)}, ${compileValue(value.y)})`
     } else if (value instanceof Vector3) {
