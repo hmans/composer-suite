@@ -1,5 +1,4 @@
 import { useFrame } from "@react-three/fiber"
-import { BlendMode } from "postprocessing"
 import { useMemo, useRef } from "react"
 import {
   AddNode,
@@ -8,9 +7,10 @@ import {
   ComposeNode,
   Factory,
   float,
+  GeometryNormalNode,
+  GeometryPositionNode,
   MultiplyNode,
   Parameter,
-  PositionNode,
   Program,
   TimeNode,
   vec3
@@ -111,17 +111,21 @@ export const BlendNode = Factory(() => {
 const CSMMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
   in: {
-    position: vec3(),
-    diffuseColor: vec3(new Color(1, 1, 1))
+    position: vec3(GeometryPositionNode()),
+    normal: vec3(GeometryNormalNode()),
+    diffuseColor: vec3(new Color(1, 1, 1)),
+    emissiveColor: vec3(new Color(0, 0, 0))
   },
   vertex: {
     body: `
       csm_Position = in_position;
+      csm_Normal = in_normal;
     `
   },
   fragment: {
     body: `
-      csm_DiffuseColor = vec4(in_diffuseColor, 1.0);
+      csm_DiffuseColor.rgb = in_diffuseColor;
+      csm_Emissive.rgb = in_emissiveColor;
     `
   }
 }))
@@ -174,7 +178,7 @@ function useShader() {
 
     const root = CSMMasterNode({
       position: AddNode({
-        a: PositionNode(),
+        a: GeometryPositionNode(),
         b: WobbleAnimation({ frequency: 2, amplitude: 3, time })
       }),
 
