@@ -387,18 +387,17 @@ export const compileShader = (root: IShaderNode) => {
 
         /* Assign local output variables back to global variables */
         outs.map(([localName, variable]) =>
-          statement(variable.name, "=", "out_" + localName)
+          assignment(variable.name, "out_" + localName)
         ),
 
         /* Filters */
         node.filters && [
           /* Render filters */
-          node.filters?.map((filter) => compileBody(filter, programType, seen)),
+          node.filters.map((filter) => compileBody(filter, programType, seen)),
 
           /* Assign the last filter's output variable back into our output variable */
-          statement(
+          assignment(
             node.out!.value.name,
-            "=",
             node.filters[node.filters.length - 1].out!.value.name
           )
         ],
@@ -511,6 +510,8 @@ const lines = (...parts: Parts): string[] =>
   compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
 
 const statement = (...parts: Parts) => compact(parts.flat()).join(" ") + ";"
+
+const assignment = (left: string, right: string) => statement(left, "=", right)
 
 const identifier = (...parts: Parts) =>
   compact(parts.flat())
