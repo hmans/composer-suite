@@ -413,8 +413,11 @@ export const compileShader = (root: IShaderNode) => {
 
   const prepareNode = (
     node: IShaderNode,
-    state: { id: number } = { id: 0 }
+    state = { id: 0, seenNodes: new Set<IShaderNode>() }
   ) => {
+    if (state.seenNodes.has(node)) return
+    state.seenNodes.add(node)
+
     ++state.id
 
     const nodePartInVariableName = [sluggify(node.name || "node"), state.id]
@@ -436,10 +439,12 @@ export const compileShader = (root: IShaderNode) => {
 
       /* Use the last filter's output value as our output value */
       const lastUnit = node.filters[node.filters.length - 1]
+      const firstUnit = node.filters[0]
 
       if (!isShaderNodeWithOutVariable(lastUnit))
         throw new Error("Nodes with filters must have an output value")
 
+      // firstUnit.in.value = node.out.value
       node.out.value.value = lastUnit.out.value
 
       /* Connect filters in sequence */
