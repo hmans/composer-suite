@@ -451,10 +451,10 @@ export const compileShader = (root: IShaderNode) => {
       const firstFilter = node.filters[0]
 
       if (!isShaderNodeWithInVariable(firstFilter))
-        throw new Error("Filter nodes must have an input value")
+        throw new Error("Filter nodes must have an `a` input")
 
       if (!isShaderNodeWithOutVariable(lastFilter))
-        throw new Error("Filter nodes must have an output value")
+        throw new Error("Filter nodes must have a `value` output")
 
       firstFilter.in.a = node.out.value
 
@@ -464,10 +464,10 @@ export const compileShader = (root: IShaderNode) => {
         const prev = node.filters[i - 1]
 
         if (!isShaderNodeWithOutVariable(prev))
-          throw new Error("Filter nodes must have an output value")
+          throw new Error("Filter nodes must have a `value` output")
 
         if (!isShaderNodeWithInVariable(filter))
-          throw new Error("Filter nodes must have an input value")
+          throw new Error("Filter nodes must have an `a` input")
 
         filter.in.a.value = prev.out.value
       }
