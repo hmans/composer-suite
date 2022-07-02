@@ -7,33 +7,16 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
-  IShaderNode,
   MixNode,
   MultiplyNode,
   Parameter,
-  ShaderNode,
+  StackNode,
   TimeNode,
-  ValueType,
-  variable,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-
-const StackNode = <T extends ValueType>(type: T, name = "Stack") => (
-  a: Parameter<T>,
-  filters: IShaderNode[] = []
-) =>
-  ShaderNode({
-    name,
-    in: { a: variable(type, a) },
-    out: { value: variable(type, "in_a") },
-    filters
-  })
-
-const AnimationStack = StackNode("vec3", "Animation Stack")
-const ColorStack = StackNode("vec3", "Color Stack")
 
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
@@ -85,6 +68,9 @@ const MoveWithTime = (axis = "xyz") =>
   }))
 
 function useShader() {
+  const AnimationStack = StackNode("vec3", "Animation Stack")
+  const ColorStack = StackNode("vec3", "Color Stack")
+
   const root = CustomShaderMaterialMasterNode({
     position: AnimationStack(GeometryPositionNode(), [
       SqueezeWithTime({ frequency: 0.1 }),
