@@ -25,7 +25,7 @@
     "release": "yarn ci && yarn publish",
     "test": "jest --passWithNoTests",
     "ci": "yarn clean && yarn build && yarn test",
-    "docs": "typedoc src/index.ts"
+    "docs": "typedoc"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

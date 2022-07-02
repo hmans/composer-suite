@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 
-/packages/**/doc/
+/packages/**/docs/
 
 # Editor directories and files
 .vscode/*
