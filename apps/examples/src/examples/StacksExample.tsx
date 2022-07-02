@@ -88,7 +88,7 @@ function useShader() {
           a: new Color(2, 2, 2) as Parameter<"vec3">,
           b: FresnelNode()
         }),
-        amount: 0.5
+        factor: 0.5
       })
     ])
   })
