@@ -423,8 +423,8 @@ describe("compileShader", () => {
     const AdditionFilter = Factory(() => ({
       name: "Addition",
       in: {
-        value: float(),
-        other: float()
+        a: float(),
+        b: float()
       },
       out: {
         value: float(`in_value + in_other`)
@@ -434,12 +434,12 @@ describe("compileShader", () => {
     const nodeWithfilters = ShaderNode({
       name: "Node with filters",
       in: {
-        value: float(1)
+        a: float(1)
       },
       out: {
         value: float("in_value")
       },
-      filters: [AdditionFilter({ other: 2 })]
+      filters: [AdditionFilter({ b: 2 })]
     })
 
     const [c] = compileShader(nodeWithfilters)
@@ -459,14 +459,14 @@ describe("compileShader", () => {
         /*** BEGIN: Node with filters ***/
         float out_Node_with_filters_1_value;
         {
-          float in_value = 1.0;
+          float in_a = 1.0;
           float out_value = in_value;
           out_Node_with_filters_1_value = out_value;
           /*** BEGIN: Addition ***/
           float out_Addition_2_value;
           {
-            float in_value = in_value;
-            float in_other = 2.0;
+            float in_a = in_value;
+            float in_b = 2.0;
             float out_value = in_value + in_other;
             out_Addition_2_value = out_value;
           }

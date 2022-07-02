@@ -37,7 +37,7 @@ export interface IShaderNode {
 
 export interface IShaderNodeWithInVariable<T extends ValueType = any> {
   [key: string]: any
-  in: { value: Variable<T> }
+  in: { a: Variable<T> }
 }
 
 export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
@@ -451,12 +451,12 @@ export const compileShader = (root: IShaderNode) => {
       const firstFilter = node.filters[0]
 
       if (!isShaderNodeWithInVariable(firstFilter))
-        throw new Error("Filter nodes must have an input value")
+        throw new Error("Filter nodes must have an `a` input")
 
       if (!isShaderNodeWithOutVariable(lastFilter))
-        throw new Error("Filter nodes must have an output value")
+        throw new Error("Filter nodes must have a `value` output")
 
-      firstFilter.in.value = node.out.value
+      firstFilter.in.a = node.out.value
 
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
@@ -464,12 +464,12 @@ export const compileShader = (root: IShaderNode) => {
         const prev = node.filters[i - 1]
 
         if (!isShaderNodeWithOutVariable(prev))
-          throw new Error("Filter nodes must have an output value")
+          throw new Error("Filter nodes must have a `value` output")
 
         if (!isShaderNodeWithInVariable(filter))
-          throw new Error("Filter nodes must have an input value")
+          throw new Error("Filter nodes must have an `a` input")
 
-        filter.in.value.value = prev.out.value
+        filter.in.a.value = prev.out.value
       }
     }
 
@@ -524,7 +524,7 @@ export const isVariable = (value: any): value is Variable => !!value?.__variable
 
 export const isShaderNodeWithInVariable = (
   value: any
-): value is IShaderNodeWithInVariable => value?.in?.value !== undefined
+): value is IShaderNodeWithInVariable => value?.in?.a !== undefined
 
 export const isShaderNodeWithOutVariable = (
   value: any
