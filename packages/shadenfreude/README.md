@@ -128,6 +128,74 @@ const root = ShaderMaterialMasterNode({
 
 ## Creating Custom Nodes
 
+### The `ShaderNode` factory
+
+At the most basic level, shader nodes are simple JavaScript objects extending the `IShaderNode` interface. Since they require a tiny bit of initialization, you should use the `ShaderNode` factory to create them.
+
+Here's a simple example:
+
+```js
+const node = ShaderNode({
+  name: "I'm a shader node that doesn't do anything!"
+})
+```
+
+Shader nodes can declare GLSL code, variables and filters; variables are typically input and output variables, but can also be varyings, uniforms, and attributes. Filters are a powerful feature that allows you to set up complete processing chains; more on these later.
+
+Let's create a node that adds two floats:
+
+```js
+const node = ShaderNode({
+  in: {
+    a: variable("float", 0),
+    b: variable("float", 0)
+  },
+  out: {
+    value: variable("float")
+  },
+  vertex: {
+    body: "out_value = in_a + in_b;"
+  },
+  fragment: {
+    body: "out_value = in_a + in_b;"
+  }
+})
+```
+
+Let's go through these from top to bottom and discuss some of the things we're seeing here.
+
+- First of all, note that **the `name` property is entirely optional**. It is, however, _recommended_ that you set it; if the shader compilation ever fails, this will help you tremendously on your hunt for the cause.
+- We're **declaring two `in` variables**, `a` and `b`.
+- Each of these is declared as `variable("float", 0)`. This is how we tell the compiler that we want them to have the GLSL `float` type, and a default value of `0` if nothing else is assigned to them.
+- We're also **declaring an `out` variable** called `value`. Note that it doesn't have a default value.
+- Shaders are composed of two programs, the **vertex shader and the fragment shader**, and Shadenfreude allows us to declare code for both. Here, we need to set the output variable, and since the node can be used in both programs, we need to supply the same chunk for both, too.
+- Note that within the generated GLSL code, **input and output variables are prefixed** with `in_` and `out_`, respectively.
+
+This is all a bit verbose, so let's make it a bit leaner:
+
+```js
+const node = ShaderNode({
+  in: {
+    a: float(0),
+    b: float(0)
+  },
+  out: {
+    value: float("in_a + in_b")
+  }
+})
+```
+
+This version is functionally equivalent to the one before, but we're doing some things differently:
+
+- Note how we're using the `float(v)` variable factory -- it's just a shortcut for `variable("float", v)`.
+- Instead of imperatively writing the calculated result value into `out_value`, we're providing a string default value for the `value` out variable. When variables have string values, the string will be used in the generated GLSL verbatim, and we can use this here to our advantage.
+
+### Writing a reusable shader node
+
+### Special variables `a` (in) and `value` (out)
+
+### Using Filter Chains
+
 TODO
 
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
