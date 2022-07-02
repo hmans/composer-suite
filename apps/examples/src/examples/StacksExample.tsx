@@ -87,28 +87,20 @@ const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   }
 }))
 
-type MixProps<T extends ValueType> = {
-  a?: Parameter<T>
-  b?: Parameter<T>
-  amount?: Parameter<"float">
-}
-
-const MixNode = <T extends ValueType>(type: T) => ({
-  a,
-  b,
-  amount = 0.5
-}: MixProps<T>) =>
-  ShaderNode({
-    name: "Mix a and b values",
-    in: {
-      a: variable(type, a),
-      b: variable(type, b),
-      amount: float(amount)
-    },
-    out: {
-      value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
-    }
-  })
+const MixNode = <T extends ValueType>(type: T) =>
+  Factory(() =>
+    ShaderNode({
+      name: "Mix a and b values",
+      in: {
+        a: variable(type),
+        b: variable(type),
+        amount: float(0.5)
+      },
+      out: {
+        value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
+      }
+    })
+  )
 
 const ColorStack = Factory(() => ({
   name: "Color Stack",
