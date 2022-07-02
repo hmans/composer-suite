@@ -10,10 +10,12 @@ import {
   GeometryPositionNode,
   MixNode,
   MultiplyNode,
+  Parameter,
   TimeNode,
-  vec3
+  vec3,
+  Vector3Node
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -92,9 +94,11 @@ const ColorStack = Factory(() => ({
     value: vec3("in_color")
   },
   filters: [
-    MixNode("vec3")({
-      a: vec3(),
-      b: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
+    MixNode({
+      b: MultiplyNode({
+        a: new Color(2, 2, 2) as Parameter<"vec3">,
+        b: FresnelNode()
+      }),
       amount: 0.5
     })
   ]
