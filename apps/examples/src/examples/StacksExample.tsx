@@ -38,12 +38,12 @@ const AnimationStack = Factory(() => ({
 const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   name: "Scale with Time",
   in: {
-    value: vec3(),
+    a: vec3(),
     frequency: float(1),
     time: float(TimeNode())
   },
   out: {
-    value: vec3("in_value")
+    value: vec3("in_a")
   },
   vertex: {
     body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
@@ -53,13 +53,13 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
 const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
   name: "Squeeze with Time",
   in: {
-    value: vec3(),
+    a: vec3(),
 
     frequency: float(1),
     time: float(TimeNode())
   },
   out: {
-    value: vec3("in_value")
+    value: vec3("in_a")
   },
   vertex: {
     body: `out_value.x *= (1.0 + sin(in_time * in_frequency + position.y * 0.3 + position.x * 0.3) * 0.2);`
@@ -69,13 +69,13 @@ const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
 const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   name: "Move with Time",
   in: {
-    value: vec3(),
+    a: vec3(),
     frequency: float(1),
     amplitude: float(1),
     time: float(TimeNode())
   },
   out: {
-    value: vec3("in_value")
+    value: vec3("in_a")
   },
   vertex: {
     body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
@@ -85,12 +85,12 @@ const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
 const FauxLamina = Factory(() => ({
   name: "Faux Lamina",
   in: {
-    value: vec3(),
+    a: vec3(),
     color: vec3(),
     intensity: float(0.5)
   },
   out: {
-    value: vec3("in_color * in_intensity + in_value * (1.0 - in_intensity)")
+    value: vec3("in_color * in_intensity + in_a * (1.0 - in_intensity)")
   }
 }))
 
