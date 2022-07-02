@@ -404,8 +404,7 @@ export const compileShader = (root: IShaderNode) => {
             ),
 
         /* Filters */
-        node.filters &&
-          node.filters.map((filter) => compileBody(filter, programType, seen)),
+        node.filters?.map((filter) => compileBody(filter, programType, seen)),
 
         /* Output Variables */
         outs.map(([localName, variable]) =>
