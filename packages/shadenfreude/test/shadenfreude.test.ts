@@ -447,6 +447,41 @@ describe("compileShader", () => {
       }"
     `)
   })
+
+  it("still compiles if filters is defined, but empty", () => {
+    const nodeWithNoFilters = ShaderNode({
+      in: {
+        a: float(1)
+      },
+      out: {
+        value: float("in_value")
+      },
+      filters: [
+        // TheDeveloperCommentedOutTheOnlyFilter()
+      ]
+    })
+
+    const [c] = compileShader(nodeWithNoFilters)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "
+      /*** BEGIN: Unnamed Node ***/
+      /*** END: Unnamed Node ***/
+
+      void main()
+      {
+        /*** BEGIN: Unnamed Node ***/
+        float out_Unnamed_Node_1_value;
+        {
+          float in_a = 1.0;
+          float out_value = in_value;
+          out_Unnamed_Node_1_value = out_value;
+        }
+        /*** END: Unnamed Node ***/
+
+      }"
+    `)
+  })
 })
 
 describe("assign", () => {

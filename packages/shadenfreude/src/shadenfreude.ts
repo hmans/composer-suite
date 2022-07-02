@@ -395,16 +395,19 @@ export const compileShader = (root: IShaderNode) => {
         ),
 
         /* Filters */
-        node.filters && [
-          /* Render filters */
-          node.filters.map((filter) => compileBody(filter, programType, seen)),
+        node.filters &&
+          node.filters.length > 0 && [
+            /* Render filters */
+            node.filters.map((filter) =>
+              compileBody(filter, programType, seen)
+            ),
 
-          /* Assign the last filter's output variable back into our output variable */
-          assignment(
-            node.out!.value.name,
-            node.filters[node.filters.length - 1].out!.value.name
-          )
-        ],
+            /* Assign the last filter's output variable back into our output variable */
+            assignment(
+              node.out!.value.name,
+              node.filters[node.filters.length - 1].out!.value.name
+            )
+          ],
 
         /* Assign Varyings */
         programType === "vertex" &&
@@ -446,7 +449,7 @@ export const compileShader = (root: IShaderNode) => {
     })
 
     /* Prepare filters */
-    if (node.filters) {
+    if (node.filters && node.filters.length > 0) {
       if (!isShaderNodeWithOutVariable(node))
         throw new Error("Nodes with filters must have an output value")
 
