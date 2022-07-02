@@ -21,7 +21,7 @@ import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
-const Stack = <T extends ValueType>(type: T, name = "Stack") => (
+const StackNode = <T extends ValueType>(type: T, name = "Stack") => (
   a: Parameter<T>,
   filters: IShaderNode[] = []
 ) =>
@@ -32,8 +32,8 @@ const Stack = <T extends ValueType>(type: T, name = "Stack") => (
     filters
   })
 
-const AnimationStack = Stack("vec3", "Animation Stack")
-const ColorStack = Stack("vec3", "Color Stack")
+const AnimationStack = StackNode("vec3", "Animation Stack")
+const ColorStack = StackNode("vec3", "Color Stack")
 
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
