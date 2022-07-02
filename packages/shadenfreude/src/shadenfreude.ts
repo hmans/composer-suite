@@ -174,14 +174,6 @@ export const assign = <T extends ValueType>(
     : value)
 
 /**
- * Creates a new variable based on the given value's type, and sets its value... to the value.
- * Documentation is hard.
- */
-export const inferVariable = (a: Value): Variable => {
-  return variable(getValueType(a), a)
-}
-
-/**
  * Returns the value type for the given value.
  */
 export function getValueType<T extends ValueType>(value: Parameter<T>): T {
