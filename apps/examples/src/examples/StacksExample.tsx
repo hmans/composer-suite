@@ -93,6 +93,7 @@ const ColorStack = Factory(() => ({
   },
   filters: [
     MixNode("vec3")({
+      a: vec3(),
       b: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
       amount: 0.5
     })

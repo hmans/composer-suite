@@ -1,11 +1,23 @@
 import { Color, Vector3 } from "three"
-import { AddNode, float, FloatNode, ShaderNode, vec3 } from "../src"
+import {
+  AddNode,
+  assign,
+  float,
+  FloatNode,
+  ShaderNode,
+  variable,
+  vec3
+} from "../src"
 
 describe("typings", () => {
   test("creating simple nodes", () => {
     ShaderNode({
       name: "I'm a dummy"
     })
+  })
+
+  test("creating variables", () => {
+    const f = variable("float", 123)
   })
 
   test("accessing variables", () => {
@@ -42,9 +54,11 @@ describe("typings", () => {
     const f1 = FloatNode({ value: 1 })
     const f2 = FloatNode({ value: 2 })
 
-    AddNode({
+    const added = AddNode({
       a: f1,
       b: f2
     })
+
+    assign(added.in.a, 123)
   })
 })
