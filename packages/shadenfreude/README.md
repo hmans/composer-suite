@@ -255,6 +255,22 @@ A couple of notes:
 
 ### Special variables `a` (in) and `value` (out)
 
+Input and output variables can be named anything you want (as long as the name can be part of a GLSL variable identifier), but two variables have special meaning:
+
+- The `a` input variable is considered the _default_ input variable.
+- The `value` output variable is considered the _default_ output variable.
+
+We can use this to our advantage anywhere we're assigning values to variables, for example:
+
+```js
+plug(colorA).into(mixedColor)
+AnimateNode({ time: TimeNode() })
+
+/* This is equivalent to: */
+plug(colorA.out.value).into(mixedColor.in.a)
+AnimateNode({ time: TimeNode().out.value })
+```
+
 TODO
 
 ### Using Varyings
