@@ -14,6 +14,7 @@ import {
   ShaderNode,
   TimeNode,
   ValueType,
+  variable,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
@@ -92,16 +93,20 @@ type MixProps<T extends ValueType> = {
   amount?: Parameter<"float">
 }
 
-const MixNode = <T extends ValueType>({ a, b, amount = 0.5 }: MixProps<T>) =>
+const MixNode = <T extends ValueType>(type: T) => ({
+  a,
+  b,
+  amount = 0.5
+}: MixProps<T>) =>
   ShaderNode({
     name: "Mix a and b values",
     in: {
-      a: inferVariable(a),
-      b: inferVariable(b),
+      a: variable(type, a),
+      b: variable(type, b),
       amount: float(amount)
     },
     out: {
-      value: vec3("in_b * in_amount + in_a * (1.0 - in_amount)")
+      value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
     }
   })
 
@@ -114,8 +119,7 @@ const ColorStack = Factory(() => ({
     value: vec3("in_color")
   },
   filters: [
-    MixNode<"vec3">({
-      a: vec3(), // TODO: make it so this is not necessary
+    MixNode("vec3")({
       b: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
       amount: 0.5
     })
