@@ -345,34 +345,6 @@ export const compileShader = (root: IShaderNode) => {
     const ins = getVariables(node.in)
     const outs = getVariables(node.out)
 
-    /* Prepare filters */
-    if (node.filters) {
-      if (!isShaderNodeWithOutVariable(node))
-        throw new Error("Nodes with filters must have an output value")
-
-      /* Use the last filter's output value as our output value */
-      const lastUnit = node.filters[node.filters.length - 1]
-
-      if (!isShaderNodeWithOutVariable(lastUnit))
-        throw new Error("Nodes with filters must have an output value")
-
-      node.out.value.value = lastUnit.out.value
-
-      /* Connect filters in sequence */
-      for (let i = 1; i < node.filters.length; i++) {
-        const f = node.filters[i]
-        const prev = node.filters[i - 1]
-
-        if (!isShaderNodeWithOutVariable(prev))
-          throw new Error("Nodes with filters must have an output value")
-
-        if (!isShaderNodeWithInVariable(f))
-          throw new Error("Nodes with filters must have an input value")
-
-        f.in.value.value = prev.out.value
-      }
-    }
-
     return [
       /* Dependencies */
       getDependencies(node).map((dep) => compileBody(dep, programType, seen)),
@@ -462,6 +434,34 @@ export const compileShader = (root: IShaderNode) => {
         localName
       )
     })
+
+    /* Prepare filters */
+    if (node.filters) {
+      if (!isShaderNodeWithOutVariable(node))
+        throw new Error("Nodes with filters must have an output value")
+
+      /* Use the last filter's output value as our output value */
+      const lastUnit = node.filters[node.filters.length - 1]
+
+      if (!isShaderNodeWithOutVariable(lastUnit))
+        throw new Error("Nodes with filters must have an output value")
+
+      node.out.value.value = lastUnit.out.value
+
+      /* Connect filters in sequence */
+      for (let i = 1; i < node.filters.length; i++) {
+        const f = node.filters[i]
+        const prev = node.filters[i - 1]
+
+        if (!isShaderNodeWithOutVariable(prev))
+          throw new Error("Nodes with filters must have an output value")
+
+        if (!isShaderNodeWithInVariable(f))
+          throw new Error("Nodes with filters must have an input value")
+
+        f.in.value.value = prev.out.value
+      }
+    }
 
     /* Do the same for all filters */
     node.filters?.forEach((unit) => tweakVariableNames(unit, state))
