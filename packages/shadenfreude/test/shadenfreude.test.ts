@@ -485,21 +485,21 @@ describe("compileShader", () => {
 describe("assign", () => {
   it("assigns the given value to the variable", () => {
     const f = float(0)
-    assign(f, 1)
+    assign(1).to(f)
     expect(f.value).toBe(1)
   })
 
   it("can assign other variables to the variable", () => {
     const a = float(0)
     const b = float(1)
-    assign(a, b)
+    assign(b).to(a)
     expect(a.value).toBe(b)
   })
 
   it("can assign other nodes to the variable, using their default output value", () => {
     const a = float(0)
     const node = FloatNode({ value: 1 })
-    assign(a, node)
+    assign(node).to(a)
     expect(a.value).toBe(node.out.value)
   })
 })

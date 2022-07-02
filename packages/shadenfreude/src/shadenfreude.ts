@@ -162,16 +162,15 @@ export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 export const plug = <S extends Variable, T extends Variable>(
   source: VariableProp<S>
 ) => ({
-  into: (target: T) => assign(target, source)
+  into: (target: T) => assign(source).to(target)
 })
 
-export const assign = <T extends ValueType>(
-  variable: Variable<T>,
-  value: Parameter<T>
-) =>
-  (variable.value = isShaderNodeWithOutVariable(value)
-    ? value.out.value
-    : value)
+export const assign = <T extends ValueType>(param: Parameter<T>) => ({
+  to: (variable: Variable<T>) =>
+    (variable.value = isShaderNodeWithOutVariable(param)
+      ? param.out.value
+      : param)
+})
 
 /**
  * Returns the value type for the given value.
