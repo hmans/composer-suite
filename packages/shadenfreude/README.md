@@ -278,6 +278,10 @@ plug(colorA.out.value).into(mixedColor.in.a)
 AnimateNode({ time: TimeNode().out.value })
 ```
 
+### Writing vertex and fragment program code
+
+TODO
+
 ### Using Varyings
 
 Varyings are variables that are typically written to in the vertex shader, and then read from in the fragment shader, with their values interpolated across fragments.
