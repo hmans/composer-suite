@@ -7,7 +7,7 @@ import {
   ComposeNode,
   Factory,
   float,
-  GeometryNormalNode,
+  FresnelNode,
   GeometryPositionNode,
   GeometryUVNode,
   MultiplyNode,
@@ -16,34 +16,9 @@ import {
   ShaderMaterialMasterNode,
   TimeNode,
   vec2,
-  vec3,
-  ViewDirectionNode
+  vec3
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
-
-const FresnelNode = Factory(() => ({
-  name: "Fresnel",
-  in: {
-    alpha: float(1),
-    bias: float(0),
-    intensity: float(1),
-    power: float(2),
-    factor: float(1),
-    worldPosition: vec3(ViewDirectionNode()),
-    worldNormal: vec3(GeometryNormalNode().out.worldSpace)
-  },
-  out: {
-    value: float()
-  },
-  fragment: {
-    body: `
-      float f_a = (in_factor + dot(in_worldPosition, in_worldNormal));
-      float f_fresnel = in_bias + in_intensity * pow(abs(f_a), in_power);
-      f_fresnel = clamp(f_fresnel, 0.0, 1.0);
-      out_value = f_fresnel;
-    `
-  }
-}))
 
 export const BlendNode = Factory(() => {
   const program: Program = {

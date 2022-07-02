@@ -11,6 +11,8 @@ import {
   vec3,
   vec4
 } from "../shadenfreude"
+import { GeometryNormalNode } from "./geometry"
+import { ViewDirectionNode } from "./inputs"
 
 export const ComposeNode = Factory(() => ({
   name: "Compose components",
@@ -83,3 +85,27 @@ export const DivideNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
 
 export const MultiplyNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
   OperatorNode({ operator: "*", a, b })
+
+export const FresnelNode = Factory(() => ({
+  name: "Fresnel",
+  in: {
+    alpha: float(1),
+    bias: float(0),
+    intensity: float(1),
+    power: float(2),
+    factor: float(1),
+    viewDirection: vec3(ViewDirectionNode()),
+    worldNormal: vec3(GeometryNormalNode().out.worldSpace)
+  },
+  out: {
+    value: float()
+  },
+  fragment: {
+    body: `
+        float f_a = (in_factor + dot(in_viewDirection, in_worldNormal));
+        float f_fresnel = in_bias + in_intensity * pow(abs(f_a), in_power);
+        f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+        out_value = f_fresnel;
+      `
+  }
+}))
