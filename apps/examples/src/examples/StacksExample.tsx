@@ -1,7 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import {
-  AddNode,
   ColorNode,
   compileShader,
   CustomShaderMaterialMasterNode,
@@ -9,10 +8,8 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
-  GeometryUVNode,
   MultiplyNode,
   TimeNode,
-  vec2,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
