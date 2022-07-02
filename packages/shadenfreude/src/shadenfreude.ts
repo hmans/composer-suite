@@ -45,10 +45,6 @@ export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
   out: { value: Variable<T> }
 }
 
-export interface IFilterNode<T extends ValueType = any>
-  extends IShaderNodeWithInVariable<T>,
-    IShaderNodeWithOutVariable<T> {}
-
 export const ShaderNode = <
   S extends IShaderNode,
   P extends Partial<VariableProps<S["in"]>>
