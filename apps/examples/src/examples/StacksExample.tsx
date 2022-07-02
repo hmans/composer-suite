@@ -130,7 +130,7 @@ export default function StacksExample() {
   return (
     <group position-y={15}>
       <mesh>
-        <sphereGeometry args={[8, 32, 32]} />
+        <sphereGeometry args={[8, 48, 48]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
