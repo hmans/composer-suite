@@ -2,12 +2,10 @@ import {
   Factory,
   float,
   getValueType,
-  inferVariable,
   Parameter,
   ShaderNode,
   ValueType,
   variable,
-  Variable,
   vec2,
   vec3,
   vec4
@@ -31,23 +29,28 @@ export const ComposeNode = Factory(() => ({
   }
 }))
 
-function makeFunctionNode(fun: string) {
-  return function<T extends ValueType>({ a }: OperatorProps<T>) {
-    return ShaderNode({
-      name: `${fun} Function`,
-      in: { a: inferVariable(a) },
-      out: {
-        value: {
-          ...inferVariable(a),
-          value: `${fun}(in_a)`
-        } as Variable<T>
-      }
-    })
-  }
+type FunctionProps<A extends ValueType> = {
+  a: Parameter<A>
 }
 
-export const SinNode = makeFunctionNode("sin")
-export const CosNode = makeFunctionNode("cos")
+const FunctionNode = (fun: string) => <A extends ValueType>({
+  a
+}: FunctionProps<A>) => {
+  const aType = getValueType(a)
+
+  return ShaderNode({
+    name: `Perform ${fun} on ${aType}`,
+    in: {
+      a: variable(aType, a)
+    },
+    out: {
+      value: variable(aType, `${fun}(in_a)`)
+    }
+  })
+}
+
+export const SinNode = FunctionNode("sin")
+export const CosNode = FunctionNode("cos")
 
 type Operator = "+" | "-" | "*" | "/"
 
