@@ -1,7 +1,11 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
-import { compileShader, FloatNode, TimeNode } from "shadenfreude"
-import { ShaderMaterial } from "three"
+import { compileShader, Factory, FloatNode, TimeNode } from "shadenfreude"
+import { MeshStandardMaterial, ShaderMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
+import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
+
+const StackyMaster = Factory(() => ({}))
 
 function useShader() {
   const time = TimeNode()
@@ -13,7 +17,7 @@ function useShader() {
 
 export default function() {
   const [shaderProps, update] = useShader()
-  const material = useRef<ShaderMaterial>(null!)
+  const material = useRef<CustomShaderMaterialImpl>(null!)
 
   console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
@@ -25,13 +29,11 @@ export default function() {
       <mesh>
         <sphereGeometry args={[8, 32, 32]} />
 
-        <shaderMaterial ref={material} {...shaderProps} />
-
-        {/* <CustomShaderMaterial
+        <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shaderProps}
           ref={material}
-        /> */}
+        />
       </mesh>
     </group>
   )
