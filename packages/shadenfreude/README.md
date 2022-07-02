@@ -4,7 +4,7 @@
 
 Shadenfreude is a library for programmatically creating [Three.js] shaders assembled from a graph of nodes, each implementing a small unit of functionality. You've probably seen graphical node shader editors -- it's just like those, but in code!
 
-> **EINE WARNING, FRIEND!**
+> **EINE WARNING, FRIEND! ⚠️**
 > This library is very extremely new. I'd love for you to give it a go and maybe provide some feedback, but I would currently recommend **strongly** against using it in any sort of production project, unless you're ready and willing to keep up with the changes every release. **Use at your own risk.**
 
 ## Features
