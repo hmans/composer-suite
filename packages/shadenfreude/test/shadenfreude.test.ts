@@ -1,6 +1,7 @@
 import { Vector3 } from "three"
 import { FloatNode, TimeNode } from "../src"
 import {
+  assign,
   compileShader,
   Factory,
   float,
@@ -478,6 +479,28 @@ describe("compileShader", () => {
 
       }"
     `)
+  })
+})
+
+describe("assign", () => {
+  it("assigns the given value to the variable", () => {
+    const f = float(0)
+    assign(f, 1)
+    expect(f.value).toBe(1)
+  })
+
+  it("can assign other variables to the variable", () => {
+    const a = float(0)
+    const b = float(1)
+    assign(a, b)
+    expect(a.value).toBe(b)
+  })
+
+  it("can assign other nodes to the variable, using their default output value", () => {
+    const a = float(0)
+    const node = FloatNode({ value: 1 })
+    assign(a, node)
+    expect(a.value).toBe(node.out.value)
   })
 })
 
