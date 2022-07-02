@@ -2,7 +2,12 @@
 
 ## Introduction
 
-Shadenfreude is a library for programmatically creating [Three.js] shaders assembled from a graph of nodes. It provides a library of ready-to-use nodes, but you can also create your own.
+Shadenfreude is a library for programmatically creating [Three.js] shaders assembled from a graph of nodes, each implementing a small unit of functionality. You've probably seen graphical node shader editors -- it's just like those, but in code!
+
+## Features
+
+- Rapidly create complex Three.js shaders using a library of ready-to-use nodes, or add your own!
+- Developed in Typescript, with fantastic type support!
 
 ## Basic Use
 
@@ -190,12 +195,32 @@ This version is functionally equivalent to the one before, but we're doing some 
 - Note how we're using the `float(v)` variable factory -- it's just a shortcut for `variable("float", v)`.
 - Instead of imperatively writing the calculated result value into `out_value`, we're providing a string default value for the `value` out variable. When variables have string values, the string will be used in the generated GLSL verbatim, and we can use this here to our advantage.
 
-### Writing a reusable shader node
+### Writing reusable shader nodes
 
 We've been creating standalone shader nodes so far, but what if we want to be able to create multiple instances of the same node? Well, just do what you would normally do in JavaScript -- write a factory function!
 
 ```js
-const AddFloatsNode = ({ a, b }) =>
+const AddFloatsNode = ({ a = 0, b = 0 } = {}) =>
+  ShaderNode({
+    in: {
+      a: float(a),
+      b: float(b)
+    },
+    out: {
+      value: float("in_a + in_b")
+    }
+  })
+```
+
+Typescript users can use the `Parameter<T>` type for properly typing shader node props:
+
+```ts
+type Props = {
+  a: Parameter<"float">
+  b: Parameter<"float">
+}
+
+const AddFloatsNode = ({ a = 0, b = 0 }: Props = {}) =>
   ShaderNode({
     in: {
       a: float(a),
@@ -209,9 +234,24 @@ const AddFloatsNode = ({ a, b }) =>
 
 ### Special variables `a` (in) and `value` (out)
 
+TODO
+
+### Using Varyings
+
+TODO
+
+### Using Uniforms and Attributes
+
+TODO
+
 ### Using Filter Chains
 
 TODO
+
+### Conventions
+
+- If your shader node has a primary input variable, name it `a`.
+- If your shader node has a primary output variable, name it `value`.
 
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
 [three.js]: https://threejs.org/
