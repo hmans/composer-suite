@@ -417,24 +417,16 @@ export const compileShader = (root: IShaderNode) => {
   ) => {
     ++state.id
 
+    const nodePartInVariableName = [sluggify(node.name || "node"), state.id]
+
     /* Tweak this node's output variable names */
     getVariables(node.out).map(([localName, variable]) => {
-      variable.name = identifier(
-        "out",
-        sluggify(variable.node!.name || "node"),
-        state.id,
-        localName
-      )
+      variable.name = identifier("out", ...nodePartInVariableName, localName)
     })
 
     /* Tweak this node's varying names */
     getVariables(node.varyings).map(([localName, variable]) => {
-      variable.name = identifier(
-        "v",
-        sluggify(variable.node!.name || "node"),
-        state.id,
-        localName
-      )
+      variable.name = identifier("v", ...nodePartInVariableName, localName)
     })
 
     /* Prepare filters */
