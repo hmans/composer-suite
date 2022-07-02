@@ -10,7 +10,7 @@ import {
   vec3,
   vec4
 } from "../shadenfreude"
-import { GeometryNormalNode } from "./geometry"
+import { VertexNormalNode } from "./geometry"
 import { ViewDirectionNode } from "./inputs"
 
 export const ComposeNode = Factory(() => ({
@@ -116,7 +116,7 @@ export const FresnelNode = Factory(() => ({
     power: float(2),
     factor: float(1),
     viewDirection: vec3(ViewDirectionNode()),
-    worldNormal: vec3(GeometryNormalNode().out.worldSpace)
+    worldNormal: vec3(VertexNormalNode().out.worldSpace)
   },
   out: {
     value: float()

@@ -6,7 +6,7 @@ import {
   Factory,
   float,
   FresnelNode,
-  GeometryPositionNode,
+  VertexPositionNode,
   MixNode,
   MultiplyNode,
   Parameter,
@@ -72,7 +72,7 @@ function useShader() {
   const ColorStack = StackNode("vec3", "Color Stack")
 
   const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack(GeometryPositionNode(), [
+    position: AnimationStack(VertexPositionNode(), [
       SqueezeWithTime({ frequency: 0.1 }),
       ScaleWithTime("x")({ frequency: 0.2 }),
       ScaleWithTime("y")({ frequency: 0.1 }),

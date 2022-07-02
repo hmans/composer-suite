@@ -1,7 +1,7 @@
 import { Factory, vec2, vec3 } from "../shadenfreude"
 
-export const GeometryPositionNode = Factory(() => ({
-  name: "Position",
+export const VertexPositionNode = Factory(() => ({
+  name: "Vertex Position",
   varyings: {
     v_position: vec3("position")
   },
@@ -10,8 +10,8 @@ export const GeometryPositionNode = Factory(() => ({
   }
 }))
 
-export const GeometryNormalNode = Factory(() => ({
-  name: "Normal",
+export const VertexNormalNode = Factory(() => ({
+  name: "Vertex Normal",
   varyings: {
     v_localSpace: vec3("normal"),
     v_WorldSpace: vec3(
@@ -24,7 +24,7 @@ export const GeometryNormalNode = Factory(() => ({
   }
 }))
 
-export const GeometryUVNode = Factory(() => ({
+export const UVNode = Factory(() => ({
   name: "UV",
   varyings: {
     v_uv: vec2("uv")

@@ -8,8 +8,8 @@ import {
   Factory,
   float,
   FresnelNode,
-  GeometryPositionNode,
-  GeometryUVNode,
+  VertexPositionNode,
+  UVNode,
   MultiplyNode,
   Parameter,
   Program,
@@ -96,7 +96,7 @@ const Squeezed = Factory(() => ({
   in: {
     position: vec3(),
     time: float(),
-    uv: vec2(GeometryUVNode())
+    uv: vec2(UVNode())
   },
   out: {
     value: vec3(
@@ -119,7 +119,7 @@ function useShader() {
 
     const root = ShaderMaterialMasterNode({
       position: AddNode({
-        a: Squeezed({ position: GeometryPositionNode(), time }),
+        a: Squeezed({ position: VertexPositionNode(), time }),
         b: WobbleAnimation({ frequency: 0.2, amplitude: 3.5, time })
       }),
 

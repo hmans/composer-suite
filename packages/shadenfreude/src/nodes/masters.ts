@@ -1,6 +1,6 @@
 import { Color } from "three"
 import { Factory, float, vec3 } from "../shadenfreude"
-import { GeometryPositionNode, GeometryNormalNode } from "./geometry"
+import { VertexPositionNode, VertexNormalNode } from "./geometry"
 
 export const ShaderMaterialMasterNode = Factory(() => ({
   name: "ShaderMaterial Master",
@@ -27,8 +27,8 @@ export const ShaderMaterialMasterNode = Factory(() => ({
 export const CustomShaderMaterialMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
   in: {
-    position: vec3(GeometryPositionNode()),
-    normal: vec3(GeometryNormalNode()),
+    position: vec3(VertexPositionNode()),
+    normal: vec3(VertexNormalNode()),
     diffuseColor: vec3(new Color(1, 1, 1)),
     emissiveColor: vec3(new Color(0, 0, 0))
   },
