@@ -33,15 +33,15 @@ type FunctionProps<A extends ValueType> = {
   a: Parameter<A>
 }
 
-const FunctionNode = (fun: string) => <A extends ValueType>({
-  a
-}: FunctionProps<A>) => {
-  const aType = getValueType(a)
+const FunctionNode = (fun: string) => <A extends ValueType>(
+  props: FunctionProps<A>
+) => {
+  const aType = getValueType(props.a)
 
   return ShaderNode({
     name: `Perform ${fun} on ${aType}`,
     in: {
-      a: variable(aType, a)
+      a: variable(aType, props.a)
     },
     out: {
       value: variable(aType, `${fun}(in_a)`)
@@ -62,18 +62,17 @@ type OperatorProps<A extends ValueType, B extends ValueType> = {
 const OperatorNode = (operator: Operator) => <
   A extends ValueType,
   B extends ValueType
->({
-  a,
-  b
-}: OperatorProps<A, B>) => {
-  const aType = getValueType(a)
-  const bType = getValueType(b)
+>(
+  props: OperatorProps<A, B>
+) => {
+  const aType = getValueType(props.a)
+  const bType = getValueType(props.b)
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
     in: {
-      a: variable(aType, a),
-      b: variable(bType, b)
+      a: variable(aType, props.a),
+      b: variable(bType, props.b)
     },
     out: {
       value: variable(aType, `in_a ${operator} in_b`)
