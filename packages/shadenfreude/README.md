@@ -232,6 +232,27 @@ const AddFloatsNode = ({ a = 0, b = 0 }: Props = {}) =>
   })
 ```
 
+Since this pattern is so common -- creating a function that takes a props object that just happens to mirror the input variables on the generated shader node -- Shadenfreude also provides the `Factory` helper that will generate one of these factories for you (with proper types, if you're in Typescript):
+
+```ts
+const AddFloatsNode = Factory(() => ({
+  in: {
+    a: float(),
+    b: float()
+  },
+  out: {
+    value: float("in_a + in_b")
+  }
+}))
+
+const node = AddFloatsNode({ a: 1, b: 2 })
+```
+
+A couple of notes:
+
+- The only argument to `Factory` is a function that returns a shader node definition (note that it doesn't need to use the `ShaderNode` function.)
+- `Factory` returns a factory function that takes a props object -- typed according to the `in` variables. When this function is invoked, the props passed into it are assigned to their respective input variables.
+
 ### Special variables `a` (in) and `value` (out)
 
 TODO
