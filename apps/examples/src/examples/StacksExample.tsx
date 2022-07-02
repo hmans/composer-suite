@@ -34,10 +34,10 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
     time: float(TimeNode())
   },
   out: {
-    value: vec3()
+    value: vec3("in_value")
   },
   vertex: {
-    body: `in_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5); out_value = in_value;`
+    body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
   }
 }))
 
