@@ -8,11 +8,14 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
+  MixNode,
   MultiplyNode,
+  Parameter,
   TimeNode,
-  vec3
+  vec3,
+  Vector3Node
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -82,18 +85,6 @@ const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   }
 }))
 
-const FauxLamina = Factory(() => ({
-  name: "Faux Lamina",
-  in: {
-    a: vec3(),
-    color: vec3(),
-    intensity: float(0.5)
-  },
-  out: {
-    value: vec3("in_color * in_intensity + in_a * (1.0 - in_intensity)")
-  }
-}))
-
 const ColorStack = Factory(() => ({
   name: "Color Stack",
   in: {
@@ -103,9 +94,12 @@ const ColorStack = Factory(() => ({
     value: vec3("in_color")
   },
   filters: [
-    FauxLamina({
-      color: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
-      intensity: 0.5
+    MixNode({
+      b: MultiplyNode({
+        a: new Color(2, 2, 2) as Parameter<"vec3">,
+        b: FresnelNode()
+      }),
+      amount: 0.5
     })
   ]
 }))

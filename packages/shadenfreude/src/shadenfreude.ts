@@ -144,16 +144,13 @@ export type VariableProps<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: VariableProp<V[K]> }
   : {}
 
-export const variable = <T extends ValueType, V extends Variable<T>>(
-  type: T,
-  value?: Parameter<T>
-) =>
+export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
   ({
     __variable: true,
     name: `var_${Math.floor(Math.random() * 10000000)}`,
     type,
     value: isShaderNodeWithOutVariable(value) ? value.out.value : value
-  } as V)
+  } as Variable<T>)
 
 export const float = (value?: Parameter<"float">) => variable("float", value)
 export const vec2 = (value?: Parameter<"vec2">) => variable("vec2", value)
@@ -168,7 +165,7 @@ export const plug = <S extends Variable, T extends Variable>(
   into: (target: T) => assign(target, source)
 })
 
-const assign = <T extends ValueType>(
+export const assign = <T extends ValueType>(
   variable: Variable<T>,
   value: Parameter<T>
 ) =>
@@ -177,37 +174,29 @@ const assign = <T extends ValueType>(
     : value)
 
 /**
- * Creates a new variable based on the given value's type, and sets its value... to the value.
- * Documentation is hard.
- */
-export const inferVariable = (a: Value): Variable => {
-  return variable(getValueType(a), a)
-}
-
-/**
  * Returns the value type for the given value.
  */
-export function getValueType(value: Value): ValueType {
+export function getValueType<T extends ValueType>(value: Parameter<T>): T {
   if (isVariable(value)) {
     return value.type
   } else if (isShaderNodeWithOutVariable(value)) {
     return getValueType(value.out.value)
   } else if (typeof value === "number") {
-    return "float"
+    return "float" as T
   } else if (typeof value === "boolean") {
-    return "bool"
+    return "bool" as T
   } else if (value instanceof Color) {
-    return "vec3"
+    return "vec3" as T
   } else if (value instanceof Vector2) {
-    return "vec2"
+    return "vec2" as T
   } else if (value instanceof Vector3) {
-    return "vec3"
+    return "vec3" as T
   } else if (value instanceof Vector4) {
-    return "vec4"
+    return "vec4" as T
   } else if (value instanceof Matrix3) {
-    return "mat3"
+    return "mat3" as T
   } else if (value instanceof Matrix4) {
-    return "mat4"
+    return "mat4" as T
   } else {
     throw new Error(`Could not find a GLSL type for: ${value}`)
   }

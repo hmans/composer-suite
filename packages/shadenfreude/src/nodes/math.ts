@@ -2,11 +2,10 @@ import {
   Factory,
   float,
   getValueType,
-  inferVariable,
   Parameter,
   ShaderNode,
   ValueType,
-  Variable,
+  variable,
   vec2,
   vec3,
   vec4
@@ -30,61 +29,83 @@ export const ComposeNode = Factory(() => ({
   }
 }))
 
-function makeFunctionNode(fun: string) {
-  return function<T extends ValueType>({ a }: OperatorProps<T>) {
-    return ShaderNode({
-      name: `${fun} Function`,
-      in: { a: inferVariable(a) },
-      out: {
-        value: {
-          ...inferVariable(a),
-          value: `${fun}(in_a)`
-        } as Variable<T>
-      }
-    })
-  }
+type FunctionProps<A extends ValueType> = {
+  a: Parameter<A>
 }
 
-export const SinNode = makeFunctionNode("sin")
-export const CosNode = makeFunctionNode("cos")
+const FunctionNode = (fun: string) => <A extends ValueType>(
+  props: FunctionProps<A>
+) => {
+  const aType = getValueType(props.a)
+
+  return ShaderNode({
+    name: `Perform ${fun} on ${aType}`,
+    in: {
+      a: variable(aType, props.a)
+    },
+    out: {
+      value: variable(aType, `${fun}(in_a)`)
+    }
+  })
+}
+
+export const SinNode = FunctionNode("sin")
+export const CosNode = FunctionNode("cos")
 
 type Operator = "+" | "-" | "*" | "/"
 
-type OperatorProps<T extends ValueType> = {
-  a: Parameter<T>
-  b: Parameter<any>
+type OperatorProps<A extends ValueType, B extends ValueType> = {
+  a: Parameter<A>
+  b: Parameter<B>
 }
 
-export const OperatorNode = <T extends ValueType>({
-  a,
-  b,
-  operator
-}: OperatorProps<T> & { operator: Operator }) =>
-  ShaderNode({
-    name: `Perform ${operator} on ${getValueType(a)}`,
+const OperatorNode = (operator: Operator) => <
+  A extends ValueType,
+  B extends ValueType
+>(
+  props: OperatorProps<A, B>
+) => {
+  const aType = getValueType(props.a)
+  const bType = getValueType(props.b)
+
+  return ShaderNode({
+    name: `Perform ${aType} ${operator} ${bType}`,
     in: {
-      a: inferVariable(a),
-      b: inferVariable(b)
+      a: variable(aType, props.a),
+      b: variable(bType, props.b)
     },
     out: {
-      value: {
-        ...inferVariable(a),
-        value: `in_a ${operator} in_b`
-      } as Variable<T>
+      value: variable(aType, `in_a ${operator} in_b`)
     }
   })
+}
 
-export const AddNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
-  OperatorNode({ operator: "+", a, b })
+export const AddNode = OperatorNode("+")
+export const SubtractNode = OperatorNode("-")
+export const MultiplyNode = OperatorNode("*")
+export const DivideNode = OperatorNode("/")
 
-export const SubtractNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
-  OperatorNode({ operator: "-", a, b })
+type MixProps<T extends ValueType> = {
+  a?: Parameter
+  b: Parameter<T>
+  amount?: Parameter<"float">
+}
 
-export const DivideNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
-  OperatorNode({ operator: "/", a, b })
+export const MixNode = <T extends ValueType>(props: MixProps<T>) => {
+  const type = getValueType(props.b)
 
-export const MultiplyNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
-  OperatorNode({ operator: "*", a, b })
+  return ShaderNode({
+    name: "Mix a and b values",
+    in: {
+      a: variable<T>(type, props.a),
+      b: variable<T>(type, props.b),
+      amount: float(props.amount || 0.5)
+    },
+    out: {
+      value: variable<T>(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
+    }
+  })
+}
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
