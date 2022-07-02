@@ -35,15 +35,19 @@ export interface IShaderNode {
   filters?: IShaderNode[]
 }
 
-export interface IShaderNodeWithInVariable<T extends ValueType = any>
-  extends IShaderNode {
+export interface IShaderNodeWithInVariable<T extends ValueType = any> {
+  [key: string]: any
   in: { value: Variable<T> }
 }
 
-export interface IShaderNodeWithOutVariable<T extends ValueType = any>
-  extends IShaderNode {
+export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
+  [key: string]: any
   out: { value: Variable<T> }
 }
+
+export interface IFilterNode<T extends ValueType = any>
+  extends IShaderNodeWithInVariable<T>,
+    IShaderNodeWithOutVariable<T> {}
 
 export const ShaderNode = <
   S extends IShaderNode,
