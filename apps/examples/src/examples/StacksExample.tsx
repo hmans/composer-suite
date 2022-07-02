@@ -6,14 +6,13 @@ import {
   Factory,
   float,
   FresnelNode,
-  VertexPositionNode,
-  MixNode,
   MultiplyNode,
   Parameter,
+  SoftlightBlendNode,
   StackNode,
   TimeNode,
   vec3,
-  SoftlightBlendNode
+  VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
