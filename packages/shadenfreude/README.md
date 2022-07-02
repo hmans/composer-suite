@@ -12,6 +12,10 @@ Shadenfreude is a library for programmatically creating [Three.js] shaders assem
 - Rapidly create complex Three.js shaders using a library of ready-to-use nodes, or add your own!
 - Developed in Typescript, with fantastic type support!
 
+## Examples & Sandboxes
+
+- **[The official Shadenfreude sandbox](https://codesandbox.io/s/github/hmans/shadenfreude-sandbox?file=/src/App.js)**. Fork it and go nuts!
+
 ## Basic Use
 
 ### Hello World
