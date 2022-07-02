@@ -341,6 +341,9 @@ export const compileShader = (root: IShaderNode) => {
 
     /* Prepare units */
     if (node.filters) {
+      if (!isShaderNodeWithOutVariable(node))
+        throw new Error("Nodes with filters must have an output value")
+
       /* Use the last unit's output value as our output value */
       const lastUnit = node.filters[node.filters.length - 1]
       node.out.value.value = lastUnit.out.value
