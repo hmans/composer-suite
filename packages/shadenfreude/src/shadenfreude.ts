@@ -31,9 +31,17 @@ export interface IShaderNode {
   varyings?: Variables
   in?: Variables
   out?: Variables
+
+  filters?: IShaderNode[]
+}
+
+export interface IShaderNodeWithInVariable<T extends ValueType = any> {
+  [key: string]: any
+  in: { value: Variable<T> }
 }
 
 export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
+  [key: string]: any
   out: { value: Variable<T> }
 }
 
@@ -266,9 +274,9 @@ export const compileShader = (root: IShaderNode) => {
     Object.entries(variables || {})
 
   /**
-   * Returns the dependencies of the given shader node.
+   * Returns the dependencies of the given shader node's input variables.
    */
-  const getDependencies = (node: IShaderNode) =>
+  const getInputDependencies = (node: IShaderNode) =>
     unique(
       getVariables(node.in)
         .filter(([_, variable]) => isVariable(variable.value))
@@ -317,7 +325,10 @@ export const compileShader = (root: IShaderNode) => {
       /* Actual chunk */
       node[programType]?.header,
 
-      nodeEnd(node)
+      nodeEnd(node),
+
+      /* Filters */
+      node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
 
     return header
@@ -336,7 +347,9 @@ export const compileShader = (root: IShaderNode) => {
 
     return [
       /* Dependencies */
-      getDependencies(node).map((dep) => compileBody(dep, programType, seen)),
+      getInputDependencies(node).map((dep) =>
+        compileBody(dep, programType, seen)
+      ),
 
       nodeBegin(node),
 
@@ -374,8 +387,20 @@ export const compileShader = (root: IShaderNode) => {
 
         /* Assign local output variables back to global variables */
         outs.map(([localName, variable]) =>
-          statement(variable.name, "=", "out_" + localName)
+          assignment(variable.name, "out_" + localName)
         ),
+
+        /* Filters */
+        node.filters && [
+          /* Render filters */
+          node.filters.map((filter) => compileBody(filter, programType, seen)),
+
+          /* Assign the last filter's output variable back into our output variable */
+          assignment(
+            node.out!.value.name,
+            node.filters[node.filters.length - 1].out!.value.name
+          )
+        ],
 
         /* Assign Varyings */
         programType === "vertex" &&
@@ -395,37 +420,65 @@ export const compileShader = (root: IShaderNode) => {
     ).join("\n")
   }
 
-  const tweakVariableNames = (
+  const prepareNode = (
     node: IShaderNode,
-    state: { id: number } = { id: 0 }
+    state = { id: 0, seenNodes: new Set<IShaderNode>() }
   ) => {
+    if (state.seenNodes.has(node)) return
+    state.seenNodes.add(node)
+
     ++state.id
+
+    const nodePartInVariableName = [sluggify(node.name || "node"), state.id]
 
     /* Tweak this node's output variable names */
     getVariables(node.out).map(([localName, variable]) => {
-      variable.name = identifier(
-        "out",
-        sluggify(variable.node!.name || "node"),
-        state.id,
-        localName
-      )
+      variable.name = identifier("out", ...nodePartInVariableName, localName)
     })
 
     /* Tweak this node's varying names */
     getVariables(node.varyings).map(([localName, variable]) => {
-      variable.name = identifier(
-        "v",
-        sluggify(variable.node!.name || "node"),
-        state.id,
-        localName
-      )
+      variable.name = identifier("v", ...nodePartInVariableName, localName)
     })
 
-    /* Do the same for all dependencies */
-    getDependencies(node).forEach((dep) => tweakVariableNames(dep, state))
+    /* Prepare filters */
+    if (node.filters) {
+      if (!isShaderNodeWithOutVariable(node))
+        throw new Error("Nodes with filters must have an output value")
+
+      /* Use the last filter's output value as our output value */
+      const lastFilter = node.filters[node.filters.length - 1]
+      const firstFilter = node.filters[0]
+
+      if (!isShaderNodeWithInVariable(firstFilter))
+        throw new Error("Filter nodes must have an input value")
+
+      if (!isShaderNodeWithOutVariable(lastFilter))
+        throw new Error("Filter nodes must have an output value")
+
+      firstFilter.in.value = node.out.value
+
+      /* Connect filters in sequence */
+      for (let i = 1; i < node.filters.length; i++) {
+        const filter = node.filters[i]
+        const prev = node.filters[i - 1]
+
+        if (!isShaderNodeWithOutVariable(prev))
+          throw new Error("Filter nodes must have an output value")
+
+        if (!isShaderNodeWithInVariable(filter))
+          throw new Error("Filter nodes must have an input value")
+
+        filter.in.value.value = prev.out.value
+      }
+    }
+
+    /* Do the same for all filters and dependencies */
+    const deps = [...getInputDependencies(node), ...(node.filters || [])]
+    deps.forEach((unit) => prepareNode(unit, state))
   }
 
-  tweakVariableNames(root)
+  prepareNode(root)
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
@@ -460,12 +513,18 @@ const lines = (...parts: Parts): string[] =>
 
 const statement = (...parts: Parts) => compact(parts.flat()).join(" ") + ";"
 
+const assignment = (left: string, right: string) => statement(left, "=", right)
+
 const identifier = (...parts: Parts) =>
   compact(parts.flat())
     .join("_")
     .replace(/_{2,}/g, "_")
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
+
+export const isShaderNodeWithInVariable = (
+  value: any
+): value is IShaderNodeWithInVariable => value?.in?.value !== undefined
 
 export const isShaderNodeWithOutVariable = (
   value: any
