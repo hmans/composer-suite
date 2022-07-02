@@ -327,7 +327,7 @@ export const compileShader = (root: IShaderNode) => {
 
       nodeEnd(node),
 
-      /* Units */
+      /* Filters */
       node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
 
@@ -345,12 +345,12 @@ export const compileShader = (root: IShaderNode) => {
     const ins = getVariables(node.in)
     const outs = getVariables(node.out)
 
-    /* Prepare units */
+    /* Prepare filters */
     if (node.filters) {
       if (!isShaderNodeWithOutVariable(node))
         throw new Error("Nodes with filters must have an output value")
 
-      /* Use the last unit's output value as our output value */
+      /* Use the last filter's output value as our output value */
       const lastUnit = node.filters[node.filters.length - 1]
 
       if (!isShaderNodeWithOutVariable(lastUnit))
@@ -358,7 +358,7 @@ export const compileShader = (root: IShaderNode) => {
 
       node.out.value.value = lastUnit.out.value
 
-      /* Connect units in sequence */
+      /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
         const f = node.filters[i]
         const prev = node.filters[i - 1]
@@ -403,9 +403,9 @@ export const compileShader = (root: IShaderNode) => {
               })
             ),
 
-        /* Units */
+        /* Filters */
         node.filters &&
-          node.filters.map((unit) => compileBody(unit, programType, seen)),
+          node.filters.map((filter) => compileBody(filter, programType, seen)),
 
         /* Output Variables */
         outs.map(([localName, variable]) =>
@@ -464,7 +464,7 @@ export const compileShader = (root: IShaderNode) => {
       )
     })
 
-    /* Do the same for all units */
+    /* Do the same for all filters */
     node.filters?.forEach((unit) => tweakVariableNames(unit, state))
 
     /* Do the same for all dependencies */
