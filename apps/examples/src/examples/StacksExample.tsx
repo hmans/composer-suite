@@ -1,22 +1,26 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import {
+  AddNode,
+  ColorNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
   float,
+  FresnelNode,
   GeometryPositionNode,
+  MultiplyNode,
   TimeNode,
   vec3
 } from "shadenfreude"
-import { MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 const AnimationStack = Factory(() => ({
   name: "Animation Stack",
   out: {
-    value: vec3(GeometryPositionNode())
+    value: vec3()
   },
   filters: [
     GeometryPositionNode(),
@@ -41,9 +45,35 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   }
 }))
 
+const FauxLamina = Factory(() => ({
+  in: {
+    value: vec3(),
+    color: vec3(),
+    intensity: float(0.5)
+  },
+  out: {
+    value: vec3("in_color * in_intensity + in_value * (1.0 - in_intensity)")
+  }
+}))
+
+const ColorStack = Factory(() => ({
+  name: "Color Stack",
+  out: {
+    value: vec3()
+  },
+  filters: [
+    ColorNode({ value: new Color("hotpink") }),
+    FauxLamina({
+      color: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
+      intensity: 0.5
+    })
+  ]
+}))
+
 function useShader() {
   const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack()
+    position: AnimationStack(),
+    diffuseColor: ColorStack()
   })
 
   return compileShader(root)
