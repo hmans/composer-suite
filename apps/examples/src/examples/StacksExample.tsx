@@ -9,8 +9,10 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
+  GeometryUVNode,
   MultiplyNode,
   TimeNode,
+  vec2,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
@@ -24,12 +26,13 @@ const AnimationStack = Factory(() => ({
   },
   filters: [
     GeometryPositionNode(),
+    SqueezeWithTime({ frequency: 2 }, { axis: "x" }),
     ScaleWithTime({ frequency: 0.5 }, { axis: "x" }),
     ScaleWithTime({ frequency: 0.7 }, { axis: "y" }),
     ScaleWithTime({ frequency: 0.9 }, { axis: "z" }),
-    MoveWithTime({ frequency: 0.8, amplitude: 4 }, { axis: "x" }),
-    MoveWithTime({ frequency: 1.4, amplitude: 2 }, { axis: "y" }),
-    MoveWithTime({ frequency: 1.0, amplitude: 5 }, { axis: "z" })
+    MoveWithTime({ frequency: 0.8, amplitude: 2 }, { axis: "x" }),
+    MoveWithTime({ frequency: 1.4, amplitude: 1 }, { axis: "y" }),
+    MoveWithTime({ frequency: 1.0, amplitude: 2 }, { axis: "z" })
   ]
 }))
 
@@ -45,6 +48,23 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   },
   vertex: {
     body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
+  }
+}))
+
+const SqueezeWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
+  name: "Squeeze with Time",
+  in: {
+    value: vec3(),
+
+    frequency: float(1),
+    uv: vec2(GeometryUVNode()),
+    time: float(TimeNode())
+  },
+  out: {
+    value: vec3("in_value")
+  },
+  vertex: {
+    body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency + in_uv.y * 8.0) * 0.2);`
   }
 }))
 
