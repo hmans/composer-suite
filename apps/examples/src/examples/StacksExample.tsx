@@ -8,34 +8,33 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
+  IShaderNode,
   MixNode,
   MultiplyNode,
   Parameter,
+  ShaderNode,
   TimeNode,
+  ValueType,
+  variable,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
-const AnimationStack = Factory(() => ({
-  name: "Animation Stack",
-  in: {
-    origin: vec3(GeometryPositionNode())
-  },
-  out: {
-    value: vec3("in_origin")
-  },
-  filters: [
-    SqueezeWithTime({ frequency: 0.1 }),
-    ScaleWithTime("x")({ frequency: 0.2 }),
-    ScaleWithTime("y")({ frequency: 0.1 }),
-    ScaleWithTime("z")({ frequency: 0.3 }),
-    MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
-    MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
-    MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
-  ]
-}))
+const Stack = <T extends ValueType>(type: T, name = "Stack") => (
+  a: Parameter<T>,
+  filters: IShaderNode[] = []
+) =>
+  ShaderNode({
+    name,
+    in: { a: variable(type, a) },
+    out: { value: variable(type, "in_a") },
+    filters
+  })
+
+const AnimationStack = Stack("vec3", "Animation Stack")
+const ColorStack = Stack("vec3", "Color Stack")
 
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
@@ -86,29 +85,27 @@ const MoveWithTime = (axis = "xyz") =>
     }
   }))
 
-const ColorStack = Factory(() => ({
-  name: "Color Stack",
-  in: {
-    color: vec3(ColorNode({ value: new Color("hotpink") }))
-  },
-  out: {
-    value: vec3("in_color")
-  },
-  filters: [
-    MixNode({
-      b: MultiplyNode({
-        a: new Color(2, 2, 2) as Parameter<"vec3">,
-        b: FresnelNode()
-      }),
-      amount: 0.5
-    })
-  ]
-}))
-
 function useShader() {
   const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack(),
-    diffuseColor: ColorStack()
+    position: AnimationStack(GeometryPositionNode(), [
+      SqueezeWithTime({ frequency: 0.1 }),
+      ScaleWithTime("x")({ frequency: 0.2 }),
+      ScaleWithTime("y")({ frequency: 0.1 }),
+      ScaleWithTime("z")({ frequency: 0.3 }),
+      MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
+      MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
+      MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
+    ]),
+
+    diffuseColor: ColorStack(new Color("hotpink"), [
+      MixNode({
+        b: MultiplyNode({
+          a: new Color(2, 2, 2) as Parameter<"vec3">,
+          b: FresnelNode()
+        }),
+        amount: 0.5
+      })
+    ])
   })
 
   return compileShader(root)
