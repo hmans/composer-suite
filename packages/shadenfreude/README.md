@@ -271,11 +271,31 @@ plug(colorA.out.value).into(mixedColor.in.a)
 AnimateNode({ time: TimeNode().out.value })
 ```
 
-TODO
-
 ### Using Varyings
 
-TODO
+Varyings are variables that are typically written to in the vertex shader, and then read from in the fragment shader, with their values interpolated across fragments.
+
+Shader nodes can declare varyings through their `varyings` property. Varyings declared here will automatically be added to the shader headers, using a scoped global name to prevent naming conflicts.
+
+We can use varyings to make data that is only availabel in the vertex shader available in the fragment shader, too. For example, here's the implementation of `GeometryPositionNode`, which provides the `position` buffer attribute value. We can only read from attributes in the vertex shader, so we're using a varying to make the data available in the fragment shader, too:
+
+```js
+const GeometryPositionNode = Factory(() => ({
+  name: "Position",
+  varyings: {
+    v_position: vec3("position")
+  },
+  out: {
+    value: vec3("v_position")
+  }
+}))
+```
+
+A couple of notes, as usual:
+
+- We're declaring a `v_position` varying. The actual varying declaration in the shader will use a name unique to this shader node, in order to prevent name conflicts; but within your node, you can use the `v_position` name to access it.
+- We're declaring `v_position` to be of type `vec3`, and are using `position` as its default value. Remember that string values are inserted into the GLSL verbatim -- here we're sourcing the default value from the `position` attribute, which, thanks to Three.js, is already available as a global variable.
+- Similarly, we're setting the `value` out variable's value to `v_position`, to source the value from the varying. If we just used `position` here, the shader would break, because `position` is not available in the fragment shader -- but `v_position` is!
 
 ### Using Uniforms and Attributes
 
