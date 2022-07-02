@@ -8,8 +8,12 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
+  inferVariable,
   MultiplyNode,
+  Parameter,
+  ShaderNode,
   TimeNode,
+  ValueType,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
@@ -82,17 +86,24 @@ const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   }
 }))
 
-const FauxLamina = Factory(() => ({
-  name: "Faux Lamina",
-  in: {
-    a: vec3(),
-    color: vec3(),
-    intensity: float(0.5)
-  },
-  out: {
-    value: vec3("in_color * in_intensity + in_a * (1.0 - in_intensity)")
-  }
-}))
+type MixProps<T extends ValueType> = {
+  a?: Parameter<T>
+  b?: Parameter<T>
+  amount?: Parameter<"float">
+}
+
+const MixNode = <T extends ValueType>({ a, b, amount = 0.5 }: MixProps<T>) =>
+  ShaderNode({
+    name: "Mix a and b values",
+    in: {
+      a: inferVariable(a),
+      b: inferVariable(b),
+      amount: float(amount)
+    },
+    out: {
+      value: vec3("in_b * in_amount + in_a * (1.0 - in_amount)")
+    }
+  })
 
 const ColorStack = Factory(() => ({
   name: "Color Stack",
@@ -103,9 +114,10 @@ const ColorStack = Factory(() => ({
     value: vec3("in_color")
   },
   filters: [
-    FauxLamina({
-      color: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
-      intensity: 0.5
+    MixNode<"vec3">({
+      a: vec3(), // TODO: make it so this is not necessary
+      b: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
+      amount: 0.5
     })
   ]
 }))
