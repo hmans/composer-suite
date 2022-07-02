@@ -274,9 +274,9 @@ export const compileShader = (root: IShaderNode) => {
     Object.entries(variables || {})
 
   /**
-   * Returns the dependencies of the given shader node.
+   * Returns the dependencies of the given shader node's input variables.
    */
-  const getDependencies = (node: IShaderNode) =>
+  const getInputDependencies = (node: IShaderNode) =>
     unique(
       getVariables(node.in)
         .filter(([_, variable]) => isVariable(variable.value))
@@ -347,7 +347,9 @@ export const compileShader = (root: IShaderNode) => {
 
     return [
       /* Dependencies */
-      getDependencies(node).map((dep) => compileBody(dep, programType, seen)),
+      getInputDependencies(node).map((dep) =>
+        compileBody(dep, programType, seen)
+      ),
 
       nodeBegin(node),
 
@@ -467,7 +469,7 @@ export const compileShader = (root: IShaderNode) => {
     node.filters?.forEach((unit) => tweakVariableNames(unit, state))
 
     /* Do the same for all dependencies */
-    getDependencies(node).forEach((dep) => tweakVariableNames(dep, state))
+    getInputDependencies(node).forEach((dep) => tweakVariableNames(dep, state))
   }
 
   tweakVariableNames(root)
