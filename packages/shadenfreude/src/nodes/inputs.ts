@@ -1,4 +1,4 @@
-import { Factory, float, ValueType, variable } from "../shadenfreude"
+import { Factory, float, ValueType, variable, vec3 } from "../shadenfreude"
 
 export const UniformNode = Factory<{ name: string; type: ValueType }>(
   ({ name, type }) => ({
@@ -28,5 +28,17 @@ export const TimeNode = Factory(() => ({
 
     /** Cosine of the times */
     cos: float("cos(u_time)")
+  }
+}))
+
+export const ViewDirectionNode = Factory(() => ({
+  name: "View Direction",
+  varyings: {
+    v_viewDirection: vec3(
+      "vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])"
+    )
+  },
+  out: {
+    value: vec3("v_viewDirection")
   }
 }))

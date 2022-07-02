@@ -16,21 +16,10 @@ import {
   ShaderMaterialMasterNode,
   TimeNode,
   vec2,
-  vec3
+  vec3,
+  ViewDirectionNode
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
-
-const ViewDirectionNode = Factory(() => ({
-  name: "View Direction (World Space)",
-  varyings: {
-    v_worldPosition: vec3(
-      "vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])"
-    )
-  },
-  out: {
-    value: vec3("v_worldPosition")
-  }
-}))
 
 const FresnelNode = Factory(() => ({
   name: "Fresnel",
