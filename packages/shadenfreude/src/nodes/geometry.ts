@@ -13,10 +13,14 @@ export const GeometryPositionNode = Factory(() => ({
 export const GeometryNormalNode = Factory(() => ({
   name: "Normal",
   varyings: {
-    v_normal: vec3("normal")
+    v_localSpace: vec3("normal"),
+    v_WorldSpace: vec3(
+      "normalize(mat3(modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz) * normal)"
+    )
   },
   out: {
-    value: vec3("v_normal")
+    value: vec3("v_localSpace"),
+    worldSpace: vec3("v_WorldSpace")
   }
 }))
 

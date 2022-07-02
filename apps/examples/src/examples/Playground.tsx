@@ -5,9 +5,9 @@ import {
   ColorNode,
   compileShader,
   ComposeNode,
-  CustomShaderMaterialMasterNode,
   Factory,
   float,
+  GeometryNormalNode,
   GeometryPositionNode,
   GeometryUVNode,
   MultiplyNode,
@@ -18,12 +18,10 @@ import {
   vec2,
   vec3
 } from "shadenfreude"
-import { Color, MeshStandardMaterial, ShaderMaterial } from "three"
-import CustomShaderMaterial from "three-custom-shader-material"
-import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
+import { Color, ShaderMaterial } from "three"
 
 const ViewDirectionNode = Factory(() => ({
-  name: "World Position (?)",
+  name: "View Direction (World Space)",
   varyings: {
     v_worldPosition: vec3(
       "vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])"
@@ -31,22 +29,6 @@ const ViewDirectionNode = Factory(() => ({
   },
   out: {
     value: vec3("v_worldPosition")
-  }
-}))
-
-const NormalWorldNode = Factory(() => ({
-  name: "World Normal (?)",
-  varyings: {
-    v_worldNormal: vec3(`
-      normalize(
-        mat3(
-          modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz
-        ) * normal
-      )
-    `)
-  },
-  out: {
-    value: vec3("v_worldNormal")
   }
 }))
 
@@ -59,7 +41,7 @@ const FresnelNode = Factory(() => ({
     power: float(2),
     factor: float(1),
     worldPosition: vec3(ViewDirectionNode()),
-    worldNormal: vec3(NormalWorldNode())
+    worldNormal: vec3(GeometryNormalNode().out.worldSpace)
   },
   out: {
     value: float()
