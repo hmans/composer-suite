@@ -26,7 +26,10 @@ const AnimationStack = Factory(() => ({
     GeometryPositionNode(),
     ScaleWithTime({ frequency: 0.5 }, { axis: "x" }),
     ScaleWithTime({ frequency: 0.7 }, { axis: "y" }),
-    ScaleWithTime({ frequency: 0.9 }, { axis: "z" })
+    ScaleWithTime({ frequency: 0.9 }, { axis: "z" }),
+    MoveWithTime({ frequency: 0.8, amplitude: 4 }, { axis: "x" }),
+    MoveWithTime({ frequency: 1.4, amplitude: 2 }, { axis: "y" }),
+    MoveWithTime({ frequency: 1.0, amplitude: 5 }, { axis: "z" })
   ]
 }))
 
@@ -42,6 +45,22 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   },
   vertex: {
     body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
+  }
+}))
+
+const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
+  name: "Move with Time",
+  in: {
+    value: vec3(),
+    frequency: float(1),
+    amplitude: float(1),
+    time: float(TimeNode())
+  },
+  out: {
+    value: vec3("in_value")
+  },
+  vertex: {
+    body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
   }
 }))
 
