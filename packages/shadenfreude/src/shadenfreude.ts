@@ -518,9 +518,11 @@ const block = (...parts: Parts) =>
 const lines = (...parts: Parts): string[] =>
   compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
 
-const statement = (...parts: Parts) => compact(parts.flat()).join(" ") + ";"
+export const statement = (...parts: Parts) =>
+  compact(parts.flat()).join(" ") + ";"
 
-const assignment = (left: string, right: string) => statement(left, "=", right)
+export const assignment = (left: string, right: string) =>
+  statement(left, "=", right)
 
 const identifier = (...parts: Parts) =>
   compact(parts.flat())
