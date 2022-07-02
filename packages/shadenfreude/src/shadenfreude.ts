@@ -159,10 +159,9 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <S extends Variable, T extends Variable>(
-  source: VariableProp<S>
-) => ({
-  into: (target: T) => assign(source).to(target)
+export const plug = <T extends ValueType>(source: Parameter<T>) => ({
+  into: (target: Variable<T> | IShaderNodeWithInVariable<T>) =>
+    assign(source).to(target)
 })
 
 /**

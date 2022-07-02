@@ -528,12 +528,11 @@ describe("plug", () => {
 
     const offset = ShaderNode({
       in: {
-        x: float()
+        a: float()
       }
     })
 
-    plug(time.out.value).into(offset.in.x)
-
-    expect(offset.in.x.value).toBe(time.out.value)
+    plug(time).into(offset)
+    expect(offset.in.a.value).toBe(time.out.value)
   })
 })
