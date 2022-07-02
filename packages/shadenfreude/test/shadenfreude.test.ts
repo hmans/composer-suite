@@ -1,5 +1,5 @@
 import { Vector3 } from "three"
-import { FloatNode, TimeNode } from "../src"
+import { AddNode, FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
@@ -485,22 +485,40 @@ describe("compileShader", () => {
 describe("assign", () => {
   it("assigns the given value to the variable", () => {
     const f = float(0)
-    assign(f, 1)
+    assign(1).to(f)
     expect(f.value).toBe(1)
   })
 
   it("can assign other variables to the variable", () => {
     const a = float(0)
     const b = float(1)
-    assign(a, b)
+    assign(b).to(a)
     expect(a.value).toBe(b)
   })
 
   it("can assign other nodes to the variable, using their default output value", () => {
     const a = float(0)
     const node = FloatNode({ value: 1 })
-    assign(a, node)
+    assign(node).to(a)
     expect(a.value).toBe(node.out.value)
+  })
+
+  it("can assign to a node, using its default a input", () => {
+    const f = float(0)
+    const node = ShaderNode({ in: { a: float() } })
+
+    assign(f).to(node)
+    expect(node.in.a.value).toBe(f)
+  })
+
+  it("throws an error if the source has a different type from the target", () => {
+    const f = float(0)
+    const v = vec3()
+
+    expect(() => {
+      // @ts-ignore
+      assign(f).to(v)
+    }).toThrowErrorMatchingInlineSnapshot(`"Tried to assign float to vec3"`)
   })
 })
 
@@ -510,12 +528,11 @@ describe("plug", () => {
 
     const offset = ShaderNode({
       in: {
-        x: float()
+        a: float()
       }
     })
 
-    plug(time.out.value).into(offset.in.x)
-
-    expect(offset.in.x.value).toBe(time.out.value)
+    plug(time).into(offset)
+    expect(offset.in.a.value).toBe(time.out.value)
   })
 })
