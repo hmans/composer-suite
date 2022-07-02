@@ -29,12 +29,12 @@ export const ComposeNode = Factory(() => ({
   }
 }))
 
-type FunctionProps<A extends ValueType> = {
+export type FunctionNodeProps<A extends ValueType> = {
   a: Parameter<A>
 }
 
 const FunctionNode = (fun: string) => <A extends ValueType>(
-  props: FunctionProps<A>
+  props: FunctionNodeProps<A>
 ) => {
   const aType = getValueType(props.a)
 
@@ -54,7 +54,7 @@ export const CosNode = FunctionNode("cos")
 
 type Operator = "+" | "-" | "*" | "/"
 
-type OperatorProps<A extends ValueType, B extends ValueType> = {
+export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
   a: Parameter<A>
   b: Parameter<B>
 }
@@ -63,7 +63,7 @@ const OperatorNode = (operator: Operator) => <
   A extends ValueType,
   B extends ValueType
 >(
-  props: OperatorProps<A, B>
+  props: OperatorNodeProps<A, B>
 ) => {
   const aType = getValueType(props.a)
   const bType = getValueType(props.b)
@@ -85,13 +85,13 @@ export const SubtractNode = OperatorNode("-")
 export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
 
-type MixProps<T extends ValueType> = {
+export type MixNodeProps<T extends ValueType> = {
   a?: Parameter
   b: Parameter<T>
   amount?: Parameter<"float">
 }
 
-export const MixNode = <T extends ValueType>(props: MixProps<T>) => {
+export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   const type = getValueType(props.b)
 
   return ShaderNode({
