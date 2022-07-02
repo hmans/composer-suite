@@ -318,7 +318,7 @@ describe("compileShader", () => {
   })
 
   it("only includes dependencies in the GLSL once", () => {
-    const f = FloatNode({ value: 1 })
+    const f = FloatNode({ a: 1 })
 
     const n = ShaderNode({
       in: {
@@ -341,8 +341,8 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_value = 1.0;
-          float out_value = in_value;
+          float in_a = 1.0;
+          float out_value = in_a;
           out_Value_float_2_value = out_value;
         }
         /*** END: Value (float) ***/
@@ -370,8 +370,8 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_value = 1.0;
-          float out_value = in_value;
+          float in_a = 1.0;
+          float out_value = in_a;
           out_Value_float_2_value = out_value;
         }
         /*** END: Value (float) ***/
@@ -500,7 +500,7 @@ describe("assign", () => {
 
   it("can assign other nodes to the variable, using their default output value", () => {
     const a = float(0)
-    const node = FloatNode({ value: 1 })
+    const node = FloatNode({ a: 1 })
     assign(node).to(a)
     expect(a.value).toBe(node.out.value)
   })
