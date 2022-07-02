@@ -57,14 +57,13 @@ const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
     value: vec3(),
 
     frequency: float(1),
-    uv: vec2(GeometryUVNode()),
     time: float(TimeNode())
   },
   out: {
     value: vec3("in_value")
   },
   vertex: {
-    body: `out_value.x *= (1.0 + sin(in_time * in_frequency + in_uv.y * 8.0 + in_uv.x * in_uv.y * 4.0) * 0.2);`
+    body: `out_value.x *= (1.0 + sin(in_time * in_frequency + position.y * 0.3 + position.x * 0.3) * 0.2);`
   }
 }))
 
