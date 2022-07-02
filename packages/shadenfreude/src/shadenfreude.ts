@@ -447,27 +447,29 @@ export const compileShader = (root: IShaderNode) => {
         throw new Error("Nodes with filters must have an output value")
 
       /* Use the last filter's output value as our output value */
-      const lastUnit = node.filters[node.filters.length - 1]
-      const firstUnit = node.filters[0]
+      const lastFilter = node.filters[node.filters.length - 1]
+      const firstFilter = node.filters[0]
 
-      if (!isShaderNodeWithOutVariable(lastUnit))
-        throw new Error("Nodes with filters must have an output value")
+      if (!isShaderNodeWithInVariable(firstFilter))
+        throw new Error("Filter nodes must have an input value")
 
-      firstUnit.in.value = node.out.value
-      // node.out.value.value = lastUnit.out.value
+      if (!isShaderNodeWithOutVariable(lastFilter))
+        throw new Error("Filter nodes must have an output value")
+
+      firstFilter.in.value = node.out.value
 
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
-        const f = node.filters[i]
+        const filter = node.filters[i]
         const prev = node.filters[i - 1]
 
         if (!isShaderNodeWithOutVariable(prev))
-          throw new Error("Nodes with filters must have an output value")
+          throw new Error("Filter nodes must have an output value")
 
-        if (!isShaderNodeWithInVariable(f))
-          throw new Error("Nodes with filters must have an input value")
+        if (!isShaderNodeWithInVariable(filter))
+          throw new Error("Filter nodes must have an input value")
 
-        f.in.value.value = prev.out.value
+        filter.in.value.value = prev.out.value
       }
     }
 
