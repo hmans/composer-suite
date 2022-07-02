@@ -83,7 +83,7 @@ function useShader() {
       MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
     ]),
 
-    diffuseColor: ColorStack(new Color("hotpink"), [
+    diffuseColor: ColorStack(new Color("#3dd"), [
       SoftlightBlendNode({
         opacity: 0.8,
         b: MultiplyNode({
