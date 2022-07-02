@@ -166,8 +166,8 @@ export const plug = <S extends Variable, T extends Variable>(
 })
 
 export const assign = <T extends ValueType>(param: Parameter<T>) => ({
-  to: (variable: Variable<T>) =>
-    (variable.value = isShaderNodeWithOutVariable(param)
+  to: (target: Variable<T>) =>
+    (target.value = isShaderNodeWithOutVariable(param)
       ? param.out.value
       : param)
 })
