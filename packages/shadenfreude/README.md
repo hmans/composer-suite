@@ -192,6 +192,21 @@ This version is functionally equivalent to the one before, but we're doing some 
 
 ### Writing a reusable shader node
 
+We've been creating standalone shader nodes so far, but what if we want to be able to create multiple instances of the same node? Well, just do what you would normally do in JavaScript -- write a factory function!
+
+```js
+const AddFloatsNode = ({ a, b }) =>
+  ShaderNode({
+    in: {
+      a: float(a),
+      b: float(b)
+    },
+    out: {
+      value: float("in_a + in_b")
+    }
+  })
+```
+
 ### Special variables `a` (in) and `value` (out)
 
 ### Using Filter Chains
