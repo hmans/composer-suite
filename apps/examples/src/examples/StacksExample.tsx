@@ -8,15 +8,9 @@ import {
   float,
   FresnelNode,
   GeometryPositionNode,
-  inferVariable,
   MixNode,
   MultiplyNode,
-  Parameter,
-  ParameterizedMixNode,
-  ShaderNode,
   TimeNode,
-  ValueType,
-  variable,
   vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
