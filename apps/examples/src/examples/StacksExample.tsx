@@ -85,7 +85,7 @@ function useShader() {
 
     diffuseColor: ColorStack(new Color("hotpink"), [
       SoftlightBlendNode({
-        opacity: 1.2,
+        opacity: 0.8,
         b: MultiplyNode({
           a: new Color(2, 2, 2) as Parameter<"vec3">,
           b: FresnelNode()
