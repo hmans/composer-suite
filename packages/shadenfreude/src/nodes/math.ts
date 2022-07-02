@@ -107,20 +107,6 @@ export const MixNode = <T extends ValueType>(props: MixProps<T>) => {
   })
 }
 
-export const ParameterizedMixNode = Factory<{ type: ValueType }>(({ type }) =>
-  ShaderNode({
-    name: "Mix a and b values",
-    in: {
-      a: variable(type),
-      b: variable(type),
-      amount: float(0.5)
-    },
-    out: {
-      value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
-    }
-  })
-)
-
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
   in: {
