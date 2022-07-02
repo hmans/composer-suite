@@ -1,5 +1,5 @@
 import { Vector3 } from "three"
-import { FloatNode, TimeNode } from "../src"
+import { AddNode, FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
@@ -501,6 +501,14 @@ describe("assign", () => {
     const node = FloatNode({ value: 1 })
     assign(node).to(a)
     expect(a.value).toBe(node.out.value)
+  })
+
+  it("can assign to a node, using its default a input", () => {
+    const f = float(0)
+    const node = ShaderNode({ in: { a: float() } })
+
+    assign(f).to(node)
+    expect(node.in.a.value).toBe(f)
   })
 })
 
