@@ -181,6 +181,12 @@ export const assign = <T extends ValueType>(source: Parameter<T>) => ({
       ? source.out.value
       : source
 
+    /* Test type match */
+    const valueType = getValueType(value)
+    if (target.type !== valueType) {
+      throw new Error(`Tried to assign ${valueType} to ${target.type}`)
+    }
+
     target.value = value
   }
 })

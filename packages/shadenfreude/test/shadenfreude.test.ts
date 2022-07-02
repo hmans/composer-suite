@@ -510,6 +510,16 @@ describe("assign", () => {
     assign(f).to(node)
     expect(node.in.a.value).toBe(f)
   })
+
+  it("throws an error if the source has a different type from the target", () => {
+    const f = float(0)
+    const v = vec3()
+
+    expect(() => {
+      // @ts-ignore
+      assign(f).to(v)
+    }).toThrowErrorMatchingInlineSnapshot(`"Tried to assign float to vec3"`)
+  })
 })
 
 describe("plug", () => {
