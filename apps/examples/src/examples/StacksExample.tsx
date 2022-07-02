@@ -12,7 +12,8 @@ import {
   Parameter,
   StackNode,
   TimeNode,
-  vec3
+  vec3,
+  SoftlightBlendMode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
@@ -83,12 +84,11 @@ function useShader() {
     ]),
 
     diffuseColor: ColorStack(new Color("hotpink"), [
-      MixNode({
+      SoftlightBlendMode({
         b: MultiplyNode({
           a: new Color(2, 2, 2) as Parameter<"vec3">,
           b: FresnelNode()
-        }),
-        factor: 0.5
+        })
       })
     ])
   })
