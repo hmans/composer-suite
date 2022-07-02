@@ -6,6 +6,7 @@ import {
   Parameter,
   ShaderNode,
   ValueType,
+  variable,
   Variable,
   vec2,
   vec3,
@@ -85,6 +86,35 @@ export const DivideNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
 
 export const MultiplyNode = <T extends ValueType>({ a, b }: OperatorProps<T>) =>
   OperatorNode({ operator: "*", a, b })
+
+export const MixNode = <T extends ValueType>(type: T) =>
+  Factory(() =>
+    ShaderNode({
+      name: "Mix a and b values",
+      in: {
+        a: variable(type),
+        b: variable(type),
+        amount: float(0.5)
+      },
+      out: {
+        value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
+      }
+    })
+  )
+
+export const ParameterizedMixNode = Factory<{ type: ValueType }>(({ type }) =>
+  ShaderNode({
+    name: "Mix a and b values",
+    in: {
+      a: variable(type),
+      b: variable(type),
+      amount: float(0.5)
+    },
+    out: {
+      value: variable(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
+    }
+  })
+)
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
