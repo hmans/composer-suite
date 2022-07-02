@@ -72,6 +72,6 @@ describe("typings", () => {
       b: f2
     })
 
-    assign(added.in.a, 123)
+    assign(123).to(added.in.a)
   })
 })

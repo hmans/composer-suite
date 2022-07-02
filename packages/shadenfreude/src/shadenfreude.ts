@@ -159,19 +159,36 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <S extends Variable, T extends Variable>(
-  source: VariableProp<S>
-) => ({
-  into: (target: T) => assign(target, source)
+export const plug = <T extends ValueType>(source: Parameter<T>) => ({
+  into: (target: Variable<T> | IShaderNodeWithInVariable<T>) =>
+    assign(source).to(target)
 })
 
-export const assign = <T extends ValueType>(
-  variable: Variable<T>,
-  value: Parameter<T>
-) =>
-  (variable.value = isShaderNodeWithOutVariable(value)
-    ? value.out.value
-    : value)
+/**
+ * Assigns the specified source value to the target. The source value can be
+ * a variable, a value, or a node with a default `value` out variable; the
+ * target value can be a variable, or a node with a default `a` input variable.
+ *
+ * @source source
+ */
+export const assign = <T extends ValueType>(source: Parameter<T>) => ({
+  to: (target: Variable<T> | IShaderNodeWithInVariable<T>): void => {
+    if (isShaderNodeWithInVariable(target))
+      return assign(source).to(target.in.a)
+
+    const value = isShaderNodeWithOutVariable(source)
+      ? source.out.value
+      : source
+
+    /* Test type match */
+    const valueType = getValueType(value)
+    if (target.type !== valueType) {
+      throw new Error(`Tried to assign ${valueType} to ${target.type}`)
+    }
+
+    target.value = value
+  }
+})
 
 /**
  * Returns the value type for the given value.
