@@ -26,13 +26,13 @@ const AnimationStack = Factory(() => ({
   },
   filters: [
     GeometryPositionNode(),
-    SqueezeWithTime({ frequency: 2 }),
-    ScaleWithTime({ frequency: 0.5 }, { axis: "x" }),
-    ScaleWithTime({ frequency: 0.7 }, { axis: "y" }),
-    ScaleWithTime({ frequency: 0.9 }, { axis: "z" }),
+    SqueezeWithTime({ frequency: 0.1 }),
+    ScaleWithTime({ frequency: 0.2 }, { axis: "x" }),
+    ScaleWithTime({ frequency: 0.1 }, { axis: "y" }),
+    ScaleWithTime({ frequency: 0.3 }, { axis: "z" }),
     MoveWithTime({ frequency: 0.8, amplitude: 2 }, { axis: "x" }),
-    MoveWithTime({ frequency: 1.4, amplitude: 1 }, { axis: "y" }),
-    MoveWithTime({ frequency: 1.0, amplitude: 2 }, { axis: "z" })
+    MoveWithTime({ frequency: 0.6, amplitude: 1 }, { axis: "y" }),
+    MoveWithTime({ frequency: 0.3, amplitude: 2 }, { axis: "z" })
   ]
 }))
 
