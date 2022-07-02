@@ -31,6 +31,8 @@ export interface IShaderNode {
   varyings?: Variables
   in?: Variables
   out?: Variables
+
+  filters?: IShaderNode[]
 }
 
 export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
@@ -317,7 +319,10 @@ export const compileShader = (root: IShaderNode) => {
       /* Actual chunk */
       node[programType]?.header,
 
-      nodeEnd(node)
+      nodeEnd(node),
+
+      /* Units */
+      node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
 
     return header
@@ -333,6 +338,18 @@ export const compileShader = (root: IShaderNode) => {
 
     const ins = getVariables(node.in)
     const outs = getVariables(node.out)
+
+    /* Prepare units */
+    if (node.filters) {
+      /* Use the last unit's output value as our output value */
+      const lastUnit = node.filters[node.filters.length - 1]
+      node.out.value.value = lastUnit.out.value
+
+      /* Connect units in sequence */
+      for (let i = 1; i < node.filters.length; i++) {
+        node.filters[i].in.value.value = node.filters[i - 1].out.value
+      }
+    }
 
     return [
       /* Dependencies */
@@ -363,6 +380,10 @@ export const compileShader = (root: IShaderNode) => {
                 value: variable.name
               })
             ),
+
+        /* Units */
+        node.filters &&
+          node.filters.map((unit) => compileBody(unit, programType, seen)),
 
         /* Output Variables */
         outs.map(([localName, variable]) =>
@@ -420,6 +441,9 @@ export const compileShader = (root: IShaderNode) => {
         localName
       )
     })
+
+    /* Do the same for all units */
+    node.filters?.forEach((unit) => tweakVariableNames(unit, state))
 
     /* Do the same for all dependencies */
     getDependencies(node).forEach((dep) => tweakVariableNames(dep, state))

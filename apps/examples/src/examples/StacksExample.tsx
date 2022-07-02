@@ -1,21 +1,55 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
-import { compileShader, Factory, FloatNode, TimeNode } from "shadenfreude"
-import { MeshStandardMaterial, ShaderMaterial } from "three"
+import {
+  compileShader,
+  CustomShaderMaterialMasterNode,
+  Factory,
+  float,
+  GeometryPositionNode,
+  TimeNode,
+  vec3
+} from "shadenfreude"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
-const StackyMaster = Factory(() => ({}))
+const AnimationStack = Factory(() => ({
+  name: "Animation Stack",
+  out: {
+    value: vec3(GeometryPositionNode())
+  },
+  filters: [
+    GeometryPositionNode(),
+    ScaleWithTime({ frequency: 0.5 }, { axis: "x" }),
+    ScaleWithTime({ frequency: 0.7 }, { axis: "y" }),
+    ScaleWithTime({ frequency: 0.9 }, { axis: "z" })
+  ]
+}))
+
+const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
+  name: "Scale with Time",
+  in: {
+    value: vec3(),
+    frequency: float(1),
+    time: float(TimeNode())
+  },
+  out: {
+    value: vec3()
+  },
+  vertex: {
+    body: `in_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5); out_value = in_value;`
+  }
+}))
 
 function useShader() {
-  const time = TimeNode()
-
-  const root = FloatNode()
+  const root = CustomShaderMaterialMasterNode({
+    position: AnimationStack()
+  })
 
   return compileShader(root)
 }
 
-export default function() {
+export default function StacksExample() {
   const [shaderProps, update] = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
