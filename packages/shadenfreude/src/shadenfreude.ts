@@ -411,7 +411,7 @@ export const compileShader = (root: IShaderNode) => {
     ).join("\n")
   }
 
-  const tweakVariableNames = (
+  const prepareNode = (
     node: IShaderNode,
     state: { id: number } = { id: 0 }
   ) => {
@@ -465,14 +465,12 @@ export const compileShader = (root: IShaderNode) => {
       }
     }
 
-    /* Do the same for all filters */
-    node.filters?.forEach((unit) => tweakVariableNames(unit, state))
-
-    /* Do the same for all dependencies */
-    getInputDependencies(node).forEach((dep) => tweakVariableNames(dep, state))
+    /* Do the same for all filters and dependencies */
+    const deps = [...getInputDependencies(node), ...(node.filters || [])]
+    deps.forEach((unit) => prepareNode(unit, state))
   }
 
-  tweakVariableNames(root)
+  prepareNode(root)
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
