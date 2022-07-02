@@ -26,7 +26,7 @@ const AnimationStack = Factory(() => ({
   },
   filters: [
     GeometryPositionNode(),
-    SqueezeWithTime({ frequency: 2 }, { axis: "x" }),
+    SqueezeWithTime({ frequency: 2 }),
     ScaleWithTime({ frequency: 0.5 }, { axis: "x" }),
     ScaleWithTime({ frequency: 0.7 }, { axis: "y" }),
     ScaleWithTime({ frequency: 0.9 }, { axis: "z" }),
@@ -51,7 +51,7 @@ const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
   }
 }))
 
-const SqueezeWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
+const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
   name: "Squeeze with Time",
   in: {
     value: vec3(),
@@ -64,7 +64,7 @@ const SqueezeWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
     value: vec3("in_value")
   },
   vertex: {
-    body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency + in_uv.y * 8.0) * 0.2);`
+    body: `out_value.x *= (1.0 + sin(in_time * in_frequency + in_uv.y * 8.0 + in_uv.x * in_uv.y * 4.0) * 0.2);`
   }
 }))
 
