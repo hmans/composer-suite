@@ -4,6 +4,8 @@ import {
   assign,
   float,
   FloatNode,
+  getValueType,
+  MixNode,
   ShaderNode,
   variable,
   vec3
@@ -18,6 +20,11 @@ describe("typings", () => {
 
   test("creating variables", () => {
     const f = variable("float", 123)
+  })
+
+  test("getValue", () => {
+    expect(getValueType(1)).toBe("float")
+    expect(getValueType(new Color())).toBe("vec3")
   })
 
   test("accessing variables", () => {
@@ -41,12 +48,18 @@ describe("typings", () => {
   })
 
   test("assigning variables", () => {
-    const f1 = FloatNode({ value: 1 })
-    const f2 = FloatNode({ value: 2 })
+    const a = FloatNode({ value: 1 })
+    const b = FloatNode({ value: 2 })
 
     AddNode({
-      a: f1.out.value,
-      b: f2.out.value
+      a,
+      b
+    })
+
+    MixNode({
+      a,
+      b,
+      amount: float(0.5)
     })
   })
 
