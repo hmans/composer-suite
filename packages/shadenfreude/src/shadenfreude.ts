@@ -165,13 +165,23 @@ export const plug = <S extends Variable, T extends Variable>(
   into: (target: T) => assign(source).to(target)
 })
 
-export const assign = <T extends ValueType>(param: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithInVariable<T>) => {
-    isShaderNodeWithInVariable(target)
-      ? assign(param).to(target.in.a)
-      : (target.value = isShaderNodeWithOutVariable(param)
-          ? param.out.value
-          : param)
+/**
+ * Assigns the specified source value to the target. The source value can be
+ * a variable, a value, or a node with a default `value` out variable; the
+ * target value can be a variable, or a node with a default `a` input variable.
+ *
+ * @source source
+ */
+export const assign = <T extends ValueType>(source: Parameter<T>) => ({
+  to: (target: Variable<T> | IShaderNodeWithInVariable<T>): void => {
+    if (isShaderNodeWithInVariable(target))
+      return assign(source).to(target.in.a)
+
+    const value = isShaderNodeWithOutVariable(source)
+      ? source.out.value
+      : source
+
+    target.value = value
   }
 })
 
