@@ -18,11 +18,13 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
 const AnimationStack = Factory(() => ({
   name: "Animation Stack",
+  in: {
+    origin: vec3(GeometryPositionNode())
+  },
   out: {
-    value: vec3()
+    value: vec3("in_origin")
   },
   filters: [
-    GeometryPositionNode(),
     SqueezeWithTime({ frequency: 0.1 }),
     ScaleWithTime({ frequency: 0.2 }, { axis: "x" }),
     ScaleWithTime({ frequency: 0.1 }, { axis: "y" }),
@@ -81,6 +83,7 @@ const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
 }))
 
 const FauxLamina = Factory(() => ({
+  name: "Faux Lamina",
   in: {
     value: vec3(),
     color: vec3(),
@@ -93,11 +96,13 @@ const FauxLamina = Factory(() => ({
 
 const ColorStack = Factory(() => ({
   name: "Color Stack",
+  in: {
+    color: vec3(ColorNode({ value: new Color("hotpink") }))
+  },
   out: {
-    value: vec3()
+    value: vec3("in_color")
   },
   filters: [
-    ColorNode({ value: new Color("hotpink") }),
     FauxLamina({
       color: MultiplyNode({ a: new Color(2, 2, 2), b: FresnelNode() }),
       intensity: 0.5

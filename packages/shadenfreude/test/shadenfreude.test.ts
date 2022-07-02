@@ -418,6 +418,67 @@ describe("compileShader", () => {
       }"
     `)
   })
+
+  it("compiles filters", () => {
+    const AdditionFilter = Factory(() => ({
+      name: "Addition",
+      in: {
+        value: float(),
+        other: float()
+      },
+      out: {
+        value: float(`in_value + in_other`)
+      }
+    }))
+
+    const nodeWithfilters = ShaderNode({
+      name: "Node with filters",
+      in: {
+        value: float(1)
+      },
+      out: {
+        value: float("in_value")
+      },
+      filters: [AdditionFilter({ other: 2 })]
+    })
+
+    const [c] = compileShader(nodeWithfilters)
+
+    expect(c.vertexShader).toMatchInlineSnapshot(`
+      "
+      /*** BEGIN: Node with filters ***/
+      /*** END: Node with filters ***/
+
+
+
+      /*** BEGIN: Addition ***/
+      /*** END: Addition ***/
+
+      void main()
+      {
+        /*** BEGIN: Node with filters ***/
+        float out_Node_with_filters_1_value;
+        {
+          float in_value = 1.0;
+          float out_value = in_value;
+          out_Node_with_filters_1_value = out_value;
+          /*** BEGIN: Addition ***/
+          float out_Addition_2_value;
+          {
+            float in_value = in_value;
+            float in_other = 2.0;
+            float out_value = in_value + in_other;
+            out_Addition_2_value = out_value;
+          }
+          /*** END: Addition ***/
+
+          out_Node_with_filters_1_value = out_Addition_2_value;
+        }
+        /*** END: Node with filters ***/
+
+      }"
+    `)
+  })
 })
 
 describe("plug", () => {
