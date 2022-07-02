@@ -12,10 +12,9 @@ import {
   MultiplyNode,
   Parameter,
   TimeNode,
-  vec3,
-  Vector3Node
+  vec3
 } from "shadenfreude"
-import { Color, MeshStandardMaterial, Vector3 } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -29,31 +28,32 @@ const AnimationStack = Factory(() => ({
   },
   filters: [
     SqueezeWithTime({ frequency: 0.1 }),
-    ScaleWithTime({ frequency: 0.2 }, { axis: "x" }),
-    ScaleWithTime({ frequency: 0.1 }, { axis: "y" }),
-    ScaleWithTime({ frequency: 0.3 }, { axis: "z" }),
-    MoveWithTime({ frequency: 0.8, amplitude: 2 }, { axis: "x" }),
-    MoveWithTime({ frequency: 0.6, amplitude: 1 }, { axis: "y" }),
-    MoveWithTime({ frequency: 0.3, amplitude: 2 }, { axis: "z" })
+    ScaleWithTime("x")({ frequency: 0.2 }),
+    ScaleWithTime("y")({ frequency: 0.1 }),
+    ScaleWithTime("z")({ frequency: 0.3 }),
+    MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
+    MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
+    MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
   ]
 }))
 
-const ScaleWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
-  name: "Scale with Time",
-  in: {
-    a: vec3(),
-    frequency: float(1),
-    time: float(TimeNode())
-  },
-  out: {
-    value: vec3("in_a")
-  },
-  vertex: {
-    body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
-  }
-}))
+const ScaleWithTime = (axis = "xyz") =>
+  Factory(() => ({
+    name: "Scale with Time",
+    in: {
+      a: vec3(),
+      frequency: float(1),
+      time: float(TimeNode())
+    },
+    out: {
+      value: vec3("in_a")
+    },
+    vertex: {
+      body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
+    }
+  }))
 
-const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
+const SqueezeWithTime = Factory(() => ({
   name: "Squeeze with Time",
   in: {
     a: vec3(),
@@ -69,21 +69,22 @@ const SqueezeWithTime = Factory<{ axis?: string }>(() => ({
   }
 }))
 
-const MoveWithTime = Factory<{ axis?: string }>(({ axis = "xyz" }) => ({
-  name: "Move with Time",
-  in: {
-    a: vec3(),
-    frequency: float(1),
-    amplitude: float(1),
-    time: float(TimeNode())
-  },
-  out: {
-    value: vec3("in_a")
-  },
-  vertex: {
-    body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
-  }
-}))
+const MoveWithTime = (axis = "xyz") =>
+  Factory(() => ({
+    name: "Move with Time",
+    in: {
+      a: vec3(),
+      frequency: float(1),
+      amplitude: float(1),
+      time: float(TimeNode())
+    },
+    out: {
+      value: vec3("in_a")
+    },
+    vertex: {
+      body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
+    }
+  }))
 
 const ColorStack = Factory(() => ({
   name: "Color Stack",

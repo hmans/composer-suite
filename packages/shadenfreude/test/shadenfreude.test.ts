@@ -43,39 +43,6 @@ describe("Factory", () => {
 
     expect(node.in.a.value).toBe(123)
   })
-
-  it("allows instantiation options not connected to inputs", () => {
-    const UniformNode = Factory(({ name, type }) => ({
-      uniforms: {
-        [name]: variable(type)
-      },
-      out: {
-        value: variable(type, name)
-      }
-    }))
-
-    const node = UniformNode({}, { name: "u_foo", type: "float" })
-
-    const [c] = compileShader(node)
-
-    expect(c.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed Node ***/
-      uniform float u_foo;
-      /*** END: Unnamed Node ***/
-
-      void main()
-      {
-        /*** BEGIN: Unnamed Node ***/
-        float out_Unnamed_Node_1_value;
-        {
-          float out_value = u_foo;
-          out_Unnamed_Node_1_value = out_value;
-        }
-        /*** END: Unnamed Node ***/
-
-      }"
-    `)
-  })
 })
 
 describe("variable", () => {

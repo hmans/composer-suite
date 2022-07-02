@@ -82,14 +82,12 @@ export const ShaderNode = <
 }
 
 export const Factory = <
-  Opts extends { [key: string]: any },
-  F extends (opts: Opts) => IShaderNode = (opts: Opts) => IShaderNode,
+  F extends () => IShaderNode = () => IShaderNode,
   S extends IShaderNode = ReturnType<F>,
   Props = Partial<VariableProps<S["in"]>>
 >(
   fac: F
-) => (props: Props = {} as Props, opts: Opts = {} as Opts) =>
-  ShaderNode(fac(opts), props) as S
+) => (props: Props = {} as Props) => ShaderNode(fac(), props) as S
 
 /*
 

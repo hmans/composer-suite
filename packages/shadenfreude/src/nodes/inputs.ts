@@ -1,7 +1,20 @@
-import { Factory, float, ValueType, variable, vec3 } from "../shadenfreude"
+import {
+  Factory,
+  float,
+  ShaderNode,
+  ValueType,
+  variable,
+  vec3
+} from "../shadenfreude"
 
-export const UniformNode = Factory<{ name: string; type: ValueType }>(
-  ({ name, type }) => ({
+export const UniformNode = ({
+  name,
+  type
+}: {
+  name: string
+  type: ValueType
+}) =>
+  ShaderNode({
     name: "Uniform",
     uniforms: {
       [name]: variable(type)
@@ -10,7 +23,6 @@ export const UniformNode = Factory<{ name: string; type: ValueType }>(
       value: variable(type, name)
     }
   })
-)
 
 export const TimeNode = Factory(() => ({
   name: "Time",

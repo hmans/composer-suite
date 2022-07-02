@@ -2,6 +2,7 @@ import { Color, Vector3 } from "three"
 import {
   AddNode,
   assign,
+  Factory,
   float,
   FloatNode,
   getValueType,
@@ -73,5 +74,13 @@ describe("typings", () => {
     })
 
     assign(123).to(added.in.a)
+  })
+
+  test("factories", () => {
+    const TestNode = Factory(() => ({
+      in: { foo: float() }
+    }))
+
+    const test1 = TestNode({ foo: 123 })
   })
 })
