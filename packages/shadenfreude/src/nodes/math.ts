@@ -137,7 +137,8 @@ export const BlendNode = <T extends BlendableType>({
   mode = "normal"
 }: BlendProps<T>) => {
   const type = (a && getValueType(a)) || (b && getValueType(b))
-  if (!type) throw new Error("waaah")
+  if (!type)
+    throw new Error("At least a or b must be provided on instantiation")
 
   const functions: { [M in BlendMode]?: string } = {
     softlight: uniqueGlobalIdentifier()
