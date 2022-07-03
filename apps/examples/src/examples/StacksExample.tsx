@@ -101,6 +101,7 @@ export default function StacksExample() {
 
     const speedUniform = UniformNode({ type: "float", name: "u_speed" })
     const intensityUniform = UniformNode({ type: "float", name: "u_intensity" })
+    const colorUniform = UniformNode({ type: "vec3", name: "u_color" })
 
     const root = CustomShaderMaterialMasterNode({
       position: AnimationStack(VertexPositionNode(), [
@@ -134,7 +135,7 @@ export default function StacksExample() {
         })
       ]),
 
-      diffuseColor: ColorStack(new Color(color), [
+      diffuseColor: ColorStack(colorUniform, [
         SoftlightBlendNode({
           opacity: 0.8,
           b: MultiplyNode({
@@ -148,7 +149,7 @@ export default function StacksExample() {
     })
 
     return root
-  }, [color, fresnelIntensity])
+  }, [fresnelIntensity])
 
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
@@ -167,7 +168,8 @@ export default function StacksExample() {
           uniforms={{
             ...uniforms,
             u_speed: { value: speed },
-            u_intensity: { value: intensity }
+            u_intensity: { value: intensity },
+            u_color: { value: new Color(color) }
           }}
           {...restShader}
           ref={material}
