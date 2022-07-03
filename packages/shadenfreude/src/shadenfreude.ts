@@ -532,16 +532,16 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-type Parts = any[]
+export type Parts = any[]
 
-const block = (...parts: Parts) =>
+export const block = (...parts: Parts) =>
   lines(
     "{",
     lines(parts).map((p) => "  " + p),
     "}"
   )
 
-const lines = (...parts: Parts): string[] =>
+export const lines = (...parts: Parts): string[] =>
   compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
 
 export const statement = (...parts: Parts) =>
