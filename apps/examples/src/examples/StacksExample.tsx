@@ -100,34 +100,38 @@ export default function StacksExample() {
     const ColorStack = StackNode("vec3", "Color Stack")
 
     const speedUniform = UniformNode({ type: "float", name: "u_speed" })
+    const intensityUniform = UniformNode({ type: "float", name: "u_intensity" })
 
     const root = CustomShaderMaterialMasterNode({
       position: AnimationStack(VertexPositionNode(), [
         SqueezeWithTime({
-          frequency: speedUniform,
-          amplitude: 0.5 * intensity
+          frequency: MultiplyNode({ a: speedUniform, b: 0.3 }),
+          amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
         }),
         ScaleWithTime("x")({
-          frequency: speedUniform,
-          amplitude: 0.5 * intensity
+          frequency: MultiplyNode({ a: speedUniform, b: 0.3 }),
+          amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
         }),
         ScaleWithTime("y")({
-          frequency: speedUniform,
-          amplitude: 0.5 * intensity
+          frequency: MultiplyNode({ a: speedUniform, b: 0.2 }),
+          amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
         }),
         ScaleWithTime("z")({
-          frequency: speedUniform,
-          amplitude: 0.5 * intensity
+          frequency: MultiplyNode({ a: speedUniform, b: 0.1 }),
+          amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
         }),
         MoveWithTime("x")({
           frequency: speedUniform,
-          amplitude: 2 * intensity
+          amplitude: MultiplyNode({ a: intensityUniform, b: 2 })
         }),
         MoveWithTime("y")({
           frequency: speedUniform,
-          amplitude: 1 * intensity
+          amplitude: MultiplyNode({ a: intensityUniform, b: 1 })
         }),
-        MoveWithTime("z")({ frequency: speedUniform, amplitude: 2 * intensity })
+        MoveWithTime("z")({
+          frequency: speedUniform,
+          amplitude: MultiplyNode({ a: intensityUniform, b: 2 })
+        })
       ]),
 
       diffuseColor: ColorStack(new Color(color), [
@@ -144,7 +148,7 @@ export default function StacksExample() {
     })
 
     return root
-  }, [intensity, color, fresnelIntensity])
+  }, [color, fresnelIntensity])
 
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
@@ -160,7 +164,11 @@ export default function StacksExample() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          uniforms={{ ...uniforms, u_speed: { value: speed } }}
+          uniforms={{
+            ...uniforms,
+            u_speed: { value: speed },
+            u_intensity: { value: intensity }
+          }}
           {...restShader}
           ref={material}
         />
