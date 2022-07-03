@@ -383,7 +383,7 @@ export const compileShader = (root: IShaderNode) => {
 
           /* Assignments */
           ins.map(([name, v]) =>
-            assignment(`inputs.${name}`, compileValue(v.value))
+            v.value ? assignment(`inputs.${name}`, compileValue(v.value)) : ""
           )
         ],
 
@@ -404,6 +404,25 @@ export const compileShader = (root: IShaderNode) => {
         outs.map(([localName, variable]) =>
           compileVariable({ ...variable, name: "out_" + localName })
         ),
+
+        /* Build the outputs struct */
+        outs.length > 0 && [
+          /* Struct */
+          statement(
+            "struct",
+            block(
+              outs.map(([name, v]) =>
+                compileVariable({ ...v, name, value: undefined })
+              )
+            ),
+            "outputs"
+          ),
+
+          /* Assignments */
+          outs.map(([name, v]) =>
+            v.value ? assignment(`outputs.${name}`, compileValue(v.value)) : ""
+          )
+        ],
 
         /* Body */
         node[programType]?.body,
