@@ -1,25 +1,18 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
-  AddNode,
+  BlendNode,
   ColorNode,
   compileShader,
   ComposeNode,
   Factory,
   float,
-  FresnelNode,
-  VertexPositionNode,
-  UVNode,
-  MultiplyNode,
   Parameter,
-  Program,
   ShaderMaterialMasterNode,
   TimeNode,
+  UVNode,
   vec2,
-  vec3,
-  SoftlightBlendNode,
-  BlendNode,
-  FloatNode
+  vec3
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
 
