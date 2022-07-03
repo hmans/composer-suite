@@ -436,7 +436,6 @@ describe("compileShader", () => {
       /*** END: Node with filters ***/
 
 
-
       /*** BEGIN: Addition ***/
       /*** END: Addition ***/
 
@@ -454,7 +453,7 @@ describe("compileShader", () => {
           float out_Addition_2_value;
           {
             struct { float a; float b; } inputs;
-            inputs.a = in_value;
+            inputs.a = out_Node_with_filters_1_value;
             inputs.b = 2.0;
             struct { float value; } outputs;
             outputs.value = in_value + in_other;

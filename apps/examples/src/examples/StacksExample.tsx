@@ -76,29 +76,25 @@ function useShader() {
   const ColorStack = StackNode("vec3", "Color Stack")
 
   const root = CustomShaderMaterialMasterNode({
-    // position: AnimationStack(VertexPositionNode(), [
-    //   SqueezeWithTime({ frequency: 0.1 }),
-    //   ScaleWithTime("x")({ frequency: 0.2 }),
-    //   ScaleWithTime("y")({ frequency: 0.1 }),
-    //   ScaleWithTime("z")({ frequency: 0.3 }),
-    //   MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
-    //   MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
-    //   MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
-    // ])
+    position: AnimationStack(VertexPositionNode(), [
+      SqueezeWithTime({ frequency: 0.1 }),
+      ScaleWithTime("x")({ frequency: 0.2 }),
+      ScaleWithTime("y")({ frequency: 0.1 }),
+      ScaleWithTime("z")({ frequency: 0.3 }),
+      MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
+      MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
+      MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
+    ]),
 
-    diffuseColor: ColorStack(new Color("#888"), [
-      AddNode({ a: new Color("#fff"), b: new Color("#f00") })
+    diffuseColor: ColorStack(new Color("#3dd"), [
+      SoftlightBlendNode({
+        opacity: 0.8,
+        b: MultiplyNode({
+          a: new Color(2, 2, 2) as Parameter<"vec3">,
+          b: FresnelNode()
+        })
+      })
     ])
-
-    // diffuseColor: ColorStack(new Color("#3dd"), [
-    //   SoftlightBlendNode({
-    //     opacity: 0.8,
-    //     b: MultiplyNode({
-    //       a: new Color(2, 2, 2) as Parameter<"vec3">,
-    //       b: FresnelNode()
-    //     })
-    //   })
-    // ])
   })
 
   const [shader, update] = compileShader(root)
