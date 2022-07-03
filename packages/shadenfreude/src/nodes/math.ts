@@ -113,8 +113,6 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   })
 }
 
-/* With thanks to <https://github.com/jamieowen/glsl-blend> */
-
 type BlendProps<T extends BlendableType> = {
   type: T
   a?: Parameter<T>
