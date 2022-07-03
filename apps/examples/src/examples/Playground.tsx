@@ -78,17 +78,15 @@ const Squeezed = Factory(() => ({
 
 function useShader() {
   return useMemo(() => {
-    const time = TimeNode()
-
-    const colorA = ColorNode({ a: new Color("#888") })
-    const colorB = ColorNode({ a: new Color("#f00") })
+    const colorA = ColorNode({ a: new Color("#f00") })
+    const colorB = ColorNode({ a: new Color("#00f") })
 
     const blend = BlendNode({
       type: "vec3",
       mode: "add",
       a: colorA,
       b: colorB,
-      opacity: 0.5
+      opacity: 1
     })
 
     const root = ShaderMaterialMasterNode({
