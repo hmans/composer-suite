@@ -1,21 +1,5 @@
-import { useFrame } from "@react-three/fiber"
-import { useMemo, useRef } from "react"
-import {
-  BlendNode,
-  ColorNode,
-  compileShader,
-  ComposeNode,
-  CustomShaderMaterialMasterNode,
-  Factory,
-  float,
-  Parameter,
-  ShaderMaterialMasterNode,
-  TimeNode,
-  UVNode,
-  vec2,
-  vec3
-} from "shadenfreude"
-import { Color, MeshStandardMaterial, ShaderMaterial } from "three"
+import { CustomShaderMaterialMasterNode } from "shadenfreude"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
 
@@ -28,9 +12,9 @@ export default function NoiseExample() {
   console.log(shaderProps.fragmentShader)
 
   return (
-    <group position-y={15}>
+    <group position-y={5}>
       <mesh>
-        <sphereGeometry args={[8, 32, 32]} />
+        <boxGeometry args={[20, 2, 20]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
