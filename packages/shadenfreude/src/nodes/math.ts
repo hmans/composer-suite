@@ -16,13 +16,13 @@ import { ViewDirectionNode } from "./inputs"
 
 export const ComposeNode = Factory(() => ({
   name: "Compose components",
-  in: {
+  inputs: {
     x: float(),
     y: float(),
     z: float(),
     w: float()
   },
-  out: {
+  outputs: {
     value: vec4("vec4(in_x, in_y, in_z, in_w)"),
     vec4: vec4("vec4(in_x, in_y, in_z, in_w)"),
     vec3: vec3("vec3(in_x, in_y, in_z)"),
@@ -41,10 +41,10 @@ const FunctionNode = (fun: string) => <A extends ValueType>(
 
   return ShaderNode({
     name: `Perform ${fun} on ${aType}`,
-    in: {
+    inputs: {
       a: variable(aType, props.a)
     },
-    out: {
+    outputs: {
       value: variable(aType, `${fun}(in_a)`)
     }
   })
@@ -71,11 +71,11 @@ const OperatorNode = (operator: Operator) => <
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
-    in: {
+    inputs: {
       a: variable(aType, props.a),
       b: variable(bType, props.b)
     },
-    out: {
+    outputs: {
       value: variable(aType, `in_a ${operator} in_b`)
     }
   })
@@ -97,12 +97,12 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 
   return ShaderNode({
     name: `Mix a and b values (${type})`,
-    in: {
+    inputs: {
       a: variable<T>(type, props.a),
       b: variable<T>(type, props.b),
       factor: float(props.factor || 0.5)
     },
-    out: {
+    outputs: {
       value: variable<T>(type, "mix(in_a, in_b, in_factor)")
     }
   })
@@ -133,12 +133,12 @@ export const SoftlightBlendNode = Factory(() => {
 
   return {
     name: "Softlight Blend",
-    in: {
+    inputs: {
       a: vec3(),
       b: vec3(),
       opacity: float(1)
     },
-    out: {
+    outputs: {
       value: vec3()
     },
     vertex: program,
@@ -148,16 +148,16 @@ export const SoftlightBlendNode = Factory(() => {
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
-  in: {
+  inputs: {
     alpha: float(1),
     bias: float(0),
     intensity: float(1),
     power: float(2),
     factor: float(1),
     viewDirection: vec3(ViewDirectionNode()),
-    worldNormal: vec3(VertexNormalNode().out.worldSpace)
+    worldNormal: vec3(VertexNormalNode().outputs.worldSpace)
   },
-  out: {
+  outputs: {
     value: float()
   },
   fragment: {

@@ -24,7 +24,7 @@ import { Color, ShaderMaterial } from "three"
 const WobbleNode = Factory(() => ({
   name: "Wobble",
 
-  in: {
+  inputs: {
     /** The time offset */
     time: float(),
 
@@ -35,7 +35,7 @@ const WobbleNode = Factory(() => ({
     amplitude: float(1)
   },
 
-  out: {
+  outputs: {
     /** The wobble value */
     value: float("sin(in_time * in_frequency) * in_amplitude")
   }
@@ -56,15 +56,15 @@ const WobbleAnimation = ({
     x: WobbleNode({ time, frequency: 8 * frequency, amplitude }),
     y: WobbleNode({ time, frequency: 5 * frequency, amplitude }),
     z: WobbleNode({ time, frequency: 3 * frequency, amplitude })
-  }).out.vec3
+  }).outputs.vec3
 
 const Squeezed = Factory(() => ({
-  in: {
+  inputs: {
     position: vec3(),
     time: float(),
     uv: vec2(UVNode())
   },
-  out: {
+  outputs: {
     value: vec3(
       `vec3(
         in_position.x * (1.0 + sin(in_time * 2.0 + in_uv.y * 13.0) * 0.3),

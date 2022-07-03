@@ -21,12 +21,12 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Scale with Time",
-    in: {
+    inputs: {
       a: vec3(),
       frequency: float(1),
       time: float(TimeNode())
     },
-    out: {
+    outputs: {
       value: vec3("in_a")
     },
     vertex: {
@@ -36,13 +36,13 @@ const ScaleWithTime = (axis = "xyz") =>
 
 const SqueezeWithTime = Factory(() => ({
   name: "Squeeze with Time",
-  in: {
+  inputs: {
     a: vec3(),
 
     frequency: float(1),
     time: float(TimeNode())
   },
-  out: {
+  outputs: {
     value: vec3("in_a")
   },
   vertex: {
@@ -53,13 +53,13 @@ const SqueezeWithTime = Factory(() => ({
 const MoveWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Move with Time",
-    in: {
+    inputs: {
       a: vec3(),
       frequency: float(1),
       amplitude: float(1),
       time: float(TimeNode())
     },
-    out: {
+    outputs: {
       value: vec3("in_a")
     },
     vertex: {
