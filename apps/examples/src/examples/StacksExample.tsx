@@ -93,17 +93,19 @@ function useShader() {
     ])
   })
 
-  return compileShader(root)
+  const [shader, update] = compileShader(root)
+
+  useFrame((_, dt) => update(dt))
+
+  return shader
 }
 
 export default function StacksExample() {
-  const [shaderProps, update] = useShader()
+  const shader = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
-
-  useFrame((_, dt) => update(dt))
+  console.log(shader.vertexShader)
+  console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
@@ -112,7 +114,7 @@ export default function StacksExample() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          {...shaderProps}
+          {...shader}
           ref={material}
         />
       </mesh>
