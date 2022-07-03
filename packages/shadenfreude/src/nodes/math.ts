@@ -5,6 +5,7 @@ import {
   Parameter,
   Program,
   ShaderNode,
+  uniqueGlobalIdentifier,
   ValueType,
   variable,
   vec2,
@@ -109,11 +110,11 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 }
 
 export const SoftlightBlendNode = Factory(() => {
-  const functionName = `blend_softlight_${Math.floor(Math.random() * 10000000)}`
+  const blendSoftlight = uniqueGlobalIdentifier("blend_softlight")
 
   const program: Program = {
     header: `
-      float ${functionName}(const in float x, const in float y)
+      float ${blendSoftlight}(const in float x, const in float y)
       {
         return (y < 0.5) ?
           (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
@@ -123,9 +124,9 @@ export const SoftlightBlendNode = Factory(() => {
 
     body: `
       vec3 z = vec3(
-        ${functionName}(inputs.a.r, inputs.b.r),
-        ${functionName}(inputs.a.g, inputs.b.g),
-        ${functionName}(inputs.a.b, inputs.b.b)
+        ${blendSoftlight}(inputs.a.r, inputs.b.r),
+        ${blendSoftlight}(inputs.a.g, inputs.b.g),
+        ${blendSoftlight}(inputs.a.b, inputs.b.b)
       );
 
       outputs.value = mix(inputs.a, z, inputs.opacity);
