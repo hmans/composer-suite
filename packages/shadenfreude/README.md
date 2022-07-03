@@ -200,15 +200,15 @@ const root = ShaderMaterialMasterNode({
 - **CosNode**
   - Calculates a Cosine value.
   - Inputs:
-    - `a`: Input value
+    - `a` (float): Input value
   - Outputs:
-    - `value`: Cosine value of the input
+    - `value` (float): Cosine value of the input
 - **SinNode**
   - Calculates a Sine value.
   - Inputs:
-    - `a`: Input value
+    - `a` (float): Input value
   - Outputs:
-    - `value`: Sine value of the input
+    - `value` (float): Sine value of the input
 
 ## Creating Custom Nodes
 
