@@ -10,7 +10,6 @@ import {
   MultiplyNode,
   Parameter,
   ShaderNode,
-  SoftlightBlendNode,
   TimeNode,
   vec3,
   VertexPositionNode
