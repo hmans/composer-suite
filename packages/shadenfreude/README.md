@@ -164,7 +164,7 @@ const root = ShaderMaterialMasterNode({
 
 ### Math
 
-#### Basic Math
+#### Operators
 
 - **AddNode**
   - Performs addition.
