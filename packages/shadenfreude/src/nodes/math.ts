@@ -146,11 +146,17 @@ export const BlendNode = <T extends BlendableType>({
     softlight: [
       `
       float ${functions.softlight}(float base, float blend) {
-        return (blend<0.5)?(2.0*base*blend+base*base*(1.0-2.0*blend)):(sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend));
+        return (blend < 0.5)
+          ?  2.0 * base * blend  +  base * base * (1.0 - 2.0 * blend)
+          :  sqrt(base) * (2.0 * blend - 1.0)  +  2.0 * base * (1.0 - blend);
       }
 
       vec3 ${functions.softlight}(vec3 base, vec3 blend) {
-        return vec3(${functions.softlight}(base.r,blend.r),${functions.softlight}(base.g,blend.g),${functions.softlight}(base.b,blend.b));
+        return vec3(
+          ${functions.softlight}(base.r, blend.r),
+          ${functions.softlight}(base.g, blend.g),
+          ${functions.softlight}(base.b,blend.b)
+        );
       }
       `
     ]
