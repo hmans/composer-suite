@@ -91,7 +91,6 @@ function useShader() {
       outputs: { value: vec3(new Color("#3dd")) },
       filters: [
         BlendNode({
-          type: "vec3",
           mode: "softlight",
           opacity: 0.8,
           b: MultiplyNode({

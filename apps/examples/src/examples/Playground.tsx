@@ -75,7 +75,6 @@ function useShader() {
     const colorB = ColorNode({ a: new Color("#00f") })
 
     const blend = BlendNode({
-      type: "vec3",
       mode: "average",
       a: colorA,
       b: colorB,
