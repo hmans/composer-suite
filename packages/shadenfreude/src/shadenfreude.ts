@@ -35,13 +35,13 @@ export interface IShaderNode {
   filters?: IShaderNode[]
 }
 
-export interface IShaderNodeWithInVariable<T extends ValueType = any> {
-  [key: string]: any
+export interface IShaderNodeWithDefaultIn<T extends ValueType = any>
+  extends IShaderNode {
   in: { a: Variable<T> }
 }
 
-export interface IShaderNodeWithOutVariable<T extends ValueType = any> {
-  [key: string]: any
+export interface IShaderNodeWithDefaultOut<T extends ValueType = any>
+  extends IShaderNode {
   out: { value: Variable<T> }
 }
 
@@ -123,7 +123,7 @@ export type Value<T extends ValueType = any> =
 
 export type Parameter<T extends ValueType = any> =
   | Value<T>
-  | IShaderNodeWithOutVariable<T>
+  | IShaderNodeWithDefaultOut<T>
 
 export type Variable<T extends ValueType = any> = {
   __variable: boolean
@@ -158,7 +158,7 @@ export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
 export const plug = <T extends ValueType>(source: Parameter<T>) => ({
-  into: (target: Variable<T> | IShaderNodeWithInVariable<T>) =>
+  into: (target: Variable<T> | IShaderNodeWithDefaultIn<T>) =>
     assign(source).to(target)
 })
 
@@ -170,7 +170,7 @@ export const plug = <T extends ValueType>(source: Parameter<T>) => ({
  * @source source
  */
 export const assign = <T extends ValueType>(source: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithInVariable<T>): void => {
+  to: (target: Variable<T> | IShaderNodeWithDefaultIn<T>): void => {
     if (isShaderNodeWithInVariable(target))
       return assign(source).to(target.in.a)
 
@@ -533,11 +533,11 @@ export const isVariable = (value: any): value is Variable => !!value?.__variable
 
 export const isShaderNodeWithInVariable = (
   value: any
-): value is IShaderNodeWithInVariable => value?.in?.a !== undefined
+): value is IShaderNodeWithDefaultIn => value?.in?.a !== undefined
 
 export const isShaderNodeWithOutVariable = (
   value: any
-): value is IShaderNodeWithOutVariable => value?.out?.value !== undefined
+): value is IShaderNodeWithDefaultOut => value?.out?.value !== undefined
 
 const unique = (array: any[]) => [...new Set(array)]
 
