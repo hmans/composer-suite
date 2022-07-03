@@ -10,6 +10,7 @@ import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
 import Playground from "./Playground"
 import StacksExample from "./StacksExample"
+import NoiseExample from "./NoiseExample"
 
 export type ExampleDefinition = {
   path: string
@@ -46,6 +47,11 @@ export default [
     path: "playground",
     name: "Shadenfreude Playground",
     component: <Playground />
+  },
+  {
+    path: "noise",
+    name: "Shadenfreude Noise",
+    component: <NoiseExample />
   },
   {
     path: "stacks",
