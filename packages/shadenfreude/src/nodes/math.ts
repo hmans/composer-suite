@@ -118,7 +118,7 @@ type BlendProps<T extends BlendableType> = {
   mode?: BlendMode
 }
 
-type BlendableType = "float" | "vec3"
+type BlendableType = "float" | "vec3" | "vec4"
 
 type BlendMode = "add" | "multiply"
 
@@ -151,10 +151,11 @@ export const BlendNode = <T extends BlendableType>({
     }
   }
 
-  const body = `
-    ${type} blended = ${bagOfChunks[mode][type]};
-    outputs.value = mix(inputs.a, blended, inputs.opacity);
-  `
+  const body = [
+    `${type} blended = ${bagOfChunks[mode][type]};`,
+    `outputs.value = mix(inputs.a, blended, inputs.opacity);`,
+    type === "vec4" && `outputs.value.a = inputs.a.a;`
+  ]
 
   return ShaderNode({
     name: "Blend",
