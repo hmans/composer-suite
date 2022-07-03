@@ -30,21 +30,21 @@ describe("typings", () => {
 
   test("accessing variables", () => {
     const node = ShaderNode({
-      in: { foo: float() },
-      out: { foo: float() }
+      inputs: { foo: float() },
+      outputs: { foo: float() }
     })
 
-    node.in.foo
-    node.out.foo
+    node.inputs.foo
+    node.outputs.foo
   })
 
   test("directly assigning JS values", () => {
     ShaderNode({
-      in: { foo: vec3(new Vector3()) }
+      inputs: { foo: vec3(new Vector3()) }
     })
 
     ShaderNode({
-      in: { foo: vec3(new Color()) }
+      inputs: { foo: vec3(new Color()) }
     })
   })
 
@@ -73,12 +73,12 @@ describe("typings", () => {
       b: f2
     })
 
-    assign(123).to(added.in.a)
+    assign(123).to(added.inputs.a)
   })
 
   test("factories", () => {
     const TestNode = Factory(() => ({
-      in: { foo: float() }
+      inputs: { foo: float() }
     }))
 
     const test1 = TestNode({ foo: 123 })

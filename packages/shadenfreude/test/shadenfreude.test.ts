@@ -1,5 +1,5 @@
 import { Vector3 } from "three"
-import { AddNode, FloatNode, TimeNode } from "../src"
+import { FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
@@ -19,29 +19,29 @@ describe("ShaderNode", () => {
 
   it("assigns the node to its input and output variables", () => {
     const n = ShaderNode({
-      in: { a: float() },
-      out: { value: float() }
+      inputs: { a: float() },
+      outputs: { value: float() }
     })
-    expect(n.in.a.node).toBe(n)
-    expect(n.out.value.node).toBe(n)
+    expect(n.inputs.a.node).toBe(n)
+    expect(n.outputs.value.node).toBe(n)
   })
 
   it("assigns props when given as a second argument", () => {
     const props = { a: 1 }
-    const n = ShaderNode({ in: { a: float() } }, props)
-    expect(n.in.a.value).toBe(1)
+    const n = ShaderNode({ inputs: { a: float() } }, props)
+    expect(n.inputs.a.value).toBe(1)
   })
 })
 
 describe("Factory", () => {
   it("creates a shader node factory that can assign inputs props", () => {
     const TestNode = Factory(() => ({
-      in: { a: float() }
+      inputs: { a: float() }
     }))
 
     const node = TestNode({ a: 123 })
 
-    expect(node.in.a.value).toBe(123)
+    expect(node.inputs.a.value).toBe(123)
   })
 })
 
@@ -62,10 +62,10 @@ describe("compileShader", () => {
   it("compiles the given node into a shader", () => {
     const n = ShaderNode({
       name: "Test Node",
-      in: {
+      inputs: {
         vec: vec3(new Vector3(1, 2, 3))
       },
-      out: {
+      outputs: {
         value: float("a * 2.0")
       }
     })
@@ -81,9 +81,11 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          vec3 in_vec = vec3(1.0, 2.0, 3.0);
-          float out_value = a * 2.0;
-          out_Test_Node_1_value = out_value;
+          struct { vec3 vec; } inputs;
+          inputs.vec = vec3(1.0, 2.0, 3.0);
+          struct { float value; } outputs;
+          outputs.value = a * 2.0;
+          out_Test_Node_1_value = outputs.value;
         }
         /*** END: Test Node ***/
 
@@ -100,9 +102,11 @@ describe("compileShader", () => {
         /*** BEGIN: Test Node ***/
         float out_Test_Node_1_value;
         {
-          vec3 in_vec = vec3(1.0, 2.0, 3.0);
-          float out_value = a * 2.0;
-          out_Test_Node_1_value = out_value;
+          struct { vec3 vec; } inputs;
+          inputs.vec = vec3(1.0, 2.0, 3.0);
+          struct { float value; } outputs;
+          outputs.value = a * 2.0;
+          out_Test_Node_1_value = outputs.value;
         }
         /*** END: Test Node ***/
 
@@ -154,7 +158,7 @@ describe("compileShader", () => {
   it("makes sure uniforms are only ever declared once", () => {
     const node = ShaderNode({
       name: "A Node using two TimeNodes for some reason",
-      in: {
+      inputs: {
         a: float(TimeNode()),
         b: float(TimeNode())
       }
@@ -180,12 +184,13 @@ describe("compileShader", () => {
         float out_Time_2_sin;
         float out_Time_2_cos;
         {
-          float out_value = u_time;
-          float out_sin = sin(u_time);
-          float out_cos = cos(u_time);
-          out_Time_2_value = out_value;
-          out_Time_2_sin = out_sin;
-          out_Time_2_cos = out_cos;
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_2_value = outputs.value;
+          out_Time_2_sin = outputs.sin;
+          out_Time_2_cos = outputs.cos;
         }
         /*** END: Time ***/
 
@@ -194,19 +199,21 @@ describe("compileShader", () => {
         float out_Time_3_sin;
         float out_Time_3_cos;
         {
-          float out_value = u_time;
-          float out_sin = sin(u_time);
-          float out_cos = cos(u_time);
-          out_Time_3_value = out_value;
-          out_Time_3_sin = out_sin;
-          out_Time_3_cos = out_cos;
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_3_value = outputs.value;
+          out_Time_3_sin = outputs.sin;
+          out_Time_3_cos = outputs.cos;
         }
         /*** END: Time ***/
 
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
-          float in_a = out_Time_2_value;
-          float in_b = out_Time_3_value;
+          struct { float a; float b; } inputs;
+          inputs.a = out_Time_2_value;
+          inputs.b = out_Time_3_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -230,12 +237,13 @@ describe("compileShader", () => {
         float out_Time_2_sin;
         float out_Time_2_cos;
         {
-          float out_value = u_time;
-          float out_sin = sin(u_time);
-          float out_cos = cos(u_time);
-          out_Time_2_value = out_value;
-          out_Time_2_sin = out_sin;
-          out_Time_2_cos = out_cos;
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_2_value = outputs.value;
+          out_Time_2_sin = outputs.sin;
+          out_Time_2_cos = outputs.cos;
         }
         /*** END: Time ***/
 
@@ -244,19 +252,21 @@ describe("compileShader", () => {
         float out_Time_3_sin;
         float out_Time_3_cos;
         {
-          float out_value = u_time;
-          float out_sin = sin(u_time);
-          float out_cos = cos(u_time);
-          out_Time_3_value = out_value;
-          out_Time_3_sin = out_sin;
-          out_Time_3_cos = out_cos;
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_3_value = outputs.value;
+          out_Time_3_sin = outputs.sin;
+          out_Time_3_cos = outputs.cos;
         }
         /*** END: Time ***/
 
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
-          float in_a = out_Time_2_value;
-          float in_b = out_Time_3_value;
+          struct { float a; float b; } inputs;
+          inputs.a = out_Time_2_value;
+          inputs.b = out_Time_3_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -270,7 +280,7 @@ describe("compileShader", () => {
       varyings: {
         v_pos: vec3("position")
       },
-      out: {
+      outputs: {
         value: vec3("v_pos")
       }
     })
@@ -288,8 +298,9 @@ describe("compileShader", () => {
         vec3 out_Node_with_a_Varying_1_value;
         {
           vec3 v_pos = position;
-          vec3 out_value = v_pos;
-          out_Node_with_a_Varying_1_value = out_value;
+          struct { vec3 value; } outputs;
+          outputs.value = v_pos;
+          out_Node_with_a_Varying_1_value = outputs.value;
           v_Node_with_a_Varying_1_v_pos = v_pos;
         }
         /*** END: Node with a Varying ***/
@@ -308,8 +319,9 @@ describe("compileShader", () => {
         vec3 out_Node_with_a_Varying_1_value;
         {
           vec3 v_pos = v_Node_with_a_Varying_1_v_pos;
-          vec3 out_value = v_pos;
-          out_Node_with_a_Varying_1_value = out_value;
+          struct { vec3 value; } outputs;
+          outputs.value = v_pos;
+          out_Node_with_a_Varying_1_value = outputs.value;
         }
         /*** END: Node with a Varying ***/
 
@@ -321,9 +333,9 @@ describe("compileShader", () => {
     const f = FloatNode({ a: 1 })
 
     const n = ShaderNode({
-      in: {
-        a: float(f.out.value),
-        b: float(f.out.value)
+      inputs: {
+        a: float(f),
+        b: float(f)
       }
     })
     const [c] = compileShader(n)
@@ -341,16 +353,19 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_a = 1.0;
-          float out_value = in_a;
-          out_Value_float_2_value = out_value;
+          struct { float a; } inputs;
+          inputs.a = 1.0;
+          struct { float value; } outputs;
+          outputs.value = inputs.a;
+          out_Value_float_2_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Value_float_2_value;
-          float in_b = out_Value_float_2_value;
+          struct { float a; float b; } inputs;
+          inputs.a = out_Value_float_2_value;
+          inputs.b = out_Value_float_2_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -370,16 +385,19 @@ describe("compileShader", () => {
         /*** BEGIN: Value (float) ***/
         float out_Value_float_2_value;
         {
-          float in_a = 1.0;
-          float out_value = in_a;
-          out_Value_float_2_value = out_value;
+          struct { float a; } inputs;
+          inputs.a = 1.0;
+          struct { float value; } outputs;
+          outputs.value = inputs.a;
+          out_Value_float_2_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
-          float in_a = out_Value_float_2_value;
-          float in_b = out_Value_float_2_value;
+          struct { float a; float b; } inputs;
+          inputs.a = out_Value_float_2_value;
+          inputs.b = out_Value_float_2_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -390,21 +408,21 @@ describe("compileShader", () => {
   it("compiles filters", () => {
     const AdditionFilter = Factory(() => ({
       name: "Addition",
-      in: {
+      inputs: {
         a: float(),
         b: float()
       },
-      out: {
+      outputs: {
         value: float(`in_value + in_other`)
       }
     }))
 
     const nodeWithfilters = ShaderNode({
       name: "Node with filters",
-      in: {
+      inputs: {
         a: float(1)
       },
-      out: {
+      outputs: {
         value: float("in_value")
       },
       filters: [AdditionFilter({ b: 2 })]
@@ -418,7 +436,6 @@ describe("compileShader", () => {
       /*** END: Node with filters ***/
 
 
-
       /*** BEGIN: Addition ***/
       /*** END: Addition ***/
 
@@ -427,16 +444,20 @@ describe("compileShader", () => {
         /*** BEGIN: Node with filters ***/
         float out_Node_with_filters_1_value;
         {
-          float in_a = 1.0;
-          float out_value = in_value;
-          out_Node_with_filters_1_value = out_value;
+          struct { float a; } inputs;
+          inputs.a = 1.0;
+          struct { float value; } outputs;
+          outputs.value = in_value;
+          out_Node_with_filters_1_value = outputs.value;
           /*** BEGIN: Addition ***/
           float out_Addition_2_value;
           {
-            float in_a = in_value;
-            float in_b = 2.0;
-            float out_value = in_value + in_other;
-            out_Addition_2_value = out_value;
+            struct { float a; float b; } inputs;
+            inputs.a = out_Node_with_filters_1_value;
+            inputs.b = 2.0;
+            struct { float value; } outputs;
+            outputs.value = in_value + in_other;
+            out_Addition_2_value = outputs.value;
           }
           /*** END: Addition ***/
 
@@ -450,10 +471,10 @@ describe("compileShader", () => {
 
   it("still compiles if filters is defined, but empty", () => {
     const nodeWithNoFilters = ShaderNode({
-      in: {
+      inputs: {
         a: float(1)
       },
-      out: {
+      outputs: {
         value: float("in_value")
       },
       filters: [
@@ -473,9 +494,11 @@ describe("compileShader", () => {
         /*** BEGIN: Unnamed Node ***/
         float out_Unnamed_Node_1_value;
         {
-          float in_a = 1.0;
-          float out_value = in_value;
-          out_Unnamed_Node_1_value = out_value;
+          struct { float a; } inputs;
+          inputs.a = 1.0;
+          struct { float value; } outputs;
+          outputs.value = in_value;
+          out_Unnamed_Node_1_value = outputs.value;
         }
         /*** END: Unnamed Node ***/
 
@@ -502,15 +525,15 @@ describe("assign", () => {
     const a = float(0)
     const node = FloatNode({ a: 1 })
     assign(node).to(a)
-    expect(a.value).toBe(node.out.value)
+    expect(a.value).toBe(node.outputs.value)
   })
 
   it("can assign to a node, using its default a input", () => {
     const f = float(0)
-    const node = ShaderNode({ in: { a: float() } })
+    const node = ShaderNode({ inputs: { a: float() } })
 
     assign(f).to(node)
-    expect(node.in.a.value).toBe(f)
+    expect(node.inputs.a.value).toBe(f)
   })
 
   it("throws an error if the source has a different type from the target", () => {
@@ -529,12 +552,12 @@ describe("plug", () => {
     const time = TimeNode()
 
     const offset = ShaderNode({
-      in: {
+      inputs: {
         a: float()
       }
     })
 
     plug(time).into(offset)
-    expect(offset.in.a.value).toBe(time.out.value)
+    expect(offset.inputs.a.value).toBe(time.outputs.value)
   })
 })
