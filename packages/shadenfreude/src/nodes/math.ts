@@ -201,47 +201,6 @@ export const BlendNode = <T extends BlendableType>({
   })
 }
 
-const blend = BlendNode({ type: "vec3" })
-
-export const SoftlightBlendNode = Factory(() => {
-  const blendSoftlight = uniqueGlobalIdentifier("blend_softlight")
-
-  const program: Program = {
-    header: `
-      float ${blendSoftlight}(const in float x, const in float y)
-      {
-        return (y < 0.5) ?
-          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
-          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
-      }
-    `,
-
-    body: `
-      vec3 z = vec3(
-        ${blendSoftlight}(inputs.a.r, inputs.b.r),
-        ${blendSoftlight}(inputs.a.g, inputs.b.g),
-        ${blendSoftlight}(inputs.a.b, inputs.b.b)
-      );
-
-      outputs.value = mix(inputs.a, z, inputs.opacity);
-    `
-  }
-
-  return {
-    name: "Softlight Blend",
-    inputs: {
-      a: vec3(),
-      b: vec3(),
-      opacity: float(1)
-    },
-    outputs: {
-      value: vec3()
-    },
-    vertex: program,
-    fragment: program
-  }
-})
-
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
   inputs: {
