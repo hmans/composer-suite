@@ -123,7 +123,7 @@ type BlendProps<T extends BlendableType> = {
 
 type BlendableType = "float" | "vec3" | "vec4"
 
-type BlendMode = "add" | "multiply" | "softlight"
+type BlendMode = "add" | "average" | "multiply" | "softlight"
 
 type BlendFunctions = {
   [M in BlendMode]?: {
@@ -164,6 +164,7 @@ export const BlendNode = <T extends BlendableType>({
 
   const blendFunctionDefaults: { [M in BlendMode]: Chunk } = {
     add: "min(inputs.a + inputs.b, 1.0)",
+    average: "(inputs.a + inputs.b) / 2.0",
     multiply: "min(inputs.a * inputs.b, 1.0)",
     softlight: `${functions.softlight}(inputs.a, inputs.b)`
   }
