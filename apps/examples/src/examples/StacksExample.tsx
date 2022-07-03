@@ -2,6 +2,7 @@ import { useControls } from "leva"
 import { useRef } from "react"
 import {
   BlendNode,
+  ColorNode,
   CustomShaderMaterialMasterNode,
   Factory,
   float,
@@ -147,7 +148,7 @@ export default function StacksExample() {
             a: vec3(),
             b: MultiplyNode({
               a: MultiplyNode({
-                a: new Color(1, 1, 1),
+                a: ColorNode({ a: new Color(2, 2, 2) }),
                 b: fresnelIntensityUniform
               }),
               b: FresnelNode()
