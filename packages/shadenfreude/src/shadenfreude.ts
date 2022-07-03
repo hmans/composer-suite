@@ -35,12 +35,12 @@ export interface IShaderNode {
   filters?: IShaderNode[]
 }
 
-export interface IShaderNodeWithDefaultIn<T extends ValueType = any>
+export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
   extends IShaderNode {
   inputs: { a: Variable<T> }
 }
 
-export interface IShaderNodeWithDefaultOut<T extends ValueType = any>
+export interface IShaderNodeWithDefaultOutput<T extends ValueType = any>
   extends IShaderNode {
   outputs: { value: Variable<T> }
 }
@@ -71,7 +71,7 @@ export const ShaderNode = <
     const variable = node.inputs?.[name]
     if (!variable) return
 
-    if (isShaderNodeWithOutVariable(prop)) {
+    if (isShaderNodeWithDefaultOutput(prop)) {
       variable.value = prop.outputs.value
     } else {
       variable.value = prop
@@ -123,7 +123,7 @@ export type Value<T extends ValueType = any> =
 
 export type Parameter<T extends ValueType = any> =
   | Value<T>
-  | IShaderNodeWithDefaultOut<T>
+  | IShaderNodeWithDefaultOutput<T>
 
 export type Variable<T extends ValueType = any> = {
   __variable: boolean
@@ -147,7 +147,7 @@ export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
     __variable: true,
     name: `var_${Math.floor(Math.random() * 10000000)}`,
     type,
-    value: isShaderNodeWithOutVariable(value) ? value.outputs.value : value
+    value: isShaderNodeWithDefaultOutput(value) ? value.outputs.value : value
   } as Variable<T>)
 
 export const float = (value?: Parameter<"float">) => variable("float", value)
@@ -158,7 +158,7 @@ export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
 export const plug = <T extends ValueType>(source: Parameter<T>) => ({
-  into: (target: Variable<T> | IShaderNodeWithDefaultIn<T>) =>
+  into: (target: Variable<T> | IShaderNodeWithDefaultInput<T>) =>
     assign(source).to(target)
 })
 
@@ -170,11 +170,11 @@ export const plug = <T extends ValueType>(source: Parameter<T>) => ({
  * @source source
  */
 export const assign = <T extends ValueType>(source: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithDefaultIn<T>): void => {
-    if (isShaderNodeWithInVariable(target))
+  to: (target: Variable<T> | IShaderNodeWithDefaultInput<T>): void => {
+    if (isShaderNodeWithDefaultInput(target))
       return assign(source).to(target.inputs.a)
 
-    const value = isShaderNodeWithOutVariable(source)
+    const value = isShaderNodeWithDefaultOutput(source)
       ? source.outputs.value
       : source
 
@@ -194,7 +194,7 @@ export const assign = <T extends ValueType>(source: Parameter<T>) => ({
 export function getValueType<T extends ValueType>(value: Parameter<T>): T {
   if (isVariable(value)) {
     return value.type
-  } else if (isShaderNodeWithOutVariable(value)) {
+  } else if (isShaderNodeWithDefaultOutput(value)) {
     return getValueType(value.outputs.value)
   } else if (typeof value === "number") {
     return "float" as T
@@ -481,18 +481,14 @@ export const compileShader = (root: IShaderNode) => {
 
     /* Prepare filters */
     if (node.filters && node.filters.length > 0) {
-      if (!isShaderNodeWithOutVariable(node))
+      if (!isShaderNodeWithDefaultOutput(node))
         throw new Error("Nodes with filters must have an output value")
 
       /* Use the last filter's output value as our output value */
-      const lastFilter = node.filters[node.filters.length - 1]
       const firstFilter = node.filters[0]
 
-      if (!isShaderNodeWithInVariable(firstFilter))
-        throw new Error("Filter nodes must have an `a` input")
-
-      if (!isShaderNodeWithOutVariable(lastFilter))
-        throw new Error("Filter nodes must have a `value` output")
+      if (!isShaderNodeWithDefaultInput(firstFilter))
+        throw new Error("First filter node must have an `a` input")
 
       plug(node).into(firstFilter)
 
@@ -501,10 +497,10 @@ export const compileShader = (root: IShaderNode) => {
         const filter = node.filters[i]
         const prev = node.filters[i - 1]
 
-        if (!isShaderNodeWithOutVariable(prev))
+        if (!isShaderNodeWithDefaultOutput(prev))
           throw new Error("Filter nodes must have a `value` output")
 
-        if (!isShaderNodeWithInVariable(filter))
+        if (!isShaderNodeWithDefaultInput(filter))
           throw new Error("Filter nodes must have an `a` input")
 
         plug(prev).into(filter)
@@ -571,13 +567,27 @@ const struct = (name: string, variables: Variables) =>
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
-export const isShaderNodeWithInVariable = (
+export const isShaderNodeWithDefaultInput = (
   value: any
-): value is IShaderNodeWithDefaultIn => value?.inputs?.a !== undefined
+): value is IShaderNodeWithDefaultInput => value?.inputs?.a !== undefined
 
-export const isShaderNodeWithOutVariable = (
+export const isShaderNodeWithDefaultOutput = (
   value: any
-): value is IShaderNodeWithDefaultOut => value?.outputs?.value !== undefined
+): value is IShaderNodeWithDefaultOutput => value?.outputs?.value !== undefined
+
+export const assertShaderNodeWithDefaultInput = (
+  v: any
+): asserts v is IShaderNodeWithDefaultInput => {
+  if (!isShaderNodeWithDefaultInput(v))
+    throw new Error(`Expected shader node with an 'a' input`)
+}
+
+export const assertShaderNodeWithDefaultOutput = (
+  v: any
+): asserts v is IShaderNodeWithDefaultOutput => {
+  if (!isShaderNodeWithDefaultOutput(v))
+    throw new Error(`Expected shader node with a 'value' output`)
+}
 
 const unique = (array: any[]) => [...new Set(array)]
 
