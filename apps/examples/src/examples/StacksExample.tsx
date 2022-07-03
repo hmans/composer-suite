@@ -1,21 +1,23 @@
 import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import {
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
   float,
   FresnelNode,
+  IShaderNode,
   MultiplyNode,
   Parameter,
   SoftlightBlendNode,
   StackNode,
   TimeNode,
+  UniformNode,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { AmbientLightProbe, Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 
@@ -73,63 +75,81 @@ const MoveWithTime = (axis = "xyz") =>
     }
   }))
 
-function useShader() {
-  const { speed, intensity, color, fresnelIntensity } = useControls("Wobble", {
-    speed: { value: 1, min: 0, max: 10 },
-    intensity: { value: 1, min: 0, max: 2 },
-    color: "#3dd",
-    fresnelIntensity: { value: 2, min: 0, max: 5 }
-  })
-
-  const AnimationStack = StackNode("vec3", "Animation Stack")
-  const ColorStack = StackNode("vec3", "Color Stack")
-
-  const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack(VertexPositionNode(), [
-      SqueezeWithTime({ frequency: 0.1 * speed, amplitude: 0.5 * intensity }),
-      ScaleWithTime("x")({
-        frequency: 0.2 * speed,
-        amplitude: 0.5 * intensity
-      }),
-      ScaleWithTime("y")({
-        frequency: 0.1 * speed,
-        amplitude: 0.5 * intensity
-      }),
-      ScaleWithTime("z")({
-        frequency: 0.3 * speed,
-        amplitude: 0.5 * intensity
-      }),
-      MoveWithTime("x")({ frequency: 0.8 * speed, amplitude: 2 * intensity }),
-      MoveWithTime("y")({ frequency: 0.6 * speed, amplitude: 1 * intensity }),
-      MoveWithTime("z")({ frequency: 0.3 * speed, amplitude: 2 * intensity })
-    ]),
-
-    diffuseColor: ColorStack(new Color(color), [
-      SoftlightBlendNode({
-        opacity: 0.8,
-        b: MultiplyNode({
-          a: new Color(1, 1, 1).multiplyScalar(fresnelIntensity) as Parameter<
-            "vec3"
-          >,
-          b: FresnelNode()
-        })
-      })
-    ])
-  })
-
-  const [shader, update] = compileShader(root)
-
+function useShader(ctor: () => IShaderNode, deps?: any[]) {
+  const [shader, update] = useMemo(() => {
+    console.log("Recompiling shader")
+    return compileShader(ctor())
+  }, deps)
   useFrame((_, dt) => update(dt))
-
   return shader
 }
 
 export default function StacksExample() {
-  const shader = useShader()
+  const { speed, intensity, color, fresnelIntensity } = useControls(
+    "Uniforms",
+    {
+      speed: { value: 1, min: 0, max: 10 },
+      intensity: { value: 1, min: 0, max: 2 },
+      color: "#3dd",
+      fresnelIntensity: { value: 2, min: 0, max: 5 }
+    }
+  )
+
+  const shader = useShader(() => {
+    const AnimationStack = StackNode("vec3", "Animation Stack")
+    const ColorStack = StackNode("vec3", "Color Stack")
+
+    const speedUniform = UniformNode({ type: "float", name: "u_speed" })
+
+    const root = CustomShaderMaterialMasterNode({
+      position: AnimationStack(VertexPositionNode(), [
+        SqueezeWithTime({
+          frequency: speedUniform,
+          amplitude: 0.5 * intensity
+        }),
+        ScaleWithTime("x")({
+          frequency: speedUniform,
+          amplitude: 0.5 * intensity
+        }),
+        ScaleWithTime("y")({
+          frequency: speedUniform,
+          amplitude: 0.5 * intensity
+        }),
+        ScaleWithTime("z")({
+          frequency: speedUniform,
+          amplitude: 0.5 * intensity
+        }),
+        MoveWithTime("x")({
+          frequency: speedUniform,
+          amplitude: 2 * intensity
+        }),
+        MoveWithTime("y")({
+          frequency: speedUniform,
+          amplitude: 1 * intensity
+        }),
+        MoveWithTime("z")({ frequency: speedUniform, amplitude: 2 * intensity })
+      ]),
+
+      diffuseColor: ColorStack(new Color(color), [
+        SoftlightBlendNode({
+          opacity: 0.8,
+          b: MultiplyNode({
+            a: new Color(1, 1, 1).multiplyScalar(fresnelIntensity) as Parameter<
+              "vec3"
+            >,
+            b: FresnelNode()
+          })
+        })
+      ])
+    })
+
+    return root
+  }, [intensity, color, fresnelIntensity])
+
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  console.log(shader.vertexShader)
-  console.log(shader.fragmentShader)
+  // console.log(shader.vertexShader)
+  // console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>

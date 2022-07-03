@@ -3,21 +3,22 @@ import {
   float,
   ShaderNode,
   ValueType,
+  Variable,
   variable,
   vec3
 } from "../shadenfreude"
 
-export const UniformNode = ({
+export const UniformNode = <T extends ValueType>({
   name,
   type
 }: {
   name: string
-  type: ValueType
+  type: T
 }) =>
   ShaderNode({
     name: "Uniform",
     uniforms: {
-      [name]: variable(type)
+      [name]: variable(type) as Variable<T>
     },
     out: {
       value: variable(type, name)
