@@ -49,8 +49,8 @@ describe("typings", () => {
   })
 
   test("assigning variables", () => {
-    const a = FloatNode({ value: 1 })
-    const b = FloatNode({ value: 2 })
+    const a = FloatNode({ a: 1 })
+    const b = FloatNode({ a: 2 })
 
     AddNode({
       a,
@@ -60,13 +60,13 @@ describe("typings", () => {
     MixNode({
       a,
       b,
-      amount: float(0.5)
+      factor: float(0.5)
     })
   })
 
   test("assigning nodes", () => {
-    const f1 = FloatNode({ value: 1 })
-    const f2 = FloatNode({ value: 2 })
+    const f1 = FloatNode({ a: 1 })
+    const f2 = FloatNode({ a: 2 })
 
     const added = AddNode({
       a: f1,

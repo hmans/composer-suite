@@ -3,6 +3,7 @@ import {
   float,
   getValueType,
   Parameter,
+  Program,
   ShaderNode,
   ValueType,
   variable,
@@ -10,7 +11,7 @@ import {
   vec3,
   vec4
 } from "../shadenfreude"
-import { GeometryNormalNode } from "./geometry"
+import { VertexNormalNode } from "./geometry"
 import { ViewDirectionNode } from "./inputs"
 
 export const ComposeNode = Factory(() => ({
@@ -88,24 +89,62 @@ export const DivideNode = OperatorNode("/")
 export type MixNodeProps<T extends ValueType> = {
   a?: Parameter
   b: Parameter<T>
-  amount?: Parameter<"float">
+  factor?: Parameter<"float">
 }
 
 export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   const type = getValueType(props.b)
 
   return ShaderNode({
-    name: "Mix a and b values",
+    name: `Mix a and b values (${type})`,
     in: {
       a: variable<T>(type, props.a),
       b: variable<T>(type, props.b),
-      amount: float(props.amount || 0.5)
+      factor: float(props.factor || 0.5)
     },
     out: {
-      value: variable<T>(type, "in_b * in_amount + in_a * (1.0 - in_amount)")
+      value: variable<T>(type, "mix(in_a, in_b, in_factor)")
     }
   })
 }
+
+export const SoftlightBlendNode = Factory(() => {
+  const program: Program = {
+    header: `
+      float blend_softlight(const in float x, const in float y)
+      {
+        return (y < 0.5) ?
+          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
+          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
+      }
+    `,
+
+    body: `
+      vec3 z = vec3(
+        blend_softlight(in_a.r, in_b.r),
+        blend_softlight(in_a.g, in_b.g),
+        blend_softlight(in_a.b, in_b.b)
+      );
+
+      out_value = mix(in_a, z, in_opacity);
+      // out_value = z.xyz * in_opacity;
+    `
+  }
+
+  return {
+    name: "Softlight Blend",
+    in: {
+      a: vec3(),
+      b: vec3(),
+      opacity: float(1)
+    },
+    out: {
+      value: vec3()
+    },
+    vertex: program,
+    fragment: program
+  }
+})
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
@@ -116,7 +155,7 @@ export const FresnelNode = Factory(() => ({
     power: float(2),
     factor: float(1),
     viewDirection: vec3(ViewDirectionNode()),
-    worldNormal: vec3(GeometryNormalNode().out.worldSpace)
+    worldNormal: vec3(VertexNormalNode().out.worldSpace)
   },
   out: {
     value: float()

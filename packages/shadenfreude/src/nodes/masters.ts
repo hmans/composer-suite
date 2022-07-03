@@ -1,6 +1,6 @@
 import { Color } from "three"
-import { Factory, float, vec3 } from "../shadenfreude"
-import { GeometryPositionNode, GeometryNormalNode } from "./geometry"
+import { assignment, Factory, float, vec3 } from "../shadenfreude"
+import { VertexPositionNode, VertexNormalNode } from "./geometry"
 
 export const ShaderMaterialMasterNode = Factory(() => ({
   name: "ShaderMaterial Master",
@@ -12,36 +12,48 @@ export const ShaderMaterialMasterNode = Factory(() => ({
   },
 
   vertex: {
-    body: `
-      gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(in_position, 1.0);
-    `
+    body: assignment(
+      "gl_Position",
+      "projectionMatrix * viewMatrix * modelMatrix * vec4(in_position, 1.0)"
+    )
   },
 
   fragment: {
-    body: `
-      gl_FragColor = vec4(in_color, in_opacity);
-    `
+    body: assignment("gl_FragColor", "vec4(in_color, in_opacity)")
   }
 }))
 
+/**
+ * A master node for use with three-custom-shader-material.
+ */
 export const CustomShaderMaterialMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
+
   in: {
-    position: vec3(GeometryPositionNode()),
-    normal: vec3(GeometryNormalNode()),
+    /** Position of the vertex. */
+    position: vec3(VertexPositionNode()),
+
+    /** Normal of the vertex. */
+    normal: vec3(VertexNormalNode()),
+
+    /** Diffuse color of the fragment. */
     diffuseColor: vec3(new Color(1, 1, 1)),
+
+    /** Emissive color of the fragment. */
     emissiveColor: vec3(new Color(0, 0, 0))
   },
+
   vertex: {
-    body: `
-      csm_Position = in_position;
-      csm_Normal = in_normal;
-    `
+    body: [
+      assignment("csm_Position", "in_position"),
+      assignment("csm_Normal", "in_normal")
+    ]
   },
+
   fragment: {
-    body: `
-      csm_DiffuseColor.rgb = in_diffuseColor;
-      csm_Emissive.rgb = in_emissiveColor;
-    `
+    body: [
+      assignment("csm_DiffuseColor.rgb", "in_diffuseColor"),
+      assignment("csm_Emissive.rgb", "in_emissiveColor")
+    ]
   }
 }))

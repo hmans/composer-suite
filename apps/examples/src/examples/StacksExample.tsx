@@ -1,41 +1,22 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import {
-  ColorNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
   float,
   FresnelNode,
-  GeometryPositionNode,
-  MixNode,
   MultiplyNode,
   Parameter,
+  SoftlightBlendNode,
+  StackNode,
   TimeNode,
-  vec3
+  vec3,
+  VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
-
-const AnimationStack = Factory(() => ({
-  name: "Animation Stack",
-  in: {
-    origin: vec3(GeometryPositionNode())
-  },
-  out: {
-    value: vec3("in_origin")
-  },
-  filters: [
-    SqueezeWithTime({ frequency: 0.1 }),
-    ScaleWithTime("x")({ frequency: 0.2 }),
-    ScaleWithTime("y")({ frequency: 0.1 }),
-    ScaleWithTime("z")({ frequency: 0.3 }),
-    MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
-    MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
-    MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
-  ]
-}))
 
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
@@ -86,29 +67,30 @@ const MoveWithTime = (axis = "xyz") =>
     }
   }))
 
-const ColorStack = Factory(() => ({
-  name: "Color Stack",
-  in: {
-    color: vec3(ColorNode({ value: new Color("hotpink") }))
-  },
-  out: {
-    value: vec3("in_color")
-  },
-  filters: [
-    MixNode({
-      b: MultiplyNode({
-        a: new Color(2, 2, 2) as Parameter<"vec3">,
-        b: FresnelNode()
-      }),
-      amount: 0.5
-    })
-  ]
-}))
-
 function useShader() {
+  const AnimationStack = StackNode("vec3", "Animation Stack")
+  const ColorStack = StackNode("vec3", "Color Stack")
+
   const root = CustomShaderMaterialMasterNode({
-    position: AnimationStack(),
-    diffuseColor: ColorStack()
+    position: AnimationStack(VertexPositionNode(), [
+      SqueezeWithTime({ frequency: 0.1 }),
+      ScaleWithTime("x")({ frequency: 0.2 }),
+      ScaleWithTime("y")({ frequency: 0.1 }),
+      ScaleWithTime("z")({ frequency: 0.3 }),
+      MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
+      MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
+      MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
+    ]),
+
+    diffuseColor: ColorStack(new Color("#3dd"), [
+      SoftlightBlendNode({
+        opacity: 0.8,
+        b: MultiplyNode({
+          a: new Color(2, 2, 2) as Parameter<"vec3">,
+          b: FresnelNode()
+        })
+      })
+    ])
   })
 
   return compileShader(root)

@@ -8,52 +8,18 @@ import {
   Factory,
   float,
   FresnelNode,
-  GeometryPositionNode,
-  GeometryUVNode,
+  VertexPositionNode,
+  UVNode,
   MultiplyNode,
   Parameter,
   Program,
   ShaderMaterialMasterNode,
   TimeNode,
   vec2,
-  vec3
+  vec3,
+  SoftlightBlendNode
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
-
-export const BlendNode = Factory(() => {
-  const program: Program = {
-    header: `
-      float blend_softlight(const in float x, const in float y) {
-        return (y < 0.5) ?
-          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
-          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
-      }
-    `,
-    body: `
-      vec3 z = vec3(
-        blend_softlight(in_a.r, in_b.r),
-        blend_softlight(in_a.g, in_b.g),
-        blend_softlight(in_a.b, in_b.b)
-      );
-      out_value = vec3(z.xyz * in_opacity + in_a.xyz * (1.0 - in_opacity));
-      out_value = z.xyz * in_opacity;
-    `
-  }
-
-  return {
-    name: "Softlight Blend",
-    in: {
-      a: vec3(),
-      b: vec3(),
-      opacity: float(1)
-    },
-    out: {
-      value: vec3()
-    },
-    vertex: program,
-    fragment: program
-  }
-})
 
 const WobbleNode = Factory(() => ({
   name: "Wobble",
@@ -96,7 +62,7 @@ const Squeezed = Factory(() => ({
   in: {
     position: vec3(),
     time: float(),
-    uv: vec2(GeometryUVNode())
+    uv: vec2(UVNode())
   },
   out: {
     value: vec3(
@@ -113,18 +79,18 @@ function useShader() {
     const time = TimeNode()
 
     const fresnel = MultiplyNode({
-      a: ColorNode({ value: new Color("white") }),
+      a: ColorNode({ a: new Color("white") }),
       b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
     })
 
     const root = ShaderMaterialMasterNode({
       position: AddNode({
-        a: Squeezed({ position: GeometryPositionNode(), time }),
+        a: Squeezed({ position: VertexPositionNode(), time }),
         b: WobbleAnimation({ frequency: 0.2, amplitude: 3.5, time })
       }),
 
-      color: BlendNode({
-        a: ColorNode({ value: new Color("#c42") }),
+      color: SoftlightBlendNode({
+        a: ColorNode({ a: new Color("#c42") }),
         b: fresnel
       })
     })
