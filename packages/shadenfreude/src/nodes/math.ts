@@ -16,17 +16,17 @@ import { ViewDirectionNode } from "./inputs"
 
 export const ComposeNode = Factory(() => ({
   name: "Compose components",
-  in: {
+  inputs: {
     x: float(),
     y: float(),
     z: float(),
     w: float()
   },
-  out: {
-    value: vec4("vec4(in_x, in_y, in_z, in_w)"),
-    vec4: vec4("vec4(in_x, in_y, in_z, in_w)"),
-    vec3: vec3("vec3(in_x, in_y, in_z)"),
-    vec2: vec2("vec2(in_x, in_y)")
+  outputs: {
+    value: vec4("vec4(inputs.x, inputs.y, inputs.z, inputs.w)"),
+    vector4: vec4("vec4(inputs.x, inputs.y, inputs.z, inputs.w)"),
+    vector3: vec3("vec3(inputs.x, inputs.y, inputs.z)"),
+    vector2: vec2("vec2(inputs.x, inputs.y)")
   }
 }))
 
@@ -41,11 +41,11 @@ const FunctionNode = (fun: string) => <A extends ValueType>(
 
   return ShaderNode({
     name: `Perform ${fun} on ${aType}`,
-    in: {
+    inputs: {
       a: variable(aType, props.a)
     },
-    out: {
-      value: variable(aType, `${fun}(in_a)`)
+    outputs: {
+      value: variable(aType, `${fun}(inputs.a)`)
     }
   })
 }
@@ -71,12 +71,12 @@ const OperatorNode = (operator: Operator) => <
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
-    in: {
+    inputs: {
       a: variable(aType, props.a),
       b: variable(bType, props.b)
     },
-    out: {
-      value: variable(aType, `in_a ${operator} in_b`)
+    outputs: {
+      value: variable(aType, `inputs.a ${operator} inputs.b`)
     }
   })
 }
@@ -97,13 +97,13 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 
   return ShaderNode({
     name: `Mix a and b values (${type})`,
-    in: {
+    inputs: {
       a: variable<T>(type, props.a),
       b: variable<T>(type, props.b),
       factor: float(props.factor || 0.5)
     },
-    out: {
-      value: variable<T>(type, "mix(in_a, in_b, in_factor)")
+    outputs: {
+      value: variable<T>(type, "mix(inputs.a, inputs.b, inputs.factor)")
     }
   })
 }
@@ -121,24 +121,24 @@ export const SoftlightBlendNode = Factory(() => {
 
     body: `
       vec3 z = vec3(
-        blend_softlight(in_a.r, in_b.r),
-        blend_softlight(in_a.g, in_b.g),
-        blend_softlight(in_a.b, in_b.b)
+        blend_softlight(inputs.a.r, inputs.b.r),
+        blend_softlight(inputs.a.g, inputs.b.g),
+        blend_softlight(inputs.a.b, inputs.b.b)
       );
 
-      out_value = mix(in_a, z, in_opacity);
-      // out_value = z.xyz * in_opacity;
+      outputs.value = mix(inputs.a, z, inputs.opacity);
+      // outputs.value = z.xyz * inputs.opacity;
     `
   }
 
   return {
     name: "Softlight Blend",
-    in: {
+    inputs: {
       a: vec3(),
       b: vec3(),
       opacity: float(1)
     },
-    out: {
+    outputs: {
       value: vec3()
     },
     vertex: program,
@@ -148,24 +148,24 @@ export const SoftlightBlendNode = Factory(() => {
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
-  in: {
+  inputs: {
     alpha: float(1),
     bias: float(0),
     intensity: float(1),
     power: float(2),
     factor: float(1),
     viewDirection: vec3(ViewDirectionNode()),
-    worldNormal: vec3(VertexNormalNode().out.worldSpace)
+    worldNormal: vec3(VertexNormalNode().outputs.worldSpace)
   },
-  out: {
+  outputs: {
     value: float()
   },
   fragment: {
     body: `
-        float f_a = (in_factor + dot(in_viewDirection, in_worldNormal));
-        float f_fresnel = in_bias + in_intensity * pow(abs(f_a), in_power);
+        float f_a = (inputs.factor + dot(inputs.viewDirection, inputs.worldNormal));
+        float f_fresnel = inputs.bias + inputs.intensity * pow(abs(f_a), inputs.power);
         f_fresnel = clamp(f_fresnel, 0.0, 1.0);
-        out_value = f_fresnel;
+        outputs.value = f_fresnel;
       `
   }
 }))

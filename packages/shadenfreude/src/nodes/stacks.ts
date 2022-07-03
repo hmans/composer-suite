@@ -12,7 +12,7 @@ export const StackNode = <T extends ValueType>(type: T, name = "Stack") => (
 ) =>
   ShaderNode({
     name,
-    in: { a: variable(type, a) },
-    out: { value: variable(type, "in_a") },
+    inputs: { a: variable(type, a) },
+    outputs: { value: variable(type, "inputs.a") },
     filters
   })

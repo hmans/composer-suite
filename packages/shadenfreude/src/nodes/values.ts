@@ -2,8 +2,8 @@ import { Factory, ValueType, variable } from "../shadenfreude"
 
 const ValueNode = <T extends ValueType>(type: T) => ({
   name: `Value (${type})`,
-  in: { a: variable(type) },
-  out: { value: variable(type, "in_a") }
+  inputs: { a: variable(type) },
+  outputs: { value: variable(type, "inputs.a") }
 })
 
 export const BooleanNode = Factory(() => ValueNode("bool"))

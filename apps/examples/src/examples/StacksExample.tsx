@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
 import { useMemo, useRef } from "react"
 import {
+  AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
@@ -24,54 +25,57 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Scale with Time",
-    in: {
+
+    inputs: {
       a: vec3(),
       frequency: float(1),
       amplitude: float(0.5),
       time: float(TimeNode())
     },
-    out: {
-      value: vec3("in_a")
+
+    outputs: {
+      value: vec3("inputs.a")
     },
+
     vertex: {
-      body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * in_amplitude);`
+      body: `outputs.value.${axis} *= (1.0 + sin(inputs.time * inputs.frequency) * inputs.amplitude);`
     }
   }))
 
 const SqueezeWithTime = Factory(() => ({
   name: "Squeeze with Time",
-  in: {
+  inputs: {
     a: vec3(),
 
     frequency: float(1),
     amplitude: float(0.3),
     time: float(TimeNode())
   },
-  out: {
-    value: vec3("in_a")
+  outputs: {
+    value: vec3("inputs.a")
   },
   vertex: {
-    body: `out_value.x *= (
-      1.0 + sin(in_time * in_frequency
-        + position.y * 0.3 * in_frequency
-        + position.x * 0.3 * in_frequency) * in_amplitude);`
+    body: `outputs.value.x *= (
+      1.0 + sin(inputs.time * inputs.frequency
+        + position.y * 0.3 * inputs.frequency
+        + position.x * 0.3 * inputs.frequency) * inputs.amplitude);`
   }
 }))
 
 const MoveWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Move with Time",
-    in: {
+    inputs: {
       a: vec3(),
       frequency: float(1),
       amplitude: float(1),
       time: float(TimeNode())
     },
-    out: {
-      value: vec3("in_a")
+    outputs: {
+      value: vec3("inputs.a")
     },
     vertex: {
-      body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
+      body: `outputs.value.${axis} += sin(inputs.time * inputs.frequency) * inputs.amplitude;`
     }
   }))
 
