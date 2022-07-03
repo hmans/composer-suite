@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
 import { useMemo, useRef } from "react"
 import {
-  AddNode,
+  BlendNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
@@ -11,8 +11,7 @@ import {
   IShaderNode,
   MultiplyNode,
   Parameter,
-  SoftlightBlendNode,
-  StackNode,
+  ShaderNode,
   TimeNode,
   UniformNode,
   vec3,
@@ -21,6 +20,7 @@ import {
 import { AmbientLightProbe, Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
+import { useShader } from "./useShader"
 
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({

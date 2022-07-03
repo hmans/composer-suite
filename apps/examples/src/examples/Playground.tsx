@@ -1,25 +1,21 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
-  AddNode,
+  BlendNode,
   ColorNode,
   compileShader,
   ComposeNode,
   Factory,
   float,
-  FresnelNode,
-  VertexPositionNode,
-  UVNode,
-  MultiplyNode,
   Parameter,
-  Program,
   ShaderMaterialMasterNode,
   TimeNode,
+  UVNode,
   vec2,
-  vec3,
-  SoftlightBlendNode
+  vec3
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
+import { useShader } from "./useShader"
 
 const WobbleNode = Factory(() => ({
   name: "Wobble",
@@ -74,39 +70,26 @@ const Squeezed = Factory(() => ({
   }
 }))
 
-function useShader() {
-  return useMemo(() => {
-    const time = TimeNode()
-
-    const fresnel = MultiplyNode({
-      a: ColorNode({ a: new Color("white") }),
-      b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
-    })
-
-    const root = ShaderMaterialMasterNode({
-      position: AddNode({
-        a: Squeezed({ position: VertexPositionNode(), time }),
-        b: WobbleAnimation({ frequency: 0.2, amplitude: 3.5, time })
-      }),
-
-      color: SoftlightBlendNode({
-        a: ColorNode({ a: new Color("#c42") }),
-        b: fresnel
-      })
-    })
-
-    return compileShader(root)
-  }, [])
-}
-
 export default function Playground() {
-  const [shaderProps, update] = useShader()
+  const shaderProps = useShader(() => {
+    const colorA = ColorNode({ a: new Color("#f00") })
+    const colorB = ColorNode({ a: new Color("#00f") })
+
+    const blend = BlendNode({
+      mode: "average",
+      a: colorA,
+      b: colorB,
+      opacity: 1
+    })
+
+    return ShaderMaterialMasterNode({
+      color: blend
+    })
+  })
   const material = useRef<ShaderMaterial>(null!)
 
   console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
-
-  useFrame((_, dt) => update(dt))
 
   return (
     <group position-y={15}>
