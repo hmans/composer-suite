@@ -364,17 +364,9 @@ export const compileShader = (root: IShaderNode) => {
 
       block(
         /* Build the inputs struct */
-        inputs.length > 0 && [
-          /* Struct */
-          statement(
-            "struct {",
-            inputs.map(([name, v]) =>
-              compileVariable({ ...v, name, value: undefined })
-            ),
-            "} inputs"
-          ),
+        node.inputs && [
+          struct("inputs", node.inputs),
 
-          /* Assignments */
           inputs.map(([name, v]) =>
             v.value !== undefined
               ? assignment(`inputs.${name}`, compileValue(v.value))
@@ -396,17 +388,9 @@ export const compileShader = (root: IShaderNode) => {
             ),
 
         /* Build the outputs struct */
-        outputs.length > 0 && [
-          /* Struct */
-          statement(
-            "struct {",
-            outputs.map(([name, v]) =>
-              compileVariable({ ...v, name, value: undefined })
-            ),
-            "} outputs"
-          ),
+        node.outputs && [
+          struct("outputs", node.outputs),
 
-          /* Assignments */
           outputs.map(([name, v]) =>
             v.value ? assignment(`outputs.${name}`, compileValue(v.value)) : ""
           )
@@ -554,6 +538,16 @@ const identifier = (...parts: Parts) =>
   compact(parts.flat())
     .join("_")
     .replace(/_{2,}/g, "_")
+
+const struct = (name: string, variables: Variables) =>
+  Object.keys(variables).length > 0
+    ? statement(
+        "struct {",
+        Object.entries(variables).map(([name, v]) => statement(v.type, name)),
+        "}",
+        name
+      )
+    : ""
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
