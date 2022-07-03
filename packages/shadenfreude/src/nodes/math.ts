@@ -115,7 +115,7 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 
 type BlendProps<T extends BlendableType> = {
   a?: Parameter<T>
-  b: Parameter<T>
+  b?: Parameter<T>
   opacity?: Parameter<"float">
   mode?: BlendMode
 }
@@ -136,7 +136,8 @@ export const BlendNode = <T extends BlendableType>({
   opacity = 1,
   mode = "normal"
 }: BlendProps<T>) => {
-  const type = getValueType(b)
+  const type = (a && getValueType(a)) || (b && getValueType(b))
+  if (!type) throw new Error("waaah")
 
   const functions: { [M in BlendMode]?: string } = {
     softlight: uniqueGlobalIdentifier()
