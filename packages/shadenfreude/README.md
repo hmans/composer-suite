@@ -162,6 +162,10 @@ const root = ShaderMaterialMasterNode({
 
 ## Available Nodes
 
+### Values
+
+TODO
+
 ### Math
 
 #### Operators
@@ -209,6 +213,22 @@ const root = ShaderMaterialMasterNode({
     - `a` (float): Input value
   - Outputs:
     - `value` (float): Sine value of the input
+
+### Geometry
+
+TODO
+
+### Inputs
+
+TODO
+
+### Masters
+
+TODO
+
+### Stacks
+
+TODO
 
 ## Creating Custom Nodes
 
