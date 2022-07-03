@@ -1,7 +1,11 @@
+import { Vector3, Vector4 } from "three"
 import {
+  assignment,
+  Chunk,
   Factory,
   float,
   getValueType,
+  lines,
   Parameter,
   Program,
   ShaderNode,
@@ -109,44 +113,98 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   })
 }
 
-export const SoftlightBlendNode = Factory(() => {
-  const blendSoftlight = uniqueGlobalIdentifier("blend_softlight")
+type BlendProps<T extends BlendableType> = {
+  type?: T
+  a?: Parameter<T>
+  b?: Parameter<T>
+  opacity?: Parameter<"float">
+  mode?: BlendMode
+}
 
-  const program: Program = {
-    header: `
-      float ${blendSoftlight}(const in float x, const in float y)
-      {
-        return (y < 0.5) ?
-          (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
-          (sqrt(x) * (2.0 * y - 1.0) + 2.0 * x * (1.0 - y));
-      }
-    `,
+type BlendableType = "float" | "vec3" | "vec4"
 
-    body: `
-      vec3 z = vec3(
-        ${blendSoftlight}(inputs.a.r, inputs.b.r),
-        ${blendSoftlight}(inputs.a.g, inputs.b.g),
-        ${blendSoftlight}(inputs.a.b, inputs.b.b)
-      );
+type BlendMode = "add" | "average" | "multiply" | "normal" | "softlight"
 
-      outputs.value = mix(inputs.a, z, inputs.opacity);
-    `
+type BlendFunctions = {
+  [M in BlendMode]?: {
+    [T in BlendableType]?: string
+  }
+}
+
+export const BlendNode = <T extends BlendableType>({
+  type,
+  a,
+  b,
+  opacity = 1,
+  mode = "normal"
+}: BlendProps<T>) => {
+  const t = type || (a && getValueType(a)) || (b && getValueType(b))
+  if (!t) throw new Error("At least a or b must be provided on instantiation")
+
+  const functions: { [M in BlendMode]?: string } = {
+    softlight: uniqueGlobalIdentifier()
   }
 
-  return {
-    name: "Softlight Blend",
+  const headerChunks: { [M in BlendMode]?: Chunk } = {
+    softlight: [
+      `
+      float ${functions.softlight}(float base, float blend) {
+        return (blend < 0.5)
+          ?  2.0 * base * blend  +  base * base * (1.0 - 2.0 * blend)
+          :  sqrt(base) * (2.0 * blend - 1.0)  +  2.0 * base * (1.0 - blend);
+      }
+
+      vec3 ${functions.softlight}(vec3 base, vec3 blend) {
+        return vec3(
+          ${functions.softlight}(base.r, blend.r),
+          ${functions.softlight}(base.g, blend.g),
+          ${functions.softlight}(base.b,blend.b)
+        );
+      }
+      `
+    ]
+  }
+
+  const blendFunctionDefaults: { [M in BlendMode]: Chunk } = {
+    add: "min(inputs.a + inputs.b, 1.0)",
+    average: "(inputs.a + inputs.b) / 2.0",
+    multiply: "min(inputs.a * inputs.b, 1.0)",
+    normal: "inputs.b",
+    softlight: `${functions.softlight}(inputs.a, inputs.b)`
+  }
+
+  const blendFunctionOverrides: BlendFunctions = {}
+
+  /* Header */
+  const header = lines(headerChunks[mode])
+
+  /* Body */
+  const body = lines(
+    /* Run the blend function */
+    `${t} blended = ${blendFunctionOverrides[mode]?.[t] ||
+      blendFunctionDefaults[mode]};`,
+
+    /* Apply the opacity */
+    `outputs.value = mix(inputs.a, blended, inputs.opacity);`,
+
+    /* If we're dealing with vec4, set the original alpha value */
+    t === "vec4" && `outputs.value.a = inputs.a.a;`
+  )
+
+  return ShaderNode({
+    name: "Blend",
     inputs: {
-      a: vec3(),
-      b: vec3(),
-      opacity: float(1)
+      a: variable(t, a),
+      b: variable(t, b),
+      opacity: float(opacity)
     },
     outputs: {
-      value: vec3()
+      value: variable(t)
     },
-    vertex: program,
-    fragment: program
-  }
-})
+    vertex: { header, body },
+    fragment: { header, body }
+  })
+}
 
 export const FresnelNode = Factory(() => ({
   name: "Fresnel",
