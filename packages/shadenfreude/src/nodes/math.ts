@@ -1,8 +1,10 @@
 import { Vector3, Vector4 } from "three"
 import {
+  assignment,
   Factory,
   float,
   getValueType,
+  lines,
   Parameter,
   Program,
   ShaderNode,
@@ -128,6 +130,13 @@ type BlendFunctions = {
   }
 }
 
+const blendFunctionDefaults: { [M in BlendMode]: string } = {
+  add: "min(inputs.a + inputs.b, 1.0)",
+  multiply: "min(inputs.a * inputs.b, 1.0)"
+}
+
+const blendFunctionOverrides: BlendFunctions = {}
+
 export const BlendNode = <T extends BlendableType>({
   type,
   a,
@@ -135,23 +144,17 @@ export const BlendNode = <T extends BlendableType>({
   opacity = 1,
   mode = "add"
 }: BlendProps<T>) => {
-  const defaults: { [M in BlendMode]: string } = {
-    add: "min(inputs.a + inputs.b, 1.0)",
-    multiply: "min(inputs.a * inputs.b, 1.0)"
-  }
-
-  const overrides: BlendFunctions = {}
-
-  const body = [
+  const body = lines(
     /* Run the blend function */
-    `${type} blended = ${overrides[mode]?.[type] || defaults[mode]};`,
+    `${type} blended = ${blendFunctionOverrides[mode]?.[type] ||
+      blendFunctionDefaults[mode]};`,
 
     /* Apply the opacity */
     `outputs.value = mix(inputs.a, blended, inputs.opacity);`,
 
     /* If we're dealing with vec4, set the original alpha value */
     type === "vec4" && `outputs.value.a = inputs.a.a;`
-  ]
+  )
 
   return ShaderNode({
     name: "Blend",
