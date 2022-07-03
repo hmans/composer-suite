@@ -1,5 +1,5 @@
 import { Vector3 } from "three"
-import { AddNode, FloatNode, TimeNode } from "../src"
+import { FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
