@@ -164,7 +164,14 @@ const root = ShaderMaterialMasterNode({
 
 ### Values
 
-TODO
+- **BooleanNode**
+- **FlaotNode**
+- **Vector2Node**
+- **Vector3Node**
+- **Vector4Node**
+- **ColorNode**
+- **Matrix3Node**
+- **Matrix4Node**
 
 ### Math
 
@@ -214,21 +221,37 @@ TODO
   - Outputs:
     - `value` (float): Sine value of the input
 
+#### Others
+
+- **FresnelNode**
+- **BlendNode**
+
 ### Geometry
 
-TODO
+- **VertexPositionNode**
+- **VertexNormalNode**
+- **UVNode**
 
 ### Inputs
 
-TODO
+- **TimeNode**
+  - Provides the number of seconds that have passed since the material was created.
+- **UniformNode**
+  - Provides read access to a uniform. You are responsible for registering the uniform with the material, and updating it.
+  - Options:
+    - `name`: name of the uniform
+    - `type`: type of the uniform
+- **ViewDirectionNode**
+  - Returns the current view dirction vector.
 
 ### Masters
 
-TODO
+- **ShaderMaterialMasterNode**
+- **CustomShaderMaterialMasterNode**
 
 ### Stacks
 
-TODO
+- **StackNode**
 
 ## Creating Custom Nodes
 
