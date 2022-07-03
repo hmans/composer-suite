@@ -195,7 +195,7 @@ const root = ShaderMaterialMasterNode({
   - Outputs:
     - `value`: a - b
 
-#### Math Functions
+#### Trigonometric Functions
 
 - **CosNode**
   - Calculates a Cosine value.
