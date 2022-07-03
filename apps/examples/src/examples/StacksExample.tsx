@@ -1,16 +1,16 @@
-import { useFrame } from "@react-three/fiber"
+import { useControls } from "leva"
 import { useRef } from "react"
 import {
   BlendNode,
-  compileShader,
+  ColorNode,
   CustomShaderMaterialMasterNode,
   Factory,
   float,
   FresnelNode,
   MultiplyNode,
-  Parameter,
   ShaderNode,
   TimeNode,
+  UniformNode,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -26,6 +26,7 @@ const ScaleWithTime = (axis = "xyz") =>
     inputs: {
       a: vec3(),
       frequency: float(1),
+      amplitude: float(0.5),
       time: float(TimeNode())
     },
 
@@ -34,7 +35,7 @@ const ScaleWithTime = (axis = "xyz") =>
     },
 
     vertex: {
-      body: `outputs.value.${axis} *= (1.0 + sin(inputs.time * inputs.frequency) * 0.5);`
+      body: `outputs.value.${axis} *= (1.0 + sin(inputs.time * inputs.frequency) * inputs.amplitude);`
     }
   }))
 
@@ -44,13 +45,17 @@ const SqueezeWithTime = Factory(() => ({
     a: vec3(),
 
     frequency: float(1),
+    amplitude: float(0.3),
     time: float(TimeNode())
   },
   outputs: {
     value: vec3("inputs.a")
   },
   vertex: {
-    body: `outputs.value.x *= (1.0 + sin(inputs.time * inputs.frequency + position.y * 0.3 + position.x * 0.3) * 0.2);`
+    body: `outputs.value.x *= (
+      1.0 + sin(inputs.time * inputs.frequency
+        + position.y * 0.3 * inputs.frequency
+        + position.x * 0.3 * inputs.frequency) * inputs.amplitude);`
   }
 }))
 
@@ -72,45 +77,96 @@ const MoveWithTime = (axis = "xyz") =>
   }))
 
 export default function StacksExample() {
-  const shader = useShader(
-    () =>
-      CustomShaderMaterialMasterNode({
-        position: ShaderNode({
-          name: "Animation Stack",
-          outputs: { value: vec3(VertexPositionNode()) },
-          filters: [
-            SqueezeWithTime({ frequency: 0.1 }),
-            ScaleWithTime("x")({ frequency: 0.2 }),
-            ScaleWithTime("y")({ frequency: 0.1 }),
-            ScaleWithTime("z")({ frequency: 0.3 }),
-            MoveWithTime("x")({ frequency: 0.8, amplitude: 2 }),
-            MoveWithTime("y")({ frequency: 0.6, amplitude: 1 }),
-            MoveWithTime("z")({ frequency: 0.3, amplitude: 2 })
-          ]
-        }),
-
-        diffuseColor: ShaderNode({
-          name: "Color Stack",
-          outputs: { value: vec3(new Color("#3dd")) },
-          filters: [
-            BlendNode({
-              mode: "softlight",
-              opacity: 0.8,
-              b: MultiplyNode({
-                a: new Color(2, 2, 2) as Parameter<"vec3">,
-                b: FresnelNode()
-              })
-            })
-          ]
-        })
-      }),
-    []
+  const { speed, intensity, color, fresnelIntensity } = useControls(
+    "Uniforms",
+    {
+      speed: { value: 1, min: 0, max: 2 },
+      intensity: { value: 1, min: 0, max: 2 },
+      color: "#3dd",
+      fresnelIntensity: { value: 2, min: 0, max: 5 }
+    }
   )
+
+  const shader = useShader(() => {
+    const speedUniform = UniformNode({ type: "float", name: "u_speed" })
+    const intensityUniform = UniformNode({ type: "float", name: "u_intensity" })
+    const colorUniform = UniformNode({ type: "vec3", name: "u_color" })
+    const fresnelIntensityUniform = UniformNode({
+      type: "float",
+      name: "u_fresnelIntensity"
+    })
+
+    const root = CustomShaderMaterialMasterNode({
+      position: ShaderNode({
+        name: "Animation Stack",
+
+        outputs: {
+          value: vec3(VertexPositionNode())
+        },
+
+        filters: [
+          SqueezeWithTime({
+            frequency: MultiplyNode({ a: speedUniform, b: 0.3 }),
+            amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
+          }),
+          ScaleWithTime("x")({
+            frequency: MultiplyNode({ a: speedUniform, b: 0.3 }),
+            amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
+          }),
+          ScaleWithTime("y")({
+            frequency: MultiplyNode({ a: speedUniform, b: 0.2 }),
+            amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
+          }),
+          ScaleWithTime("z")({
+            frequency: MultiplyNode({ a: speedUniform, b: 0.1 }),
+            amplitude: MultiplyNode({ a: intensityUniform, b: 0.5 })
+          }),
+          MoveWithTime("x")({
+            frequency: speedUniform,
+            amplitude: MultiplyNode({ a: intensityUniform, b: 2 })
+          }),
+          MoveWithTime("y")({
+            frequency: speedUniform,
+            amplitude: MultiplyNode({ a: intensityUniform, b: 1 })
+          }),
+          MoveWithTime("z")({
+            frequency: speedUniform,
+            amplitude: MultiplyNode({ a: intensityUniform, b: 2 })
+          })
+        ]
+      }),
+
+      diffuseColor: ShaderNode({
+        name: "Color Stack",
+        outputs: {
+          value: vec3(colorUniform)
+        },
+        filters: [
+          BlendNode({
+            mode: "softlight",
+            opacity: 1,
+            a: vec3(),
+            b: MultiplyNode({
+              a: MultiplyNode({
+                a: ColorNode({ a: new Color(2, 2, 2) }),
+                b: fresnelIntensityUniform
+              }),
+              b: FresnelNode()
+            })
+          })
+        ]
+      })
+    })
+
+    return root
+  }, [])
 
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  console.log(shader.vertexShader)
-  console.log(shader.fragmentShader)
+  const { uniforms, ...restShader } = shader
+
+  // console.log(shader.vertexShader)
+  // console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
@@ -119,7 +175,14 @@ export default function StacksExample() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          {...shader}
+          uniforms={{
+            ...uniforms,
+            u_speed: { value: speed },
+            u_intensity: { value: intensity },
+            u_color: { value: new Color(color) },
+            u_fresnelIntensity: { value: fresnelIntensity }
+          }}
+          {...restShader}
           ref={material}
         />
       </mesh>
