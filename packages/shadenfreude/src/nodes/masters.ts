@@ -6,7 +6,7 @@ export const ShaderMaterialMasterNode = Factory(() => ({
   name: "ShaderMaterial Master",
 
   inputs: {
-    position: vec3("position"),
+    position: vec3(VertexPositionNode()),
     color: vec3(new Color(1, 1, 1)),
     opacity: float(1)
   },
