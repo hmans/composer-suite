@@ -88,7 +88,7 @@ export default function StacksExample() {
   const { speed, intensity, color, fresnelIntensity } = useControls(
     "Uniforms",
     {
-      speed: { value: 1, min: 0, max: 10 },
+      speed: { value: 1, min: 0, max: 2 },
       intensity: { value: 1, min: 0, max: 2 },
       color: "#3dd",
       fresnelIntensity: { value: 2, min: 0, max: 5 }
@@ -148,6 +148,8 @@ export default function StacksExample() {
 
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
+  const { uniforms, ...restShader } = shader
+
   // console.log(shader.vertexShader)
   // console.log(shader.fragmentShader)
 
@@ -158,7 +160,8 @@ export default function StacksExample() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          {...shader}
+          uniforms={{ ...uniforms, u_speed: { value: speed } }}
+          {...restShader}
           ref={material}
         />
       </mesh>
