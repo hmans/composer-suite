@@ -164,6 +164,8 @@ const root = ShaderMaterialMasterNode({
 
 ### Math
 
+#### Basic Math
+
 - **AddNode**
   - Performs addition.
   - Inputs:
@@ -171,20 +173,6 @@ const root = ShaderMaterialMasterNode({
     - `b`: RHS operand
   - Outputs:
     - `value`: a + b
-- **SubtractNode**
-  - Performs subtraction.
-  - Inputs:
-    - `a`: LHS operand
-    - `b`: RHS operand
-  - Outputs:
-    - `value`: a - b
-- **MultiplyNode**
-  - Performs multiplication.
-  - Inputs:
-    - `a`: LHS operand
-    - `b`: RHS operand
-  - Outputs:
-    - `value`: a \* b
 - **DivideNode**
   - Performs division.
   - Inputs:
@@ -192,6 +180,35 @@ const root = ShaderMaterialMasterNode({
     - `b`: RHS operand
   - Outputs:
     - `value`: a / b
+- **MultiplyNode**
+  - Performs multiplication.
+  - Inputs:
+    - `a`: LHS operand
+    - `b`: RHS operand
+  - Outputs:
+    - `value`: a \* b
+- **SubtractNode**
+  - Performs subtraction.
+  - Inputs:
+    - `a`: LHS operand
+    - `b`: RHS operand
+  - Outputs:
+    - `value`: a - b
+
+#### Math Functions
+
+- **CosNode**
+  - Calculates a Cosine value.
+  - Inputs:
+    - `a`: Input value
+  - Outputs:
+    - `value`: Cosine value of the input
+- **SinNode**
+  - Calculates a Sine value.
+  - Inputs:
+    - `a`: Input value
+  - Outputs:
+    - `value`: Sine value of the input
 
 ## Creating Custom Nodes
 
