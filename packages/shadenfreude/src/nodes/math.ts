@@ -123,7 +123,7 @@ type BlendProps<T extends BlendableType> = {
 
 type BlendableType = "float" | "vec3" | "vec4"
 
-type BlendMode = "add" | "average" | "multiply" | "softlight"
+type BlendMode = "add" | "average" | "multiply" | "normal" | "softlight"
 
 type BlendFunctions = {
   [M in BlendMode]?: {
@@ -136,7 +136,7 @@ export const BlendNode = <T extends BlendableType>({
   a,
   b,
   opacity = 1,
-  mode = "add"
+  mode = "normal"
 }: BlendProps<T>) => {
   const functions: { [M in BlendMode]?: string } = {
     softlight: uniqueGlobalIdentifier()
@@ -166,6 +166,7 @@ export const BlendNode = <T extends BlendableType>({
     add: "min(inputs.a + inputs.b, 1.0)",
     average: "(inputs.a + inputs.b) / 2.0",
     multiply: "min(inputs.a * inputs.b, 1.0)",
+    normal: "inputs.b",
     softlight: `${functions.softlight}(inputs.a, inputs.b)`
   }
 
