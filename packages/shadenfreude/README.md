@@ -173,9 +173,9 @@ const root = ShaderMaterialMasterNode({
   - Outputs:
     - `value`: a + b
 
-| Name    | Inputs |
-| ------- | ------ |
-| AddNode | a, b   |
+| Name    | Inputs    |
+| ------- | --------- |
+| AddNode | a <br/> b |
 
 ## Creating Custom Nodes
 
