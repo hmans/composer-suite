@@ -363,22 +363,15 @@ export const compileShader = (root: IShaderNode) => {
       ),
 
       block(
-        /* Input Variables */
-        ins.map(([localName, variable]) =>
-          compileVariable({ ...variable, name: "in_" + localName })
-        ),
-
         /* Build the inputs struct */
         ins.length > 0 && [
           /* Struct */
           statement(
-            "struct",
-            block(
-              ins.map(([name, v]) =>
-                compileVariable({ ...v, name, value: undefined })
-              )
+            "struct {",
+            ins.map(([name, v]) =>
+              compileVariable({ ...v, name, value: undefined })
             ),
-            "inputs"
+            "} inputs"
           ),
 
           /* Assignments */
@@ -400,22 +393,15 @@ export const compileShader = (root: IShaderNode) => {
               })
             ),
 
-        /* Output Variables */
-        outs.map(([localName, variable]) =>
-          compileVariable({ ...variable, name: "out_" + localName })
-        ),
-
         /* Build the outputs struct */
         outs.length > 0 && [
           /* Struct */
           statement(
-            "struct",
-            block(
-              outs.map(([name, v]) =>
-                compileVariable({ ...v, name, value: undefined })
-              )
+            "struct {",
+            outs.map(([name, v]) =>
+              compileVariable({ ...v, name, value: undefined })
             ),
-            "outputs"
+            "} outputs"
           ),
 
           /* Assignments */
@@ -429,7 +415,7 @@ export const compileShader = (root: IShaderNode) => {
 
         /* Assign local output variables back to global variables */
         outs.map(([localName, variable]) =>
-          assignment(variable.name, "out_" + localName)
+          assignment(variable.name, "outputs." + localName)
         ),
 
         /* Filters */
