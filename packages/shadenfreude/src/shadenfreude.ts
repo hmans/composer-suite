@@ -596,3 +596,6 @@ const compact = (array: any[]) =>
 
 const sluggify = (str: string) =>
   str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
+
+export const uniqueGlobalIdentifier = (name = "global") =>
+  `${name}_${Math.floor(Math.random() * 10000000)}`
