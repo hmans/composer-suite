@@ -368,6 +368,25 @@ export const compileShader = (root: IShaderNode) => {
           compileVariable({ ...variable, name: "in_" + localName })
         ),
 
+        /* Build the inputs struct */
+        ins.length > 0 && [
+          /* Struct */
+          statement(
+            "struct",
+            block(
+              ins.map(([name, v]) =>
+                compileVariable({ ...v, name, value: undefined })
+              )
+            ),
+            "inputs"
+          ),
+
+          /* Assignments */
+          ins.map(([name, v]) =>
+            assignment(`inputs.${name}`, compileValue(v.value))
+          )
+        ],
+
         /* Local Varyings */
         programType === "vertex"
           ? getVariables(node.varyings).map(([localName, variable]) =>
