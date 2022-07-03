@@ -109,9 +109,11 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 }
 
 export const SoftlightBlendNode = Factory(() => {
+  const functionName = `blend_softlight_${Math.floor(Math.random() * 10000000)}`
+
   const program: Program = {
     header: `
-      float blend_softlight(const in float x, const in float y)
+      float ${functionName}(const in float x, const in float y)
       {
         return (y < 0.5) ?
           (2.0 * x * y + x * x * (1.0 - 2.0 * y)) :
@@ -121,13 +123,12 @@ export const SoftlightBlendNode = Factory(() => {
 
     body: `
       vec3 z = vec3(
-        blend_softlight(inputs.a.r, inputs.b.r),
-        blend_softlight(inputs.a.g, inputs.b.g),
-        blend_softlight(inputs.a.b, inputs.b.b)
+        ${functionName}(inputs.a.r, inputs.b.r),
+        ${functionName}(inputs.a.g, inputs.b.g),
+        ${functionName}(inputs.a.b, inputs.b.b)
       );
 
       outputs.value = mix(inputs.a, z, inputs.opacity);
-      // outputs.value = z.xyz * inputs.opacity;
     `
   }
 
