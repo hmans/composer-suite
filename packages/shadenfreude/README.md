@@ -160,6 +160,23 @@ const root = ShaderMaterialMasterNode({
 })
 ```
 
+## Available Nodes
+
+### Math
+
+- **AddNode**
+  - Description:
+    - Performs addition.
+  - Inputs:
+    - `a`: LHS operand
+    - `b`: RHS operand
+  - Outputs:
+    - `value`: a + b
+
+| Name    | Inputs |
+| ------- | ------ |
+| AddNode | a, b   |
+
 ## Creating Custom Nodes
 
 ### The `ShaderNode` factory
