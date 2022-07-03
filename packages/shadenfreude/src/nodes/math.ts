@@ -110,49 +110,51 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   })
 }
 
-type BlendProps<T extends ValueType> = {
+type BlendProps<T extends BlendableType> = {
   type: T
   a?: Parameter<T>
   b?: Parameter<T>
   opacity?: Parameter<"float">
-  mode?: string
+  mode?: BlendMode
 }
 
-export const BlendNode = <T extends ValueType>({
+type BlendableType = "float" | "vec3"
+
+type BlendMode = "add" | "multiply"
+
+type BlendFunctions = {
+  [M in BlendMode]: {
+    [T in BlendableType]: string
+  }
+}
+
+export const BlendNode = <T extends BlendableType>({
   type,
   a,
   b,
   opacity = 1,
   mode = "add"
 }: BlendProps<T>) => {
-  const functions = {
-    add: uniqueGlobalIdentifier()
+  const defaults: { [M in BlendMode]: string } = {
+    add: "min(inputs.a + inputs.b, 1.0)",
+    multiply: "min(inputs.a * inputs.b, 1.0)"
   }
 
-  const header = `
-
-    float ${functions.add}(const in float x, const in float y, const in float opacity) {
-      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
+  const bagOfChunks: BlendFunctions = {
+    add: {
+      float: defaults.add,
+      vec3: defaults.add
+    },
+    multiply: {
+      float: defaults.multiply,
+      vec3: defaults.multiply
     }
+  }
 
-    vec2 ${functions.add}(const in vec2 x, const in vec2 y, const in float opacity) {
-      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
-    }
-
-    vec3 ${functions.add}(const in vec3 x, const in vec3 y, const in float opacity) {
-      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
-    }
-
-    vec4 ${functions.add}(const in vec4 x, const in vec4 y, const in float opacity) {
-      vec4 result = min(x + y, 1.0) * opacity + x * (1.0 - opacity);
-      result.a = x.a;
-      return result;
-    }
+  const body = `
+    ${type} blended = ${bagOfChunks[mode][type]};
+    outputs.value = mix(inputs.a, blended, inputs.opacity);
   `
-
-  const body = `outputs.value = ${functions.add}(inputs.a, inputs.b, inputs.opacity);`
-
-  const program = { header, body }
 
   return ShaderNode({
     name: "Blend",
@@ -164,8 +166,8 @@ export const BlendNode = <T extends ValueType>({
     outputs: {
       value: variable(type)
     },
-    vertex: program,
-    fragment: program
+    vertex: { body },
+    fragment: { body }
   })
 }
 
