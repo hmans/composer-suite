@@ -72,8 +72,7 @@ describe("compileShader", () => {
     const [c] = compileShader(n)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
-      "
-      /*** BEGIN: Test Node ***/
+      "/*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
       void main()
@@ -93,8 +92,7 @@ describe("compileShader", () => {
     `)
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
-      "
-      /*** BEGIN: Test Node ***/
+      "/*** BEGIN: Test Node ***/
       /*** END: Test Node ***/
 
       void main()
@@ -341,8 +339,7 @@ describe("compileShader", () => {
     const [c] = compileShader(n)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
-      "
-      /*** BEGIN: Value (float) ***/
+      "/*** BEGIN: Value (float) ***/
       /*** END: Value (float) ***/
 
       /*** BEGIN: Unnamed Node ***/
@@ -373,8 +370,7 @@ describe("compileShader", () => {
     `)
 
     expect(c.fragmentShader).toMatchInlineSnapshot(`
-      "
-      /*** BEGIN: Value (float) ***/
+      "/*** BEGIN: Value (float) ***/
       /*** END: Value (float) ***/
 
       /*** BEGIN: Unnamed Node ***/
@@ -431,13 +427,11 @@ describe("compileShader", () => {
     const [c] = compileShader(nodeWithfilters)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
-      "
+      "/*** BEGIN: Addition ***/
+      /*** END: Addition ***/
+
       /*** BEGIN: Node with filters ***/
       /*** END: Node with filters ***/
-
-
-      /*** BEGIN: Addition ***/
-      /*** END: Addition ***/
 
       void main()
       {
@@ -485,8 +479,7 @@ describe("compileShader", () => {
     const [c] = compileShader(nodeWithNoFilters)
 
     expect(c.vertexShader).toMatchInlineSnapshot(`
-      "
-      /*** BEGIN: Unnamed Node ***/
+      "/*** BEGIN: Unnamed Node ***/
       /*** END: Unnamed Node ***/
 
       void main()

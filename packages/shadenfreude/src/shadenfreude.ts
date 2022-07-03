@@ -287,6 +287,20 @@ export const compileShader = (root: IShaderNode) => {
         .map(([_, variable]) => variable.value.node)
     )
 
+  const getOutputDependencies = (node: IShaderNode) =>
+    unique(
+      getVariables(node.outputs)
+        .filter(([_, variable]) => isVariable(variable.value))
+        .map(([_, variable]) => variable.value.node)
+    )
+
+  const getDependencies = (node: IShaderNode) =>
+    unique([
+      ...getInputDependencies(node),
+      ...getOutputDependencies(node),
+      ...(node.filters || [])
+    ])
+
   const nodeBegin = (node: IShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: IShaderNode) => `/*** END: ${node.name} ***/\n`
 
@@ -301,10 +315,12 @@ export const compileShader = (root: IShaderNode) => {
     if (state.seenNodes.has(node)) return []
     state.seenNodes.add(node)
 
+    const dependencies = getDependencies(node)
+
     const header = [
       /* Dependencies */
-      getVariables(node.inputs).map(([_, { value }]) =>
-        isVariable(value) ? compileHeader(value.node!, programType, state) : ""
+      dependencies.map((dependency) =>
+        compileHeader(dependency, programType, state)
       ),
 
       nodeBegin(node),
@@ -349,9 +365,14 @@ export const compileShader = (root: IShaderNode) => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
 
+    const dependenciesWithoutFilters = unique([
+      ...getInputDependencies(node),
+      ...getOutputDependencies(node)
+    ])
+
     return [
       /* Dependencies */
-      getInputDependencies(node).map((dep) =>
+      dependenciesWithoutFilters.map((dep) =>
         compileBody(dep, programType, seen)
       ),
 
@@ -491,8 +512,7 @@ export const compileShader = (root: IShaderNode) => {
     }
 
     /* Do the same for all filters and dependencies */
-    const deps = [...getInputDependencies(node), ...(node.filters || [])]
-    deps.forEach((unit) => prepareNode(unit, state))
+    getDependencies(node).forEach((unit) => prepareNode(unit, state))
   }
 
   prepareNode(root)
