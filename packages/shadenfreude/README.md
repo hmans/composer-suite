@@ -35,7 +35,7 @@ const root = ShaderMaterialMasterNode({
 })
 
 /* Compile the shader */
-const [_, shader] = compileShader(root)
+const [shader] = compileShader(root)
 
 /* Create a material and assign the compiled shader */
 const material = new THREE.ShaderMaterial(shader)
@@ -103,7 +103,7 @@ However, we're going to have to do one more thing to make it work. If you're fam
 
 ```jsx
 /* Compile the shader, but this time grab the update callback */
-const [update, shader] = compileShader(root)
+const [shader, update] = compileShader(root)
 
 /* Create a material and assign the compiled shader, like before */
 const material = new THREE.ShaderMaterial(shader)
