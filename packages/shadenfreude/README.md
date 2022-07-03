@@ -2,21 +2,24 @@
 
 ## Introduction
 
-Shadenfreude is a library for programmatically creating [Three.js] shaders assembled from a graph of nodes, each implementing a small unit of functionality. You've probably seen graphical node shader editors -- it's just like those, but in code!
+Creating shaders from node graphs is fun -- users of engines like Unity or Unreal Engine do it all the time! Shadenfreude aims at providing a node-based shader composition experience from a code-first perspective, designed for use with [Three.js].
+
+Instead of clicking your way through an editor, saving the generated shader, and hoping it will load correctly into your application, with Shadenfreude, _you just write code_; Shadenfreude makes this as pleasant an experience as possible.
 
 > **EARLY DAYS WARNING! ⚠️**
 > This library is very extremely new. I'd love for you to give it a go and maybe provide some feedback, but I would currently recommend **strongly** against using it in any sort of production project, unless you're ready and willing to keep up with the changes every release. **Use at your own risk.**
 
 ## Features
 
-- Rapidly create complex Three.js shaders using a library of ready-to-use nodes, or add your own!
-- Use it with plain [Three.js] or any framework or library that uses it, including [react-three-fiber]!
-- Developed in Typescript, with fantastic type support!
+- Rapidly create complex [Three.js] shaders using a library of ready-to-use nodes, or add your own!
+- Nodes are just plain JavaScript objects, and they can implement anything from tiny pieces of processing, up to big monolithic behemoths of shader code!
+- Use all the language tools you already know to wrap individual branches into reusable, distributable components!
+- Developed in Typescript, with fantastic type support out of the box!
 
 Shadenfreude also has a couple of non-features:
 
 - It does not provide a full node-based reimplementation of Three.js' built-in materials.
-- It does not provide a graphical shader node editing environment, and instead aims for a pure, joyful code-first experience.
+- It does not provide a graphical shader node editing environment, and does not aim to do this in the future, even though such a tool could probably be built on top of it. Shadenfreude's main focus is on providing a great, joyful code-first experience.
 
 ## Examples & Sandboxes
 
@@ -26,7 +29,7 @@ Shadenfreude also has a couple of non-features:
 
 ### Hello World
 
-Shadenfreude compiles a working GLSL shader from a tree of JavaScript objects, each implementing a small piece of functionality. Compilation always starts with a single root node, also called a "master node"; this library provides a couple of these master nodes for different usage scenarios. Let's start with creating a Three.js [ShaderMaterial] and assigning a simple shader to it:
+Shadenfreude compiles a working GLSL shader from a tree of JavaScript objects, each implementing a small (or sometimes large) piece of functionality. Compilation always starts with a single root node, also called a "master node"; this library provides a couple of these master nodes for different usage scenarios. Let's start with creating a Three.js [ShaderMaterial] and assigning a simple shader to it:
 
 ```jsx
 /* Create a shader node */
@@ -43,7 +46,9 @@ const material = new THREE.ShaderMaterial(shader)
 
 ### Variables
 
-Most of the time, nodes have input and output variables that can be wired up to let one node's output value flow into another node's input. Building on the previous example, let's use a `MixNode` to mix together two colors:
+Most of the time, nodes have **input and output variables**. You can directly assign JS values to input variables, but you can also connect an output variable to an input of another node.
+
+Building on the previous example, let's use a `MixNode` to mix together two colors:
 
 ```jsx
 const root = ShaderMaterialMasterNode({
@@ -54,6 +59,11 @@ const root = ShaderMaterialMasterNode({
   })
 })
 ```
+
+What's going on here?
+
+- We're directly assigning JS values (in this case, two `Color` instances) to the `a` and `b` inputs of `MixNode`. This will result in these values to be compiled into the final shader as constant values.
+- We're connection `MixNode` to `ShaderMaterialMasterNode`'s `color` input.
 
 Okay, ignoring the fact that the resulting color is going to look unfathomably terrible, something very important is going to happen here: the colors will not be mixed on the CPU, but _within the compiled shader_.
 
@@ -193,11 +203,11 @@ This is all a bit verbose, so let's make it a bit leaner:
 
 ```js
 const node = ShaderNode({
-  in: {
+  inputs: {
     a: float(0),
     b: float(0)
   },
-  out: {
+  outputs: {
     value: float("inputs.a + inputs.b")
   }
 })
@@ -215,7 +225,7 @@ We've been creating standalone shader nodes so far, but what if we want to be ab
 ```js
 const AddFloatsNode = ({ a = 0, b = 0 } = {}) =>
   ShaderNode({
-    in: {
+    inputs: {
       a: float(a),
       b: float(b)
     },
