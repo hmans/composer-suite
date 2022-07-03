@@ -1,6 +1,7 @@
 import { Vector3, Vector4 } from "three"
 import {
   assignment,
+  Chunk,
   Factory,
   float,
   getValueType,
@@ -122,20 +123,13 @@ type BlendProps<T extends BlendableType> = {
 
 type BlendableType = "float" | "vec3" | "vec4"
 
-type BlendMode = "add" | "multiply"
+type BlendMode = "add" | "multiply" | "softlight"
 
 type BlendFunctions = {
   [M in BlendMode]?: {
     [T in BlendableType]?: string
   }
 }
-
-const blendFunctionDefaults: { [M in BlendMode]: string } = {
-  add: "min(inputs.a + inputs.b, 1.0)",
-  multiply: "min(inputs.a * inputs.b, 1.0)"
-}
-
-const blendFunctionOverrides: BlendFunctions = {}
 
 export const BlendNode = <T extends BlendableType>({
   type,
@@ -144,6 +138,36 @@ export const BlendNode = <T extends BlendableType>({
   opacity = 1,
   mode = "add"
 }: BlendProps<T>) => {
+  const functions: { [M in BlendMode]?: string } = {
+    softlight: uniqueGlobalIdentifier()
+  }
+
+  const headerChunks: { [M in BlendMode]?: Chunk } = {
+    softlight: [
+      `
+      float ${functions.softlight}(float base, float blend) {
+        return (blend<0.5)?(2.0*base*blend+base*base*(1.0-2.0*blend)):(sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend));
+      }
+
+      vec3 ${functions.softlight}(vec3 base, vec3 blend) {
+        return vec3(${functions.softlight}(base.r,blend.r),${functions.softlight}(base.g,blend.g),${functions.softlight}(base.b,blend.b));
+      }
+      `
+    ]
+  }
+
+  const blendFunctionDefaults: { [M in BlendMode]: Chunk } = {
+    add: "min(inputs.a + inputs.b, 1.0)",
+    multiply: "min(inputs.a * inputs.b, 1.0)",
+    softlight: `${functions.softlight}(inputs.a, inputs.b)`
+  }
+
+  const blendFunctionOverrides: BlendFunctions = {}
+
+  /* Header */
+  const header = lines(headerChunks[mode])
+
+  /* Body */
   const body = lines(
     /* Run the blend function */
     `${type} blended = ${blendFunctionOverrides[mode]?.[type] ||
@@ -166,8 +190,8 @@ export const BlendNode = <T extends BlendableType>({
     outputs: {
       value: variable(type)
     },
-    vertex: { body },
-    fragment: { body }
+    vertex: { header, body },
+    fragment: { header, body }
   })
 }
 

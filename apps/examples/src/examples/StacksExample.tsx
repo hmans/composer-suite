@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import {
+  BlendNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
@@ -90,7 +91,9 @@ function useShader() {
       name: "Color Stack",
       outputs: { value: vec3(new Color("#3dd")) },
       filters: [
-        SoftlightBlendNode({
+        BlendNode({
+          type: "vec3",
+          mode: "softlight",
           opacity: 0.8,
           b: MultiplyNode({
             a: new Color(2, 2, 2) as Parameter<"vec3">,

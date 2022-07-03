@@ -83,7 +83,7 @@ function useShader() {
 
     const blend = BlendNode({
       type: "vec3",
-      mode: "add",
+      mode: "softlight",
       a: colorA,
       b: colorB,
       opacity: 1
