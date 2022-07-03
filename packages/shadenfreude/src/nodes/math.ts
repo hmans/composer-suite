@@ -114,6 +114,7 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
 }
 
 type BlendProps<T extends BlendableType> = {
+  type?: T
   a?: Parameter<T>
   b?: Parameter<T>
   opacity?: Parameter<"float">
@@ -131,14 +132,14 @@ type BlendFunctions = {
 }
 
 export const BlendNode = <T extends BlendableType>({
+  type,
   a,
   b,
   opacity = 1,
   mode = "normal"
 }: BlendProps<T>) => {
-  const type = (a && getValueType(a)) || (b && getValueType(b))
-  if (!type)
-    throw new Error("At least a or b must be provided on instantiation")
+  const t = type || (a && getValueType(a)) || (b && getValueType(b))
+  if (!t) throw new Error("At least a or b must be provided on instantiation")
 
   const functions: { [M in BlendMode]?: string } = {
     softlight: uniqueGlobalIdentifier()
@@ -180,25 +181,25 @@ export const BlendNode = <T extends BlendableType>({
   /* Body */
   const body = lines(
     /* Run the blend function */
-    `${type} blended = ${blendFunctionOverrides[mode]?.[type] ||
+    `${t} blended = ${blendFunctionOverrides[mode]?.[t] ||
       blendFunctionDefaults[mode]};`,
 
     /* Apply the opacity */
     `outputs.value = mix(inputs.a, blended, inputs.opacity);`,
 
     /* If we're dealing with vec4, set the original alpha value */
-    type === "vec4" && `outputs.value.a = inputs.a.a;`
+    t === "vec4" && `outputs.value.a = inputs.a.a;`
   )
 
   return ShaderNode({
     name: "Blend",
     inputs: {
-      a: variable(type, a),
-      b: variable(type, b),
+      a: variable(t, a),
+      b: variable(t, b),
       opacity: float(opacity)
     },
     outputs: {
-      value: variable(type)
+      value: variable(t)
     },
     vertex: { header, body },
     fragment: { header, body }
