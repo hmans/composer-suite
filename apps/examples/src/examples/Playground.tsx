@@ -15,6 +15,7 @@ import {
   vec3
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
+import { useShader } from "./useShader"
 
 const WobbleNode = Factory(() => ({
   name: "Wobble",
@@ -69,8 +70,8 @@ const Squeezed = Factory(() => ({
   }
 }))
 
-function useShader() {
-  return useMemo(() => {
+export default function Playground() {
+  const shaderProps = useShader(() => {
     const colorA = ColorNode({ a: new Color("#f00") })
     const colorB = ColorNode({ a: new Color("#00f") })
 
@@ -81,22 +82,14 @@ function useShader() {
       opacity: 1
     })
 
-    const root = ShaderMaterialMasterNode({
+    return ShaderMaterialMasterNode({
       color: blend
     })
-
-    return compileShader(root)
-  }, [])
-}
-
-export default function Playground() {
-  const [shaderProps, update] = useShader()
+  })
   const material = useRef<ShaderMaterial>(null!)
 
   console.log(shaderProps.vertexShader)
   console.log(shaderProps.fragmentShader)
-
-  useFrame((_, dt) => update(dt))
 
   return (
     <group position-y={15}>
