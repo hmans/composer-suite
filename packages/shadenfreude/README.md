@@ -67,11 +67,11 @@ const colorB = new THREE.Color("green")
 
 const mixedColor = MixNode()
 plug(colorA).into(mixedColor) /* uses the "a" variable by default */
-plug(colorB).into(mixedColor.in.b)
-plug(0.5).into(mixedColor.in.amount)
+plug(colorB).into(mixedColor.inputs.b)
+plug(0.5).into(mixedColor.inputs.amount)
 
 const root = ShaderMaterialMasterNode()
-plug(mixedColor).into(root.in.color)
+plug(mixedColor).into(root.inputs.color)
 ```
 
 ### Animations
@@ -164,18 +164,18 @@ Let's create a node that adds two floats:
 
 ```js
 const node = ShaderNode({
-  in: {
+  inputs: {
     a: variable("float", 0),
     b: variable("float", 0)
   },
-  out: {
+  outputs: {
     value: variable("float")
   },
   vertex: {
-    body: "out_value = in_a + in_b;"
+    body: "outputs.value = inputs.a + inputs.b;"
   },
   fragment: {
-    body: "out_value = in_a + in_b;"
+    body: "outputs.value = inputs.a + inputs.b;"
   }
 })
 ```
@@ -183,11 +183,11 @@ const node = ShaderNode({
 Let's go through these from top to bottom and discuss some of the things we're seeing here.
 
 - First of all, note that **the `name` property is entirely optional**. It is, however, _recommended_ that you set it; if the shader compilation ever fails, this will help you tremendously on your hunt for the cause.
-- We're **declaring two `in` variables**, `a` and `b`.
+- We're **declaring two `input` variables**, `a` and `b`.
 - Each of these is declared as `variable("float", 0)`. This is how we tell the compiler that we want them to have the GLSL `float` type, and a default value of `0` if nothing else is assigned to them.
-- We're also **declaring an `out` variable** called `value`. Note that it doesn't have a default value.
+- We're also **declaring an `output` variable** called `value`. Note that it doesn't have a default value.
 - Shaders are composed of two programs, the **vertex shader and the fragment shader**, and Shadenfreude allows us to declare code for both. Here, we need to set the output variable, and since the node can be used in both programs, we need to supply the same chunk for both, too.
-- Note that within the generated GLSL code, **input and output variables are prefixed** with `in_` and `out_`, respectively.
+- Note that within the generated GLSL code, **input and output variables are prefixed** with `inputs.` and `outputs.`, respectively.
 
 This is all a bit verbose, so let's make it a bit leaner:
 
@@ -198,7 +198,7 @@ const node = ShaderNode({
     b: float(0)
   },
   out: {
-    value: float("in_a + in_b")
+    value: float("inputs.a + inputs.b")
   }
 })
 ```
@@ -206,7 +206,7 @@ const node = ShaderNode({
 This version is functionally equivalent to the one before, but we're doing some things differently:
 
 - Note how we're using the `float(v)` variable factory -- it's just a shortcut for `variable("float", v)`.
-- Instead of imperatively writing the calculated result value into `out_value`, we're providing a string default value for the `value` out variable. When variables have string values, the string will be used in the generated GLSL verbatim, and we can use this here to our advantage.
+- Instead of imperatively writing the calculated result value into `outputs.value`, we're providing a string default value in the `value` output variable's declaration. When variables have string values, the string will be used in the generated GLSL verbatim, and we can use this here to our advantage.
 
 ### Writing reusable shader nodes
 
@@ -219,8 +219,8 @@ const AddFloatsNode = ({ a = 0, b = 0 } = {}) =>
       a: float(a),
       b: float(b)
     },
-    out: {
-      value: float("in_a + in_b")
+    outputs: {
+      value: float("inputs.a + inputs.b")
     }
   })
 ```
@@ -235,12 +235,12 @@ type Props = {
 
 const AddFloatsNode = ({ a = 0, b = 0 }: Props = {}) =>
   ShaderNode({
-    in: {
+    inputs: {
       a: float(a),
       b: float(b)
     },
-    out: {
-      value: float("in_a + in_b")
+    outputs: {
+      value: float("inputs.a + inputs.b")
     }
   })
 ```
@@ -249,12 +249,12 @@ Since this pattern is so common -- creating a function that takes a props object
 
 ```ts
 const AddFloatsNode = Factory(() => ({
-  in: {
+  inputs: {
     a: float(),
     b: float()
   },
-  out: {
-    value: float("in_a + in_b")
+  outputs: {
+    value: float("inputs.a + inputs.b")
   }
 }))
 
@@ -266,12 +266,12 @@ A couple of notes:
 - The only argument to `Factory` is a function that returns a shader node definition (note that it doesn't need to use the `ShaderNode` function.)
 - `Factory` returns a factory function that takes a props object -- typed according to the `in` variables. When this function is invoked, the props passed into it are assigned to their respective input variables.
 
-### Special variables `a` (in) and `value` (out)
+### Special variables `inputs.a` and `outputs.value`
 
 Input and output variables can be named anything you want (as long as the name can be part of a GLSL variable identifier), but two variables have special meaning:
 
-- The `a` input variable is considered the _default_ input variable.
-- The `value` output variable is considered the _default_ output variable.
+- `inputs.a` is considered the _default_ input variable.
+- `outputs.value` is considered the _default_ output variable.
 
 We can use this to our advantage anywhere we're assigning values to variables, for example:
 
@@ -280,8 +280,8 @@ plug(colorA).into(mixedColor)
 AnimateNode({ time: TimeNode() })
 
 /* This is equivalent to: */
-plug(colorA.out.value).into(mixedColor.in.a)
-AnimateNode({ time: TimeNode().out.value })
+plug(colorA.outputs.value).into(mixedColor.inputs.a)
+AnimateNode({ time: TimeNode().outputs.value })
 ```
 
 ### Writing vertex and fragment program code
@@ -302,7 +302,7 @@ const GeometryPositionNode = Factory(() => ({
   varyings: {
     v_position: vec3("position")
   },
-  out: {
+  outputs: {
     value: vec3("v_position")
   }
 }))
