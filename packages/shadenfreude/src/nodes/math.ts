@@ -1,13 +1,10 @@
-import { Vector3, Vector4 } from "three"
 import {
-  assignment,
   Chunk,
   Factory,
   float,
   getValueType,
   lines,
   Parameter,
-  Program,
   ShaderNode,
   uniqueGlobalIdentifier,
   ValueType,
