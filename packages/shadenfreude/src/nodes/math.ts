@@ -1,3 +1,4 @@
+import { Vector3, Vector4 } from "three"
 import {
   Factory,
   float,
@@ -108,6 +109,29 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
     }
   })
 }
+
+type BlendProps<T extends ValueType> = {
+  type: T
+  a?: Parameter<T>
+  b?: Parameter<T>
+  opacity?: Parameter<"float">
+  mode?: string
+}
+
+export const BlendNode = <T extends ValueType>(props: BlendProps<T>) => {
+  return ShaderNode({
+    name: "Blend",
+    inputs: {
+      a: variable(props.type, props.a),
+      b: variable(props.type, props.b)
+    },
+    outputs: {
+      value: variable(props.type)
+    }
+  })
+}
+
+const blend = BlendNode({ type: "vec3" })
 
 export const SoftlightBlendNode = Factory(() => {
   const blendSoftlight = uniqueGlobalIdentifier("blend_softlight")
