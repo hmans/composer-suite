@@ -4,13 +4,19 @@
 
 Shadenfreude is a library for programmatically creating [Three.js] shaders assembled from a graph of nodes, each implementing a small unit of functionality. You've probably seen graphical node shader editors -- it's just like those, but in code!
 
-> **EINE WARNING, FRIEND! ⚠️**
+> **EARLY DAYS WARNING! ⚠️**
 > This library is very extremely new. I'd love for you to give it a go and maybe provide some feedback, but I would currently recommend **strongly** against using it in any sort of production project, unless you're ready and willing to keep up with the changes every release. **Use at your own risk.**
 
 ## Features
 
 - Rapidly create complex Three.js shaders using a library of ready-to-use nodes, or add your own!
+- Use it with plain [Three.js] or any framework or library that uses it, including [react-three-fiber]!
 - Developed in Typescript, with fantastic type support!
+
+Shadenfreude also has a couple of non-features:
+
+- It does not provide a full node-based reimplementation of Three.js' built-in materials.
+- It does not provide a graphical shader node editing environment, and instead aims for a pure, joyful code-first experience.
 
 ## Examples & Sandboxes
 
@@ -323,3 +329,4 @@ TODO
 
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
 [three.js]: https://threejs.org/
+[react-three-fiber]: https://github.com/pmndrs/react-three-fiber
