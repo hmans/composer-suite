@@ -118,16 +118,54 @@ type BlendProps<T extends ValueType> = {
   mode?: string
 }
 
-export const BlendNode = <T extends ValueType>(props: BlendProps<T>) => {
+export const BlendNode = <T extends ValueType>({
+  type,
+  a,
+  b,
+  opacity = 1,
+  mode = "add"
+}: BlendProps<T>) => {
+  const functions = {
+    add: uniqueGlobalIdentifier()
+  }
+
+  const header = `
+
+    float ${functions.add}(const in float x, const in float y, const in float opacity) {
+      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
+    }
+
+    vec2 ${functions.add}(const in vec2 x, const in vec2 y, const in float opacity) {
+      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
+    }
+
+    vec3 ${functions.add}(const in vec3 x, const in vec3 y, const in float opacity) {
+      return min(x + y, 1.0) * opacity + x * (1.0 - opacity);
+    }
+
+    vec4 ${functions.add}(const in vec4 x, const in vec4 y, const in float opacity) {
+      vec4 result = min(x + y, 1.0) * opacity + x * (1.0 - opacity);
+      result.a = x.a;
+      return result;
+    }
+  `
+
+  const body = `outputs.value = ${functions.add}(inputs.a, inputs.b, inputs.opacity);`
+
+  const program = { header, body }
+
   return ShaderNode({
     name: "Blend",
     inputs: {
-      a: variable(props.type, props.a),
-      b: variable(props.type, props.b)
+      a: variable(type, a),
+      b: variable(type, b),
+      opacity: float(opacity)
     },
     outputs: {
-      value: variable(props.type)
-    }
+      value: variable(type)
+    },
+    vertex: program,
+    fragment: program
   })
 }
 

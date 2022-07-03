@@ -17,7 +17,9 @@ import {
   TimeNode,
   vec2,
   vec3,
-  SoftlightBlendNode
+  SoftlightBlendNode,
+  BlendNode,
+  FloatNode
 } from "shadenfreude"
 import { Color, ShaderMaterial } from "three"
 
@@ -78,21 +80,18 @@ function useShader() {
   return useMemo(() => {
     const time = TimeNode()
 
-    const fresnel = MultiplyNode({
-      a: ColorNode({ a: new Color("white") }),
-      b: FresnelNode({ power: 2, factor: 1, bias: 0, intensity: 2 })
+    const colorA = ColorNode({ a: new Color("#888") })
+    const colorB = ColorNode({ a: new Color("#f00") })
+
+    const blend = BlendNode({
+      type: "vec3",
+      a: colorA,
+      b: colorB,
+      opacity: 0.5
     })
 
     const root = ShaderMaterialMasterNode({
-      position: AddNode({
-        a: Squeezed({ position: VertexPositionNode(), time }),
-        b: WobbleAnimation({ frequency: 0.2, amplitude: 3.5, time })
-      }),
-
-      color: SoftlightBlendNode({
-        a: ColorNode({ a: new Color("#c42") }),
-        b: fresnel
-      })
+      color: blend
     })
 
     return compileShader(root)
