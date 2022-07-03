@@ -170,6 +170,18 @@ TODO
 
 #### Operators
 
+<details>
+<summary><strong>AddNode</strong></summary>
+<p>
+- Performs addition.
+- Inputs:
+  - `a`: LHS operand
+  - `b`: RHS operand
+- Outputs:
+  - `value`: a + b
+</p>
+</details>
+
 - **AddNode**
   - Performs addition.
   - Inputs:
