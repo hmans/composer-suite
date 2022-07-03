@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import {
+  AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
@@ -21,49 +22,52 @@ import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 const ScaleWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Scale with Time",
-    in: {
+
+    inputs: {
       a: vec3(),
       frequency: float(1),
       time: float(TimeNode())
     },
-    out: {
-      value: vec3("in_a")
+
+    outputs: {
+      value: vec3("inputs.a")
     },
+
     vertex: {
-      body: `out_value.${axis} *= (1.0 + sin(in_time * in_frequency) * 0.5);`
+      body: `outputs.value.${axis} *= (1.0 + sin(inputs.time * inputs.frequency) * 0.5);`
     }
   }))
 
 const SqueezeWithTime = Factory(() => ({
   name: "Squeeze with Time",
-  in: {
+  inputs: {
     a: vec3(),
 
     frequency: float(1),
     time: float(TimeNode())
   },
-  out: {
-    value: vec3("in_a")
+  outputs: {
+    value: vec3("inputs.a")
   },
   vertex: {
-    body: `out_value.x *= (1.0 + sin(in_time * in_frequency + position.y * 0.3 + position.x * 0.3) * 0.2);`
+    body: `outputs.value.x *= (1.0 + sin(inputs.time * inputs.frequency + position.y * 0.3 + position.x * 0.3) * 0.2);`
   }
 }))
 
 const MoveWithTime = (axis = "xyz") =>
   Factory(() => ({
     name: "Move with Time",
-    in: {
+    inputs: {
       a: vec3(),
       frequency: float(1),
       amplitude: float(1),
       time: float(TimeNode())
     },
-    out: {
-      value: vec3("in_a")
+    outputs: {
+      value: vec3("inputs.a")
     },
     vertex: {
-      body: `out_value.${axis} += sin(in_time * in_frequency) * in_amplitude;`
+      body: `outputs.value.${axis} += sin(inputs.time * inputs.frequency) * inputs.amplitude;`
     }
   }))
 
@@ -93,17 +97,19 @@ function useShader() {
     ])
   })
 
-  return compileShader(root)
+  const [shader, update] = compileShader(root)
+
+  useFrame((_, dt) => update(dt))
+
+  return shader
 }
 
 export default function StacksExample() {
-  const [shaderProps, update] = useShader()
+  const shader = useShader()
   const material = useRef<CustomShaderMaterialImpl>(null!)
 
-  console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
-
-  useFrame((_, dt) => update(dt))
+  console.log(shader.vertexShader)
+  console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
@@ -112,7 +118,7 @@ export default function StacksExample() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          {...shaderProps}
+          {...shader}
           ref={material}
         />
       </mesh>

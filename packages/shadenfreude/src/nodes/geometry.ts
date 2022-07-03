@@ -5,7 +5,7 @@ export const VertexPositionNode = Factory(() => ({
   varyings: {
     v_position: vec3("position")
   },
-  out: {
+  outputs: {
     value: vec3("v_position")
   }
 }))
@@ -18,7 +18,7 @@ export const VertexNormalNode = Factory(() => ({
       "normalize(mat3(modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz) * normal)"
     )
   },
-  out: {
+  outputs: {
     value: vec3("v_localSpace"),
     worldSpace: vec3("v_WorldSpace")
   }
@@ -29,7 +29,7 @@ export const UVNode = Factory(() => ({
   varyings: {
     v_uv: vec2("uv")
   },
-  out: {
+  outputs: {
     value: vec2("v_uv")
   }
 }))

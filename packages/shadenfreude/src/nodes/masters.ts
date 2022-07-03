@@ -5,7 +5,7 @@ import { VertexPositionNode, VertexNormalNode } from "./geometry"
 export const ShaderMaterialMasterNode = Factory(() => ({
   name: "ShaderMaterial Master",
 
-  in: {
+  inputs: {
     position: vec3("position"),
     color: vec3(new Color(1, 1, 1)),
     opacity: float(1)
@@ -14,12 +14,12 @@ export const ShaderMaterialMasterNode = Factory(() => ({
   vertex: {
     body: assignment(
       "gl_Position",
-      "projectionMatrix * viewMatrix * modelMatrix * vec4(in_position, 1.0)"
+      "projectionMatrix * viewMatrix * modelMatrix * vec4(inputs.position, 1.0)"
     )
   },
 
   fragment: {
-    body: assignment("gl_FragColor", "vec4(in_color, in_opacity)")
+    body: assignment("gl_FragColor", "vec4(inputs.color, inputs.opacity)")
   }
 }))
 
@@ -29,7 +29,7 @@ export const ShaderMaterialMasterNode = Factory(() => ({
 export const CustomShaderMaterialMasterNode = Factory(() => ({
   name: "CustomShaderMaterial Master",
 
-  in: {
+  inputs: {
     /** Position of the vertex. */
     position: vec3(VertexPositionNode()),
 
@@ -45,15 +45,15 @@ export const CustomShaderMaterialMasterNode = Factory(() => ({
 
   vertex: {
     body: [
-      assignment("csm_Position", "in_position"),
-      assignment("csm_Normal", "in_normal")
+      assignment("csm_Position", "inputs.position"),
+      assignment("csm_Normal", "inputs.normal")
     ]
   },
 
   fragment: {
     body: [
-      assignment("csm_DiffuseColor.rgb", "in_diffuseColor"),
-      assignment("csm_Emissive.rgb", "in_emissiveColor")
+      assignment("csm_DiffuseColor.rgb", "inputs.diffuseColor"),
+      assignment("csm_Emissive.rgb", "inputs.emissiveColor")
     ]
   }
 }))
