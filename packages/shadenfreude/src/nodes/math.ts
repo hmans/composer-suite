@@ -123,8 +123,8 @@ type BlendableType = "float" | "vec3" | "vec4"
 type BlendMode = "add" | "multiply"
 
 type BlendFunctions = {
-  [M in BlendMode]: {
-    [T in BlendableType]: string
+  [M in BlendMode]?: {
+    [T in BlendableType]?: string
   }
 }
 
@@ -140,20 +140,16 @@ export const BlendNode = <T extends BlendableType>({
     multiply: "min(inputs.a * inputs.b, 1.0)"
   }
 
-  const bagOfChunks: BlendFunctions = {
-    add: {
-      float: defaults.add,
-      vec3: defaults.add
-    },
-    multiply: {
-      float: defaults.multiply,
-      vec3: defaults.multiply
-    }
-  }
+  const overrides: BlendFunctions = {}
 
   const body = [
-    `${type} blended = ${bagOfChunks[mode][type]};`,
+    /* Run the blend function */
+    `${type} blended = ${overrides[mode]?.[type] || defaults[mode]};`,
+
+    /* Apply the opacity */
     `outputs.value = mix(inputs.a, blended, inputs.opacity);`,
+
+    /* If we're dealing with vec4, set the original alpha value */
     type === "vec4" && `outputs.value.a = inputs.a.a;`
   ]
 
