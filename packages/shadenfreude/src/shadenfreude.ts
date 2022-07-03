@@ -346,8 +346,8 @@ export const compileShader = (root: IShaderNode) => {
     if (seen.has(node)) return []
     seen.add(node)
 
-    const ins = getVariables(node.inputs)
-    const outs = getVariables(node.outputs)
+    const inputs = getVariables(node.inputs)
+    const outputs = getVariables(node.outputs)
 
     return [
       /* Dependencies */
@@ -358,25 +358,27 @@ export const compileShader = (root: IShaderNode) => {
       nodeBegin(node),
 
       /* Output Variable Declarations */
-      outs.map(([_, variable]) =>
+      outputs.map(([_, variable]) =>
         compileVariable({ ...variable, value: undefined })
       ),
 
       block(
         /* Build the inputs struct */
-        ins.length > 0 && [
+        inputs.length > 0 && [
           /* Struct */
           statement(
             "struct {",
-            ins.map(([name, v]) =>
+            inputs.map(([name, v]) =>
               compileVariable({ ...v, name, value: undefined })
             ),
             "} inputs"
           ),
 
           /* Assignments */
-          ins.map(([name, v]) =>
-            v.value ? assignment(`inputs.${name}`, compileValue(v.value)) : ""
+          inputs.map(([name, v]) =>
+            v.value !== undefined
+              ? assignment(`inputs.${name}`, compileValue(v.value))
+              : ""
           )
         ],
 
@@ -394,18 +396,18 @@ export const compileShader = (root: IShaderNode) => {
             ),
 
         /* Build the outputs struct */
-        outs.length > 0 && [
+        outputs.length > 0 && [
           /* Struct */
           statement(
             "struct {",
-            outs.map(([name, v]) =>
+            outputs.map(([name, v]) =>
               compileVariable({ ...v, name, value: undefined })
             ),
             "} outputs"
           ),
 
           /* Assignments */
-          outs.map(([name, v]) =>
+          outputs.map(([name, v]) =>
             v.value ? assignment(`outputs.${name}`, compileValue(v.value)) : ""
           )
         ],
@@ -414,7 +416,7 @@ export const compileShader = (root: IShaderNode) => {
         node[programType]?.body,
 
         /* Assign local output variables back to global variables */
-        outs.map(([localName, variable]) =>
+        outputs.map(([localName, variable]) =>
           assignment(variable.name, "outputs." + localName)
         ),
 
