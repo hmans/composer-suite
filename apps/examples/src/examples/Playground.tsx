@@ -78,7 +78,7 @@ export default function Playground() {
     const colorA = ColorNode({ a: new Color("#f33") })
     const colorB = ColorNode({ a: new Color(0, 1, 0) })
 
-    const addNode = AddNode({ a: vec3(), b: colorB })
+    const AddColorLayer = Factory(() => AddNode({ a: new Color(), b: colorB }))
 
     const colorStack = ShaderNode({
       name: "Color Stack",
@@ -88,7 +88,7 @@ export default function Playground() {
       outputs: {
         value: vec3("inputs.color")
       },
-      filters: [addNode]
+      filters: [AddColorLayer()]
     })
 
     return ShaderMaterialMasterNode({
