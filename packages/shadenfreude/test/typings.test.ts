@@ -1,12 +1,12 @@
 import { Color, Vector3 } from "three"
 import {
   AddNode,
-  assign,
   Factory,
   float,
   FloatNode,
   getValueType,
   MixNode,
+  set,
   ShaderNode,
   variable,
   vec3
@@ -73,7 +73,7 @@ describe("typings", () => {
       b: f2
     })
 
-    assign(123).to(added.inputs.a)
+    set(added.inputs.a).to(123)
   })
 
   test("factories", () => {
