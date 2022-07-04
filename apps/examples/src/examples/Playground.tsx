@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
+  AddNode,
   BlendNode,
   ColorNode,
   compileShader,
@@ -9,8 +10,10 @@ import {
   float,
   Parameter,
   ShaderMaterialMasterNode,
+  ShaderNode,
   TimeNode,
   UVNode,
+  ValueType,
   vec2,
   vec3
 } from "shadenfreude"
@@ -75,15 +78,21 @@ export default function Playground() {
     const colorA = ColorNode({ a: new Color("#f00") })
     const colorB = ColorNode({ a: new Color("#00f") })
 
-    const blend = BlendNode({
-      mode: "average",
-      a: colorA,
-      b: colorB,
-      opacity: 1
+    const addNode = AddNode({ type: "vec3", b: colorB })
+
+    const colorStack = ShaderNode({
+      name: "Color Stack",
+      inputs: {
+        color: vec3(colorA)
+      },
+      outputs: {
+        value: vec3("inputs.color")
+      },
+      filters: [addNode]
     })
 
     return ShaderMaterialMasterNode({
-      color: blend
+      color: colorStack
     })
   })
   const material = useRef<ShaderMaterial>(null!)
