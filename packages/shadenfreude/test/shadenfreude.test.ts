@@ -7,6 +7,7 @@ import {
   float,
   plug,
   ShaderNode,
+  Variable,
   variable,
   vec3
 } from "../src/shadenfreude"
@@ -552,5 +553,15 @@ describe("plug", () => {
 
     plug(time).into(offset)
     expect(offset.inputs.a.value).toBe(time.outputs.value)
+  })
+
+  it("changes the type of the target variable (if it allows it)", () => {
+    const target = variable("float") as Variable<"float" | "vec3">
+    const source = variable("vec3", new Vector3())
+
+    expect(target.type).toBe("float")
+    plug(source).into(target)
+    // assign(source).to(target)
+    expect(target.type).toBe("vec3")
   })
 })
