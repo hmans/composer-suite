@@ -178,6 +178,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Time ***/
+        float out_Time_1_value;
+        float out_Time_1_sin;
+        float out_Time_1_cos;
+        {
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_1_value = outputs.value;
+          out_Time_1_sin = outputs.sin;
+          out_Time_1_cos = outputs.cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
         float out_Time_2_value;
         float out_Time_2_sin;
         float out_Time_2_cos;
@@ -192,26 +207,11 @@ describe("compileShader", () => {
         }
         /*** END: Time ***/
 
-        /*** BEGIN: Time ***/
-        float out_Time_3_value;
-        float out_Time_3_sin;
-        float out_Time_3_cos;
-        {
-          struct { float value; float sin; float cos; } outputs;
-          outputs.value = u_time;
-          outputs.sin = sin(u_time);
-          outputs.cos = cos(u_time);
-          out_Time_3_value = outputs.value;
-          out_Time_3_sin = outputs.sin;
-          out_Time_3_cos = outputs.cos;
-        }
-        /*** END: Time ***/
-
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Time_2_value;
-          inputs.b = out_Time_3_value;
+          inputs.a = out_Time_1_value;
+          inputs.b = out_Time_2_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -231,6 +231,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Time ***/
+        float out_Time_1_value;
+        float out_Time_1_sin;
+        float out_Time_1_cos;
+        {
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_1_value = outputs.value;
+          out_Time_1_sin = outputs.sin;
+          out_Time_1_cos = outputs.cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
         float out_Time_2_value;
         float out_Time_2_sin;
         float out_Time_2_cos;
@@ -245,26 +260,11 @@ describe("compileShader", () => {
         }
         /*** END: Time ***/
 
-        /*** BEGIN: Time ***/
-        float out_Time_3_value;
-        float out_Time_3_sin;
-        float out_Time_3_cos;
-        {
-          struct { float value; float sin; float cos; } outputs;
-          outputs.value = u_time;
-          outputs.sin = sin(u_time);
-          outputs.cos = cos(u_time);
-          out_Time_3_value = outputs.value;
-          out_Time_3_sin = outputs.sin;
-          out_Time_3_cos = outputs.cos;
-        }
-        /*** END: Time ***/
-
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Time_2_value;
-          inputs.b = out_Time_3_value;
+          inputs.a = out_Time_1_value;
+          inputs.b = out_Time_2_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -348,21 +348,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Value (float) ***/
-        float out_Value_float_2_value;
+        float out_Value_float_1_value;
         {
           struct { float a; } inputs;
           inputs.a = 1.0;
           struct { float value; } outputs;
           outputs.value = inputs.a;
-          out_Value_float_2_value = outputs.value;
+          out_Value_float_1_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Value_float_2_value;
-          inputs.b = out_Value_float_2_value;
+          inputs.a = out_Value_float_1_value;
+          inputs.b = out_Value_float_1_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -379,21 +379,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Value (float) ***/
-        float out_Value_float_2_value;
+        float out_Value_float_1_value;
         {
           struct { float a; } inputs;
           inputs.a = 1.0;
           struct { float value; } outputs;
           outputs.value = inputs.a;
-          out_Value_float_2_value = outputs.value;
+          out_Value_float_1_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Value_float_2_value;
-          inputs.b = out_Value_float_2_value;
+          inputs.a = out_Value_float_1_value;
+          inputs.b = out_Value_float_1_value;
         }
         /*** END: Unnamed Node ***/
 

@@ -465,7 +465,7 @@ export const compileShader = (root: IShaderNode) => {
     ]
   }
 
-  const compileProgram = (programType: ProgramType) => {
+  const compileProgram = (programType: ProgramType): string => {
     return lines(
       compileHeader(root, programType),
       "void main()",
@@ -479,6 +479,9 @@ export const compileShader = (root: IShaderNode) => {
   ) => {
     if (state.seenNodes.has(node)) return
     state.seenNodes.add(node)
+
+    const deps = [...getInputDependencies(node), ...getOutputDependencies(node)]
+    deps.forEach((unit) => prepareNode(unit, state))
 
     ++state.id
 
@@ -510,10 +513,14 @@ export const compileShader = (root: IShaderNode) => {
 
       assign(firstFilter, node)
 
+      prepareNode(firstFilter, state)
+
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
         const filter = node.filters[i]
         const prev = node.filters[i - 1]
+
+        prepareNode(filter, state)
 
         if (!isShaderNodeWithDefaultOutput(prev))
           throw new Error("Filter nodes must have a `value` output")
@@ -524,9 +531,6 @@ export const compileShader = (root: IShaderNode) => {
         assign(filter, prev)
       }
     }
-
-    /* Do the same for all filters and dependencies */
-    getDependencies(node).forEach((unit) => prepareNode(unit, state))
   }
 
   prepareNode(root)
