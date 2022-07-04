@@ -1,3 +1,4 @@
+import { prepare } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import {
   Chunk,
   Factory,
@@ -58,33 +59,38 @@ export const CosNode = FunctionNode("cos")
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
-  type?: A
   a?: Parameter<A>
-  b: Parameter<B>
+  b?: Parameter<B>
 }
 
 const OperatorNode = (operator: Operator) => <
   A extends ValueType,
   B extends ValueType
 >({
-  type,
   a,
   b
 }: OperatorNodeProps<A, B>) => {
-  const aType = (a && getValueType(a)) || type
-  const bType = getValueType(b)
+  const aType = a && getValueType(a)
+  const bType = b && getValueType(b)
 
-  if (!aType) throw new Error("Either `a` or `type` must be specified")
+  const inputs = {
+    a: aType ? variable(aType, a) : float(),
+    b: bType ? variable(bType, b) : float()
+  }
+
+  const outputs = {
+    value: variable(aType || "float", `inputs.a ${operator} inputs.b`)
+  }
+
+  const prepare = () => {
+    outputs.value.type = inputs.a.type
+  }
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
-    inputs: {
-      a: variable(aType, a),
-      b: variable(bType, b)
-    },
-    outputs: {
-      value: variable(aType, `inputs.a ${operator} inputs.b`)
-    }
+    inputs,
+    outputs,
+    prepare
   })
 }
 

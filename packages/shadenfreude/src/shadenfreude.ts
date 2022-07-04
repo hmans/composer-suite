@@ -33,6 +33,8 @@ export interface IShaderNode {
   outputs?: Variables
 
   filters?: IShaderNode[]
+
+  prepare?: () => void
 }
 
 export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
@@ -491,6 +493,9 @@ export const compileShader = (root: IShaderNode) => {
     getVariables(node.varyings).map(([localName, variable]) => {
       variable.name = identifier("v", ...nodePartInVariableName, localName)
     })
+
+    /* Invoke prepare callback */
+    node.prepare?.()
 
     /* Prepare filters */
     if (node.filters && node.filters.length > 0) {
