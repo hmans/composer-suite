@@ -159,6 +159,7 @@ export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
   } as Variable<T>)
 
 export const float = (value?: Parameter<"float">) => variable("float", value)
+export const bool = (value?: Parameter<"bool">) => variable("bool", value)
 export const vec2 = (value?: Parameter<"vec2">) => variable("vec2", value)
 export const vec3 = (value?: Parameter<"vec3">) => variable("vec3", value)
 export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
