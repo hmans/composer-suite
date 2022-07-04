@@ -165,9 +165,15 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <T extends ValueType>(source: Parameter<T>) => ({
-  into: (target: Variable<T> | IShaderNodeWithDefaultInput<T>) =>
-    assign(source).to(target)
+export const plug = <
+  SourceType extends ValueType,
+  TargetType extends ValueType
+>(
+  source: Parameter<SourceType>
+) => ({
+  into: (
+    target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>
+  ) => assign(source).to(target)
 })
 
 /**
@@ -177,22 +183,25 @@ export const plug = <T extends ValueType>(source: Parameter<T>) => ({
  *
  * @source source
  */
-export const assign = <T extends ValueType>(source: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithDefaultInput<T>): void => {
+export const assign = <
+  SourceType extends ValueType,
+  TargetType extends ValueType
+>(
+  source: Parameter<SourceType>
+) => ({
+  to: (
+    target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>
+  ): void => {
+    /* Is the target is a node, assign to its default input */
     if (isShaderNodeWithDefaultInput(target))
       return assign(source).to(target.inputs.a)
 
+    /* If the source is a node, use its default output */
     const value = isShaderNodeWithDefaultOutput(source)
       ? source.outputs.value
       : source
 
-    /* Test type match */
-    const valueType = getValueType(value)
-    if (target.type !== valueType) {
-      throw new Error(`Tried to assign ${valueType} to ${target.type}`)
-    }
-
-    target.value = value
+    target.value = value as Value<TargetType>
   }
 })
 
