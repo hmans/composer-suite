@@ -1,13 +1,11 @@
-import { Vector3 } from "three"
+import { Vector3, Vector4 } from "three"
 import { FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
   Factory,
   float,
-  plug,
   ShaderNode,
-  Variable,
   variable,
   vec3
 } from "../src/shadenfreude"
@@ -504,21 +502,21 @@ describe("compileShader", () => {
 describe("assign", () => {
   it("assigns the given value to the variable", () => {
     const f = float(0)
-    assign(1).to(f)
+    assign(f, 1)
     expect(f.value).toBe(1)
   })
 
   it("can assign other variables to the variable", () => {
     const a = float(0)
     const b = float(1)
-    assign(b).to(a)
+    assign(a, b)
     expect(a.value).toBe(b)
   })
 
   it("can assign other nodes to the variable, using their default output value", () => {
     const a = float(0)
     const node = FloatNode({ a: 1 })
-    assign(node).to(a)
+    assign(a, node)
     expect(a.value).toBe(node.outputs.value)
   })
 
@@ -526,17 +524,17 @@ describe("assign", () => {
     const f = float(0)
     const node = ShaderNode({ inputs: { a: float() } })
 
-    assign(f).to(node)
+    assign(node, f)
     expect(node.inputs.a.value).toBe(f)
   })
 
   it("changes the type of the target variable (if it allows it)", () => {
-    const target = variable("float") //as Variable<"float" | "vec3">
-    const source = variable("vec3", new Vector3())
+    const vec3OrFloat = variable<"vec3" | "float">("float")
+    const vec3 = variable("vec3", new Vector3())
 
-    expect(target.type).toBe("float")
-    assign(source).to(target)
-    expect(target.type).toBe("vec3")
+    expect(vec3OrFloat.type).toBe("float")
+    assign(vec3OrFloat, vec3)
+    expect(vec3OrFloat.type).toBe("vec3")
   })
 })
 
@@ -550,7 +548,7 @@ describe("plug", () => {
       }
     })
 
-    plug(time).into(offset)
+    assign(offset, time)
     expect(offset.inputs.a.value).toBe(time.outputs.value)
   })
 })

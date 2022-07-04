@@ -165,17 +165,6 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <
-  SourceType extends ValueType,
-  TargetType extends ValueType
->(
-  source: Parameter<SourceType>
-) => ({
-  into: (
-    target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>
-  ) => assign(source).to(target)
-})
-
 /**
  * Assigns the specified source value to the target. The source value can be
  * a variable, a value, or a node with a default `value` out variable; the
@@ -191,7 +180,8 @@ export const assign = <
   source: Parameter<SourceType>
 ): void => {
   /* Is the target is a node, assign to its default input */
-  if (isShaderNodeWithDefaultInput(target)) return assign(target, source)
+  if (isShaderNodeWithDefaultInput(target))
+    return assign(target.inputs.a, source)
 
   /* If the source is a node, use its default output */
   const value = isShaderNodeWithDefaultOutput(source)
@@ -504,7 +494,7 @@ export const compileShader = (root: IShaderNode) => {
       if (!isShaderNodeWithDefaultInput(firstFilter))
         throw new Error("First filter node must have an `a` input")
 
-      plug(node).into(firstFilter)
+      assign(firstFilter, node)
 
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
@@ -517,7 +507,7 @@ export const compileShader = (root: IShaderNode) => {
         if (!isShaderNodeWithDefaultInput(filter))
           throw new Error("Filter nodes must have an `a` input")
 
-        plug(prev).into(filter)
+        assign(filter, prev)
       }
     }
 
