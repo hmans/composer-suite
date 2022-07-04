@@ -73,25 +73,22 @@ const OperatorNode = (operator: Operator) => <
   const aType = getValueType(a)
   const bType = getValueType(b)
 
-  const inputs = {
-    a: variable(aType, a),
-    b: variable(bType, b)
-  }
-
-  const outputs = {
-    value: variable(aType, `inputs.a ${operator} inputs.b`)
-  }
-
-  const prepare = () => {
-    outputs.value.type = inputs.a.type
-  }
-
-  return ShaderNode({
+  const node = ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
-    inputs,
-    outputs,
-    prepare
+    inputs: {
+      a: variable(aType, a),
+      b: variable(bType, b)
+    },
+    outputs: {
+      value: variable(aType, `inputs.a ${operator} inputs.b`)
+    },
+    prepare: () => {
+      node.name = `Perform ${aType} ${operator} ${bType}`
+      node.outputs.value.type = node.inputs.a.type
+    }
   })
+
+  return node
 }
 
 export const AddNode = OperatorNode("+")
