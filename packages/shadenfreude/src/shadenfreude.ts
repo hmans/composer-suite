@@ -165,6 +165,12 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
+type AssignmentTarget<T extends ValueType> =
+  | Variable<T>
+  | IShaderNodeWithDefaultInput<T>
+
+type AssignmentValue<T extends ValueType> = Parameter<T>
+
 /**
  * Assigns the specified source value to the target. The source value can be
  * a variable, a value, or a node with a default `value` out variable; the
@@ -172,12 +178,9 @@ export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
  *
  * @source source
  */
-export const assign = <
-  SourceType extends TargetType,
-  TargetType extends ValueType
->(
-  target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>,
-  source: Parameter<SourceType>
+export const assign = <TargetType extends ValueType>(
+  target: AssignmentTarget<TargetType>,
+  source: AssignmentValue<TargetType>
 ): void => {
   /* Is the target is a node, assign to its default input */
   if (isShaderNodeWithDefaultInput(target))
@@ -191,6 +194,12 @@ export const assign = <
   target.type = getValueType(value)
   target.value = value
 }
+
+export const set = <TargetType extends ValueType>(
+  target: AssignmentTarget<TargetType>
+) => ({
+  to: (source: AssignmentValue<TargetType>) => assign(target, source)
+})
 
 /**
  * Returns the value type for the given value.

@@ -5,6 +5,7 @@ import {
   compileShader,
   Factory,
   float,
+  set,
   ShaderNode,
   variable,
   vec3
@@ -538,8 +539,8 @@ describe("assign", () => {
   })
 })
 
-describe("plug", () => {
-  it("connects the given variables", () => {
+describe("set", () => {
+  it("sets the target variable to the source value", () => {
     const time = TimeNode()
 
     const offset = ShaderNode({
@@ -548,7 +549,8 @@ describe("plug", () => {
       }
     })
 
-    assign(offset, time)
+    set(offset).to(time)
+
     expect(offset.inputs.a.value).toBe(time.outputs.value)
   })
 })
