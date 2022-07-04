@@ -539,7 +539,7 @@ describe("assign", () => {
   })
 })
 
-describe("set", () => {
+describe("set(a).to(b)", () => {
   it("sets the target variable to the source value", () => {
     const time = TimeNode()
 
