@@ -1,11 +1,11 @@
-import { Vector3 } from "three"
+import { Vector3, Vector4 } from "three"
 import { FloatNode, TimeNode } from "../src"
 import {
   assign,
   compileShader,
   Factory,
   float,
-  plug,
+  set,
   ShaderNode,
   variable,
   vec3
@@ -178,6 +178,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Time ***/
+        float out_Time_1_value;
+        float out_Time_1_sin;
+        float out_Time_1_cos;
+        {
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_1_value = outputs.value;
+          out_Time_1_sin = outputs.sin;
+          out_Time_1_cos = outputs.cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
         float out_Time_2_value;
         float out_Time_2_sin;
         float out_Time_2_cos;
@@ -192,26 +207,11 @@ describe("compileShader", () => {
         }
         /*** END: Time ***/
 
-        /*** BEGIN: Time ***/
-        float out_Time_3_value;
-        float out_Time_3_sin;
-        float out_Time_3_cos;
-        {
-          struct { float value; float sin; float cos; } outputs;
-          outputs.value = u_time;
-          outputs.sin = sin(u_time);
-          outputs.cos = cos(u_time);
-          out_Time_3_value = outputs.value;
-          out_Time_3_sin = outputs.sin;
-          out_Time_3_cos = outputs.cos;
-        }
-        /*** END: Time ***/
-
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Time_2_value;
-          inputs.b = out_Time_3_value;
+          inputs.a = out_Time_1_value;
+          inputs.b = out_Time_2_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -231,6 +231,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Time ***/
+        float out_Time_1_value;
+        float out_Time_1_sin;
+        float out_Time_1_cos;
+        {
+          struct { float value; float sin; float cos; } outputs;
+          outputs.value = u_time;
+          outputs.sin = sin(u_time);
+          outputs.cos = cos(u_time);
+          out_Time_1_value = outputs.value;
+          out_Time_1_sin = outputs.sin;
+          out_Time_1_cos = outputs.cos;
+        }
+        /*** END: Time ***/
+
+        /*** BEGIN: Time ***/
         float out_Time_2_value;
         float out_Time_2_sin;
         float out_Time_2_cos;
@@ -245,26 +260,11 @@ describe("compileShader", () => {
         }
         /*** END: Time ***/
 
-        /*** BEGIN: Time ***/
-        float out_Time_3_value;
-        float out_Time_3_sin;
-        float out_Time_3_cos;
-        {
-          struct { float value; float sin; float cos; } outputs;
-          outputs.value = u_time;
-          outputs.sin = sin(u_time);
-          outputs.cos = cos(u_time);
-          out_Time_3_value = outputs.value;
-          out_Time_3_sin = outputs.sin;
-          out_Time_3_cos = outputs.cos;
-        }
-        /*** END: Time ***/
-
         /*** BEGIN: A Node using two TimeNodes for some reason ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Time_2_value;
-          inputs.b = out_Time_3_value;
+          inputs.a = out_Time_1_value;
+          inputs.b = out_Time_2_value;
         }
         /*** END: A Node using two TimeNodes for some reason ***/
 
@@ -348,21 +348,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Value (float) ***/
-        float out_Value_float_2_value;
+        float out_Value_float_1_value;
         {
           struct { float a; } inputs;
           inputs.a = 1.0;
           struct { float value; } outputs;
           outputs.value = inputs.a;
-          out_Value_float_2_value = outputs.value;
+          out_Value_float_1_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Value_float_2_value;
-          inputs.b = out_Value_float_2_value;
+          inputs.a = out_Value_float_1_value;
+          inputs.b = out_Value_float_1_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -379,21 +379,21 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Value (float) ***/
-        float out_Value_float_2_value;
+        float out_Value_float_1_value;
         {
           struct { float a; } inputs;
           inputs.a = 1.0;
           struct { float value; } outputs;
           outputs.value = inputs.a;
-          out_Value_float_2_value = outputs.value;
+          out_Value_float_1_value = outputs.value;
         }
         /*** END: Value (float) ***/
 
         /*** BEGIN: Unnamed Node ***/
         {
           struct { float a; float b; } inputs;
-          inputs.a = out_Value_float_2_value;
-          inputs.b = out_Value_float_2_value;
+          inputs.a = out_Value_float_1_value;
+          inputs.b = out_Value_float_1_value;
         }
         /*** END: Unnamed Node ***/
 
@@ -503,21 +503,21 @@ describe("compileShader", () => {
 describe("assign", () => {
   it("assigns the given value to the variable", () => {
     const f = float(0)
-    assign(1).to(f)
+    assign(f, 1)
     expect(f.value).toBe(1)
   })
 
   it("can assign other variables to the variable", () => {
     const a = float(0)
     const b = float(1)
-    assign(b).to(a)
+    assign(a, b)
     expect(a.value).toBe(b)
   })
 
   it("can assign other nodes to the variable, using their default output value", () => {
     const a = float(0)
     const node = FloatNode({ a: 1 })
-    assign(node).to(a)
+    assign(a, node)
     expect(a.value).toBe(node.outputs.value)
   })
 
@@ -525,23 +525,22 @@ describe("assign", () => {
     const f = float(0)
     const node = ShaderNode({ inputs: { a: float() } })
 
-    assign(f).to(node)
+    assign(node, f)
     expect(node.inputs.a.value).toBe(f)
   })
 
-  it("throws an error if the source has a different type from the target", () => {
-    const f = float(0)
-    const v = vec3()
+  it("changes the type of the target variable (if it allows it)", () => {
+    const vec3OrFloat = variable<"vec3" | "float">("float")
+    const vec3 = variable("vec3", new Vector3())
 
-    expect(() => {
-      // @ts-ignore
-      assign(f).to(v)
-    }).toThrowErrorMatchingInlineSnapshot(`"Tried to assign float to vec3"`)
+    expect(vec3OrFloat.type).toBe("float")
+    assign(vec3OrFloat, vec3)
+    expect(vec3OrFloat.type).toBe("vec3")
   })
 })
 
-describe("plug", () => {
-  it("connects the given variables", () => {
+describe("set(a).to(b)", () => {
+  it("sets the target variable to the source value", () => {
     const time = TimeNode()
 
     const offset = ShaderNode({
@@ -550,7 +549,8 @@ describe("plug", () => {
       }
     })
 
-    plug(time).into(offset)
+    set(offset).to(time)
+
     expect(offset.inputs.a.value).toBe(time.outputs.value)
   })
 })

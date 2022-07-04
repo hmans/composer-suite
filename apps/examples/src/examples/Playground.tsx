@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
+  AddNode,
   BlendNode,
   ColorNode,
   compileShader,
@@ -9,8 +10,10 @@ import {
   float,
   Parameter,
   ShaderMaterialMasterNode,
+  ShaderNode,
   TimeNode,
   UVNode,
+  ValueType,
   vec2,
   vec3
 } from "shadenfreude"
@@ -72,18 +75,29 @@ const Squeezed = Factory(() => ({
 
 export default function Playground() {
   const shaderProps = useShader(() => {
-    const colorA = ColorNode({ a: new Color("#f00") })
-    const colorB = ColorNode({ a: new Color("#00f") })
+    const colorA = ColorNode({ a: new Color("#f33") })
+    const colorB = ColorNode({ a: new Color(0, 1, 0) })
 
-    const blend = BlendNode({
-      mode: "average",
-      a: colorA,
-      b: colorB,
-      opacity: 1
+    const AddColorLayer = Factory(() =>
+      AddNode({
+        a: vec3(), // eeeh
+        b: colorB
+      })
+    )
+
+    const colorStack = ShaderNode({
+      name: "Color Stack",
+      inputs: {
+        color: vec3(colorA)
+      },
+      outputs: {
+        value: vec3("inputs.color")
+      },
+      filters: [AddColorLayer()]
     })
 
     return ShaderMaterialMasterNode({
-      color: blend
+      color: colorStack
     })
   })
   const material = useRef<ShaderMaterial>(null!)

@@ -1,3 +1,4 @@
+import { prepare } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import {
   Chunk,
   Factory,
@@ -65,22 +66,29 @@ export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
 const OperatorNode = (operator: Operator) => <
   A extends ValueType,
   B extends ValueType
->(
-  props: OperatorNodeProps<A, B>
-) => {
-  const aType = getValueType(props.a)
-  const bType = getValueType(props.b)
+>({
+  a,
+  b
+}: OperatorNodeProps<A, B>) => {
+  const aType = getValueType(a)
+  const bType = getValueType(b)
 
-  return ShaderNode({
+  const node = ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
     inputs: {
-      a: variable(aType, props.a),
-      b: variable(bType, props.b)
+      a: variable(aType, a),
+      b: variable(bType, b)
     },
     outputs: {
       value: variable(aType, `inputs.a ${operator} inputs.b`)
+    },
+    prepare: () => {
+      node.name = `Perform ${aType} ${operator} ${bType}`
+      node.outputs.value.type = node.inputs.a.type
     }
   })
+
+  return node
 }
 
 export const AddNode = OperatorNode("+")

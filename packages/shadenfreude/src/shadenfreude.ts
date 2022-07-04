@@ -33,6 +33,8 @@ export interface IShaderNode {
   outputs?: Variables
 
   filters?: IShaderNode[]
+
+  prepare?: () => void
 }
 
 export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
@@ -101,7 +103,15 @@ export const Factory = <
 
 */
 
-export type ValueType = keyof ValueToJSType
+export type ValueType =
+  | "string"
+  | "bool"
+  | "float"
+  | "vec2"
+  | "vec3"
+  | "vec4"
+  | "mat3"
+  | "mat4"
 
 export type ValueToJSType = {
   string: string
@@ -157,10 +167,11 @@ export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <T extends ValueType>(source: Parameter<T>) => ({
-  into: (target: Variable<T> | IShaderNodeWithDefaultInput<T>) =>
-    assign(source).to(target)
-})
+type AssignmentTarget<T extends ValueType> =
+  | Variable<T>
+  | IShaderNodeWithDefaultInput<T>
+
+type AssignmentValue<T extends ValueType> = Parameter<T>
 
 /**
  * Assigns the specified source value to the target. The source value can be
@@ -169,23 +180,27 @@ export const plug = <T extends ValueType>(source: Parameter<T>) => ({
  *
  * @source source
  */
-export const assign = <T extends ValueType>(source: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithDefaultInput<T>): void => {
-    if (isShaderNodeWithDefaultInput(target))
-      return assign(source).to(target.inputs.a)
+export const assign = <TargetType extends ValueType>(
+  target: AssignmentTarget<TargetType>,
+  source: AssignmentValue<TargetType>
+): void => {
+  /* Is the target is a node, assign to its default input */
+  if (isShaderNodeWithDefaultInput(target))
+    return assign(target.inputs.a, source)
 
-    const value = isShaderNodeWithDefaultOutput(source)
-      ? source.outputs.value
-      : source
+  /* If the source is a node, use its default output */
+  const value = isShaderNodeWithDefaultOutput(source)
+    ? source.outputs.value
+    : source
 
-    /* Test type match */
-    const valueType = getValueType(value)
-    if (target.type !== valueType) {
-      throw new Error(`Tried to assign ${valueType} to ${target.type}`)
-    }
+  target.type = getValueType(value)
+  target.value = value
+}
 
-    target.value = value
-  }
+export const set = <TargetType extends ValueType>(
+  target: AssignmentTarget<TargetType>
+) => ({
+  to: (source: AssignmentValue<TargetType>) => assign(target, source)
 })
 
 /**
@@ -450,7 +465,7 @@ export const compileShader = (root: IShaderNode) => {
     ]
   }
 
-  const compileProgram = (programType: ProgramType) => {
+  const compileProgram = (programType: ProgramType): string => {
     return lines(
       compileHeader(root, programType),
       "void main()",
@@ -464,6 +479,9 @@ export const compileShader = (root: IShaderNode) => {
   ) => {
     if (state.seenNodes.has(node)) return
     state.seenNodes.add(node)
+
+    const deps = [...getInputDependencies(node), ...getOutputDependencies(node)]
+    deps.forEach((unit) => prepareNode(unit, state))
 
     ++state.id
 
@@ -479,6 +497,9 @@ export const compileShader = (root: IShaderNode) => {
       variable.name = identifier("v", ...nodePartInVariableName, localName)
     })
 
+    /* Invoke prepare callback */
+    node.prepare?.()
+
     /* Prepare filters */
     if (node.filters && node.filters.length > 0) {
       if (!isShaderNodeWithDefaultOutput(node))
@@ -490,12 +511,16 @@ export const compileShader = (root: IShaderNode) => {
       if (!isShaderNodeWithDefaultInput(firstFilter))
         throw new Error("First filter node must have an `a` input")
 
-      plug(node).into(firstFilter)
+      assign(firstFilter, node)
+
+      prepareNode(firstFilter, state)
 
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
         const filter = node.filters[i]
         const prev = node.filters[i - 1]
+
+        prepareNode(filter, state)
 
         if (!isShaderNodeWithDefaultOutput(prev))
           throw new Error("Filter nodes must have a `value` output")
@@ -503,12 +528,9 @@ export const compileShader = (root: IShaderNode) => {
         if (!isShaderNodeWithDefaultInput(filter))
           throw new Error("Filter nodes must have an `a` input")
 
-        plug(prev).into(filter)
+        assign(filter, prev)
       }
     }
-
-    /* Do the same for all filters and dependencies */
-    getDependencies(node).forEach((unit) => prepareNode(unit, state))
   }
 
   prepareNode(root)
