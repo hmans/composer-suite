@@ -1,3 +1,4 @@
+import { prepare } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import {
   Chunk,
   Factory,
@@ -72,15 +73,24 @@ const OperatorNode = (operator: Operator) => <
   const aType = getValueType(a)
   const bType = getValueType(b)
 
+  const inputs = {
+    a: variable(aType, a),
+    b: variable(bType, b)
+  }
+
+  const outputs = {
+    value: variable(aType, `inputs.a ${operator} inputs.b`)
+  }
+
+  const prepare = () => {
+    outputs.value.type = inputs.a.type
+  }
+
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
-    inputs: {
-      a: variable(aType, a),
-      b: variable(bType, b)
-    },
-    outputs: {
-      value: variable(aType, `inputs.a ${operator} inputs.b`)
-    }
+    inputs,
+    outputs,
+    prepare
   })
 }
 
