@@ -184,27 +184,23 @@ export const plug = <
  * @source source
  */
 export const assign = <
-  SourceType extends ValueType,
+  SourceType extends TargetType,
   TargetType extends ValueType
 >(
+  target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>,
   source: Parameter<SourceType>
-) => ({
-  to: (
-    target: Variable<TargetType> | IShaderNodeWithDefaultInput<TargetType>
-  ): void => {
-    /* Is the target is a node, assign to its default input */
-    if (isShaderNodeWithDefaultInput(target))
-      return assign(source).to(target.inputs.a)
+): void => {
+  /* Is the target is a node, assign to its default input */
+  if (isShaderNodeWithDefaultInput(target)) return assign(target, source)
 
-    /* If the source is a node, use its default output */
-    const value = isShaderNodeWithDefaultOutput(source)
-      ? source.outputs.value
-      : source
+  /* If the source is a node, use its default output */
+  const value = isShaderNodeWithDefaultOutput(source)
+    ? source.outputs.value
+    : source
 
-    target.type = getValueType(value)
-    target.value = value as Value<TargetType>
-  }
-})
+  target.type = getValueType(value)
+  target.value = value
+}
 
 /**
  * Returns the value type for the given value.
