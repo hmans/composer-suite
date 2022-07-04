@@ -201,6 +201,7 @@ export const assign = <
       ? source.outputs.value
       : source
 
+    target.type = getValueType(value)
     target.value = value as Value<TargetType>
   }
 })

@@ -530,14 +530,13 @@ describe("assign", () => {
     expect(node.inputs.a.value).toBe(f)
   })
 
-  it("throws an error if the source has a different type from the target", () => {
-    const f = float(0)
-    const v = vec3()
+  it("changes the type of the target variable (if it allows it)", () => {
+    const target = variable("float") //as Variable<"float" | "vec3">
+    const source = variable("vec3", new Vector3())
 
-    expect(() => {
-      // @ts-ignore
-      assign(f).to(v)
-    }).toThrowErrorMatchingInlineSnapshot(`"Tried to assign float to vec3"`)
+    expect(target.type).toBe("float")
+    assign(source).to(target)
+    expect(target.type).toBe("vec3")
   })
 })
 
@@ -553,15 +552,5 @@ describe("plug", () => {
 
     plug(time).into(offset)
     expect(offset.inputs.a.value).toBe(time.outputs.value)
-  })
-
-  it("changes the type of the target variable (if it allows it)", () => {
-    const target = variable("float") as Variable<"float" | "vec3">
-    const source = variable("vec3", new Vector3())
-
-    expect(target.type).toBe("float")
-    plug(source).into(target)
-    // assign(source).to(target)
-    expect(target.type).toBe("vec3")
   })
 })
