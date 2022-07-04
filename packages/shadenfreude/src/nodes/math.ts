@@ -73,7 +73,7 @@ const OperatorNode = (operator: Operator) => <
   const aType = getValueType(a)
   const bType = getValueType(b)
 
-  const node = ShaderNode({
+  return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
     inputs: {
       a: variable(aType, a),
@@ -81,14 +81,8 @@ const OperatorNode = (operator: Operator) => <
     },
     outputs: {
       value: variable(aType, `inputs.a ${operator} inputs.b`)
-    },
-    prepare: () => {
-      node.name = `Perform ${aType} ${operator} ${bType}`
-      node.outputs.value.type = node.inputs.a.type
     }
   })
-
-  return node
 }
 
 export const AddNode = OperatorNode("+")
