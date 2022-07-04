@@ -59,8 +59,8 @@ export const CosNode = FunctionNode("cos")
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
-  a?: Parameter<A>
-  b?: Parameter<B>
+  a: Parameter<A>
+  b: Parameter<B>
 }
 
 const OperatorNode = (operator: Operator) => <
@@ -70,16 +70,16 @@ const OperatorNode = (operator: Operator) => <
   a,
   b
 }: OperatorNodeProps<A, B>) => {
-  const aType = a && getValueType(a)
-  const bType = b && getValueType(b)
+  const aType = getValueType(a)
+  const bType = getValueType(b)
 
   const inputs = {
-    a: aType ? variable(aType, a) : float(),
-    b: bType ? variable(bType, b) : float()
+    a: variable(aType, a),
+    b: variable(bType, b)
   }
 
   const outputs = {
-    value: variable(aType || "float", `inputs.a ${operator} inputs.b`)
+    value: variable(aType, `inputs.a ${operator} inputs.b`)
   }
 
   const prepare = () => {

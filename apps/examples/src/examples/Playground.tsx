@@ -75,10 +75,10 @@ const Squeezed = Factory(() => ({
 
 export default function Playground() {
   const shaderProps = useShader(() => {
-    const colorA = ColorNode({ a: new Color("#000") })
-    const colorB = ColorNode({ a: new Color(0, 10, 0) })
+    const colorA = ColorNode({ a: new Color("#f33") })
+    const colorB = ColorNode({ a: new Color(0, 1, 0) })
 
-    const addNode = AddNode({ type: "vec3", b: colorB })
+    const addNode = AddNode({ a: vec3(), b: colorB })
 
     const colorStack = ShaderNode({
       name: "Color Stack",
