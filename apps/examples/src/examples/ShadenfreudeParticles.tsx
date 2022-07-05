@@ -31,8 +31,19 @@ const ParticleLifetime = Factory(() =>
       time: float(TimeNode())
     },
     outputs: {
-      value: float("inputs.time"), // TODO
-      progress: float("inputs.time / 10.0") // TODO
+      value: float("inputs.time") // TODO
+    }
+  })
+)
+
+const ParticleProgress = Factory(() =>
+  ShaderNode({
+    name: "Particle Progress",
+    inputs: {
+      age: float(ParticleLifetime())
+    },
+    outputs: {
+      value: float("inputs.age / 10.0")
     }
   })
 )
