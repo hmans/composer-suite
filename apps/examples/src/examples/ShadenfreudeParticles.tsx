@@ -114,44 +114,40 @@ export default function ShadenfreudeParticles() {
 
     const velocityAttribute = AttributeNode({ name: "velocity", type: "vec3" })
 
-    const diffuseColor = ShaderNode({
-      name: "Color Stack",
-      inputs: { a: vec3(new Color("#ccc")) },
-      outputs: { value: vec3("inputs.a") },
-      filters: []
-    })
-
-    const alpha = ShaderNode({
-      name: "Alpha Stack",
-      inputs: { a: float(1) },
-      outputs: { value: float("inputs.a") },
-      filters: [HideDeadParticles()]
-    })
-
-    const position = ShaderNode({
-      name: "Position Stack",
-      inputs: { a: vec3(VertexPositionNode()) },
-      outputs: { value: vec3("inputs.a") },
-      filters: [
-        AddNode({
-          b: StatelessVelocityNode({
-            velocity: velocityAttribute,
-            time: particleLifetime
-          })
-        }),
-        AddNode({
-          b: StatelessAccelerationNode({
-            acceleration: new Vector3(0, -10, 0),
-            time: particleLifetime
-          })
-        })
-      ]
-    })
-
     return CustomShaderMaterialMasterNode({
-      diffuseColor,
-      alpha,
-      position
+      diffuseColor: ShaderNode({
+        name: "Color Stack",
+        inputs: { a: vec3(new Color("#ccc")) },
+        outputs: { value: vec3("inputs.a") },
+        filters: []
+      }),
+
+      alpha: ShaderNode({
+        name: "Alpha Stack",
+        inputs: { a: float(1) },
+        outputs: { value: float("inputs.a") },
+        filters: [HideDeadParticles()]
+      }),
+
+      position: ShaderNode({
+        name: "Position Stack",
+        inputs: { a: vec3(VertexPositionNode()) },
+        outputs: { value: vec3("inputs.a") },
+        filters: [
+          AddNode({
+            b: StatelessVelocityNode({
+              velocity: velocityAttribute,
+              time: particleLifetime
+            })
+          }),
+          AddNode({
+            b: StatelessAccelerationNode({
+              acceleration: new Vector3(0, -10, 0),
+              time: particleLifetime
+            })
+          })
+        ]
+      })
     })
   })
 
