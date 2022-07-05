@@ -24,6 +24,19 @@ const useShader = (fac: () => IShaderNode) => {
   return shader
 }
 
+const ParticleLifetime = Factory(() =>
+  ShaderNode({
+    name: "Particle Lifetime",
+    inputs: {
+      time: float(TimeNode())
+    },
+    outputs: {
+      value: float("inputs.time"), // TODO
+      progress: float("inputs.time / 10.0") // TODO
+    }
+  })
+)
+
 const StatelessVelocityNode = Factory(() => ({
   name: "Velocity",
   inputs: {
@@ -57,6 +70,8 @@ export default function ShadenfreudeParticles() {
       filters: []
     })
 
+    const particleLifetime = ParticleLifetime()
+
     const position = ShaderNode({
       name: "Position Stack",
       inputs: { a: vec3(VertexPositionNode()) },
@@ -64,11 +79,15 @@ export default function ShadenfreudeParticles() {
       filters: [
         AddNode({
           b: StatelessVelocityNode({
-            velocity: new Vector3(plusMinus(10), 5 + upTo(5), plusMinus(10))
+            velocity: new Vector3(plusMinus(10), 5 + upTo(5), plusMinus(10)),
+            time: particleLifetime
           })
         }),
         AddNode({
-          b: StatelessAccelerationNode({ acceleration: new Vector3(0, -10, 0) })
+          b: StatelessAccelerationNode({
+            acceleration: new Vector3(0, -10, 0),
+            time: particleLifetime
+          })
         })
       ]
     })
