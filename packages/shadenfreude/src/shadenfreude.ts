@@ -557,21 +557,21 @@ export const compileShader = (root: IShaderNode) => {
     if (state.seenNodes.has(node)) return
     state.seenNodes.add(node)
 
-    const deps = [...getInputDependencies(node), ...getOutputDependencies(node)]
-    deps.forEach((unit) => prepareNode(unit, state))
+    /* Recursively dive into this node's dependencies to prepare them first. */
+    getDependencies(node).forEach((unit) => prepareNode(unit, state))
 
     ++state.id
 
-    const nodePartInVariableName = [sluggify(node.name || "node"), state.id]
+    const variableNamePrefix = [sluggify(node.name || "node"), state.id]
 
     /* Tweak this node's output variable names */
     getVariables(node.outputs).map(([localName, variable]) => {
-      variable.name = identifier("out", ...nodePartInVariableName, localName)
+      variable.name = identifier("out", ...variableNamePrefix, localName)
     })
 
     /* Tweak this node's varying names */
     getVariables(node.varyings).map(([localName, variable]) => {
-      variable.name = identifier("v", ...nodePartInVariableName, localName)
+      variable.name = identifier("v", ...variableNamePrefix, localName)
     })
 
     /* Prepare filters */
@@ -587,14 +587,10 @@ export const compileShader = (root: IShaderNode) => {
 
       assign(firstFilter, node)
 
-      prepareNode(firstFilter, state)
-
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
         const filter = node.filters[i]
         const prev = node.filters[i - 1]
-
-        prepareNode(filter, state)
 
         if (!isShaderNodeWithDefaultOutput(prev))
           throw new Error("Filter nodes must have a `value` output")
@@ -609,6 +605,7 @@ export const compileShader = (root: IShaderNode) => {
 
   prepareNode(root)
 
+  /* Compile programs */
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
 

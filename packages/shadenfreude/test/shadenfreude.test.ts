@@ -436,26 +436,26 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: Node with filters ***/
-        float out_Node_with_filters_1_value;
+        float out_Node_with_filters_2_value;
         {
           struct { float a; } inputs;
           inputs.a = 1.0;
           struct { float value; } outputs;
           outputs.value = in_value;
-          out_Node_with_filters_1_value = outputs.value;
+          out_Node_with_filters_2_value = outputs.value;
           /*** BEGIN: Addition ***/
-          float out_Addition_2_value;
+          float out_Addition_1_value;
           {
             struct { float a; float b; } inputs;
-            inputs.a = out_Node_with_filters_1_value;
+            inputs.a = out_Node_with_filters_2_value;
             inputs.b = 2.0;
             struct { float value; } outputs;
             outputs.value = in_value + in_other;
-            out_Addition_2_value = outputs.value;
+            out_Addition_1_value = outputs.value;
           }
           /*** END: Addition ***/
 
-          out_Node_with_filters_1_value = out_Addition_2_value;
+          out_Node_with_filters_2_value = out_Addition_1_value;
         }
         /*** END: Node with filters ***/
 
