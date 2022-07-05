@@ -15,7 +15,7 @@ import {
 } from "shadenfreude"
 import { Color, Matrix4, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import { Particles } from "three-vfx"
+import { Emitter, Particles, Repeat } from "three-vfx"
 
 const useShader = (fac: () => IShaderNode) => {
   const [shader, update] = useMemo(() => compileShader(fac()), [])
@@ -134,12 +134,6 @@ export default function ShadenfreudeParticles() {
     })
   })
 
-  useLayoutEffect(() => {
-    /* Spawn a single particle */
-    imesh.current.setMatrixAt(0, new Matrix4())
-    imesh.current.count = 1
-  }, [])
-
   return (
     <group position-y={15}>
       <Particles ref={imesh}>
@@ -149,6 +143,10 @@ export default function ShadenfreudeParticles() {
           {...shader}
           transparent
         />
+
+        <Repeat interval={1}>
+          <Emitter count={1} />
+        </Repeat>
       </Particles>
     </group>
   )
