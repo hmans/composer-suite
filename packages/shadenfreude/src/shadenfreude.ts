@@ -293,30 +293,51 @@ export const compileShader = (root: IShaderNode) => {
    * Renders the GLSL representation of a given variable value.
    */
   const compileValue = (value: Value): string => {
+    /* Render strings verbatim, assuming they are a GLSL expression. */
     if (typeof value === "string") {
       return value
-    } else if (typeof value === "number") {
+    }
+
+    /* Always convert numbers to floats. */
+    /* TODO: support ints! */
+    if (typeof value === "number") {
       const s = value.toString()
       return s.match(/[.e]/) ? s : s + ".0"
-    } else if (value instanceof Vector2) {
+    }
+
+    /* Vector2 -> vec2 */
+    if (value instanceof Vector2) {
       return `vec2(${compileValue(value.x)}, ${compileValue(value.y)})`
-    } else if (value instanceof Vector3) {
+    }
+
+    /* Vector3 -> vec3 */
+    if (value instanceof Vector3) {
       return `vec3(${compileValue(value.x)}, ${compileValue(
         value.y
       )}, ${compileValue(value.z)})`
-    } else if (value instanceof Color) {
+    }
+
+    /* Color -> vec3 */
+    if (value instanceof Color) {
       return `vec3(${compileValue(value.r)}, ${compileValue(
         value.g
       )}, ${compileValue(value.b)})`
-    } else if (value instanceof Vector4) {
+    }
+
+    /* Vector4 -> vec4 */
+    if (value instanceof Vector4) {
       return `vec4(${compileValue(value.x)}, ${compileValue(
         value.y
       )}, ${compileValue(value.z)}, ${compileValue(value.w)})`
-    } else if (isVariable(value)) {
-      return value.name
-    } else {
-      throw new Error("Could not render value for" + value)
     }
+
+    /* If the value is another variable, render that variable's name, since we want to source that variable. */
+    if (isVariable(value)) {
+      return value.name
+    }
+
+    /* If we got here, we couldn't render the value, so let's throw an error. */
+    throw new Error("Could not render value for" + value)
   }
 
   /**
