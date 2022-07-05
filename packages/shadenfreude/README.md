@@ -77,17 +77,25 @@ Okay, ignoring the fact that the resulting color is going to look unfathomably t
 
 Instead of assigning inputs at time of instantiation, you can also do it imperatively after nodes have been created. The previous example can be rewritten like this:
 
-```jsx
+```ts
 const colorA = new THREE.Color("hotpink")
 const colorB = new THREE.Color("green")
 
 const mixedColor = MixNode()
-plug(colorA).into(mixedColor) /* uses the "a" variable by default */
-plug(colorB).into(mixedColor.inputs.b)
-plug(0.5).into(mixedColor.inputs.amount)
+set(mixedColor).to(colorA) // assigns to the `a` input by default
+set(mixedColor.inputs.b).to(colorB)
+set(mixedColor.inputs.amount).to(0.5)
 
 const root = ShaderMaterialMasterNode()
-plug(mixedColor).into(root.inputs.color)
+set(root.inputs.color).to(mixedColor)
+```
+
+If the `set().to()` API is a little too cute for your taste, there's also `assign(target, source)`:
+
+```ts
+assign(mixedColor, colorA)
+assign(mixedColor.inputs.b, colorB)
+assign(mixedColor.inputs.amount, 0.5)
 ```
 
 ### Animations
@@ -385,11 +393,11 @@ Input and output variables can be named anything you want (as long as the name c
 We can use this to our advantage anywhere we're assigning values to variables, for example:
 
 ```js
-plug(colorA).into(mixedColor)
+set(mixedColor).to(colorA)
 AnimateNode({ time: TimeNode() })
 
 /* This is equivalent to: */
-plug(colorA.outputs.value).into(mixedColor.inputs.a)
+set(mixedColor.inputs.a).to(colorA.outputs.value)
 AnimateNode({ time: TimeNode().outputs.value })
 ```
 
