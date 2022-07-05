@@ -189,10 +189,8 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableProp<V extends Variable> = Parameter<V["type"]>
-
 export type VariableProps<V extends Variables | undefined> = V extends Variables
-  ? { [K in keyof V]: VariableProp<V[K]> }
+  ? { [K in keyof V]: Parameter<V[K]["type"]> }
   : {}
 
 export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
