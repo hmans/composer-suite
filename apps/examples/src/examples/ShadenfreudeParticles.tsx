@@ -16,6 +16,7 @@ import {
   multiply,
   MultiplyNode,
   ShaderNode,
+  split,
   subtract,
   SubtractNode,
   TimeNode,
@@ -122,9 +123,7 @@ export default function ShadenfreudeParticles() {
       velocity: AttributeNode({ name: "velocity", type: "vec3" })
     }
 
-    const lifetimeData = SplitVector2Node({
-      a: blackboard.lifetime
-    })
+    const lifetimeData = split(blackboard.lifetime)
 
     const particleAge = subtract(blackboard.time, lifetimeData.outputs.x)
 

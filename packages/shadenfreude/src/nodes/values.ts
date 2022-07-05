@@ -1,6 +1,8 @@
 import {
   Factory,
   float,
+  getValueType,
+  Parameter,
   ShaderNode,
   ValueType,
   variable,
@@ -82,3 +84,14 @@ export const SplitVector4Node = Factory(() =>
     }
   })
 )
+
+export const split = (v: Parameter<"vec2" | "vec3" | "vec4">) => {
+  switch (getValueType(v)) {
+    case "vec2":
+      return SplitVector2Node({ a: v as Parameter<"vec2"> })
+    case "vec3":
+      return SplitVector3Node({ a: v as Parameter<"vec3"> })
+    case "vec4":
+      return SplitVector4Node({ a: v as Parameter<"vec4"> })
+  }
+}
