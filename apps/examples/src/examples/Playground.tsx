@@ -17,7 +17,7 @@ import {
   vec2,
   vec3
 } from "shadenfreude"
-import { Color, ShaderMaterial } from "three"
+import { Color, ShaderMaterial, Vector3 } from "three"
 import { useShader } from "./useShader"
 
 const WobbleNode = Factory(() => ({
@@ -79,7 +79,7 @@ export default function Playground() {
     const colorB = ColorNode({ a: new Color(0, 1, 0) })
 
     const l = AddNode({
-      a: vec3(), // eeeh
+      a: new Vector3(),
       b: colorB
     })
 
