@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
-  AddNode,
+  addNodes,
   assignment,
   AttributeNode,
   compileShader,
@@ -11,14 +11,11 @@ import {
   float,
   FloatNode,
   IShaderNode,
-  IShaderNodeWithDefaultOutput,
   MixNode,
   MultiplyNode,
-  Parameter,
   ShaderNode,
   SubtractNode,
   TimeNode,
-  ValueType,
   vec2,
   vec3,
   VertexPositionNode
@@ -111,32 +108,6 @@ const HideDeadParticles = Factory(() =>
     }
   })
 )
-
-const addNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
-): IShaderNodeWithDefaultOutput<T> =>
-  AddNode({ a: first, b: rest.length > 1 ? addNodes(...rest) : rest[0] })
-
-const multiplyNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
-): IShaderNodeWithDefaultOutput<T> =>
-  MultiplyNode({
-    a: first,
-    b: rest.length > 1 ? multiplyNodes(...rest) : rest[0]
-  })
-
-const divideNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
-): IShaderNodeWithDefaultOutput<T> =>
-  DivideNode({ a: first, b: rest.length > 1 ? divideNodes(...rest) : rest[0] })
-
-const subtractNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
-): IShaderNodeWithDefaultOutput<T> =>
-  SubtractNode({
-    a: first,
-    b: rest.length > 1 ? subtractNodes(...rest) : rest[0]
-  })
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
