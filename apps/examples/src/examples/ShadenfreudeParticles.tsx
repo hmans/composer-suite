@@ -1,13 +1,16 @@
 import { useFrame } from "@react-three/fiber"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import {
+  AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   IShaderNode,
+  MultiplyNode,
   ShaderNode,
-  vec3
+  vec3,
+  VertexPositionNode
 } from "shadenfreude"
-import { Color, Matrix4, MeshStandardMaterial } from "three"
+import { Color, Matrix4, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { Particles } from "three-vfx"
 
@@ -23,16 +26,21 @@ export default function ShadenfreudeParticles() {
   const shader = useShader(() => {
     const diffuseColor = ShaderNode({
       name: "Color Stack",
-      inputs: {
-        a: vec3(new Color("hotpink"))
-      },
-      outputs: {
-        value: vec3("inputs.a")
-      }
+      inputs: { a: vec3(new Color("#555")) },
+      outputs: { value: vec3("inputs.a") },
+      filters: []
+    })
+
+    const position = ShaderNode({
+      name: "Position Stack",
+      inputs: { a: vec3(VertexPositionNode()) },
+      outputs: { value: vec3("inputs.a") },
+      filters: []
     })
 
     return CustomShaderMaterialMasterNode({
-      diffuseColor
+      diffuseColor,
+      position
     })
   })
 
