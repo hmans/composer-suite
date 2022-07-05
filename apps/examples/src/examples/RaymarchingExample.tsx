@@ -171,7 +171,7 @@ export default function RaymarchingExample() {
   return (
     <group position-y={15}>
       <mesh>
-        <planeGeometry args={[40, 30]} />
+        <planeGeometry args={[40, 40]} />
         <shaderMaterial
           ref={material}
           {...shaderProps}
