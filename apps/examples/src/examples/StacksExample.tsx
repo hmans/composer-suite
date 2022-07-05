@@ -70,15 +70,27 @@ export default function StacksExample() {
         VertexPositionNode(),
         JoinVector3Node({
           x: add(
-            multiply(ScaleWithTime({ time: multiply(time, 1.3) }), 0.2),
+            multiply(
+              ScaleWithTime({ time: multiply(time, speedUniform, 1.3) }),
+              0.2,
+              intensityUniform
+            ),
             1.0
           ),
           y: add(
-            multiply(ScaleWithTime({ time: multiply(time, 1.7) }), 0.3),
+            multiply(
+              ScaleWithTime({ time: multiply(time, speedUniform, 1.7) }),
+              0.3,
+              intensityUniform
+            ),
             1.0
           ),
           z: add(
-            multiply(ScaleWithTime({ time: multiply(time, 1.1) }), 0.2),
+            multiply(
+              ScaleWithTime({ time: multiply(time, speedUniform, 1.1) }),
+              0.2,
+              intensityUniform
+            ),
             1.0
           )
         })
