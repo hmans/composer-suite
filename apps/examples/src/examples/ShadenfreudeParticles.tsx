@@ -6,11 +6,13 @@ import {
   AttributeNode,
   compileShader,
   CustomShaderMaterialMasterNode,
+  DivideNode,
   Factory,
   float,
   IShaderNode,
   MultiplyNode,
   ShaderNode,
+  SubtractNode,
   TimeNode,
   vec2,
   vec3,
@@ -26,28 +28,16 @@ const useShader = (fac: () => IShaderNode) => {
   return shader
 }
 
-const ParticleAge = Factory(() =>
+const SplitVector2Node = Factory(() =>
   ShaderNode({
-    name: "Particle Lifetime",
+    name: "Split Vector2",
     inputs: {
-      time: float(TimeNode()),
-      lifetime: vec2()
+      a: vec2()
     },
     outputs: {
-      value: float("inputs.time - inputs.lifetime.x")
-    }
-  })
-)
-
-const ParticleProgress = Factory(() =>
-  ShaderNode({
-    name: "Particle Progress",
-    inputs: {
-      age: float(),
-      lifetime: vec2()
-    },
-    outputs: {
-      value: float("inputs.age / (inputs.lifetime.y - inputs.lifetime.x)")
+      value: vec2("inputs.a"),
+      x: float("inputs.a.x"),
+      y: float("inputs.a.y")
     }
   })
 )
@@ -90,6 +80,20 @@ const StatelessAccelerationNode = Factory(() =>
   })
 )
 
+const StatelessAlphaAnimationNode = Factory(() =>
+  ShaderNode({
+    name: "Stateless Alpha Animation",
+    inputs: {
+      min: float(),
+      max: float(),
+      t: float()
+    },
+    outputs: {
+      value: float("mix(inputs.min, inputs.max, inputs.t)")
+    }
+  })
+)
+
 const HideDeadParticles = Factory(() =>
   ShaderNode({
     name: "Hide Dead Particles",
@@ -114,20 +118,30 @@ export default function ShadenfreudeParticles() {
       velocity: AttributeNode({ name: "velocity", type: "vec3" })
     }
 
-    const particleAge = ParticleAge({
-      lifetime: blackboard.lifetime
+    const lifetimeData = SplitVector2Node({
+      a: blackboard.lifetime
     })
 
-    const particleProgress = ParticleProgress({
-      lifetime: blackboard.lifetime,
-      age: particleAge
+    const particleAge = SubtractNode({
+      a: TimeNode(),
+      b: lifetimeData.outputs.x
+    })
+
+    const particleMaxAge = SubtractNode({
+      a: lifetimeData.outputs.y,
+      b: lifetimeData.outputs.x
+    })
+
+    const particleProgress = DivideNode({
+      a: particleAge,
+      b: particleMaxAge
     })
 
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
 
       alpha: MultiplyNode({
-        a: 1,
+        a: StatelessAlphaAnimationNode({ t: particleProgress, min: 1, max: 0 }),
         b: HideDeadParticles({ progress: particleProgress })
       }),
 
@@ -136,11 +150,11 @@ export default function ShadenfreudeParticles() {
         b: AddNode({
           a: StatelessVelocityNode({
             velocity: blackboard.velocity,
-            time: ParticleAge({ lifetime: blackboard.lifetime })
+            time: particleAge
           }),
           b: StatelessAccelerationNode({
             acceleration: new Vector3(0, -10, 0),
-            time: ParticleAge({ lifetime: blackboard.lifetime })
+            time: particleAge
           })
         })
       })
