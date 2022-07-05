@@ -5,11 +5,9 @@ import {
   AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
-  DivideNode,
   Factory,
   float,
   IShaderNode,
-  MultiplyNode,
   ShaderNode,
   TimeNode,
   vec3,
@@ -18,7 +16,6 @@ import {
 import { Color, Matrix4, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { Particles } from "three-vfx"
-import { randFloatSpread } from "three/src/math/MathUtils"
 
 const useShader = (fac: () => IShaderNode) => {
   const [shader, update] = useMemo(() => compileShader(fac()), [])
