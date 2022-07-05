@@ -8,6 +8,7 @@ import {
   FresnelNode,
   JoinVector3Node,
   multiply,
+  sin,
   SinNode,
   SplitVector3Node,
   TimeNode,
@@ -44,14 +45,14 @@ export default function StacksExample() {
 
     const wobble = (frequency = 1, amplitude = 1) =>
       multiply(
-        SinNode({ a: multiply(time, speedUniform, frequency) }),
+        sin(multiply(time, speedUniform, frequency)),
         amplitude,
         intensityUniform
       )
 
     const shift = (frequency = 1, amplitude = 1) =>
       multiply(
-        SinNode({ a: multiply(time, speedUniform, frequency) }),
+        sin(multiply(time, speedUniform, frequency)),
         amplitude,
         intensityUniform
       )

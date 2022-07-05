@@ -56,6 +56,9 @@ const FunctionNode = (fun: string) => <A extends ValueType>(
 export const SinNode = FunctionNode("sin")
 export const CosNode = FunctionNode("cos")
 
+export const sin = (a: Parameter<"float">) => SinNode({ a })
+export const cos = (a: Parameter<"float">) => CosNode({ a })
+
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
