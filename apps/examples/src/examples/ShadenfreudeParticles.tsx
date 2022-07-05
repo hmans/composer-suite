@@ -7,20 +7,16 @@ import {
   compileShader,
   CustomShaderMaterialMasterNode,
   divide,
-  DivideNode,
   Factory,
   float,
   FloatNode,
   IShaderNode,
   MixNode,
   multiply,
-  MultiplyNode,
   ShaderNode,
   split,
   subtract,
-  SubtractNode,
   TimeNode,
-  vec2,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -42,20 +38,6 @@ const ExponentialEaseInNode = Factory(() =>
       value: float(
         "inputs.a == 0.0 ? inputs.a : pow(2.0, 10.0 * (inputs.a - 1.0))"
       )
-    }
-  })
-)
-
-const SplitVector2Node = Factory(() =>
-  ShaderNode({
-    name: "Split Vector2",
-    inputs: {
-      a: vec2()
-    },
-    outputs: {
-      value: vec2("inputs.a"),
-      x: float("inputs.a.x"),
-      y: float("inputs.a.y")
     }
   })
 )
