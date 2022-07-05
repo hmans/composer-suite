@@ -8,7 +8,7 @@ export const ShaderMaterialMasterNode = Factory(() => ({
   inputs: {
     position: vec3(VertexPositionNode()),
     color: vec3(new Color(1, 1, 1)),
-    opacity: float(1)
+    alpha: float(1)
   },
 
   vertex: {
@@ -19,7 +19,7 @@ export const ShaderMaterialMasterNode = Factory(() => ({
   },
 
   fragment: {
-    body: assignment("gl_FragColor", "vec4(inputs.color, inputs.opacity)")
+    body: assignment("gl_FragColor", "vec4(inputs.color, inputs.alpha)")
   }
 }))
 

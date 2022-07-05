@@ -33,7 +33,8 @@ const RaymarchingNode = Factory(() => {
     },
 
     outputs: {
-      value: vec3()
+      value: vec3(),
+      alpha: float()
     },
 
     fragment: {
@@ -120,8 +121,11 @@ const RaymarchingNode = Factory(() => {
 
         // Assemble color
         vec3 color;
+        float alpha = 0.0;
 
         if (t > 0.0) {
+          alpha = 1.0;
+
           vec3 normal = ${calcNormal}(viewPos + t * viewDir);
           vec3 diffuseColor = vec3(0.8, 0.5, 0.3);
 
@@ -143,6 +147,7 @@ const RaymarchingNode = Factory(() => {
         }
 
         outputs.value = color;
+        outputs.alpha = alpha;
       `
     }
   }
@@ -150,10 +155,14 @@ const RaymarchingNode = Factory(() => {
 
 export default function RaymarchingExample() {
   const shaderProps = useShader(() => {
+    const raymarcher = RaymarchingNode()
+
     return ShaderMaterialMasterNode({
-      color: RaymarchingNode()
+      color: raymarcher.outputs.value,
+      alpha: raymarcher.outputs.alpha
     })
   })
+
   const material = useRef<ShaderMaterial>(null!)
 
   console.log(shaderProps.vertexShader)
@@ -163,7 +172,12 @@ export default function RaymarchingExample() {
     <group position-y={15}>
       <mesh>
         <planeGeometry args={[30, 20]} />
-        <shaderMaterial ref={material} {...shaderProps} side={DoubleSide} />
+        <shaderMaterial
+          ref={material}
+          {...shaderProps}
+          side={DoubleSide}
+          transparent
+        />
       </mesh>
     </group>
   )
