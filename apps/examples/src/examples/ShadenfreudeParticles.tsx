@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react"
-import { Matrix4 } from "three"
+import { Matrix4, MeshStandardMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
 import { Particles } from "three-vfx"
 
 export default function ShadenfreudeParticles() {
@@ -15,7 +16,7 @@ export default function ShadenfreudeParticles() {
     <group position-y={15}>
       <Particles ref={imesh}>
         <sphereGeometry />
-        <meshBasicMaterial color="white" />
+        <CustomShaderMaterial baseMaterial={MeshStandardMaterial} />
       </Particles>
     </group>
   )
