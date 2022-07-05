@@ -566,14 +566,13 @@ __   __  _______  ___      _______  _______  ______    _______
 */
 
 export const struct = (name: string, variables: Variables) =>
-  Object.keys(variables).length > 0
-    ? statement(
-        "struct {",
-        Object.entries(variables).map(([name, v]) => statement(v.type, name)),
-        "}",
-        name
-      )
-    : ""
+  Object.keys(variables).length > 0 &&
+  statement(
+    "struct {",
+    Object.entries(variables).map(([name, v]) => statement(v.type, name)),
+    "}",
+    name
+  )
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
