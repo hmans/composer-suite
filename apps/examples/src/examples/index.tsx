@@ -55,7 +55,7 @@ export default [
   },
   {
     path: "raymarching",
-    name: "Shadenfreude Raymarching",
+    name: "Shadenfreude Raymarching (WIP)",
     component: <RaymarchingExample />
   }
 ] as ExampleDefinition[]
