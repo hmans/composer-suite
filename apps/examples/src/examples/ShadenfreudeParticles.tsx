@@ -1,19 +1,22 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
-  addNodes,
+  add,
   assignment,
   AttributeNode,
   compileShader,
   CustomShaderMaterialMasterNode,
+  divide,
   DivideNode,
   Factory,
   float,
   FloatNode,
   IShaderNode,
   MixNode,
+  multiply,
   MultiplyNode,
   ShaderNode,
+  subtract,
   SubtractNode,
   TimeNode,
   vec2,
@@ -123,20 +126,14 @@ export default function ShadenfreudeParticles() {
       a: blackboard.lifetime
     })
 
-    const particleAge = SubtractNode({
-      a: blackboard.time,
-      b: lifetimeData.outputs.x
-    })
+    const particleAge = subtract(blackboard.time, lifetimeData.outputs.x)
 
-    const particleMaxAge = SubtractNode({
-      a: lifetimeData.outputs.y,
-      b: lifetimeData.outputs.x
-    })
+    const particleMaxAge = subtract(
+      lifetimeData.outputs.y,
+      lifetimeData.outputs.x
+    )
 
-    const particleProgress = DivideNode({
-      a: particleAge,
-      b: particleMaxAge
-    })
+    const particleProgress = divide(particleAge, particleMaxAge)
 
     const alphaOverTime = MixNode({
       a: FloatNode({ a: 1 }),
@@ -147,17 +144,19 @@ export default function ShadenfreudeParticles() {
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
 
-      alpha: MultiplyNode({
-        a: alphaOverTime,
-        b: HideDeadParticles({ progress: particleProgress })
-      }),
+      alpha: multiply(
+        alphaOverTime,
+        HideDeadParticles({ progress: particleProgress })
+      ),
 
-      position: addNodes(
+      position: add(
         VertexPositionNode(),
+
         StatelessVelocityNode({
           velocity: blackboard.velocity,
           time: particleAge
         }),
+
         StatelessAccelerationNode({
           acceleration: new Vector3(0, -10, 0),
           time: particleAge
