@@ -112,9 +112,24 @@ const HideDeadParticles = Factory(() =>
 )
 
 const add = <T extends ValueType>(
-  ...[first, ...rest]: IShaderNodeWithDefaultOutput<T>[]
+  ...[first, ...rest]: Parameter<T>[]
 ): IShaderNodeWithDefaultOutput<T> =>
   AddNode({ a: first, b: rest.length > 1 ? add(...rest) : rest[0] })
+
+const multiply = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  MultiplyNode({ a: first, b: rest.length > 1 ? multiply(...rest) : rest[0] })
+
+const divide = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  DivideNode({ a: first, b: rest.length > 1 ? divide(...rest) : rest[0] })
+
+const subtract = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  SubtractNode({ a: first, b: rest.length > 1 ? subtract(...rest) : rest[0] })
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
