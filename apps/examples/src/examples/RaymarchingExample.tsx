@@ -95,6 +95,11 @@ const RaymarchingNode = Factory(() => {
           vec3 sunDir = normalize(vec3(1.0, 0.2, 0.5));
           float sunIntensity = max(0.0, dot(normal, sunDir));
           color += diffuseColor * sunIntensity;
+
+          // sky light
+          vec3 skyDir = normalize(vec3(0.0, 1.0, 0.0));
+          float skyIntensity = max(0.0, dot(normal, skyDir));
+          color += vec3(0.8, 0.8, 1.0) * skyIntensity * 0.4;
         }
 
         outputs.value = color;
