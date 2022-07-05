@@ -43,6 +43,7 @@ export default function StacksExample() {
 
     const time = TimeNode()
     const position = SplitVector3Node({ a: VertexPositionNode() })
+    const { x, y, z } = position.outputs
 
     const scaledTime = (scale = 1) =>
       multiply<"float">(time, speedUniform, scale)
@@ -52,8 +53,6 @@ export default function StacksExample() {
 
     const shift = (frequency = 1, amplitude = 1) =>
       multiply(sin(scaledTime(frequency)), amplitude, intensityUniform)
-
-    const { x, y, z } = position.outputs
 
     const root = CustomShaderMaterialMasterNode({
       position: JoinVector3Node({
