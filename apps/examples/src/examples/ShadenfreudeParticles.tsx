@@ -96,6 +96,8 @@ export default function ShadenfreudeParticles() {
   const shader = useShader(() => {
     const particleLifetime = ParticleAge()
 
+    const velocityAttribute = AttributeNode({ name: "velocity", type: "vec3" })
+
     const diffuseColor = ShaderNode({
       name: "Color Stack",
       inputs: { a: vec3(new Color("#555")) },
@@ -117,7 +119,7 @@ export default function ShadenfreudeParticles() {
       filters: [
         AddNode({
           b: StatelessVelocityNode({
-            velocity: new Vector3(plusMinus(10), 5 + upTo(5), plusMinus(10)),
+            velocity: velocityAttribute,
             time: particleLifetime
           })
         }),

@@ -12,7 +12,8 @@ import {
   InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
-  ShaderMaterial
+  ShaderMaterial,
+  Vector3
 } from "three"
 import { ParticlesContext } from "../ParticlesContext"
 
@@ -39,6 +40,11 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
       geometry.setAttribute(
         "lifetime",
         new InstancedBufferAttribute(new Float32Array(maxInstanceCount * 2), 2)
+      )
+
+      geometry.setAttribute(
+        "velocity",
+        new InstancedBufferAttribute(new Float32Array(maxInstanceCount * 3), 3)
       )
     }, [])
 
@@ -95,6 +101,16 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
             cursor,
             time,
             time + 0.5 + Math.random()
+          )
+
+          /* Configure velocity */
+          geometry.attributes.velocity.setXYZ(
+            cursor,
+            ...new Vector3(
+              Math.random() * 10 - 5,
+              Math.random() * 10,
+              Math.random() * 10 - 5
+            ).toArray()
           )
 
           /* Advance playhead */
