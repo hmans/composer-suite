@@ -16,6 +16,7 @@ const RaymarchingNode = Factory(() => {
   const map = uniqueGlobalIdentifier()
   const castRay = uniqueGlobalIdentifier()
   const calcNormal = uniqueGlobalIdentifier()
+  const fresnel = uniqueGlobalIdentifier()
 
   return {
     name: "Raymarching Example",
@@ -71,6 +72,19 @@ const RaymarchingNode = Factory(() => {
           return t;
         }
 
+        float ${fresnel}(in vec3 normal, in vec3 viewDirection)
+        {
+          float factor = 1.0;
+          float bias = 0.0;
+          float intensity = 0.5;
+          float power = 2.0;
+
+          float f_a = (factor + dot(viewDirection, normal));
+          float f_fresnel = bias + intensity * pow(abs(f_a), power);
+          f_fresnel = clamp(f_fresnel, 0.0, 1.0);
+          return f_fresnel;
+        }
+
     `,
 
       body: /*glsl*/ `
@@ -100,6 +114,9 @@ const RaymarchingNode = Factory(() => {
           vec3 skyDir = normalize(vec3(0.0, 1.0, 0.0));
           float skyIntensity = max(0.0, dot(normal, skyDir));
           color += vec3(0.8, 0.8, 1.0) * skyIntensity * 0.4;
+
+          // fresnel
+          color += vec3(0.4) * ${fresnel}(normal, viewDir);
         }
 
         outputs.value = color;
