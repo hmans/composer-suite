@@ -3,6 +3,7 @@ import { plusMinus, upTo } from "randomish"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import {
   AddNode,
+  assignment,
   AttributeNode,
   compileShader,
   CustomShaderMaterialMasterNode,
@@ -59,7 +60,13 @@ const StatelessVelocityNode = Factory(() =>
       time: float(TimeNode())
     },
     outputs: {
-      value: vec3("inputs.time * inputs.velocity")
+      value: vec3()
+    },
+    vertex: {
+      body: assignment(
+        "outputs.value",
+        "inputs.time * inputs.velocity * mat3(instanceMatrix)"
+      )
     }
   })
 )
@@ -72,7 +79,13 @@ const StatelessAccelerationNode = Factory(() =>
       time: float(TimeNode())
     },
     outputs: {
-      value: vec3("0.5 * inputs.time * inputs.time * inputs.acceleration")
+      value: vec3()
+    },
+    vertex: {
+      body: assignment(
+        "outputs.value",
+        "0.5 * inputs.time * inputs.time * inputs.acceleration * mat3(instanceMatrix)"
+      )
     }
   })
 )

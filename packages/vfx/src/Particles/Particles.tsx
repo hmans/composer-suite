@@ -12,6 +12,7 @@ import {
   InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
+  Quaternion,
   ShaderMaterial,
   Vector3
 } from "three"
@@ -94,7 +95,13 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
         /* Spawn particles, yay! */
         for (let i = 0; i < count; i++) {
           /* Initialize new particle */
-          imesh.current.setMatrixAt(cursor, new Matrix4())
+          const position = new Vector3()
+          const quaternion = new Quaternion().random()
+          const scale = new Vector3().setScalar(1)
+          imesh.current.setMatrixAt(
+            cursor,
+            new Matrix4().compose(position, quaternion, scale)
+          )
 
           /* Configure lifetime */
           geometry.attributes.lifetime.setXY(
