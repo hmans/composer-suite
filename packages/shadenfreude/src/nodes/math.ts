@@ -56,6 +56,9 @@ const FunctionNode = (fun: string) => <A extends ValueType>(
 export const SinNode = FunctionNode("sin")
 export const CosNode = FunctionNode("cos")
 
+export const sin = (a: Parameter<"float">) => SinNode({ a })
+export const cos = (a: Parameter<"float">) => CosNode({ a })
+
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
@@ -96,30 +99,37 @@ export const SubtractNode = OperatorNode("-")
 export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
 
-export const addNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
+export const add = <T extends ValueType>(
+  ...[first, ...rest]: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  AddNode({ a: first, b: rest.length > 1 ? addNodes(...rest) : rest[0] })
+  AddNode({
+    a: first,
+    b: rest.length > 1 ? add(rest.shift(), ...rest) : rest[0]
+  })
 
-export const multiplyNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
+export const multiply = <T extends ValueType>(
+  first: Parameter<T>,
+  ...rest: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
   MultiplyNode({
     a: first,
-    b: rest.length > 1 ? multiplyNodes(...rest) : rest[0]
+    b: rest.length > 1 ? multiply(rest.shift(), ...rest) : rest[0]
   })
 
-export const divideNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
+export const divide = <T extends ValueType>(
+  ...[first, ...rest]: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  DivideNode({ a: first, b: rest.length > 1 ? divideNodes(...rest) : rest[0] })
+  DivideNode({
+    a: first,
+    b: rest.length > 1 ? divide(rest.shift(), ...rest) : rest[0]
+  })
 
-export const subtractNodes = <T extends ValueType>(
-  ...[first, ...rest]: Parameter<T>[]
+export const subtract = <T extends ValueType>(
+  ...[first, ...rest]: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
   SubtractNode({
     a: first,
-    b: rest.length > 1 ? subtractNodes(...rest) : rest[0]
+    b: rest.length > 1 ? subtract(rest.shift(), ...rest) : rest[0]
   })
 
 export type MixNodeProps<T extends ValueType> = {
