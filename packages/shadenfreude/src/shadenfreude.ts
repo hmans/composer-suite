@@ -249,27 +249,45 @@ export const set = <T extends ValueType>(target: AssignmentTarget<T>) => ({
 export function getValueType<T extends ValueType>(value: Parameter<T>): T {
   if (isVariable(value)) {
     return value.type
-  } else if (isShaderNodeWithDefaultOutput(value)) {
-    return getValueType(value.outputs.value)
-  } else if (typeof value === "number") {
-    return "float" as T
-  } else if (typeof value === "boolean") {
-    return "bool" as T
-  } else if (value instanceof Color) {
-    return "vec3" as T
-  } else if (value instanceof Vector2) {
-    return "vec2" as T
-  } else if (value instanceof Vector3) {
-    return "vec3" as T
-  } else if (value instanceof Vector4) {
-    return "vec4" as T
-  } else if (value instanceof Matrix3) {
-    return "mat3" as T
-  } else if (value instanceof Matrix4) {
-    return "mat4" as T
-  } else {
-    throw new Error(`Could not find a GLSL type for: ${value}`)
   }
+
+  if (isShaderNodeWithDefaultOutput(value)) {
+    return getValueType(value.outputs.value)
+  }
+
+  if (typeof value === "number") {
+    return "float" as T
+  }
+
+  if (typeof value === "boolean") {
+    return "bool" as T
+  }
+
+  if (value instanceof Color) {
+    return "vec3" as T
+  }
+
+  if (value instanceof Vector2) {
+    return "vec2" as T
+  }
+
+  if (value instanceof Vector3) {
+    return "vec3" as T
+  }
+
+  if (value instanceof Vector4) {
+    return "vec4" as T
+  }
+
+  if (value instanceof Matrix3) {
+    return "mat3" as T
+  }
+
+  if (value instanceof Matrix4) {
+    return "mat4" as T
+  }
+
+  throw new Error(`Could not find a GLSL type for: ${value}`)
 }
 
 /*
