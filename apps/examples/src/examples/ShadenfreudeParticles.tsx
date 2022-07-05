@@ -110,9 +110,11 @@ export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
 
   const shader = useShader(() => {
-    const particleLifetime = ParticleAge()
+    const blackboard = {
+      velocity: AttributeNode({ name: "velocity", type: "vec3" })
+    }
 
-    const velocityAttribute = AttributeNode({ name: "velocity", type: "vec3" })
+    const particleLifetime = ParticleAge()
 
     return CustomShaderMaterialMasterNode({
       diffuseColor: ShaderNode({
@@ -136,7 +138,7 @@ export default function ShadenfreudeParticles() {
         filters: [
           AddNode({
             b: StatelessVelocityNode({
-              velocity: velocityAttribute,
+              velocity: blackboard.velocity,
               time: particleLifetime
             })
           }),
