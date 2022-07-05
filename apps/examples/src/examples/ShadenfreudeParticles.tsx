@@ -24,7 +24,7 @@ const useShader = (fac: () => IShaderNode) => {
   return shader
 }
 
-const VelocityNode = Factory(() => ({
+const StatelessVelocityNode = Factory(() => ({
   name: "Velocity",
   inputs: {
     velocity: vec3(),
@@ -35,7 +35,7 @@ const VelocityNode = Factory(() => ({
   }
 }))
 
-const AccelerationNode = Factory(() => ({
+const StatelessAccelerationNode = Factory(() => ({
   name: "Acceleration",
   inputs: {
     acceleration: vec3(),
@@ -63,12 +63,12 @@ export default function ShadenfreudeParticles() {
       outputs: { value: vec3("inputs.a") },
       filters: [
         AddNode({
-          b: VelocityNode({
+          b: StatelessVelocityNode({
             velocity: new Vector3(plusMinus(10), 5 + upTo(5), plusMinus(10))
           })
         }),
         AddNode({
-          b: AccelerationNode({ acceleration: new Vector3(0, -10, 0) })
+          b: StatelessAccelerationNode({ acceleration: new Vector3(0, -10, 0) })
         })
       ]
     })
