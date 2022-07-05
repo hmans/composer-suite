@@ -1,25 +1,51 @@
 import { useControls } from "leva"
 import { useRef } from "react"
 import {
-  addNodes,
+  add,
   BlendNode,
   ColorNode,
   CustomShaderMaterialMasterNode,
+  divide,
   Factory,
   float,
   FresnelNode,
   MultiplyNode,
-  multiplyNodes,
+  multiply,
   ShaderNode,
   TimeNode,
   UniformNode,
   vec3,
+  Vector3Node,
   VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { useShader } from "./useShader"
+
+const JoinVector3Node = Factory(() => ({
+  name: "Join Vector3",
+  inputs: {
+    x: float(1),
+    y: float(1),
+    z: float(1)
+  },
+  outputs: {
+    value: vec3("vec3(inputs.x, inputs.y, inputs.z)")
+  }
+}))
+
+const ScaleWithTime = Factory(() =>
+  ShaderNode({
+    name: "ScaleWithTime",
+    inputs: {
+      time: float(TimeNode())
+    },
+    outputs: {
+      value: float("sin(inputs.time)")
+    }
+  })
+)
 
 export default function StacksExample() {
   const { speed, intensity, color, fresnelIntensity } = useControls(
@@ -41,15 +67,33 @@ export default function StacksExample() {
       name: "u_fresnelIntensity"
     })
 
+    const time = TimeNode()
+
     const root = CustomShaderMaterialMasterNode({
-      position: VertexPositionNode(),
+      position: multiply(
+        VertexPositionNode(),
+        JoinVector3Node({
+          x: add(
+            multiply(ScaleWithTime({ time: multiply(time, 1.3) }), 0.2),
+            1.0
+          ),
+          y: add(
+            multiply(ScaleWithTime({ time: multiply(time, 1.7) }), 0.3),
+            1.0
+          ),
+          z: add(
+            multiply(ScaleWithTime({ time: multiply(time, 1.1) }), 0.2),
+            1.0
+          )
+        })
+      ),
 
       diffuseColor: BlendNode({
         mode: "softlight",
         opacity: 1,
         a: colorUniform,
-        b: multiplyNodes(
-          multiplyNodes(new Color(2, 2, 2), fresnelIntensityUniform),
+        b: multiply(
+          multiply(new Color(2, 2, 2), fresnelIntensityUniform),
           FresnelNode()
         )
       })
