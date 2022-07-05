@@ -5,6 +5,8 @@ import {
   BlendNode,
   CustomShaderMaterialMasterNode,
   FresnelNode,
+  IShaderNodeWithDefaultOutput,
+  join,
   JoinVector3Node,
   multiply,
   sin,
