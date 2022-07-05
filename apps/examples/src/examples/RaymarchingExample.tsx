@@ -6,6 +6,7 @@ import {
   ShaderMaterialMasterNode,
   TimeNode,
   uniqueGlobalIdentifier,
+  UVNode,
   vec2,
   vec3,
   ViewDirectionNode
@@ -25,6 +26,7 @@ const RaymarchingNode = Factory(() => {
     name: "Raymarching Example",
 
     inputs: {
+      uv: vec2(UVNode()),
       time: float(TimeNode()),
       resolution: vec2(ResolutionNode()),
       viewDirection: vec3(ViewDirectionNode())
@@ -50,13 +52,13 @@ const RaymarchingNode = Factory(() => {
         float ${map}(in vec3 ray) {
           float sphere1 = ${sphere}(ray, vec3(
             0.0,
-            1.0 + sin(u_time * 1.3) * 0.5,
+            sin(u_time * 1.3) * 0.5,
             cos(u_time * 1.2)),
             0.5);
 
             float sphere2 = ${sphere}(ray, vec3(
               sin(u_time * 1.7) * 0.5,
-              1.0,
+              0.0,
               sin(u_time * 1.9)),
               0.5);
 
@@ -109,7 +111,7 @@ const RaymarchingNode = Factory(() => {
     `,
 
       body: /*glsl*/ `
-        vec2 screenPos = (2.0 * gl_FragCoord.xy - inputs.resolution) / inputs.resolution.y;
+        vec2 screenPos = (2.0 * inputs.uv - vec2(1.0)) / 1.0;
         vec3 viewPos = vec3(0.0, 0.0, 10.0);
         vec3 viewDir = normalize(vec3(screenPos, -3.5));
 
