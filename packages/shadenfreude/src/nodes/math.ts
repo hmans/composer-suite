@@ -4,6 +4,7 @@ import {
   Factory,
   float,
   getValueType,
+  IShaderNodeWithDefaultOutput,
   Parameter,
   ShaderNode,
   uniqueGlobalIdentifier,
@@ -94,6 +95,32 @@ export const AddNode = OperatorNode("+")
 export const SubtractNode = OperatorNode("-")
 export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
+
+export const addNodes = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  AddNode({ a: first, b: rest.length > 1 ? addNodes(...rest) : rest[0] })
+
+export const multiplyNodes = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  MultiplyNode({
+    a: first,
+    b: rest.length > 1 ? multiplyNodes(...rest) : rest[0]
+  })
+
+export const divideNodes = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  DivideNode({ a: first, b: rest.length > 1 ? divideNodes(...rest) : rest[0] })
+
+export const subtractNodes = <T extends ValueType>(
+  ...[first, ...rest]: Parameter<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  SubtractNode({
+    a: first,
+    b: rest.length > 1 ? subtractNodes(...rest) : rest[0]
+  })
 
 export type MixNodeProps<T extends ValueType> = {
   a: Parameter<T>
