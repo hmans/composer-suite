@@ -58,8 +58,8 @@ export const CosNode = FunctionNode("cos")
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
-  a: Parameter<A>
-  b: Parameter<B>
+  a?: Parameter<A>
+  b?: Parameter<B>
 }
 
 const OperatorNode = (operator: Operator) => <
@@ -69,17 +69,23 @@ const OperatorNode = (operator: Operator) => <
   a,
   b
 }: OperatorNodeProps<A, B>) => {
-  const aType = getValueType(a)
-  const bType = getValueType(b)
+  const aType = a && getValueType(a)
+  const bType = b && getValueType(b)
+  const type = aType || bType
+
+  if (!type)
+    throw new Error(
+      "Either `a` or `b` must be provided so we can determine the node type."
+    )
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
     inputs: {
-      a: variable(aType, a),
-      b: variable(bType, b)
+      a: aType ? variable(aType, a) : variable(type),
+      b: bType ? variable(bType, b) : variable(type)
     },
     outputs: {
-      value: variable(aType, `inputs.a ${operator} inputs.b`)
+      value: variable(aType || type, `inputs.a ${operator} inputs.b`)
     }
   })
 }
