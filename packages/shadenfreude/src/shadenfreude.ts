@@ -559,25 +559,37 @@ __   __  _______  ___      _______  _______  ______    _______
 
 export type Parts = any[]
 
+const compact = (p: any) => !!p
+
+const indent = (p: string) => "  " + p
+
 export const block = (...parts: Parts): Parts => [
   "{",
-  lines(parts).map((p) => "  " + p),
+  lines(parts).map(indent),
   "}"
 ]
 
 export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
 
 export const lines = (...parts: Parts): string[] =>
-  compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
+  parts
+    .filter(compact)
+    .map((p) => (Array.isArray(p) ? lines(...p) : p))
+    .flat()
 
 export const statement = (...parts: Parts) =>
-  compact(parts.flat()).join(" ") + ";"
+  parts
+    .flat()
+    .filter(compact)
+    .join(" ") + ";"
 
 export const assignment = (left: string, right: string) =>
   statement(left, "=", right)
 
 const identifier = (...parts: Parts) =>
-  compact(parts.flat())
+  parts
+    .flat()
+    .filter(compact)
     .join("_")
     .replace(/_{2,}/g, "_")
 
@@ -616,9 +628,6 @@ export const assertShaderNodeWithDefaultOutput = (
 }
 
 const unique = (array: any[]) => [...new Set(array)]
-
-const compact = (array: any[]) =>
-  array.filter((p) => ![undefined, null, false].includes(p))
 
 const sluggify = (str: string) =>
   str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
