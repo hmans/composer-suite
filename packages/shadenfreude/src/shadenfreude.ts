@@ -92,7 +92,7 @@ export interface IShaderNodeWithDefaultOutput<T extends ValueType = any>
  */
 export const ShaderNode = <
   S extends IShaderNode,
-  P extends Partial<VariableProps<S["inputs"]>>
+  P extends Partial<Parameters<S["inputs"]>>
 >(
   node: S,
   props: P = {} as P
@@ -129,7 +129,7 @@ export const ShaderNode = <
 export const Factory = <
   F extends () => IShaderNode = () => IShaderNode,
   S extends IShaderNode = ReturnType<F>,
-  Props = Partial<VariableProps<S["inputs"]>>
+  Props = Partial<Parameters<S["inputs"]>>
 >(
   fac: F
 ) => (props: Props = {} as Props) => ShaderNode(fac(), props) as S
@@ -189,7 +189,7 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableProps<V extends Variables | undefined> = V extends Variables
+export type Parameters<V extends Variables | undefined> = V extends Variables
   ? { [K in keyof V]: Parameter<V[K]["type"]> }
   : {}
 
