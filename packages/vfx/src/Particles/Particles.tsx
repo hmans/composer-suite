@@ -1,7 +1,7 @@
 import { InstancedMeshProps } from "@react-three/fiber"
-import React, { forwardRef, ReactNode, useLayoutEffect, useRef } from "react"
+import React, { forwardRef, ReactNode, useRef } from "react"
 import mergeRefs from "react-merge-refs"
-import { InstancedMesh, Matrix4 } from "three"
+import { InstancedMesh } from "three"
 
 export type ParticlesProps = InstancedMeshProps & {
   children?: ReactNode
@@ -17,12 +17,6 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
     ref
   ) => {
     const imesh = useRef<Particles>(null!)
-
-    useLayoutEffect(() => {
-      /* Spawn a single particle */
-      imesh.current.setMatrixAt(0, new Matrix4())
-      imesh.current.count = 1
-    }, [])
 
     return (
       <instancedMesh
