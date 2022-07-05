@@ -100,7 +100,8 @@ export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
 
 export const add = <T extends ValueType>(
-  ...[first, ...rest]: Parameter[]
+  first: Parameter<T>,
+  ...rest: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
   AddNode({
     a: first,
@@ -117,7 +118,8 @@ export const multiply = <T extends ValueType>(
   })
 
 export const divide = <T extends ValueType>(
-  ...[first, ...rest]: Parameter[]
+  first: Parameter<T>,
+  ...rest: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
   DivideNode({
     a: first,
@@ -125,7 +127,8 @@ export const divide = <T extends ValueType>(
   })
 
 export const subtract = <T extends ValueType>(
-  ...[first, ...rest]: Parameter[]
+  first: Parameter<T>,
+  ...rest: Parameter[]
 ): IShaderNodeWithDefaultOutput<T> =>
   SubtractNode({
     a: first,
