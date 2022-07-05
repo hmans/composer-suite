@@ -222,9 +222,9 @@ type AssignmentValue<T extends ValueType> = Parameter<T>
  *
  * @source source
  */
-export const assign = <TargetType extends ValueType>(
-  target: AssignmentTarget<TargetType>,
-  source: AssignmentValue<TargetType>
+export const assign = <T extends ValueType>(
+  target: AssignmentTarget<T>,
+  source: AssignmentValue<T>
 ): void => {
   /* Is the target is a node, assign to its default input */
   if (isShaderNodeWithDefaultInput(target))
@@ -239,10 +239,8 @@ export const assign = <TargetType extends ValueType>(
   target.value = value
 }
 
-export const set = <TargetType extends ValueType>(
-  target: AssignmentTarget<TargetType>
-) => ({
-  to: (source: AssignmentValue<TargetType>) => assign(target, source)
+export const set = <T extends ValueType>(target: AssignmentTarget<T>) => ({
+  to: (source: AssignmentValue<T>) => assign(target, source)
 })
 
 /**
