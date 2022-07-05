@@ -5,7 +5,8 @@ import {
   ShaderMaterialMasterNode,
   uniqueGlobalIdentifier,
   vec2,
-  vec3
+  vec3,
+  ViewDirectionNode
 } from "shadenfreude"
 import { DoubleSide, ShaderMaterial } from "three"
 import { useShader } from "./useShader"
@@ -19,7 +20,8 @@ const RaymarchingNode = Factory(() => {
     name: "Raymarching Example",
 
     inputs: {
-      resolution: vec2(ResolutionNode())
+      resolution: vec2(ResolutionNode()),
+      viewDirection: vec3(ViewDirectionNode())
     },
 
     outputs: {
