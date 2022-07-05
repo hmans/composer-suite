@@ -111,11 +111,10 @@ const HideDeadParticles = Factory(() =>
   })
 )
 
-const sum = <T extends ValueType>([
-  first,
-  ...rest
-]: IShaderNodeWithDefaultOutput<T>[]): IShaderNodeWithDefaultOutput<T> =>
-  AddNode({ a: first, b: rest.length > 1 ? sum(rest) : rest[0] })
+const add = <T extends ValueType>(
+  ...[first, ...rest]: IShaderNodeWithDefaultOutput<T>[]
+): IShaderNodeWithDefaultOutput<T> =>
+  AddNode({ a: first, b: rest.length > 1 ? add(...rest) : rest[0] })
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
@@ -160,7 +159,7 @@ export default function ShadenfreudeParticles() {
         b: HideDeadParticles({ progress: particleProgress })
       }),
 
-      position: sum([
+      position: add(
         VertexPositionNode(),
         StatelessVelocityNode({
           velocity: blackboard.velocity,
@@ -170,7 +169,7 @@ export default function ShadenfreudeParticles() {
           acceleration: new Vector3(0, -10, 0),
           time: particleAge
         })
-      ])
+      )
     })
   })
 
