@@ -45,8 +45,7 @@ export default function StacksExample() {
     const position = SplitVector3Node({ a: VertexPositionNode() })
     const { x, y, z } = position.outputs
 
-    const scaledTime = (scale = 1) =>
-      multiply<"float">(time, speedUniform, scale)
+    const scaledTime = (scale = 1) => multiply(time, speedUniform, scale)
 
     const wobble = (frequency = 1, amplitude = 1) =>
       multiply(sin(scaledTime(frequency)), amplitude, intensityUniform)
