@@ -14,7 +14,7 @@ import {
   vec3,
   VertexPositionNode
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { useShader } from "./useShader"
@@ -145,7 +145,7 @@ export default function StacksExample() {
           BlendNode({
             mode: "softlight",
             opacity: 1,
-            a: vec3(),
+            a: new Vector3(),
             b: MultiplyNode({
               a: MultiplyNode({
                 a: ColorNode({ a: new Color(2, 2, 2) }),
