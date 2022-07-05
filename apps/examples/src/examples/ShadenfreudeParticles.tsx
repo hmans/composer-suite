@@ -1,6 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { plusMinus, upTo } from "randomish"
-import { useLayoutEffect, useMemo, useRef } from "react"
+import { useMemo, useRef } from "react"
 import {
   AddNode,
   assignment,
@@ -17,9 +16,9 @@ import {
   vec3,
   VertexPositionNode
 } from "shadenfreude"
-import { Color, Matrix4, MeshStandardMaterial, Vector3 } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import { Emitter, Particles, Repeat } from "three-vfx"
+import { Emitter, Particles } from "three-vfx"
 
 const useShader = (fac: () => IShaderNode) => {
   const [shader, update] = useMemo(() => compileShader(fac()), [])
