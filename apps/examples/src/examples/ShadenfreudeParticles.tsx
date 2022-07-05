@@ -31,7 +31,7 @@ const ParticleAge = Factory(() =>
     name: "Particle Lifetime",
     inputs: {
       time: float(TimeNode()),
-      lifetime: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
+      lifetime: vec2()
     },
     outputs: {
       value: float("inputs.time - inputs.lifetime.x")
@@ -43,8 +43,8 @@ const ParticleProgress = Factory(() =>
   ShaderNode({
     name: "Particle Progress",
     inputs: {
-      age: float(ParticleAge()),
-      lifetime: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
+      age: float(),
+      lifetime: vec2()
     },
     outputs: {
       value: float("inputs.age / (inputs.lifetime.y - inputs.lifetime.x)")
@@ -95,7 +95,7 @@ const HideDeadParticles = Factory(() =>
     name: "Hide Dead Particles",
     inputs: {
       a: float(),
-      progress: float(ParticleProgress())
+      progress: float()
     },
     outputs: {
       value: float("inputs.a")
@@ -111,10 +111,18 @@ export default function ShadenfreudeParticles() {
 
   const shader = useShader(() => {
     const blackboard = {
+      lifetime: AttributeNode({ name: "lifetime", type: "vec2" }),
       velocity: AttributeNode({ name: "velocity", type: "vec3" })
     }
 
-    const particleLifetime = ParticleAge()
+    const particleAge = ParticleAge({
+      lifetime: blackboard.lifetime
+    })
+
+    const particleProgress = ParticleProgress({
+      lifetime: blackboard.lifetime,
+      age: particleAge
+    })
 
     return CustomShaderMaterialMasterNode({
       diffuseColor: ShaderNode({
@@ -128,27 +136,21 @@ export default function ShadenfreudeParticles() {
         name: "Alpha Stack",
         inputs: { a: float(1) },
         outputs: { value: float("inputs.a") },
-        filters: [HideDeadParticles()]
+        filters: [HideDeadParticles({ progress: particleProgress })]
       }),
 
-      position: ShaderNode({
-        name: "Position Stack",
-        inputs: { a: vec3(VertexPositionNode()) },
-        outputs: { value: vec3("inputs.a") },
-        filters: [
-          AddNode({
-            b: StatelessVelocityNode({
-              velocity: blackboard.velocity,
-              time: particleLifetime
-            })
+      position: AddNode({
+        a: VertexPositionNode(),
+        b: AddNode({
+          a: StatelessVelocityNode({
+            velocity: blackboard.velocity,
+            time: ParticleAge({ lifetime: blackboard.lifetime })
           }),
-          AddNode({
-            b: StatelessAccelerationNode({
-              acceleration: new Vector3(0, -10, 0),
-              time: particleLifetime
-            })
+          b: StatelessAccelerationNode({
+            acceleration: new Vector3(0, -10, 0),
+            time: ParticleAge({ lifetime: blackboard.lifetime })
           })
-        ]
+        })
       })
     })
   })
