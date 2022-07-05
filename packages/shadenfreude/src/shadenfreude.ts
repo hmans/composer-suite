@@ -339,7 +339,7 @@ export const compileShader = (root: IShaderNode) => {
 
     const dependencies = getDependencies(node)
 
-    const header = [
+    return [
       /* Dependencies */
       dependencies.map((dependency) =>
         compileHeader(dependency, programType, state)
@@ -372,8 +372,6 @@ export const compileShader = (root: IShaderNode) => {
       /* Filters */
       node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
-
-    return header
   }
 
   const compileBody = (
