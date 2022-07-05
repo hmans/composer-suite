@@ -5,6 +5,7 @@ import {
   ValueType,
   Variable,
   variable,
+  vec2,
   vec3
 } from "../shadenfreude"
 
@@ -41,6 +42,18 @@ export const TimeNode = Factory(() => ({
 
     /** Cosine of the times */
     cos: float("cos(u_time)")
+  }
+}))
+
+export const ResolutionNode = Factory(() => ({
+  name: "Resolution",
+
+  uniforms: {
+    u_resolution: vec2()
+  },
+
+  outputs: {
+    value: vec2("u_resolution")
   }
 }))
 

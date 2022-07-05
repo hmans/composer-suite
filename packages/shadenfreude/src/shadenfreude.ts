@@ -1,4 +1,12 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import {
+  assignment,
+  block,
+  concatenate,
+  identifier,
+  Parts,
+  statement
+} from "./lib/concatenator3000"
 
 /*
 
@@ -21,33 +29,70 @@ export type Program = {
 
 export type ProgramType = "vertex" | "fragment"
 
+/** The IShaderNode interface describes the objects that configure individual shader nodes. */
 export interface IShaderNode {
+  /** Name of the shader node. Will be injected into the compiled GSLS for easier debugging. */
   name?: string
 
+  /** The vertex shader program configuration. */
   vertex?: Program
+
+  /** The fragment shader program configuration. */
   fragment?: Program
 
+  /**
+   * Shader nodes may declare uniforms. When declared as part of the `uniforms` property,
+   * the compiler will automatically inject them into the shader headers.
+   */
   uniforms?: Variables
+
+  /**
+   * Shader nodes may declare varyings. When declared as part of the `varyings` property,
+   * the compiler will automatically inject them into the shader headers, but using
+   * a scoped name. Within the context of this shader node, the varying can still be
+   * accessed using the name provided here.
+   */
   varyings?: Variables
+
+  /**
+   * Input variables.
+   */
   inputs?: Variables
+
+  /**
+   * Output variables.
+   */
   outputs?: Variables
 
+  /**
+   * Filters. Any node can be used as a filter that has default inputs and outputs of the same
+   * type as this node's default output value.
+   */
   filters?: IShaderNode[]
 }
 
-export interface IShaderNodeWithDefaultIn<T extends ValueType = any>
+export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
   extends IShaderNode {
   inputs: { a: Variable<T> }
 }
 
-export interface IShaderNodeWithDefaultOut<T extends ValueType = any>
+export interface IShaderNodeWithDefaultOutput<T extends ValueType = any>
   extends IShaderNode {
   outputs: { value: Variable<T> }
 }
 
+/**
+ * The shader node constructor. All shaders nodes must be constructed using this function.
+ * It will accept an IShaderNode compatible definition as its first argument and process it,
+ * most importantly linking its input and output variables to the node.
+ *
+ * @param node The shader node definition.
+ * @param props An optional properties object whose values will be assigned to the node's inputs.
+ * @returns The constructed shader node.
+ */
 export const ShaderNode = <
   S extends IShaderNode,
-  P extends Partial<VariableProps<S["inputs"]>>
+  P extends Partial<Parameters<S["inputs"]>>
 >(
   node: S,
   props: P = {} as P
@@ -71,7 +116,7 @@ export const ShaderNode = <
     const variable = node.inputs?.[name]
     if (!variable) return
 
-    if (isShaderNodeWithOutVariable(prop)) {
+    if (isShaderNodeWithDefaultOutput(prop)) {
       variable.value = prop.outputs.value
     } else {
       variable.value = prop
@@ -84,7 +129,7 @@ export const ShaderNode = <
 export const Factory = <
   F extends () => IShaderNode = () => IShaderNode,
   S extends IShaderNode = ReturnType<F>,
-  Props = Partial<VariableProps<S["inputs"]>>
+  Props = Partial<Parameters<S["inputs"]>>
 >(
   fac: F
 ) => (props: Props = {} as Props) => ShaderNode(fac(), props) as S
@@ -101,7 +146,15 @@ export const Factory = <
 
 */
 
-export type ValueType = keyof ValueToJSType
+export type ValueType =
+  | "string"
+  | "bool"
+  | "float"
+  | "vec2"
+  | "vec3"
+  | "vec4"
+  | "mat3"
+  | "mat4"
 
 export type ValueToJSType = {
   string: string
@@ -123,7 +176,7 @@ export type Value<T extends ValueType = any> =
 
 export type Parameter<T extends ValueType = any> =
   | Value<T>
-  | IShaderNodeWithDefaultOut<T>
+  | IShaderNodeWithDefaultOutput<T>
 
 export type Variable<T extends ValueType = any> = {
   __variable: boolean
@@ -136,10 +189,8 @@ export type Variable<T extends ValueType = any> = {
 
 export type Variables = { [localName: string]: Variable<any> }
 
-export type VariableProp<V extends Variable> = Parameter<V["type"]>
-
-export type VariableProps<V extends Variables | undefined> = V extends Variables
-  ? { [K in keyof V]: VariableProp<V[K]> }
+export type Parameters<V extends Variables | undefined> = V extends Variables
+  ? { [K in keyof V]: Parameter<V[K]["type"]> }
   : {}
 
 export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
@@ -147,20 +198,22 @@ export const variable = <T extends ValueType>(type: T, value?: Parameter<T>) =>
     __variable: true,
     name: `var_${Math.floor(Math.random() * 10000000)}`,
     type,
-    value: isShaderNodeWithOutVariable(value) ? value.outputs.value : value
+    value: isShaderNodeWithDefaultOutput(value) ? value.outputs.value : value
   } as Variable<T>)
 
 export const float = (value?: Parameter<"float">) => variable("float", value)
+export const bool = (value?: Parameter<"bool">) => variable("bool", value)
 export const vec2 = (value?: Parameter<"vec2">) => variable("vec2", value)
 export const vec3 = (value?: Parameter<"vec3">) => variable("vec3", value)
 export const vec4 = (value?: Parameter<"vec4">) => variable("vec4", value)
 export const mat3 = (value?: Parameter<"mat3">) => variable("mat3", value)
 export const mat4 = (value?: Parameter<"mat4">) => variable("mat4", value)
 
-export const plug = <T extends ValueType>(source: Parameter<T>) => ({
-  into: (target: Variable<T> | IShaderNodeWithDefaultIn<T>) =>
-    assign(source).to(target)
-})
+type AssignmentTarget<T extends ValueType> =
+  | Variable<T>
+  | IShaderNodeWithDefaultInput<T>
+
+type AssignmentValue<T extends ValueType> = Parameter<T>
 
 /**
  * Assigns the specified source value to the target. The source value can be
@@ -169,23 +222,25 @@ export const plug = <T extends ValueType>(source: Parameter<T>) => ({
  *
  * @source source
  */
-export const assign = <T extends ValueType>(source: Parameter<T>) => ({
-  to: (target: Variable<T> | IShaderNodeWithDefaultIn<T>): void => {
-    if (isShaderNodeWithInVariable(target))
-      return assign(source).to(target.inputs.a)
+export const assign = <T extends ValueType>(
+  target: AssignmentTarget<T>,
+  source: AssignmentValue<T>
+): void => {
+  /* Is the target is a node, assign to its default input */
+  if (isShaderNodeWithDefaultInput(target))
+    return assign(target.inputs.a, source)
 
-    const value = isShaderNodeWithOutVariable(source)
-      ? source.outputs.value
-      : source
+  /* If the source is a node, use its default output */
+  const value = isShaderNodeWithDefaultOutput(source)
+    ? source.outputs.value
+    : source
 
-    /* Test type match */
-    const valueType = getValueType(value)
-    if (target.type !== valueType) {
-      throw new Error(`Tried to assign ${valueType} to ${target.type}`)
-    }
+  target.type = getValueType(value)
+  target.value = value
+}
 
-    target.value = value
-  }
+export const set = <T extends ValueType>(target: AssignmentTarget<T>) => ({
+  to: (source: AssignmentValue<T>) => assign(target, source)
 })
 
 /**
@@ -194,7 +249,7 @@ export const assign = <T extends ValueType>(source: Parameter<T>) => ({
 export function getValueType<T extends ValueType>(value: Parameter<T>): T {
   if (isVariable(value)) {
     return value.type
-  } else if (isShaderNodeWithOutVariable(value)) {
+  } else if (isShaderNodeWithDefaultOutput(value)) {
     return getValueType(value.outputs.value)
   } else if (typeof value === "number") {
     return "float" as T
@@ -234,30 +289,51 @@ export const compileShader = (root: IShaderNode) => {
    * Renders the GLSL representation of a given variable value.
    */
   const compileValue = (value: Value): string => {
+    /* Render strings verbatim, assuming they are a GLSL expression. */
     if (typeof value === "string") {
       return value
-    } else if (typeof value === "number") {
+    }
+
+    /* Always convert numbers to floats. */
+    /* TODO: support ints! */
+    if (typeof value === "number") {
       const s = value.toString()
       return s.match(/[.e]/) ? s : s + ".0"
-    } else if (value instanceof Vector2) {
+    }
+
+    /* Vector2 -> vec2 */
+    if (value instanceof Vector2) {
       return `vec2(${compileValue(value.x)}, ${compileValue(value.y)})`
-    } else if (value instanceof Vector3) {
+    }
+
+    /* Vector3 -> vec3 */
+    if (value instanceof Vector3) {
       return `vec3(${compileValue(value.x)}, ${compileValue(
         value.y
       )}, ${compileValue(value.z)})`
-    } else if (value instanceof Color) {
+    }
+
+    /* Color -> vec3 */
+    if (value instanceof Color) {
       return `vec3(${compileValue(value.r)}, ${compileValue(
         value.g
       )}, ${compileValue(value.b)})`
-    } else if (value instanceof Vector4) {
+    }
+
+    /* Vector4 -> vec4 */
+    if (value instanceof Vector4) {
       return `vec4(${compileValue(value.x)}, ${compileValue(
         value.y
       )}, ${compileValue(value.z)}, ${compileValue(value.w)})`
-    } else if (isVariable(value)) {
-      return value.name
-    } else {
-      throw new Error("Could not render value for" + value)
     }
+
+    /* If the value is another variable, render that variable's name, since we want to source that variable. */
+    if (isVariable(value)) {
+      return value.name
+    }
+
+    /* If we got here, we couldn't render the value, so let's throw an error. */
+    throw new Error("Could not render value for" + value)
   }
 
   /**
@@ -287,6 +363,20 @@ export const compileShader = (root: IShaderNode) => {
         .map(([_, variable]) => variable.value.node)
     )
 
+  const getOutputDependencies = (node: IShaderNode) =>
+    unique(
+      getVariables(node.outputs)
+        .filter(([_, variable]) => isVariable(variable.value))
+        .map(([_, variable]) => variable.value.node)
+    )
+
+  const getDependencies = (node: IShaderNode) =>
+    unique([
+      ...getInputDependencies(node),
+      ...getOutputDependencies(node),
+      ...(node.filters || [])
+    ])
+
   const nodeBegin = (node: IShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: IShaderNode) => `/*** END: ${node.name} ***/\n`
 
@@ -301,10 +391,12 @@ export const compileShader = (root: IShaderNode) => {
     if (state.seenNodes.has(node)) return []
     state.seenNodes.add(node)
 
-    const header = [
+    const dependencies = getDependencies(node)
+
+    return [
       /* Dependencies */
-      getVariables(node.inputs).map(([_, { value }]) =>
-        isVariable(value) ? compileHeader(value.node!, programType, state) : ""
+      dependencies.map((dependency) =>
+        compileHeader(dependency, programType, state)
       ),
 
       nodeBegin(node),
@@ -334,8 +426,6 @@ export const compileShader = (root: IShaderNode) => {
       /* Filters */
       node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
-
-    return header
   }
 
   const compileBody = (
@@ -349,9 +439,14 @@ export const compileShader = (root: IShaderNode) => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
 
+    const dependenciesWithoutFilters = unique([
+      ...getInputDependencies(node),
+      ...getOutputDependencies(node)
+    ])
+
     return [
       /* Dependencies */
-      getInputDependencies(node).map((dep) =>
+      dependenciesWithoutFilters.map((dep) =>
         compileBody(dep, programType, seen)
       ),
 
@@ -429,12 +524,12 @@ export const compileShader = (root: IShaderNode) => {
     ]
   }
 
-  const compileProgram = (programType: ProgramType) => {
-    return lines(
+  const compileProgram = (programType: ProgramType): string => {
+    return concatenate(
       compileHeader(root, programType),
       "void main()",
       block(compileBody(root, programType))
-    ).join("\n")
+    )
   }
 
   const prepareNode = (
@@ -443,6 +538,9 @@ export const compileShader = (root: IShaderNode) => {
   ) => {
     if (state.seenNodes.has(node)) return
     state.seenNodes.add(node)
+
+    const deps = [...getInputDependencies(node), ...getOutputDependencies(node)]
+    deps.forEach((unit) => prepareNode(unit, state))
 
     ++state.id
 
@@ -460,47 +558,50 @@ export const compileShader = (root: IShaderNode) => {
 
     /* Prepare filters */
     if (node.filters && node.filters.length > 0) {
-      if (!isShaderNodeWithOutVariable(node))
+      if (!isShaderNodeWithDefaultOutput(node))
         throw new Error("Nodes with filters must have an output value")
 
       /* Use the last filter's output value as our output value */
-      const lastFilter = node.filters[node.filters.length - 1]
       const firstFilter = node.filters[0]
 
-      if (!isShaderNodeWithInVariable(firstFilter))
-        throw new Error("Filter nodes must have an `a` input")
+      if (!isShaderNodeWithDefaultInput(firstFilter))
+        throw new Error("First filter node must have an `a` input")
 
-      if (!isShaderNodeWithOutVariable(lastFilter))
-        throw new Error("Filter nodes must have a `value` output")
+      assign(firstFilter, node)
 
-      plug(node).into(firstFilter)
+      prepareNode(firstFilter, state)
 
       /* Connect filters in sequence */
       for (let i = 1; i < node.filters.length; i++) {
         const filter = node.filters[i]
         const prev = node.filters[i - 1]
 
-        if (!isShaderNodeWithOutVariable(prev))
+        prepareNode(filter, state)
+
+        if (!isShaderNodeWithDefaultOutput(prev))
           throw new Error("Filter nodes must have a `value` output")
 
-        if (!isShaderNodeWithInVariable(filter))
+        if (!isShaderNodeWithDefaultInput(filter))
           throw new Error("Filter nodes must have an `a` input")
 
-        plug(prev).into(filter)
+        assign(filter, prev)
       }
     }
-
-    /* Do the same for all filters and dependencies */
-    const deps = [...getInputDependencies(node), ...(node.filters || [])]
-    deps.forEach((unit) => prepareNode(unit, state))
   }
 
   prepareNode(root)
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
-  const uniforms = { u_time: { value: 0 } }
-  const update = (dt: number) => (uniforms.u_time.value += dt)
+
+  /* TODO: make the following dynamic */
+
+  const uniforms = { u_time: { value: 0 }, u_resolution: { value: [0, 0] } }
+
+  const update = (dt: number) => {
+    uniforms.u_time.value += dt
+    uniforms.u_resolution.value = [window.innerWidth, window.innerHeight]
+  }
 
   return [{ vertexShader, fragmentShader, uniforms }, update] as const
 }
@@ -516,53 +617,43 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-type Parts = any[]
-
-const block = (...parts: Parts) =>
-  lines(
-    "{",
-    lines(parts).map((p) => "  " + p),
-    "}"
+export const struct = (name: string, variables: Variables) =>
+  Object.keys(variables).length > 0 &&
+  statement(
+    "struct {",
+    Object.entries(variables).map(([name, v]) => statement(v.type, name)),
+    "}",
+    name
   )
-
-const lines = (...parts: Parts): string[] =>
-  compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
-
-export const statement = (...parts: Parts) =>
-  compact(parts.flat()).join(" ") + ";"
-
-export const assignment = (left: string, right: string) =>
-  statement(left, "=", right)
-
-const identifier = (...parts: Parts) =>
-  compact(parts.flat())
-    .join("_")
-    .replace(/_{2,}/g, "_")
-
-const struct = (name: string, variables: Variables) =>
-  Object.keys(variables).length > 0
-    ? statement(
-        "struct {",
-        Object.entries(variables).map(([name, v]) => statement(v.type, name)),
-        "}",
-        name
-      )
-    : ""
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
-export const isShaderNodeWithInVariable = (
+export const isShaderNodeWithDefaultInput = (
   value: any
-): value is IShaderNodeWithDefaultIn => value?.inputs?.a !== undefined
+): value is IShaderNodeWithDefaultInput => value?.inputs?.a !== undefined
 
-export const isShaderNodeWithOutVariable = (
+export const isShaderNodeWithDefaultOutput = (
   value: any
-): value is IShaderNodeWithDefaultOut => value?.outputs?.value !== undefined
+): value is IShaderNodeWithDefaultOutput => value?.outputs?.value !== undefined
+
+export const assertShaderNodeWithDefaultInput = (
+  v: any
+): asserts v is IShaderNodeWithDefaultInput => {
+  if (!isShaderNodeWithDefaultInput(v))
+    throw new Error(`Expected shader node with an 'a' input`)
+}
+
+export const assertShaderNodeWithDefaultOutput = (
+  v: any
+): asserts v is IShaderNodeWithDefaultOutput => {
+  if (!isShaderNodeWithDefaultOutput(v))
+    throw new Error(`Expected shader node with a 'value' output`)
+}
 
 const unique = (array: any[]) => [...new Set(array)]
 
-const compact = (array: any[]) =>
-  array.filter((p) => ![undefined, null, false].includes(p))
-
 const sluggify = (str: string) =>
   str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
+
+export const uniqueGlobalIdentifier = (name = "global") =>
+  `${name}_${Math.floor(Math.random() * 10000000)}`
