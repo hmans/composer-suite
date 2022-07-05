@@ -1,4 +1,12 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import {
+  assignment,
+  block,
+  concatenate,
+  identifier,
+  Parts,
+  statement
+} from "./lib/concatenator3000"
 
 /*
 
@@ -557,43 +565,7 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-export type Parts = any[]
-
-const compact = (p: any) => !!p
-
-const indent = (p: string) => "  " + p
-
-export const block = (...parts: Parts): Parts => [
-  "{",
-  lines(parts).map(indent),
-  "}"
-]
-
-export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
-
-export const lines = (...parts: Parts): string[] =>
-  parts
-    .filter(compact)
-    .map((p) => (Array.isArray(p) ? lines(...p) : p))
-    .flat()
-
-export const statement = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter(compact)
-    .join(" ") + ";"
-
-export const assignment = (left: string, right: string) =>
-  statement(left, "=", right)
-
-const identifier = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter(compact)
-    .join("_")
-    .replace(/_{2,}/g, "_")
-
-const struct = (name: string, variables: Variables) =>
+export const struct = (name: string, variables: Variables) =>
   Object.keys(variables).length > 0
     ? statement(
         "struct {",
