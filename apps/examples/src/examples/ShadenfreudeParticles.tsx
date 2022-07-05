@@ -103,7 +103,7 @@ export default function ShadenfreudeParticles() {
 
     const diffuseColor = ShaderNode({
       name: "Color Stack",
-      inputs: { a: vec3(new Color("#555")) },
+      inputs: { a: vec3(new Color("#ccc")) },
       outputs: { value: vec3("inputs.a") },
       filters: []
     })
@@ -145,16 +145,15 @@ export default function ShadenfreudeParticles() {
   return (
     <group position-y={15}>
       <Particles ref={imesh}>
-        <sphereGeometry />
+        <boxGeometry />
+
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shader}
           transparent
         />
 
-        <Repeat interval={0.2}>
-          <Emitter count={1} />
-        </Repeat>
+        <Emitter count={1} continuous />
       </Particles>
     </group>
   )
