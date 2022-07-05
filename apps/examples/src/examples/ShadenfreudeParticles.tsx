@@ -48,27 +48,31 @@ const ParticleProgress = Factory(() =>
   })
 )
 
-const StatelessVelocityNode = Factory(() => ({
-  name: "Velocity",
-  inputs: {
-    velocity: vec3(),
-    time: float(TimeNode())
-  },
-  outputs: {
-    value: vec3("inputs.time * inputs.velocity")
-  }
-}))
+const StatelessVelocityNode = Factory(() =>
+  ShaderNode({
+    name: "Velocity",
+    inputs: {
+      velocity: vec3(),
+      time: float(TimeNode())
+    },
+    outputs: {
+      value: vec3("inputs.time * inputs.velocity")
+    }
+  })
+)
 
-const StatelessAccelerationNode = Factory(() => ({
-  name: "Acceleration",
-  inputs: {
-    acceleration: vec3(),
-    time: float(TimeNode())
-  },
-  outputs: {
-    value: vec3("0.5 * inputs.time * inputs.time * inputs.acceleration")
-  }
-}))
+const StatelessAccelerationNode = Factory(() =>
+  ShaderNode({
+    name: "Acceleration",
+    inputs: {
+      acceleration: vec3(),
+      time: float(TimeNode())
+    },
+    outputs: {
+      value: vec3("0.5 * inputs.time * inputs.time * inputs.acceleration")
+    }
+  })
+)
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
