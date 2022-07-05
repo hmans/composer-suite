@@ -559,12 +559,11 @@ __   __  _______  ___      _______  _______  ______    _______
 
 export type Parts = any[]
 
-export const block = (...parts: Parts) =>
-  lines(
-    "{",
-    lines(parts).map((p) => "  " + p),
-    "}"
-  )
+export const block = (...parts: Parts): Parts => [
+  "{",
+  lines(parts).map((p) => "  " + p),
+  "}"
+]
 
 export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
 
