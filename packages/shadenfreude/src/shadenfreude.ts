@@ -480,14 +480,14 @@ export const compileShader = (root: IShaderNode) => {
         node.inputs && [
           struct("inputs", node.inputs),
 
-          inputs.map(([name, v]) =>
-            v.value !== undefined
-              ? assignment(`inputs.${name}`, compileValue(v.value))
-              : ""
+          inputs.map(
+            ([name, v]) =>
+              v.value !== undefined &&
+              assignment(`inputs.${name}`, compileValue(v.value))
           )
         ],
 
-        /* Local Varyings */
+        /* Local Varyings (vertex only) */
         programType === "vertex"
           ? getVariables(node.varyings).map(([localName, variable]) =>
               compileVariable({ ...variable, name: localName })
@@ -504,12 +504,13 @@ export const compileShader = (root: IShaderNode) => {
         node.outputs && [
           struct("outputs", node.outputs),
 
-          outputs.map(([name, v]) =>
-            v.value ? assignment(`outputs.${name}`, compileValue(v.value)) : ""
+          outputs.map(
+            ([name, v]) =>
+              v.value && assignment(`outputs.${name}`, compileValue(v.value))
           )
         ],
 
-        /* Body */
+        /* Body Chunk */
         node[programType]?.body,
 
         /* Assign local output variables back to global variables */
@@ -534,8 +535,8 @@ export const compileShader = (root: IShaderNode) => {
 
         /* Assign Varyings */
         programType === "vertex" &&
-          getVariables(node.varyings).map(
-            ([localName, variable]) => `${variable.name} = ${localName};`
+          getVariables(node.varyings).map(([localName, variable]) =>
+            assignment(variable.name, localName)
           )
       ),
       nodeEnd(node)
