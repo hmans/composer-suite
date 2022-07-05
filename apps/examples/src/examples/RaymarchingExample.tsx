@@ -1,8 +1,10 @@
 import { useRef } from "react"
 import {
   Factory,
+  float,
   ResolutionNode,
   ShaderMaterialMasterNode,
+  TimeNode,
   uniqueGlobalIdentifier,
   vec2,
   vec3,
@@ -17,11 +19,13 @@ const RaymarchingNode = Factory(() => {
   const castRay = uniqueGlobalIdentifier()
   const calcNormal = uniqueGlobalIdentifier()
   const fresnel = uniqueGlobalIdentifier()
+  const smin = uniqueGlobalIdentifier()
 
   return {
     name: "Raymarching Example",
 
     inputs: {
+      time: float(TimeNode()),
       resolution: vec2(ResolutionNode()),
       viewDirection: vec3(ViewDirectionNode())
     },
@@ -32,14 +36,31 @@ const RaymarchingNode = Factory(() => {
 
     fragment: {
       header: /*glsl*/ `
+        float ${smin}(in float a, in float b, float k)
+        {
+            float h = max(k - abs(a-b), 0.0);
+            return min(a, b) - h*h/(k * 4.0);
+        }
+
         float ${sphere}(in vec3 ray, in vec3 pos, in float radius)
         {
           return length(ray - pos) - radius;
         }
 
         float ${map}(in vec3 ray) {
-          float sphere = ${sphere}(ray, vec3(0.0, 0.0, 0.0), 0.5);
-          return sphere;
+          float sphere1 = ${sphere}(ray, vec3(
+            0.0,
+            1.0 + sin(u_time * 1.3) * 0.5,
+            cos(u_time * 1.2)),
+            0.5);
+
+            float sphere2 = ${sphere}(ray, vec3(
+              sin(u_time * 1.7) * 0.5,
+              1.0,
+              sin(u_time * 1.9)),
+              0.5);
+
+          return ${smin}(sphere1, sphere2, 0.3);
         }
 
         vec3 ${calcNormal}(in vec3 pos)
