@@ -9,6 +9,7 @@ import {
   DivideNode,
   Factory,
   float,
+  FloatNode,
   IShaderNode,
   MixNode,
   MultiplyNode,
@@ -138,8 +139,8 @@ export default function ShadenfreudeParticles() {
     })
 
     const alphaOverTime = MixNode({
-      a: 1,
-      b: 0,
+      a: FloatNode({ a: 1 }),
+      b: FloatNode({ a: 0 }),
       factor: ExponentialEaseInNode({ a: particleProgress })
     })
 

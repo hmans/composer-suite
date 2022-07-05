@@ -96,23 +96,24 @@ export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
 
 export type MixNodeProps<T extends ValueType> = {
-  a?: Parameter
+  a: Parameter<T>
   b: Parameter<T>
   factor?: Parameter<"float">
 }
 
 export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
-  const type = getValueType(props.b)
+  const aType = getValueType(props.a)
+  const bType = getValueType(props.b)
 
   return ShaderNode({
-    name: `Mix a and b values (${type})`,
+    name: `Mix a and b values (${aType})`,
     inputs: {
-      a: variable<T>(type, props.a),
-      b: variable<T>(type, props.b),
+      a: variable<T>(aType, props.a),
+      b: variable<T>(bType, props.b),
       factor: float(props.factor || 0.5)
     },
     outputs: {
-      value: variable<T>(type, "mix(inputs.a, inputs.b, inputs.factor)")
+      value: variable<T>(aType, "mix(inputs.a, inputs.b, inputs.factor)")
     }
   })
 }
