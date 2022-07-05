@@ -10,6 +10,7 @@ import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
 import Playground from "./Playground"
 import StacksExample from "./StacksExample"
+import RaymarchingExample from "./RaymarchingExample"
 
 export type ExampleDefinition = {
   path: string
@@ -51,5 +52,10 @@ export default [
     path: "stacks",
     name: "Shadenfreude Stacks",
     component: <StacksExample />
+  },
+  {
+    path: "raymarching",
+    name: "Shadenfreude Raymarching",
+    component: <RaymarchingExample />
   }
 ] as ExampleDefinition[]
