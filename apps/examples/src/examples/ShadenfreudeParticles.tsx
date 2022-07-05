@@ -14,6 +14,7 @@ import {
   IShaderNodeWithDefaultOutput,
   MixNode,
   MultiplyNode,
+  Parameter,
   ShaderNode,
   SubtractNode,
   TimeNode,
@@ -111,25 +112,31 @@ const HideDeadParticles = Factory(() =>
   })
 )
 
-const add = <T extends ValueType>(
+const addNodes = <T extends ValueType>(
   ...[first, ...rest]: Parameter<T>[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  AddNode({ a: first, b: rest.length > 1 ? add(...rest) : rest[0] })
+  AddNode({ a: first, b: rest.length > 1 ? addNodes(...rest) : rest[0] })
 
-const multiply = <T extends ValueType>(
+const multiplyNodes = <T extends ValueType>(
   ...[first, ...rest]: Parameter<T>[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  MultiplyNode({ a: first, b: rest.length > 1 ? multiply(...rest) : rest[0] })
+  MultiplyNode({
+    a: first,
+    b: rest.length > 1 ? multiplyNodes(...rest) : rest[0]
+  })
 
-const divide = <T extends ValueType>(
+const divideNodes = <T extends ValueType>(
   ...[first, ...rest]: Parameter<T>[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  DivideNode({ a: first, b: rest.length > 1 ? divide(...rest) : rest[0] })
+  DivideNode({ a: first, b: rest.length > 1 ? divideNodes(...rest) : rest[0] })
 
-const subtract = <T extends ValueType>(
+const subtractNodes = <T extends ValueType>(
   ...[first, ...rest]: Parameter<T>[]
 ): IShaderNodeWithDefaultOutput<T> =>
-  SubtractNode({ a: first, b: rest.length > 1 ? subtract(...rest) : rest[0] })
+  SubtractNode({
+    a: first,
+    b: rest.length > 1 ? subtractNodes(...rest) : rest[0]
+  })
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
@@ -174,7 +181,7 @@ export default function ShadenfreudeParticles() {
         b: HideDeadParticles({ progress: particleProgress })
       }),
 
-      position: add(
+      position: addNodes(
         VertexPositionNode(),
         StatelessVelocityNode({
           velocity: blackboard.velocity,
