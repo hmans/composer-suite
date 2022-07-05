@@ -29,6 +29,18 @@ const useShader = (fac: () => IShaderNode) => {
   return shader
 }
 
+const ExponentialEaseInNode = Factory(() =>
+  ShaderNode({
+    name: "Exponential Ease In",
+    inputs: { a: float() },
+    outputs: {
+      value: float(
+        "inputs.a == 0.0 ? inputs.a : pow(2.0, 10.0 * (inputs.a - 1.0))"
+      )
+    }
+  })
+)
+
 const SplitVector2Node = Factory(() =>
   ShaderNode({
     name: "Split Vector2",
@@ -125,7 +137,11 @@ export default function ShadenfreudeParticles() {
       b: particleMaxAge
     })
 
-    const alphaOverTime = MixNode({ a: 1, b: 0, factor: particleProgress })
+    const alphaOverTime = MixNode({
+      a: 1,
+      b: 0,
+      factor: ExponentialEaseInNode({ a: particleProgress })
+    })
 
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
