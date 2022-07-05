@@ -63,12 +63,6 @@ export interface IShaderNode {
    * Output variables.
    */
   outputs?: Variables
-
-  /**
-   * Filters. Any node can be used as a filter that has default inputs and outputs of the same
-   * type as this node's default output value.
-   */
-  filters?: IShaderNode[]
 }
 
 export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
@@ -389,11 +383,7 @@ export const compileShader = (root: IShaderNode) => {
     )
 
   const getDependencies = (node: IShaderNode) =>
-    unique([
-      ...getInputDependencies(node),
-      ...getOutputDependencies(node),
-      ...(node.filters || [])
-    ])
+    unique([...getInputDependencies(node), ...getOutputDependencies(node)])
 
   const nodeBegin = (node: IShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: IShaderNode) => `/*** END: ${node.name} ***/\n`
@@ -441,10 +431,7 @@ export const compileShader = (root: IShaderNode) => {
       /* Actual chunk */
       node[programType]?.header,
 
-      nodeEnd(node),
-
-      /* Filters */
-      node.filters?.map((unit) => compileHeader(unit, programType, state))
+      nodeEnd(node)
     ]
   }
 
@@ -459,16 +446,14 @@ export const compileShader = (root: IShaderNode) => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
 
-    const dependenciesWithoutFilters = unique([
+    const dependencies = unique([
       ...getInputDependencies(node),
       ...getOutputDependencies(node)
     ])
 
     return [
       /* Dependencies */
-      dependenciesWithoutFilters.map((dep) =>
-        compileBody(dep, programType, seen)
-      ),
+      dependencies.map((dep) => compileBody(dep, programType, seen)),
 
       nodeBegin(node),
 
@@ -520,21 +505,6 @@ export const compileShader = (root: IShaderNode) => {
           assignment(variable.name, "outputs." + localName)
         ),
 
-        /* Filters */
-        node.filters &&
-          node.filters.length > 0 && [
-            /* Render filters */
-            node.filters.map((filter) =>
-              compileBody(filter, programType, seen)
-            ),
-
-            /* Assign the last filter's output variable back into our output variable */
-            assignment(
-              node.outputs!.value.name,
-              node.filters[node.filters.length - 1].outputs!.value.name
-            )
-          ],
-
         /* Assign Varyings */
         programType === "vertex" &&
           getVariables(node.varyings).map(([localName, variable]) =>
@@ -576,34 +546,6 @@ export const compileShader = (root: IShaderNode) => {
     getVariables(node.varyings).map(([localName, variable]) => {
       variable.name = identifier("v", ...variableNamePrefix, localName)
     })
-
-    /* Prepare filters */
-    if (node.filters && node.filters.length > 0) {
-      if (!isShaderNodeWithDefaultOutput(node))
-        throw new Error("Nodes with filters must have an output value")
-
-      /* Use the last filter's output value as our output value */
-      const firstFilter = node.filters[0]
-
-      if (!isShaderNodeWithDefaultInput(firstFilter))
-        throw new Error("First filter node must have an `a` input")
-
-      assign(firstFilter, node)
-
-      /* Connect filters in sequence */
-      for (let i = 1; i < node.filters.length; i++) {
-        const filter = node.filters[i]
-        const prev = node.filters[i - 1]
-
-        if (!isShaderNodeWithDefaultOutput(prev))
-          throw new Error("Filter nodes must have a `value` output")
-
-        if (!isShaderNodeWithDefaultInput(filter))
-          throw new Error("Filter nodes must have an `a` input")
-
-        assign(filter, prev)
-      }
-    }
   }
 
   prepareNode(root)
