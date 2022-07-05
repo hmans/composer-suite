@@ -10,6 +10,7 @@ import {
   Factory,
   float,
   IShaderNode,
+  MixNode,
   MultiplyNode,
   ShaderNode,
   SubtractNode,
@@ -80,20 +81,6 @@ const StatelessAccelerationNode = Factory(() =>
   })
 )
 
-const StatelessAlphaAnimationNode = Factory(() =>
-  ShaderNode({
-    name: "Stateless Alpha Animation",
-    inputs: {
-      min: float(),
-      max: float(),
-      t: float()
-    },
-    outputs: {
-      value: float("mix(inputs.min, inputs.max, inputs.t)")
-    }
-  })
-)
-
 const HideDeadParticles = Factory(() =>
   ShaderNode({
     name: "Hide Dead Particles",
@@ -138,11 +125,13 @@ export default function ShadenfreudeParticles() {
       b: particleMaxAge
     })
 
+    const alphaOverTime = MixNode({ a: 1, b: 0, factor: particleProgress })
+
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
 
       alpha: MultiplyNode({
-        a: StatelessAlphaAnimationNode({ t: particleProgress, min: 1, max: 0 }),
+        a: alphaOverTime,
         b: HideDeadParticles({ progress: particleProgress })
       }),
 
