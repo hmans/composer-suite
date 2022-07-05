@@ -1,4 +1,12 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import {
+  assignment,
+  block,
+  concatenate,
+  identifier,
+  Parts,
+  statement
+} from "./lib/concatenator3000"
 
 /*
 
@@ -331,7 +339,7 @@ export const compileShader = (root: IShaderNode) => {
 
     const dependencies = getDependencies(node)
 
-    const header = [
+    return [
       /* Dependencies */
       dependencies.map((dependency) =>
         compileHeader(dependency, programType, state)
@@ -364,8 +372,6 @@ export const compileShader = (root: IShaderNode) => {
       /* Filters */
       node.filters?.map((unit) => compileHeader(unit, programType, state))
     ]
-
-    return header
   }
 
   const compileBody = (
@@ -465,11 +471,11 @@ export const compileShader = (root: IShaderNode) => {
   }
 
   const compileProgram = (programType: ProgramType): string => {
-    return lines(
+    return concatenate(
       compileHeader(root, programType),
       "void main()",
       block(compileBody(root, programType))
-    ).join("\n")
+    )
   }
 
   const prepareNode = (
@@ -557,38 +563,14 @@ __   __  _______  ___      _______  _______  ______    _______
 
 */
 
-export type Parts = any[]
-
-export const block = (...parts: Parts) =>
-  lines(
-    "{",
-    lines(parts).map((p) => "  " + p),
-    "}"
+export const struct = (name: string, variables: Variables) =>
+  Object.keys(variables).length > 0 &&
+  statement(
+    "struct {",
+    Object.entries(variables).map(([name, v]) => statement(v.type, name)),
+    "}",
+    name
   )
-
-export const lines = (...parts: Parts): string[] =>
-  compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
-
-export const statement = (...parts: Parts) =>
-  compact(parts.flat()).join(" ") + ";"
-
-export const assignment = (left: string, right: string) =>
-  statement(left, "=", right)
-
-const identifier = (...parts: Parts) =>
-  compact(parts.flat())
-    .join("_")
-    .replace(/_{2,}/g, "_")
-
-const struct = (name: string, variables: Variables) =>
-  Object.keys(variables).length > 0
-    ? statement(
-        "struct {",
-        Object.entries(variables).map(([name, v]) => statement(v.type, name)),
-        "}",
-        name
-      )
-    : ""
 
 export const isVariable = (value: any): value is Variable => !!value?.__variable
 
@@ -615,9 +597,6 @@ export const assertShaderNodeWithDefaultOutput = (
 }
 
 const unique = (array: any[]) => [...new Set(array)]
-
-const compact = (array: any[]) =>
-  array.filter((p) => ![undefined, null, false].includes(p))
 
 const sluggify = (str: string) =>
   str.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")

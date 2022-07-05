@@ -1,5 +1,6 @@
 import { Color } from "three"
-import { assignment, Factory, float, vec3 } from "../shadenfreude"
+import { assignment } from "../lib/concatenator3000"
+import { Factory, float, vec3 } from "../shadenfreude"
 import { VertexPositionNode, VertexNormalNode } from "./geometry"
 
 export const ShaderMaterialMasterNode = Factory(() => ({

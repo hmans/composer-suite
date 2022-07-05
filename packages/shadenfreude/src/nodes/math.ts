@@ -1,10 +1,9 @@
-import { prepare } from "@react-three/fiber/dist/declarations/src/core/renderer"
+import { lines } from "../lib/concatenator3000"
 import {
   Chunk,
   Factory,
   float,
   getValueType,
-  lines,
   Parameter,
   ShaderNode,
   uniqueGlobalIdentifier,
