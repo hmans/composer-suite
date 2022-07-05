@@ -1,12 +1,16 @@
 import { useFrame } from "@react-three/fiber"
+import { plusMinus, upTo } from "randomish"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import {
   AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
+  Factory,
+  float,
   IShaderNode,
   MultiplyNode,
   ShaderNode,
+  TimeNode,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -19,6 +23,28 @@ const useShader = (fac: () => IShaderNode) => {
   useFrame((_, dt) => update(dt))
   return shader
 }
+
+const VelocityNode = Factory(() => ({
+  name: "Velocity",
+  inputs: {
+    velocity: vec3(),
+    time: float(TimeNode())
+  },
+  outputs: {
+    value: vec3("inputs.time * inputs.velocity")
+  }
+}))
+
+const AccelerationNode = Factory(() => ({
+  name: "Acceleration",
+  inputs: {
+    acceleration: vec3(),
+    time: float(TimeNode())
+  },
+  outputs: {
+    value: vec3("0.5 * inputs.time * inputs.time * inputs.acceleration")
+  }
+}))
 
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
@@ -35,7 +61,16 @@ export default function ShadenfreudeParticles() {
       name: "Position Stack",
       inputs: { a: vec3(VertexPositionNode()) },
       outputs: { value: vec3("inputs.a") },
-      filters: []
+      filters: [
+        AddNode({
+          b: VelocityNode({
+            velocity: new Vector3(plusMinus(10), 5 + upTo(5), plusMinus(10))
+          })
+        }),
+        AddNode({
+          b: AccelerationNode({ acceleration: new Vector3(0, -10, 0) })
+        })
+      ]
     })
 
     return CustomShaderMaterialMasterNode({
