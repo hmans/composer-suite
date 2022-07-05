@@ -43,7 +43,7 @@ const ParticleProgress = Factory(() =>
       age: float(ParticleLifetime())
     },
     outputs: {
-      value: float("inputs.age / 10.0")
+      value: float("inputs.age / 1.0")
     }
   })
 )
@@ -74,10 +74,25 @@ const StatelessAccelerationNode = Factory(() =>
   })
 )
 
+const HideDeadParticles = Factory(() =>
+  ShaderNode({
+    name: "Hide Dead Particles",
+    inputs: {
+      a: float(),
+      progress: float(ParticleProgress())
+    },
+    outputs: {
+      value: float("1.0 - clamp(inputs.progress, 0.0, 1.0)")
+    }
+  })
+)
+
 export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
 
   const shader = useShader(() => {
+    const particleLifetime = ParticleLifetime()
+
     const diffuseColor = ShaderNode({
       name: "Color Stack",
       inputs: { a: vec3(new Color("#555")) },
@@ -85,7 +100,12 @@ export default function ShadenfreudeParticles() {
       filters: []
     })
 
-    const particleLifetime = ParticleLifetime()
+    const alpha = ShaderNode({
+      name: "Alpha Stack",
+      inputs: { a: float(1) },
+      outputs: { value: float("inputs.a") },
+      filters: [HideDeadParticles()]
+    })
 
     const position = ShaderNode({
       name: "Position Stack",
@@ -109,6 +129,7 @@ export default function ShadenfreudeParticles() {
 
     return CustomShaderMaterialMasterNode({
       diffuseColor,
+      alpha,
       position
     })
   })
@@ -123,7 +144,11 @@ export default function ShadenfreudeParticles() {
     <group position-y={15}>
       <Particles ref={imesh}>
         <sphereGeometry />
-        <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shader} />
+        <CustomShaderMaterial
+          baseMaterial={MeshStandardMaterial}
+          {...shader}
+          transparent
+        />
       </Particles>
     </group>
   )
