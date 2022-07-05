@@ -10,6 +10,7 @@ import {
   Factory,
   float,
   IShaderNode,
+  MultiplyNode,
   ShaderNode,
   TimeNode,
   vec2,
@@ -94,11 +95,10 @@ const HideDeadParticles = Factory(() =>
   ShaderNode({
     name: "Hide Dead Particles",
     inputs: {
-      a: float(),
       progress: float()
     },
     outputs: {
-      value: float("inputs.a")
+      value: float(1)
     },
     fragment: {
       body: `if (inputs.progress > 1.0 || inputs.progress < 0.0) discard;`
@@ -125,18 +125,11 @@ export default function ShadenfreudeParticles() {
     })
 
     return CustomShaderMaterialMasterNode({
-      diffuseColor: ShaderNode({
-        name: "Color Stack",
-        inputs: { a: vec3(new Color("#ccc")) },
-        outputs: { value: vec3("inputs.a") },
-        filters: []
-      }),
+      diffuseColor: new Color("#ccc"),
 
-      alpha: ShaderNode({
-        name: "Alpha Stack",
-        inputs: { a: float(1) },
-        outputs: { value: float("inputs.a") },
-        filters: [HideDeadParticles({ progress: particleProgress })]
+      alpha: MultiplyNode({
+        a: 1,
+        b: HideDeadParticles({ progress: particleProgress })
       }),
 
       position: AddNode({
