@@ -3,6 +3,7 @@ import { plusMinus, upTo } from "randomish"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import {
   AddNode,
+  AttributeNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   Factory,
@@ -10,6 +11,7 @@ import {
   IShaderNode,
   ShaderNode,
   TimeNode,
+  vec2,
   vec3,
   VertexPositionNode
 } from "shadenfreude"
@@ -23,14 +25,15 @@ const useShader = (fac: () => IShaderNode) => {
   return shader
 }
 
-const ParticleLifetime = Factory(() =>
+const ParticleAge = Factory(() =>
   ShaderNode({
     name: "Particle Lifetime",
     inputs: {
-      time: float(TimeNode())
+      time: float(TimeNode()),
+      lifetime: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
     },
     outputs: {
-      value: float("inputs.time") // TODO
+      value: float("inputs.time - inputs.lifetime.x")
     }
   })
 )
@@ -39,11 +42,11 @@ const ParticleProgress = Factory(() =>
   ShaderNode({
     name: "Particle Progress",
     inputs: {
-      age: float(ParticleLifetime()),
-      maxAge: float(1)
+      age: float(ParticleAge()),
+      lifetime: vec2(AttributeNode({ name: "lifetime", type: "vec2" }))
     },
     outputs: {
-      value: float("inputs.age / inputs.maxAge")
+      value: float("inputs.age / (inputs.lifetime.y - inputs.lifetime.x)")
     }
   })
 )
@@ -91,7 +94,7 @@ export default function ShadenfreudeParticles() {
   const imesh = useRef<Particles>(null!)
 
   const shader = useShader(() => {
-    const particleLifetime = ParticleLifetime()
+    const particleLifetime = ParticleAge()
 
     const diffuseColor = ShaderNode({
       name: "Color Stack",
@@ -144,7 +147,7 @@ export default function ShadenfreudeParticles() {
           transparent
         />
 
-        <Repeat interval={1}>
+        <Repeat interval={0.2}>
           <Emitter count={1} />
         </Repeat>
       </Particles>

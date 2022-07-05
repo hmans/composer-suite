@@ -48,6 +48,8 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
 
       /* This function will spawn new particles. */
       return (count: number) => {
+        console.log("spawning", count)
+
         /* Grab some stuff we need */
         const { material, geometry } = imesh.current
 
@@ -89,7 +91,11 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
           imesh.current.setMatrixAt(cursor, new Matrix4())
 
           /* Configure lifetime */
-          geometry.attributes.lifetime.setXY(cursor, time, time + 1)
+          geometry.attributes.lifetime.setXY(
+            cursor,
+            time,
+            time + 0.5 + Math.random()
+          )
 
           /* Advance playhead */
           cursor++
