@@ -465,11 +465,11 @@ export const compileShader = (root: IShaderNode) => {
   }
 
   const compileProgram = (programType: ProgramType): string => {
-    return lines(
+    return concatenate(
       compileHeader(root, programType),
       "void main()",
       block(compileBody(root, programType))
-    ).join("\n")
+    )
   }
 
   const prepareNode = (
@@ -565,6 +565,8 @@ export const block = (...parts: Parts) =>
     lines(parts).map((p) => "  " + p),
     "}"
   )
+
+export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
 
 export const lines = (...parts: Parts): string[] =>
   compact(parts.map((p) => (Array.isArray(p) ? lines(...p) : p)).flat())
