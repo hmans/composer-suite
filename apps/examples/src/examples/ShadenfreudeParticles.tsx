@@ -114,6 +114,7 @@ export default function ShadenfreudeParticles() {
 
   const shader = useShader(() => {
     const blackboard = {
+      time: TimeNode(),
       lifetime: AttributeNode({ name: "lifetime", type: "vec2" }),
       velocity: AttributeNode({ name: "velocity", type: "vec3" })
     }
@@ -123,7 +124,7 @@ export default function ShadenfreudeParticles() {
     })
 
     const particleAge = SubtractNode({
-      a: TimeNode(),
+      a: blackboard.time,
       b: lifetimeData.outputs.x
     })
 
