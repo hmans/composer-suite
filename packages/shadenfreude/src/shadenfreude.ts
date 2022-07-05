@@ -533,8 +533,15 @@ export const compileShader = (root: IShaderNode) => {
 
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
-  const uniforms = { u_time: { value: 0 } }
-  const update = (dt: number) => (uniforms.u_time.value += dt)
+
+  /* TODO: make the following dynamic */
+
+  const uniforms = { u_time: { value: 0 }, u_resolution: { value: [0, 0] } }
+
+  const update = (dt: number) => {
+    uniforms.u_time.value += dt
+    uniforms.u_resolution.value = [window.innerWidth, window.innerHeight]
+  }
 
   return [{ vertexShader, fragmentShader, uniforms }, update] as const
 }
