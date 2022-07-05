@@ -82,7 +82,7 @@ const HideDeadParticles = Factory(() =>
       progress: float(ParticleProgress())
     },
     outputs: {
-      value: float("1.0 - clamp(inputs.progress, 0.0, 1.0)")
+      value: float("inputs.progress > 1.0 || inputs.progress < 0.0 ? 0.0 : 1.0")
     }
   })
 )
