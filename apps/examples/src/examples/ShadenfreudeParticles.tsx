@@ -86,6 +86,9 @@ const HideDeadParticles = Factory(() =>
     },
     outputs: {
       value: float("inputs.progress > 1.0 || inputs.progress < 0.0 ? 0.0 : 1.0")
+    },
+    fragment: {
+      body: `if (inputs.progress > 1.0 || inputs.progress < 0.0) discard;`
     }
   })
 )
