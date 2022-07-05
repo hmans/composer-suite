@@ -86,8 +86,15 @@ const RaymarchingNode = Factory(() => {
 
         if (t > 0.0) {
           vec3 normal = ${calcNormal}(viewPos + t * viewDir);
+          vec3 diffuseColor = vec3(0.8, 0.5, 0.3);
 
-          color += normal;
+          // ambient light
+          color += diffuseColor * 0.16;
+
+          // sun light
+          vec3 sunDir = normalize(vec3(1.0, 0.2, 0.5));
+          float sunIntensity = max(0.0, dot(normal, sunDir));
+          color += diffuseColor * sunIntensity;
         }
 
         outputs.value = color;
