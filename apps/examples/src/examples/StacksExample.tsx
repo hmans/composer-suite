@@ -6,6 +6,7 @@ import {
   CosNode,
   CustomShaderMaterialMasterNode,
   FresnelNode,
+  IShaderNodeWithDefaultOutput,
   JoinVector3Node,
   multiply,
   sin,
@@ -43,45 +44,26 @@ export default function StacksExample() {
     const time = TimeNode()
     const position = SplitVector3Node({ a: VertexPositionNode() })
 
+    const scaledTime = (scale = 1) =>
+      multiply<"float">(time, speedUniform, scale)
+
     const wobble = (frequency = 1, amplitude = 1) =>
-      multiply(
-        sin(multiply(time, speedUniform, frequency)),
-        amplitude,
-        intensityUniform
-      )
+      multiply(sin(scaledTime(frequency)), amplitude, intensityUniform)
 
     const shift = (frequency = 1, amplitude = 1) =>
-      multiply(
-        sin(multiply(time, speedUniform, frequency)),
-        amplitude,
-        intensityUniform
-      )
+      multiply(sin(scaledTime(frequency)), amplitude, intensityUniform)
+
+    const { x, y, z } = position.outputs
 
     const root = CustomShaderMaterialMasterNode({
       position: JoinVector3Node({
-        x: add(
-          position.outputs.x,
-          multiply(
-            position.outputs.x,
-            multiply(position.outputs.y, 0.1),
-            wobble(2, 0.2)
-          ),
-          shift(0.5, 5)
-        ),
+        x: add(x, multiply(x, multiply(y, 0.1), wobble(2, 0.2)), shift(0.5, 5)),
         y: add(
-          position.outputs.y,
-          multiply(
-            position.outputs.y,
-            multiply(position.outputs.x, 0.2),
-            wobble(1.1, 0.1)
-          ),
+          y,
+          multiply(y, multiply(x, 0.2), wobble(1.1, 0.1)),
           shift(1.1, 4)
         ),
-        z: add(
-          position.outputs.z,
-          multiply(position.outputs.z, wobble(1.5, 0.3)),
-          shift(0.8, 2)
-        )
+        z: add(z, multiply(z, wobble(1.5, 0.3)), shift(0.8, 2))
       }),
 
       diffuseColor: BlendNode({
