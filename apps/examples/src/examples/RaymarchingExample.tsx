@@ -15,6 +15,7 @@ const RaymarchingNode = Factory(() => {
   const sphere = uniqueGlobalIdentifier()
   const map = uniqueGlobalIdentifier()
   const castRay = uniqueGlobalIdentifier()
+  const calcNormal = uniqueGlobalIdentifier()
 
   return {
     name: "Raymarching Example",
@@ -39,6 +40,18 @@ const RaymarchingNode = Factory(() => {
           float sphere = ${sphere}(ray, vec3(0.0, 0.0, 0.0), 0.5);
           return sphere;
         }
+
+        vec3 ${calcNormal}(in vec3 pos)
+        {
+            vec2 e = vec2(0.0001, 0.0);
+
+            return normalize(
+                vec3(
+                    ${map}(pos + e.xyy) - ${map}(pos-e.xyy),
+                    ${map}(pos + e.yxy) - ${map}(pos-e.yxy),
+                    ${map}(pos + e.yyx) - ${map}(pos-e.yyx)));
+        }
+
 
         float ${castRay}(in vec3 rayPos, in vec3 rayDir)
         {
@@ -72,7 +85,9 @@ const RaymarchingNode = Factory(() => {
         vec3 color;
 
         if (t > 0.0) {
-          color += vec3(t, t, t);
+          vec3 normal = ${calcNormal}(viewPos + t * viewDir);
+
+          color += normal;
         }
 
         outputs.value = color;
