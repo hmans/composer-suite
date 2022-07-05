@@ -9,6 +9,7 @@ import {
   JoinVector3Node,
   multiply,
   SinNode,
+  SplitVector3Node,
   TimeNode,
   UniformNode,
   VertexPositionNode
@@ -39,37 +40,48 @@ export default function StacksExample() {
     })
 
     const time = TimeNode()
+    const position = SplitVector3Node({ a: VertexPositionNode() })
+
+    const wobble = (frequency = 1, amplitude = 1) =>
+      multiply(
+        SinNode({ a: multiply(time, speedUniform, frequency) }),
+        amplitude,
+        intensityUniform
+      )
+
+    const shift = (frequency = 1, amplitude = 1) =>
+      multiply(
+        SinNode({ a: multiply(time, speedUniform, frequency) }),
+        amplitude,
+        intensityUniform
+      )
 
     const root = CustomShaderMaterialMasterNode({
-      position: multiply(
-        VertexPositionNode(),
-        JoinVector3Node({
-          x: add(
-            multiply(
-              SinNode({ a: multiply(time, speedUniform, 1.3) }),
-              0.2,
-              intensityUniform
-            ),
-            1.0
+      position: JoinVector3Node({
+        x: add(
+          position.outputs.x,
+          multiply(
+            position.outputs.x,
+            multiply(position.outputs.y, 0.1),
+            wobble(2, 0.2)
           ),
-          y: add(
-            multiply(
-              CosNode({ a: multiply(time, speedUniform, 1.7) }),
-              0.3,
-              intensityUniform
-            ),
-            1.0
+          shift(0.5, 5)
+        ),
+        y: add(
+          position.outputs.y,
+          multiply(
+            position.outputs.y,
+            multiply(position.outputs.x, 0.2),
+            wobble(1.1, 0.1)
           ),
-          z: add(
-            multiply(
-              SinNode({ a: multiply(time, speedUniform, 1.1) }),
-              0.2,
-              intensityUniform
-            ),
-            1.0
-          )
-        })
-      ),
+          shift(1.1, 4)
+        ),
+        z: add(
+          position.outputs.z,
+          multiply(position.outputs.z, wobble(1.5, 0.3)),
+          shift(0.8, 2)
+        )
+      }),
 
       diffuseColor: BlendNode({
         mode: "softlight",
