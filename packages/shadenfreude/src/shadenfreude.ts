@@ -29,17 +29,45 @@ export type Program = {
 
 export type ProgramType = "vertex" | "fragment"
 
+/** The IShaderNode interface describes the objects that configure individual shader nodes. */
 export interface IShaderNode {
+  /** Name of the shader node. Will be injected into the compiled GSLS for easier debugging. */
   name?: string
 
+  /** The vertex shader program configuration. */
   vertex?: Program
+
+  /** The fragment shader program configuration. */
   fragment?: Program
 
+  /**
+   * Shader nodes may declare uniforms. When declared as part of the `uniforms` property,
+   * the compiler will automatically inject them into the shader headers.
+   */
   uniforms?: Variables
+
+  /**
+   * Shader nodes may declare varyings. When declared as part of the `varyings` property,
+   * the compiler will automatically inject them into the shader headers, but using
+   * a scoped name. Within the context of this shader node, the varying can still be
+   * accessed using the name provided here.
+   */
   varyings?: Variables
+
+  /**
+   * Input variables.
+   */
   inputs?: Variables
+
+  /**
+   * Output variables.
+   */
   outputs?: Variables
 
+  /**
+   * Filters. Any node can be used as a filter that has default inputs and outputs of the same
+   * type as this node's default output value.
+   */
   filters?: IShaderNode[]
 }
 
@@ -53,6 +81,15 @@ export interface IShaderNodeWithDefaultOutput<T extends ValueType = any>
   outputs: { value: Variable<T> }
 }
 
+/**
+ * The shader node constructor. All shaders nodes must be constructed using this function.
+ * It will accept an IShaderNode compatible definition as its first argument and process it,
+ * most importantly linking its input and output variables to the node.
+ *
+ * @param node The shader node definition.
+ * @param props An optional properties object whose values will be assigned to the node's inputs.
+ * @returns The constructed shader node.
+ */
 export const ShaderNode = <
   S extends IShaderNode,
   P extends Partial<VariableProps<S["inputs"]>>
