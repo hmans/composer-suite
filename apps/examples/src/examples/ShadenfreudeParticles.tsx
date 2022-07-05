@@ -5,6 +5,7 @@ import {
   AddNode,
   compileShader,
   CustomShaderMaterialMasterNode,
+  DivideNode,
   Factory,
   float,
   IShaderNode,
@@ -17,6 +18,7 @@ import {
 import { Color, Matrix4, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { Particles } from "three-vfx"
+import { randFloatSpread } from "three/src/math/MathUtils"
 
 const useShader = (fac: () => IShaderNode) => {
   const [shader, update] = useMemo(() => compileShader(fac()), [])
@@ -40,10 +42,11 @@ const ParticleProgress = Factory(() =>
   ShaderNode({
     name: "Particle Progress",
     inputs: {
-      age: float(ParticleLifetime())
+      age: float(ParticleLifetime()),
+      maxAge: float(1)
     },
     outputs: {
-      value: float("inputs.age / 1.0")
+      value: float("inputs.age / inputs.maxAge")
     }
   })
 )
