@@ -3,45 +3,20 @@ import { useRef } from "react"
 import {
   add,
   BlendNode,
+  CosNode,
   CustomShaderMaterialMasterNode,
-  Factory,
-  float,
   FresnelNode,
+  JoinVector3Node,
   multiply,
-  ShaderNode,
+  SinNode,
   TimeNode,
   UniformNode,
-  vec3,
   VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import CustomShaderMaterialImpl from "three-custom-shader-material/vanilla"
 import { useShader } from "./useShader"
-
-const JoinVector3Node = Factory(() => ({
-  name: "Join Vector3",
-  inputs: {
-    x: float(1),
-    y: float(1),
-    z: float(1)
-  },
-  outputs: {
-    value: vec3("vec3(inputs.x, inputs.y, inputs.z)")
-  }
-}))
-
-const ScaleWithTime = Factory(() =>
-  ShaderNode({
-    name: "ScaleWithTime",
-    inputs: {
-      time: float(TimeNode())
-    },
-    outputs: {
-      value: float("sin(inputs.time)")
-    }
-  })
-)
 
 export default function StacksExample() {
   const { speed, intensity, color, fresnelIntensity } = useControls(
@@ -71,7 +46,7 @@ export default function StacksExample() {
         JoinVector3Node({
           x: add(
             multiply(
-              ScaleWithTime({ time: multiply(time, speedUniform, 1.3) }),
+              SinNode({ a: multiply(time, speedUniform, 1.3) }),
               0.2,
               intensityUniform
             ),
@@ -79,7 +54,7 @@ export default function StacksExample() {
           ),
           y: add(
             multiply(
-              ScaleWithTime({ time: multiply(time, speedUniform, 1.7) }),
+              CosNode({ a: multiply(time, speedUniform, 1.7) }),
               0.3,
               intensityUniform
             ),
@@ -87,7 +62,7 @@ export default function StacksExample() {
           ),
           z: add(
             multiply(
-              ScaleWithTime({ time: multiply(time, speedUniform, 1.1) }),
+              SinNode({ a: multiply(time, speedUniform, 1.1) }),
               0.2,
               intensityUniform
             ),

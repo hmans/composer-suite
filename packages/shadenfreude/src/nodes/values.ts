@@ -1,4 +1,4 @@
-import { Factory, ValueType, variable } from "../shadenfreude"
+import { Factory, float, ValueType, variable, vec3 } from "../shadenfreude"
 
 const ValueNode = <T extends ValueType>(type: T) => ({
   name: `Value (${type})`,
@@ -14,3 +14,15 @@ export const ColorNode = Factory(() => ValueNode("vec3"))
 export const Vector4Node = Factory(() => ValueNode("vec4"))
 export const Matrix3Node = Factory(() => ValueNode("mat3"))
 export const Matrix4Node = Factory(() => ValueNode("mat4"))
+
+export const JoinVector3Node = Factory(() => ({
+  name: "Join Vector3",
+  inputs: {
+    x: float(1),
+    y: float(1),
+    z: float(1)
+  },
+  outputs: {
+    value: vec3("vec3(inputs.x, inputs.y, inputs.z)")
+  }
+}))
