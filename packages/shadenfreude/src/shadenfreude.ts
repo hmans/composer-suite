@@ -421,8 +421,10 @@ export const compileShader = (root: IShaderNode) => {
 
       /* Uniforms */
       getVariables(node.uniforms).map(([name, v]) => {
+        /* Don't render the same uniform more than once */
         if (state.seenGlobals.has(name)) return
         state.seenGlobals.add(name)
+
         return compileVariable({
           ...v,
           qualifier: "uniform",
