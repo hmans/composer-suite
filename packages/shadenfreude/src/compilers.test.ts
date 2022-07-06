@@ -14,7 +14,11 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: anonymous_1 ***/
-        float anonymous_1 = 1.00000;
+        float anonymous_1;
+        {
+          float value = 1.00000;
+          anonymous_1 = value;
+        }
         /*** END: anonymous_1 ***/
 
       }"
@@ -32,7 +36,11 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: anonymous_2 ***/
-        float anonymous_2 = 1.00000;
+        float anonymous_2;
+        {
+          float value = 1.00000;
+          anonymous_2 = value;
+        }
         /*** END: anonymous_2 ***/
 
       }"
@@ -60,9 +68,11 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: anonymous_3 ***/
-        float anonymous_3 = 1.00000;
+        float anonymous_3;
         {
+          float value = 1.00000;
           gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
+          anonymous_3 = value;
         }
         /*** END: anonymous_3 ***/
 
@@ -77,9 +87,11 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: anonymous_3 ***/
-        float anonymous_3 = 1.00000;
+        float anonymous_3;
         {
+          float value = 1.00000;
           gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
+          anonymous_3 = value;
         }
         /*** END: anonymous_3 ***/
 
@@ -103,11 +115,19 @@ describe("compileShader", () => {
       void main()
       {
         /*** BEGIN: anonymous_4 ***/
-        float anonymous_4 = 1.00000;
+        float anonymous_4;
+        {
+          float value = 1.00000;
+          anonymous_4 = value;
+        }
         /*** END: anonymous_4 ***/
 
         /*** BEGIN: anonymous_5 ***/
-        float anonymous_5 = anonymous_4;
+        float anonymous_5;
+        {
+          float value = anonymous_4;
+          anonymous_5 = value;
+        }
         /*** END: anonymous_5 ***/
 
       }"
