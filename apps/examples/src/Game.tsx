@@ -2,7 +2,7 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { button, useControls } from "leva"
 import { Perf } from "r3f-perf"
-import { FC, Suspense, useState } from "react"
+import { FC, ReactNode, Suspense, useState } from "react"
 import { LinearEncoding } from "three"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
@@ -10,7 +10,7 @@ import examples, { ExampleDefinition } from "./examples"
 import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 
-export const Game = () => {
+const SandboxStage: FC<{ children: ReactNode }> = ({ children }) => {
   const { halfResolution, postProcessing } = useControls("Rendering", {
     halfResolution: false,
     postProcessing: true
@@ -52,13 +52,7 @@ export const Game = () => {
       <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
 
       {/* Scene objects */}
-      <Stage>
-        <Route path="/:path">
-          <Suspense>
-            <ExampleMatcher />
-          </Suspense>
-        </Route>
-      </Stage>
+      <Stage>{children}</Stage>
 
       {/* Rendering, ECS, etc. */}
       {postProcessing && <PostProcessing />}
@@ -66,6 +60,16 @@ export const Game = () => {
     </Canvas>
   )
 }
+
+export const Game = () => (
+  <SandboxStage>
+    <Route path="/:path">
+      <Suspense>
+        <ExampleMatcher />
+      </Suspense>
+    </Route>
+  </SandboxStage>
+)
 
 const ExampleMatcher = () => {
   const [match, params] = useRoute("/:path")
