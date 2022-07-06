@@ -69,14 +69,14 @@ export const vec4 = makeVariableHelper("vec4")
 export const mat3 = makeVariableHelper("mat3")
 export const mat4 = makeVariableHelper("mat4")
 
-export const type = <T extends GLSLType>(value: Value<T>): GLSLType => {
+export const type = <T extends GLSLType>(value: Value<T>): T => {
   if (isVariable(value)) return value.type
 
-  if (typeof value === "number") return "float"
+  if (typeof value === "number") return "float" as T
 
-  if (value instanceof Color) return "vec3"
+  if (value instanceof Color) return "vec3" as T
 
-  if (value instanceof Vector3) return "vec3"
+  if (value instanceof Vector3) return "vec3" as T
 
   /* Fail */
   throw new Error(`Could not render GLSL type for: ${value}`)

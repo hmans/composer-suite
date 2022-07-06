@@ -14,7 +14,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 
 const master = (color: Variable<"vec3">) =>
   bool(true, {
-    inputs: { color: add(color, new Color("white")) },
+    inputs: { color },
     fragmentBody: `csm_DiffuseColor = vec4(color, 1.0);`
   })
 
@@ -25,7 +25,7 @@ export default function Playground() {
   const shader = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
 
-    return compileShader(master(baseColor))
+    return compileShader(master(add(baseColor, new Color("white"))))
   }, [])
 
   console.log(shader.vertexShader)
