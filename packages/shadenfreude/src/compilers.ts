@@ -94,7 +94,7 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
   block(
     /* Make inputs available as local variables */
     Object.entries(v.inputs).map(([name, input]) =>
-      assignment(`${glslType(input)} ${name}`, glslRepresentation(input.value))
+      assignment(`${glslType(input)} ${name}`, glslRepresentation(input))
     ),
 
     /* The body chunk, if there is one */
