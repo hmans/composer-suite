@@ -1,5 +1,6 @@
 import { seededRandom } from "three/src/math/MathUtils"
 import { glslRepresentation } from "./glslRepresentation"
+import { type } from "./glslType"
 import {
   assignment,
   block,
@@ -10,7 +11,7 @@ import {
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { type, isVariable, Variable } from "./variables"
+import { isVariable, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
@@ -77,6 +78,18 @@ export const compileProgram = (v: Variable, program: ProgramType) =>
     block(compileBody(v, program))
   )
 
+const prepare = (v: Variable, stack = dependencyStack()) => {
+  if (!stack.fresh(v)) return
+
+  /* Prepare dependencies first */
+  dependencies(v).forEach((d) => prepare(d, stack))
+
+  /* Give this variable a better name */
+  const id = stack.nextId()
+  v.name = identifier(v.type, sluggify(v.title), id)
+  v.title += ` (${id})`
+}
+
 export const compileShader = (root: Variable) => {
   prepare(root)
 
@@ -94,18 +107,6 @@ const dependencyStack = () => {
     fresh: (v: Variable) => (seen.has(v) ? false : seen.add(v) && true),
     nextId
   }
-}
-
-const prepare = (v: Variable, stack = dependencyStack()) => {
-  if (!stack.fresh(v)) return
-
-  /* Prepare dependencies first */
-  dependencies(v).forEach((d) => prepare(d, stack))
-
-  /* Give this variable a better name */
-  const id = stack.nextId()
-  v.name = identifier(v.type, sluggify(v.title), id)
-  v.title += ` (${id})`
 }
 
 const inputs = (v: Variable) => Object.entries(v.inputs)

@@ -2,13 +2,13 @@ import { useMemo } from "react"
 import {
   bool,
   compileShader,
-  type,
   GLSLType,
   Value,
   variable,
   Variable,
   vec3
 } from "shadenfreude"
+import { type } from "shadenfreude/src/glslType"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
