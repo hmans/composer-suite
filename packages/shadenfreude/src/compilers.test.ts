@@ -100,7 +100,10 @@ describe("compileShader", () => {
     const shader = compileShader(root)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_5 ***/
+      "/*** BEGIN: anonymous_4 ***/
+      /*** END: anonymous_4 ***/
+
+      /*** BEGIN: anonymous_5 ***/
       /*** END: anonymous_5 ***/
 
       void main

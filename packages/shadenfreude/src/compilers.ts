@@ -20,11 +20,11 @@ export const glslRepresentation = (value: Value): string => {
 }
 
 export const compileHeader = (v: Variable, program: ProgramType): Parts => [
+  /* Render dependencies */
+  isVariable(v.value) && compileHeader(v.value, program),
+
   variableBeginHeader(v),
-
-  /* The header chunk, if there is one */
   v[program]?.header,
-
   variableEndHeader(v)
 ]
 
