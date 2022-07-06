@@ -67,12 +67,14 @@ const JoinVector3 = (x: Value<"float">, y: Value<"float">, z: Value<"float">) =>
     inputs: { x, y, z }
   })
 
-type JoinReturnType<X, Y, Z, W> = [W, Z] extends [
+type JoinReturnType<X, Y, Z, W> = [X, Y, Z, W] extends [
+  Value<"float">,
+  Value<"float">,
   Value<"float">,
   Value<"float">
 ]
   ? Variable<"vec4">
-  : Z extends Value<"float">
+  : [X, Y, Z] extends [Value<"float">, Value<"float">, Value<"float">]
   ? Variable<"vec3">
   : Variable<"vec2">
 
@@ -119,6 +121,10 @@ const Time = () =>
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
+
+    const v2 = join(1, 1)
+    const v3 = join(1, 1, 1)
+    const v4 = join(1, 1, 1, 1)
 
     const { x } = SplitVector3(baseColor)
     const time = Time()
