@@ -30,6 +30,7 @@ export type Variable<T extends GLSLType = any> = {
   type: T
   value: Value<T>
   inputs: Record<string, Value>
+  only?: "vertex" | "fragment"
   vertexHeader?: string
   vertexBody?: string
   fragmentHeader?: string

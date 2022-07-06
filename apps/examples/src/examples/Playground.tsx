@@ -22,7 +22,7 @@ type CSMMasterProps = {
   diffuseColor?: Value<"vec3">
 }
 
-const VertexPosition = Varying("vec3", vec3("position"))
+const VertexPosition = Varying("vec3", vec3("position", { only: "vertex" }))
 
 console.log(VertexPosition)
 

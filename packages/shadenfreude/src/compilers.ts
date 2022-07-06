@@ -24,6 +24,8 @@ export const compileHeader = (
 ): Parts => {
   if (!stack.fresh(v)) return []
 
+  if (v.only && v.only !== program) return []
+
   return [
     /* Render dependencies */
     dependencies(v).map((input) => compileHeader(input, program, stack)),
@@ -42,6 +44,8 @@ export const compileBody = (
   stack = dependencyStack()
 ): Parts => {
   if (!stack.fresh(v)) return []
+
+  if (v.only && v.only !== program) return []
 
   return [
     /* Render dependencies */
