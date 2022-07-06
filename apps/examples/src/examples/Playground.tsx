@@ -1,10 +1,17 @@
 import { useMemo } from "react"
-import { compileShader, float, Variable, vec3 } from "shadenfreude"
+import {
+  bool,
+  compileShader,
+  float,
+  variable,
+  Variable,
+  vec3
+} from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 const master = (color: Variable<"vec3">) =>
-  float(1, {
+  bool(true, {
     inputs: { color },
     fragmentBody: `csm_DiffuseColor = vec4(color, 1.0);`
   })

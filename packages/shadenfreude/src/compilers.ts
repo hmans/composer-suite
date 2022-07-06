@@ -14,54 +14,34 @@ const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
 export const glslType = (value: Value): string => {
-  /* Variable reference -> use variable type */
-  if (isVariable(value)) {
-    return value.type
-  }
+  if (isVariable(value)) return value.type
 
-  /* number -> float */
-  if (typeof value === "number") {
-    return "float"
-  }
+  if (typeof value === "number") return "float"
 
-  /* Color -> vec3 */
-  if (value instanceof Color) {
-    return "vec3"
-  }
+  if (value instanceof Color) return "vec3"
 
-  /* Vector3 -> vec3 */
-  if (value instanceof Vector3) {
-    return "vec3"
-  }
+  if (value instanceof Vector3) return "vec3"
 
   /* Fail */
   throw new Error(`Could not render GLSL type for: ${value}`)
 }
 
 export const glslRepresentation = (value: Value): string => {
-  /* Variable reference -> render variable name */
-  if (isVariable(value)) {
-    return value.name
-  }
+  if (isVariable(value)) return value.name
 
-  /* number -> float */
-  if (typeof value === "number") {
-    return value.toFixed(5) // FIXME: use better precision
-  }
+  if (typeof value === "boolean") return value ? "true" : "false"
 
-  /* Color -> vec3 */
-  if (value instanceof Color) {
+  if (typeof value === "number") return value.toFixed(5)
+
+  if (value instanceof Color)
     return `vec3(${glslRepresentation(value.r)}, ${glslRepresentation(
       value.g
     )}, ${glslRepresentation(value.b)})`
-  }
 
-  /* Vector3 -> vec3 */
-  if (value instanceof Vector3) {
+  if (value instanceof Vector3)
     return `vec3(${glslRepresentation(value.x)}, ${glslRepresentation(
       value.y
     )}, ${glslRepresentation(value.z)})`
-  }
 
   /* Fail */
   throw new Error(`Could not render value to GLSL: ${value}`)
