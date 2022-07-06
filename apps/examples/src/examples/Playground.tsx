@@ -1,10 +1,13 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
+  Add,
   assignment,
   bool,
   compileShader,
-  Join,
+  Multiply,
+  Sin,
+  Time,
   Value,
   vec3,
   VertexPosition
@@ -29,13 +32,9 @@ export default function Playground() {
   const { update, ...shader } = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
 
-    const v2 = Join(1, 1)
-    const v3 = Join(1, 1, 1)
-    const v4 = Join(1, 1, 1, 1)
-
     const root = CSMMaster({
-      position: VertexPosition,
-      diffuseColor: new Color(1, 1, 1) //Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
+      position: Multiply(VertexPosition, Sin(Time)),
+      diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
     return compileShader(root)
