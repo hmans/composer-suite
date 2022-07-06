@@ -39,7 +39,9 @@ export const glslRepresentation = (value: Value): string => {
 export const compileHeader = (v: Variable, program: ProgramType): Parts => [
   /* Render dependencies */
   isVariable(v.value) && compileHeader(v.value, program),
-  v.dependencies.map((d) => compileHeader(d, program)),
+  Object.entries(v.inputs).map(
+    ([_, input]) => isVariable(input) && compileHeader(input, program)
+  ),
 
   variableBeginHeader(v),
   v[`${program}Header`],
@@ -49,7 +51,9 @@ export const compileHeader = (v: Variable, program: ProgramType): Parts => [
 export const compileBody = (v: Variable, program: ProgramType): Parts => [
   /* Render dependencies */
   isVariable(v.value) && compileBody(v.value, program),
-  v.dependencies.map((d) => compileBody(d, program)),
+  Object.entries(v.inputs).map(
+    ([_, input]) => isVariable(input) && compileBody(input, program)
+  ),
 
   variableBeginHeader(v),
 

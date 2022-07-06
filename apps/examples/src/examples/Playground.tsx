@@ -6,7 +6,9 @@ import CustomShaderMaterial from "three-custom-shader-material"
 
 const master = (color: Variable<"vec3">) => {
   const root = float(1)
-  root.dependencies.push(color)
+
+  root.inputs.color = color
+
   root.fragmentBody = `csm_DiffuseColor = vec4(${glslRepresentation(
     color
   )}, 1.0);`
