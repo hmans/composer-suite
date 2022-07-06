@@ -1,4 +1,4 @@
-import { compileShader, variable } from "../src"
+import { variable } from "./variables"
 
 describe("variable", () => {
   it("creates a variable of the specified type", () => {
@@ -15,19 +15,5 @@ describe("variable", () => {
     const v = variable(undefined)
     expect(v.type).toBeUndefined()
     v.value = 1
-  })
-})
-
-describe("compileShader", () => {
-  it("returns a vertexShader", () => {
-    const v = variable("float")
-    const shader = compileShader(v)
-    expect(shader.vertexShader).toMatchInlineSnapshot(`""`)
-  })
-
-  it("returns a fragmentShader", () => {
-    const v = variable("float")
-    const shader = compileShader(v)
-    expect(shader.fragmenShader).toMatchInlineSnapshot(`""`)
   })
 })

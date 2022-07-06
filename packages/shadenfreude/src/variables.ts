@@ -37,11 +37,3 @@ export const variable = <T extends GLSLType>(
   type,
   value
 })
-
-export const compileShader = (root: Variable) => {
-  const vertexShader = ``
-
-  const fragmenShader = ``
-
-  return { vertexShader, fragmenShader }
-}
