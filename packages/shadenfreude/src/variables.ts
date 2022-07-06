@@ -28,6 +28,7 @@ export type Variable<T extends GLSLType = any> = {
   name: string
   type: T
   value: Value<T>
+  dependencies: Variable[]
   vertexHeader?: string
   vertexBody?: string
   fragmentHeader?: string
@@ -43,7 +44,8 @@ export const variable = <T extends GLSLType>(
   _: "Variable",
   name: identifier("anonymous", nextAnonymousId()),
   type,
-  value
+  value,
+  dependencies: []
 })
 
 export function isVariable(v: any): v is Variable {

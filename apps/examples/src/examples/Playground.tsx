@@ -1,11 +1,15 @@
 import { useMemo } from "react"
 import { compileShader, variable } from "shadenfreude"
-import { MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
   const shader = useMemo(() => {
+    const color = variable("vec3", new Color("hotpink"))
+
     const root = variable("float", 1)
+    root.dependencies.push(color)
+    root.fragmentBody = `csm_DiffuseColor = vec4(${color.name}, 1.0);`
 
     return compileShader(root)
   }, [])
