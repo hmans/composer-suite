@@ -158,6 +158,12 @@ export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
   })
 }
 
+export const mix = <T extends ValueType>(
+  a: Parameter<T>,
+  b: Parameter<T>,
+  factor: Parameter<"float">
+) => MixNode({ a, b, factor })
+
 type BlendProps<T extends BlendableType> = {
   a: Parameter<T>
   b?: Parameter<T>

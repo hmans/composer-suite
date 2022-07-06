@@ -11,6 +11,7 @@ import {
   float,
   FloatNode,
   IShaderNode,
+  mix,
   MixNode,
   multiply,
   ShaderNode,
@@ -116,28 +117,28 @@ export default function ShadenfreudeParticles() {
 
     const particleProgress = divide(particleAge, particleMaxAge)
 
-    const alphaOverTime = MixNode({
-      a: FloatNode({ a: 1 }),
-      b: FloatNode({ a: 0 }),
-      factor: ExponentialEaseInNode({ a: particleProgress })
-    })
-
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
 
       alpha: multiply(
-        alphaOverTime,
-        HideDeadParticles({ progress: particleProgress })
+        /* Show/shide particles based on their aliveness state */
+        HideDeadParticles({ progress: particleProgress }),
+
+        /* Animate alpha over time */
+        mix(1, 0, ExponentialEaseInNode({ a: particleProgress }))
       ),
 
       position: add(
+        /* Start with the original position */
         VertexPositionNode(),
 
+        /* Add stateless velocity */
         StatelessVelocityNode({
           velocity: blackboard.velocity,
           time: particleAge
         }),
 
+        /* Add stateless acceleration */
         StatelessAccelerationNode({
           acceleration: new Vector3(0, -10, 0),
           time: particleAge
