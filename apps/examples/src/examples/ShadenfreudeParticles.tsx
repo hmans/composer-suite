@@ -77,7 +77,8 @@ export default function ShadenfreudeParticles() {
     const blackboard = {
       time: TimeNode(),
       lifetime: AttributeNode({ name: "lifetime", type: "vec2" }),
-      velocity: AttributeNode({ name: "velocity", type: "vec3" })
+      velocity: AttributeNode({ name: "velocity", type: "vec3" }),
+      acceleration: Vector3Node({ a: new Vector3(0, -10, 0) })
     }
 
     const lifetimeData = split(blackboard.lifetime)
@@ -111,7 +112,7 @@ export default function ShadenfreudeParticles() {
 
         /* Add stateless acceleration */
         multiply(
-          Vector3Node({ a: new Vector3(0, -10, 0) }),
+          blackboard.acceleration,
           instanceMatrix,
           particleProgress,
           particleProgress,
