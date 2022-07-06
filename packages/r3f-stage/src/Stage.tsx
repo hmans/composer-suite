@@ -1,20 +1,11 @@
-import { GroupProps, useFrame } from "@react-three/fiber"
-import { FC, useRef } from "react"
-import { Group } from "three"
+import { GroupProps } from "@react-three/fiber"
+import React, { FC } from "react"
 
-type StageProps = GroupProps & { speed?: number }
+type StageProps = GroupProps
 
-export const Stage: FC<StageProps> = ({ children, speed = 0, ...props }) => {
-  const stage = useRef<Group>(null!)
-
-  if (speed) {
-    useFrame((_, dt) => {
-      stage.current.rotation.y += speed * dt
-    })
-  }
-
+export const Stage: FC<StageProps> = ({ children, ...props }) => {
   return (
-    <group ref={stage} {...props}>
+    <group {...props}>
       <group position-y={-8}>
         {/* Floor */}
         <mesh position-y={-5} rotation-x={-Math.PI / 2}>

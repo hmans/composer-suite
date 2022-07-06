@@ -3,15 +3,12 @@ import { DustExample } from "./DustExample"
 import { Explosion } from "./Explosion"
 import { FireflyExample } from "./FireflyExample"
 import { Fog } from "./Fog"
-import { GLTFParticles } from "./GLTFParticles"
 import { FuzzyBlobExample } from "./FuzzyBlobExample"
+import { GLTFParticles } from "./GLTFParticles"
+import Playground from "./Playground"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
-import Playground from "./Playground"
-import StacksExample from "./StacksExample"
-import RaymarchingExample from "./RaymarchingExample"
-import ShadenfreudeParticles from "./ShadenfreudeParticles"
 
 export type ExampleDefinition = {
   path: string
@@ -48,20 +45,5 @@ export default [
     path: "playground",
     name: "Shadenfreude Playground",
     component: <Playground />
-  },
-  {
-    path: "stacks",
-    name: "Shadenfreude Stacks",
-    component: <StacksExample />
-  },
-  {
-    path: "raymarching",
-    name: "Shadenfreude Raymarching (WIP)",
-    component: <RaymarchingExample />
-  },
-  {
-    path: "shadenfreude-particles",
-    name: "Shadenfreude Particles (WIP)",
-    component: <ShadenfreudeParticles />
   }
 ] as ExampleDefinition[]

@@ -4,25 +4,24 @@ const compact = (p: any) => !!p
 
 const indent = (p: string) => "  " + p
 
-export const block = (...parts: Parts): Parts => [
-  "{",
-  lines(parts).map(indent),
-  "}"
-]
+export const block = (...parts: Parts): Parts => {
+  const flattened = flatten(parts)
+  return flattened.length > 0 ? ["{", flattened.map(indent), "}"] : []
+}
 
-export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
+export const concatenate = (...parts: Parts) => flatten(...parts).join("\n")
 
-export const lines = (...parts: Parts): string[] =>
+export const line = (...parts: Parts) => flatten(...parts).join(" ")
+
+export const flatten = (...parts: Parts): Parts =>
   parts
     .filter(compact)
-    .map((p) => (Array.isArray(p) ? lines(...p) : p))
+    .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()
 
-export const statement = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter(compact)
-    .join(" ") + ";"
+export const comment = (...parts: Parts) => line("/*", ...parts, "*/")
+
+export const statement = (...parts: Parts) => line(...parts) + ";"
 
 export const assignment = (left: string, right: string) =>
   statement(left, "=", right)
@@ -33,3 +32,6 @@ export const identifier = (...parts: Parts) =>
     .filter(compact)
     .join("_")
     .replace(/_{2,}/g, "_")
+
+export const sluggify = (s: string) =>
+  s.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")

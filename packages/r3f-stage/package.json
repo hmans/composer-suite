@@ -1,18 +1,19 @@
 {
-  "name": "shadenfreude",
+  "name": "r3f-stage",
   "private": false,
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hendrik.mans.de"
   },
-  "description": "Node-based Shader Composition!",
-  "version": "0.1.1",
-  "main": "dist/shadenfreude.cjs.js",
-  "module": "dist/shadenfreude.esm.js",
-  "types": "dist/shadenfreude.cjs.d.ts",
+  "description": "A simple stage for r3f examples and sandboxes.",
+  "version": "0.1.2",
+  "main": "dist/r3f-stage.cjs.js",
+  "module": "dist/r3f-stage.esm.js",
+  "types": "dist/r3f-stage.cjs.d.ts",
   "files": [
     "dist/**",
+    "styles.css",
     "LICENSE",
     "README.md"
   ],
@@ -30,12 +31,19 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
+    "@react-three/fiber": "^8.0.22",
     "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.1",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "@types/three": "^0.141.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "rimraf": "^3.0.2",
     "three": "^0.141.0",
     "ts-jest": "^28.0.4",
@@ -44,6 +52,9 @@
     "typescript": "^4.7.3"
   },
   "peerDependencies": {
+    "@react-three/fiber": ">=8.0.27",
+    "react": ">=18.0",
+    "react-dom": ">=18.0",
     "three": ">=0.141.0"
   },
   "babel": {
@@ -58,5 +69,11 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.16.0",
+    "leva": "^0.9.28",
+    "postprocessing": "^6.28.1",
+    "r3f-perf": "^6.4.2"
   }
 }
