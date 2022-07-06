@@ -39,10 +39,10 @@ export type Variable<T extends GLSLType = any> = {
   fragmentHeader?: string
   fragmentBody?: string
 
-  Add: any
-  Subtract: any
-  Multiply: any
-  Divide: any
+  Add: (...operands: Value[]) => Variable<T>
+  Subtract: (...operands: Value[]) => Variable<T>
+  Multiply: (...operands: Value[]) => Variable<T>
+  Divide: (...operands: Value[]) => Variable<T>
 }
 
 const nextAnonymousId = idGenerator()
@@ -64,6 +64,7 @@ export const variable = <T extends GLSLType>(
     type,
     value,
 
+    /* Math helpers! */
     Add: (...operands: Value[]) => Add(v, ...operands),
     Subtract: (...operands: Value[]) => Subtract(v, ...operands),
     Multiply: (...operands: Value[]) => Multiply(v, ...operands),
