@@ -26,6 +26,7 @@ export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
 export type Variable<T extends GLSLType = any> = {
   _: "Variable"
+  id: number
   title: string
   name: string
   type: T
@@ -44,15 +45,20 @@ export const variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
   extras: Partial<Variable<T>> = {}
-): Variable<T> => ({
-  title: `Anonymous ${type} = ${glslRepresentation(value)}`,
-  name: identifier("anonymous", nextAnonymousId()),
-  inputs: {},
-  ...extras,
-  _: "Variable",
-  type,
-  value
-})
+): Variable<T> => {
+  const id = nextAnonymousId()
+
+  return {
+    id,
+    title: `Anonymous ${type} = ${glslRepresentation(value)}`,
+    name: identifier("anonymous", id),
+    inputs: {},
+    ...extras,
+    _: "Variable",
+    type,
+    value
+  }
+}
 
 export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
