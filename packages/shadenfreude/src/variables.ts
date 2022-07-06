@@ -50,6 +50,7 @@ const nextAnonymousId = idGenerator()
 const buildMultiInputs = (values: Value[]) =>
   values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
 
+/* TODO: somehow move this somewhere else again, without causing a circular dependency */
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   T extends GLSLType
 >(
