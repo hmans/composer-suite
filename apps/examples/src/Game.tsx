@@ -1,4 +1,5 @@
 import { button, useControls } from "leva"
+import { R3FStage } from "r3f-stage"
 import { FC, Suspense, useState } from "react"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
