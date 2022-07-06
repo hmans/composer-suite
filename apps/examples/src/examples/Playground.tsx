@@ -21,6 +21,9 @@ const master = (color: Variable<"vec3">) =>
 const add = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
   variable(type(a), "a + b", { inputs: { a, b } })
 
+const subtract = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+  variable(type(a), "a - b", { inputs: { a, b } })
+
 export default function Playground() {
   const shader = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
