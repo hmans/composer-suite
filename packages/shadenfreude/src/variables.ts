@@ -55,11 +55,16 @@ export function isVariable(v: any): v is Variable {
 }
 
 /* Helpers */
-export const float = (v: Value<"float">, extras?: Partial<Variable<"float">>) =>
-  variable("float", v, extras)
-export const vec2 = (v: Value<"vec2">, extras?: Partial<Variable<"vec2">>) =>
-  variable("vec2", v, extras)
-export const vec3 = (v: Value<"vec3">, extras?: Partial<Variable<"vec3">>) =>
-  variable("vec3", v, extras)
-export const vec4 = (v: Value<"vec4">, extras?: Partial<Variable<"vec4">>) =>
-  variable("vec4", v, extras)
+
+const makeVariableHelper = <T extends GLSLType>(type: T) => (
+  v: Value<T>,
+  extras?: Partial<Variable<T>>
+) => variable(type, v, extras)
+
+export const float = makeVariableHelper("float")
+export const bool = makeVariableHelper("bool")
+export const vec2 = makeVariableHelper("vec2")
+export const vec3 = makeVariableHelper("vec3")
+export const vec4 = makeVariableHelper("vec4")
+export const mat3 = makeVariableHelper("mat3")
+export const mat4 = makeVariableHelper("mat4")
