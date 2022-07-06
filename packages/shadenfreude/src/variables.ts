@@ -29,6 +29,7 @@ export type Program = {
 }
 
 export type Variable<T extends GLSLType = any> = {
+  _: "Variable"
   name: string
   type: T
   value: Value<T>
@@ -42,7 +43,12 @@ export const variable = <T extends GLSLType>(
   type: T,
   value: Value<T>
 ): Variable<T> => ({
+  _: "Variable",
   name: identifier("anonymous", nextAnonymousId()),
   type,
   value
 })
+
+export function isVariable(v: any): v is Variable {
+  return v && v._ === "Variable"
+}

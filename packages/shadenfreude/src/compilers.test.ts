@@ -92,4 +92,32 @@ describe("compileShader", () => {
       }"
     `)
   })
+
+  it("resolves dependencies to other variables", () => {
+    const float = variable("float", 1)
+    const root = variable("float", float)
+
+    const shader = compileShader(root)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: anonymous_5 ***/
+      /*** END: anonymous_5 ***/
+
+      void main
+      {
+        /*** BEGIN: anonymous_4 ***/
+        float anonymous_4 = 1.00000;
+        {
+        }
+        /*** END: anonymous_4 ***/
+
+        /*** BEGIN: anonymous_5 ***/
+        float anonymous_5 = anonymous_4;
+        {
+        }
+        /*** END: anonymous_5 ***/
+
+      }"
+    `)
+  })
 })

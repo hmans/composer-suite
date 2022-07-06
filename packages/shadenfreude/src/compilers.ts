@@ -1,5 +1,5 @@
-import { block, concatenate, statement } from "./lib/concatenator3000"
-import { Value, Variable } from "./variables"
+import { block, concatenate, Parts, statement } from "./lib/concatenator3000"
+import { isVariable, Value, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
@@ -7,6 +7,11 @@ const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
 export const glslRepresentation = (value: Value): string => {
+  /* If the value is itself a variable, reference it by name. */
+  if (isVariable(value)) {
+    return value.name
+  }
+
   if (typeof value === "number") {
     return value.toFixed(5) // FIXME: use better precision
   }
@@ -14,7 +19,7 @@ export const glslRepresentation = (value: Value): string => {
   throw new Error(`Could not render value to GLSL: ${value}`)
 }
 
-export const compileHeader = (v: Variable, program: ProgramType) => [
+export const compileHeader = (v: Variable, program: ProgramType): Parts => [
   variableBeginHeader(v),
 
   /* The header chunk, if there is one */
@@ -23,7 +28,10 @@ export const compileHeader = (v: Variable, program: ProgramType) => [
   variableEndHeader(v)
 ]
 
-export const compileBody = (v: Variable, program: ProgramType) => [
+export const compileBody = (v: Variable, program: ProgramType): Parts => [
+  /* Render dependencies */
+  isVariable(v.value) && compileBody(v.value, program),
+
   variableBeginHeader(v),
 
   /* Declare the variable */
