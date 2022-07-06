@@ -3,7 +3,9 @@ import { useMemo } from "react"
 import {
   compileShader,
   CustomShaderMaterialMaster,
+  Fresnel,
   Join,
+  Multiply,
   Sin,
   Time,
   vec3,
@@ -30,11 +32,7 @@ export default function Playground() {
     const root = CustomShaderMaterialMaster({
       position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
 
-      diffuseColor: baseColor.Multiply(
-        Sin(Time)
-          .Multiply(0.5)
-          .Add(1)
-      )
+      diffuseColor: baseColor.Add(Multiply(new Color("white"), Fresnel()))
     })
 
     return compileShader(root)
