@@ -1,56 +1,56 @@
-import { useRef } from "react"
+import { useFrame } from "@react-three/fiber"
+import { useMemo } from "react"
 import {
-  AddNode,
-  ColorNode,
-  ShaderMaterialMasterNode,
-  ShaderNode,
-  vec3
+  Add,
+  assignment,
+  bool,
+  compileShader,
+  Multiply,
+  Sin,
+  Time,
+  Value,
+  vec3,
+  VertexPosition
 } from "shadenfreude"
-import { Color, ShaderMaterial, Vector3 } from "three"
-import { useShader } from "./useShader"
+import { Color, MeshStandardMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
+
+type CSMMasterProps = {
+  position?: Value<"vec3">
+  diffuseColor?: Value<"vec3">
+}
+
+const CSMMaster = (inputs: CSMMasterProps) =>
+  bool(true, {
+    title: "Master",
+    inputs,
+    vertexBody: assignment("csm_Position", "position"),
+    fragmentBody: assignment("csm_DiffuseColor", "vec4(diffuseColor, 1.0)")
+  })
 
 export default function Playground() {
-  const shaderProps = useShader(() => {
-    const colorA = ColorNode({ a: new Color("#f33") })
-    const colorB = ColorNode({ a: new Color(0, 1, 0) })
+  const { update, ...shader } = useMemo(() => {
+    const baseColor = vec3(new Color("hotpink"))
 
-    const l = AddNode({
-      a: new Vector3(),
-      b: colorB
+    const root = CSMMaster({
+      position: Multiply(VertexPosition, Sin(Time)),
+
+      diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
-    const colorStack = ShaderNode({
-      name: "Color Stack",
-      inputs: {
-        color: vec3(colorA)
-      },
-      outputs: {
-        value: vec3("inputs.color")
-      },
-      filters: [l]
-    })
+    return compileShader(root)
+  }, [])
 
-    return ShaderMaterialMasterNode({
-      color: colorStack
-    })
-  })
-  const material = useRef<ShaderMaterial>(null!)
+  useFrame((_, dt) => update(dt))
 
-  console.log(shaderProps.vertexShader)
-  console.log(shaderProps.fragmentShader)
+  console.log(shader.vertexShader)
+  console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
       <mesh>
         <sphereGeometry args={[8, 32, 32]} />
-
-        <shaderMaterial ref={material} {...shaderProps} />
-
-        {/* <CustomShaderMaterial
-          baseMaterial={MeshStandardMaterial}
-          {...shaderProps}
-          ref={material}
-        /> */}
+        <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shader} />
       </mesh>
     </group>
   )

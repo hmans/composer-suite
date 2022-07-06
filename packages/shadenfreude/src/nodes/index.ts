@@ -1,6 +1,4 @@
 export * from "./geometry"
-export * from "./helpers"
 export * from "./inputs"
-export * from "./masters"
 export * from "./math"
-export * from "./values"
+export * from "./vectors"
