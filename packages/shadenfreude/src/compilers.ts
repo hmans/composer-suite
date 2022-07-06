@@ -1,43 +1,21 @@
-import { Color, Vector3 } from "three"
 import { seededRandom } from "three/src/math/MathUtils"
+import { glslRepresentation } from "./glslRepresentation"
 import {
   assignment,
   block,
   concatenate,
   identifier,
   Parts,
+  sluggify,
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { type, isVariable, Value, Variable } from "./variables"
+import { type, isVariable, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
 const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.title} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.title} ***/\n`
-
-export const glslRepresentation = (value: Value): string => {
-  if (isVariable(value)) return value.name
-
-  if (typeof value === "string") return value
-
-  if (typeof value === "boolean") return value ? "true" : "false"
-
-  if (typeof value === "number") return value.toFixed(5)
-
-  if (value instanceof Color)
-    return `vec3(${glslRepresentation(value.r)}, ${glslRepresentation(
-      value.g
-    )}, ${glslRepresentation(value.b)})`
-
-  if (value instanceof Vector3)
-    return `vec3(${glslRepresentation(value.x)}, ${glslRepresentation(
-      value.y
-    )}, ${glslRepresentation(value.z)})`
-
-  /* Fail */
-  throw new Error(`Could not render value to GLSL: ${value}`)
-}
 
 export const compileHeader = (
   v: Variable,
@@ -139,6 +117,3 @@ const inputDependencies = (v: Variable) =>
 
 const dependencies = (v: Variable) =>
   [isVariable(v.value) && v.value, ...inputDependencies(v)].filter((d) => !!d)
-
-const sluggify = (s: string) =>
-  s.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")

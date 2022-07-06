@@ -32,3 +32,6 @@ export const identifier = (...parts: Parts) =>
     .filter(compact)
     .join("_")
     .replace(/_{2,}/g, "_")
+
+export const sluggify = (s: string) =>
+  s.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
