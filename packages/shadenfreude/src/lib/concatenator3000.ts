@@ -6,23 +6,23 @@ const indent = (p: string) => "  " + p
 
 export const block = (...parts: Parts): Parts => [
   "{",
-  lines(parts).map(indent),
+  flatten(parts).map(indent),
   "}"
 ]
 
-export const concatenate = (...parts: Parts) => lines(...parts).join("\n")
+export const concatenate = (...parts: Parts) => flatten(...parts).join("\n")
 
-export const lines = (...parts: Parts): string[] =>
+export const line = (...parts: Parts) => flatten(...parts).join(" ")
+
+export const flatten = (...parts: Parts): Parts =>
   parts
     .filter(compact)
-    .map((p) => (Array.isArray(p) ? lines(...p) : p))
+    .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()
 
-export const statement = (...parts: Parts) =>
-  parts
-    .flat()
-    .filter(compact)
-    .join(" ") + ";"
+export const comment = (...parts: Parts) => line("/*", ...parts, "*/")
+
+export const statement = (...parts: Parts) => line(...parts) + ";"
 
 export const assignment = (left: string, right: string) =>
   statement(left, "=", right)

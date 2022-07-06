@@ -6,8 +6,14 @@ describe("compileShader", () => {
     const v = variable("float")
     const shader = compileShader(v)
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "void main
+      "/*** BEGIN: anonymous_1 ***/
+      /*** END: anonymous_1 ***/
+
+      void main
       {
+        /*** BEGIN: anonymous_1 ***/
+        /*** END: anonymous_1 ***/
+
       }"
     `)
   })
@@ -16,8 +22,14 @@ describe("compileShader", () => {
     const v = variable("float")
     const shader = compileShader(v)
     expect(shader.fragmenShader).toMatchInlineSnapshot(`
-      "void main
+      "/*** BEGIN: anonymous_2 ***/
+      /*** END: anonymous_2 ***/
+
+      void main
       {
+        /*** BEGIN: anonymous_2 ***/
+        /*** END: anonymous_2 ***/
+
       }"
     `)
   })

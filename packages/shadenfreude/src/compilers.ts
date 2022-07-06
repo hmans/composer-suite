@@ -1,11 +1,20 @@
-import { block, concatenate } from "./lib/concatenator3000"
+import { block, comment, concatenate } from "./lib/concatenator3000"
 import { Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
-export const compileHeader = (v: Variable, program: ProgramType) => {}
+const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
+const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
-export const compileBody = (v: Variable, program: ProgramType) => {}
+export const compileHeader = (v: Variable, program: ProgramType) => [
+  variableBeginHeader(v),
+  variableEndHeader(v)
+]
+
+export const compileBody = (v: Variable, program: ProgramType) => [
+  variableBeginHeader(v),
+  variableEndHeader(v)
+]
 
 export const compileProgram = (v: Variable, program: ProgramType) =>
   concatenate(
