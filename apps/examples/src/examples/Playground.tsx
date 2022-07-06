@@ -2,7 +2,7 @@ import { useMemo } from "react"
 import {
   bool,
   compileShader,
-  glslType,
+  type,
   GLSLType,
   Value,
   variable,
@@ -19,7 +19,7 @@ const master = (color: Variable<"vec3">) =>
   })
 
 const add = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
-  variable(glslType(a), "a + b", { inputs: { a, b } })
+  variable(type(a), "a + b", { inputs: { a, b } })
 
 export default function Playground() {
   const shader = useMemo(() => {

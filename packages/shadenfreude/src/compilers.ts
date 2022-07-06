@@ -6,7 +6,7 @@ import {
   Parts,
   statement
 } from "./lib/concatenator3000"
-import { glslType, isVariable, Value, Variable } from "./variables"
+import { type, isVariable, Value, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
@@ -63,7 +63,7 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
   block(
     /* Make inputs available as local variables */
     Object.entries(v.inputs).map(([name, input]) =>
-      assignment(`${glslType(input)} ${name}`, glslRepresentation(input))
+      assignment(`${type(input)} ${name}`, glslRepresentation(input))
     ),
 
     /* Make local value variable available */

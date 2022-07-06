@@ -69,7 +69,7 @@ export const vec4 = makeVariableHelper("vec4")
 export const mat3 = makeVariableHelper("mat3")
 export const mat4 = makeVariableHelper("mat4")
 
-export const glslType = <T extends GLSLType>(value: Value<T>): GLSLType => {
+export const type = <T extends GLSLType>(value: Value<T>): GLSLType => {
   if (isVariable(value)) return value.type
 
   if (typeof value === "number") return "float"
