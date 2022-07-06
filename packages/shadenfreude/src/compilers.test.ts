@@ -15,8 +15,6 @@ describe("compileShader", () => {
       {
         /*** BEGIN: anonymous_1 ***/
         float anonymous_1 = 1.00000;
-        {
-        }
         /*** END: anonymous_1 ***/
 
       }"
@@ -35,8 +33,6 @@ describe("compileShader", () => {
       {
         /*** BEGIN: anonymous_2 ***/
         float anonymous_2 = 1.00000;
-        {
-        }
         /*** END: anonymous_2 ***/
 
       }"
@@ -110,14 +106,10 @@ describe("compileShader", () => {
       {
         /*** BEGIN: anonymous_4 ***/
         float anonymous_4 = 1.00000;
-        {
-        }
         /*** END: anonymous_4 ***/
 
         /*** BEGIN: anonymous_5 ***/
         float anonymous_5 = anonymous_4;
-        {
-        }
         /*** END: anonymous_5 ***/
 
       }"

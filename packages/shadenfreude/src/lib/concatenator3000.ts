@@ -4,11 +4,10 @@ const compact = (p: any) => !!p
 
 const indent = (p: string) => "  " + p
 
-export const block = (...parts: Parts): Parts => [
-  "{",
-  flatten(parts).map(indent),
-  "}"
-]
+export const block = (...parts: Parts): Parts => {
+  const flattened = flatten(parts)
+  return flattened.length > 0 ? ["{", flattened.map(indent), "}"] : []
+}
 
 export const concatenate = (...parts: Parts) => flatten(...parts).join("\n")
 
