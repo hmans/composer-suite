@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
+  add,
   bool,
   compileShader,
   cos,
@@ -37,7 +38,9 @@ export default function Playground() {
     const v3 = join(1, 1, 1)
     const v4 = join(1, 1, 1, 1)
 
-    const root = CSMMaster(baseColor)
+    const root = CSMMaster(
+      multiply(baseColor, add(1, multiply(sin(Time()), 0.5)))
+    )
 
     return compileShader(root)
   }, [])
