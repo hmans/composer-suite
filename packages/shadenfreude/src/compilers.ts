@@ -28,9 +28,11 @@ export const compileHeader = (
     /* Render dependencies */
     dependencies(v).map((input) => compileHeader(input, program, stack)),
 
-    variableBeginHeader(v),
-    v[`${program}Header`],
-    variableEndHeader(v)
+    v[`${program}Header`] && [
+      variableBeginHeader(v),
+      v[`${program}Header`],
+      variableEndHeader(v)
+    ]
   ]
 }
 

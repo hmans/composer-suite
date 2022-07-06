@@ -8,10 +8,7 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
-      /*** END: Unnamed (1) ***/
-
-      void main()
+      "void main()
       {
         /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
@@ -30,10 +27,7 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
-      /*** END: Unnamed (1) ***/
-
-      void main()
+      "void main()
       {
         /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
@@ -106,13 +100,7 @@ describe("compileShader", () => {
     const shader = compileShader(root)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
-      /*** END: Unnamed (1) ***/
-
-      /*** BEGIN: Unnamed (2) ***/
-      /*** END: Unnamed (2) ***/
-
-      void main()
+      "void main()
       {
         /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
@@ -141,13 +129,7 @@ describe("compileShader", () => {
     const shader = compileShader(b)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
-      /*** END: Unnamed (1) ***/
-
-      /*** BEGIN: Unnamed (2) ***/
-      /*** END: Unnamed (2) ***/
-
-      void main()
+      "void main()
       {
         /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
