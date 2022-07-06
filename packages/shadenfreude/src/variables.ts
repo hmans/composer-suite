@@ -25,6 +25,7 @@ export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
 export type Variable<T extends GLSLType = any> = {
   _: "Variable"
+  title: string
   name: string
   type: T
   value: Value<T>
@@ -42,6 +43,7 @@ export const variable = <T extends GLSLType>(
   value: Value<T>,
   extras: Partial<Variable<T>> = {}
 ): Variable<T> => ({
+  title: "Unnamed",
   name: identifier("anonymous", nextAnonymousId()),
   inputs: {},
   ...extras,

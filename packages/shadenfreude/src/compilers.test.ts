@@ -8,18 +8,18 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_1 ***/
-      /*** END: anonymous_1 ***/
+      "/*** BEGIN: Unnamed ***/
+      /*** END: Unnamed ***/
 
       void main()
       {
-        /*** BEGIN: anonymous_1 ***/
-        float anonymous_1;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_1;
         {
           float value = 1.00000;
-          anonymous_1 = value;
+          float_Unnamed_1 = value;
         }
-        /*** END: anonymous_1 ***/
+        /*** END: Unnamed ***/
 
       }"
     `)
@@ -30,18 +30,18 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_2 ***/
-      /*** END: anonymous_2 ***/
+      "/*** BEGIN: Unnamed ***/
+      /*** END: Unnamed ***/
 
       void main()
       {
-        /*** BEGIN: anonymous_2 ***/
-        float anonymous_2;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_1;
         {
           float value = 1.00000;
-          anonymous_2 = value;
+          float_Unnamed_1 = value;
         }
-        /*** END: anonymous_2 ***/
+        /*** END: Unnamed ***/
 
       }"
     `)
@@ -61,39 +61,39 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_3 ***/
+      "/*** BEGIN: Unnamed ***/
       uniform float u_time;
-      /*** END: anonymous_3 ***/
+      /*** END: Unnamed ***/
 
       void main()
       {
-        /*** BEGIN: anonymous_3 ***/
-        float anonymous_3;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_1;
         {
           float value = 1.00000;
           gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
-          anonymous_3 = value;
+          float_Unnamed_1 = value;
         }
-        /*** END: anonymous_3 ***/
+        /*** END: Unnamed ***/
 
       }"
     `)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_3 ***/
+      "/*** BEGIN: Unnamed ***/
       uniform float u_time;
-      /*** END: anonymous_3 ***/
+      /*** END: Unnamed ***/
 
       void main()
       {
-        /*** BEGIN: anonymous_3 ***/
-        float anonymous_3;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_1;
         {
           float value = 1.00000;
           gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
-          anonymous_3 = value;
+          float_Unnamed_1 = value;
         }
-        /*** END: anonymous_3 ***/
+        /*** END: Unnamed ***/
 
       }"
     `)
@@ -106,29 +106,29 @@ describe("compileShader", () => {
     const shader = compileShader(root)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: anonymous_4 ***/
-      /*** END: anonymous_4 ***/
+      "/*** BEGIN: Unnamed ***/
+      /*** END: Unnamed ***/
 
-      /*** BEGIN: anonymous_5 ***/
-      /*** END: anonymous_5 ***/
+      /*** BEGIN: Unnamed ***/
+      /*** END: Unnamed ***/
 
       void main()
       {
-        /*** BEGIN: anonymous_4 ***/
-        float anonymous_4;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_1;
         {
           float value = 1.00000;
-          anonymous_4 = value;
+          float_Unnamed_1 = value;
         }
-        /*** END: anonymous_4 ***/
+        /*** END: Unnamed ***/
 
-        /*** BEGIN: anonymous_5 ***/
-        float anonymous_5;
+        /*** BEGIN: Unnamed ***/
+        float float_Unnamed_2;
         {
-          float value = anonymous_4;
-          anonymous_5 = value;
+          float value = float_Unnamed_1;
+          float_Unnamed_2 = value;
         }
-        /*** END: anonymous_5 ***/
+        /*** END: Unnamed ***/
 
       }"
     `)
