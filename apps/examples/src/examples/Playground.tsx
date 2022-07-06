@@ -67,14 +67,14 @@ const JoinVector3 = (x: Value<"float">, y: Value<"float">, z: Value<"float">) =>
     inputs: { x, y, z }
   })
 
-type JoinReturnType<X, Y, Z, W> = [X, Y, Z, W] extends [
+type JoinReturnType<Args> = Args extends [
   Value<"float">,
   Value<"float">,
   Value<"float">,
   Value<"float">
 ]
   ? Variable<"vec4">
-  : [X, Y, Z] extends [Value<"float">, Value<"float">, Value<"float">]
+  : Args extends [Value<"float">, Value<"float">, Value<"float">, any]
   ? Variable<"vec3">
   : Variable<"vec2">
 
@@ -92,19 +92,18 @@ const join = <
   if (w !== undefined) {
     return vec4("vec4(x, y, z, w)", {
       inputs: { x, y, z, w }
-    }) as JoinReturnType<X, Y, Z, W>
+    }) as JoinReturnType<[X, Y, Z, W]>
   }
 
   if (z !== undefined) {
     return vec3("vec3(x, y, z)", { inputs: { x, y, z } }) as JoinReturnType<
-      X,
-      Y,
-      Z,
-      W
+      [X, Y, Z, W]
     >
   }
 
-  return vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<X, Y, Z, W>
+  return vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<
+    [X, Y, Z, W]
+  >
 }
 
 function isValue(v: any): v is Value {
@@ -129,7 +128,6 @@ export default function Playground() {
     const { x } = SplitVector3(baseColor)
     const time = Time()
     const color = join(sin(time), cos(time), sin(multiply(time, 2)))
-    console.log(color)
     const root = CSMMaster(color)
 
     return compileShader(root)
