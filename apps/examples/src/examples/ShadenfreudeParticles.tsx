@@ -3,6 +3,7 @@ import { useMemo, useRef } from "react"
 import {
   add,
   AttributeNode,
+  bool,
   compileShader,
   CustomShaderMaterialMasterNode,
   divide,
@@ -54,7 +55,7 @@ const HideDeadParticles = Factory(() =>
       value: float(1)
     },
     fragment: {
-      body: `if (inputs.progress > 1.0 || inputs.progress < 0.0) discard;`
+      body: `if (inputs.progress > 1.0 || inputs.progress < 0.0) { outputs.value = 0.0; discard; }`
     }
   })
 )
@@ -106,6 +107,7 @@ export default function ShadenfreudeParticles() {
       diffuseColor: new Color("#ccc"),
 
       alpha: multiply(
+        /* Always start with full opacity. */
         1,
 
         /* Show/shide particles based on their aliveness state */
