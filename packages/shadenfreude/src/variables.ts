@@ -23,18 +23,15 @@ export type JSTypes = {
 
 export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
-export type Program = {
-  header?: string
-  body?: string
-}
-
 export type Variable<T extends GLSLType = any> = {
   _: "Variable"
   name: string
   type: T
   value: Value<T>
-  vertex?: Program
-  fragment?: Program
+  vertexHeader?: string
+  vertexBody?: string
+  fragmentHeader?: string
+  fragmentBody?: string
 }
 
 const nextAnonymousId = idGenerator()

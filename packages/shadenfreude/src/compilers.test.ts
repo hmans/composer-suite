@@ -42,15 +42,13 @@ describe("compileShader", () => {
   it("includes the variable's chunks if it has them", () => {
     const v = variable("float", 1)
 
-    v.vertex = {
-      header: statement("uniform float u_time"),
-      body: assignment("gl_Position", "vec4(sin(u_time), 0.0, 0.0, 1.0)")
-    }
-
-    v.fragment = {
-      header: statement("uniform float u_time"),
-      body: assignment("gl_FragColor", "vec4(cos(u_time), 0.0, 0.0, 1.0)")
-    }
+    v.vertexHeader = statement("uniform float u_time")
+    v.vertexBody = assignment("gl_Position", "vec4(sin(u_time), 0.0, 0.0, 1.0)")
+    v.fragmentHeader = statement("uniform float u_time")
+    v.fragmentBody = assignment(
+      "gl_FragColor",
+      "vec4(cos(u_time), 0.0, 0.0, 1.0)"
+    )
 
     const shader = compileShader(v)
 

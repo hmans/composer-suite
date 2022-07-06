@@ -24,7 +24,7 @@ export const compileHeader = (v: Variable, program: ProgramType): Parts => [
   isVariable(v.value) && compileHeader(v.value, program),
 
   variableBeginHeader(v),
-  v[program]?.header,
+  v[`${program}Header`],
   variableEndHeader(v)
 ]
 
@@ -39,7 +39,7 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
 
   block(
     /* The body chunk, if there is one */
-    v[program]?.body
+    v[`${program}Body`]
   ),
 
   variableEndHeader(v)
