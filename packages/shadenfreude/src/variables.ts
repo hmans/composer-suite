@@ -1,8 +1,8 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { glslRepresentation } from "./glslRepresentation"
+import { type } from "./glslType"
 import { identifier } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { Add, Divide, Multiply, Subtract } from "./nodes"
 
 export type GLSLType =
   | "bool"
@@ -46,6 +46,28 @@ export type Variable<T extends GLSLType = any> = {
 }
 
 const nextAnonymousId = idGenerator()
+
+const buildMultiInputs = (values: Value[]) =>
+  values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
+
+export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
+  T extends GLSLType
+>(
+  a: Value<T>,
+  ...rest: Value[]
+) => {
+  const inputs = buildMultiInputs([a, ...rest])
+
+  return variable(type(a), Object.keys(inputs).join(operator), {
+    title: `${title} (${type(a)})`,
+    inputs
+  })
+}
+
+export const Add = Operator("Add", "+")
+export const Subtract = Operator("Subtract", "-")
+export const Multiply = Operator("Multiply", "*")
+export const Divide = Operator("Divide", "/")
 
 export const variable = <T extends GLSLType>(
   type: T,
