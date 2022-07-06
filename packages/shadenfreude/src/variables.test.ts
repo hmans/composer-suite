@@ -1,19 +1,14 @@
 import { variable } from "./variables"
 
 describe("variable", () => {
-  it("creates a variable of the specified type", () => {
-    const v = variable("float")
-    expect(v.type).toBe("float")
-  })
-
-  it("assigns the specified value to the variable", () => {
+  it("creates a variable of the specified type and value", () => {
     const v = variable("float", 1)
+    expect(v.type).toBe("float")
     expect(v.value).toBe(1)
   })
 
-  it("supports typeless, empty variables with a type of undefined", () => {
-    const v = variable(undefined)
-    expect(v.type).toBeUndefined()
-    v.value = 1
+  it("supports string values (which will be used as verbatim expressions)", () => {
+    const v = variable("vec3", "vec3(1.0, 1.0, 1.0)")
+    expect(v.value).toBe("vec3(1.0, 1.0, 1.0)")
   })
 })

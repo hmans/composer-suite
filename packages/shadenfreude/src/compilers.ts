@@ -1,20 +1,39 @@
-import { block, comment, concatenate } from "./lib/concatenator3000"
-import { Variable } from "./variables"
+import { block, concatenate, statement } from "./lib/concatenator3000"
+import { Value, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
 const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
+export const glslRepresentation = (value: Value): string => {
+  if (typeof value === "number") {
+    return value.toFixed(5) // FIXME: use better precision
+  }
+
+  throw new Error(`Could not render value to GLSL: ${value}`)
+}
+
 export const compileHeader = (v: Variable, program: ProgramType) => [
   variableBeginHeader(v),
+
+  /* The header chunk, if there is one */
   v[program]?.header,
+
   variableEndHeader(v)
 ]
 
 export const compileBody = (v: Variable, program: ProgramType) => [
   variableBeginHeader(v),
-  v[program]?.body,
+
+  /* Declare the variable */
+  statement(v.type, v.name, "=", glslRepresentation(v.value)),
+
+  block(
+    /* The body chunk, if there is one */
+    v[program]?.body
+  ),
+
   variableEndHeader(v)
 ]
 

@@ -4,7 +4,7 @@ import { variable } from "./variables"
 
 describe("compileShader", () => {
   it("returns a vertexShader", () => {
-    const v = variable("float")
+    const v = variable("float", 1)
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
@@ -14,6 +14,9 @@ describe("compileShader", () => {
       void main
       {
         /*** BEGIN: anonymous_1 ***/
+        float anonymous_1 = 1.00000;
+        {
+        }
         /*** END: anonymous_1 ***/
 
       }"
@@ -21,7 +24,7 @@ describe("compileShader", () => {
   })
 
   it("returns a fragmentShader", () => {
-    const v = variable("float")
+    const v = variable("float", 1)
     const shader = compileShader(v)
 
     expect(shader.fragmenShader).toMatchInlineSnapshot(`
@@ -31,6 +34,9 @@ describe("compileShader", () => {
       void main
       {
         /*** BEGIN: anonymous_2 ***/
+        float anonymous_2 = 1.00000;
+        {
+        }
         /*** END: anonymous_2 ***/
 
       }"
@@ -60,7 +66,10 @@ describe("compileShader", () => {
       void main
       {
         /*** BEGIN: anonymous_3 ***/
-        gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
+        float anonymous_3 = 1.00000;
+        {
+          gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
+        }
         /*** END: anonymous_3 ***/
 
       }"
@@ -74,7 +83,10 @@ describe("compileShader", () => {
       void main
       {
         /*** BEGIN: anonymous_3 ***/
-        gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
+        float anonymous_3 = 1.00000;
+        {
+          gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
+        }
         /*** END: anonymous_3 ***/
 
       }"
