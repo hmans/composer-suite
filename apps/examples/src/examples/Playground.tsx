@@ -1,13 +1,25 @@
 import { useMemo } from "react"
-import { bool, compileShader, Variable, vec3 } from "shadenfreude"
+import {
+  bool,
+  compileShader,
+  glslType,
+  GLSLType,
+  Value,
+  variable,
+  Variable,
+  vec3
+} from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 const master = (color: Variable<"vec3">) =>
   bool(true, {
-    inputs: { color },
+    inputs: { color: add(color, new Color("white")) },
     fragmentBody: `csm_DiffuseColor = vec4(color, 1.0);`
   })
+
+const add = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+  variable(glslType(a), "a + b", { inputs: { a, b } })
 
 export default function Playground() {
   const shader = useMemo(() => {

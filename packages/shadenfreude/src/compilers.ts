@@ -6,28 +6,17 @@ import {
   Parts,
   statement
 } from "./lib/concatenator3000"
-import { isVariable, Value, Variable } from "./variables"
+import { glslType, isVariable, Value, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
 const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
-export const glslType = (value: Value): string => {
-  if (isVariable(value)) return value.type
-
-  if (typeof value === "number") return "float"
-
-  if (value instanceof Color) return "vec3"
-
-  if (value instanceof Vector3) return "vec3"
-
-  /* Fail */
-  throw new Error(`Could not render GLSL type for: ${value}`)
-}
-
 export const glslRepresentation = (value: Value): string => {
   if (isVariable(value)) return value.name
+
+  if (typeof value === "string") return value
 
   if (typeof value === "boolean") return value ? "true" : "false"
 
@@ -69,7 +58,7 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
   variableBeginHeader(v),
 
   /* Declare the variable */
-  statement(v.type, v.name, "=", glslRepresentation(v.value)),
+  statement(v.type, v.name),
 
   block(
     /* Make inputs available as local variables */
@@ -77,8 +66,14 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
       assignment(`${glslType(input)} ${name}`, glslRepresentation(input))
     ),
 
+    /* Make local value variable available */
+    statement(v.type, "value", "=", glslRepresentation(v.value)),
+
     /* The body chunk, if there is one */
-    v[`${program}Body`]
+    v[`${program}Body`],
+
+    /* Assign local value variable back to global variable */
+    assignment(v.name, "value")
   ),
 
   variableEndHeader(v)
