@@ -34,6 +34,7 @@ export default function Playground() {
 
     const root = CSMMaster({
       position: Multiply(VertexPosition, Sin(Time)),
+
       diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
