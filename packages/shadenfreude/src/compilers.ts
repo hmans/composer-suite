@@ -48,7 +48,7 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
 export const compileProgram = (v: Variable, program: ProgramType) =>
   concatenate(
     compileHeader(v, program),
-    "void main",
+    "void main()",
     block(compileBody(v, program))
   )
 

@@ -11,7 +11,7 @@ describe("compileShader", () => {
       "/*** BEGIN: anonymous_1 ***/
       /*** END: anonymous_1 ***/
 
-      void main
+      void main()
       {
         /*** BEGIN: anonymous_1 ***/
         float anonymous_1 = 1.00000;
@@ -29,7 +29,7 @@ describe("compileShader", () => {
       "/*** BEGIN: anonymous_2 ***/
       /*** END: anonymous_2 ***/
 
-      void main
+      void main()
       {
         /*** BEGIN: anonymous_2 ***/
         float anonymous_2 = 1.00000;
@@ -59,7 +59,7 @@ describe("compileShader", () => {
       uniform float u_time;
       /*** END: anonymous_3 ***/
 
-      void main
+      void main()
       {
         /*** BEGIN: anonymous_3 ***/
         float anonymous_3 = 1.00000;
@@ -76,7 +76,7 @@ describe("compileShader", () => {
       uniform float u_time;
       /*** END: anonymous_3 ***/
 
-      void main
+      void main()
       {
         /*** BEGIN: anonymous_3 ***/
         float anonymous_3 = 1.00000;
@@ -102,7 +102,7 @@ describe("compileShader", () => {
       /*** BEGIN: anonymous_5 ***/
       /*** END: anonymous_5 ***/
 
-      void main
+      void main()
       {
         /*** BEGIN: anonymous_4 ***/
         float anonymous_4 = 1.00000;
