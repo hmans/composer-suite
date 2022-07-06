@@ -1,17 +1,24 @@
 import { useMemo } from "react"
-import { compileShader, variable } from "shadenfreude"
+import { compileShader, float, Variable, variable, vec3 } from "shadenfreude"
+import { glslRepresentation } from "shadenfreude/src/compilers"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
+const master = (color: Variable<"vec3">) => {
+  const root = float(1)
+  root.dependencies.push(color)
+  root.fragmentBody = `csm_DiffuseColor = vec4(${glslRepresentation(
+    color
+  )}, 1.0);`
+
+  return root
+}
+
 export default function Playground() {
   const shader = useMemo(() => {
-    const color = variable("vec3", new Color("hotpink"))
+    const baseColor = vec3(new Color("hotpink"))
 
-    const root = variable("float", 1)
-    root.dependencies.push(color)
-    root.fragmentBody = `csm_DiffuseColor = vec4(${color.name}, 1.0);`
-
-    return compileShader(root)
+    return compileShader(master(baseColor))
   }, [])
 
   console.log(shader.vertexShader)

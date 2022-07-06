@@ -51,3 +51,9 @@ export const variable = <T extends GLSLType>(
 export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
 }
+
+/* Helpers */
+export const float = (v: Value<"float">) => variable("float", v)
+export const vec2 = (v: Value<"vec2">) => variable("vec2", v)
+export const vec3 = (v: Value<"vec3">) => variable("vec3", v)
+export const vec4 = (v: Value<"vec4">) => variable("vec4", v)
