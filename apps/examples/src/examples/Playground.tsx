@@ -1,6 +1,5 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
-import { unstable_batchedUpdates } from "react-dom"
 import {
   bool,
   compileShader,
@@ -14,7 +13,7 @@ import {
   vec4
 } from "shadenfreude"
 import { type } from "shadenfreude/src/glslType"
-import { Color, GLSLVersion, MeshStandardMaterial, Vector3 } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 const CSMMaster = (diffuseColor: Variable<"vec3">) =>
