@@ -1,12 +1,5 @@
 import { useMemo } from "react"
-import {
-  bool,
-  compileShader,
-  float,
-  variable,
-  Variable,
-  vec3
-} from "shadenfreude"
+import { bool, compileShader, Variable, vec3 } from "shadenfreude"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
