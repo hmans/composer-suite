@@ -107,7 +107,7 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
           geometry.attributes.lifetime.setXY(
             cursor,
             time,
-            time + 0.5 + Math.random()
+            time + 1.0 + Math.random()
           )
 
           /* Configure velocity */
