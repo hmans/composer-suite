@@ -39,13 +39,15 @@ const nextAnonymousId = idGenerator()
 
 export const variable = <T extends GLSLType>(
   type: T,
-  value: Value<T>
+  value: Value<T>,
+  extras: Partial<Variable<T>> = {}
 ): Variable<T> => ({
-  _: "Variable",
   name: identifier("anonymous", nextAnonymousId()),
+  inputs: {},
+  ...extras,
+  _: "Variable",
   type,
-  value,
-  inputs: {}
+  value
 })
 
 export function isVariable(v: any): v is Variable {
@@ -53,7 +55,11 @@ export function isVariable(v: any): v is Variable {
 }
 
 /* Helpers */
-export const float = (v: Value<"float">) => variable("float", v)
-export const vec2 = (v: Value<"vec2">) => variable("vec2", v)
-export const vec3 = (v: Value<"vec3">) => variable("vec3", v)
-export const vec4 = (v: Value<"vec4">) => variable("vec4", v)
+export const float = (v: Value<"float">, extras?: Partial<Variable<"float">>) =>
+  variable("float", v, extras)
+export const vec2 = (v: Value<"vec2">, extras?: Partial<Variable<"vec2">>) =>
+  variable("vec2", v, extras)
+export const vec3 = (v: Value<"vec3">, extras?: Partial<Variable<"vec3">>) =>
+  variable("vec3", v, extras)
+export const vec4 = (v: Value<"vec4">, extras?: Partial<Variable<"vec4">>) =>
+  variable("vec4", v, extras)

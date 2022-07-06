@@ -4,13 +4,11 @@ import { glslRepresentation } from "shadenfreude/src/compilers"
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-const master = (color: Variable<"vec3">) => {
-  const root = float(1)
-  root.inputs.color = color
-  root.fragmentBody = `csm_DiffuseColor = vec4(color, 1.0);`
-
-  return root
-}
+const master = (color: Variable<"vec3">) =>
+  float(1, {
+    inputs: { color },
+    fragmentBody: `csm_DiffuseColor = vec4(color, 1.0);`
+  })
 
 export default function Playground() {
   const shader = useMemo(() => {
