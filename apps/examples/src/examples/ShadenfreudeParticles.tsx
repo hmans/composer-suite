@@ -23,6 +23,9 @@ import {
   split,
   subtract,
   TimeNode,
+  ValueType,
+  variable,
+  varying,
   vec3,
   Vector3Node,
   VertexPositionNode
@@ -49,16 +52,6 @@ const ExponentialEaseInNode = Factory(() =>
   })
 )
 
-const instanceMatrix = ShaderNode({
-  name: "InstanceMatrix Matrix3",
-  varyings: {
-    v_position: mat3("mat3(instanceMatrix)")
-  },
-  outputs: {
-    value: mat3("v_position")
-  }
-})
-
 const HideDeadParticles = Factory(() =>
   ShaderNode({
     name: "Hide Dead Particles",
@@ -84,6 +77,8 @@ export default function ShadenfreudeParticles() {
       velocity: AttributeNode({ name: "velocity", type: "vec3" }),
       acceleration: Vector3Node({ a: new Vector3(0, -10, 0) })
     }
+
+    const instanceMatrix = varying("mat3", "mat3(instanceMatrix)")
 
     const lifetimeData = split(blackboard.lifetime)
 

@@ -1,15 +1,23 @@
 import {
-  ValueType,
+  IShaderNodeWithDefaultOutput,
   Parameter,
-  IShaderNodeWithDefaultOutput
+  ShaderNode,
+  ValueType,
+  variable
 } from "../shadenfreude"
 import {
-  MixNode,
   AddNode,
-  MultiplyNode,
   DivideNode,
+  MixNode,
+  MultiplyNode,
   SubtractNode
 } from "./math"
+
+export const varying = <T extends ValueType>(type: T, value: Parameter<T>) =>
+  ShaderNode({
+    varyings: { v: variable(type, value) },
+    outputs: { value: variable(type, "v") }
+  })
 
 export const mix = <T extends ValueType>(
   a: Parameter<T>,
