@@ -5,6 +5,7 @@ import {
   compileShader,
   Cos,
   CustomShaderMaterialMaster,
+  Join,
   Multiply,
   Sin,
   Time,
@@ -18,8 +19,19 @@ export default function Playground() {
   const { update, ...shader } = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
 
+    const Wobble = (frequency: number, amplitude: number) =>
+      Multiply(Sin(Multiply(Time, frequency)), amplitude)
+
+    const WobbleMove = Join(Wobble(2, 5), Wobble(1.5, 3), Wobble(0.8, 3))
+
+    const WobbleScale = Join(
+      Add(Wobble(3, 0.3), 1),
+      Add(Wobble(3, 0.4), 1),
+      Add(Wobble(1, 0.3), 1)
+    )
+
     const root = CustomShaderMaterialMaster({
-      position: Add(VertexPosition, Sin(Time), Cos(Time)),
+      position: Add(WobbleMove, Multiply(VertexPosition, WobbleScale)),
       diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
