@@ -48,10 +48,12 @@ export const compileHeader = (v: Variable, program: ProgramType): Parts => [
   variableEndHeader(v)
 ]
 
+const inputs = (v: Variable) => Object.entries(v.inputs)
+
 export const compileBody = (v: Variable, program: ProgramType): Parts => [
   /* Render dependencies */
   isVariable(v.value) && compileBody(v.value, program),
-  Object.entries(v.inputs).map(
+  inputs(v).map(
     ([_, input]) => isVariable(input) && compileBody(input, program)
   ),
 
