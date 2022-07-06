@@ -6,7 +6,13 @@ import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
 
 export const Game = () => (
-  <R3FStage>
+  <R3FStage
+    footer={
+      <a href="https://github.com/hmans/three-vfx" target="_blank">
+        github.com/hmans/three-vfx
+      </a>
+    }
+  >
     <Route path="/:path">
       <Suspense>
         <ExampleMatcher />
