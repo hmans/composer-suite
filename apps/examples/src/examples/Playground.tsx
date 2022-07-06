@@ -67,47 +67,43 @@ const JoinVector3 = (x: Value<"float">, y: Value<"float">, z: Value<"float">) =>
     inputs: { x, y, z }
   })
 
-type JoinReturnType<Args> = Args extends [
+type Vector2Components = [Value<"float">, Value<"float">]
+type Vector3Components = [Value<"float">, Value<"float">, Value<"float">]
+type Vector4Components = [
   Value<"float">,
   Value<"float">,
   Value<"float">,
   Value<"float">
 ]
+
+type JoinReturnType<Args> = Args extends Vector4Components
   ? Variable<"vec4">
-  : Args extends [Value<"float">, Value<"float">, Value<"float">, any]
+  : Args extends Vector3Components
   ? Variable<"vec3">
-  : Variable<"vec2">
+  : Args extends Vector2Components
+  ? Variable<"vec2">
+  : never
 
 const join = <
-  X extends Value<"float">,
-  Y extends Value<"float">,
-  Z extends Value<"float"> | undefined,
-  W extends Value<"float"> | undefined
+  Args extends Vector2Components | Vector3Components | Vector4Components
 >(
-  x: X,
-  y: Y,
-  z?: Z,
-  w?: W
+  ...args: Args
 ) => {
+  const [x, y, z, w] = args
+
   if (w !== undefined) {
     return vec4("vec4(x, y, z, w)", {
       inputs: { x, y, z, w }
-    }) as JoinReturnType<[X, Y, Z, W]>
+    }) as JoinReturnType<Args>
   }
 
   if (z !== undefined) {
     return vec3("vec3(x, y, z)", { inputs: { x, y, z } }) as JoinReturnType<
-      [X, Y, Z, W]
+      Args
     >
   }
 
-  return vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<
-    [X, Y, Z, W]
-  >
-}
-
-function isValue(v: any): v is Value {
-  return v !== undefined
+  return vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<Args>
 }
 
 const Time = () =>
