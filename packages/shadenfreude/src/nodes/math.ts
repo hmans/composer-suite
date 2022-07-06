@@ -1,16 +1,22 @@
 import { type } from "../glslType"
 import { float, GLSLType, Value, variable } from "../variables"
 
+const buildMultiInputs = (values: Value[]) =>
+  values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
+
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   T extends GLSLType
 >(
   a: Value<T>,
-  b: Value<any>
-) =>
-  variable(type(a), `a ${operator} b`, {
-    title: `${title} (${type(a)} ${operator} ${type(b)}`,
-    inputs: { a, b }
+  ...rest: Value[]
+) => {
+  const inputs = buildMultiInputs([a, ...rest])
+
+  return variable(type(a), Object.keys(inputs).join(operator), {
+    title: `${title} (${type(a)})`,
+    inputs
   })
+}
 
 export const Add = Operator("Add", "+")
 export const Subtract = Operator("Subtract", "-")

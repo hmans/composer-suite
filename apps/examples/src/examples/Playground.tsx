@@ -3,6 +3,7 @@ import { useMemo } from "react"
 import {
   Add,
   compileShader,
+  Cos,
   CustomShaderMaterialMaster,
   Multiply,
   Sin,
@@ -18,7 +19,7 @@ export default function Playground() {
     const baseColor = vec3(new Color("hotpink"))
 
     const root = CustomShaderMaterialMaster({
-      position: Multiply(VertexPosition, Sin(Time)),
+      position: Add(VertexPosition, Sin(Time), Cos(Time)),
       diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
