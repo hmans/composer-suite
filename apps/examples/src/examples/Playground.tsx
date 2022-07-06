@@ -14,7 +14,11 @@ import {
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-const CSMMaster = (diffuseColor: Variable<"vec3">) =>
+type CSMMasterProps = {
+  diffuseColor: Variable<"vec3">
+}
+
+const CSMMaster = ({ diffuseColor }: CSMMasterProps) =>
   bool(true, {
     title: "Master",
     inputs: { diffuseColor },
@@ -29,9 +33,9 @@ export default function Playground() {
     const v3 = Join(1, 1, 1)
     const v4 = Join(1, 1, 1, 1)
 
-    const root = CSMMaster(
-      Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
-    )
+    const root = CSMMaster({
+      diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
+    })
 
     return compileShader(root)
   }, [])
