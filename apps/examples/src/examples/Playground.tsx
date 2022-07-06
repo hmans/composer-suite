@@ -22,16 +22,16 @@ export default function Playground() {
     const Wobble = (frequency: number, amplitude: number) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
-    const WobbleMove = Join(Wobble(2, 5), Wobble(1.5, 3), Wobble(0.8, 3))
+    const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
 
     const WobbleScale = Join(
-      Add(Wobble(3, 0.3), 1),
-      Add(Wobble(3, 0.4), 1),
-      Add(Wobble(1, 0.3), 1)
+      Add(Wobble(0.8, 0.3), 1),
+      Add(Wobble(0.5, 0.7), 1),
+      Add(Wobble(0.7, 0.3), 1)
     )
 
     const root = CustomShaderMaterialMaster({
-      position: Add(WobbleMove, Multiply(VertexPosition, WobbleScale)),
+      position: Multiply(VertexPosition, WobbleScale),
       diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
