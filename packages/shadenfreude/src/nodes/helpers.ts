@@ -25,38 +25,26 @@ export const mix = <T extends ValueType>(
   factor: Parameter<"float">
 ) => MixNode({ a, b, factor })
 
-export const add = <T extends ValueType>(
-  first: Parameter<T>,
-  ...rest: Parameter[]
-): IShaderNodeWithDefaultOutput<T> =>
-  AddNode({
-    a: first,
-    b: rest.length > 1 ? add(rest.shift(), ...rest) : rest[0]
-  })
+const makeMathHelper = (
+  ctor:
+    | typeof AddNode
+    | typeof SubtractNode
+    | typeof MultiplyNode
+    | typeof DivideNode
+) => {
+  const helper = <T extends ValueType>(
+    first: Parameter<T>,
+    ...rest: Parameter[]
+  ): IShaderNodeWithDefaultOutput<T> =>
+    ctor({
+      a: first,
+      b: rest.length > 1 ? helper(rest.shift(), ...rest) : rest[0]
+    })
 
-export const multiply = <T extends ValueType>(
-  first: Parameter<T>,
-  ...rest: Parameter[]
-): IShaderNodeWithDefaultOutput<T> =>
-  MultiplyNode({
-    a: first,
-    b: rest.length > 1 ? multiply(rest.shift(), ...rest) : rest[0]
-  })
+  return helper
+}
 
-export const divide = <T extends ValueType>(
-  first: Parameter<T>,
-  ...rest: Parameter[]
-): IShaderNodeWithDefaultOutput<T> =>
-  DivideNode({
-    a: first,
-    b: rest.length > 1 ? divide(rest.shift(), ...rest) : rest[0]
-  })
-
-export const subtract = <T extends ValueType>(
-  first: Parameter<T>,
-  ...rest: Parameter[]
-): IShaderNodeWithDefaultOutput<T> =>
-  SubtractNode({
-    a: first,
-    b: rest.length > 1 ? subtract(rest.shift(), ...rest) : rest[0]
-  })
+export const add = makeMathHelper(AddNode)
+export const subtract = makeMathHelper(SubtractNode)
+export const multiply = makeMathHelper(MultiplyNode)
+export const divide = makeMathHelper(DivideNode)
