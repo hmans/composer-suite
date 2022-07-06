@@ -84,11 +84,11 @@ export default function ShadenfreudeParticles() {
     const particleProgress = divide(particleAge, particleMaxAge)
 
     /* These are (some) primitives provided by 3VFX. */
-    const statelessVelocitySimulation = (v: Parameter<"vec3">) =>
-      multiply(v, instanceMatrix, particleProgress)
+    const applyStatelessVelocity = (v: Parameter<"vec3">) =>
+      multiply(v, instanceMatrix, particleAge)
 
-    const statelessAccelerationSimulation = (a: Parameter<"vec3">) =>
-      multiply(a, instanceMatrix, particleProgress, particleProgress, 0.5)
+    const applyStatelessAcceleration = (a: Parameter<"vec3">) =>
+      multiply(a, instanceMatrix, particleAge, particleAge, 0.5)
 
     /* Just extract commonly used helpers into functions: */
     const wobble = (frequency: number, amplitude: number) =>
@@ -96,8 +96,8 @@ export default function ShadenfreudeParticles() {
 
     /* This is the part that 3VFX users will get to assemble and customize. */
     const movement = [
-      statelessVelocitySimulation(blackboard.velocity),
-      statelessAccelerationSimulation(blackboard.acceleration),
+      applyStatelessVelocity(blackboard.velocity),
+      applyStatelessAcceleration(blackboard.acceleration),
 
       multiply(join(wobble(11, 3), wobble(7, 3), wobble(5, 3)), instanceMatrix)
     ]
@@ -106,6 +106,8 @@ export default function ShadenfreudeParticles() {
       diffuseColor: new Color("#ccc"),
 
       alpha: multiply(
+        1,
+
         /* Show/shide particles based on their aliveness state */
         HideDeadParticles({ progress: particleProgress }),
 
