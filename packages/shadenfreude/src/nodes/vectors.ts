@@ -32,7 +32,7 @@ export type JoinReturnType<Args> = Args extends Vector4Components
   ? Variable<"vec2">
   : never
 
-export const join = <
+export const Join = <
   Args extends Vector2Components | Vector3Components | Vector4Components
 >(
   ...args: Args

@@ -28,10 +28,10 @@ export const Multiplication = <T extends GLSLType>(
     inputs: { a, b }
   })
 
-export const add = Addition
-export const subtract = Subtraction
-export const divide = Division
-export const multiply = Multiplication
+export const Add = Addition
+export const Subtract = Subtraction
+export const Divide = Division
+export const Multiply = Multiplication
 
-export const sin = (x: Value<"float">) => float("sin(x)", { inputs: { x } })
-export const cos = (x: Value<"float">) => float("cos(x)", { inputs: { x } })
+export const Sin = (x: Value<"float">) => float("sin(x)", { inputs: { x } })
+export const Cos = (x: Value<"float">) => float("cos(x)", { inputs: { x } })
