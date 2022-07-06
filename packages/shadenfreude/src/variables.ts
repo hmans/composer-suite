@@ -51,7 +51,7 @@ export const variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
   extras: Partial<Variable<T>> = {}
-): Variable<T> => {
+) => {
   const id = nextAnonymousId()
 
   const v: Variable<T> = {
