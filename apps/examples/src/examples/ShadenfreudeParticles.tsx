@@ -20,6 +20,7 @@ import {
   subtract,
   TimeNode,
   vec3,
+  Vector3Node,
   VertexPositionNode
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
@@ -110,7 +111,7 @@ export default function ShadenfreudeParticles() {
 
         /* Add stateless acceleration */
         multiply(
-          new Vector3(0, -10, 0),
+          Vector3Node({ a: new Vector3(0, -10, 0) }),
           instanceMatrix,
           particleProgress,
           particleProgress,
