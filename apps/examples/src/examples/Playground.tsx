@@ -4,12 +4,10 @@ import {
   add,
   bool,
   compileShader,
-  cos,
-  float,
   join,
   multiply,
   sin,
-  SplitVector3,
+  Time,
   Variable,
   vec3
 } from "shadenfreude"
@@ -23,13 +21,6 @@ const CSMMaster = (diffuseColor: Variable<"vec3">) =>
     fragmentBody: `csm_DiffuseColor = vec4(diffuseColor, 1.0);`
   })
 
-const Time = () =>
-  float("u_time", {
-    title: "Time",
-    vertexHeader: "uniform float u_time;",
-    fragmentHeader: "uniform float u_time;"
-  })
-
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
@@ -39,7 +30,7 @@ export default function Playground() {
     const v4 = join(1, 1, 1, 1)
 
     const root = CSMMaster(
-      multiply(baseColor, add(1, multiply(sin(Time()), 0.5)))
+      multiply(baseColor, add(1, multiply(sin(Time), 0.5)))
     )
 
     return compileShader(root)
