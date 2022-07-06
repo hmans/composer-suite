@@ -2,20 +2,15 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo, useRef } from "react"
 import {
   add,
-  assignment,
   AttributeNode,
   compileShader,
   CustomShaderMaterialMasterNode,
   divide,
   Factory,
   float,
-  FloatNode,
   IShaderNode,
   join,
-  JoinVector3Node,
-  mat3,
   mix,
-  MixNode,
   multiply,
   Parameter,
   ShaderNode,
@@ -23,10 +18,7 @@ import {
   split,
   subtract,
   TimeNode,
-  ValueType,
-  variable,
   varying,
-  vec3,
   Vector3Node,
   VertexPositionNode
 } from "shadenfreude"
