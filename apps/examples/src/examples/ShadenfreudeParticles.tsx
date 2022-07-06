@@ -11,6 +11,7 @@ import {
   float,
   FloatNode,
   IShaderNode,
+  mat3,
   mix,
   MixNode,
   multiply,
@@ -43,43 +44,15 @@ const ExponentialEaseInNode = Factory(() =>
   })
 )
 
-const StatelessVelocityNode = Factory(() =>
-  ShaderNode({
-    name: "Velocity",
-    inputs: {
-      velocity: vec3(),
-      time: float(TimeNode())
-    },
-    outputs: {
-      value: vec3()
-    },
-    vertex: {
-      body: assignment(
-        "outputs.value",
-        "inputs.time * inputs.velocity * mat3(instanceMatrix)"
-      )
-    }
-  })
-)
-
-const StatelessAccelerationNode = Factory(() =>
-  ShaderNode({
-    name: "Acceleration",
-    inputs: {
-      acceleration: vec3(),
-      time: float(TimeNode())
-    },
-    outputs: {
-      value: vec3()
-    },
-    vertex: {
-      body: assignment(
-        "outputs.value",
-        "0.5 * inputs.time * inputs.time * inputs.acceleration * mat3(instanceMatrix)"
-      )
-    }
-  })
-)
+const instanceMatrix = ShaderNode({
+  name: "InstanceMatrix Matrix3",
+  varyings: {
+    v_position: mat3("mat3(instanceMatrix)")
+  },
+  outputs: {
+    value: mat3("v_position")
+  }
+})
 
 const HideDeadParticles = Factory(() =>
   ShaderNode({
@@ -133,16 +106,16 @@ export default function ShadenfreudeParticles() {
         VertexPositionNode(),
 
         /* Add stateless velocity */
-        StatelessVelocityNode({
-          velocity: blackboard.velocity,
-          time: particleAge
-        }),
+        multiply(blackboard.velocity, instanceMatrix, particleProgress),
 
         /* Add stateless acceleration */
-        StatelessAccelerationNode({
-          acceleration: new Vector3(0, -10, 0),
-          time: particleAge
-        })
+        multiply(
+          new Vector3(0, -10, 0),
+          instanceMatrix,
+          particleProgress,
+          particleProgress,
+          0.5
+        )
       )
     })
   })
