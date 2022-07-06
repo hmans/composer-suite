@@ -17,12 +17,37 @@ export const UniformNode = <T extends ValueType>({
   type: T
 }) =>
   ShaderNode({
-    name: "Uniform",
+    name: `Uniform ${name}`,
     uniforms: {
       [name]: variable(type) as Variable<T>
     },
     outputs: {
       value: variable(type, name)
+    }
+  })
+
+export const AttributeNode = <T extends ValueType>({
+  name,
+  type
+}: {
+  name: string
+  type: T
+}) =>
+  ShaderNode({
+    name: `Attribute ${name}`,
+    varyings: {
+      v_value: variable(type, name)
+    },
+    outputs: {
+      value: variable(type, "v_value")
+    },
+    vertex: {
+      header: `
+      #ifndef ${name}_attribute
+        #define ${name}_attribute;
+        attribute ${type} ${name};
+      #endif
+      `
     }
   })
 
