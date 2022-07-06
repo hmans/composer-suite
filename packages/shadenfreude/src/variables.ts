@@ -2,6 +2,7 @@ import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { glslRepresentation } from "./glslRepresentation"
 import { identifier } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
+import { Add, Divide, Multiply, Subtract } from "./nodes"
 
 export type GLSLType =
   | "bool"
@@ -37,6 +38,11 @@ export type Variable<T extends GLSLType = any> = {
   vertexBody?: string
   fragmentHeader?: string
   fragmentBody?: string
+
+  Add: any
+  Subtract: any
+  Multiply: any
+  Divide: any
 }
 
 const nextAnonymousId = idGenerator()
@@ -48,7 +54,7 @@ export const variable = <T extends GLSLType>(
 ): Variable<T> => {
   const id = nextAnonymousId()
 
-  return {
+  const v: Variable<T> = {
     id,
     title: `Anonymous ${type} = ${glslRepresentation(value)}`,
     name: identifier("anonymous", id),
@@ -56,8 +62,15 @@ export const variable = <T extends GLSLType>(
     ...extras,
     _: "Variable",
     type,
-    value
+    value,
+
+    Add: (...operands: Value[]) => Add(v, ...operands),
+    Subtract: (...operands: Value[]) => Subtract(v, ...operands),
+    Multiply: (...operands: Value[]) => Multiply(v, ...operands),
+    Divide: (...operands: Value[]) => Divide(v, ...operands)
   }
+
+  return v
 }
 
 export function isVariable(v: any): v is Variable {

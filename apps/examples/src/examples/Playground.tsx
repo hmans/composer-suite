@@ -1,12 +1,9 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
-  Add,
   compileShader,
-  Cos,
   CustomShaderMaterialMaster,
   Join,
-  Multiply,
   Sin,
   Time,
   vec3,
@@ -20,19 +17,24 @@ export default function Playground() {
     const baseColor = vec3(new Color("hotpink"))
 
     const Wobble = (frequency: number, amplitude: number) =>
-      Multiply(Sin(Multiply(Time, frequency)), amplitude)
+      Sin(Time.Multiply(frequency)).Multiply(amplitude)
 
     const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
 
     const WobbleScale = Join(
-      Add(Wobble(0.8, 0.3), 1),
-      Add(Wobble(0.5, 0.7), 1),
-      Add(Wobble(0.7, 0.3), 1)
+      Wobble(0.8, 0.3).Add(1),
+      Wobble(0.5, 0.7).Add(1),
+      Wobble(0.7, 0.3).Add(1)
     )
 
     const root = CustomShaderMaterialMaster({
-      position: Multiply(VertexPosition, WobbleScale),
-      diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
+      position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
+
+      diffuseColor: baseColor.Multiply(
+        Sin(Time)
+          .Multiply(0.5)
+          .Add(1)
+      )
     })
 
     return compileShader(root)
