@@ -1,83 +1,17 @@
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
 import { button, useControls } from "leva"
-import { Perf } from "r3f-perf"
-import { FC, ReactNode, Suspense, useState } from "react"
-import { LinearEncoding } from "three"
+import { FC, Suspense, useState } from "react"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
-import { PostProcessing } from "./PostProcessing"
-import { Stage } from "./Stage"
-
-const SandboxStage: FC<{ children: ReactNode }> = ({ children }) => {
-  const { halfResolution, postProcessing, autoRotate } = useControls(
-    "Presentation",
-    {
-      halfResolution: false,
-      postProcessing: true,
-      autoRotate: { value: 0, min: -20, max: 20 }
-    }
-  )
-
-  return (
-    <Canvas
-      flat
-      gl={{
-        outputEncoding: LinearEncoding,
-        powerPreference: "high-performance",
-        alpha: false,
-        depth: true,
-        stencil: false
-      }}
-      dpr={halfResolution ? [0.5, 0.5] : [1, 1]}
-      shadows
-    >
-      {/* Lights, fog, camera, etc. */}
-      <color attach="background" args={["#987"]} />
-      <ambientLight intensity={0.4} />
-      <directionalLight
-        position={[10, 10, 10]}
-        intensity={1}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-        shadow-camera-far={50}
-        shadow-camera-left={-20}
-        shadow-camera-right={20}
-        shadow-camera-top={20}
-        shadow-camera-bottom={-20}
-        shadow-radius={10}
-        shadow-bias={-0.0001}
-      />
-      <fog attach="fog" args={["#987", 50, 300]} />
-      <PerspectiveCamera position={[0, 10, 50]} makeDefault />
-
-      <OrbitControls
-        maxPolarAngle={Math.PI / 2}
-        makeDefault
-        autoRotate={autoRotate !== 0}
-        autoRotateSpeed={autoRotate}
-      />
-
-      {/* Scene objects */}
-      <Stage>{children}</Stage>
-
-      {/* Rendering, ECS, etc. */}
-      {postProcessing && <PostProcessing />}
-      <Perf position="bottom-right" deepAnalyze />
-    </Canvas>
-  )
-}
 
 export const Game = () => (
-  <SandboxStage>
+  <R3FStage>
     <Route path="/:path">
       <Suspense>
         <ExampleMatcher />
       </Suspense>
     </Route>
-  </SandboxStage>
+  </R3FStage>
 )
 
 const ExampleMatcher = () => {
