@@ -12,32 +12,32 @@ import {
 import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-const master = (color: Variable<"vec3">) =>
+const CSMMaster = (diffuseColor: Variable<"vec3">) =>
   bool(true, {
     title: "Master",
-    inputs: { color },
-    fragmentBody: `csm_DiffuseColor = vec4(color, 1.0);`
+    inputs: { diffuseColor },
+    fragmentBody: `csm_DiffuseColor = vec4(diffuseColor, 1.0);`
   })
 
-const add = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+const Addition = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
   variable(type(a), "a + b", {
     title: `Addition (${type(a)} + ${type(b)}`,
     inputs: { a, b }
   })
 
-const subtract = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+const Subtraction = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
   variable(type(a), "a - b", {
     title: `Subtraction (${type(a)} - ${type(b)}`,
     inputs: { a, b }
   })
 
-const divide = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+const Division = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
   variable(type(a), "a / b", {
     title: `Division (${type(a)} / ${type(b)}`,
     inputs: { a, b }
   })
 
-const multiply = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
+const Multiplication = <T extends GLSLType>(a: Value<T>, b: Value<T>) =>
   variable(type(a), "a * b", {
     title: `Multiplication (${type(a)} * ${type(b)}`,
     inputs: { a, b }
@@ -47,7 +47,9 @@ export default function Playground() {
   const shader = useMemo(() => {
     const baseColor = vec3(new Color("hotpink"))
 
-    return compileShader(master(add(baseColor, new Color("white"))))
+    const root = CSMMaster(Addition(baseColor, new Color("white")))
+
+    return compileShader(root)
   }, [])
 
   console.log(shader.vertexShader)
