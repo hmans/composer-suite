@@ -25,7 +25,7 @@ describe("compileShader", () => {
     const v = variable("float", 1)
     const shader = compileShader(v)
 
-    expect(shader.fragmenShader).toMatchInlineSnapshot(`
+    expect(shader.fragmentShader).toMatchInlineSnapshot(`
       "/*** BEGIN: anonymous_2 ***/
       /*** END: anonymous_2 ***/
 
@@ -71,7 +71,7 @@ describe("compileShader", () => {
       }"
     `)
 
-    expect(shader.fragmenShader).toMatchInlineSnapshot(`
+    expect(shader.fragmentShader).toMatchInlineSnapshot(`
       "/*** BEGIN: anonymous_3 ***/
       uniform float u_time;
       /*** END: anonymous_3 ***/

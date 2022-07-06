@@ -54,7 +54,7 @@ export const compileProgram = (v: Variable, program: ProgramType) =>
 
 export const compileShader = (root: Variable) => {
   const vertexShader = compileProgram(root, "vertex")
-  const fragmenShader = compileProgram(root, "fragment")
+  const fragmentShader = compileProgram(root, "fragment")
 
-  return { vertexShader, fragmenShader }
+  return { vertexShader, fragmentShader }
 }
