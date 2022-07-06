@@ -9,9 +9,7 @@ const master = (color: Variable<"vec3">) => {
 
   root.inputs.color = color
 
-  root.fragmentBody = `csm_DiffuseColor = vec4(${glslRepresentation(
-    color
-  )}, 1.0);`
+  root.fragmentBody = `csm_DiffuseColor = vec4(color, 1.0);`
 
   return root
 }

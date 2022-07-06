@@ -1,11 +1,42 @@
 import { Color, Vector3 } from "three"
-import { block, concatenate, Parts, statement } from "./lib/concatenator3000"
+import {
+  assignment,
+  block,
+  concatenate,
+  Parts,
+  statement
+} from "./lib/concatenator3000"
 import { isVariable, Value, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
 const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.name} ***/`
 const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
+
+export const glslType = (value: Value): string => {
+  /* Variable reference -> use variable type */
+  if (isVariable(value)) {
+    return value.type
+  }
+
+  /* number -> float */
+  if (typeof value === "number") {
+    return "float"
+  }
+
+  /* Color -> vec3 */
+  if (value instanceof Color) {
+    return "vec3"
+  }
+
+  /* Vector3 -> vec3 */
+  if (value instanceof Vector3) {
+    return "vec3"
+  }
+
+  /* Fail */
+  throw new Error(`Could not render GLSL type for: ${value}`)
+}
 
 export const glslRepresentation = (value: Value): string => {
   /* Variable reference -> render variable name */
@@ -61,6 +92,11 @@ export const compileBody = (v: Variable, program: ProgramType): Parts => [
   statement(v.type, v.name, "=", glslRepresentation(v.value)),
 
   block(
+    /* Make inputs available as local variables */
+    Object.entries(v.inputs).map(([name, input]) =>
+      assignment(`${glslType(input)} ${name}`, glslRepresentation(input.value))
+    ),
+
     /* The body chunk, if there is one */
     v[`${program}Body`]
   ),
