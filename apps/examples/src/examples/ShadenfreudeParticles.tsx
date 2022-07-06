@@ -15,6 +15,7 @@ import {
   mix,
   MixNode,
   multiply,
+  Parameter,
   ShaderNode,
   split,
   subtract,
@@ -92,6 +93,19 @@ export default function ShadenfreudeParticles() {
 
     const particleProgress = divide(particleAge, particleMaxAge)
 
+    /* These are (some) primitives provided by 3VFX. */
+    const statelessVelocitySimulation = (v: Parameter<"vec3">) =>
+      multiply(v, instanceMatrix, particleProgress)
+
+    const statelessAccelerationSimulation = (a: Parameter<"vec3">) =>
+      multiply(a, instanceMatrix, particleProgress, particleProgress, 0.5)
+
+    /* This is the part that 3VFX users will get to assemble and customize. */
+    const movement = [
+      statelessVelocitySimulation(blackboard.velocity),
+      statelessAccelerationSimulation(blackboard.acceleration)
+    ]
+
     return CustomShaderMaterialMasterNode({
       diffuseColor: new Color("#ccc"),
 
@@ -103,22 +117,7 @@ export default function ShadenfreudeParticles() {
         mix(1, 0, ExponentialEaseInNode({ a: particleProgress }))
       ),
 
-      position: add(
-        /* Start with the original position */
-        VertexPositionNode(),
-
-        /* Add stateless velocity */
-        multiply(blackboard.velocity, instanceMatrix, particleProgress),
-
-        /* Add stateless acceleration */
-        multiply(
-          blackboard.acceleration,
-          instanceMatrix,
-          particleProgress,
-          particleProgress,
-          0.5
-        )
-      )
+      position: add(VertexPositionNode(), ...movement)
     })
   })
 
