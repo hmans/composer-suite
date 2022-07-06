@@ -1,30 +1,21 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
-  Add,
   assignment,
   bool,
   compileShader,
   Join,
-  Multiply,
-  Sin,
-  Time,
   Value,
-  Variable,
-  Varying,
-  vec3
+  vec3,
+  VertexPosition
 } from "shadenfreude"
-import { Color, MeshStandardMaterial, Vector3 } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 type CSMMasterProps = {
   position?: Value<"vec3">
   diffuseColor?: Value<"vec3">
 }
-
-const VertexPosition = Varying("vec3", vec3("position", { only: "vertex" }))
-
-console.log(VertexPosition)
 
 const CSMMaster = (inputs: CSMMasterProps) =>
   bool(true, {
@@ -43,8 +34,8 @@ export default function Playground() {
     const v4 = Join(1, 1, 1, 1)
 
     const root = CSMMaster({
-      position: VertexPosition
-      // diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
+      position: VertexPosition,
+      diffuseColor: new Color(1, 1, 1) //Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
     })
 
     return compileShader(root)

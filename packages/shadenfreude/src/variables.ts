@@ -1,4 +1,5 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import { glslRepresentation } from "./glslRepresentation"
 import { identifier } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
@@ -44,7 +45,7 @@ export const variable = <T extends GLSLType>(
   value: Value<T>,
   extras: Partial<Variable<T>> = {}
 ): Variable<T> => ({
-  title: "Unnamed",
+  title: `Anonymous ${type} = ${glslRepresentation(value)}`,
   name: identifier("anonymous", nextAnonymousId()),
   inputs: {},
   ...extras,

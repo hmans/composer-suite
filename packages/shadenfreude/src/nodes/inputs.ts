@@ -23,7 +23,10 @@ export const Varying = <T extends GLSLType>(type: T, source: Value<T>) => {
     },
 
     vertexHeader: `varying ${type} ${varyingName};`,
-    vertexBody: `${varyingName} = source;`,
+    vertexBody: `value = ${varyingName} = source;`,
     fragmentHeader: `varying ${type} ${varyingName};`
   })
 }
+
+// const Attribute = <T extends GLSLType>(type: T, name: string) =>
+//   variable(type, name, { only: "vertex" })

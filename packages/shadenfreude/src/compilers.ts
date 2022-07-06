@@ -58,8 +58,10 @@ export const compileBody = (
 
     block(
       /* Make inputs available as local variables */
-      inputs(v).map(([name, input]) =>
-        assignment(`${type(input)} ${name}`, glslRepresentation(input))
+      inputs(v).map(
+        ([name, input]) =>
+          (!isVariable(input) || !input.only || input.only === program) &&
+          assignment(`${type(input)} ${name}`, glslRepresentation(input))
       ),
 
       /* Make local value variable available */

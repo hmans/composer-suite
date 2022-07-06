@@ -10,13 +10,13 @@ describe("compileShader", () => {
     expect(shader.vertexShader).toMatchInlineSnapshot(`
       "void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
       }"
     `)
@@ -29,13 +29,13 @@ describe("compileShader", () => {
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
       "void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
       }"
     `)
@@ -55,39 +55,39 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
+      "/*** BEGIN: Anonymous float = 1.00000 (1) ***/
       uniform float u_time;
-      /*** END: Unnamed (1) ***/
+      /*** END: Anonymous float = 1.00000 (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
           gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
       }"
     `)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed (1) ***/
+      "/*** BEGIN: Anonymous float = 1.00000 (1) ***/
       uniform float u_time;
-      /*** END: Unnamed (1) ***/
+      /*** END: Anonymous float = 1.00000 (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
           gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
       }"
     `)
@@ -102,21 +102,21 @@ describe("compileShader", () => {
     expect(shader.vertexShader).toMatchInlineSnapshot(`
       "void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
-        /*** BEGIN: Unnamed (2) ***/
-        float float_Unnamed_2;
+        /*** BEGIN: Anonymous float = anonymous_4 (2) ***/
+        float float_Anonymous_float_anonymous_4_2;
         {
-          float value = float_Unnamed_1;
-          float_Unnamed_2 = value;
+          float value = float_Anonymous_float_1_00000_1;
+          float_Anonymous_float_anonymous_4_2 = value;
         }
-        /*** END: Unnamed (2) ***/
+        /*** END: Anonymous float = anonymous_4 (2) ***/
 
       }"
     `)
@@ -131,23 +131,23 @@ describe("compileShader", () => {
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
       "void main()
       {
-        /*** BEGIN: Unnamed (1) ***/
-        float float_Unnamed_1;
+        /*** BEGIN: Anonymous float = 1.00000 (1) ***/
+        float float_Anonymous_float_1_00000_1;
         {
           float value = 1.00000;
-          float_Unnamed_1 = value;
+          float_Anonymous_float_1_00000_1 = value;
         }
-        /*** END: Unnamed (1) ***/
+        /*** END: Anonymous float = 1.00000 (1) ***/
 
-        /*** BEGIN: Unnamed (2) ***/
-        bool bool_Unnamed_2;
+        /*** BEGIN: Anonymous bool = true (2) ***/
+        bool bool_Anonymous_bool_true_2;
         {
-          float a = float_Unnamed_1;
-          float b = float_Unnamed_1;
+          float a = float_Anonymous_float_1_00000_1;
+          float b = float_Anonymous_float_1_00000_1;
           bool value = true;
-          bool_Unnamed_2 = value;
+          bool_Anonymous_bool_true_2 = value;
         }
-        /*** END: Unnamed (2) ***/
+        /*** END: Anonymous bool = true (2) ***/
 
       }"
     `)
