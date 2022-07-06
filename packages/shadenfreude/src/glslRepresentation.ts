@@ -8,7 +8,10 @@ export const glslRepresentation = (value: Value): string => {
 
   if (typeof value === "boolean") return value ? "true" : "false"
 
-  if (typeof value === "number") return value.toFixed(5)
+  if (typeof value === "number") {
+    const s = value.toString()
+    return s.match(/[.e]/) ? s : `${s}.0`
+  }
 
   if (value instanceof Color)
     return `
