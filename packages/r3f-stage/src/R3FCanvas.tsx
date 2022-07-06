@@ -7,7 +7,10 @@ import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 import { Perf } from "r3f-perf"
 
-export const R3FCanvas: FC<{ children: ReactNode }> = ({ children }) => {
+export const R3FCanvas: FC<{ children: ReactNode; perf?: boolean }> = ({
+  children,
+  perf = false
+}) => {
   const { halfResolution, postProcessing, autoRotate } = useControls(
     "Presentation",
     {
@@ -62,7 +65,7 @@ export const R3FCanvas: FC<{ children: ReactNode }> = ({ children }) => {
 
       {/* Rendering, ECS, etc. */}
       {postProcessing && <PostProcessing />}
-      <Perf position="bottom-right" deepAnalyze />
+      {perf && <Perf position="bottom-right" deepAnalyze />}
     </Canvas>
   )
 }

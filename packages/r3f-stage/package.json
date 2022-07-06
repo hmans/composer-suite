@@ -7,12 +7,13 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "A simple stage for r3f examples and sandboxes.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "dist/r3f-stage.cjs.js",
   "module": "dist/r3f-stage.esm.js",
   "types": "dist/r3f-stage.cjs.d.ts",
   "files": [
     "dist/**",
+    "styles.css",
     "LICENSE",
     "README.md"
   ],
