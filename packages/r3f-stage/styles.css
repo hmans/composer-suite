@@ -29,7 +29,8 @@ a:hover {
   color: hotpink;
 }
 
-div#root {
+div#root,
+div#app {
   height: 100vh;
 }
 

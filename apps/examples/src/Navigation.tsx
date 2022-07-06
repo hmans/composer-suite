@@ -18,18 +18,6 @@ export const Navigation = () => {
           </Link>
         ))}
       </div>
-      <div
-        style={{
-          position: "fixed",
-          zIndex: 1,
-          bottom: 10,
-          left: 10
-        }}
-      >
-        <a href="https://github.com/hmans/three-vfx" target="_blank">
-          github.com/hmans/three-vfx
-        </a>
-      </div>
     </>
   )
 }

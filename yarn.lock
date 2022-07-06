@@ -2001,10 +2001,10 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.4.5.tgz#9c71e5ff866b5484a7ef3db822bf6c10e77bdd8c"
   integrity sha512-mpRIamoHwql0ogxEUh9yr4TP0xU5CWyZxVQeccGkHHF8kPMErtDXJlxyo0lj+telRF35XNihtPTWoflqtyARmg==
 
-"@react-three/drei@^9.11.3":
-  version "9.14.3"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.14.3.tgz#bb3ec0cbcb455e949b23de22be83da281b642945"
-  integrity sha512-0sL8z/VZno/y8lamzMuRFdYoAaRHMWuo3//Jhtuni9FSRsGCh95ZLdfYTxsTvlgf8EQBvU1cf7ESxHyoRSm5ww==
+"@react-three/drei@^9.16.0":
+  version "9.16.0"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.16.0.tgz#6d2ba26e9d6bc0adcfc5063f774c59ecf35f7241"
+  integrity sha512-JV2+SHEWwSMBs9sFLkOQ8nJ3CT2AFRGkKOSKTvEaz0BzJT2ovR01Ge356FnLkRhRmtJG+MAv0g2Y9/p+UygWyQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -5192,7 +5192,7 @@ ktx-parse@^0.2.1:
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.2.2.tgz#b037b66044855215b332cb73104590af49e47791"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
-leva@^0.9.27:
+leva@^0.9.28:
   version "0.9.28"
   resolved "https://registry.yarnpkg.com/leva/-/leva-0.9.28.tgz#30c840232a06a61340b08ef8c73ddfd56ff62144"
   integrity sha512-LlOWC6pbwIzsy6tDHY7UCvCEwKJH9ZrP4eVoEk5LDwIOd/1KFYTPP/DG1aa8Yvj11wheCcVeB2feUDYTNWu1hA==
@@ -5917,7 +5917,7 @@ postcss@^8.4.13:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.28.0:
+postprocessing@^6.28.1:
   version "6.28.1"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.1.tgz#b201e6d9c9e1e2af4213a3b81af57ec599f5ed8d"
   integrity sha512-3KwA5k9IwdB0bpyJ/jK1KnXAk1BJYV1jnywGXJnQXg5trSNVRUq0Gkas2GDIpo+6ThCbwb20NmF6WQOaeyk1Og==
@@ -6026,7 +6026,7 @@ quick-lru@^5.1.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-r3f-perf@^6.2.6:
+r3f-perf@^6.4.2:
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/r3f-perf/-/r3f-perf-6.4.2.tgz#bc04d4f0bb6a318bee2fce21382a6ad5f8f1b43b"
   integrity sha512-DUsNOZhEiqpnyceVD/oCB65nwzS/jN43AAEQWxAt/ijZWKuQLa8Hi/uDHGCdUfZ/mfFVFRmvuPsFJrZZPV6aEg==
