@@ -4,6 +4,7 @@ import {
   Factory,
   float,
   getValueType,
+  IShaderNodeWithDefaultOutput,
   Parameter,
   ShaderNode,
   uniqueGlobalIdentifier,
@@ -55,11 +56,14 @@ const FunctionNode = (fun: string) => <A extends ValueType>(
 export const SinNode = FunctionNode("sin")
 export const CosNode = FunctionNode("cos")
 
+export const sin = (a: Parameter<"float">) => SinNode({ a })
+export const cos = (a: Parameter<"float">) => CosNode({ a })
+
 type Operator = "+" | "-" | "*" | "/"
 
 export type OperatorNodeProps<A extends ValueType, B extends ValueType> = {
-  a: Parameter<A>
-  b: Parameter<B>
+  a?: Parameter<A>
+  b?: Parameter<B>
 }
 
 const OperatorNode = (operator: Operator) => <
@@ -69,17 +73,23 @@ const OperatorNode = (operator: Operator) => <
   a,
   b
 }: OperatorNodeProps<A, B>) => {
-  const aType = getValueType(a)
-  const bType = getValueType(b)
+  const aType = a && getValueType(a)
+  const bType = b && getValueType(b)
+  const type = aType || bType
+
+  if (!type)
+    throw new Error(
+      "Either `a` or `b` must be provided so we can determine the node type."
+    )
 
   return ShaderNode({
     name: `Perform ${aType} ${operator} ${bType}`,
     inputs: {
-      a: variable(aType, a),
-      b: variable(bType, b)
+      a: aType ? variable(aType, a) : variable(type),
+      b: bType ? variable(bType, b) : variable(type)
     },
     outputs: {
-      value: variable(aType, `inputs.a ${operator} inputs.b`)
+      value: variable(aType || type, `inputs.a ${operator} inputs.b`)
     }
   })
 }
@@ -90,23 +100,24 @@ export const MultiplyNode = OperatorNode("*")
 export const DivideNode = OperatorNode("/")
 
 export type MixNodeProps<T extends ValueType> = {
-  a?: Parameter
+  a: Parameter<T>
   b: Parameter<T>
   factor?: Parameter<"float">
 }
 
 export const MixNode = <T extends ValueType>(props: MixNodeProps<T>) => {
-  const type = getValueType(props.b)
+  const aType = getValueType(props.a)
+  const bType = getValueType(props.b)
 
   return ShaderNode({
-    name: `Mix a and b values (${type})`,
+    name: `Mix a and b values (${aType})`,
     inputs: {
-      a: variable<T>(type, props.a),
-      b: variable<T>(type, props.b),
+      a: variable<T>(aType, props.a),
+      b: variable<T>(bType, props.b),
       factor: float(props.factor || 0.5)
     },
     outputs: {
-      value: variable<T>(type, "mix(inputs.a, inputs.b, inputs.factor)")
+      value: variable<T>(aType, "mix(inputs.a, inputs.b, inputs.factor)")
     }
   })
 }

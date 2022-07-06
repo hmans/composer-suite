@@ -63,12 +63,6 @@ export interface IShaderNode {
    * Output variables.
    */
   outputs?: Variables
-
-  /**
-   * Filters. Any node can be used as a filter that has default inputs and outputs of the same
-   * type as this node's default output value.
-   */
-  filters?: IShaderNode[]
 }
 
 export interface IShaderNodeWithDefaultInput<T extends ValueType = any>
@@ -249,27 +243,45 @@ export const set = <T extends ValueType>(target: AssignmentTarget<T>) => ({
 export function getValueType<T extends ValueType>(value: Parameter<T>): T {
   if (isVariable(value)) {
     return value.type
-  } else if (isShaderNodeWithDefaultOutput(value)) {
-    return getValueType(value.outputs.value)
-  } else if (typeof value === "number") {
-    return "float" as T
-  } else if (typeof value === "boolean") {
-    return "bool" as T
-  } else if (value instanceof Color) {
-    return "vec3" as T
-  } else if (value instanceof Vector2) {
-    return "vec2" as T
-  } else if (value instanceof Vector3) {
-    return "vec3" as T
-  } else if (value instanceof Vector4) {
-    return "vec4" as T
-  } else if (value instanceof Matrix3) {
-    return "mat3" as T
-  } else if (value instanceof Matrix4) {
-    return "mat4" as T
-  } else {
-    throw new Error(`Could not find a GLSL type for: ${value}`)
   }
+
+  if (isShaderNodeWithDefaultOutput(value)) {
+    return getValueType(value.outputs.value)
+  }
+
+  if (typeof value === "number") {
+    return "float" as T
+  }
+
+  if (typeof value === "boolean") {
+    return "bool" as T
+  }
+
+  if (value instanceof Color) {
+    return "vec3" as T
+  }
+
+  if (value instanceof Vector2) {
+    return "vec2" as T
+  }
+
+  if (value instanceof Vector3) {
+    return "vec3" as T
+  }
+
+  if (value instanceof Vector4) {
+    return "vec4" as T
+  }
+
+  if (value instanceof Matrix3) {
+    return "mat3" as T
+  }
+
+  if (value instanceof Matrix4) {
+    return "mat4" as T
+  }
+
+  throw new Error(`Could not find a GLSL type for: ${value}`)
 }
 
 /*
@@ -371,11 +383,7 @@ export const compileShader = (root: IShaderNode) => {
     )
 
   const getDependencies = (node: IShaderNode) =>
-    unique([
-      ...getInputDependencies(node),
-      ...getOutputDependencies(node),
-      ...(node.filters || [])
-    ])
+    unique([...getInputDependencies(node), ...getOutputDependencies(node)])
 
   const nodeBegin = (node: IShaderNode) => `/*** BEGIN: ${node.name} ***/`
   const nodeEnd = (node: IShaderNode) => `/*** END: ${node.name} ***/\n`
@@ -403,8 +411,10 @@ export const compileShader = (root: IShaderNode) => {
 
       /* Uniforms */
       getVariables(node.uniforms).map(([name, v]) => {
+        /* Don't render the same uniform more than once */
         if (state.seenGlobals.has(name)) return
         state.seenGlobals.add(name)
+
         return compileVariable({
           ...v,
           qualifier: "uniform",
@@ -421,10 +431,7 @@ export const compileShader = (root: IShaderNode) => {
       /* Actual chunk */
       node[programType]?.header,
 
-      nodeEnd(node),
-
-      /* Filters */
-      node.filters?.map((unit) => compileHeader(unit, programType, state))
+      nodeEnd(node)
     ]
   }
 
@@ -439,16 +446,14 @@ export const compileShader = (root: IShaderNode) => {
     const inputs = getVariables(node.inputs)
     const outputs = getVariables(node.outputs)
 
-    const dependenciesWithoutFilters = unique([
+    const dependencies = unique([
       ...getInputDependencies(node),
       ...getOutputDependencies(node)
     ])
 
     return [
       /* Dependencies */
-      dependenciesWithoutFilters.map((dep) =>
-        compileBody(dep, programType, seen)
-      ),
+      dependencies.map((dep) => compileBody(dep, programType, seen)),
 
       nodeBegin(node),
 
@@ -462,14 +467,14 @@ export const compileShader = (root: IShaderNode) => {
         node.inputs && [
           struct("inputs", node.inputs),
 
-          inputs.map(([name, v]) =>
-            v.value !== undefined
-              ? assignment(`inputs.${name}`, compileValue(v.value))
-              : ""
+          inputs.map(
+            ([name, v]) =>
+              v.value !== undefined &&
+              assignment(`inputs.${name}`, compileValue(v.value))
           )
         ],
 
-        /* Local Varyings */
+        /* Local Varyings (vertex only) */
         programType === "vertex"
           ? getVariables(node.varyings).map(([localName, variable]) =>
               compileVariable({ ...variable, name: localName })
@@ -486,12 +491,13 @@ export const compileShader = (root: IShaderNode) => {
         node.outputs && [
           struct("outputs", node.outputs),
 
-          outputs.map(([name, v]) =>
-            v.value ? assignment(`outputs.${name}`, compileValue(v.value)) : ""
+          outputs.map(
+            ([name, v]) =>
+              v.value && assignment(`outputs.${name}`, compileValue(v.value))
           )
         ],
 
-        /* Body */
+        /* Body Chunk */
         node[programType]?.body,
 
         /* Assign local output variables back to global variables */
@@ -499,25 +505,10 @@ export const compileShader = (root: IShaderNode) => {
           assignment(variable.name, "outputs." + localName)
         ),
 
-        /* Filters */
-        node.filters &&
-          node.filters.length > 0 && [
-            /* Render filters */
-            node.filters.map((filter) =>
-              compileBody(filter, programType, seen)
-            ),
-
-            /* Assign the last filter's output variable back into our output variable */
-            assignment(
-              node.outputs!.value.name,
-              node.filters[node.filters.length - 1].outputs!.value.name
-            )
-          ],
-
         /* Assign Varyings */
         programType === "vertex" &&
-          getVariables(node.varyings).map(
-            ([localName, variable]) => `${variable.name} = ${localName};`
+          getVariables(node.varyings).map(([localName, variable]) =>
+            assignment(variable.name, localName)
           )
       ),
       nodeEnd(node)
@@ -539,58 +530,27 @@ export const compileShader = (root: IShaderNode) => {
     if (state.seenNodes.has(node)) return
     state.seenNodes.add(node)
 
-    const deps = [...getInputDependencies(node), ...getOutputDependencies(node)]
-    deps.forEach((unit) => prepareNode(unit, state))
+    /* Recursively dive into this node's dependencies to prepare them first. */
+    getDependencies(node).forEach((unit) => prepareNode(unit, state))
 
     ++state.id
 
-    const nodePartInVariableName = [sluggify(node.name || "node"), state.id]
+    const variableNamePrefix = [sluggify(node.name || "node"), state.id]
 
     /* Tweak this node's output variable names */
     getVariables(node.outputs).map(([localName, variable]) => {
-      variable.name = identifier("out", ...nodePartInVariableName, localName)
+      variable.name = identifier("out", ...variableNamePrefix, localName)
     })
 
     /* Tweak this node's varying names */
     getVariables(node.varyings).map(([localName, variable]) => {
-      variable.name = identifier("v", ...nodePartInVariableName, localName)
+      variable.name = identifier("v", ...variableNamePrefix, localName)
     })
-
-    /* Prepare filters */
-    if (node.filters && node.filters.length > 0) {
-      if (!isShaderNodeWithDefaultOutput(node))
-        throw new Error("Nodes with filters must have an output value")
-
-      /* Use the last filter's output value as our output value */
-      const firstFilter = node.filters[0]
-
-      if (!isShaderNodeWithDefaultInput(firstFilter))
-        throw new Error("First filter node must have an `a` input")
-
-      assign(firstFilter, node)
-
-      prepareNode(firstFilter, state)
-
-      /* Connect filters in sequence */
-      for (let i = 1; i < node.filters.length; i++) {
-        const filter = node.filters[i]
-        const prev = node.filters[i - 1]
-
-        prepareNode(filter, state)
-
-        if (!isShaderNodeWithDefaultOutput(prev))
-          throw new Error("Filter nodes must have a `value` output")
-
-        if (!isShaderNodeWithDefaultInput(filter))
-          throw new Error("Filter nodes must have an `a` input")
-
-        assign(filter, prev)
-      }
-    }
   }
 
   prepareNode(root)
 
+  /* Compile programs */
   const vertexShader = compileProgram("vertex")
   const fragmentShader = compileProgram("fragment")
 

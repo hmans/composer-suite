@@ -39,6 +39,7 @@ export const CustomShaderMaterialMasterNode = Factory(() => ({
 
     /** Diffuse color of the fragment. */
     diffuseColor: vec3(new Color(1, 1, 1)),
+    alpha: float(1),
 
     /** Emissive color of the fragment. */
     emissiveColor: vec3(new Color(0, 0, 0))
@@ -54,6 +55,7 @@ export const CustomShaderMaterialMasterNode = Factory(() => ({
   fragment: {
     body: [
       assignment("csm_DiffuseColor.rgb", "inputs.diffuseColor"),
+      assignment("csm_DiffuseColor.a", "inputs.alpha"),
       assignment("csm_Emissive.rgb", "inputs.emissiveColor")
     ]
   }
