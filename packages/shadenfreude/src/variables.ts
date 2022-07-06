@@ -1,4 +1,6 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
+import { identifier } from "./lib/concatenator3000"
+import idGenerator from "./lib/idGenerator"
 
 export const foo = "bar"
 
@@ -33,16 +35,20 @@ export type Program = {
 }
 
 export type Variable<T extends GLSLType = any> = {
+  name: string
   type?: T
   value?: Value<T>
   vertex?: Program
   fragment?: Program
 }
 
+const nextAnonymousId = idGenerator()
+
 export const variable = <T extends GLSLType>(
   type?: T,
   value?: Value<T>
 ): Variable<T> => ({
+  name: identifier("anonymous", nextAnonymousId()),
   type,
   value
 })
