@@ -11,10 +11,14 @@ import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 
 const SandboxStage: FC<{ children: ReactNode }> = ({ children }) => {
-  const { halfResolution, postProcessing } = useControls("Rendering", {
-    halfResolution: false,
-    postProcessing: true
-  })
+  const { halfResolution, postProcessing, autoRotate } = useControls(
+    "Presentation",
+    {
+      halfResolution: false,
+      postProcessing: true,
+      autoRotate: { value: 0, min: -20, max: 20 }
+    }
+  )
 
   return (
     <Canvas
@@ -49,7 +53,12 @@ const SandboxStage: FC<{ children: ReactNode }> = ({ children }) => {
       <fog attach="fog" args={["#987", 50, 300]} />
       <PerspectiveCamera position={[0, 10, 50]} makeDefault />
 
-      <OrbitControls maxPolarAngle={Math.PI / 2} makeDefault />
+      <OrbitControls
+        maxPolarAngle={Math.PI / 2}
+        makeDefault
+        autoRotate={autoRotate !== 0}
+        autoRotateSpeed={autoRotate}
+      />
 
       {/* Scene objects */}
       <Stage>{children}</Stage>
