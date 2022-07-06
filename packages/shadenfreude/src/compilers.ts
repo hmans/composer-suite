@@ -8,11 +8,13 @@ const variableEndHeader = (v: Variable) => `/*** END: ${v.name} ***/\n`
 
 export const compileHeader = (v: Variable, program: ProgramType) => [
   variableBeginHeader(v),
+  v[program]?.header,
   variableEndHeader(v)
 ]
 
 export const compileBody = (v: Variable, program: ProgramType) => [
   variableBeginHeader(v),
+  v[program]?.body,
   variableEndHeader(v)
 ]
 

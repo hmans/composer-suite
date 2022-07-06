@@ -27,11 +27,9 @@ export type Value<T extends GLSLType = any> = T extends undefined
   ? never
   : JSTypes[T] | Variable<T>
 
-export type Chunk = string | string[]
-
 export type Program = {
-  header?: Chunk
-  body?: Chunk
+  header?: string
+  body?: string
 }
 
 export type Variable<T extends GLSLType = any> = {
