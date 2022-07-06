@@ -1,6 +1,6 @@
 import { compileShader } from "./compilers"
 import { assignment, statement } from "./lib/concatenator3000"
-import { variable } from "./variables"
+import { bool, float, variable } from "./variables"
 
 describe("compileShader", () => {
   it("returns a vertexShader", () => {
@@ -8,18 +8,18 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed ***/
-      /*** END: Unnamed ***/
+      "/*** BEGIN: Unnamed (1) ***/
+      /*** END: Unnamed (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
         {
           float value = 1.00000;
           float_Unnamed_1 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (1) ***/
 
       }"
     `)
@@ -30,18 +30,18 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed ***/
-      /*** END: Unnamed ***/
+      "/*** BEGIN: Unnamed (1) ***/
+      /*** END: Unnamed (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
         {
           float value = 1.00000;
           float_Unnamed_1 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (1) ***/
 
       }"
     `)
@@ -61,39 +61,39 @@ describe("compileShader", () => {
     const shader = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed ***/
+      "/*** BEGIN: Unnamed (1) ***/
       uniform float u_time;
-      /*** END: Unnamed ***/
+      /*** END: Unnamed (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
         {
           float value = 1.00000;
           gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
           float_Unnamed_1 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (1) ***/
 
       }"
     `)
 
     expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed ***/
+      "/*** BEGIN: Unnamed (1) ***/
       uniform float u_time;
-      /*** END: Unnamed ***/
+      /*** END: Unnamed (1) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
         {
           float value = 1.00000;
           gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
           float_Unnamed_1 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (1) ***/
 
       }"
     `)
@@ -106,29 +106,66 @@ describe("compileShader", () => {
     const shader = compileShader(root)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Unnamed ***/
-      /*** END: Unnamed ***/
+      "/*** BEGIN: Unnamed (1) ***/
+      /*** END: Unnamed (1) ***/
 
-      /*** BEGIN: Unnamed ***/
-      /*** END: Unnamed ***/
+      /*** BEGIN: Unnamed (2) ***/
+      /*** END: Unnamed (2) ***/
 
       void main()
       {
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (1) ***/
         float float_Unnamed_1;
         {
           float value = 1.00000;
           float_Unnamed_1 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (1) ***/
 
-        /*** BEGIN: Unnamed ***/
+        /*** BEGIN: Unnamed (2) ***/
         float float_Unnamed_2;
         {
           float value = float_Unnamed_1;
           float_Unnamed_2 = value;
         }
-        /*** END: Unnamed ***/
+        /*** END: Unnamed (2) ***/
+
+      }"
+    `)
+  })
+
+  it("doesn't render the same dependency twice", () => {
+    const a = float(1)
+    const b = bool(true, { inputs: { a, b: a } })
+
+    const shader = compileShader(b)
+
+    expect(shader.fragmentShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Unnamed (1) ***/
+      /*** END: Unnamed (1) ***/
+
+      /*** BEGIN: Unnamed (2) ***/
+      /*** END: Unnamed (2) ***/
+
+      void main()
+      {
+        /*** BEGIN: Unnamed (1) ***/
+        float float_Unnamed_1;
+        {
+          float value = 1.00000;
+          float_Unnamed_1 = value;
+        }
+        /*** END: Unnamed (1) ***/
+
+        /*** BEGIN: Unnamed (2) ***/
+        bool bool_Unnamed_2;
+        {
+          float a = float_Unnamed_1;
+          float b = float_Unnamed_1;
+          bool value = true;
+          bool_Unnamed_2 = value;
+        }
+        /*** END: Unnamed (2) ***/
 
       }"
     `)

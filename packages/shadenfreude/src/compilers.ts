@@ -1,4 +1,5 @@
 import { Color, Vector3 } from "three"
+import { seededRandom } from "three/src/math/MathUtils"
 import {
   assignment,
   block,
@@ -38,42 +39,58 @@ export const glslRepresentation = (value: Value): string => {
   throw new Error(`Could not render value to GLSL: ${value}`)
 }
 
-export const compileHeader = (v: Variable, program: ProgramType): Parts => [
-  /* Render dependencies */
-  dependencies(v).map((input) => compileHeader(input, program)),
+export const compileHeader = (
+  v: Variable,
+  program: ProgramType,
+  stack = dependencyStack()
+): Parts => {
+  if (!stack.fresh(v)) return []
 
-  variableBeginHeader(v),
-  v[`${program}Header`],
-  variableEndHeader(v)
-]
+  return [
+    /* Render dependencies */
+    dependencies(v).map((input) => compileHeader(input, program, stack)),
 
-export const compileBody = (v: Variable, program: ProgramType): Parts => [
-  /* Render dependencies */
-  dependencies(v).map((input) => compileBody(input, program)),
+    variableBeginHeader(v),
+    v[`${program}Header`],
+    variableEndHeader(v)
+  ]
+}
 
-  variableBeginHeader(v),
+export const compileBody = (
+  v: Variable,
+  program: ProgramType,
+  stack = dependencyStack()
+): Parts => {
+  if (!stack.fresh(v)) return []
 
-  /* Declare the variable */
-  statement(v.type, v.name),
+  return [
+    /* Render dependencies */
+    dependencies(v).map((input) => compileBody(input, program, stack)),
 
-  block(
-    /* Make inputs available as local variables */
-    inputs(v).map(([name, input]) =>
-      assignment(`${type(input)} ${name}`, glslRepresentation(input))
+    variableBeginHeader(v),
+
+    /* Declare the variable */
+    statement(v.type, v.name),
+
+    block(
+      /* Make inputs available as local variables */
+      inputs(v).map(([name, input]) =>
+        assignment(`${type(input)} ${name}`, glslRepresentation(input))
+      ),
+
+      /* Make local value variable available */
+      statement(v.type, "value", "=", glslRepresentation(v.value)),
+
+      /* The body chunk, if there is one */
+      v[`${program}Body`],
+
+      /* Assign local value variable back to global variable */
+      assignment(v.name, "value")
     ),
 
-    /* Make local value variable available */
-    statement(v.type, "value", "=", glslRepresentation(v.value)),
-
-    /* The body chunk, if there is one */
-    v[`${program}Body`],
-
-    /* Assign local value variable back to global variable */
-    assignment(v.name, "value")
-  ),
-
-  variableEndHeader(v)
-]
+    variableEndHeader(v)
+  ]
+}
 
 export const compileProgram = (v: Variable, program: ProgramType) =>
   concatenate(
@@ -91,18 +108,26 @@ export const compileShader = (root: Variable) => {
   return { vertexShader, fragmentShader }
 }
 
-const prepare = (
-  v: Variable,
-  state = { nextId: idGenerator(), seen: new Set<Variable>() }
-) => {
-  if (state.seen.has(v)) return
-  state.seen.add(v)
+const dependencyStack = () => {
+  const seen = new Set<Variable>()
+  const nextId = idGenerator()
+
+  return {
+    fresh: (v: Variable) => (seen.has(v) ? false : seen.add(v) && true),
+    nextId
+  }
+}
+
+const prepare = (v: Variable, stack = dependencyStack()) => {
+  if (!stack.fresh(v)) return
 
   /* Prepare dependencies first */
-  dependencies(v).forEach((d) => prepare(d, state))
+  dependencies(v).forEach((d) => prepare(d, stack))
 
   /* Give this variable a better name */
-  v.name = identifier(v.type, sluggify(v.title), state.nextId())
+  const id = stack.nextId()
+  v.name = identifier(v.type, sluggify(v.title), id)
+  v.title += ` (${id})`
 }
 
 const inputs = (v: Variable) => Object.entries(v.inputs)
