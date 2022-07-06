@@ -38,24 +38,16 @@ export const glslRepresentation = (value: Value): string => {
 
 export const compileHeader = (v: Variable, program: ProgramType): Parts => [
   /* Render dependencies */
-  isVariable(v.value) && compileHeader(v.value, program),
-  Object.entries(v.inputs).map(
-    ([_, input]) => isVariable(input) && compileHeader(input, program)
-  ),
+  dependencies(v).map((input) => compileHeader(input, program)),
 
   variableBeginHeader(v),
   v[`${program}Header`],
   variableEndHeader(v)
 ]
 
-const inputs = (v: Variable) => Object.entries(v.inputs)
-
 export const compileBody = (v: Variable, program: ProgramType): Parts => [
   /* Render dependencies */
-  isVariable(v.value) && compileBody(v.value, program),
-  inputs(v).map(
-    ([_, input]) => isVariable(input) && compileBody(input, program)
-  ),
+  dependencies(v).map((input) => compileBody(input, program)),
 
   variableBeginHeader(v),
 
@@ -94,3 +86,13 @@ export const compileShader = (root: Variable) => {
 
   return { vertexShader, fragmentShader }
 }
+
+const inputs = (v: Variable) => Object.entries(v.inputs)
+
+const inputDependencies = (v: Variable) =>
+  inputs(v)
+    .filter(([_, i]) => isVariable(i))
+    .map(([_, i]) => i)
+
+const dependencies = (v: Variable) =>
+  [isVariable(v.value) && v.value, ...inputDependencies(v)].filter((d) => !!d)
