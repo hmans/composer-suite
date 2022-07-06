@@ -127,10 +127,10 @@ export const split = (v: Parameter<"vec2" | "vec3" | "vec4">) => {
 
 export const join = (
   x: Parameter<"float">,
-  y: Parameter<"float">,
+  y: Parameter<"float"> = 1,
   z?: Parameter<"float">,
   w?: Parameter<"float">
-) => {
+): IShaderNodeWithDefaultOutput<"vec4" | "vec3" | "vec2"> => {
   if (w !== undefined) return JoinVector4Node({ x, y, z, w })
   if (z !== undefined) return JoinVector3Node({ x, y, z })
   return JoinVector2Node({ x, y })

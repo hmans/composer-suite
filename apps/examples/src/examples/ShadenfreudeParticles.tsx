@@ -11,12 +11,15 @@ import {
   float,
   FloatNode,
   IShaderNode,
+  join,
+  JoinVector3Node,
   mat3,
   mix,
   MixNode,
   multiply,
   Parameter,
   ShaderNode,
+  sin,
   split,
   subtract,
   TimeNode,
@@ -100,10 +103,16 @@ export default function ShadenfreudeParticles() {
     const statelessAccelerationSimulation = (a: Parameter<"vec3">) =>
       multiply(a, instanceMatrix, particleProgress, particleProgress, 0.5)
 
+    /* Just extract commonly used helpers into functions: */
+    const wobble = (frequency: number, amplitude: number) =>
+      multiply(sin(multiply(particleAge, frequency)), amplitude)
+
     /* This is the part that 3VFX users will get to assemble and customize. */
     const movement = [
       statelessVelocitySimulation(blackboard.velocity),
-      statelessAccelerationSimulation(blackboard.acceleration)
+      statelessAccelerationSimulation(blackboard.acceleration),
+
+      multiply(join(wobble(11, 3), wobble(7, 3), wobble(5, 3)), instanceMatrix)
     ]
 
     return CustomShaderMaterialMasterNode({
