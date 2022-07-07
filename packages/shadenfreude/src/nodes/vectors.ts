@@ -6,15 +6,6 @@ export const SplitVector3 = (vector: Value<"vec3">) => ({
   z: float("vector.z", { inputs: { vector } })
 })
 
-export const JoinVector3 = (
-  x: Value<"float">,
-  y: Value<"float">,
-  z: Value<"float">
-) =>
-  vec3("vec3(x, y, z)", {
-    inputs: { x, y, z }
-  })
-
 export type Vector2Components = [Value<"float">, Value<"float">]
 export type Vector3Components = [Value<"float">, Value<"float">, Value<"float">]
 export type Vector4Components = [
