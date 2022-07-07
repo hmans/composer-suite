@@ -11,7 +11,7 @@ import {
   vec3,
   VertexPosition
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
@@ -21,13 +21,19 @@ export default function Playground() {
     const Wobble = (frequency: number, amplitude: number) =>
       Sin(Time.Multiply(frequency)).Multiply(amplitude)
 
+    // const Wobble1 = (frequency: number, amplitude: number) =>
+    //   Sin(Time.Multiply(frequency)).Multiply(amplitude)
+
+    // const Wobble2 = (frequency: number, amplitude: number) =>
+    //   Multiply(Sin(Multiply(Time, frequency)), amplitude)
+
     const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
 
     const WobbleScale = Join(
-      Wobble(0.8, 0.3).Add(1),
-      Wobble(0.5, 0.7).Add(1),
-      Wobble(0.7, 0.3).Add(1)
-    )
+      Wobble(0.8, 0.3),
+      Wobble(0.5, 0.7),
+      Wobble(0.7, 0.3)
+    ).Add(new Vector3(1, 1, 1))
 
     const root = CustomShaderMaterialMaster({
       position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
