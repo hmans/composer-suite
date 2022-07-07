@@ -101,6 +101,10 @@ export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
 }
 
+export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
+  return type(v) === t
+}
+
 /* Helpers */
 
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
