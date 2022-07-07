@@ -1,4 +1,4 @@
-import { Mat4, Vec3 } from "../variables"
+import { Mat4, Vec2, Vec3 } from "../variables"
 import { Varying } from "./inputs"
 
 export const VertexPosition = Varying(
@@ -12,6 +12,7 @@ vertex shader. The `only` option will make sure that they never get
 rendered in the fragment shader.
 */
 
+export const UVAttribute = Vec2("uv", { only: "vertex" })
 export const VertexNormalAttribute = Vec3("normal", { only: "vertex" })
 export const ViewMatrixAttribute = Mat4("viewMatrix", { only: "vertex" })
 export const ModelMatrixAttribute = Mat4("modelMatrix", { only: "vertex" })
@@ -24,6 +25,7 @@ These variables make the vertex-only values above available in both
 stages of the shader, by way of a varying.
 */
 
+export const UV = Varying("vec2", UVAttribute)
 export const VertexNormal = Varying("vec3", VertexNormalAttribute)
 export const ViewMatrix = Varying("mat4", ViewMatrixAttribute)
 export const ModelMatrix = Varying("mat4", ModelMatrixAttribute)
