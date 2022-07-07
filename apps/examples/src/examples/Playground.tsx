@@ -21,12 +21,6 @@ export default function Playground() {
     const Wobble = (frequency: number, amplitude: number) =>
       Sin(Time.Multiply(frequency)).Multiply(amplitude)
 
-    // const Wobble1 = (frequency: number, amplitude: number) =>
-    //   Sin(Time.Multiply(frequency)).Multiply(amplitude)
-
-    // const Wobble2 = (frequency: number, amplitude: number) =>
-    //   Multiply(Sin(Multiply(Time, frequency)), amplitude)
-
     const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
 
     const WobbleScale = Join(
