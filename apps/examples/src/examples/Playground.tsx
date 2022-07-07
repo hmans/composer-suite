@@ -7,6 +7,7 @@ import {
   Float,
   Fresnel,
   Join,
+  Mix,
   Multiply,
   Normalize,
   Pipe,
@@ -46,7 +47,7 @@ export default function Playground() {
       diffuseColor: Pipe(
         VertexPosition,
         ($) => Normalize($),
-        ($) => Multiply($, 0.5),
+        ($) => Mix($, new Color("hotpink"), 0.5),
         ($) => Add($, Multiply(new Color("white"), fresnel))
       ),
 

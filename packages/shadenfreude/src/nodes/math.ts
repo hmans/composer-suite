@@ -31,6 +31,9 @@ export const Divide = Operator("Divide", "/")
 export const Sin = (x: Float) => Float("sin(x)", { inputs: { x } })
 export const Cos = (x: Float) => Float("cos(x)", { inputs: { x } })
 
+export const Mix = <T extends GLSLType>(a: Value<T>, b: Value<T>, f: Float) =>
+  Variable(type(a), "mix(a, b, f)", { inputs: { a, b, f } })
+
 export type FresnelProps = {
   alpha?: Float
   bias?: Float
