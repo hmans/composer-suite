@@ -1,6 +1,32 @@
-import { Float, Value, Vec3 } from "../variables"
+import { type } from "../glslType"
+import { Float, GLSLType, Value, Variable, Vec3 } from "../variables"
 import { VertexNormalWorld, ViewMatrixAttribute } from "./geometry"
 import { Varying } from "./inputs"
+
+const buildMultiInputs = (values: Value[]) =>
+  values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
+
+export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
+  T extends GLSLType
+>(
+  a: Value<T>,
+  ...rest: Value[]
+) => {
+  const inputs = buildMultiInputs([a, ...rest])
+
+  /* a + b + c + ... */
+  const expression = Object.keys(inputs).join(operator)
+
+  return Variable(type(a), expression, {
+    title: `${title} (${type(a)})`,
+    inputs
+  })
+}
+
+export const Add = Operator("Add", "+")
+export const Subtract = Operator("Subtract", "-")
+export const Multiply = Operator("Multiply", "*")
+export const Divide = Operator("Divide", "/")
 
 export const Sin = (x: Value<"float">) => Float("sin(x)", { inputs: { x } })
 export const Cos = (x: Value<"float">) => Float("cos(x)", { inputs: { x } })

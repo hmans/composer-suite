@@ -1,11 +1,13 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
+  Add,
   compileShader,
   CustomShaderMaterialMaster,
   Fresnel,
   Join,
   Multiply,
+  Pipe,
   Sin,
   Time,
   Vec3,
@@ -19,31 +21,31 @@ export default function Playground() {
     const baseColor = Vec3(new Color("#8cf"))
 
     const Wobble = (frequency: number, amplitude: number) =>
-      Sin(Time.Multiply(frequency)).Multiply(amplitude)
+      Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
     const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
 
-    const WobbleScale = Join(
-      Wobble(0.8, 0.3),
-      Wobble(0.5, 0.7),
-      Wobble(0.7, 0.3)
-    ).Add(new Vector3(1, 1, 1))
+    const WobbleScale = Add(
+      Join(Wobble(0.8, 0.3), Wobble(0.5, 0.7), Wobble(0.7, 0.3)),
+      new Vector3(1, 1, 1)
+    )
 
     const fresnel = Fresnel()
 
-    /* Calculate vertex position */
-    const position = VertexPosition.Multiply(WobbleScale).Add(WobbleMove)
-
-    /* Calculate color */
-    const diffuseColor = baseColor.Add(Multiply(new Color("white"), fresnel))
-
-    /* Calculate alpha */
-    const alpha = fresnel
-
     const root = CustomShaderMaterialMaster({
-      position,
-      diffuseColor,
-      alpha
+      position: Pipe(
+        VertexPosition,
+        (v) => Multiply(v, WobbleScale),
+        (v) => Add(v, WobbleMove)
+      ),
+
+      diffuseColor: Pipe(
+        baseColor,
+        (v) => Add(v, Multiply(new Color("white"), fresnel)),
+        (v) => Multiply(v, 0.5)
+      ),
+
+      alpha: Pipe(fresnel)
     })
 
     return compileShader(root)
