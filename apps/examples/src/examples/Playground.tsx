@@ -222,24 +222,18 @@ const Noise = () =>
       noise: Varying("float", 0)
     },
 
-    vertexHeader: concatenate(
-      noiseFunctions,
-
-      `float ${f.turbulence}(vec3 p) {
-          float w = 100.0;
-          float t = -0.3;
-
-          for (float f = 1.0 ; f <= 10.0 ; f++) {
-            float power = pow( 2.0, f );
-            t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
-          }
-
-          return t;
-        }
-      `
-    ),
+    vertexHeader: concatenate(noiseFunctions),
     vertexBody: `
-      value = noise = ${f.turbulence}( .5 * normal + time * 0.4 );
+      vec3 p = .5 * normal + time * 0.4;
+      float w = 100.0;
+      float t = -0.3;
+
+      for (float f = 1.0 ; f <= 10.0 ; f++) {
+        float power = pow( 2.0, f );
+        t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+      }
+
+      value = noise = t;
     `,
     fragmentBody: `
       value = noise;
