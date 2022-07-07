@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compileShader doesn't render the same dependency twice 1`] = `
+"void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+  /*** BEGIN: Anonymous bool = true (2) ***/
+  bool bool_Anonymous_bool_true_2;
+  {
+    float a = float_Anonymous_float_1_0_1;
+    float b = float_Anonymous_float_1_0_1;
+    bool value = true;
+    bool_Anonymous_bool_true_2 = value;
+  }
+  /*** END: Anonymous bool = true (2) ***/
+
+}"
+`;
+
+exports[`compileShader includes the variable's chunks if it has them 1`] = `
+"/*** BEGIN: Anonymous float = 1.0 (1) ***/
+uniform float u_time;
+/*** END: Anonymous float = 1.0 (1) ***/
+
+void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+}"
+`;
+
+exports[`compileShader includes the variable's chunks if it has them 2`] = `
+"/*** BEGIN: Anonymous float = 1.0 (1) ***/
+uniform float u_time;
+/*** END: Anonymous float = 1.0 (1) ***/
+
+void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+}"
+`;
+
+exports[`compileShader resolves dependencies to other variables 1`] = `
+"void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+  /*** BEGIN: Anonymous float = anonymous_4 (2) ***/
+  float float_Anonymous_float_anonymous_4_2;
+  {
+    float value = float_Anonymous_float_1_0_1;
+    float_Anonymous_float_anonymous_4_2 = value;
+  }
+  /*** END: Anonymous float = anonymous_4 (2) ***/
+
+}"
+`;
+
+exports[`compileShader returns a fragmentShader 1`] = `
+"void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+}"
+`;
+
+exports[`compileShader returns a vertexShader 1`] = `
+"void main()
+{
+  /*** BEGIN: Anonymous float = 1.0 (1) ***/
+  float float_Anonymous_float_1_0_1;
+  {
+    float value = 1.0;
+    float_Anonymous_float_1_0_1 = value;
+  }
+  /*** END: Anonymous float = 1.0 (1) ***/
+
+}"
+`;

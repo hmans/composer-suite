@@ -7,38 +7,14 @@ describe("compileShader", () => {
     const v = variable("float", 1)
     const shader = compileShader(v)
 
-    expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-      }"
-    `)
+    expect(shader.vertexShader).toMatchSnapshot()
   })
 
   it("returns a fragmentShader", () => {
     const v = variable("float", 1)
     const shader = compileShader(v)
 
-    expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-      }"
-    `)
+    expect(shader.fragmentShader).toMatchSnapshot()
   })
 
   it("includes the variable's chunks if it has them", () => {
@@ -54,43 +30,8 @@ describe("compileShader", () => {
 
     const shader = compileShader(v)
 
-    expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Anonymous float = 1.0 (1) ***/
-      uniform float u_time;
-      /*** END: Anonymous float = 1.0 (1) ***/
-
-      void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          gl_Position = vec4(sin(u_time), 0.0, 0.0, 1.0);
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-      }"
-    `)
-
-    expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: Anonymous float = 1.0 (1) ***/
-      uniform float u_time;
-      /*** END: Anonymous float = 1.0 (1) ***/
-
-      void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          gl_FragColor = vec4(cos(u_time), 0.0, 0.0, 1.0);
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-      }"
-    `)
+    expect(shader.vertexShader).toMatchSnapshot()
+    expect(shader.fragmentShader).toMatchSnapshot()
   })
 
   it("resolves dependencies to other variables", () => {
@@ -99,27 +40,7 @@ describe("compileShader", () => {
 
     const shader = compileShader(root)
 
-    expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-        /*** BEGIN: Anonymous float = anonymous_4 (2) ***/
-        float float_Anonymous_float_anonymous_4_2;
-        {
-          float value = float_Anonymous_float_1_0_1;
-          float_Anonymous_float_anonymous_4_2 = value;
-        }
-        /*** END: Anonymous float = anonymous_4 (2) ***/
-
-      }"
-    `)
+    expect(shader.vertexShader).toMatchSnapshot()
   })
 
   it("doesn't render the same dependency twice", () => {
@@ -128,28 +49,6 @@ describe("compileShader", () => {
 
     const shader = compileShader(b)
 
-    expect(shader.fragmentShader).toMatchInlineSnapshot(`
-      "void main()
-      {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
-        {
-          float value = 1.0;
-          float_Anonymous_float_1_0_1 = value;
-        }
-        /*** END: Anonymous float = 1.0 (1) ***/
-
-        /*** BEGIN: Anonymous bool = true (2) ***/
-        bool bool_Anonymous_bool_true_2;
-        {
-          float a = float_Anonymous_float_1_0_1;
-          float b = float_Anonymous_float_1_0_1;
-          bool value = true;
-          bool_Anonymous_bool_true_2 = value;
-        }
-        /*** END: Anonymous bool = true (2) ***/
-
-      }"
-    `)
+    expect(shader.fragmentShader).toMatchSnapshot()
   })
 })
