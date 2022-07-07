@@ -8,6 +8,7 @@ import {
   Fresnel,
   Join,
   Multiply,
+  Normalize,
   Pipe,
   Sin,
   Time,
@@ -16,6 +17,8 @@ import {
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+
+const StupidNoise = (x: Float) => Float("rand(floor(x))", { inputs: { x } })
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
@@ -31,7 +34,7 @@ export default function Playground() {
       new Vector3(1, 1, 1)
     )
 
-    const fresnel = Fresnel()
+    const fresnel = Fresnel({ intensity: 1.2 })
 
     const root = CustomShaderMaterialMaster({
       position: Pipe(
@@ -41,12 +44,13 @@ export default function Playground() {
       ),
 
       diffuseColor: Pipe(
-        baseColor,
-        ($) => Add($, Multiply(new Color("white"), fresnel)),
-        ($) => Multiply($, 0.5)
+        VertexPosition,
+        ($) => Normalize($),
+        ($) => Multiply($, 0.5),
+        ($) => Add($, Multiply(new Color("white"), fresnel))
       ),
 
-      alpha: Pipe(fresnel)
+      alpha: 1 //fresnel
     })
 
     return compileShader(root)

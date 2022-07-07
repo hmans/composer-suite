@@ -1,3 +1,4 @@
+import { type } from "../glslType"
 import { Float, isType, Value, Variable, Vec2, Vec3, Vec4 } from "../variables"
 
 export type Vector2Components = [Float, Float]
@@ -73,3 +74,6 @@ export const Split = <V extends Value<VectorTypes>>(vector: V) => {
   if (isType(vector, "vec4")) return SplitVector4(vector) as SplitVector<V>
   throw new Error("Could not split value: " + vector)
 }
+
+export const Normalize = <T extends "vec2" | "vec3" | "vec4">(x: Value<T>) =>
+  Variable(type(x), "normalize(x)", { inputs: { x } }) as Variable<T>
