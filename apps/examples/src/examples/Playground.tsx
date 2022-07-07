@@ -21,6 +21,9 @@ import idGenerator from "shadenfreude/src/lib/idGenerator"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
+const Smoothstep = (min: Float, max: Float, v: Float) =>
+  Float("smoothstep(min, max, v)", { inputs: { min, max, v } })
+
 const noiseFunctions = `
 //
 // GLSL textureless classic 3D noise "cnoise",
@@ -211,11 +214,15 @@ const f = {
   thatAnnoyingVarying: getUniqueID()
 }
 
-const StupidVertexDisplacement = (amplitude: Float = 1) =>
+const StupidVertexDisplacement = (
+  amplitude: Float = 1,
+  amplitude2: Float = 1
+) =>
   Vec3(new Vector3(), {
     inputs: {
       time: Time,
-      amplitude
+      amplitude,
+      amplitude2
     },
 
     vertexHeader: concatenate(
@@ -239,10 +246,10 @@ const StupidVertexDisplacement = (amplitude: Float = 1) =>
 
     vertexBody: `
       // get a turbulent 3d noise using the normal, normal to high freq
-      noise = 0.4 * ${f.turbulence}( .5 * normal + time * 0.4 );
+      noise = amplitude2 * ${f.turbulence}( .5 * normal + time * 0.4 );
 
       // get a 3d noise using the position, low frequency
-      float b = 10.0 * amplitude * pnoise( 10.0 * position, vec3( 100.0 ) );
+      float b = amplitude * pnoise( 10.0 * position, vec3( 100.0 ) );
 
       // compose both noises
       float displacement = - 10. * noise + b;
@@ -267,33 +274,19 @@ export default function Playground() {
     const Wobble = (frequency: Float, amplitude: Float) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
-    const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
-
-    const WobbleScale = Add(
-      Join(Wobble(0.8, 0.3), Wobble(0.5, 0.7), Wobble(0.7, 0.3)),
-      new Vector3(1, 1, 1)
-    )
-
     const fresnel = Fresnel()
 
     const root = CustomShaderMaterialMaster({
-      // position: Pipe(
-      //   VertexPosition,
-      //   ($) => Multiply($, WobbleScale),
-      //   ($) => Add($, WobbleMove)
-      // ),
-
-      position: StupidVertexDisplacement(),
+      position: StupidVertexDisplacement(
+        Add(Multiply(Smoothstep(-0.5, 1, Sin(Multiply(Time, 2.5))), 5), 2),
+        0.35
+      ),
 
       diffuseColor: Pipe(
-        Vec3(new Color("brown")),
+        Vec3(new Color("#333")),
         ($) => Multiply($, StupidFragmentAO()),
         ($) => Add($, Multiply(Vec3(new Color("white)")), fresnel))
       )
-
-      // diffuseColor: Pipe(Vec3(new Vector3()), ($) => {
-      //   return Join(...Split(UV), 0)
-      // }),
     })
 
     return compileShader(root)
