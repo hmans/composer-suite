@@ -5,22 +5,16 @@ import {
   compileShader,
   CustomShaderMaterialMaster,
   Fresnel,
-  GLSLType,
   Join,
   Multiply,
+  Pipe,
   Sin,
   Time,
-  Value,
   Vec3,
   VertexPosition
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-
-const Pipe = <T extends GLSLType>(
-  v: Value<T>,
-  ...ops: ((v: Value<T>) => Value<T>)[]
-) => ops.reduce((acc, op) => op(acc), v)
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
