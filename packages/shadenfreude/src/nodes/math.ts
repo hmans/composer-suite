@@ -1,9 +1,9 @@
-import { float, Value, vec3 } from "../variables"
+import { Float, Value, Vec3 } from "../variables"
 import { VertexNormal } from "./geometry"
 import { Varying } from "./inputs"
 
-export const Sin = (x: Value<"float">) => float("sin(x)", { inputs: { x } })
-export const Cos = (x: Value<"float">) => float("cos(x)", { inputs: { x } })
+export const Sin = (x: Value<"float">) => Float("sin(x)", { inputs: { x } })
+export const Cos = (x: Value<"float">) => Float("cos(x)", { inputs: { x } })
 
 export type FresnelProps = {
   alpha?: Value<"float">
@@ -20,7 +20,7 @@ export const Fresnel = ({
   power = 2,
   factor = 1
 }: FresnelProps = {}) =>
-  float(0, {
+  Float(0, {
     inputs: {
       alpha,
       bias,
@@ -40,7 +40,7 @@ export const Fresnel = ({
 
 export const ViewDirection = Varying(
   "vec3",
-  vec3("vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])", {
+  Vec3("vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])", {
     only: "vertex"
   })
 )

@@ -1,5 +1,5 @@
 import { Vector2, Vector3, Vector4 } from "three"
-import { vec3, vec4 } from "../variables"
+import { Vec3, Vec4 } from "../variables"
 import { Join, Split } from "./vectors"
 
 describe("Join", () => {

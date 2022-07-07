@@ -1,4 +1,4 @@
-import { float, isType, Value, Variable, vec2, vec3, vec4 } from "../variables"
+import { Float, isType, Value, Variable, Vec2, Vec3, Vec4 } from "../variables"
 
 export type Vector2Components = [Value<"float">, Value<"float">]
 export type Vector3Components = [Value<"float">, Value<"float">, Value<"float">]
@@ -25,36 +25,36 @@ export const Join = <
   const [x, y, z, w] = args
 
   if (w !== undefined) {
-    return vec4("vec4(x, y, z, w)", {
+    return Vec4("vec4(x, y, z, w)", {
       inputs: { x, y, z, w }
     }) as JoinReturnType<Args>
   }
 
   if (z !== undefined) {
-    return vec3("vec3(x, y, z)", { inputs: { x, y, z } }) as JoinReturnType<
+    return Vec3("vec3(x, y, z)", { inputs: { x, y, z } }) as JoinReturnType<
       Args
     >
   }
 
-  return vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<Args>
+  return Vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<Args>
 }
 
 export const SplitVector2 = (vector: Value<"vec2">) => ({
-  x: float("vector.x", { inputs: { vector } }),
-  y: float("vector.y", { inputs: { vector } })
+  x: Float("vector.x", { inputs: { vector } }),
+  y: Float("vector.y", { inputs: { vector } })
 })
 
 export const SplitVector3 = (vector: Value<"vec3">) => ({
-  x: float("vector.x", { inputs: { vector } }),
-  y: float("vector.y", { inputs: { vector } }),
-  z: float("vector.z", { inputs: { vector } })
+  x: Float("vector.x", { inputs: { vector } }),
+  y: Float("vector.y", { inputs: { vector } }),
+  z: Float("vector.z", { inputs: { vector } })
 })
 
 export const SplitVector4 = (vector: Value<"vec4">) => ({
-  x: float("vector.x", { inputs: { vector } }),
-  y: float("vector.y", { inputs: { vector } }),
-  z: float("vector.z", { inputs: { vector } }),
-  w: float("vector.w", { inputs: { vector } })
+  x: Float("vector.x", { inputs: { vector } }),
+  y: Float("vector.y", { inputs: { vector } }),
+  z: Float("vector.z", { inputs: { vector } }),
+  w: Float("vector.w", { inputs: { vector } })
 })
 
 type VectorTypes = "vec2" | "vec3" | "vec4"

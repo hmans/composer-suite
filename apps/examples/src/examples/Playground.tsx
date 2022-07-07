@@ -8,7 +8,7 @@ import {
   Multiply,
   Sin,
   Time,
-  vec3,
+  Vec3,
   VertexPosition
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
@@ -16,7 +16,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
-    const baseColor = vec3(new Color("hotpink"))
+    const baseColor = Vec3(new Color("hotpink"))
 
     const Wobble = (frequency: number, amplitude: number) =>
       Sin(Time.Multiply(frequency)).Multiply(amplitude)

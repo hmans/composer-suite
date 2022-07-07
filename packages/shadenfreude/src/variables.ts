@@ -54,7 +54,7 @@ const nextAnonymousId = idGenerator()
 const buildMultiInputs = (values: Value[]) =>
   values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
 
-export const variable = <T extends GLSLType>(
+export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
   extras: Partial<Variable<T>> = {}
@@ -94,15 +94,15 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
   extras?: Partial<Variable<T>>
-) => variable(type, v, extras)
+) => Variable(type, v, extras)
 
-export const float = makeVariableHelper("float")
-export const bool = makeVariableHelper("bool")
-export const vec2 = makeVariableHelper("vec2")
-export const vec3 = makeVariableHelper("vec3")
-export const vec4 = makeVariableHelper("vec4")
-export const mat3 = makeVariableHelper("mat3")
-export const mat4 = makeVariableHelper("mat4")
+export const Float = makeVariableHelper("float")
+export const Bool = makeVariableHelper("bool")
+export const Vec2 = makeVariableHelper("vec2")
+export const Vec3 = makeVariableHelper("vec3")
+export const Vec4 = makeVariableHelper("vec4")
+export const Mat3 = makeVariableHelper("mat3")
+export const Mat4 = makeVariableHelper("mat4")
 
 /*** OPERATORS ***
 
@@ -123,7 +123,7 @@ export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   /* a + b + c + ... */
   const expression = Object.keys(inputs).join(operator)
 
-  return variable(type(a), expression, {
+  return Variable(type(a), expression, {
     title: `${title} (${type(a)})`,
     inputs
   })
