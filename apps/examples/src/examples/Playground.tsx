@@ -23,8 +23,6 @@ const StupidNoise = (x: Float) => Float("rand(floor(x))", { inputs: { x } })
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
-    const baseColor = Vec3(new Color("#8cf"))
-
     const Wobble = (frequency: Float, amplitude: Float) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
