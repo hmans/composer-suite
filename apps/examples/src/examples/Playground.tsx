@@ -2,17 +2,22 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
   Add,
+  block,
   compileShader,
+  concatenate,
   CustomShaderMaterialMaster,
   Float,
   Fresnel,
+  GLSLType,
   Join,
   Multiply,
+  Parts,
   Pipe,
   Sin,
   Time,
   Vec3
 } from "shadenfreude"
+import idGenerator from "shadenfreude/src/lib/idGenerator"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
@@ -196,32 +201,48 @@ float pnoise(vec3 P, vec3 rep)
 }
 `
 
-const StupidVertexDisplacement = () =>
+const nextFunctionID = idGenerator()
+
+const getUniqueID = () => `uuid_${nextFunctionID()}`
+
+const f = {
+  turbulence: getUniqueID(),
+  noiseFunctions: getUniqueID(),
+  thatAnnoyingVarying: getUniqueID()
+}
+
+const StupidVertexDisplacement = (amplitude?: Float = 1) =>
   Vec3(new Vector3(), {
-    vertexHeader: `
-      ${noiseFunctions}
+    inputs: {
+      time: Time,
+      amplitude
+    },
 
-      varying float noise;
+    vertexHeader: concatenate(
+      noiseFunctions,
 
-      float turbulence( vec3 p ) {
-        float w = 100.0;
-        float t = -.5;
+      "varying float noise;",
 
-        for (float f = 1.0 ; f <= 10.0 ; f++ ){
-          float power = pow( 2.0, f );
-          t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+      `float ${f.turbulence}(vec3 p) {
+          float w = 100.0;
+          float t = -0.3;
+
+          for (float f = 1.0 ; f <= 10.0 ; f++) {
+            float power = pow( 2.0, f );
+            t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+          }
+
+          return t;
         }
-
-        return t;
-      }
-    `,
+      `
+    ),
 
     vertexBody: `
       // get a turbulent 3d noise using the normal, normal to high freq
-      noise = 10.0 *  -.10 * turbulence( .5 * normal );
+      noise = 0.4 * ${f.turbulence}( .5 * normal + time * 0.4 );
 
       // get a 3d noise using the position, low frequency
-      float b = 5.0 * pnoise( 0.05 * position, vec3( 100.0 ) );
+      float b = 10.0 * amplitude * pnoise( 10.0 * position, vec3( 100.0 ) );
 
       // compose both noises
       float displacement = - 10. * noise + b;
@@ -262,10 +283,10 @@ export default function Playground() {
       //   ($) => Add($, WobbleMove)
       // ),
 
-      position: Add(StupidVertexDisplacement(), WobbleMove),
+      position: StupidVertexDisplacement(),
 
       diffuseColor: Pipe(
-        Vec3(new Color("hotpink")),
+        Vec3(new Color("brown")),
         ($) => Multiply($, StupidFragmentAO()),
         ($) => Add($, Multiply(Vec3(new Color("white)")), fresnel))
       )
@@ -286,7 +307,8 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <sphereGeometry args={[8, 32, 32]} />
+        <icosahedronGeometry args={[10, 128]} />
+
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shader}
