@@ -35,6 +35,7 @@ void main()
         0.4117647058823529,
         0.7058823529411765
       );
+    float alpha = 1.0;
     bool value = true;
     csm_Position = position;
     bool_CustomShaderMaterial_Master_3 = value;
@@ -69,8 +70,9 @@ void main()
         0.4117647058823529,
         0.7058823529411765
       );
+    float alpha = 1.0;
     bool value = true;
-    csm_DiffuseColor = vec4(diffuseColor, 1.0);
+    csm_DiffuseColor = vec4(diffuseColor, alpha);
     bool_CustomShaderMaterial_Master_3 = value;
   }
   /*** END: CustomShaderMaterial Master (3) ***/
