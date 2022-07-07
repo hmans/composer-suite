@@ -16,7 +16,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
-    const baseColor = Vec3(new Color("hotpink"))
+    const baseColor = Vec3(new Color("#8cf"))
 
     const Wobble = (frequency: number, amplitude: number) =>
       Sin(Time.Multiply(frequency)).Multiply(amplitude)
@@ -29,10 +29,12 @@ export default function Playground() {
       Wobble(0.7, 0.3)
     ).Add(new Vector3(1, 1, 1))
 
+    const fresnel = Fresnel()
+
     const root = CustomShaderMaterialMaster({
       position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
-
-      diffuseColor: baseColor.Add(Multiply(new Color("white"), Fresnel()))
+      diffuseColor: baseColor.Add(Multiply(new Color("white"), fresnel)),
+      alpha: fresnel
     })
 
     return compileShader(root)
@@ -47,7 +49,11 @@ export default function Playground() {
     <group position-y={15}>
       <mesh>
         <sphereGeometry args={[8, 32, 32]} />
-        <CustomShaderMaterial baseMaterial={MeshStandardMaterial} {...shader} />
+        <CustomShaderMaterial
+          baseMaterial={MeshStandardMaterial}
+          {...shader}
+          transparent
+        />
       </mesh>
     </group>
   )
