@@ -211,7 +211,7 @@ const f = {
   thatAnnoyingVarying: getUniqueID()
 }
 
-const StupidVertexDisplacement = (amplitude?: Float = 1) =>
+const StupidVertexDisplacement = (amplitude: Float = 1) =>
   Vec3(new Vector3(), {
     inputs: {
       time: Time,
