@@ -5,6 +5,7 @@ import {
   compileShader,
   CustomShaderMaterialMaster,
   Fresnel,
+  GLSLType,
   Join,
   Multiply,
   Sin,
@@ -16,9 +17,10 @@ import {
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-type PipeOperation = [ctor: any, ...args: any[]]
-
-const Pipe = (v: Value, ...pipe: PipeOperation[]) => pipe.reduce((acc, [ctor, ...args]) => ctor(acc, ...args), v)
+const Pipe = <T extends GLSLType>(
+  v: Value<T>,
+  ...ops: ((v: Value<T>) => Value<T>)[]
+) => ops.reduce((acc, op) => op(acc), v)
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
@@ -36,22 +38,20 @@ export default function Playground() {
 
     const fresnel = Fresnel()
 
-    /* Calculate vertex position */
-    const position = Pipe(VertexPosition,
-      [Multiply, WobbleScale],
-      [Add, WobbleMove])
-
-    /* Calculate color */
-    const diffuseColor = Pipe(baseColor,
-      [Add, Multiply(new Color("white"), fresnel)])
-
-    /* Calculate alpha */
-    const alpha = fresnel
-
     const root = CustomShaderMaterialMaster({
-      position,
-      diffuseColor,
-      alpha
+      position: Pipe(
+        VertexPosition,
+        (v) => Multiply(v, WobbleScale),
+        (v) => Add(v, WobbleMove)
+      ),
+
+      diffuseColor: Pipe(
+        baseColor,
+        (v) => Add(v, Multiply(new Color("white"), fresnel)),
+        (v) => Multiply(v, 0.5)
+      ),
+
+      alpha: Pipe(fresnel)
     })
 
     return compileShader(root)
