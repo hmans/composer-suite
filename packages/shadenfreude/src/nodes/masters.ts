@@ -1,4 +1,4 @@
-import { assignment } from "../lib/concatenator3000"
+import { assignment, concatenate } from "../lib/concatenator3000"
 import { Value, bool } from "../variables"
 
 export type CustomShaderMaterialMasterprops = {
@@ -10,8 +10,15 @@ export const CustomShaderMaterialMaster = (
   inputs: CustomShaderMaterialMasterprops
 ) =>
   bool(true, {
-    title: "Master",
+    title: "CustomShaderMaterial Master",
     inputs,
-    vertexBody: assignment("csm_Position", "position"),
-    fragmentBody: assignment("csm_DiffuseColor", "vec4(diffuseColor, 1.0)")
+
+    vertexBody: concatenate(
+      inputs.position && assignment("csm_Position", "position")
+    ),
+
+    fragmentBody: concatenate(
+      inputs.diffuseColor &&
+        assignment("csm_DiffuseColor", "vec4(diffuseColor, 1.0)")
+    )
   })

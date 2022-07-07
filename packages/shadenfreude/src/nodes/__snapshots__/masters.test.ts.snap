@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 1`] = `
+"void main()
+{
+  /*** BEGIN: CustomShaderMaterial Master (1) ***/
+  bool bool_CustomShaderMaterial_Master_1;
+  {
+    vec3 diffuseColor = 
+      vec3(
+        1.0,
+        0.4117647058823529,
+        0.7058823529411765
+      );
+    bool value = true;
+    bool_CustomShaderMaterial_Master_1 = value;
+  }
+  /*** END: CustomShaderMaterial Master (1) ***/
+
+}"
+`;
+
+exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 2`] = `
+"void main()
+{
+  /*** BEGIN: CustomShaderMaterial Master (1) ***/
+  bool bool_CustomShaderMaterial_Master_1;
+  {
+    vec3 diffuseColor = 
+      vec3(
+        1.0,
+        0.4117647058823529,
+        0.7058823529411765
+      );
+    bool value = true;
+    csm_DiffuseColor = vec4(diffuseColor, 1.0);
+    bool_CustomShaderMaterial_Master_1 = value;
+  }
+  /*** END: CustomShaderMaterial Master (1) ***/
+
+}"
+`;
