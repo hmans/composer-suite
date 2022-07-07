@@ -31,10 +31,19 @@ export default function Playground() {
 
     const fresnel = Fresnel()
 
+    /* Calculate vertex position */
+    const position = VertexPosition.Multiply(WobbleScale).Add(WobbleMove)
+
+    /* Calculate color */
+    const diffuseColor = baseColor.Add(Multiply(new Color("white"), fresnel))
+
+    /* Calculate alpha */
+    const alpha = fresnel
+
     const root = CustomShaderMaterialMaster({
-      position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
-      diffuseColor: baseColor.Add(Multiply(new Color("white"), fresnel)),
-      alpha: fresnel
+      position,
+      diffuseColor,
+      alpha
     })
 
     return compileShader(root)
