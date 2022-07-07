@@ -1,6 +1,6 @@
-import { GLSLType, Value } from "../variables"
+import { GLSLType, Variable } from "../variables"
 
-export const Pipe = <T extends GLSLType>(
-  v: Value<T>,
-  ...ops: ((v: Value<T>) => Value<T>)[]
+export const Pipe = <T extends Variable<GLSLType>>(
+  v: T,
+  ...ops: ((v: T) => T)[]
 ) => ops.reduce((acc, op) => op(acc), v)
