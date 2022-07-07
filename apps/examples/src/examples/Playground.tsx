@@ -215,15 +215,10 @@ const f = {
   thatAnnoyingVarying: getUniqueID()
 }
 
-const MonolithicVertexDisplacement = (
-  amplitude: Float = 1,
-  amplitude2: Float = 1
-) =>
-  Vec3(new Vector3(), {
+const Noise = () =>
+  Float(0, {
     inputs: {
       time: Time,
-      amplitude,
-      amplitude2,
       noise: Varying("float", 0)
     },
 
@@ -243,16 +238,32 @@ const MonolithicVertexDisplacement = (
         }
       `
     ),
+    vertexBody: `
+      value = noise = ${f.turbulence}( .5 * normal + time * 0.4 );
+    `,
+    fragmentBody: `
+      value = noise;
+    `
+  })
+
+const MonolithicVertexDisplacement = (
+  amplitude: Float = 1,
+  amplitude2: Float = 1
+) =>
+  Vec3(new Vector3(), {
+    only: "vertex",
+
+    inputs: {
+      time: Time,
+      amplitude,
+      amplitude2,
+      noise: Noise()
+    },
 
     vertexBody: `
-      noise = amplitude2 * ${f.turbulence}( .5 * normal + time * 0.4 );
-      float b = amplitude * pnoise( 10.0 * position, vec3( 100.0 ) );
-      float displacement = - 10. * noise + b;
-
-      // move the position along the normal and transform it
+      float b = pnoise( 10.0 * position, vec3( 100.0 ) );
+      float displacement = amplitude2 * noise + amplitude * b;
       vec3 newPosition = position + normal * displacement;
-
-      // write to the output value
       value = newPosition;
     `
   })
@@ -267,7 +278,7 @@ export default function Playground() {
     const root = CustomShaderMaterialMaster({
       position: MonolithicVertexDisplacement(
         Add(Multiply(Smoothstep(0.5, 1, Sin(Multiply(Time, 6))), 8), 2),
-        0.35
+        3.5
       ),
 
       diffuseColor: Pipe(Vec3(new Color("#333")), ($) =>
