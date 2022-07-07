@@ -76,4 +76,4 @@ export const Split = <V extends Value<VectorTypes>>(vector: V) => {
 }
 
 export const Normalize = <T extends "vec2" | "vec3" | "vec4">(x: Value<T>) =>
-  Variable(type(x), "normalize(x)", { inputs: { x } }) as Variable<T>
+  Variable(type(x) as T, "normalize(x)", { inputs: { x } })
