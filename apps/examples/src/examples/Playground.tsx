@@ -1,41 +1,44 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
-  Add,
-  assignment,
-  bool,
   compileShader,
+  CustomShaderMaterialMaster,
+  Fresnel,
+  Join,
   Multiply,
   Sin,
   Time,
-  Value,
-  vec3,
+  Vec3,
   VertexPosition
 } from "shadenfreude"
-import { Color, MeshStandardMaterial } from "three"
+import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-
-type CSMMasterProps = {
-  position?: Value<"vec3">
-  diffuseColor?: Value<"vec3">
-}
-
-const CSMMaster = (inputs: CSMMasterProps) =>
-  bool(true, {
-    title: "Master",
-    inputs,
-    vertexBody: assignment("csm_Position", "position"),
-    fragmentBody: assignment("csm_DiffuseColor", "vec4(diffuseColor, 1.0)")
-  })
 
 export default function Playground() {
   const { update, ...shader } = useMemo(() => {
-    const baseColor = vec3(new Color("hotpink"))
+    const baseColor = Vec3(new Color("hotpink"))
 
-    const root = CSMMaster({
-      position: Multiply(VertexPosition, Sin(Time)),
+    const Wobble = (frequency: number, amplitude: number) =>
+      Sin(Time.Multiply(frequency)).Multiply(amplitude)
 
-      diffuseColor: Multiply(baseColor, Add(1, Multiply(Sin(Time), 0.5)))
+    // const Wobble1 = (frequency: number, amplitude: number) =>
+    //   Sin(Time.Multiply(frequency)).Multiply(amplitude)
+
+    // const Wobble2 = (frequency: number, amplitude: number) =>
+    //   Multiply(Sin(Multiply(Time, frequency)), amplitude)
+
+    const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))
+
+    const WobbleScale = Join(
+      Wobble(0.8, 0.3),
+      Wobble(0.5, 0.7),
+      Wobble(0.7, 0.3)
+    ).Add(new Vector3(1, 1, 1))
+
+    const root = CustomShaderMaterialMaster({
+      position: VertexPosition.Multiply(WobbleScale).Add(WobbleMove),
+
+      diffuseColor: baseColor.Add(Multiply(new Color("white"), Fresnel()))
     })
 
     return compileShader(root)

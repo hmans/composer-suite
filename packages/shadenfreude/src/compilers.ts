@@ -14,8 +14,11 @@ import { isVariable, Variable } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
-const variableBeginHeader = (v: Variable) => `/*** BEGIN: ${v.title} ***/`
-const variableEndHeader = (v: Variable) => `/*** END: ${v.title} ***/\n`
+const variableBeginComment = (v: Variable) =>
+  `/*** BEGIN: ${v.title} (${v.id}) ***/`
+
+const variableEndComment = (v: Variable) =>
+  `/*** END: ${v.title} (${v.id}) ***/\n`
 
 export const compileHeader = (
   v: Variable,
@@ -31,9 +34,9 @@ export const compileHeader = (
     dependencies(v).map((input) => compileHeader(input, program, stack)),
 
     v[`${program}Header`] && [
-      variableBeginHeader(v),
+      variableBeginComment(v),
       v[`${program}Header`],
-      variableEndHeader(v)
+      variableEndComment(v)
     ]
   ]
 }
@@ -51,7 +54,7 @@ export const compileBody = (
     /* Render dependencies */
     dependencies(v).map((input) => compileBody(input, program, stack)),
 
-    variableBeginHeader(v),
+    variableBeginComment(v),
 
     /* Declare the variable */
     statement(v.type, v.name),
@@ -74,7 +77,7 @@ export const compileBody = (
       assignment(v.name, "value")
     ),
 
-    variableEndHeader(v)
+    variableEndComment(v)
   ]
 }
 
@@ -91,10 +94,11 @@ const prepare = (v: Variable, stack = dependencyStack()) => {
   /* Prepare dependencies first */
   dependencies(v).forEach((d) => prepare(d, stack))
 
+  /* Update the node's ID */
+  v.id = stack.nextId()
+
   /* Give this variable a better name */
-  const id = stack.nextId()
-  v.name = identifier(v.type, sluggify(v.title), id)
-  v.title += ` (${id})`
+  v.name = identifier(v.type, sluggify(v.title), v.id)
 }
 
 export const compileShader = (root: Variable) => {
