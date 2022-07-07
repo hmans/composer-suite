@@ -15,6 +15,7 @@ import {
   Pipe,
   Sin,
   Time,
+  Varying,
   Vec3
 } from "shadenfreude"
 import idGenerator from "shadenfreude/src/lib/idGenerator"
@@ -214,7 +215,7 @@ const f = {
   thatAnnoyingVarying: getUniqueID()
 }
 
-const StupidVertexDisplacement = (
+const MonolithicVertexDisplacement = (
   amplitude: Float = 1,
   amplitude2: Float = 1
 ) =>
@@ -222,13 +223,12 @@ const StupidVertexDisplacement = (
     inputs: {
       time: Time,
       amplitude,
-      amplitude2
+      amplitude2,
+      noise: Varying("float", 0)
     },
 
     vertexHeader: concatenate(
       noiseFunctions,
-
-      "varying float noise;",
 
       `float ${f.turbulence}(vec3 p) {
           float w = 100.0;
@@ -245,13 +245,8 @@ const StupidVertexDisplacement = (
     ),
 
     vertexBody: `
-      // get a turbulent 3d noise using the normal, normal to high freq
       noise = amplitude2 * ${f.turbulence}( .5 * normal + time * 0.4 );
-
-      // get a 3d noise using the position, low frequency
       float b = amplitude * pnoise( 10.0 * position, vec3( 100.0 ) );
-
-      // compose both noises
       float displacement = - 10. * noise + b;
 
       // move the position along the normal and transform it
@@ -259,13 +254,6 @@ const StupidVertexDisplacement = (
 
       // write to the output value
       value = newPosition;
-    `
-  })
-
-const StupidFragmentAO = () =>
-  Vec3("vec3(1.0 - 2.0 * noise)", {
-    fragmentHeader: `
-      varying float noise;
     `
   })
 
@@ -277,15 +265,13 @@ export default function Playground() {
     const fresnel = Fresnel()
 
     const root = CustomShaderMaterialMaster({
-      position: StupidVertexDisplacement(
-        Add(Multiply(Smoothstep(-0.5, 1, Sin(Multiply(Time, 2.5))), 5), 2),
+      position: MonolithicVertexDisplacement(
+        Add(Multiply(Smoothstep(0.5, 1, Sin(Multiply(Time, 6))), 8), 2),
         0.35
       ),
 
-      diffuseColor: Pipe(
-        Vec3(new Color("#333")),
-        ($) => Multiply($, StupidFragmentAO()),
-        ($) => Add($, Multiply(Vec3(new Color("white)")), fresnel))
+      diffuseColor: Pipe(Vec3(new Color("#333")), ($) =>
+        Add($, Multiply(Vec3(new Color("white)")), fresnel))
       )
     })
 
@@ -300,7 +286,7 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <icosahedronGeometry args={[10, 128]} />
+        <icosahedronGeometry args={[8, 64]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
