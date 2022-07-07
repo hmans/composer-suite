@@ -1,5 +1,5 @@
 import { Float, Value, Vec3 } from "../variables"
-import { VertexNormal } from "./geometry"
+import { VertexNormalWorld, ViewMatrixAttribute } from "./geometry"
 import { Varying } from "./inputs"
 
 export const Sin = (x: Value<"float">) => Float("sin(x)", { inputs: { x } })
@@ -27,11 +27,11 @@ export const Fresnel = ({
       intensity,
       power,
       factor,
-      viewDirection: ViewDirection,
-      worldNormal: VertexNormal
+      ViewDirection,
+      normal: VertexNormalWorld
     },
     fragmentBody: `
-      float f_a = (factor + dot(viewDirection, worldNormal));
+      float f_a = (factor + dot(ViewDirection, normal));
       float f_fresnel = bias + intensity * pow(abs(f_a), power);
       f_fresnel = clamp(f_fresnel, 0.0, 1.0);
       value = f_fresnel;
@@ -40,7 +40,8 @@ export const Fresnel = ({
 
 export const ViewDirection = Varying(
   "vec3",
-  Vec3("vec3(-viewMatrix[0][2], -viewMatrix[1][2], -viewMatrix[2][2])", {
+  Vec3("vec3(-ViewMatrix[0][2], -ViewMatrix[1][2], -ViewMatrix[2][2])", {
+    inputs: { ViewMatrix: ViewMatrixAttribute },
     only: "vertex"
   })
 )
