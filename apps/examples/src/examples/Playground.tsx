@@ -36,14 +36,14 @@ export default function Playground() {
     const root = CustomShaderMaterialMaster({
       position: Pipe(
         VertexPosition,
-        (v) => Multiply(v, WobbleScale),
-        (v) => Add(v, WobbleMove)
+        ($) => Multiply($, WobbleScale),
+        ($) => Add($, WobbleMove)
       ),
 
       diffuseColor: Pipe(
         baseColor,
-        (v) => Add(v, Multiply(new Color("white"), fresnel)),
-        (v) => Multiply(v, 0.5)
+        ($) => Add($, Multiply(new Color("white"), fresnel)),
+        ($) => Multiply($, 0.5)
       ),
 
       alpha: Pipe(fresnel)
