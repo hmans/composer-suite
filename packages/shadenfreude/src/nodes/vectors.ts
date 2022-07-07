@@ -35,37 +35,32 @@ export const Join = <
   return Vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<Args>
 }
 
-export const SplitVector2 = (vector: Vec2) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } })
-})
+export const SplitVector2 = (vector: Vec2) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } })
+]
 
-export const SplitVector3 = (vector: Vec3) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } }),
-  z: Float("vector.z", { inputs: { vector } })
-})
+export const SplitVector3 = (vector: Vec3) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } }),
+  Float("vector.z", { inputs: { vector } })
+]
 
-export const SplitVector4 = (vector: Vec4) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } }),
-  z: Float("vector.z", { inputs: { vector } }),
-  w: Float("vector.w", { inputs: { vector } })
-})
+export const SplitVector4 = (vector: Vec4) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } }),
+  Float("vector.z", { inputs: { vector } }),
+  Float("vector.w", { inputs: { vector } })
+]
 
 type VectorTypes = "vec2" | "vec3" | "vec4"
 
 type SplitVector<V extends Value<VectorTypes>> = V extends Vec4
-  ? {
-      x: Float
-      y: Float
-      z: Float
-      w: Float
-    }
+  ? [Float, Float, Float, Float]
   : V extends Vec3
-  ? { x: Float; y: Float; z: Float }
+  ? [Float, Float, Float]
   : V extends Vec2
-  ? { x: Float; y: Float }
+  ? [Float, Float]
   : never
 
 export const Split = <V extends Value<VectorTypes>>(vector: V) => {

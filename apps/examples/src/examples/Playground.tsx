@@ -7,16 +7,16 @@ import {
   Float,
   Fresnel,
   Join,
-  Mix,
   Multiply,
-  Normalize,
   Pipe,
   Sin,
+  Split,
   Time,
+  UV,
   Vec3,
   VertexPosition
 } from "shadenfreude"
-import { Color, MeshStandardMaterial, Vector3 } from "three"
+import { MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 const StupidNoise = (x: Float) => Float("rand(floor(x))", { inputs: { x } })
@@ -42,12 +42,9 @@ export default function Playground() {
         ($) => Add($, WobbleMove)
       ),
 
-      diffuseColor: Pipe(
-        VertexPosition,
-        ($) => Normalize($),
-        ($) => Mix($, new Color("hotpink"), 0.5),
-        ($) => Add($, Multiply(new Color("white"), fresnel))
-      ),
+      diffuseColor: Pipe(Vec3(new Vector3()), ($) => {
+        return Join(...Split(UV), 1)
+      }),
 
       alpha: 1 //fresnel
     })
