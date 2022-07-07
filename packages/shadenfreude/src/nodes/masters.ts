@@ -1,12 +1,12 @@
 import { Color } from "three"
 import { assignment, concatenate } from "../lib/concatenator3000"
-import { Value, Bool, Vec3 } from "../variables"
+import { Bool, Float, Vec3 } from "../variables"
 import { VertexPosition } from "./geometry"
 
 export type CustomShaderMaterialMasterprops = {
-  position?: Value<"vec3">
-  diffuseColor?: Value<"vec3">
-  alpha?: Value<"float">
+  position?: Vec3
+  diffuseColor?: Vec3
+  alpha?: Float
 }
 
 export const CustomShaderMaterialMaster = ({

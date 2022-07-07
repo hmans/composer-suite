@@ -4,6 +4,7 @@ import {
   Add,
   compileShader,
   CustomShaderMaterialMaster,
+  Float,
   Fresnel,
   Join,
   Multiply,
@@ -20,7 +21,7 @@ export default function Playground() {
   const { update, ...shader } = useMemo(() => {
     const baseColor = Vec3(new Color("#8cf"))
 
-    const Wobble = (frequency: number, amplitude: number) =>
+    const Wobble = (frequency: Float, amplitude: Float) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
     const WobbleMove = Join(Wobble(0.2, 5), Wobble(0.15, 3), Wobble(0.28, 5))

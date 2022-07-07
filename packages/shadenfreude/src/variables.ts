@@ -85,3 +85,11 @@ export const Vec3 = makeVariableHelper("vec3")
 export const Vec4 = makeVariableHelper("vec4")
 export const Mat3 = makeVariableHelper("mat3")
 export const Mat4 = makeVariableHelper("mat4")
+
+export type Float = Value<"float">
+export type Bool = Value<"bool">
+export type Vec2 = Value<"vec2">
+export type Vec3 = Value<"vec3">
+export type Vec4 = Value<"vec4">
+export type Mat3 = Value<"mat3">
+export type Mat4 = Value<"mat4">

@@ -28,15 +28,15 @@ export const Subtract = Operator("Subtract", "-")
 export const Multiply = Operator("Multiply", "*")
 export const Divide = Operator("Divide", "/")
 
-export const Sin = (x: Value<"float">) => Float("sin(x)", { inputs: { x } })
-export const Cos = (x: Value<"float">) => Float("cos(x)", { inputs: { x } })
+export const Sin = (x: Float) => Float("sin(x)", { inputs: { x } })
+export const Cos = (x: Float) => Float("cos(x)", { inputs: { x } })
 
 export type FresnelProps = {
-  alpha?: Value<"float">
-  bias?: Value<"float">
-  intensity?: Value<"float">
-  power?: Value<"float">
-  factor?: Value<"float">
+  alpha?: Float
+  bias?: Float
+  intensity?: Float
+  power?: Float
+  factor?: Float
 }
 
 export const Fresnel = ({
