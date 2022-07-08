@@ -72,7 +72,9 @@ const root = CustomShaderMaterialMaster({
 
 ### Variables
 
-Everything in Shadenfreude is expressed as a **Variable**. You can construct variables using the `Variable` function:
+Everything in Shadenfreude is expressed as a **Variable**. That may sound a bit boring at first, but Variables are pretty powerful: they can inject their own shader code, declare what other variables they depend on, define and invoke functions, or just plain calculate stuff. Shadenfreude will compile your shader from a tree of these variables.
+
+But let's start at the beginning. You can construct variables using the `Variable` function:
 
 ```ts
 const f = Variable("float", 1)
