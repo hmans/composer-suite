@@ -19,7 +19,10 @@ export const VertexNormalWorld = Vec3(
         ModelMatrix[1].xyz,
         ModelMatrix[2].xyz
       ) * VertexNormal)`,
-  { varying: true, inputs: { VertexNormal, ModelMatrix } }
+  {
+    inputs: { VertexNormal, ModelMatrix },
+    varying: true
+  }
 )
 
 export const ViewDirection = Vec3(
