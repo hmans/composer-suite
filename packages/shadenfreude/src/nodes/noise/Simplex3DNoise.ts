@@ -34,7 +34,7 @@ float ${name}(vec3 v){
 
   // Permutations
   i = mod(i, 289.0 );
-  vec4 p = ${permute.name}( ${permute.name}( ${permute.name}(
+  vec4 p = ${permute}( ${permute}( ${permute}(
              i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
            + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
            + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
@@ -69,7 +69,7 @@ float ${name}(vec3 v){
   vec3 p3 = vec3(a1.zw,h.w);
 
   // Normalise gradients
-  vec4 norm = ${taylorInvSqrt.name}(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  vec4 norm = ${taylorInvSqrt}(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
   p0 *= norm.x;
   p1 *= norm.y;
   p2 *= norm.z;
