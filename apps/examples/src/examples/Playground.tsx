@@ -215,7 +215,7 @@ const f = {
   thatAnnoyingVarying: getUniqueID()
 }
 
-const Noise = () =>
+const Turbulence = () =>
   Float(0, {
     inputs: {
       time: Time,
@@ -251,12 +251,12 @@ const MonolithicVertexDisplacement = (
       time: Time,
       amplitude,
       amplitude2,
-      noise: Noise()
+      turbulence: Turbulence()
     },
 
     vertexBody: `
-      float b = pnoise( 10.0 * position, vec3( 100.0 ) );
-      float displacement = amplitude2 * noise + amplitude * b;
+      float noise = pnoise( 10.0 * position, vec3( 100.0 ) );
+      float displacement = amplitude2 * turbulence + amplitude * noise;
       vec3 newPosition = position + normal * displacement;
       value = newPosition;
     `
