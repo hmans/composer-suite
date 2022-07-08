@@ -1,4 +1,6 @@
-export type Parts = any[]
+export type Part = any
+
+export type Parts = Part[]
 
 const compact = (p: any) => !!p
 
