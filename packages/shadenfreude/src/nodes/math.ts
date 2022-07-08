@@ -1,6 +1,6 @@
 import { type } from "../glslType"
 import { Float, GLSLType, Value, Variable, Vec3 } from "../variables"
-import { VertexNormalWorld, ViewMatrixAttribute } from "./geometry"
+import { VertexNormalWorld, ViewMatrix } from "./geometry"
 import { Varying } from "./inputs"
 
 const buildMultiInputs = (values: Value[]) =>
@@ -70,7 +70,7 @@ export const Fresnel = ({
 export const ViewDirection = Varying(
   "vec3",
   Vec3("vec3(-ViewMatrix[0][2], -ViewMatrix[1][2], -ViewMatrix[2][2])", {
-    inputs: { ViewMatrix: ViewMatrixAttribute },
+    inputs: { ViewMatrix: ViewMatrix },
     only: "vertex"
   })
 )
