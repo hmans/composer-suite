@@ -38,18 +38,39 @@ This document is going to explain the basics of writing shaders using Shadenfreu
 >
 > This library is pretty young, and so is its documentation. Since the library is still in a lot of flux, the documentation currently focuses on just the basics, and assumes that you already have a certain amount of familiarity with writing shaders.
 
-### With Three.js
+### With THREE.ShaderMaterial
 
 ```ts
+/* Shaders usually start with a master */
 const root = ShaderMaterialMaster({
   color: new Color("hotpink")
 })
 
-const shader = compileShader(root)
+/* Compile the shader. */
+const [shader, update] = compileShader(root)
 
+/* Pass the `shader` object into the ShaderMaterial constructor */
 const material = new THREE.ShaderMaterial(shader)
+
+/* And call `update` in your game loop. */
+function animate(dt: number) {
+  /* ... */
+  update(dt)
+}
+```
+
+### With CustomShaderMaterial
+
+The excellent [three-custom-shader-material] allows you to inject shader code into Three.js' built-in shaders to modify their behavior. Use it just like above, but with a `CustomShaderMaterialMaster`:
+
+```ts
+/* Shaders usually start with a master */
+const root = CustomShaderMaterialMaster({
+  diffuseColor: new Color("hotpink")
+})
 ```
 
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
 [three.js]: https://threejs.org/
 [react-three-fiber]: https://github.com/pmndrs/react-three-fiber
+[three-custom-shader-material]: https://github.com/FarazzShaikh/THREE-CustomShaderMaterial
