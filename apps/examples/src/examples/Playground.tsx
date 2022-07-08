@@ -1,12 +1,16 @@
 import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
+  Add,
   compileShader,
   CustomShaderMaterialMaster,
+  Divide,
   Float,
   Fresnel,
+  Join,
   Multiply,
   PerlinNoise,
+  Pipe,
   Sin,
   snippet,
   Time,
@@ -172,17 +176,9 @@ export default function Playground() {
 
     const fresnel = Fresnel()
 
-    const p = PerlinNoise(VertexPosition, new Vector3(7, 2, 10))
-
+    const p = PerlinNoise(VertexPosition, Join(Time, Time, Time))
     const root = CustomShaderMaterialMaster({
-      // position: MonolithicVertexDisplacement(
-      //   Add(Multiply(Smoothstep(0.5, 1, Sin(Multiply(Time, 6))), 8), 2),
-      //   3.5
-      // ),
-
-      // diffuseColor: Pipe(Vec3(new Color("#333")), ($) =>
-      //   Add($, Multiply(Vec3(new Color("white)")), fresnel))
-      // )
+      position: Multiply(VertexPosition, Add(Multiply(p, 0.2), 1.0)),
 
       diffuseColor: Multiply(new Color(10, 0.8, 0.2), p)
     })
