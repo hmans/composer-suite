@@ -24,17 +24,18 @@ const nextUniqueId = idGenerator()
 const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
 
 type Snippet = {
+  _: "Snippet"
   name: string
   render: () => Chunk
 }
 
-const Snippet = (render: (name: string) => Chunk): Snippet => {
+const snippet = (render: (name: string) => Chunk): Snippet => {
   const name = getUniqueIdentifier()
   const declaration = unique(name)(render(name))
-  return { name, render: () => declaration }
+  return { _: "Snippet", name, render: () => declaration }
 }
 
-const fade = Snippet(
+const fade = snippet(
   (name) => `
     vec3 ${name}(vec3 t) {
       return t*t*t*(t*(t*6.0-15.0)+10.0);
@@ -42,7 +43,7 @@ const fade = Snippet(
   `
 )
 
-const mod289 = Snippet(
+const mod289 = snippet(
   (name) => `
     vec3 ${name}(vec3 x)
     {
@@ -56,7 +57,7 @@ const mod289 = Snippet(
   `
 )
 
-const permute = Snippet((name) => [
+const permute = snippet((name) => [
   mod289.render(),
   `
       vec4 ${name}(vec4 x)
@@ -66,7 +67,7 @@ const permute = Snippet((name) => [
     `
 ])
 
-const taylorInvSqrt = Snippet(
+const taylorInvSqrt = snippet(
   (name) => `
     vec4 ${name}(vec4 r)
     {
@@ -75,7 +76,7 @@ const taylorInvSqrt = Snippet(
   `
 )
 
-const pNoise = Snippet((name) => [
+const pNoise = snippet((name) => [
   mod289.render(),
   permute.render(),
   taylorInvSqrt.render(),
