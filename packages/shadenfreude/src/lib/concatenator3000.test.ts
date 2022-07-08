@@ -51,17 +51,15 @@ describe("snippet", () => {
       dependency
     ])
 
-    expect(s.chunk).toMatchInlineSnapshot(`
-      Array [
-        "#ifndef unique_snippet_48909555549b1882b2a60b58d2318319330bcf30",
-        "#define unique_snippet_48909555549b1882b2a60b58d2318319330bcf30",
-        "/* I'm a dependency */",
-        "#endif",
-        "#ifndef unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f",
-        "#define unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f",
-        "/* I'm a snippet that uses the dependency */",
-        "#endif",
-      ]
+    expect(concatenate(s.chunk)).toMatchInlineSnapshot(`
+      "#ifndef unique_snippet_48909555549b1882b2a60b58d2318319330bcf30
+      #define unique_snippet_48909555549b1882b2a60b58d2318319330bcf30
+      /* I'm a dependency */
+      #endif
+      #ifndef unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f
+      #define unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f
+      /* I'm a snippet that uses the dependency */
+      #endif"
     `)
   })
 })

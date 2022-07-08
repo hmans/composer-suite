@@ -14,12 +14,21 @@ export const block = (...parts: Parts): Parts => {
   return flattened.length > 0 ? ["{", flattened.map(indent), "}"] : []
 }
 
+function isSnippet(v: any): v is Snippet {
+  return v && v._ === "Snippet"
+}
+
+const renderSnippets = (p: any) => {
+  return isSnippet(p) ? p.chunk : p
+}
+
 export const concatenate = (...parts: Parts) => flatten(...parts).join("\n")
 
 export const line = (...parts: Parts) => flatten(...parts).join(" ")
 
 export const flatten = (...parts: Parts): Parts =>
   parts
+    .map(renderSnippets)
     .filter(compact)
     .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()
@@ -64,9 +73,6 @@ export const snippet = (
 ): Snippet => {
   const hash = objectHash(render(""))
   const name = identifier("snippet", hash)
-  const chunk = flatten(
-    dependencies.map((d) => d.chunk),
-    unique(name)(render(name))
-  )
+  const chunk = flatten(dependencies, unique(name)(render(name)))
   return { _: "Snippet", name, chunk }
 }
