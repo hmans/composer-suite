@@ -1,5 +1,6 @@
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
+import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const Simplex3DNoise = (p: Vec3) =>
@@ -9,20 +10,8 @@ export const Simplex3DNoise = (p: Vec3) =>
     fragmentHeader: [noise]
   })
 
-const permute = snippet(
-  (name) => `
-    vec4 ${name}(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
-  `
-)
-
 const noise = snippet(
   (name) => `
-
-
-  vec4 ${name}_eh(vec4 r)
-  {
-    return 1.79284291400159 - 0.85373472095314 * r;
-  }
 
 float ${name}(vec3 v){
   const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
@@ -80,7 +69,7 @@ float ${name}(vec3 v){
   vec3 p3 = vec3(a1.zw,h.w);
 
   // Normalise gradients
-  vec4 norm = ${name}_eh(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  vec4 norm = ${taylorInvSqrt.name}(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
   p0 *= norm.x;
   p1 *= norm.y;
   p2 *= norm.z;

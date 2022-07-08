@@ -4,11 +4,10 @@ exports[`snippet creates a snippet with a rendered chunk 1`] = `
 Object {
   "_": "Snippet",
   "chunk": Array [
-    "#ifndef unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c",
-    "#define unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c",
-    "/* hi from snippet_4af96d391f3b3f895b83baf57706b2808919303c */",
-    "#endif",
+    "/*** SNIPPET: snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 ***/",
+    "/* hi from snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 */",
   ],
-  "name": "snippet_4af96d391f3b3f895b83baf57706b2808919303c",
+  "dependencies": Array [],
+  "name": "snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259",
 }
 `;
