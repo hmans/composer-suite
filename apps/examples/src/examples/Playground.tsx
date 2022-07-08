@@ -3,7 +3,6 @@ import { useMemo } from "react"
 import {
   Add,
   compileShader,
-  concatenate,
   CustomShaderMaterialMaster,
   Float,
   Fresnel,
@@ -267,9 +266,8 @@ const Turbulence = () =>
 
     varying: true,
 
-    vertexHeader: concatenate(pNoise.render()),
+    vertexHeader: pNoise.render(),
     vertexBody: `
-
       vec3 p = .5 * normal + time * 0.4;
       float w = 100.0;
       float t = -0.3;
