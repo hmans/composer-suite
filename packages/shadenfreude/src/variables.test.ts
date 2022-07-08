@@ -26,42 +26,7 @@ describe("variable", () => {
 
     const c = compileShader(v)
 
-    expect(c.vertexShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: A variable with a varying (1) ***/
-      varying float v_float_A_variable_with_a_varying_1;
-      /*** END: A variable with a varying (1) ***/
-
-      void main()
-      {
-        /*** BEGIN: A variable with a varying (1) ***/
-        float float_A_variable_with_a_varying_1;
-        {
-          float value = 1.0 + 2.0 + onlyAvailableInVertex.x;
-          value += 3.0;
-          float_A_variable_with_a_varying_1 = value;
-          v_float_A_variable_with_a_varying_1 = value;
-        }
-        /*** END: A variable with a varying (1) ***/
-
-      }"
-    `)
-
-    expect(c.fragmentShader).toMatchInlineSnapshot(`
-      "/*** BEGIN: A variable with a varying (1) ***/
-      varying float v_float_A_variable_with_a_varying_1;
-      /*** END: A variable with a varying (1) ***/
-
-      void main()
-      {
-        /*** BEGIN: A variable with a varying (1) ***/
-        float float_A_variable_with_a_varying_1;
-        {
-          float value = v_float_A_variable_with_a_varying_1;
-          float_A_variable_with_a_varying_1 = value;
-        }
-        /*** END: A variable with a varying (1) ***/
-
-      }"
-    `)
+    expect(c.vertexShader).toMatchSnapshot()
+    expect(c.fragmentShader).toMatchSnapshot()
   })
 })
