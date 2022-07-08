@@ -33,5 +33,13 @@ export const identifier = (...parts: Parts) =>
     .join("_")
     .replace(/_{2,}/g, "_")
 
+export const unique = (identifier: string) => (...contents: Parts): string =>
+  concatenate(
+    `#ifndef unique_${identifier}`,
+    `#define unique_${identifier}`,
+    ...contents,
+    `#endif`
+  )
+
 export const sluggify = (s: string) =>
   s.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
