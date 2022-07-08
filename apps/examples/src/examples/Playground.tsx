@@ -170,7 +170,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 //   })
 
 export default function Playground() {
-  const { update, ...shader } = useMemo(() => {
+  const [shader, update] = useMemo(() => {
     const Wobble = (frequency: Float, amplitude: Float) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 

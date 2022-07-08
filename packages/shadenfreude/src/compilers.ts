@@ -127,7 +127,7 @@ export const compileShader = (root: Variable) => {
     uniforms.u_time.value += dt
   }
 
-  return { vertexShader, fragmentShader, uniforms, update }
+  return [{ vertexShader, fragmentShader, uniforms }, update] as const
 }
 
 const dependencyStack = () => {
