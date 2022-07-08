@@ -29,12 +29,25 @@ const noiseHelpersIdentifier = getUniqueIdentifier()
 
 const noiseFunctionsIdentifier = getUniqueIdentifier()
 
+const Function = (fun: (name: string) => string) => {
+  const name = getUniqueIdentifier()
+  const declaration = unique(name)(fun(name))
+  return { name, declaration }
+}
+
+const funFade = Function(
+  (name) => `
+    vec3 ${name}(vec3 t) {
+      return t*t*t*(t*(t*6.0-15.0)+10.0);
+    }
+  `
+)
+
 const NoiseHelpers = () => {
   const f = {
     mod289: getUniqueIdentifier(),
     permute: getUniqueIdentifier(),
-    taylorInvSqrt: getUniqueIdentifier(),
-    fade: getUniqueIdentifier()
+    taylorInvSqrt: getUniqueIdentifier()
   }
 
   const declaration = unique(noiseHelpersIdentifier)(`
@@ -56,10 +69,6 @@ const NoiseHelpers = () => {
     vec4 ${f.taylorInvSqrt}(vec4 r)
     {
       return 1.79284291400159 - 0.85373472095314 * r;
-    }
-
-    vec3 ${f.fade}(vec3 t) {
-      return t*t*t*(t*(t*6.0-15.0)+10.0);
     }
   `)
 
@@ -84,6 +93,7 @@ const noiseFunctions = `
 //
 
 ${helpers.declaration}
+${funFade.declaration}
 
 // Classic Perlin noise
 float cnoise(vec3 P)
@@ -148,7 +158,7 @@ float cnoise(vec3 P)
   float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));
   float n111 = dot(g111, Pf1);
 
-  vec3 fade_xyz = ${helpers.fade}(Pf0);
+  vec3 fade_xyz = ${funFade.name}(Pf0);
   vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
   vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
   float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
@@ -218,7 +228,7 @@ float pnoise(vec3 P, vec3 rep)
   float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));
   float n111 = dot(g111, Pf1);
 
-  vec3 fade_xyz = ${helpers.fade}(Pf0);
+  vec3 fade_xyz = ${funFade.name}(Pf0);
   vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
   vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
   float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
