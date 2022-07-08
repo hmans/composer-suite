@@ -8,7 +8,7 @@ describe("CustomShaderMaterialMaster", () => {
       diffuseColor: new Color("hotpink")
     })
 
-    const shader = compileShader(master)
+    const [shader] = compileShader(master)
 
     expect(shader.vertexShader).toMatchSnapshot()
     expect(shader.fragmentShader).toMatchSnapshot()

@@ -5,14 +5,14 @@ import { Bool, Float, Variable } from "./variables"
 describe("compileShader", () => {
   it("returns a vertexShader", () => {
     const v = Variable("float", 1)
-    const shader = compileShader(v)
+    const [shader] = compileShader(v)
 
     expect(shader.vertexShader).toMatchSnapshot()
   })
 
   it("returns a fragmentShader", () => {
     const v = Variable("float", 1)
-    const shader = compileShader(v)
+    const [shader] = compileShader(v)
 
     expect(shader.fragmentShader).toMatchSnapshot()
   })
@@ -28,7 +28,7 @@ describe("compileShader", () => {
       "vec4(cos(u_time), 0.0, 0.0, 1.0)"
     )
 
-    const shader = compileShader(v)
+    const [shader] = compileShader(v)
 
     expect(shader.vertexShader).toMatchSnapshot()
     expect(shader.fragmentShader).toMatchSnapshot()
@@ -38,7 +38,7 @@ describe("compileShader", () => {
     const float = Variable("float", 1)
     const root = Variable("float", float)
 
-    const shader = compileShader(root)
+    const [shader] = compileShader(root)
 
     expect(shader.vertexShader).toMatchSnapshot()
   })
@@ -47,7 +47,7 @@ describe("compileShader", () => {
     const a = Float(1)
     const b = Bool(true, { inputs: { a, b: a } })
 
-    const shader = compileShader(b)
+    const [shader] = compileShader(b)
 
     expect(shader.fragmentShader).toMatchSnapshot()
   })

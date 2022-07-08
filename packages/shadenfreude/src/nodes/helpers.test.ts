@@ -11,7 +11,7 @@ describe("Pipe", () => {
       (v) => Multiply(v, 5)
     )
 
-    const shader = compileShader(v)
+    const [shader] = compileShader(v)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
       "void main()

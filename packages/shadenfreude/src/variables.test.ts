@@ -35,7 +35,7 @@ describe("variable", () => {
       }
     )
 
-    const c = compileShader(v)
+    const [c] = compileShader(v)
 
     expect(c.vertexShader).toMatchSnapshot()
     expect(c.fragmentShader).toMatchSnapshot()
