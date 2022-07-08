@@ -70,6 +70,99 @@ const root = CustomShaderMaterialMaster({
 })
 ```
 
+### Variables
+
+Everything in Shadenfreude is expressed as a **Variable**. You can construct variables using the `Variable` function:
+
+```ts
+const f = Variable("float", 1)
+```
+
+The first argument is a GLSL type, the second the variable's value. Since you will be creating a lot of variables this way, there's also a set of helpers for the individual types:
+
+```ts
+const f = Float(1)
+const v3 = Vec3(new Vector3())
+const b = Bool(true)
+```
+
+Variables can reference other variables:
+
+```ts
+const color = Vec3(new Color("hotpink"))
+const other = Vec3(color)
+```
+
+You can perform mathematical operations on variables:
+
+```ts
+const color = Vec3(new Color("hotpink"))
+const modifiedColor = Multiply(color, 2)
+```
+
+Now let's use that modified color as the material's main color:
+
+```ts
+const color = Vec3(new Color("hotpink"))
+const modifiedColor = Multiply(color, 2)
+
+const root = CustomShaderMaterialMaster({
+  diffuseColor: modifiedColor
+})
+```
+
+How about animating the color intensity over time?
+
+```ts
+const color = Vec3(new Color("hotpink"))
+
+const sinusTime = Sin(Time)
+
+const animatedColor = Multiply(color, Add(sinusTime, 1))
+
+const root = CustomShaderMaterialMaster({
+  diffuseColor: animatedColor
+})
+```
+
+How about making this time color animation reusable? Just write a function!
+
+```ts
+const AnimateColor = (color: Vec3) => Multiply(color, Add(Sin(Time), 1))
+
+const root = CustomShaderMaterialMaster({
+  diffuseColor: AnimateColor(new Color("hotpink"))
+})
+```
+
+There you go, you've built your first animated shader with Shadenfreude! Now go crazy!
+
+### Math Operators
+
+TODO
+
+### Pipes
+
+TODO
+
+## Advanced Use
+
+### Value Types
+
+TODO
+
+### Creating your own variable types
+
+TODO
+
+### Defining shader chunks
+
+TODO
+
+### Defining functions
+
+TODO
+
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
 [three.js]: https://threejs.org/
 [react-three-fiber]: https://github.com/pmndrs/react-three-fiber
