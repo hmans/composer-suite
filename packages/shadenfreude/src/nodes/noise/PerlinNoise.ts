@@ -1,3 +1,13 @@
+import { snippet } from "../../lib/concatenator3000"
+import { Vec3, Float } from "../../variables"
+
+export const PerlinNoise = (p: Vec3, rep: Vec3) =>
+  Float(`${pNoise.name}(p, rep)`, {
+    inputs: { p, rep },
+    vertexHeader: [pNoise],
+    fragmentHeader: [pNoise]
+  })
+
 // GLSL textureless classic 3D noise "cnoise",
 // with an RSL-style periodic variant "pnoise".
 // Author:  Stefan Gustavson (stefan.gustavson@liu.se)
@@ -9,16 +19,6 @@
 // Copyright (c) 2011 Stefan Gustavson. All rights reserved.
 // Distributed under the MIT license. See LICENSE file.
 // https://github.com/stegu/webgl-noise
-
-import { snippet } from "../../lib/concatenator3000"
-import { Vec3, Float } from "../../variables"
-
-export const PerlinNoise = (p: Vec3, rep: Vec3) =>
-  Float(`${pNoise.name}(p, rep)`, {
-    inputs: { p, rep },
-    vertexHeader: [pNoise],
-    fragmentHeader: [pNoise]
-  })
 
 const fade = snippet(
   (name) => `
