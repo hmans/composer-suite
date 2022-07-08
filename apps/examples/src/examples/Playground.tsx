@@ -233,28 +233,32 @@ const pNoise = snippet((name) => [
 
 // `
 
-const Turbulence = () =>
-  Float(0, {
+const Turbulence = () => {
+  const turbulence = snippet((name) => [
+    pNoise.chunk,
+    `
+      float ${name}(vec3 p) {
+        float w = 100.0;
+        float t = -0.3;
+
+        for (float f = 1.0 ; f <= 10.0 ; f++) {
+          float power = pow( 2.0, f );
+          t += abs( ${pNoise.name}( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
+        }
+
+        return t;
+      }
+    `
+  ])
+
+  return Float(`${turbulence.name}(.5 * normal + time * 0.4)`, {
     inputs: {
       time: Time
     },
-
     varying: true,
-
-    vertexHeader: pNoise.chunk,
-    vertexBody: `
-      vec3 p = .5 * normal + time * 0.4;
-      float w = 100.0;
-      float t = -0.3;
-
-      for (float f = 1.0 ; f <= 10.0 ; f++) {
-        float power = pow( 2.0, f );
-        t += abs( ${pNoise.name}( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
-      }
-
-      value = t;
-    `
+    vertexHeader: [turbulence.chunk]
   })
+}
 
 const MonolithicVertexDisplacement = (
   amplitude: Float = 1,
@@ -269,6 +273,8 @@ const MonolithicVertexDisplacement = (
       amplitude2,
       turbulence: Turbulence()
     },
+
+    vertexHeader: [pNoise.chunk],
 
     vertexBody: `
       float noise = ${pNoise.name}( 10.0 * position, vec3( 100.0 ) );
