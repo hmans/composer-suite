@@ -18,7 +18,7 @@ export const CustomShaderMaterialMaster = ({
     title: "CustomShaderMaterial Master",
 
     inputs: {
-      position,
+      position: Vec3(position, { only: "vertex" }),
       diffuseColor,
       alpha
     },
