@@ -2,16 +2,12 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
   Add,
-  block,
   compileShader,
   concatenate,
   CustomShaderMaterialMaster,
   Float,
   Fresnel,
-  GLSLType,
-  Join,
   Multiply,
-  Parts,
   Pipe,
   Sin,
   Smoothstep,
@@ -215,9 +211,10 @@ float pnoise(vec3 P, vec3 rep)
 const Turbulence = () =>
   Float(0, {
     inputs: {
-      time: Time,
-      noise: Float(0, { varying: true })
+      time: Time
     },
+
+    varying: true,
 
     vertexHeader: concatenate(noiseFunctions),
     vertexBody: `
@@ -230,10 +227,7 @@ const Turbulence = () =>
         t += abs( pnoise( vec3( power * p ), vec3( 10.0, 10.0, 10.0 ) ) / power );
       }
 
-      value = noise = t;
-    `,
-    fragmentBody: `
-      value = noise;
+      value = t;
     `
   })
 
