@@ -58,9 +58,15 @@ export type Snippet = {
   chunk: Part | Part[]
 }
 
-export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
+export const snippet = (
+  render: (name: string) => Part | Parts[],
+  dependencies: Snippet[] = []
+): Snippet => {
   const hash = objectHash(render(""))
   const name = identifier("snippet", hash)
-  const chunk = unique(name)(render(name))
+  const chunk = flatten(
+    dependencies.map((d) => d.chunk),
+    unique(name)(render(name))
+  )
   return { _: "Snippet", name, chunk }
 }

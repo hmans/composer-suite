@@ -58,12 +58,9 @@ const taylorInvSqrt = snippet(
   `
 )
 
-const pNoise = snippet((name) => [
-  mod289.chunk,
-  permute.chunk,
-  taylorInvSqrt.chunk,
-  fade.chunk,
-  `
+const pNoise = snippet(
+  (name) =>
+    `
     // Classic Perlin noise, periodic variant
     float ${name}(vec3 P, vec3 rep)
     {
@@ -133,8 +130,9 @@ const pNoise = snippet((name) => [
       float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
       return 2.2 * n_xyz;
     }
-  `
-])
+  `,
+  [mod289, permute, taylorInvSqrt, fade]
+)
 
 // const noiseFunctions = `
 // //
@@ -234,9 +232,9 @@ const pNoise = snippet((name) => [
 // `
 
 const Turbulence = () => {
-  const turbulence = snippet((name) => [
-    pNoise.chunk,
-    `
+  const turbulence = snippet(
+    (name) =>
+      `
       float ${name}(vec3 p) {
         float w = 100.0;
         float t = -0.3;
@@ -248,8 +246,9 @@ const Turbulence = () => {
 
         return t;
       }
-    `
-  ])
+    `,
+    [pNoise]
+  )
 
   return Float(`${turbulence.name}(.5 * normal + time * 0.4)`, {
     inputs: {

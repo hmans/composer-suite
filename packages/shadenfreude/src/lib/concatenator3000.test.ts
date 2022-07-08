@@ -41,18 +41,27 @@ describe("snippet", () => {
 
   it("creates a snippet with a rendered chunk", () => {
     const s = snippet((name) => `/* hi from ${name} */`)
+    expect(s).toMatchSnapshot()
+  })
 
-    expect(s).toMatchInlineSnapshot(`
-      Object {
-        "_": "Snippet",
-        "chunk": Array [
-          "#ifndef unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c",
-          "#define unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c",
-          "/* hi from snippet_4af96d391f3b3f895b83baf57706b2808919303c */",
-          "#endif",
-        ],
-        "name": "snippet_4af96d391f3b3f895b83baf57706b2808919303c",
-      }
+  it("allows a snippet to have dependencies to other snippets", () => {
+    const dependency = snippet(() => "/* I'm a dependency */")
+
+    const s = snippet(() => "/* I'm a snippet that uses the dependency */", [
+      dependency
+    ])
+
+    expect(s.chunk).toMatchInlineSnapshot(`
+      Array [
+        "#ifndef unique_snippet_48909555549b1882b2a60b58d2318319330bcf30",
+        "#define unique_snippet_48909555549b1882b2a60b58d2318319330bcf30",
+        "/* I'm a dependency */",
+        "#endif",
+        "#ifndef unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f",
+        "#define unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f",
+        "/* I'm a snippet that uses the dependency */",
+        "#endif",
+      ]
     `)
   })
 })
