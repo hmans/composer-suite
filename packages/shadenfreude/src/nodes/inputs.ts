@@ -1,7 +1,7 @@
 import { Float, GLSLType, Variable } from "../variables"
 
-export const Uniform = (type: GLSLType, name: string) =>
-  Float(name, {
+export const Uniform = <T extends GLSLType>(type: T, name: string) =>
+  Variable<T>(type, name, {
     title: `Uniform: ${name}`,
     vertexHeader: `uniform ${type} ${name};`,
     fragmentHeader: `uniform ${type} ${name};`
