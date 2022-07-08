@@ -33,6 +33,7 @@
     "@babel/preset-typescript": "^7.17.12",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/jest": "^28.1.1",
+    "@types/object-hash": "^2.2.1",
     "@types/three": "^0.141.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
@@ -58,5 +59,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "object-hash": "^3.0.0"
   }
 }

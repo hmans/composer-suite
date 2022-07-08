@@ -1,4 +1,5 @@
 import idGenerator from "./idGenerator"
+import objectHash from "object-hash"
 
 export type Part = any
 
@@ -58,7 +59,8 @@ export type Snippet = {
 }
 
 export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
-  const name = identifier("snippet", nextSnippetId())
+  const hash = objectHash(render(""))
+  const name = identifier("snippet", hash)
   const chunk = unique(name)(render(name))
   return { _: "Snippet", name, chunk }
 }
