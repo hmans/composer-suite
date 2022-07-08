@@ -6,13 +6,15 @@ import {
   CustomShaderMaterialMaster,
   Float,
   Fresnel,
+  Join,
   Multiply,
   Pipe,
   Sin,
   Smoothstep,
   snippet,
   Time,
-  Vec3
+  Vec3,
+  VertexPosition
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
@@ -233,6 +235,13 @@ const pNoise = snippet(
 
 // `
 
+const PerlinNoise = (p: Vec3, rep: Vec3) =>
+  Float(`${pNoise.name}(p, rep)`, {
+    inputs: { p, rep },
+    vertexHeader: [pNoise],
+    fragmentHeader: [pNoise]
+  })
+
 const Turbulence = () => {
   const turbulence = snippet(
     (name) =>
@@ -292,15 +301,19 @@ export default function Playground() {
 
     const fresnel = Fresnel()
 
-    const root = CustomShaderMaterialMaster({
-      position: MonolithicVertexDisplacement(
-        Add(Multiply(Smoothstep(0.5, 1, Sin(Multiply(Time, 6))), 8), 2),
-        3.5
-      ),
+    const p = PerlinNoise(VertexPosition, new Vector3(7, 2, 10))
 
-      diffuseColor: Pipe(Vec3(new Color("#333")), ($) =>
-        Add($, Multiply(Vec3(new Color("white)")), fresnel))
-      )
+    const root = CustomShaderMaterialMaster({
+      // position: MonolithicVertexDisplacement(
+      //   Add(Multiply(Smoothstep(0.5, 1, Sin(Multiply(Time, 6))), 8), 2),
+      //   3.5
+      // ),
+
+      // diffuseColor: Pipe(Vec3(new Color("#333")), ($) =>
+      //   Add($, Multiply(Vec3(new Color("white)")), fresnel))
+      // )
+
+      diffuseColor: Multiply(new Color(10, 0.8, 0.2), p)
     })
 
     return compileShader(root)
