@@ -255,7 +255,7 @@ const Turbulence = () => {
       time: Time
     },
     varying: true,
-    vertexHeader: [turbulence.chunk]
+    vertexHeader: [turbulence]
   })
 }
 
@@ -273,7 +273,7 @@ const MonolithicVertexDisplacement = (
       turbulence: Turbulence()
     },
 
-    vertexHeader: [pNoise.chunk],
+    vertexHeader: [pNoise],
 
     vertexBody: `
       float noise = ${pNoise.name}( 10.0 * position, vec3( 100.0 ) );
