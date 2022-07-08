@@ -1,4 +1,5 @@
 import { useFrame } from "@react-three/fiber"
+import { useControls } from "leva"
 import { useMemo } from "react"
 import {
   Add,
@@ -12,6 +13,7 @@ import {
   Step,
   Subtract,
   Time,
+  Uniform,
   Vec3,
   VertexPosition
 } from "shadenfreude"
@@ -19,7 +21,17 @@ import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
-  const [shader, update] = useMemo(() => {
+  const { u_threshold } = useControls("Uniforms", {
+    u_threshold: { value: 0, min: -1, max: 1 }
+  })
+
+  const [{ uniforms, ...shader }, update] = useMemo(() => {
+    console.log("compiling shader")
+
+    const parameters = {
+      threshold: Uniform("float", "u_threshold")
+    }
+
     /* Put this into an NPM package, I dare you: */
     const Dissolve = (
       threshold: Float = 0.5,
@@ -39,7 +51,7 @@ export default function Playground() {
     }
 
     /* Use the thing: */
-    const dissolve = Dissolve(Multiply(Sin(Time), 1.15), 0.3)
+    const dissolve = Dissolve(parameters.threshold, 0.3)
 
     const root = CustomShaderMaterialMaster({
       diffuseColor: Add(new Color("#666"), dissolve.color),
@@ -51,8 +63,8 @@ export default function Playground() {
 
   useFrame((_, dt) => update(dt))
 
-  console.log(shader.vertexShader)
-  console.log(shader.fragmentShader)
+  // console.log(shader.vertexShader)
+  // console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
@@ -61,6 +73,10 @@ export default function Playground() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
+          uniforms={{
+            u_threshold: { value: u_threshold },
+            ...uniforms
+          }}
           {...shader}
           transparent
           side={DoubleSide}
