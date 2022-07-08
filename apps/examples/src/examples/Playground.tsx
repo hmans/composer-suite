@@ -20,34 +20,30 @@ import CustomShaderMaterial from "three-custom-shader-material"
 
 export default function Playground() {
   const [shader, update] = useMemo(() => {
-    /* Define a base color: */
-    const baseColor = Vec3(new Color("#88c"))
-
-    /* Now let's calculate a noise value based on the vertex position: */
-    const noise = Simplex3DNoise(Multiply(VertexPosition, 0.3))
-
-    /* We will be animating the threshold over time: */
-    const threshold = Sin(Time)
-
-    /* Here's a small function that will calculate alpha: */
-    const DissolveAlpha = (noise: Float, threshold: Float) =>
-      Step(noise, threshold)
-
-    /* This function will return a cool edge color based on the dissolve: */
-    const DissolveBorder = (
-      noise: Float,
-      threshold: Float,
+    /* Put this into an NPM package, I dare you: */
+    const Dissolve = (
+      threshold: Float = 0.5,
+      speed: Float = 1,
       edgeColor: Vec3 = new Color(0, 10, 8)
-    ) =>
-      Multiply(
-        edgeColor,
-        Smoothstep(Subtract(threshold, 0.2), Add(threshold, 0.2), noise)
-      )
+    ) => {
+      const noise = Simplex3DNoise(Multiply(VertexPosition, speed))
 
-    /* Now let's glue everything together: */
+      return {
+        color: Multiply(
+          edgeColor,
+          Smoothstep(Subtract(threshold, 0.2), Add(threshold, 0.2), noise)
+        ),
+
+        alpha: Step(noise, threshold)
+      }
+    }
+
+    /* Use the thing: */
+    const dissolve = Dissolve(Sin(Time), 0.3)
+
     const root = CustomShaderMaterialMaster({
-      diffuseColor: Add(baseColor, DissolveBorder(noise, threshold)),
-      alpha: DissolveAlpha(noise, threshold)
+      diffuseColor: Add(new Color("#88c"), dissolve.color),
+      alpha: dissolve.alpha
     })
 
     return compileShader(root)
