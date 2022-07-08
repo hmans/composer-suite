@@ -25,22 +25,28 @@ const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
 
 const noiseFunctionsIdentifier = getUniqueIdentifier()
 
-const Function = (fun: (name: string) => string) => {
-  const name = getUniqueIdentifier()
-  const declaration = unique(name)(fun(name))
-  return { name, declaration }
+type Snippet = {
+  name: string
+  dependencies?: Snippet[]
+  render: () => string
 }
 
-const fade = Function(
-  (name) => `
+const Snippet = ({ render }: { render: (name: string) => string }): Snippet => {
+  const name = getUniqueIdentifier()
+  const declaration = unique(name)(render(name))
+  return { name, render: () => declaration }
+}
+
+const fade = Snippet({
+  render: (name) => `
     vec3 ${name}(vec3 t) {
       return t*t*t*(t*(t*6.0-15.0)+10.0);
     }
   `
-)
+})
 
-const mod289 = Function(
-  (name) => `
+const mod289 = Snippet({
+  render: (name) => `
     vec3 ${name}(vec3 x)
     {
       return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -51,27 +57,27 @@ const mod289 = Function(
       return x - floor(x * (1.0 / 289.0)) * 289.0;
     }
   `
-)
+})
 
-const permute = Function(
-  (name) => `
-    ${mod289.declaration}
+const permute = Snippet({
+  render: (name) => `
+    ${mod289.render()}
 
     vec4 ${name}(vec4 x)
     {
       return ${mod289.name}(((x*34.0)+10.0)*x);
     }
   `
-)
+})
 
-const taylorInvSqrt = Function(
-  (name) => `
+const taylorInvSqrt = Snippet({
+  render: (name) => `
     vec4 ${name}(vec4 r)
     {
       return 1.79284291400159 - 0.85373472095314 * r;
     }
   `
-)
+})
 
 const noiseFunctions = `
 //
@@ -88,9 +94,9 @@ const noiseFunctions = `
 // https://github.com/stegu/webgl-noise
 //
 
-${taylorInvSqrt.declaration}
-${fade.declaration}
-${permute.declaration}
+${taylorInvSqrt.render()}
+${fade.render()}
+${permute.render()}
 
 // Classic Perlin noise
 float cnoise(vec3 P)
@@ -135,12 +141,16 @@ float cnoise(vec3 P)
   vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);
   vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);
 
-  vec4 norm0 = ${taylorInvSqrt.name}(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
+  vec4 norm0 = ${
+    taylorInvSqrt.name
+  }(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
   g000 *= norm0.x;
   g010 *= norm0.y;
   g100 *= norm0.z;
   g110 *= norm0.w;
-  vec4 norm1 = ${taylorInvSqrt.name}(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
+  vec4 norm1 = ${
+    taylorInvSqrt.name
+  }(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
   g001 *= norm1.x;
   g011 *= norm1.y;
   g101 *= norm1.z;
@@ -205,12 +215,16 @@ float pnoise(vec3 P, vec3 rep)
   vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);
   vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);
 
-  vec4 norm0 = ${taylorInvSqrt.name}(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
+  vec4 norm0 = ${
+    taylorInvSqrt.name
+  }(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
   g000 *= norm0.x;
   g010 *= norm0.y;
   g100 *= norm0.z;
   g110 *= norm0.w;
-  vec4 norm1 = ${taylorInvSqrt.name}(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
+  vec4 norm1 = ${
+    taylorInvSqrt.name
+  }(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
   g001 *= norm1.x;
   g011 *= norm1.y;
   g101 *= norm1.z;
