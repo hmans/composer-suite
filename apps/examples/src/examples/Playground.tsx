@@ -4,20 +4,16 @@ import {
   Add,
   compileShader,
   CustomShaderMaterialMaster,
-  Divide,
   Float,
   Fresnel,
   Join,
   Multiply,
   PerlinNoise,
-  Pipe,
   Sin,
-  snippet,
   Time,
-  Vec3,
   VertexPosition
 } from "shadenfreude"
-import { Color, MeshStandardMaterial, Vector3 } from "three"
+import { Color, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
 // const noiseFunctions = `
@@ -170,7 +166,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 //   })
 
 export default function Playground() {
-  const { update, ...shader } = useMemo(() => {
+  const [shader, update] = useMemo(() => {
     const Wobble = (frequency: Float, amplitude: Float) =>
       Multiply(Sin(Multiply(Time, frequency)), amplitude)
 
