@@ -26,13 +26,13 @@ const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
 type Snippet = {
   _: "Snippet"
   name: string
-  render: () => Chunk
+  chunk: Chunk
 }
 
 const snippet = (render: (name: string) => Chunk): Snippet => {
   const name = getUniqueIdentifier()
-  const declaration = unique(name)(render(name))
-  return { _: "Snippet", name, render: () => declaration }
+  const chunk = unique(name)(render(name))
+  return { _: "Snippet", name, chunk }
 }
 
 const fade = snippet(
@@ -58,7 +58,7 @@ const mod289 = snippet(
 )
 
 const permute = snippet((name) => [
-  mod289.render(),
+  mod289.chunk,
   `
       vec4 ${name}(vec4 x)
       {
@@ -77,10 +77,10 @@ const taylorInvSqrt = snippet(
 )
 
 const pNoise = snippet((name) => [
-  mod289.render(),
-  permute.render(),
-  taylorInvSqrt.render(),
-  fade.render(),
+  mod289.chunk,
+  permute.chunk,
+  taylorInvSqrt.chunk,
+  fade.chunk,
   `
     // Classic Perlin noise, periodic variant
     float ${name}(vec3 P, vec3 rep)
@@ -169,9 +169,9 @@ const pNoise = snippet((name) => [
 // // https://github.com/stegu/webgl-noise
 // //
 
-// ${taylorInvSqrt.render()}
-// ${fade.render()}
-// ${permute.render()}
+// ${taylorInvSqrt.chunk}
+// ${fade.chunk}
+// ${permute.chunk}
 
 // // Classic Perlin noise
 // float cnoise(vec3 P)
@@ -247,7 +247,7 @@ const pNoise = snippet((name) => [
 //   return 2.2 * n_xyz;
 // }
 
-// ${pNoise.render()}
+// ${pNoise.chunk}
 
 // `
 
@@ -259,7 +259,7 @@ const Turbulence = () =>
 
     varying: true,
 
-    vertexHeader: pNoise.render(),
+    vertexHeader: pNoise.chunk,
     vertexBody: `
       vec3 p = .5 * normal + time * 0.4;
       float w = 100.0;
