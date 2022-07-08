@@ -1,3 +1,5 @@
+import idGenerator from "./idGenerator"
+
 export type Part = any
 
 export type Parts = Part[]
@@ -35,13 +37,28 @@ export const identifier = (...parts: Parts) =>
     .join("_")
     .replace(/_{2,}/g, "_")
 
-export const unique = (identifier: string) => (...contents: Parts): string =>
-  concatenate(
-    `#ifndef unique_${identifier}`,
-    `#define unique_${identifier}`,
-    ...contents,
-    `#endif`
-  )
+export const unique = (identifier: string) => (...contents: Parts): Parts => [
+  `#ifndef unique_${identifier}`,
+  `#define unique_${identifier}`,
+  ...contents,
+  `#endif`
+]
 
 export const sluggify = (s: string) =>
   s.replace(/[^a-zA-Z0-9]/g, "_").replace(/_{2,}/g, "_")
+
+/*** Snippets ***/
+
+const nextSnippetId = idGenerator()
+
+export type Snippet = {
+  _: "Snippet"
+  name: string
+  chunk: Part | Part[]
+}
+
+export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
+  const name = identifier("snippet", nextSnippetId())
+  const chunk = unique(name)(render(name))
+  return { _: "Snippet", name, chunk }
+}

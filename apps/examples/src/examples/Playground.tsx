@@ -2,7 +2,6 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
   Add,
-  Chunk,
   compileShader,
   CustomShaderMaterialMaster,
   Float,
@@ -11,29 +10,12 @@ import {
   Pipe,
   Sin,
   Smoothstep,
+  snippet,
   Time,
-  unique,
   Vec3
 } from "shadenfreude"
-import idGenerator from "shadenfreude/src/lib/idGenerator"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-
-const nextUniqueId = idGenerator()
-
-const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
-
-type Snippet = {
-  _: "Snippet"
-  name: string
-  chunk: Chunk
-}
-
-const snippet = (render: (name: string) => Chunk): Snippet => {
-  const name = getUniqueIdentifier()
-  const chunk = unique(name)(render(name))
-  return { _: "Snippet", name, chunk }
-}
 
 const fade = snippet(
   (name) => `
@@ -60,11 +42,11 @@ const mod289 = snippet(
 const permute = snippet((name) => [
   mod289.chunk,
   `
-      vec4 ${name}(vec4 x)
-      {
-        return ${mod289.name}(((x*34.0)+10.0)*x);
-      }
-    `
+    vec4 ${name}(vec4 x)
+    {
+      return ${mod289.name}(((x*34.0)+10.0)*x);
+    }
+  `
 ])
 
 const taylorInvSqrt = snippet(
