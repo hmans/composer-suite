@@ -1,5 +1,6 @@
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
+import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const Simplex3DNoise = (p: Vec3) =>
@@ -8,12 +9,6 @@ export const Simplex3DNoise = (p: Vec3) =>
     vertexHeader: [noise],
     fragmentHeader: [noise]
   })
-
-const permute = snippet(
-  (name) => `
-    vec4 ${name}(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
-  `
-)
 
 const noise = snippet(
   (name) => `

@@ -1,12 +1,14 @@
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
+import { mod289 } from "./mod289"
+import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const PerlinNoise = (p: Vec3, rep: Vec3) =>
-  Float(`${pNoise.name}(p, rep)`, {
+  Float(`${noise.name}(p, rep)`, {
     inputs: { p, rep },
-    vertexHeader: [pNoise],
-    fragmentHeader: [pNoise]
+    vertexHeader: [noise],
+    fragmentHeader: [noise]
   })
 
 // GLSL textureless classic 3D noise "cnoise",
@@ -29,33 +31,7 @@ const fade = snippet(
   `
 )
 
-const mod289 = snippet(
-  (name) => `
-    vec3 ${name}(vec3 x)
-    {
-      return x - floor(x * (1.0 / 289.0)) * 289.0;
-    }
-
-    vec4 ${name}(vec4 x)
-    {
-      return x - floor(x * (1.0 / 289.0)) * 289.0;
-    }
-  `
-)
-
-const permute = snippet(
-  (name) => [
-    `
-    vec4 ${name}(vec4 x)
-    {
-      return ${mod289.name}(((x*34.0)+10.0)*x);
-    }
-  `
-  ],
-  [mod289]
-)
-
-const pNoise = snippet(
+const noise = snippet(
   (name) =>
     `
     // Classic Perlin noise, periodic variant
