@@ -7,6 +7,7 @@ import {
   flatten,
   identifier,
   Parts,
+  resetConcatenator3000,
   sluggify,
   statement
 } from "./lib/concatenator3000"
@@ -112,7 +113,10 @@ const prepare = (v: Variable, stack = dependencyStack()) => {
 export const compileShader = (root: Variable) => {
   prepare(root)
 
+  resetConcatenator3000()
   const vertexShader = compileProgram(root, "vertex")
+
+  resetConcatenator3000()
   const fragmentShader = compileProgram(root, "fragment")
 
   const uniforms = {

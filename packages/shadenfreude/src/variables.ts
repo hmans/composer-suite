@@ -1,7 +1,7 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { glslRepresentation } from "./glslRepresentation"
 import { type } from "./glslType"
-import { identifier } from "./lib/concatenator3000"
+import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
 export type GLSLType =
@@ -25,6 +25,8 @@ export type JSTypes = {
 
 export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
+export type Chunk = Part | Part[]
+
 export type Variable<T extends GLSLType = any> = {
   _: "Variable"
   id: number
@@ -35,10 +37,10 @@ export type Variable<T extends GLSLType = any> = {
   inputs: Record<string, Value>
   only?: "vertex" | "fragment"
   varying?: boolean
-  vertexHeader?: string
-  vertexBody?: string
-  fragmentHeader?: string
-  fragmentBody?: string
+  vertexHeader?: Chunk
+  vertexBody?: Chunk
+  fragmentHeader?: Chunk
+  fragmentBody?: Chunk
 }
 
 const nextAnonymousId = idGenerator()
