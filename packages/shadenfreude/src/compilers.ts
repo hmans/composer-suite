@@ -4,6 +4,7 @@ import {
   assignment,
   block,
   concatenate,
+  flatten,
   identifier,
   Parts,
   sluggify,
@@ -29,15 +30,17 @@ export const compileHeader = (
 
   if (v.only && v.only !== program) return []
 
+  const header = flatten(
+    v.varying && `varying ${v.type} v_${v.name};`,
+    v[`${program}Header`]
+  )
+
   return [
     /* Render dependencies */
     dependencies(v).map((input) => compileHeader(input, program, stack)),
 
-    v[`${program}Header`] && [
-      variableBeginComment(v),
-      v[`${program}Header`],
-      variableEndComment(v)
-    ]
+    /* Render header chunk */
+    header.length && [variableBeginComment(v), header, variableEndComment(v)]
   ]
 }
 
@@ -68,13 +71,18 @@ export const compileBody = (
       ),
 
       /* Make local value variable available */
-      statement(v.type, "value", "=", glslRepresentation(v.value)),
+      v.varying && program === "fragment"
+        ? statement(v.type, "value", "=", `v_${v.name}`)
+        : statement(v.type, "value", "=", glslRepresentation(v.value)),
 
       /* The body chunk, if there is one */
       v[`${program}Body`],
 
       /* Assign local value variable back to global variable */
-      assignment(v.name, "value")
+      assignment(v.name, "value"),
+
+      /* If we're in vertex and have a varying, assign to it, too */
+      v.varying && program === "vertex" && assignment(`v_${v.name}`, "value")
     ),
 
     variableEndComment(v)

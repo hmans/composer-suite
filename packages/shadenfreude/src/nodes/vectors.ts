@@ -1,13 +1,9 @@
+import { type } from "../glslType"
 import { Float, isType, Value, Variable, Vec2, Vec3, Vec4 } from "../variables"
 
-export type Vector2Components = [Value<"float">, Value<"float">]
-export type Vector3Components = [Value<"float">, Value<"float">, Value<"float">]
-export type Vector4Components = [
-  Value<"float">,
-  Value<"float">,
-  Value<"float">,
-  Value<"float">
-]
+export type Vector2Components = [Float, Float]
+export type Vector3Components = [Float, Float, Float]
+export type Vector4Components = [Float, Float, Float, Float]
 
 export type JoinReturnType<Args> = Args extends Vector4Components
   ? Variable<"vec4">
@@ -39,37 +35,32 @@ export const Join = <
   return Vec2("vec2(x, y)", { inputs: { x, y } }) as JoinReturnType<Args>
 }
 
-export const SplitVector2 = (vector: Value<"vec2">) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } })
-})
+export const SplitVector2 = (vector: Vec2) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } })
+]
 
-export const SplitVector3 = (vector: Value<"vec3">) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } }),
-  z: Float("vector.z", { inputs: { vector } })
-})
+export const SplitVector3 = (vector: Vec3) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } }),
+  Float("vector.z", { inputs: { vector } })
+]
 
-export const SplitVector4 = (vector: Value<"vec4">) => ({
-  x: Float("vector.x", { inputs: { vector } }),
-  y: Float("vector.y", { inputs: { vector } }),
-  z: Float("vector.z", { inputs: { vector } }),
-  w: Float("vector.w", { inputs: { vector } })
-})
+export const SplitVector4 = (vector: Vec4) => [
+  Float("vector.x", { inputs: { vector } }),
+  Float("vector.y", { inputs: { vector } }),
+  Float("vector.z", { inputs: { vector } }),
+  Float("vector.w", { inputs: { vector } })
+]
 
 type VectorTypes = "vec2" | "vec3" | "vec4"
 
-type SplitVector<V extends Value<VectorTypes>> = V extends Value<"vec4">
-  ? {
-      x: Value<"float">
-      y: Value<"float">
-      z: Value<"float">
-      w: Value<"float">
-    }
-  : V extends Value<"vec3">
-  ? { x: Value<"float">; y: Value<"float">; z: Value<"float"> }
-  : V extends Value<"vec2">
-  ? { x: Value<"float">; y: Value<"float"> }
+type SplitVector<V extends Value<VectorTypes>> = V extends Vec4
+  ? [Float, Float, Float, Float]
+  : V extends Vec3
+  ? [Float, Float, Float]
+  : V extends Vec2
+  ? [Float, Float]
   : never
 
 export const Split = <V extends Value<VectorTypes>>(vector: V) => {
@@ -78,3 +69,6 @@ export const Split = <V extends Value<VectorTypes>>(vector: V) => {
   if (isType(vector, "vec4")) return SplitVector4(vector) as SplitVector<V>
   throw new Error("Could not split value: " + vector)
 }
+
+export const Normalize = <T extends "vec2" | "vec3" | "vec4">(x: Value<T>) =>
+  Variable(type(x) as T, "normalize(x)", { inputs: { x } })

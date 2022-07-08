@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 1`] = `
-"/*** BEGIN: Varying: v_1 (2) ***/
-varying vec3 v_1;
-/*** END: Varying: v_1 (2) ***/
+"/*** BEGIN: Anonymous vec3 = position (1) ***/
+varying vec3 v_vec3_Anonymous_vec3_position_1;
+/*** END: Anonymous vec3 = position (1) ***/
 
 void main()
 {
@@ -12,29 +12,29 @@ void main()
   {
     vec3 value = position;
     vec3_Anonymous_vec3_position_1 = value;
+    v_vec3_Anonymous_vec3_position_1 = value;
   }
   /*** END: Anonymous vec3 = position (1) ***/
 
-  /*** BEGIN: Varying: v_1 (2) ***/
-  vec3 vec3_Varying_v_1_2;
+  /*** BEGIN: Anonymous vec3 = anonymous_2 (2) ***/
+  vec3 vec3_Anonymous_vec3_anonymous_2_2;
   {
-    vec3 source = vec3_Anonymous_vec3_position_1;
-    vec3 value = v_1;
-    value = v_1 = source;
-    vec3_Varying_v_1_2 = value;
+    vec3 value = vec3_Anonymous_vec3_position_1;
+    vec3_Anonymous_vec3_anonymous_2_2 = value;
   }
-  /*** END: Varying: v_1 (2) ***/
+  /*** END: Anonymous vec3 = anonymous_2 (2) ***/
 
   /*** BEGIN: CustomShaderMaterial Master (3) ***/
   bool bool_CustomShaderMaterial_Master_3;
   {
-    vec3 position = vec3_Varying_v_1_2;
+    vec3 position = vec3_Anonymous_vec3_anonymous_2_2;
     vec3 diffuseColor = 
       vec3(
         1.0,
         0.4117647058823529,
         0.7058823529411765
       );
+    float alpha = 1.0;
     bool value = true;
     csm_Position = position;
     bool_CustomShaderMaterial_Master_3 = value;
@@ -45,32 +45,20 @@ void main()
 `;
 
 exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 2`] = `
-"/*** BEGIN: Varying: v_1 (2) ***/
-varying vec3 v_1;
-/*** END: Varying: v_1 (2) ***/
-
-void main()
+"void main()
 {
-  /*** BEGIN: Varying: v_1 (2) ***/
-  vec3 vec3_Varying_v_1_2;
-  {
-    vec3 value = v_1;
-    vec3_Varying_v_1_2 = value;
-  }
-  /*** END: Varying: v_1 (2) ***/
-
   /*** BEGIN: CustomShaderMaterial Master (3) ***/
   bool bool_CustomShaderMaterial_Master_3;
   {
-    vec3 position = vec3_Varying_v_1_2;
     vec3 diffuseColor = 
       vec3(
         1.0,
         0.4117647058823529,
         0.7058823529411765
       );
+    float alpha = 1.0;
     bool value = true;
-    csm_DiffuseColor = vec4(diffuseColor, 1.0);
+    csm_DiffuseColor = vec4(diffuseColor, alpha);
     bool_CustomShaderMaterial_Master_3 = value;
   }
   /*** END: CustomShaderMaterial Master (3) ***/

@@ -34,25 +34,14 @@ export type Variable<T extends GLSLType = any> = {
   value: Value<T>
   inputs: Record<string, Value>
   only?: "vertex" | "fragment"
+  varying?: boolean
   vertexHeader?: string
   vertexBody?: string
   fragmentHeader?: string
   fragmentBody?: string
-
-  /*
-  Some convenient helpers to directly apply math operations to variables.
-  Do these increase complexity too much for some cute glue? Maybe, maybe not.
-  */
-  Add: (...operands: Value[]) => Variable<T>
-  Subtract: (...operands: Value[]) => Variable<T>
-  Multiply: (...operands: Value[]) => Variable<T>
-  Divide: (...operands: Value[]) => Variable<T>
 }
 
 const nextAnonymousId = idGenerator()
-
-const buildMultiInputs = (values: Value[]) =>
-  values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
 
 export const Variable = <T extends GLSLType>(
   type: T,
@@ -69,13 +58,7 @@ export const Variable = <T extends GLSLType>(
     ...extras,
     _: "Variable",
     type,
-    value,
-
-    /* Math helpers! */
-    Add: (...operands: Value[]) => Add(v, ...operands),
-    Subtract: (...operands: Value[]) => Subtract(v, ...operands),
-    Multiply: (...operands: Value[]) => Multiply(v, ...operands),
-    Divide: (...operands: Value[]) => Divide(v, ...operands)
+    value
   }
 
   return v
@@ -104,32 +87,10 @@ export const Vec4 = makeVariableHelper("vec4")
 export const Mat3 = makeVariableHelper("mat3")
 export const Mat4 = makeVariableHelper("mat4")
 
-/*** OPERATORS ***
-
-TODO: Move this somewhere else!
-
-It used to be in maths.ts, which caused a circular dependency. Pretty much everything
-was fine with this except for ts-jest, which objected strongly, and crashed.
-*/
-
-export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
-  T extends GLSLType
->(
-  a: Value<T>,
-  ...rest: Value[]
-) => {
-  const inputs = buildMultiInputs([a, ...rest])
-
-  /* a + b + c + ... */
-  const expression = Object.keys(inputs).join(operator)
-
-  return Variable(type(a), expression, {
-    title: `${title} (${type(a)})`,
-    inputs
-  })
-}
-
-export const Add = Operator("Add", "+")
-export const Subtract = Operator("Subtract", "-")
-export const Multiply = Operator("Multiply", "*")
-export const Divide = Operator("Divide", "/")
+export type Float = Value<"float">
+export type Bool = Value<"bool">
+export type Vec2 = Value<"vec2">
+export type Vec3 = Value<"vec3">
+export type Vec4 = Value<"vec4">
+export type Mat3 = Value<"mat3">
+export type Mat4 = Value<"mat4">

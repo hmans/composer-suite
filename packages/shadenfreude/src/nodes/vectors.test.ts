@@ -1,5 +1,4 @@
 import { Vector2, Vector3, Vector4 } from "three"
-import { Vec3, Vec4 } from "../variables"
 import { Join, Split } from "./vectors"
 
 describe("Join", () => {
@@ -32,30 +31,30 @@ describe("Split", () => {
   it("splits a vec2 into two components", () => {
     const split = Split(new Vector2(1, 2))
 
-    expect(split).toMatchObject({
-      x: { type: "float", value: "vector.x" },
-      y: { type: "float", value: "vector.y" }
-    })
+    expect(split).toMatchObject([
+      { type: "float", value: "vector.x" },
+      { type: "float", value: "vector.y" }
+    ])
   })
 
   it("splits a vec3 into three components", () => {
     const split = Split(new Vector3(1, 2, 3))
 
-    expect(split).toMatchObject({
-      x: { type: "float", value: "vector.x" },
-      y: { type: "float", value: "vector.y" },
-      z: { type: "float", value: "vector.z" }
-    })
+    expect(split).toMatchObject([
+      { type: "float", value: "vector.x" },
+      { type: "float", value: "vector.y" },
+      { type: "float", value: "vector.z" }
+    ])
   })
 
   it("splits a vec4 into four components", () => {
     const split = Split(new Vector4(1, 2, 3))
 
-    expect(split).toMatchObject({
-      x: { type: "float", value: "vector.x" },
-      y: { type: "float", value: "vector.y" },
-      z: { type: "float", value: "vector.z" },
-      w: { type: "float", value: "vector.w" }
-    })
+    expect(split).toMatchObject([
+      { type: "float", value: "vector.x" },
+      { type: "float", value: "vector.y" },
+      { type: "float", value: "vector.z" },
+      { type: "float", value: "vector.w" }
+    ])
   })
 })

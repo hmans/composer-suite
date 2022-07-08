@@ -45,6 +45,10 @@ export const glslRepresentation = (value: Value): string => {
         ${glslRepresentation(value.w)}
       )`
 
+  /* TODO: Matrix3 */
+
+  /* TODO: Matrix4 */
+
   /* Fail */
   throw new Error(`Could not render value to GLSL: ${value}`)
 }
