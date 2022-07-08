@@ -1,7 +1,7 @@
 import idGenerator from "./idGenerator"
 import objectHash from "object-hash"
 
-export const resetConcatentor3000 = () => {
+export const resetConcatenator3000 = () => {
   seenSnippets.clear()
 }
 
