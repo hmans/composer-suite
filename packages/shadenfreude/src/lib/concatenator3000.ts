@@ -69,7 +69,7 @@ export const snippet = (
 ): Snippet => {
   const hash = sha256(concatenate(render(""))).toString()
   const name = identifier("snippet", hash)
-  const chunk = flatten(unique(name)(render(name)))
+  const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
   return { _: "Snippet", name, chunk, dependencies }
 }
 

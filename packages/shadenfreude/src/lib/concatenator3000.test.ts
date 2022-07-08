@@ -53,10 +53,8 @@ describe("snippet", () => {
   it("will only render once per program", () => {
     const s = snippet((name) => `/* hi from ${name} */`)
     expect(concatenate(s, s, s)).toMatchInlineSnapshot(`
-      "#ifndef unique_snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259
-      #define unique_snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259
-      /* hi from snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 */
-      #endif"
+      "/*** SNIPPET: snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 ***/
+      /* hi from snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 */"
     `)
   })
 
@@ -67,15 +65,11 @@ describe("snippet", () => {
       dependency
     ])
 
-    expect(concatenate(s.chunk)).toMatchInlineSnapshot(`
-      "#ifndef unique_snippet_3e4f1b759eeeef3974130c653d8946525fc658e0480296913221de96a874ff38
-      #define unique_snippet_3e4f1b759eeeef3974130c653d8946525fc658e0480296913221de96a874ff38
+    expect(concatenate(s)).toMatchInlineSnapshot(`
+      "/*** SNIPPET: snippet_3e4f1b759eeeef3974130c653d8946525fc658e0480296913221de96a874ff38 ***/
       /* I'm a dependency */
-      #endif
-      #ifndef unique_snippet_8ebae88c6c0e293fffce560b3c6dddc8fd51b136f1de1583f75ed98b8f47a206
-      #define unique_snippet_8ebae88c6c0e293fffce560b3c6dddc8fd51b136f1de1583f75ed98b8f47a206
-      /* I'm a snippet that uses the dependency */
-      #endif"
+      /*** SNIPPET: snippet_8ebae88c6c0e293fffce560b3c6dddc8fd51b136f1de1583f75ed98b8f47a206 ***/
+      /* I'm a snippet that uses the dependency */"
     `)
   })
 })
