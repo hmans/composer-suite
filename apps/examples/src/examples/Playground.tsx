@@ -14,6 +14,7 @@ import {
   Parts,
   Pipe,
   Sin,
+  Smoothstep,
   Time,
   Vec3
 } from "shadenfreude"
@@ -21,8 +22,15 @@ import idGenerator from "shadenfreude/src/lib/idGenerator"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-const Smoothstep = (min: Float, max: Float, v: Float) =>
-  Float("smoothstep(min, max, v)", { inputs: { min, max, v } })
+const nextUniqueId = idGenerator()
+
+const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
+
+const f = {
+  turbulence: getUniqueIdentifier(),
+  noiseFunctions: getUniqueIdentifier(),
+  thatAnnoyingVarying: getUniqueIdentifier()
+}
 
 const noiseFunctions = `
 //
@@ -203,16 +211,6 @@ float pnoise(vec3 P, vec3 rep)
   return 2.2 * n_xyz;
 }
 `
-
-const nextFunctionID = idGenerator()
-
-const getUniqueID = () => `uuid_${nextFunctionID()}`
-
-const f = {
-  turbulence: getUniqueID(),
-  noiseFunctions: getUniqueID(),
-  thatAnnoyingVarying: getUniqueID()
-}
 
 const Turbulence = () =>
   Float(0, {
