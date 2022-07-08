@@ -44,6 +44,16 @@ describe("snippet", () => {
     expect(s).toMatchSnapshot()
   })
 
+  it("will only render once per program", () => {
+    const s = snippet((name) => `/* hi from ${name} */`)
+    expect(concatenate(s, s, s)).toMatchInlineSnapshot(`
+      "#ifndef unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c
+      #define unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c
+      /* hi from snippet_4af96d391f3b3f895b83baf57706b2808919303c */
+      #endif"
+    `)
+  })
+
   it("allows a snippet to have dependencies to other snippets", () => {
     const dependency = snippet(() => "/* I'm a dependency */")
 
