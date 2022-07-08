@@ -65,3 +65,9 @@ export const Fresnel = ({
       value = f_fresnel;
     `
   })
+
+export const Step = (edge: Float, v: Float) =>
+  Float("step(edge, v)", { inputs: { edge, v } })
+
+export const Smoothstep = (min: Float, max: Float, v: Float) =>
+  Float("smoothstep(min, max, v)", { inputs: { min, max, v } })
