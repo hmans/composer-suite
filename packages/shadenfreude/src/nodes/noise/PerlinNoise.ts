@@ -1,5 +1,6 @@
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
+import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const PerlinNoise = (p: Vec3, rep: Vec3) =>
   Float(`${pNoise.name}(p, rep)`, {
@@ -52,15 +53,6 @@ const permute = snippet(
   `
   ],
   [mod289]
-)
-
-const taylorInvSqrt = snippet(
-  (name) => `
-    vec4 ${name}(vec4 r)
-    {
-      return 1.79284291400159 - 0.85373472095314 * r;
-    }
-  `
 )
 
 const pNoise = snippet(
