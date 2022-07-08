@@ -31,9 +31,17 @@ type Snippet = {
   render: () => string
 }
 
-const Snippet = ({ render }: { render: (name: string) => string }): Snippet => {
+type SnippetProps = {
+  dependencies?: Snippet[]
+  render: (name: string) => string
+}
+
+const Snippet = ({ render, dependencies = [] }: SnippetProps): Snippet => {
   const name = getUniqueIdentifier()
-  const declaration = unique(name)(render(name))
+  const declaration = unique(name)(
+    dependencies.map((d) => d.render()),
+    render(name)
+  )
   return { name, render: () => declaration }
 }
 
@@ -60,9 +68,8 @@ const mod289 = Snippet({
 })
 
 const permute = Snippet({
+  dependencies: [mod289],
   render: (name) => `
-    ${mod289.render()}
-
     vec4 ${name}(vec4 x)
     {
       return ${mod289.name}(((x*34.0)+10.0)*x);
