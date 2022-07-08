@@ -15,7 +15,6 @@ import {
   Pipe,
   Sin,
   Time,
-  Varying,
   Vec3
 } from "shadenfreude"
 import idGenerator from "shadenfreude/src/lib/idGenerator"
@@ -219,7 +218,7 @@ const Turbulence = () =>
   Float(0, {
     inputs: {
       time: Time,
-      noise: Varying("float", 0)
+      noise: Float(0, { varying: true })
     },
 
     vertexHeader: concatenate(noiseFunctions),

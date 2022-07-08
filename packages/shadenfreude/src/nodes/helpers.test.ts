@@ -1,4 +1,3 @@
-import { Vector3 } from "three"
 import { compileShader } from "../compilers"
 import { Float } from "../variables"
 import { Pipe } from "./helpers"
