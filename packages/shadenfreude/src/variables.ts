@@ -25,6 +25,8 @@ export type JSTypes = {
 
 export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
+export type Chunk = Part | Part[]
+
 export type Variable<T extends GLSLType = any> = {
   _: "Variable"
   id: number
@@ -35,10 +37,10 @@ export type Variable<T extends GLSLType = any> = {
   inputs: Record<string, Value>
   only?: "vertex" | "fragment"
   varying?: boolean
-  vertexHeader?: Part | Part[]
-  vertexBody?: Part | Part[]
-  fragmentHeader?: Part | Part[]
-  fragmentBody?: Part | Part[]
+  vertexHeader?: Chunk
+  vertexBody?: Chunk
+  fragmentHeader?: Chunk
+  fragmentBody?: Chunk
 }
 
 const nextAnonymousId = idGenerator()

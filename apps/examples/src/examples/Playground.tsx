@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import { useMemo } from "react"
 import {
   Add,
+  Chunk,
   compileShader,
   CustomShaderMaterialMaster,
   Float,
@@ -22,38 +23,27 @@ const nextUniqueId = idGenerator()
 
 const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
 
-const noiseFunctionsIdentifier = getUniqueIdentifier()
-
 type Snippet = {
   name: string
-  dependencies?: Snippet[]
-  render: () => string
+  render: () => Chunk
 }
 
-type SnippetProps = {
-  dependencies?: Snippet[]
-  render: (name: string) => string
-}
-
-const Snippet = ({ render, dependencies = [] }: SnippetProps): Snippet => {
+const Snippet = (render: (name: string) => Chunk): Snippet => {
   const name = getUniqueIdentifier()
-  const declaration = unique(name)(
-    dependencies.map((d) => d.render()),
-    render(name)
-  )
+  const declaration = unique(name)(render(name))
   return { name, render: () => declaration }
 }
 
-const fade = Snippet({
-  render: (name) => `
+const fade = Snippet(
+  (name) => `
     vec3 ${name}(vec3 t) {
       return t*t*t*(t*(t*6.0-15.0)+10.0);
     }
   `
-})
+)
 
-const mod289 = Snippet({
-  render: (name) => `
+const mod289 = Snippet(
+  (name) => `
     vec3 ${name}(vec3 x)
     {
       return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -64,31 +54,33 @@ const mod289 = Snippet({
       return x - floor(x * (1.0 / 289.0)) * 289.0;
     }
   `
-})
+)
 
-const permute = Snippet({
-  dependencies: [mod289],
-  render: (name) => `
-    vec4 ${name}(vec4 x)
-    {
-      return ${mod289.name}(((x*34.0)+10.0)*x);
-    }
+const permute = Snippet((name) => [
+  mod289.render(),
   `
-})
+      vec4 ${name}(vec4 x)
+      {
+        return ${mod289.name}(((x*34.0)+10.0)*x);
+      }
+    `
+])
 
-const taylorInvSqrt = Snippet({
-  render: (name) => `
+const taylorInvSqrt = Snippet(
+  (name) => `
     vec4 ${name}(vec4 r)
     {
       return 1.79284291400159 - 0.85373472095314 * r;
     }
   `
-})
+)
 
-const pNoise = Snippet({
-  dependencies: [mod289, permute, taylorInvSqrt, fade],
-
-  render: (name) => `
+const pNoise = Snippet((name) => [
+  mod289.render(),
+  permute.render(),
+  taylorInvSqrt.render(),
+  fade.render(),
+  `
     // Classic Perlin noise, periodic variant
     float ${name}(vec3 P, vec3 rep)
     {
@@ -159,7 +151,7 @@ const pNoise = Snippet({
       return 2.2 * n_xyz;
     }
   `
-})
+])
 
 // const noiseFunctions = `
 // //
