@@ -7,6 +7,7 @@ Creating shaders from node graphs is fun -- users of engines like Unity or Unrea
 If you've always liked the idea of composing shaders from node graphs, but secretly preferred doing it through code, then I am happy to admit that you are just like me, and that I have created Shadenfreude for people like us. Let's go! 🚀
 
 > **Warning**
+>
 > This library is very extremely new. I'd love for you to give it a go and maybe provide some feedback, but I would currently recommend **strongly** against using it in any sort of production project, unless you're ready and willing to keep up with the changes every release. **Use at your own risk.**
 
 ## Features
@@ -35,7 +36,19 @@ This document is going to explain the basics of writing shaders using Shadenfreu
 
 > **Warning**
 >
-> OMG
+> This library is pretty young, and so is its documentation. Since the library is still in a lot of flux, the documentation currently focuses on just the basics, and assumes that you already have a certain amount of familiarity with writing shaders.
+
+### With Three.js
+
+```ts
+const root = ShaderMaterialMaster({
+  color: new Color("hotpink")
+})
+
+const shader = compileShader(root)
+
+const material = new THREE.ShaderMaterial(shader)
+```
 
 [shadermaterial]: https://threejs.org/docs/#api/en/materials/ShaderMaterial
 [three.js]: https://threejs.org/
