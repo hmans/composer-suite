@@ -25,20 +25,9 @@ const nextUniqueId = idGenerator()
 
 const getUniqueIdentifier = () => `uuid_${nextUniqueId()}`
 
-const f = {
-  turbulence: getUniqueIdentifier(),
-  noiseFunctions: getUniqueIdentifier(),
-  thatAnnoyingVarying: getUniqueIdentifier()
-}
-
 const noiseHelpersIdentifier = getUniqueIdentifier()
 
 const noiseFunctionsIdentifier = getUniqueIdentifier()
-
-type GLSLFunction = {
-  name: string
-  declaration: string
-}
 
 const NoiseHelpers = () => {
   const f = {
@@ -74,10 +63,10 @@ const NoiseHelpers = () => {
     }
   `)
 
-  return [f, declaration] as const
+  return { ...f, declaration }
 }
 
-const [helpers, declaration] = NoiseHelpers()
+const helpers = NoiseHelpers()
 
 const noiseFunctions = `
 //
@@ -94,7 +83,7 @@ const noiseFunctions = `
 // https://github.com/stegu/webgl-noise
 //
 
-${declaration}
+${helpers.declaration}
 
 // Classic Perlin noise
 float cnoise(vec3 P)
