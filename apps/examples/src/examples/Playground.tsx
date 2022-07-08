@@ -31,7 +31,7 @@ export default function Playground() {
       return {
         color: Multiply(
           edgeColor,
-          Smoothstep(Subtract(threshold, 0.2), Add(threshold, 0.2), noise)
+          Smoothstep(Subtract(threshold, 0.2), threshold, noise)
         ),
 
         alpha: Step(noise, threshold)
@@ -64,6 +64,7 @@ export default function Playground() {
           {...shader}
           transparent
           side={DoubleSide}
+          alphaTest={0.8}
         />
       </mesh>
     </group>
