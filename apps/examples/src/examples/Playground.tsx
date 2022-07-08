@@ -39,15 +39,17 @@ const mod289 = snippet(
   `
 )
 
-const permute = snippet((name) => [
-  mod289.chunk,
-  `
+const permute = snippet(
+  (name) => [
+    `
     vec4 ${name}(vec4 x)
     {
       return ${mod289.name}(((x*34.0)+10.0)*x);
     }
   `
-])
+  ],
+  [mod289]
+)
 
 const taylorInvSqrt = snippet(
   (name) => `

@@ -1,6 +1,10 @@
 import idGenerator from "./idGenerator"
 import objectHash from "object-hash"
 
+export const resetConcatentor3000 = () => {
+  seenSnippets.clear()
+}
+
 export type Part = any
 
 export type Parts = Part[]
@@ -12,14 +16,6 @@ const indent = (p: string) => "  " + p
 export const block = (...parts: Parts): Parts => {
   const flattened = flatten(parts)
   return flattened.length > 0 ? ["{", flattened.map(indent), "}"] : []
-}
-
-function isSnippet(v: any): v is Snippet {
-  return v && v._ === "Snippet"
-}
-
-const renderSnippets = (p: any) => {
-  return isSnippet(p) ? p.chunk : p
 }
 
 export const concatenate = (...parts: Parts) => flatten(...parts).join("\n")
@@ -59,7 +55,7 @@ export const sluggify = (s: string) =>
 
 /*** Snippets ***/
 
-const nextSnippetId = idGenerator()
+const seenSnippets = new Set<Snippet>()
 
 export type Snippet = {
   _: "Snippet"
@@ -76,3 +72,16 @@ export const snippet = (
   const chunk = flatten(dependencies, unique(name)(render(name)))
   return { _: "Snippet", name, chunk }
 }
+
+function isSnippet(v: any): v is Snippet {
+  return v && v._ === "Snippet"
+}
+
+const renderSnippet = (s: Snippet): Part | Part[] => {
+  if (seenSnippets.has(s)) return
+  seenSnippets.add(s)
+
+  return s.chunk
+}
+
+const renderSnippets = (p: any) => (isSnippet(p) ? renderSnippet(p) : p)
