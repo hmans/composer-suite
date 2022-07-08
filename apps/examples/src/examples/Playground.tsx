@@ -42,7 +42,7 @@ export default function Playground() {
     const dissolve = Dissolve(Sin(Time), 0.3)
 
     const root = CustomShaderMaterialMaster({
-      diffuseColor: Add(new Color("#88c"), dissolve.color),
+      diffuseColor: Add(new Color("#666"), dissolve.color),
       alpha: dissolve.alpha
     })
 
@@ -57,7 +57,7 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <icosahedronGeometry args={[8, 64]} />
+        <torusKnotGeometry args={[8, 3]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
