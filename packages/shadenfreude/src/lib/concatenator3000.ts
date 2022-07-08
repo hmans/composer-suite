@@ -1,4 +1,4 @@
-import objectHash from "object-hash"
+import sha256 from "crypto-js/sha256"
 
 export const resetConcatenator3000 = () => {
   seenSnippets.clear()
@@ -54,7 +54,7 @@ export const sluggify = (s: string) =>
 
 /*** Snippets ***/
 
-const seenSnippets = new Set<Snippet>()
+const seenSnippets = new Set<string>()
 
 export type Snippet = {
   _: "Snippet"
@@ -66,7 +66,7 @@ export const snippet = (
   render: (name: string) => Part | Parts[],
   dependencies: Snippet[] = []
 ): Snippet => {
-  const hash = objectHash(render(""))
+  const hash = sha256(concatenate(render(""))).toString()
   const name = identifier("snippet", hash)
   const chunk = flatten(dependencies, unique(name)(render(name)))
   return { _: "Snippet", name, chunk }
@@ -77,8 +77,8 @@ function isSnippet(v: any): v is Snippet {
 }
 
 const renderSnippet = (s: Snippet): Part | Part[] => {
-  if (seenSnippets.has(s)) return
-  seenSnippets.add(s)
+  if (seenSnippets.has(s.name)) return
+  seenSnippets.add(s.name)
 
   return s.chunk
 }

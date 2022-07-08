@@ -17,9 +17,7 @@ const permute = snippet(
 
 const noise = snippet(
   (name) => `
-
-
-  vec4 ${name}_eh(vec4 r)
+  vec4 ${name}_taylor(vec4 r)
   {
     return 1.79284291400159 - 0.85373472095314 * r;
   }
@@ -80,7 +78,7 @@ float ${name}(vec3 v){
   vec3 p3 = vec3(a1.zw,h.w);
 
   // Normalise gradients
-  vec4 norm = ${name}_eh(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  vec4 norm = ${name}_taylor(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
   p0 *= norm.x;
   p1 *= norm.y;
   p2 *= norm.z;
