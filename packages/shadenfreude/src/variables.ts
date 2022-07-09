@@ -40,12 +40,21 @@ export type VariableConfig<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export type Variable<T extends GLSLType = any> = {
+/**
+ * Any object that extends the IVariable type can be a variable in the shader tree.
+ * Variable objects are free to expose any additional properties on top of this.
+ */
+export interface IVariable<T extends GLSLType = any> {
   _: "Variable"
   _config: VariableConfig<T>
   type: T
   value: Value<T>
 }
+
+export type Variable<
+  T extends GLSLType = any,
+  API extends Record<string, any> = {}
+> = IVariable<T> & API
 
 const nextAnonymousId = idGenerator()
 
