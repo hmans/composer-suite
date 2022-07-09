@@ -66,7 +66,7 @@ export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
 
   const name = identifier("snippet", hash)
 
-  const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
+  const chunk = render(name)
 
   return {
     _: "Snippet",

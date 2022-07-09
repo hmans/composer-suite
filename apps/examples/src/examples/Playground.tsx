@@ -5,8 +5,13 @@ import { useShader } from "./useShader"
 
 export default function Playground() {
   const shader = useShader(() => {
+    const mul = snippet(
+      (name) => `float ${name}(float a, float b) { return a * b; }`
+    )
+
     const add = snippet(
-      (name) => `float ${name}(float a, float b) { return a + b; }`
+      (name) =>
+        expr`float ${name}(float a, float b) { return a + ${mul}(b, 2.0); }`
     )
 
     const a = Float(1)
@@ -14,11 +19,7 @@ export default function Playground() {
 
     const c = Vec3(new Color("hotpink"))
 
-    // return Float(expr`${add}(${a}, ${b})`)
-
-    return Float(expr`1.0 + 1.0`, {
-      fragmentBody: [expr`csm_DiffuseColor = vec4(${a}, 0.5, 0.2, 1.0);`]
-    })
+    return Float(expr`${add}(${a}, ${b})`)
 
     // const noise = Simplex3DNoise(VertexPosition)
 

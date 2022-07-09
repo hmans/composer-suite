@@ -1,3 +1,4 @@
+import { isVar } from "@babel/types"
 import { Vector2 } from "three"
 import { isExpression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
@@ -24,20 +25,28 @@ const variableBeginComment = (v: Variable) =>
 const variableEndComment = (v: Variable) =>
   `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
-const renderSnippet = (
-  s: Snippet,
-  stack: ReturnType<typeof compilerState>
-): Parts => {
-  if (!stack.freshSnippet(s)) return []
-  return s.chunk
-}
-
 const getDependencies = (...sources: any[]): any[] =>
   sources
     .flat(Infinity)
-    .map((s) => (isExpression(s) ? s.values : undefined))
+    .map((s) => (isExpression(s) ? s.values : isSnippet(s) ? s : undefined))
     .flat()
     .filter((d) => !!d)
+
+const compileSnippet = (
+  s: Snippet,
+  program: "vertex" | "fragment",
+  state: ReturnType<typeof compilerState>
+) => {
+  if (!state.freshSnippet(s)) return
+
+  if (isExpression(s.chunk))
+    s.chunk.values.forEach((v) => {
+      isVariable(v) && compileVariable(v, program, state)
+      isSnippet(v) && compileSnippet(v, program, state)
+    })
+
+  state.header.push(s.chunk)
+}
 
 export const compileVariable = (
   v: Variable,
@@ -56,10 +65,16 @@ export const compileVariable = (
     v._config.vertexBody
   )
 
-  /* Render dependencies */
+  console.log("DEPS:", dependencies)
+
+  /* Render variable dependencies */
   dependencies.forEach(
     (dep) => isVariable(dep) && compileVariable(dep, program, state)
   )
+
+  dependencies
+    .filter(isSnippet)
+    .forEach((s) => compileSnippet(s, program, state))
 
   /* HEADER */
   const header = flatten(
