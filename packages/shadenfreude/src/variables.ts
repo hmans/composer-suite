@@ -115,23 +115,33 @@ export const Vec2 = makeVariableHelper("vec2", (v) => ({
   }
 }))
 
-// export const Vec2 = (
-//   v: Value<"vec2">,
-//   extras?: Partial<VariableConfig<"vec2">>
-// ) =>
-//   Variable("vec2", v, extras, (v) => ({
-//     get x() {
-//       return Float("v.x", { inputs: { v } })
-//     },
-//     get y() {
-//       return Float("v.x", { inputs: { v } })
-//     }
-//   }))
+export const Vec3 = makeVariableHelper("vec3", (v) => ({
+  get x() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get y() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get z() {
+    return Float("v.x", { inputs: { v } })
+  }
+}))
 
-// const vec2 = Vec2(new Vector2(1, 2))
+export const Vec4 = makeVariableHelper("vec4", (v) => ({
+  get x() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get y() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get z() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get w() {
+    return Float("v.x", { inputs: { v } })
+  }
+}))
 
-export const Vec3 = makeVariableHelper("vec3")
-export const Vec4 = makeVariableHelper("vec4")
 export const Mat3 = makeVariableHelper("mat3")
 export const Mat4 = makeVariableHelper("mat4")
 
