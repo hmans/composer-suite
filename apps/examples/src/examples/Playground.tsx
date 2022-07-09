@@ -9,6 +9,7 @@ import {
   Divide,
   Float,
   Multiply,
+  Remap,
   Simplex3DNoise,
   Sin,
   Smoothstep,
@@ -28,38 +29,6 @@ import { type } from "shadenfreude/src/glslType"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
-
-const remap = snippet(
-  (name) => `
-    float ${name}(float value, float inMin, float inMax, float outMin, float outMax) {
-      return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-    }
-
-    vec2 ${name}(vec2 value, vec2 inMin, vec2 inMax, vec2 outMin, vec2 outMax) {
-      return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-    }
-
-    vec3 ${name}(vec3 value, vec3 inMin, vec3 inMax, vec3 outMin, vec3 outMax) {
-      return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-    }
-
-    vec4 ${name}(vec4 value, vec4 inMin, vec4 inMax, vec4 outMin, vec4 outMax) {
-      return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-    }`
-)
-
-const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
-  v: Value<T>,
-  inMin: Value<T>,
-  inMax: Value<T>,
-  outMin: Value<T>,
-  outMax: Value<T>
-) =>
-  Variable(type(v), `${remap}(v, inMin, inMax, outMin, outMax)`, {
-    inputs: { v, inMin, inMax, outMin, outMax },
-    vertexHeader: [remap],
-    fragmentHeader: [remap]
-  })
 
 /* Put this into an NPM package, I dare you: */
 const Dissolve = (
