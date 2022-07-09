@@ -62,14 +62,11 @@ export const compileVariable = (
     v._config.vertexBody
   )
 
-  /* Render variable dependencies */
-  dependencies.forEach(
-    (dep) => isVariable(dep) && compileVariable(dep, program, state)
-  )
-
-  dependencies
-    .filter(isSnippet)
-    .forEach((s) => compileSnippet(s, program, state))
+  /* Render variable and snippet dependencies */
+  dependencies.forEach((dep) => {
+    isVariable(dep) && compileVariable(dep, program, state)
+    isSnippet(dep) && compileSnippet(dep, program, state)
+  })
 
   /* HEADER */
   const header = flatten(
@@ -86,7 +83,6 @@ export const compileVariable = (
   )
 
   /* BODY */
-
   state.body.push(
     variableBeginComment(v),
 
