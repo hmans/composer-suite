@@ -1,6 +1,7 @@
 import {
   Add,
   CustomShaderMaterialMaster,
+  Divide,
   expr,
   Float,
   Fresnel,
@@ -20,18 +21,18 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
-    const color = Vec3(new Color("hotpink"))
-    const fresnelColor = Vec3(new Color(2, 2, 2))
-
     // return Float(expr`${a} + ${b}`)
 
     const t = Time
 
-    const noise = Smoothstep(0, 0.1, Simplex3DNoise(VertexPosition))
+    const noise = Smoothstep(
+      0,
+      0.01,
+      Simplex3DNoise(Divide(VertexPosition, 10))
+    )
 
     return CustomShaderMaterialMaster({
-      diffuseColor: Add(color, Multiply(fresnelColor, Fresnel())),
-      alpha: noise
+      diffuseColor: Add(new Color("#8f8"), Multiply(new Color("#88f"), noise))
     })
   }, [])
 
@@ -48,8 +49,8 @@ export default function Playground() {
           {...shader}
           transparent
           side={DoubleSide}
-          metalness={0.5}
-          roughness={0.5}
+          metalness={0}
+          roughness={0}
         />
       </mesh>
     </group>
