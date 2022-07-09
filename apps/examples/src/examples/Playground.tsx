@@ -4,23 +4,36 @@ import { useControls } from "leva"
 import { useMemo } from "react"
 import {
   Add,
+  Bool,
   compileShader,
   CustomShaderMaterialMaster,
   Dissolve,
+  Float,
+  Join,
+  Multiply,
+  Pipe,
+  Sampler2D,
+  Split,
+  Subtract,
+  Time,
   Uniform,
+  UV,
   Value,
   Vec2,
+  Vec3,
   Vec4
 } from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial } from "three"
+import { Color, DoubleSide, MeshStandardMaterial, RepeatWrapping } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
 
-const SampleTexture = (t: Value<"sampler2D">, xy: Vec2) =>
-  Vec4("texture2D(t, xy)", { inputs: { t, xy } })
+const SampleTexture = (name: string, t: Bool, xy: Vec2) =>
+  Vec4(`texture2D(${name}, xy)`, { inputs: { t, xy } })
 
 export default function Playground() {
   const texture = useTexture(textureUrl)
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
 
   const controls = useControls("Uniforms", {
     visibility: { value: 0.5, min: 0, max: 1 },
@@ -33,7 +46,7 @@ export default function Playground() {
     const parameters = {
       visibility: Uniform("float", "u_visibility"),
       edgeThickness: Uniform("float", "u_edgeThickness"),
-      texture: Uniform("sampler2D", "u_texture")
+      texture: Sampler2D("u_texture")
     }
 
     /* Use the thing: */
@@ -43,8 +56,22 @@ export default function Playground() {
       parameters.edgeThickness
     )
 
+    const map = SampleTexture(
+      "u_texture",
+      parameters.texture,
+      Subtract(UV, Join(Multiply(Time, 0.03), 0))
+    )
+
+    const splitMap = Split(map)
+
+    const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
+
     const root = CustomShaderMaterialMaster({
-      diffuseColor: Add(new Color("#666"), dissolve.color),
+      diffuseColor: Pipe(
+        Vec3(new Color("#aaa")),
+        ($) => Multiply($, mapDiffuse),
+        ($) => Add($, dissolve.color)
+      ),
       alpha: dissolve.alpha
     })
 
