@@ -25,7 +25,6 @@ import {
   Vec4,
   VertexPosition
 } from "shadenfreude"
-import { type } from "shadenfreude/src/glslType"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
