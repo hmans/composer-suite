@@ -49,10 +49,11 @@ export type Variable<T extends GLSLType = any> = {
 
 const nextAnonymousId = idGenerator()
 
-export const Variable = <T extends GLSLType>(
+export const Variable = <T extends GLSLType, A extends Api = {}>(
   type: T,
   value: Value<T>,
-  configInput: Partial<VariableConfig<T>> = {}
+  configInput: Partial<VariableConfig<T>> = {},
+  apiFactory?: ApiFactory<T, A>
 ) => {
   const id = nextAnonymousId()
 
@@ -74,7 +75,7 @@ export const Variable = <T extends GLSLType>(
     value
   }
 
-  return v
+  return injectAPI(v, (apiFactory ? apiFactory(v) : {}) as A)
 }
 
 export function isVariable(v: any): v is Variable {
@@ -88,36 +89,44 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 /* Helpers */
 
 type Api = Record<string, any>
+type ApiFactory<T extends GLSLType, A extends Api> = (
+  variable: Variable<T>
+) => A
 
 const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
   return { ...variable, ...api }
 }
 
-const makeVariableHelper = <T extends GLSLType>(type: T) => (
-  v: Value<T>,
-  extras?: Partial<VariableConfig<T>>
-) => Variable(type, v, extras)
+const makeVariableHelper = <T extends GLSLType, A extends Api>(
+  type: T,
+  apiFactory?: ApiFactory<T, A>
+) => (v: Value<T>, config?: Partial<VariableConfig<T>>) =>
+  Variable(type, v, config, apiFactory)
 
 export const Float = makeVariableHelper("float")
 export const Bool = makeVariableHelper("bool")
-// export const Vec2 = makeVariableHelper("vec2")
 
-export const Vec2 = (
-  v: Value<"vec2">,
-  extras?: Partial<VariableConfig<"vec2">>
-) => {
-  const variable = Variable("vec2", v, extras)
+export const Vec2 = makeVariableHelper("vec2", (v) => ({
+  get x() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get y() {
+    return Float("v.x", { inputs: { v } })
+  }
+}))
 
-  return injectAPI(variable, {
-    get x() {
-      return Float("v.x", { inputs: { v } })
-    },
-
-    get y() {
-      return Float("v.y", { inputs: { v } })
-    }
-  })
-}
+// export const Vec2 = (
+//   v: Value<"vec2">,
+//   extras?: Partial<VariableConfig<"vec2">>
+// ) =>
+//   Variable("vec2", v, extras, (v) => ({
+//     get x() {
+//       return Float("v.x", { inputs: { v } })
+//     },
+//     get y() {
+//       return Float("v.x", { inputs: { v } })
+//     }
+//   }))
 
 // const vec2 = Vec2(new Vector2(1, 2))
 
