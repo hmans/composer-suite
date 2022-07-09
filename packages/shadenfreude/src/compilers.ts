@@ -41,7 +41,7 @@ export const compileVariable = (
   if (v._config.only && v._config.only !== program) return []
 
   /* Build a list of dependencies */
-  const dependencies = isExpression(v.value) ? v.value.values : [v.value]
+  const dependencies = isExpression(v.value) ? v.value.values : []
 
   /* Render dependencies */
   dependencies.forEach(

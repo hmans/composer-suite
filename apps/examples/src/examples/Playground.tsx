@@ -1,5 +1,5 @@
-import { expr, Float, snippet } from "shadenfreude"
-import { DoubleSide, MeshStandardMaterial } from "three"
+import { expr, Float, snippet, Vec3 } from "shadenfreude"
+import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
 
@@ -12,9 +12,13 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
+    const c = Vec3(new Color("hotpink"))
+
     // return Float(expr`${add}(${a}, ${b})`)
 
-    return Float(expr`${a} + ${b}`)
+    return Float(expr`${a} + ${b}`, {
+      fragmentBody: `csm_DiffuseColor = vec4(1.0, 0.5, 0.2, 1.0);`
+    })
 
     // const noise = Simplex3DNoise(VertexPosition)
 
@@ -24,8 +28,8 @@ export default function Playground() {
     // })
   }, [])
 
-  console.log(shader.vertexShader)
-  // console.log(shader.fragmentShader)
+  // console.log(shader.vertexShader)
+  console.log(shader.fragmentShader)
 
   return (
     <group position-y={15}>
