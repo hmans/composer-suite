@@ -24,6 +24,13 @@ const variableBeginComment = (v: Variable) =>
 const variableEndComment = (v: Variable) =>
   `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
+/**
+ * Traverses the specified variables and returns a list of all objects that can
+ * be dependencies of something else (variables, expressions, snippets, etc.)
+ *
+ * @param sources
+ * @returns
+ */
 const getDependencies = (...sources: any[]): any[] =>
   sources
     .flat(Infinity)
@@ -152,10 +159,8 @@ export const compileShader = (root: Variable) => {
 
 const compilerState = () => {
   const seen = new Set<Variable | Snippet>()
-
   const header = [] as Parts
   const body = [] as Parts
-
   const nextId = idGenerator()
 
   return {
