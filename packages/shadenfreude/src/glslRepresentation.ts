@@ -23,9 +23,9 @@ export const glslRepresentation = (value: Value): string => {
 
   if (value instanceof Vector2)
     return `
-      vec3(
+      vec2(
         ${glslRepresentation(value.x)},
-        ${glslRepresentation(value.y)},
+        ${glslRepresentation(value.y)}
       )`
 
   if (value instanceof Vector3)
