@@ -4,6 +4,9 @@ import { type } from "./glslType"
 import { identifier, Part, Snippet } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
+/**
+ * The different GLSL types we're supporting in variables.
+ */
 export type GLSLType =
   | "bool"
   | "float"
@@ -90,10 +93,6 @@ export const Variable = <T extends GLSLType>(
 
 export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
-}
-
-export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
-  return type(v) === t
 }
 
 /* Helpers */
