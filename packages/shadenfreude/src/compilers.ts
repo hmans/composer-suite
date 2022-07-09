@@ -31,16 +31,24 @@ export const compileHeader = (
 ): Parts => {
   if (!stack.fresh(v)) return []
 
+  /* Abort if we're not supposed to render this in the current program. */
   if (v._config.only && v._config.only !== program) return []
 
+  /* Compose the header */
   const header = flatten(
+    /* If this variable is configured to use a varying, declare it */
     v._config.varying && `varying ${v.type} v_${v._config.name};`,
+
+    /* Render the actual header chuink */
     v._config[`${program}Header`]
   )
 
   return [
-    /* Render dependencies */
+    /* Render variable dependencies */
     variableDependencies(v).map((dep) => compileHeader(dep, program, stack)),
+
+    /* Render snippet dependencies */
+    snippetDependencies(v).map((snip) => snip),
 
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]

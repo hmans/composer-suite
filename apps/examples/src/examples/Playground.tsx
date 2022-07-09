@@ -3,19 +3,16 @@ import { DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
 
-const snip = snippet(
-  (name) => `float ${name}(float a, float b) { return a + b; }`
-)
-
 export default function Playground() {
   const shader = useShader(() => {
+    const add = snippet(
+      (name) => `float ${name}(float a, float b) { return a + b; }`
+    )
+
     const a = Float(1)
     const b = Float(2)
 
-    return Float(expr`${snip}(${a}, ${b})`, {
-      vertexHeader: [snip],
-      fragmentHeader: [snip]
-    })
+    return Float(expr`${add}(${a}, ${b})`)
   }, [])
 
   console.log(shader.vertexShader)
