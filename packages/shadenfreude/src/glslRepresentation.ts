@@ -2,7 +2,7 @@ import { Color, Vector2, Vector3, Vector4 } from "three"
 import { isVariable, Value } from "./variables"
 
 export const glslRepresentation = (value: Value): string => {
-  if (isVariable(value)) return value.name
+  if (isVariable(value)) return value._config.name
 
   if (typeof value === "string") return value
 

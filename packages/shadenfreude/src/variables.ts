@@ -40,8 +40,9 @@ export type VariableConfig<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export type Variable<T extends GLSLType = any> = VariableConfig<T> & {
+export type Variable<T extends GLSLType = any> = {
   _: "Variable"
+  _config: VariableConfig<T>
   type: T
   value: Value<T>
 }
@@ -68,7 +69,7 @@ export const Variable = <T extends GLSLType>(
 
   const v: Variable<T> = {
     _: "Variable",
-    ...config,
+    _config: config,
     type,
     value
   }
@@ -88,7 +89,7 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
-  extras?: Partial<Variable<T>>
+  extras?: Partial<VariableConfig<T>>
 ) => Variable(type, v, extras)
 
 export const Float = makeVariableHelper("float")
