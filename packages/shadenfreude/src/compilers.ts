@@ -1,6 +1,5 @@
 import { Vector2 } from "three"
 import { glslRepresentation } from "./glslRepresentation"
-import { type } from "./glslType"
 import {
   assignment,
   block,
@@ -39,7 +38,7 @@ export const compileHeader = (
 
   return [
     /* Render dependencies */
-    dependencies(v).map((input) => compileHeader(input, program, stack)),
+    dependencies(v).map((dep) => compileHeader(dep, program, stack)),
 
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]
@@ -57,7 +56,7 @@ export const compileBody = (
 
   return [
     /* Render dependencies */
-    dependencies(v).map((input) => compileBody(input, program, stack)),
+    dependencies(v).map((dep) => compileBody(dep, program, stack)),
 
     variableBeginComment(v),
 
@@ -65,15 +64,6 @@ export const compileBody = (
     statement(v.type, v._config.name),
 
     block(
-      /* Make inputs available as local variables */
-      inputs(v).map(
-        ([name, input]) =>
-          (!isVariable(input) ||
-            !input._config.only ||
-            input._config.only === program) &&
-          assignment(`${type(input)} ${name}`, glslRepresentation(input))
-      ),
-
       /* Make local value variable available */
       v._config.varying && program === "fragment"
         ? statement(v.type, "value", "=", `v_${v._config.name}`)
@@ -147,12 +137,7 @@ const dependencyStack = () => {
   }
 }
 
-const inputs = (v: Variable) => Object.entries(v._config.inputs)
-
-const inputDependencies = (v: Variable) =>
-  inputs(v)
-    .filter(([_, i]) => isVariable(i))
-    .map(([_, i]) => i)
-
 const dependencies = (v: Variable) =>
-  [isVariable(v.value) && v.value, ...inputDependencies(v)].filter((d) => !!d)
+  [isVariable(v.value) && v.value, ...v._config.dependencies].filter(
+    (d) => !!d
+  ) as Variable[]

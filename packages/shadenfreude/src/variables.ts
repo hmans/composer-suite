@@ -31,7 +31,7 @@ export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  inputs: Record<string, Value>
+  dependencies: Variable[]
   only?: "vertex" | "fragment"
   varying?: boolean
   vertexHeader?: Chunk
@@ -70,7 +70,7 @@ export const Variable = <T extends GLSLType>(
     id,
     title: `Anonymous ${type} = ${glslRepresentation(value)}`,
     name: identifier("anonymous", id),
-    inputs: {},
+    dependencies: [],
 
     /* User-provided configuration */
     ...configInput

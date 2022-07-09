@@ -48,9 +48,10 @@ describe("compileShader", () => {
 
   it("doesn't render the same dependency twice", () => {
     const a = Float(1)
-    const b = Bool(true, { inputs: { a, b: a } })
+    const b = Bool(true, { dependencies: [a] })
+    const c = Bool(true, { dependencies: [a, b] })
 
-    const [shader] = compileShader(b)
+    const [shader] = compileShader(c)
 
     expect(shader.fragmentShader).toMatchSnapshot()
   })
