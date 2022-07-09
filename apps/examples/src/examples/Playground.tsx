@@ -8,8 +8,6 @@ import {
   Multiply,
   Pipe,
   Sampler2D,
-  Split,
-  Subtract,
   TilingUV,
   Time,
   Uniform,
