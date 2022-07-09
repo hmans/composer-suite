@@ -1,5 +1,4 @@
 import { glslRepresentation } from "./glslRepresentation"
-import { Float } from "./variables"
 
 export type Expression = {
   _: "Expression"
@@ -26,8 +25,3 @@ export const expr = (
 export function isExpression(v: any): v is Expression {
   return v && v._ === "Expression"
 }
-
-/* Type expression helpers */
-
-export const float = (strings: TemplateStringsArray, ...values: any[]) =>
-  Float(expr(strings, ...values))

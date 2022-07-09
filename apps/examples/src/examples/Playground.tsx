@@ -1,7 +1,6 @@
 import {
   CustomShaderMaterialMaster,
   expr,
-  float,
   Float,
   Simplex3DNoise,
   Smoothstep,
