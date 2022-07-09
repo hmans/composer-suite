@@ -51,11 +51,11 @@ const nextAnonymousId = idGenerator()
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
-  config: Partial<VariableConfig<T>> = {}
+  configInput: Partial<VariableConfig<T>> = {}
 ) => {
   const id = nextAnonymousId()
 
-  const state: VariableConfig<T> = {
+  const config: VariableConfig<T> = {
     /* Defaults */
     id,
     title: `Anonymous ${type} = ${glslRepresentation(value)}`,
@@ -63,7 +63,7 @@ export const Variable = <T extends GLSLType>(
     inputs: {},
 
     /* User-provided configuration */
-    ...config,
+    ...configInput,
 
     /* Override with provided type and value */
     type,
@@ -72,7 +72,7 @@ export const Variable = <T extends GLSLType>(
 
   const v: Variable<T> = {
     _: "Variable",
-    ...state
+    ...config
   }
 
   return v
