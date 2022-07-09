@@ -40,7 +40,7 @@ export type VariableConfig<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export type Variable<T extends GLSLType = any> = {
+export interface Variable<T extends GLSLType = any> {
   _: "Variable"
   _config: VariableConfig<T>
   type: T
