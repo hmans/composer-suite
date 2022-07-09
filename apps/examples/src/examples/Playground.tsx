@@ -76,7 +76,7 @@ export default function Playground() {
 
     const root = CustomShaderMaterialMaster({
       diffuseColor: Pipe(
-        Vec3(new Color("#aaa")),
+        Vec3(new Color("#4cf")),
         ($) => Multiply($, mapDiffuse),
         ($) => Add($, dissolve.color)
       ),
@@ -107,6 +107,9 @@ export default function Playground() {
           {...shader}
           transparent
           side={DoubleSide}
+          metalness={0.5}
+          roughness={0.5}
+          cacheKey={() => "foo"}
         />
       </mesh>
     </group>
