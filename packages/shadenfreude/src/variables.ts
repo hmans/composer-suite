@@ -1,5 +1,5 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { Expression, flushDependencies } from "./expressions"
+import { flushDependencies } from "./expressions"
 import { type } from "./glslType"
 import { identifier, Part, Snippet } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
@@ -23,9 +23,11 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
+export type ValueFunction<T extends GLSLType> = (v: Value<T>) => Part | Part[]
+
 export type Value<T extends GLSLType = any> =
   | string
-  | Expression
+  | ValueFunction<T>
   | JSTypes[T]
   | Variable<T>
 
