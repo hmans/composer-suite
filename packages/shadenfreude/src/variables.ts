@@ -47,6 +47,11 @@ export type Variable<T extends GLSLType = any> = {
   value: Value<T>
 }
 
+type Api = Record<string, any>
+type ApiFactory<T extends GLSLType, A extends Api> = (
+  variable: Variable<T>
+) => A
+
 const nextAnonymousId = idGenerator()
 
 export const Variable = <T extends GLSLType, A extends Api = {}>(
@@ -78,6 +83,10 @@ export const Variable = <T extends GLSLType, A extends Api = {}>(
   return injectAPI(v, (apiFactory ? apiFactory(v) : {}) as A)
 }
 
+const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
+  return { ...variable, ...api }
+}
+
 export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
 }
@@ -87,15 +96,6 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 }
 
 /* Helpers */
-
-type Api = Record<string, any>
-type ApiFactory<T extends GLSLType, A extends Api> = (
-  variable: Variable<T>
-) => A
-
-const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
-  return { ...variable, ...api }
-}
 
 const makeVariableHelper = <T extends GLSLType, A extends Api>(
   type: T,
