@@ -1,3 +1,6 @@
+import { compileShader } from "../compilers"
+import { expr } from "../expressions"
+import { Float } from "../variables"
 import { concatenate, flatten, snippet } from "./concatenator3000"
 
 describe("flatten", () => {
@@ -51,25 +54,59 @@ describe("snippet", () => {
   })
 
   it("will only render once per program", () => {
-    const s = snippet((name) => `/* hi from ${name} */`)
-    expect(concatenate(s, s, s)).toMatchInlineSnapshot(`
-      "/*** SNIPPET: snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 ***/
-      /* hi from snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 */"
+    const add = snippet(
+      (name) => `float ${name}(float a, float b) { return a + b; }`
+    )
+
+    const f = Float(expr`${add}(1, ${add}(2, 3))`)
+    const [shader] = compileShader(f)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "/*** SNIPPET: snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9 ***/
+      float snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(float a, float b) { return a + b; }
+      void main()
+      {
+        /*** BEGIN: anon (1) ***/
+        float float_anon_1;
+        {
+          float value = snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(1, snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(2, 3));
+          float_anon_1 = value;
+        }
+        /*** END: anon (1) ***/
+
+      }"
     `)
   })
 
   it("allows a snippet to have dependencies to other snippets", () => {
-    const dependency = snippet(() => "/* I'm a dependency */")
+    const mul = snippet(
+      (name) => `float ${name}(float a, float b) { return a * b; }`
+    )
 
-    const s = snippet(() => "/* I'm a snippet that uses the dependency */", [
-      dependency
-    ])
+    const add = snippet(
+      (name) =>
+        expr`float ${name}(float a, float b) { return a + ${mul}(a, b); }`
+    )
 
-    expect(concatenate(s)).toMatchInlineSnapshot(`
-      "/*** SNIPPET: snippet_3e4f1b759eeeef3974130c653d8946525fc658e0480296913221de96a874ff38 ***/
-      /* I'm a dependency */
-      /*** SNIPPET: snippet_8ebae88c6c0e293fffce560b3c6dddc8fd51b136f1de1583f75ed98b8f47a206 ***/
-      /* I'm a snippet that uses the dependency */"
+    const f = Float(expr`${add}(1, ${add}(2, 3))`)
+    const [shader] = compileShader(f)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "/*** SNIPPET: snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba ***/
+      float snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba(float a, float b) { return a * b; }
+      /*** SNIPPET: snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff ***/
+      float snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(float a, float b) { return a + snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba(a, b); }
+      void main()
+      {
+        /*** BEGIN: anon (1) ***/
+        float float_anon_1;
+        {
+          float value = snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(1, snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(2, 3));
+          float_anon_1 = value;
+        }
+        /*** END: anon (1) ***/
+
+      }"
     `)
   })
 })

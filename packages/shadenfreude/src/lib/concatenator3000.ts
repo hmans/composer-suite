@@ -1,10 +1,6 @@
 import sha256 from "crypto-js/sha256"
 import { Expression } from "../expressions"
 
-export const resetConcatenator3000 = () => {
-  seenSnippets.clear()
-}
-
 export type Part = any
 
 export type Parts = Part[]
@@ -26,7 +22,6 @@ export const line = (...parts: Parts) => flatten(...parts).join(" ")
 
 export const flatten = (...parts: Parts): Parts =>
   parts
-    .map(renderSnippets)
     .map(renderExpressions)
     .filter(compact)
     .map((p) => (Array.isArray(p) ? flatten(...p) : p))
@@ -58,8 +53,6 @@ export const sluggify = (s: string) =>
 
 /*** Snippets ***/
 
-const seenSnippets = new Set<string>()
-
 export type Snippet = {
   _: "Snippet"
   name: string
@@ -74,7 +67,13 @@ export const snippet = (
   const hash = sha256(concatenate(render(""))).toString()
   const name = identifier("snippet", hash)
   const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
-  return { _: "Snippet", name, chunk, dependencies }
+
+  return {
+    _: "Snippet",
+    name,
+    chunk,
+    dependencies
+  }
 }
 
 export function isSnippet(v: any): v is Snippet {
@@ -84,12 +83,3 @@ export function isSnippet(v: any): v is Snippet {
 export function isExpression(v: any): v is Expression {
   return v && v._ === "Expression"
 }
-
-const renderSnippet = (s: Snippet): Part | Part[] => {
-  if (seenSnippets.has(s.name)) return
-  seenSnippets.add(s.name)
-
-  return [s.dependencies.map(renderSnippet), s.chunk]
-}
-
-const renderSnippets = (p: any) => (isSnippet(p) ? renderSnippet(p) : p)

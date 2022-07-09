@@ -8,7 +8,6 @@ import {
   identifier,
   isSnippet,
   Parts,
-  resetConcatenator3000,
   sluggify,
   Snippet,
   statement
@@ -24,12 +23,20 @@ const variableBeginComment = (v: Variable) =>
 const variableEndComment = (v: Variable) =>
   `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
+const renderSnippet = (
+  s: Snippet,
+  stack: ReturnType<typeof dependencyStack>
+): Parts => {
+  if (!stack.freshSnippet(s)) return []
+  return [s.dependencies.map((s) => renderSnippet(s, stack)), s.chunk]
+}
+
 export const compileHeader = (
   v: Variable,
   program: ProgramType,
   stack = dependencyStack()
 ): Parts => {
-  if (!stack.fresh(v)) return []
+  if (!stack.freshVariable(v)) return []
 
   /* Abort if we're not supposed to render this in the current program. */
   if (v._config.only && v._config.only !== program) return []
@@ -48,7 +55,7 @@ export const compileHeader = (
     variableDependencies(v).map((dep) => compileHeader(dep, program, stack)),
 
     /* Render snippet dependencies */
-    snippetDependencies(v).map((snip) => snip),
+    snippetDependencies(v).map((snip) => renderSnippet(snip, stack)),
 
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]
@@ -60,7 +67,7 @@ export const compileBody = (
   program: ProgramType,
   stack = dependencyStack()
 ): Parts => {
-  if (!stack.fresh(v)) return []
+  if (!stack.freshVariable(v)) return []
 
   if (v._config.only && v._config.only !== program) return []
 
@@ -103,7 +110,7 @@ export const compileProgram = (v: Variable, program: ProgramType) =>
   )
 
 const prepare = (v: Variable, stack = dependencyStack()) => {
-  if (!stack.fresh(v)) return
+  if (!stack.freshVariable(v)) return
 
   /* Prepare dependencies first */
   variableDependencies(v).forEach((d) => prepare(d, stack))
@@ -118,10 +125,8 @@ const prepare = (v: Variable, stack = dependencyStack()) => {
 export const compileShader = (root: Variable) => {
   prepare(root)
 
-  resetConcatenator3000()
   const vertexShader = compileProgram(root, "vertex")
 
-  resetConcatenator3000()
   const fragmentShader = compileProgram(root, "fragment")
 
   const uniforms = {
@@ -138,11 +143,18 @@ export const compileShader = (root: Variable) => {
 }
 
 const dependencyStack = () => {
-  const seen = new Set<Variable>()
+  const seenVariables = new Set<Variable>()
+  const seenSnippets = new Set<Snippet>()
+
   const nextId = idGenerator()
 
   return {
-    fresh: (v: Variable) => (seen.has(v) ? false : seen.add(v) && true),
+    freshVariable: (v: Variable) =>
+      seenVariables.has(v) ? false : seenVariables.add(v) && true,
+
+    freshSnippet: (s: Snippet) =>
+      seenSnippets.has(s) ? false : seenSnippets.add(s) && true,
+
     nextId
   }
 }
