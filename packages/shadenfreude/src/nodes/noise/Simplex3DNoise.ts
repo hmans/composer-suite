@@ -1,11 +1,11 @@
+import { expr } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
 import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const Simplex3DNoise = (p: Vec3) =>
-  Float(`${noise.name}(p)`, {
-    inputs: { p },
+  Float(expr`${noise.name}(${p})`, {
     vertexHeader: [noise],
     fragmentHeader: [noise]
   })

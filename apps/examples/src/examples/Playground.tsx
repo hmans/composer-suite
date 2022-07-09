@@ -5,9 +5,11 @@ import {
   Float,
   Fresnel,
   Multiply,
+  Simplex3DNoise,
   Smoothstep,
   Time,
-  Vec3
+  Vec3,
+  VertexPosition
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
@@ -25,8 +27,11 @@ export default function Playground() {
 
     const t = Time
 
+    const noise = Smoothstep(0, 0.1, Simplex3DNoise(VertexPosition))
+
     return CustomShaderMaterialMaster({
-      diffuseColor: Add(color, Multiply(fresnelColor, Fresnel()))
+      diffuseColor: Add(color, Multiply(fresnelColor, Fresnel())),
+      alpha: noise
     })
   }, [])
 
