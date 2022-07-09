@@ -53,7 +53,7 @@ export const compileVariable = (
   if (!state.isFresh(v)) return []
   if (v._config.only && v._config.only !== program) return []
 
-  /* Build a list of dependencies */
+  /* Build a list of dependencies from the various places that can have them: */
   const dependencies = getDependencies(
     v.value,
     v._config.fragmentHeader,
@@ -61,8 +61,6 @@ export const compileVariable = (
     v._config.vertexHeader,
     v._config.vertexBody
   )
-
-  console.log("DEPS:", dependencies)
 
   /* Render variable dependencies */
   dependencies.forEach(

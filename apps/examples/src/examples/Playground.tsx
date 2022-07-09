@@ -1,4 +1,12 @@
-import { expr, Float, snippet, Vec3 } from "shadenfreude"
+import {
+  CustomShaderMaterialMaster,
+  expr,
+  Float,
+  Simplex3DNoise,
+  snippet,
+  Vec3,
+  VertexPosition
+} from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
@@ -19,14 +27,14 @@ export default function Playground() {
 
     const c = Vec3(new Color("hotpink"))
 
-    return Float(expr`${add}(${a}, ${b})`)
+    // return Float(expr`${add}(${a}, ${b})`)
 
-    // const noise = Simplex3DNoise(VertexPosition)
+    const noise = Simplex3DNoise(VertexPosition)
 
-    // return CustomShaderMaterialMaster({
-    //   diffuseColor: new Color("hotpink"),
-    //   alpha: noise
-    // })
+    return CustomShaderMaterialMaster({
+      diffuseColor: new Color("hotpink"),
+      alpha: noise
+    })
   }, [])
 
   // console.log(shader.vertexShader)
