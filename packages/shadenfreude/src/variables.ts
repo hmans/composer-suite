@@ -27,13 +27,10 @@ export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
 export type Chunk = Part | Part[]
 
-export type Variable<T extends GLSLType = any> = {
-  _: "Variable"
+export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  type: T
-  value: Value<T>
   inputs: Record<string, Value>
   only?: "vertex" | "fragment"
   varying?: boolean
@@ -43,22 +40,36 @@ export type Variable<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
+export type Variable<T extends GLSLType = any> = {
+  _: "Variable"
+  _config: VariableConfig<T>
+  type: T
+  value: Value<T>
+}
+
 const nextAnonymousId = idGenerator()
 
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
-  extras: Partial<Variable<T>> = {}
+  configInput: Partial<VariableConfig<T>> = {}
 ) => {
   const id = nextAnonymousId()
 
-  const v: Variable<T> = {
+  const config: VariableConfig<T> = {
+    /* Defaults */
     id,
     title: `Anonymous ${type} = ${glslRepresentation(value)}`,
     name: identifier("anonymous", id),
     inputs: {},
-    ...extras,
+
+    /* User-provided configuration */
+    ...configInput
+  }
+
+  const v: Variable<T> = {
     _: "Variable",
+    _config: config,
     type,
     value
   }
@@ -78,7 +89,7 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
-  extras?: Partial<Variable<T>>
+  extras?: Partial<VariableConfig<T>>
 ) => Variable(type, v, extras)
 
 export const Float = makeVariableHelper("float")

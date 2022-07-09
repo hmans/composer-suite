@@ -18,10 +18,10 @@ import { isVariable, Variable } from "./variables"
 export type ProgramType = "vertex" | "fragment"
 
 const variableBeginComment = (v: Variable) =>
-  `/*** BEGIN: ${v.title} (${v.id}) ***/`
+  `/*** BEGIN: ${v._config.title} (${v._config.id}) ***/`
 
 const variableEndComment = (v: Variable) =>
-  `/*** END: ${v.title} (${v.id}) ***/\n`
+  `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
 export const compileHeader = (
   v: Variable,
@@ -30,11 +30,11 @@ export const compileHeader = (
 ): Parts => {
   if (!stack.fresh(v)) return []
 
-  if (v.only && v.only !== program) return []
+  if (v._config.only && v._config.only !== program) return []
 
   const header = flatten(
-    v.varying && `varying ${v.type} v_${v.name};`,
-    v[`${program}Header`]
+    v._config.varying && `varying ${v.type} v_${v._config.name};`,
+    v._config[`${program}Header`]
   )
 
   return [
@@ -53,7 +53,7 @@ export const compileBody = (
 ): Parts => {
   if (!stack.fresh(v)) return []
 
-  if (v.only && v.only !== program) return []
+  if (v._config.only && v._config.only !== program) return []
 
   return [
     /* Render dependencies */
@@ -62,29 +62,33 @@ export const compileBody = (
     variableBeginComment(v),
 
     /* Declare the variable */
-    statement(v.type, v.name),
+    statement(v.type, v._config.name),
 
     block(
       /* Make inputs available as local variables */
       inputs(v).map(
         ([name, input]) =>
-          (!isVariable(input) || !input.only || input.only === program) &&
+          (!isVariable(input) ||
+            !input._config.only ||
+            input._config.only === program) &&
           assignment(`${type(input)} ${name}`, glslRepresentation(input))
       ),
 
       /* Make local value variable available */
-      v.varying && program === "fragment"
-        ? statement(v.type, "value", "=", `v_${v.name}`)
+      v._config.varying && program === "fragment"
+        ? statement(v.type, "value", "=", `v_${v._config.name}`)
         : statement(v.type, "value", "=", glslRepresentation(v.value)),
 
       /* The body chunk, if there is one */
-      v[`${program}Body`],
+      v._config[`${program}Body`],
 
       /* Assign local value variable back to global variable */
-      assignment(v.name, "value"),
+      assignment(v._config.name, "value"),
 
       /* If we're in vertex and have a varying, assign to it, too */
-      v.varying && program === "vertex" && assignment(`v_${v.name}`, "value")
+      v._config.varying &&
+        program === "vertex" &&
+        assignment(`v_${v._config.name}`, "value")
     ),
 
     variableEndComment(v)
@@ -105,10 +109,10 @@ const prepare = (v: Variable, stack = dependencyStack()) => {
   dependencies(v).forEach((d) => prepare(d, stack))
 
   /* Update the node's ID */
-  v.id = stack.nextId()
+  v._config.id = stack.nextId()
 
   /* Give this variable a better name */
-  v.name = identifier(v.type, sluggify(v.title), v.id)
+  v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
 }
 
 export const compileShader = (root: Variable) => {
@@ -143,7 +147,7 @@ const dependencyStack = () => {
   }
 }
 
-const inputs = (v: Variable) => Object.entries(v.inputs)
+const inputs = (v: Variable) => Object.entries(v._config.inputs)
 
 const inputDependencies = (v: Variable) =>
   inputs(v)

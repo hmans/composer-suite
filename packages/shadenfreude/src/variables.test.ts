@@ -21,7 +21,7 @@ describe("variable", () => {
     const source = Float(1)
     const v = Float(source)
     expect(v.value).toBe(source)
-    expect(glsl(v.value)).toBe(source.name)
+    expect(glsl(v.value)).toBe(source._config.name)
   })
 
   it("supports a 'varying' flag that will automatically make it pass its data as a varying", () => {
