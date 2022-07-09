@@ -31,17 +31,18 @@ const renderSnippet = (
   return s.chunk
 }
 
-export const compileHeader = (
+export const compileVariable = (
   v: Variable,
   program: ProgramType,
-  stack = compilerState()
-): Parts => {
-  if (!stack.freshVariable(v)) return []
-
-  /* Abort if we're not supposed to render this in the current program. */
+  state = compilerState()
+) => {
+  if (!state.freshVariable(v)) return []
   if (v._config.only && v._config.only !== program) return []
 
-  /* Compose the header */
+  /* Add depdnencies */
+  variableDependencies(v).map((dep) => compileVariable(dep, program, state))
+
+  /* HEADER */
   const header = flatten(
     /* If this variable is configured to use a varying, declare it */
     v._config.varying && `varying ${v.type} v_${v._config.name};`,
@@ -50,31 +51,17 @@ export const compileHeader = (
     v._config[`${program}Header`]
   )
 
-  return [
-    /* Render variable dependencies */
-    variableDependencies(v).map((dep) => compileHeader(dep, program, stack)),
-
+  state.header.push(
     /* Render snippet dependencies */
-    snippetDependencies(v).map((snip) => renderSnippet(snip, stack)),
+    snippetDependencies(v).map((snip) => renderSnippet(snip, state)),
 
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]
-  ]
-}
+  )
 
-export const compileBody = (
-  v: Variable,
-  program: ProgramType,
-  stack = compilerState()
-): Parts => {
-  if (!stack.freshVariable(v)) return []
+  /* BODY */
 
-  if (v._config.only && v._config.only !== program) return []
-
-  return [
-    /* Render dependencies */
-    variableDependencies(v).map((dep) => compileBody(dep, program, stack)),
-
+  state.body.push(
     variableBeginComment(v),
 
     /* Declare the variable */
@@ -99,18 +86,7 @@ export const compileBody = (
     ),
 
     variableEndComment(v)
-  ]
-}
-
-export const compileVariable = (
-  v: Variable,
-  program: ProgramType,
-  state = compilerState()
-) => {
-  return {
-    header: compileHeader(v, program),
-    body: compileBody(v, program)
-  }
+  )
 }
 
 export const compileProgram = (v: Variable, program: ProgramType) => {
