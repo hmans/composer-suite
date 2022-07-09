@@ -10,7 +10,6 @@ export const flushDependencies = () => {
 
 export type Expression = {
   _: "Expression"
-  values: any[]
   render: () => string
 }
 
@@ -24,8 +23,6 @@ export const expr = (
 
   return {
     _: "Expression",
-
-    values,
 
     render: () =>
       zip(strings, values.map(glslRepresentation))
