@@ -31,21 +31,15 @@ describe("concatenate", () => {
 describe("snippet", () => {
   it("creates a Snippet with a unique name", () => {
     const s = snippet(() => "/* code */")
-    expect(s.name).toEqual(
-      "snippet_a996254afd1b407b9a44d2758225d5d208faa14c6e5b839596b3cdd8313dcbcb"
-    )
+    expect(s.name).toEqual("snippet_a996254afd")
   })
 
   it("will generate the same snippet IDs for the same contents", () => {
     let code = "/* code */"
     const s1 = snippet(() => code)
     const s2 = snippet(() => code)
-    expect(s1.name).toEqual(
-      "snippet_a996254afd1b407b9a44d2758225d5d208faa14c6e5b839596b3cdd8313dcbcb"
-    )
-    expect(s2.name).toEqual(
-      "snippet_a996254afd1b407b9a44d2758225d5d208faa14c6e5b839596b3cdd8313dcbcb"
-    )
+    expect(s1.name).toEqual("snippet_a996254afd")
+    expect(s2.name).toEqual("snippet_a996254afd")
   })
 
   it("creates a snippet with a rendered chunk", () => {
