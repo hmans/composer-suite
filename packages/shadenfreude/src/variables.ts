@@ -27,8 +27,7 @@ export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
 export type Chunk = Part | Part[]
 
-export type Variable<T extends GLSLType = any> = {
-  _: "Variable"
+export type VariableState<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
@@ -41,6 +40,10 @@ export type Variable<T extends GLSLType = any> = {
   vertexBody?: Chunk
   fragmentHeader?: Chunk
   fragmentBody?: Chunk
+}
+
+export type Variable<T extends GLSLType = any> = VariableState<T> & {
+  _: "Variable"
 }
 
 const nextAnonymousId = idGenerator()
