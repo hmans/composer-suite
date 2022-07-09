@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import {
   Add,
   Bool,
@@ -86,6 +86,19 @@ export default function Playground() {
     return compileShader(root)
   }, [])
 
+  const myUniforms = useMemo(
+    () => ({
+      ...uniforms,
+      u_visibility: { value: controls.visibility },
+      u_edgeThickness: { value: controls.edgeThickness },
+      u_texture: { value: texture }
+    }),
+    []
+  )
+
+  myUniforms.u_visibility.value = controls.visibility
+  myUniforms.u_edgeThickness.value = controls.edgeThickness
+
   useFrame((_, dt) => update(dt))
 
   // console.log(shader.vertexShader)
@@ -98,18 +111,12 @@ export default function Playground() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          uniforms={{
-            u_visibility: { value: controls.visibility },
-            u_edgeThickness: { value: controls.edgeThickness },
-            u_texture: { value: texture },
-            ...uniforms
-          }}
+          uniforms={myUniforms}
           {...shader}
           transparent
           side={DoubleSide}
           metalness={0.5}
           roughness={0.5}
-          cacheKey={() => "foo"}
         />
       </mesh>
     </group>
