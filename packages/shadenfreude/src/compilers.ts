@@ -39,9 +39,6 @@ export const compileVariable = (
   if (!state.freshVariable(v)) return []
   if (v._config.only && v._config.only !== program) return []
 
-  /* Add depdnencies */
-  variableDependencies(v).map((dep) => compileVariable(dep, program, state))
-
   /* HEADER */
   const header = flatten(
     /* If this variable is configured to use a varying, declare it */
@@ -52,9 +49,6 @@ export const compileVariable = (
   )
 
   state.header.push(
-    /* Render snippet dependencies */
-    snippetDependencies(v).map((snip) => renderSnippet(snip, state)),
-
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]
   )
@@ -99,22 +93,7 @@ export const compileProgram = (v: Variable, program: ProgramType) => {
   return concatenate(state.header, "void main()", block(state.body))
 }
 
-const prepare = (v: Variable, state = compilerState()) => {
-  if (!state.freshVariable(v)) return
-
-  /* Prepare dependencies first */
-  variableDependencies(v).forEach((d) => prepare(d, state))
-
-  /* Update the node's ID */
-  v._config.id = state.nextId()
-
-  /* Give this variable a better name */
-  v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
-}
-
 export const compileShader = (root: Variable) => {
-  prepare(root)
-
   const vertexShader = compileProgram(root, "vertex")
   const fragmentShader = compileProgram(root, "fragment")
 
@@ -152,9 +131,3 @@ const compilerState = () => {
     nextId
   }
 }
-
-const variableDependencies = (v: Variable) =>
-  [isVariable(v.value) && v.value, ...v._config.dependencies].filter(isVariable)
-
-const snippetDependencies = (v: Variable) =>
-  v._config.dependencies.filter(isSnippet)

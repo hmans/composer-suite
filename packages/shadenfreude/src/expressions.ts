@@ -1,24 +1,27 @@
 import { glslRepresentation } from "./glslRepresentation"
-import { GLSLType, ValueFunction } from "./variables"
 
-const collectedDependencies = new Array<any>()
-
-export const flushDependencies = () => {
-  const deps = [...collectedDependencies]
-  collectedDependencies.splice(0)
-  return deps
+export type Expression = {
+  _: "Expression"
+  values: any[]
+  render: () => string
 }
 
 const zip = (a: TemplateStringsArray, b: any[]) => a.map((k, i) => [k, b[i]])
 
-export const expr = <T extends GLSLType>(
+export const expr = (
   strings: TemplateStringsArray,
   ...values: any[]
-): ValueFunction => {
-  collectedDependencies.push(...values)
+): Expression => ({
+  _: "Expression",
 
-  return () =>
+  values,
+
+  render: () =>
     zip(strings, values.map(glslRepresentation))
       .flat()
       .join("")
+})
+
+export function isExpression(v: any): v is Expression {
+  return v && v._ === "Expression"
 }

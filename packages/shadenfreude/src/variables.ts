@@ -1,5 +1,5 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { flushDependencies } from "./expressions"
+import { Expression } from "./expressions"
 import { type } from "./glslType"
 import { identifier, Part, Snippet } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
@@ -23,11 +23,9 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
-export type ValueFunction = () => Part | Part[]
-
 export type Value<T extends GLSLType = any> =
   | string
-  | ValueFunction
+  | Expression
   | JSTypes[T]
   | Variable<T>
 
@@ -37,7 +35,6 @@ export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  dependencies: (Variable | Snippet)[]
   only?: "vertex" | "fragment"
   varying?: boolean
   vertexHeader?: Chunk
@@ -76,7 +73,6 @@ export const Variable = <T extends GLSLType>(
     id,
     title: "anon",
     name: identifier("anonymous", id),
-    dependencies: flushDependencies(),
 
     /* User-provided configuration */
     ...configInput

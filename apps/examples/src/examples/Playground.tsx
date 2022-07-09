@@ -12,7 +12,9 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
-    return Float(expr`${add}(${a}, ${b})`)
+    // return Float(expr`${add}(${a}, ${b})`)
+
+    return Float(expr`1.0 + 1.0`)
 
     // const noise = Simplex3DNoise(VertexPosition)
 
