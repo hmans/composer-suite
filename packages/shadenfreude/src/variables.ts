@@ -94,7 +94,23 @@ const makeVariableHelper = <T extends GLSLType>(type: T) => (
 
 export const Float = makeVariableHelper("float")
 export const Bool = makeVariableHelper("bool")
-export const Vec2 = makeVariableHelper("vec2")
+// export const Vec2 = makeVariableHelper("vec2")
+
+export const Vec2 = (
+  v: Value<"vec2">,
+  extras?: Partial<VariableConfig<"vec2">>
+) => {
+  const variable = Variable("vec2", v, extras)
+
+  const api = {
+    get x() {
+      return Float("variable.x", { inputs: { variable } })
+    }
+  }
+
+  return { ...variable, ...api } as Variable<"vec2"> & typeof api
+}
+
 export const Vec3 = makeVariableHelper("vec3")
 export const Vec4 = makeVariableHelper("vec4")
 export const Mat3 = makeVariableHelper("mat3")
