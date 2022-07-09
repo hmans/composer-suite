@@ -41,10 +41,27 @@ export default function Playground() {
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
-        ($) => Mix($, new Color("#68f"), Step(Sub(waterHeight, 0.02), noise)),
+        /* Water noise yooooo */
+        ($) =>
+          Mix(
+            $,
+            new Color("#67d"),
+            Step(
+              0,
+              Simplex3DNoise(
+                Add(Vec3(Mul(VertexPosition, 0.5)), Mul(Time, 0.15))
+              )
+            )
+          ),
+        /* Foam */
+        ($) => Mix($, new Color("#ddf"), Step(Sub(waterHeight, 0.02), noise)),
+        /* Sand */
         ($) => Mix($, new Color("#ec5"), Step(waterHeight, noise)),
+        /* Green */
         ($) => Mix($, new Color("#494"), Step(0.34, noise)),
+        /* Mountains */
         ($) => Mix($, new Color("#ccc"), Step(0.5, noise)),
+        /* Skyrim */
         ($) => Mix($, new Color("#fff"), Step(0.7, noise))
       )
     })
