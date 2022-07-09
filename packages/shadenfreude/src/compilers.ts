@@ -32,12 +32,13 @@ const renderSnippet = (
   return s.chunk
 }
 
-const getDependencies = (...sources: any[]): Variable[] =>
-  sources
+const deepFlat = (parts: Parts): Parts =>
+  parts.map((p) => (Array.isArray(p) ? deepFlat(p) : p))
+
+const getDependencies = (...sources: any[]): any[] =>
+  deepFlat(sources)
     .map((s) => (isExpression(s) ? s.values : undefined))
-    // .map((s) => (Array.isArray(s) ? getDependencies(...s) : undefined))
     .flat()
-    .filter((d) => !!d)
 
 export const compileVariable = (
   v: Variable,
@@ -49,6 +50,8 @@ export const compileVariable = (
 
   /* Build a list of dependencies */
   const dependencies = getDependencies(v.value, v._config.fragmentBody)
+
+  console.log(dependencies)
 
   /* Render dependencies */
   dependencies.forEach(
