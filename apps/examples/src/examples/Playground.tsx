@@ -36,23 +36,18 @@ export default function Playground() {
       expr`0.3 + sin(${Time} + ${VertexPosition}.y) * 0.02`
     )
 
+    const waterNoise = Step(
+      0,
+      Simplex3DNoise(Add(Vec3(Mul(VertexPosition, 0.3)), Mul(Time, 0.05)))
+    )
+
     return CustomShaderMaterialMaster({
       position: Mul(VertexPosition, Float(expr`1.0 + ${steppedNoise} * 0.3`)),
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
         /* Water noise yooooo */
-        ($) =>
-          Mix(
-            $,
-            new Color("#67d"),
-            Step(
-              0,
-              Simplex3DNoise(
-                Add(Vec3(Mul(VertexPosition, 0.3)), Mul(Time, 0.05))
-              )
-            )
-          ),
+        ($) => Mix($, new Color("#67d"), waterNoise),
         /* Foam */
         ($) => Mix($, new Color("#ddf"), Step(Sub(waterHeight, 0.02), noise)),
         /* Sand */
