@@ -1,4 +1,5 @@
 import sha256 from "crypto-js/sha256"
+import { isExpression } from "../expressions"
 
 export type Part = any
 
@@ -8,7 +9,7 @@ const compact = (p: any) => !!p
 
 const indent = (p: string) => "  " + p
 
-const renderFunctions = (v: any) => (typeof v === "function" ? v() : v)
+const renderExpressions = (v: any) => (isExpression(v) ? v.render() : v)
 
 export const block = (...parts: Parts): Parts => {
   const flattened = flatten(parts)
@@ -21,7 +22,7 @@ export const line = (...parts: Parts) => flatten(...parts).join(" ")
 
 export const flatten = (...parts: Parts): Parts =>
   parts
-    .map(renderFunctions)
+    .map(renderExpressions)
     .filter(compact)
     .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()

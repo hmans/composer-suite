@@ -16,8 +16,8 @@ export default function Playground() {
 
     // return Float(expr`${add}(${a}, ${b})`)
 
-    return Float(expr`${a} + ${b}`, {
-      fragmentBody: `csm_DiffuseColor = vec4(1.0, 0.5, 0.2, 1.0);`
+    return Float(expr`1.0 + 1.0`, {
+      fragmentBody: expr`csm_DiffuseColor = vec4(${a}, 0.5, 0.2, 1.0);`
     })
 
     // const noise = Simplex3DNoise(VertexPosition)

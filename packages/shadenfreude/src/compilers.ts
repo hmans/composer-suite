@@ -32,6 +32,13 @@ const renderSnippet = (
   return s.chunk
 }
 
+const getDependencies = (...sources: any[]): Variable[] =>
+  sources
+    .map((s) => (isExpression(s) ? s.values : undefined))
+    // .map((s) => (Array.isArray(s) ? getDependencies(...s) : undefined))
+    .flat()
+    .filter((d) => !!d)
+
 export const compileVariable = (
   v: Variable,
   program: ProgramType,
@@ -41,7 +48,7 @@ export const compileVariable = (
   if (v._config.only && v._config.only !== program) return []
 
   /* Build a list of dependencies */
-  const dependencies = isExpression(v.value) ? v.value.values : []
+  const dependencies = getDependencies(v.value, v._config.fragmentBody)
 
   /* Render dependencies */
   dependencies.forEach(
