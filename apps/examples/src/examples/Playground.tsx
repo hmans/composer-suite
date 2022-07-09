@@ -6,53 +6,15 @@ import {
   Add,
   compileShader,
   CustomShaderMaterialMaster,
-  Divide,
-  Float,
-  Multiply,
-  Remap,
-  Simplex3DNoise,
-  Sin,
-  Smoothstep,
-  snippet,
-  Step,
-  Subtract,
-  Time,
+  Dissolve,
   Uniform,
   Value,
-  Variable,
   Vec2,
-  Vec3,
-  Vec4,
-  VertexPosition
+  Vec4
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
-
-/* Put this into an NPM package, I dare you: */
-const Dissolve = (
-  visibility: Float = 0.5,
-  scale: Float = 1,
-  edgeThickness: Float = 0.1,
-  edgeColor: Vec3 = new Color(0, 10, 8)
-) => {
-  const noise = Remap(
-    Simplex3DNoise(Multiply(VertexPosition, scale)),
-    -1,
-    Add(edgeThickness, 1),
-    0,
-    1
-  )
-
-  return {
-    color: Multiply(
-      edgeColor,
-      Smoothstep(Subtract(visibility, edgeThickness), visibility, noise)
-    ),
-
-    alpha: Step(noise, visibility)
-  }
-}
 
 const SampleTexture = (t: Value<"sampler2D">, xy: Vec2) =>
   Vec4("texture2D(t, xy)", { inputs: { t, xy } })
