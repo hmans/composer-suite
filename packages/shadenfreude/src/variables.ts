@@ -1,7 +1,6 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { Expression } from "./expressions"
-import { type } from "./glslType"
-import { identifier, Part, Snippet } from "./lib/concatenator3000"
+import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
 /**
