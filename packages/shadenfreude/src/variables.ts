@@ -31,8 +31,6 @@ export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  type: T
-  value: Value<T>
   inputs: Record<string, Value>
   only?: "vertex" | "fragment"
   varying?: boolean
@@ -44,6 +42,8 @@ export type VariableConfig<T extends GLSLType = any> = {
 
 export type Variable<T extends GLSLType = any> = VariableConfig<T> & {
   _: "Variable"
+  type: T
+  value: Value<T>
 }
 
 const nextAnonymousId = idGenerator()
@@ -63,16 +63,14 @@ export const Variable = <T extends GLSLType>(
     inputs: {},
 
     /* User-provided configuration */
-    ...configInput,
-
-    /* Override with provided type and value */
-    type,
-    value
+    ...configInput
   }
 
   const v: Variable<T> = {
     _: "Variable",
-    ...config
+    ...config,
+    type,
+    value
   }
 
   return v
