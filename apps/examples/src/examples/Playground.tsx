@@ -17,6 +17,8 @@ import {
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+import { DustExample } from "./DustExample"
+import { Fog } from "./Fog"
 import { useShader } from "./useShader"
 
 export default function Playground() {
@@ -49,6 +51,8 @@ export default function Playground() {
 
   return (
     <group position-y={18}>
+      <Fog />
+      <DustExample />
       <mesh>
         <icosahedronGeometry args={[12, 4]} />
 
