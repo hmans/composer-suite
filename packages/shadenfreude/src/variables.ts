@@ -40,12 +40,14 @@ export type VariableConfig<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export interface Variable<T extends GLSLType = any> {
+export interface IVariable<T extends GLSLType = any> {
   _: "Variable"
   _config: VariableConfig<T>
   type: T
   value: Value<T>
 }
+
+export type Variable<T extends GLSLType = any> = IVariable<T>
 
 const nextAnonymousId = idGenerator()
 
