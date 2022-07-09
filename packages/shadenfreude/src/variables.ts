@@ -89,11 +89,8 @@ export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
 
 type Api = Record<string, any>
 
-const injectAPI = <V extends Variable, A extends Api>(
-  variable: V,
-  apiFactory: (v: V) => A
-) => {
-  return { ...variable, ...apiFactory(variable) }
+const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
+  return { ...variable, ...api }
 }
 
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
@@ -108,15 +105,21 @@ export const Bool = makeVariableHelper("bool")
 export const Vec2 = (
   v: Value<"vec2">,
   extras?: Partial<VariableConfig<"vec2">>
-) =>
-  injectAPI(Variable("vec2", v, extras), (v) => ({
+) => {
+  const variable = Variable("vec2", v, extras)
+
+  return injectAPI(variable, {
     get x() {
       return Float("v.x", { inputs: { v } })
     },
+
     get y() {
       return Float("v.y", { inputs: { v } })
     }
-  }))
+  })
+}
+
+// const vec2 = Vec2(new Vector2(1, 2))
 
 export const Vec3 = makeVariableHelper("vec3")
 export const Vec4 = makeVariableHelper("vec4")
