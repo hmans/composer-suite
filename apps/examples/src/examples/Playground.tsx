@@ -8,10 +8,12 @@ import {
   compileShader,
   CustomShaderMaterialMaster,
   Dissolve,
+  Divide,
   Float,
   Join,
   Multiply,
   Pipe,
+  Resolution,
   Sampler2D,
   Split,
   Subtract,
@@ -23,7 +25,13 @@ import {
   Vec3,
   Vec4
 } from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial, RepeatWrapping } from "three"
+import {
+  Color,
+  DoubleSide,
+  MeshStandardMaterial,
+  RepeatWrapping,
+  Vector2
+} from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
 
@@ -59,7 +67,7 @@ export default function Playground() {
     const map = SampleTexture(
       "u_texture",
       parameters.texture,
-      Subtract(UV, Join(Multiply(Time, 0.03), 0))
+      Subtract(Multiply(UV, new Vector2(1.8, 1)), Join(Multiply(Time, 0.03), 0))
     )
 
     const splitMap = Split(map)
