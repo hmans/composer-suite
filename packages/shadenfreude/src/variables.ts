@@ -58,7 +58,7 @@ export const Variable = <T extends GLSLType, A extends Api = {}>(
   type: T,
   value: Value<T>,
   configInput: Partial<VariableConfig<T>> = {},
-  apiFactory?: ApiFactory<T, A>
+  apiFactory: ApiFactory<T, A> = () => ({} as A)
 ) => {
   const id = nextAnonymousId()
 
@@ -80,11 +80,9 @@ export const Variable = <T extends GLSLType, A extends Api = {}>(
     value
   }
 
-  return injectAPI(variable, (apiFactory ? apiFactory(variable) : {}) as A)
-}
+  const api = apiFactory(variable)
 
-const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
-  return { ...variable, ...api }
+  return { ...variable, ...api } as Variable<T> & A
 }
 
 export function isVariable(v: any): v is Variable {
