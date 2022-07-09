@@ -23,11 +23,11 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
-export type ValueFunction<T extends GLSLType> = (v: Value<T>) => Part | Part[]
+export type ValueFunction = () => Part | Part[]
 
 export type Value<T extends GLSLType = any> =
   | string
-  | ValueFunction<T>
+  | ValueFunction
   | JSTypes[T]
   | Variable<T>
 

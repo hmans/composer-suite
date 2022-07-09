@@ -14,7 +14,7 @@ const zip = (a: TemplateStringsArray, b: any[]) => a.map((k, i) => [k, b[i]])
 export const expr = <T extends GLSLType>(
   strings: TemplateStringsArray,
   ...values: any[]
-): ValueFunction<T> => {
+): ValueFunction => {
   collectedDependencies.push(...values)
 
   return () =>
