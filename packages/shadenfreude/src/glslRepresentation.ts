@@ -1,8 +1,10 @@
 import { Color, Vector2, Vector3, Vector4 } from "three"
-import { isVariable, Value } from "./variables"
+import { isExpression } from "./lib/concatenator3000"
+import { Expression, isVariable, Value } from "./variables"
 
-export const glslRepresentation = (value: Value): string => {
+export const glslRepresentation = (value: Value | Expression): string => {
   if (isVariable(value)) return value._config.name
+  if (isExpression(value)) return value.render()
 
   if (typeof value === "string") return value
 

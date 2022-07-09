@@ -1,4 +1,5 @@
 import sha256 from "crypto-js/sha256"
+import { Expression } from "../variables"
 
 export const resetConcatenator3000 = () => {
   seenSnippets.clear()
@@ -74,8 +75,12 @@ export const snippet = (
   return { _: "Snippet", name, chunk, dependencies, toString: () => name }
 }
 
-function isSnippet(v: any): v is Snippet {
+export function isSnippet(v: any): v is Snippet {
   return v && v._ === "Snippet"
+}
+
+export function isExpression(v: any): v is Expression {
+  return v && v._ === "Expression"
 }
 
 const renderSnippet = (s: Snippet): Part | Part[] => {

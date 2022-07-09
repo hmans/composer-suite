@@ -23,7 +23,16 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
-export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
+export type Expression = {
+  _: "Expression"
+  values: any[]
+  render: () => string
+}
+
+export type Value<T extends GLSLType = any> =
+  | Expression
+  | JSTypes[T]
+  | Variable<T>
 
 export type Chunk = Part | Part[]
 
