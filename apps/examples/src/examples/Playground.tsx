@@ -1,5 +1,14 @@
-import { CustomShaderMaterialMaster, expr, Float } from "shadenfreude"
-import { DoubleSide, MeshStandardMaterial } from "three"
+import {
+  CustomShaderMaterialMaster,
+  expr,
+  Float,
+  Join,
+  Multiply,
+  Smoothstep,
+  Time,
+  Vec3
+} from "shadenfreude"
+import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
 
@@ -8,9 +17,15 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
+    const color = Vec3(new Color("hotpink"))
+
     // return Float(expr`${a} + ${b}`)
 
-    return CustomShaderMaterialMaster({})
+    const t = Time
+
+    return CustomShaderMaterialMaster({
+      diffuseColor: Join(t, t, t)
+    })
   }, [])
 
   console.log(shader.vertexShader)

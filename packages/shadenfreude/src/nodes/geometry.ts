@@ -1,4 +1,5 @@
 import { Vector2 } from "three"
+import { expr } from "../expressions"
 import { Mat4, Vec2, Vec3 } from "../variables"
 
 export const UV = Vec2("uv", { varying: true })
@@ -14,24 +15,18 @@ in both shader stages:
 */
 
 export const VertexNormalWorld = Vec3(
-  `normalize(
+  expr`normalize(
       mat3(
-        ModelMatrix[0].xyz,
-        ModelMatrix[1].xyz,
-        ModelMatrix[2].xyz
-      ) * VertexNormal)`,
-  {
-    inputs: { VertexNormal, ModelMatrix },
-    varying: true
-  }
+        ${ModelMatrix}[0].xyz,
+        ${ModelMatrix}[1].xyz,
+        ${ModelMatrix}[2].xyz
+      ) * ${VertexNormal})`,
+  { varying: true }
 )
 
 export const ViewDirection = Vec3(
-  "vec3(-ViewMatrix[0][2], -ViewMatrix[1][2], -ViewMatrix[2][2])",
-  {
-    inputs: { ViewMatrix },
-    varying: true
-  }
+  expr`vec3(-${ViewMatrix}[0][2], -${ViewMatrix}[1][2], -${ViewMatrix}[2][2])`,
+  { varying: true }
 )
 
 export const TilingUV = (
@@ -39,6 +34,8 @@ export const TilingUV = (
   tiling: Vec2 = new Vector2(1, 1),
   offset: Vec2 = new Vector2(0, 0)
 ) =>
-  Vec2(`vec2(uv.x * tiling.x + offset.x, uv.y * tiling.y + offset.y)`, {
-    inputs: { uv, tiling, offset }
-  })
+  Vec2(
+    expr`vec2(
+      ${uv}.x * ${tiling}.x + ${offset}.x,
+      ${uv}.y * ${tiling}.y + ${offset}.y)`
+  )

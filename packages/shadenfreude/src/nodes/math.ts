@@ -1,3 +1,4 @@
+import { expr } from "../expressions"
 import { type } from "../glslType"
 import { snippet } from "../lib/concatenator3000"
 import { Float, GLSLType, Value, Variable } from "../variables"
@@ -67,11 +68,10 @@ export const Fresnel = ({
     `
   })
 
-export const Step = (edge: Float, v: Float) =>
-  Float("step(edge, v)", { inputs: { edge, v } })
+export const Step = (edge: Float, v: Float) => Float(expr`step(${edge}, ${v})`)
 
 export const Smoothstep = (min: Float, max: Float, v: Float) =>
-  Float("smoothstep(min, max, v)", { inputs: { min, max, v } })
+  Float(expr`smoothstep(${min}, ${max}, ${v})`)
 
 const remap = snippet(
   (name) => `
@@ -99,8 +99,11 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   outMin: Value<T>,
   outMax: Value<T>
 ) =>
-  Variable(type(v), `${remap}(v, inMin, inMax, outMin, outMax)`, {
-    inputs: { v, inMin, inMax, outMin, outMax },
-    vertexHeader: [remap],
-    fragmentHeader: [remap]
-  })
+  Variable(
+    type(v),
+    expr`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`,
+    {
+      vertexHeader: [remap],
+      fragmentHeader: [remap]
+    }
+  )
