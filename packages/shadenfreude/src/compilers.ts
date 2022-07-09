@@ -6,8 +6,10 @@ import {
   block,
   concatenate,
   flatten,
+  identifier,
   isSnippet,
   Parts,
+  sluggify,
   Snippet,
   statement
 } from "./lib/concatenator3000"
@@ -67,6 +69,10 @@ export const compileVariable = (
     isVariable(dep) && compileVariable(dep, program, state)
     isSnippet(dep) && compileSnippet(dep, program, state)
   })
+
+  /* Prepare this variable */
+  v._config.id = state.nextId()
+  v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
 
   /* HEADER */
   const header = flatten(
