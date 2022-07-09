@@ -73,14 +73,14 @@ export const Variable = <T extends GLSLType, A extends Api = {}>(
     ...configInput
   }
 
-  const v: Variable<T> = {
+  const variable: Variable<T> = {
     _: "Variable",
     _config: config,
     type,
     value
   }
 
-  return injectAPI(v, (apiFactory ? apiFactory(v) : {}) as A)
+  return injectAPI(variable, (apiFactory ? apiFactory(variable) : {}) as A)
 }
 
 const injectAPI = <V extends Variable, A extends Api>(variable: V, api: A) => {
