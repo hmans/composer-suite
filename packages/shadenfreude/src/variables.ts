@@ -27,7 +27,7 @@ export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
 
 export type Chunk = Part | Part[]
 
-export type VariableState<T extends GLSLType = any> = {
+export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
@@ -42,7 +42,7 @@ export type VariableState<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export type Variable<T extends GLSLType = any> = VariableState<T> & {
+export type Variable<T extends GLSLType = any> = VariableConfig<T> & {
   _: "Variable"
 }
 
@@ -51,11 +51,11 @@ const nextAnonymousId = idGenerator()
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
-  config: Partial<VariableState<T>> = {}
+  config: Partial<VariableConfig<T>> = {}
 ) => {
   const id = nextAnonymousId()
 
-  const state: VariableState<T> = {
+  const state: VariableConfig<T> = {
     /* Defaults */
     id,
     title: `Anonymous ${type} = ${glslRepresentation(value)}`,
