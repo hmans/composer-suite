@@ -1,7 +1,6 @@
 import { Vector2, Vector3, Vector4 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { Float } from "../variables"
-import { Join, Split, Split2, SplitVector3, SplitVector4 } from "./vectors"
+import { Join, SplitVector2, SplitVector3, SplitVector4 } from "./vectors"
 
 describe("Join", () => {
   it("creates a vec2 variable from two components", () => {
@@ -25,8 +24,7 @@ describe("Join", () => {
 
 describe("Split", () => {
   it("splits a vec2 into two components", () => {
-    const [a, b] = Split2(new Vector2(1, 2))
-
+    const [a, b] = SplitVector2(new Vector2(1, 2))
     expect(a.type).toBe("float")
     expect(b.type).toBe("float")
   })
