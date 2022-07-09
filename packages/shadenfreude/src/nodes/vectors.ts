@@ -2,35 +2,13 @@ import { expr } from "../expressions"
 import { type } from "../glslType"
 import { Float, Value, Variable, Vec2, Vec3, Vec4 } from "../variables"
 
-export type Vector2Components = [Float, Float]
-export type Vector3Components = [Float, Float, Float]
-export type Vector4Components = [Float, Float, Float, Float]
+export const JoinVector2 = (x: Float, y: Float) => Vec2(expr`vec2(${x}, ${y})`)
 
-export type JoinReturnType<Args> = Args extends Vector4Components
-  ? Variable<"vec4">
-  : Args extends Vector3Components
-  ? Variable<"vec3">
-  : Args extends Vector2Components
-  ? Variable<"vec2">
-  : never
+export const JoinVector3 = (x: Float, y: Float, z: Float) =>
+  Vec3(expr`vec3(${x}, ${y}, ${z})`)
 
-export const Join = <
-  Args extends Vector2Components | Vector3Components | Vector4Components
->(
-  ...args: Args
-) => {
-  const [x, y, z, w] = args
-
-  if (w !== undefined) {
-    return Vec4(expr`vec4(${x}, ${y}, ${z}, ${w})`) as JoinReturnType<Args>
-  }
-
-  if (z !== undefined) {
-    return Vec3(expr`vec3(${x}, ${y}, ${z})`) as JoinReturnType<Args>
-  }
-
-  return Vec2(expr`vec2(${x}, ${y})`) as JoinReturnType<Args>
-}
+export const JoinVector4 = (x: Float, y: Float, z: Float, w: Float) =>
+  Vec4(expr`vec4(${x}, ${y}, ${z}, ${w})`)
 
 export const SplitVector2 = (vector: Vec2) =>
   [Float(expr`${vector}.x`), Float(expr`${vector}.y`)] as const

@@ -1,22 +1,29 @@
 import { Vector2, Vector3, Vector4 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { Join, SplitVector2, SplitVector3, SplitVector4 } from "./vectors"
+import {
+  JoinVector2,
+  JoinVector3,
+  JoinVector4,
+  SplitVector2,
+  SplitVector3,
+  SplitVector4
+} from "./vectors"
 
 describe("Join", () => {
   it("creates a vec2 variable from two components", () => {
-    const v = Join(1, 2)
+    const v = JoinVector2(1, 2)
     expect(v.type).toBe("vec2")
     expect(glslRepresentation(v.value)).toBe("vec2(1.0, 2.0)")
   })
 
   it("creates a vec3 variable from three components", () => {
-    const v = Join(1, 2, 3)
+    const v = JoinVector3(1, 2, 3)
     expect(v.type).toBe("vec3")
     expect(glslRepresentation(v.value)).toBe("vec3(1.0, 2.0, 3.0)")
   })
 
   it("creates a vec4 variable from three components", () => {
-    const v = Join(1, 2, 3, 4)
+    const v = JoinVector4(1, 2, 3, 4)
     expect(v.type).toBe("vec4")
     expect(glslRepresentation(v.value)).toBe("vec4(1.0, 2.0, 3.0, 4.0)")
   })
