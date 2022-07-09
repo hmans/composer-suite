@@ -16,5 +16,7 @@ export const Sampler2D = (name: string) =>
 
 export const Time = Uniform("float", "u_time")
 
+export const Resolution = Uniform("vec2", "u_resolution")
+
 const Attribute = <T extends GLSLType>(type: T, name: string) =>
   Variable(type, name, { varying: true })
