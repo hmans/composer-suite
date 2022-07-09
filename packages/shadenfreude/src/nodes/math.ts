@@ -4,23 +4,14 @@ import { snippet } from "../lib/concatenator3000"
 import { Float, GLSLType, Value, Variable } from "../variables"
 import { VertexNormalWorld, ViewDirection } from "./geometry"
 
-const buildMultiInputs = (values: Value[]) =>
-  values.reduce((acc, v, i) => ({ ...acc, [`m_${i}`]: v }), {})
-
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   T extends GLSLType
 >(
   a: Value<T>,
-  ...rest: Value[]
+  b: Value<any>
 ) => {
-  const inputs = buildMultiInputs([a, ...rest])
-
-  /* a + b + c + ... */
-  const expression = Object.keys(inputs).join(operator)
-
-  return Variable(type(a), expression, {
-    title: `${title} (${type(a)})`,
-    inputs
+  return Variable(type(a), expr`${a} ${operator} ${b}`, {
+    title: `${title} (${type(a)})`
   })
 }
 
@@ -29,11 +20,11 @@ export const Subtract = Operator("Subtract", "-")
 export const Multiply = Operator("Multiply", "*")
 export const Divide = Operator("Divide", "/")
 
-export const Sin = (x: Float) => Float("sin(x)", { inputs: { x } })
-export const Cos = (x: Float) => Float("cos(x)", { inputs: { x } })
+export const Sin = (x: Float) => Float(expr`sin(${x})`)
+export const Cos = (x: Float) => Float(expr`cos(${x})`)
 
 export const Mix = <T extends GLSLType>(a: Value<T>, b: Value<T>, f: Float) =>
-  Variable(type(a), "mix(a, b, f)", { inputs: { a, b, f } })
+  Variable(type(a), expr`mix(${a}, ${b}, ${f})`)
 
 export type FresnelProps = {
   alpha?: Float
