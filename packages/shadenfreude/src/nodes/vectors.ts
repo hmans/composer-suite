@@ -32,23 +32,23 @@ export const Join = <
   return Vec2(expr`vec2(${x}, ${y})`) as JoinReturnType<Args>
 }
 
-export const SplitVector2 = (vector: Vec2) => [
-  Float(expr`${vector}.x`),
-  Float(expr`${vector}.y`)
-]
+export const SplitVector2 = (vector: Vec2) =>
+  [Float(expr`${vector}.x`), Float(expr`${vector}.y`)] as const
 
-export const SplitVector3 = (vector: Vec3) => [
-  Float(expr`${vector}.x`),
-  Float(expr`${vector}.y`),
-  Float(expr`${vector}.z`)
-]
+export const SplitVector3 = (vector: Vec3) =>
+  [
+    Float(expr`${vector}.x`),
+    Float(expr`${vector}.y`),
+    Float(expr`${vector}.z`)
+  ] as const
 
-export const SplitVector4 = (vector: Vec4) => [
-  Float(expr`${vector}.x`),
-  Float(expr`${vector}.y`),
-  Float(expr`${vector}.z`),
-  Float(expr`${vector}.w`)
-]
+export const SplitVector4 = (vector: Vec4) =>
+  [
+    Float(expr`${vector}.x`),
+    Float(expr`${vector}.y`),
+    Float(expr`${vector}.z`),
+    Float(expr`${vector}.w`)
+  ] as const
 
 type VectorTypes = "vec2" | "vec3" | "vec4"
 

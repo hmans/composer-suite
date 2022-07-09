@@ -1,60 +1,48 @@
 import { Vector2, Vector3, Vector4 } from "three"
+import { glslRepresentation } from "../glslRepresentation"
+import { Float } from "../variables"
 import { Join, Split } from "./vectors"
 
 describe("Join", () => {
   it("creates a vec2 variable from two components", () => {
     const v = Join(1, 2)
     expect(v.type).toBe("vec2")
-    expect(v._config.inputs.x).toBe(1)
-    expect(v._config.inputs.y).toBe(2)
+    expect(glslRepresentation(v.value)).toBe("vec2(1.0, 2.0)")
   })
 
   it("creates a vec3 variable from three components", () => {
     const v = Join(1, 2, 3)
     expect(v.type).toBe("vec3")
-    expect(v._config.inputs.x).toBe(1)
-    expect(v._config.inputs.y).toBe(2)
-    expect(v._config.inputs.z).toBe(3)
+    expect(glslRepresentation(v.value)).toBe("vec3(1.0, 2.0, 3.0)")
   })
 
   it("creates a vec4 variable from three components", () => {
     const v = Join(1, 2, 3, 4)
     expect(v.type).toBe("vec4")
-    expect(v._config.inputs.x).toBe(1)
-    expect(v._config.inputs.y).toBe(2)
-    expect(v._config.inputs.z).toBe(3)
-    expect(v._config.inputs.w).toBe(4)
+    expect(glslRepresentation(v.value)).toBe("vec4(1.0, 2.0, 3.0, 4.0)")
   })
 })
 
 describe("Split", () => {
   it("splits a vec2 into two components", () => {
-    const split = Split(new Vector2(1, 2))
+    const [a, b] = Split(new Vector2(1, 2))
 
-    expect(split).toMatchObject([
-      { type: "float", value: "vector.x" },
-      { type: "float", value: "vector.y" }
-    ])
+    expect(a.type).toBe("float")
+    expect(b.type).toBe("float")
   })
 
   it("splits a vec3 into three components", () => {
-    const split = Split(new Vector3(1, 2, 3))
-
-    expect(split).toMatchObject([
-      { type: "float", value: "vector.x" },
-      { type: "float", value: "vector.y" },
-      { type: "float", value: "vector.z" }
-    ])
+    const [a, b, c] = Split(new Vector3(1, 2, 3))
+    expect(a.type).toBe("float")
+    expect(b.type).toBe("float")
+    expect(c.type).toBe("float")
   })
 
   it("splits a vec4 into four components", () => {
-    const split = Split(new Vector4(1, 2, 3))
-
-    expect(split).toMatchObject([
-      { type: "float", value: "vector.x" },
-      { type: "float", value: "vector.y" },
-      { type: "float", value: "vector.z" },
-      { type: "float", value: "vector.w" }
-    ])
+    const [a, b, c, d] = Split(new Vector4(1, 2, 3))
+    expect(a.type).toBe("float")
+    expect(b.type).toBe("float")
+    expect(c.type).toBe("float")
+    expect(d.type).toBe("float")
   })
 })
