@@ -1,7 +1,11 @@
 import {
   CustomShaderMaterialMaster,
+  expr,
+  Mix,
+  Pipe,
   Simplex3DNoise,
   Smoothstep,
+  Vec3,
   VertexPosition
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
@@ -10,11 +14,16 @@ import { useShader } from "./useShader"
 
 export default function Playground() {
   const shader = useShader(() => {
-    const noise = Simplex3DNoise(VertexPosition)
+    const noise = Simplex3DNoise(Vec3(expr`${VertexPosition} * 0.1`))
+
+    const steppedNoise = Smoothstep(0, 0.1, noise)
 
     return CustomShaderMaterialMaster({
-      diffuseColor: new Color("hotpink"),
-      alpha: Smoothstep(0.0, 0.2, noise)
+      position: Pipe(VertexPosition, ($) =>
+        Vec3(expr`${$} * (1.0 + ${steppedNoise} * 0.3)`)
+      ),
+
+      diffuseColor: Mix(new Color("#333"), new Color("hotpink"), steppedNoise)
     })
   }, [])
 
@@ -24,7 +33,7 @@ export default function Playground() {
   return (
     <group position-y={15}>
       <mesh>
-        <icosahedronGeometry args={[12, 8]} />
+        <icosahedronGeometry args={[12, 24]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
