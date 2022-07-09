@@ -67,7 +67,7 @@ export default function Playground() {
     const map = SampleTexture(
       "u_texture",
       parameters.texture,
-      Subtract(Multiply(UV, new Vector2(1.8, 1)), Join(Multiply(Time, 0.03), 0))
+      Subtract(Multiply(UV, new Vector2(2, 1)), Join(Multiply(Time, 0.03), 0))
     )
 
     const splitMap = Split(map)
