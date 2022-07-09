@@ -1,4 +1,3 @@
-import { isVar } from "@babel/types"
 import { Vector2 } from "three"
 import { isExpression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
@@ -7,10 +6,8 @@ import {
   block,
   concatenate,
   flatten,
-  identifier,
   isSnippet,
   Parts,
-  sluggify,
   Snippet,
   statement
 } from "./lib/concatenator3000"
@@ -37,7 +34,7 @@ const compileSnippet = (
   program: "vertex" | "fragment",
   state: ReturnType<typeof compilerState>
 ) => {
-  if (!state.freshSnippet(s)) return
+  if (!state.isFresh(s)) return
 
   if (isExpression(s.chunk))
     s.chunk.values.forEach((v) => {
@@ -53,7 +50,7 @@ export const compileVariable = (
   program: ProgramType,
   state = compilerState()
 ) => {
-  if (!state.freshVariable(v)) return []
+  if (!state.isFresh(v)) return []
   if (v._config.only && v._config.only !== program) return []
 
   /* Build a list of dependencies */
@@ -146,8 +143,7 @@ export const compileShader = (root: Variable) => {
 }
 
 const compilerState = () => {
-  const seenVariables = new Set<Variable>()
-  const seenSnippets = new Set<Snippet>()
+  const seen = new Set<Variable | Snippet>()
 
   const header = [] as Parts
   const body = [] as Parts
@@ -155,11 +151,8 @@ const compilerState = () => {
   const nextId = idGenerator()
 
   return {
-    freshVariable: (v: Variable) =>
-      seenVariables.has(v) ? false : seenVariables.add(v) && true,
-
-    freshSnippet: (s: Snippet) =>
-      seenSnippets.has(s) ? false : seenSnippets.add(s) && true,
+    isFresh: (v: Variable | Snippet) =>
+      seen.has(v) ? false : seen.add(v) && true,
 
     header,
     body,
