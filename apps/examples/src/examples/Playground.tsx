@@ -1,10 +1,17 @@
 import {
+  Add,
   CustomShaderMaterialMaster,
   expr,
+  Float,
+  Fresnel,
   Mix,
+  Multiply,
   Pipe,
   Simplex3DNoise,
+  Sin,
   Smoothstep,
+  Step,
+  Time,
   Vec3,
   VertexPosition
 } from "shadenfreude"
@@ -14,16 +21,26 @@ import { useShader } from "./useShader"
 
 export default function Playground() {
   const shader = useShader(() => {
-    const noise = Simplex3DNoise(Vec3(expr`${VertexPosition} * 0.1`))
+    const noise = Simplex3DNoise(Vec3(Multiply(VertexPosition, 0.11)))
 
-    const steppedNoise = Smoothstep(0, 0.1, noise)
+    const steppedNoise = Smoothstep(-0.5, 0.5, noise)
+
+    const waterHeight = Float(
+      expr`-0.1 + sin(${Time} + ${VertexPosition}.y) * 0.02`
+    )
 
     return CustomShaderMaterialMaster({
       position: Pipe(VertexPosition, ($) =>
         Vec3(expr`${$} * (1.0 + ${steppedNoise} * 0.3)`)
       ),
 
-      diffuseColor: Mix(new Color("#333"), new Color("hotpink"), steppedNoise)
+      diffuseColor: Pipe(
+        Vec3(new Color("#66c")),
+        ($) => Mix($, new Color("#ec5"), Step(waterHeight, noise)),
+        ($) => Mix($, new Color("#494"), Step(0, noise)),
+        ($) => Mix($, new Color("#ccc"), Step(0.3, noise)),
+        ($) => Mix($, new Color("#fff"), Step(0.5, noise))
+      )
     })
   }, [])
 
@@ -31,17 +48,15 @@ export default function Playground() {
   console.log(shader.fragmentShader)
 
   return (
-    <group position-y={15}>
+    <group position-y={18}>
       <mesh>
-        <icosahedronGeometry args={[12, 24]} />
+        <icosahedronGeometry args={[12, 4]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shader}
           transparent
           side={DoubleSide}
-          metalness={0}
-          roughness={0}
         />
       </mesh>
     </group>
