@@ -1,27 +1,20 @@
 import { useTexture } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import {
   Add,
   Bool,
-  compileShader,
   CustomShaderMaterialMaster,
   Dissolve,
-  Divide,
-  Float,
   Join,
   Multiply,
   Pipe,
-  Resolution,
   Sampler2D,
   Split,
   Subtract,
   Time,
   Uniform,
   UV,
-  Value,
-  Variable,
   Vec2,
   Vec3,
   Vec4
@@ -35,15 +28,10 @@ import {
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import textureUrl from "./textures/hexgrid.jpeg"
+import { useShader } from "./useShader"
 
 const SampleTexture = (name: string, t: Bool, xy: Vec2) =>
   Vec4(`texture2D(${name}, xy)`, { inputs: { t, xy } })
-
-const useShader = (ctor: () => Variable, deps?: any) => {
-  const [shader, update] = useMemo(() => compileShader(ctor()), deps)
-  useFrame((_, dt) => update(dt))
-  return shader
-}
 
 export default function Playground() {
   /* Load texture */
