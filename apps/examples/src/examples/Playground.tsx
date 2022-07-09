@@ -3,14 +3,12 @@ import {
   CustomShaderMaterialMaster,
   expr,
   Float,
-  Fresnel,
   Mix,
   Multiply,
   Pipe,
   Pow,
   Remap,
   Simplex3DNoise,
-  Sin,
   Smoothstep,
   Step,
   Time,
@@ -20,7 +18,6 @@ import {
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
-import { Fog } from "./Fog"
 import { useShader } from "./useShader"
 
 export default function Playground() {
@@ -44,7 +41,8 @@ export default function Playground() {
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
-        ($) => Mix($, new Color("#ec5"), Step(waterHeight, noise)),
+        ($) => Mix($, new Color("#68f"), Step(waterHeight, noise)),
+        ($) => Mix($, new Color("#ec5"), Step(Add(waterHeight, 0.02), noise)),
         ($) => Mix($, new Color("#494"), Step(0.34, noise)),
         ($) => Mix($, new Color("#ccc"), Step(0.5, noise)),
         ($) => Mix($, new Color("#fff"), Step(0.7, noise))
