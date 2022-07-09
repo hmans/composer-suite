@@ -32,13 +32,12 @@ const renderSnippet = (
   return s.chunk
 }
 
-const deepFlat = (parts: Parts): Parts =>
-  parts.map((p) => (Array.isArray(p) ? deepFlat(p) : p))
-
 const getDependencies = (...sources: any[]): any[] =>
-  deepFlat(sources)
+  sources
+    .flat(Infinity)
     .map((s) => (isExpression(s) ? s.values : undefined))
     .flat()
+    .filter((d) => !!d)
 
 export const compileVariable = (
   v: Variable,
@@ -49,9 +48,13 @@ export const compileVariable = (
   if (v._config.only && v._config.only !== program) return []
 
   /* Build a list of dependencies */
-  const dependencies = getDependencies(v.value, v._config.fragmentBody)
-
-  console.log(dependencies)
+  const dependencies = getDependencies(
+    v.value,
+    v._config.fragmentHeader,
+    v._config.fragmentBody,
+    v._config.vertexHeader,
+    v._config.vertexBody
+  )
 
   /* Render dependencies */
   dependencies.forEach(
@@ -106,8 +109,6 @@ export const compileVariable = (
 export const compileProgram = (v: Variable, program: ProgramType) => {
   const state = compilerState()
   compileVariable(v, program, state)
-
-  console.log(state)
 
   return concatenate(state.header, "void main()", block(state.body))
 }
