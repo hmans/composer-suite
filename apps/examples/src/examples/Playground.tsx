@@ -25,7 +25,7 @@ export default function Playground() {
   const shader = useShader(() => {
     const noise = Simplex3DNoise(Vec3(Multiply(VertexPosition, 0.11)))
 
-    const steppedNoise = Smoothstep(-0.5, 0.5, noise)
+    const steppedNoise = Smoothstep(-0.1, 0.1, noise)
 
     const waterHeight = Float(
       expr`-0.1 + sin(${Time} + ${VertexPosition}.y) * 0.02`
@@ -51,7 +51,7 @@ export default function Playground() {
 
   return (
     <group position-y={18}>
-      <Fog />
+      {/* <Fog /> */}
       <DustExample />
       <mesh>
         <icosahedronGeometry args={[12, 4]} />
