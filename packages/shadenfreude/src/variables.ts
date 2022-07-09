@@ -40,15 +40,16 @@ export type VariableConfig<T extends GLSLType = any> = {
   fragmentBody?: Chunk
 }
 
-export type Variable<T extends GLSLType = any> = {
+export type Variable<T extends GLSLType = any, A extends Api = {}> = {
   _: "Variable"
   _config: VariableConfig<T>
   type: T
   value: Value<T>
-}
+} & A
 
-type Api = Record<string, any>
-type ApiFactory<T extends GLSLType, A extends Api> = (
+export type Api = Record<string, any>
+
+export type ApiFactory<T extends GLSLType, A extends Api> = (
   variable: Variable<T>
 ) => A
 
@@ -82,7 +83,7 @@ export const Variable = <T extends GLSLType, A extends Api = {}>(
 
   const api = apiFactory(variable)
 
-  return { ...variable, ...api } as Variable<T> & A
+  return { ...variable, ...api } as Variable<T, A>
 }
 
 export function isVariable(v: any): v is Variable {

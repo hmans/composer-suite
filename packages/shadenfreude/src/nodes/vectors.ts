@@ -6,11 +6,11 @@ export type Vector3Components = [Float, Float, Float]
 export type Vector4Components = [Float, Float, Float, Float]
 
 export type JoinReturnType<Args> = Args extends Vector4Components
-  ? Variable<"vec4">
+  ? ReturnType<typeof Vec4>
   : Args extends Vector3Components
-  ? Variable<"vec3">
+  ? ReturnType<typeof Vec3>
   : Args extends Vector2Components
-  ? Variable<"vec2">
+  ? ReturnType<typeof Vec2>
   : never
 
 export const Join = <
