@@ -20,6 +20,10 @@ export const Subtract = Operator("Subtract", "-")
 export const Multiply = Operator("Multiply", "*")
 export const Divide = Operator("Divide", "/")
 
+export const Sub = Subtract
+export const Mul = Multiply
+export const Div = Divide
+
 export const Sin = (x: Float) => Float(expr`sin(${x})`)
 export const Cos = (x: Float) => Float(expr`cos(${x})`)
 export const Pow = (x: Float, y: Float) => Float(expr`pow(${x}, ${y})`)
