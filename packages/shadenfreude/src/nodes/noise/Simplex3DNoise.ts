@@ -1,10 +1,10 @@
-import { expr } from "../../expressions"
+import { expr, float } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
 import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
-export const Simplex3DNoise = (p: Vec3) => Float(expr`${noise}(${p})`)
+export const Simplex3DNoise = (p: Vec3) => float`${noise}(${p})`
 
 const noise = snippet(
   (name) => expr`

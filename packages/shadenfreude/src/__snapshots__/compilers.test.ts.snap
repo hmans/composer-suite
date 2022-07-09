@@ -1,35 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compileShader doesn't render the same dependency twice 1`] = `
-"void main()
-{
-  /*** BEGIN: anon (1) ***/
-  float float_anon_1;
-  {
-    float value = 1.0;
-    float_anon_1 = value;
-  }
-  /*** END: anon (1) ***/
-
-  /*** BEGIN: anon (2) ***/
-  float float_anon_2;
-  {
-    float value = float_anon_1;
-    float_anon_2 = value;
-  }
-  /*** END: anon (2) ***/
-
-  /*** BEGIN: anon (3) ***/
-  float float_anon_3;
-  {
-    float value = float_anon_1 + float_anon_2;
-    float_anon_3 = value;
-  }
-  /*** END: anon (3) ***/
-
-}"
-`;
-
 exports[`compileShader includes the variable's chunks if it has them 1`] = `
 "/*** BEGIN: anon (1) ***/
 uniform float u_time;
@@ -64,28 +34,6 @@ void main()
     float_anon_1 = value;
   }
   /*** END: anon (1) ***/
-
-}"
-`;
-
-exports[`compileShader resolves dependencies to other variables 1`] = `
-"void main()
-{
-  /*** BEGIN: anon (1) ***/
-  float float_anon_1;
-  {
-    float value = 1.0;
-    float_anon_1 = value;
-  }
-  /*** END: anon (1) ***/
-
-  /*** BEGIN: anon (2) ***/
-  float float_anon_2;
-  {
-    float value = float_anon_1;
-    float_anon_2 = value;
-  }
-  /*** END: anon (2) ***/
 
 }"
 `;
