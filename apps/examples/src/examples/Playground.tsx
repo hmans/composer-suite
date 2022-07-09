@@ -1,6 +1,7 @@
 import {
   Add,
   CustomShaderMaterialMaster,
+  Dissolve,
   expr,
   Float,
   Mix,
@@ -10,6 +11,7 @@ import {
   Pow,
   Remap,
   Simplex3DNoise,
+  Sin,
   Smoothstep,
   Step,
   Sub,
@@ -20,6 +22,7 @@ import {
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+import { smootherstep } from "three/src/math/MathUtils"
 import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
 
@@ -41,6 +44,8 @@ export default function Playground() {
       Simplex3DNoise(Add(Vec3(Mul(VertexPosition, 0.3)), Mul(Time, 0.05)))
     )
 
+    const dissolve = Dissolve(Smoothstep(-0.5, 0.5, Sin(Time)), 0.1)
+
     return CustomShaderMaterialMaster({
       position: Mul(VertexPosition, Float(expr`1.0 + ${steppedNoise} * 0.3`)),
 
@@ -57,8 +62,11 @@ export default function Playground() {
         /* Mountains */
         ($) => Mix($, new Color("#ccc"), Step(0.5, noise)),
         /* Skyrim */
-        ($) => Mix($, new Color("#fff"), Step(0.7, noise))
-      )
+        ($) => Mix($, new Color("#fff"), Step(0.7, noise)),
+        ($) => Add($, dissolve.color)
+      ),
+
+      alpha: dissolve.alpha
     })
   }, [])
 
