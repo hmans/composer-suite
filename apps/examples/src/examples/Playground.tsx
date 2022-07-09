@@ -25,16 +25,20 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
+    const foo = Float(a)
+
+    return foo
+
     const c = Vec3(new Color("hotpink"))
 
     // return Float(expr`${add}(${a}, ${b})`)
 
     const noise = Simplex3DNoise(VertexPosition)
 
-    return CustomShaderMaterialMaster({
-      diffuseColor: new Color("hotpink"),
-      alpha: noise
-    })
+    // return CustomShaderMaterialMaster({
+    //   diffuseColor: new Color("hotpink"),
+    //   alpha: noise
+    // })
   }, [])
 
   // console.log(shader.vertexShader)

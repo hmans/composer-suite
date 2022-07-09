@@ -27,7 +27,15 @@ const variableEndComment = (v: Variable) =>
 const getDependencies = (...sources: any[]): any[] =>
   sources
     .flat(Infinity)
-    .map((s) => (isExpression(s) ? s.values : isSnippet(s) ? s : undefined))
+    .map((s) =>
+      isVariable(s)
+        ? s
+        : isExpression(s)
+        ? s.values
+        : isSnippet(s)
+        ? s
+        : undefined
+    )
     .flat()
     .filter((d) => !!d)
 
@@ -44,7 +52,7 @@ const compileSnippet = (
       isSnippet(v) && compileSnippet(v, program, state)
     })
 
-  state.header.push(s.chunk)
+  state.header.push(`/*** SNIPPET: ${s.name} ***/`, s.chunk)
 }
 
 export const compileVariable = (

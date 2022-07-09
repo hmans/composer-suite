@@ -12,18 +12,18 @@ exports[`compileShader doesn't render the same dependency twice 1`] = `
   /*** END: anon (1) ***/
 
   /*** BEGIN: anon (2) ***/
-  bool bool_anon_2;
+  float float_anon_2;
   {
-    bool value = true;
-    bool_anon_2 = value;
+    float value = float_anon_1;
+    float_anon_2 = value;
   }
   /*** END: anon (2) ***/
 
   /*** BEGIN: anon (3) ***/
-  bool bool_anon_3;
+  float float_anon_3;
   {
-    bool value = true;
-    bool_anon_3 = value;
+    float value = float_anon_1 + float_anon_2;
+    float_anon_3 = value;
   }
   /*** END: anon (3) ***/
 
