@@ -1,3 +1,4 @@
+import { Vector2 } from "three"
 import { Mat4, Vec2, Vec3 } from "../variables"
 
 export const UV = Vec2("uv", { varying: true })
@@ -32,3 +33,12 @@ export const ViewDirection = Vec3(
     varying: true
   }
 )
+
+export const TilingUV = (
+  uv: Vec2 = UV,
+  tiling: Vec2 = new Vector2(1, 1),
+  offset: Vec2 = new Vector2(0, 0)
+) =>
+  Vec2(`vec2(uv.x * tiling.x + offset.x, uv.y * tiling.y + offset.y)`, {
+    inputs: { uv, tiling, offset }
+  })
