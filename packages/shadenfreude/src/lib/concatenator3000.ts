@@ -57,13 +57,9 @@ export type Snippet = {
   _: "Snippet"
   name: string
   chunk: Part | Part[]
-  dependencies: Snippet[]
 }
 
-export const snippet = (
-  render: (name: string) => Part | Parts[],
-  dependencies: Snippet[] = []
-): Snippet => {
+export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
   const hash = sha256(concatenate(render(""))).toString()
   const name = identifier("snippet", hash)
   const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
@@ -71,8 +67,7 @@ export const snippet = (
   return {
     _: "Snippet",
     name,
-    chunk,
-    dependencies
+    chunk
   }
 }
 

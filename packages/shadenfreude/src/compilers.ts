@@ -28,7 +28,7 @@ const renderSnippet = (
   stack: ReturnType<typeof dependencyStack>
 ): Parts => {
   if (!stack.freshSnippet(s)) return []
-  return [s.dependencies.map((s) => renderSnippet(s, stack)), s.chunk]
+  return s.chunk
 }
 
 export const compileHeader = (
