@@ -103,49 +103,34 @@ const makeVariableHelper = <T extends GLSLType, A extends Api>(
 ) => (v: Value<T>, config?: Partial<VariableConfig<T>>) =>
   Variable(type, v, config, apiFactory)
 
+const vec2Api = (v: Variable) => ({
+  get x() {
+    return Float("v.x", { inputs: { v } })
+  },
+  get y() {
+    return Float("v.y", { inputs: { v } })
+  }
+})
+
+const vec3Api = (v: Variable) => ({
+  ...vec2Api(v),
+  get z() {
+    return Float("v.z", { inputs: { v } })
+  }
+})
+
+const vec4Api = (v: Variable) => ({
+  ...vec3Api(v),
+  get w() {
+    return Float("v.w", { inputs: { v } })
+  }
+})
+
 export const Float = makeVariableHelper("float")
 export const Bool = makeVariableHelper("bool")
-
-export const Vec2 = makeVariableHelper("vec2", (v) => ({
-  X() {
-    return Float("v.x", { inputs: { v } })
-  },
-
-  get x() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get y() {
-    return Float("v.x", { inputs: { v } })
-  }
-}))
-
-export const Vec3 = makeVariableHelper("vec3", (v) => ({
-  get x() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get y() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get z() {
-    return Float("v.x", { inputs: { v } })
-  }
-}))
-
-export const Vec4 = makeVariableHelper("vec4", (v) => ({
-  get x() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get y() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get z() {
-    return Float("v.x", { inputs: { v } })
-  },
-  get w() {
-    return Float("v.x", { inputs: { v } })
-  }
-}))
-
+export const Vec2 = makeVariableHelper("vec2", vec2Api)
+export const Vec3 = makeVariableHelper("vec3", vec3Api)
+export const Vec4 = makeVariableHelper("vec4", vec4Api)
 export const Mat3 = makeVariableHelper("mat3")
 export const Mat4 = makeVariableHelper("mat4")
 
