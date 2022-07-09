@@ -22,6 +22,7 @@ export const Divide = Operator("Divide", "/")
 
 export const Sin = (x: Float) => Float(expr`sin(${x})`)
 export const Cos = (x: Float) => Float(expr`cos(${x})`)
+export const Pow = (x: Float, y: Float) => Float(expr`pow(${x}, ${y})`)
 
 export const Mix = <T extends GLSLType>(a: Value<T>, b: Value<T>, f: Float) =>
   Variable(type(a), expr`mix(${a}, ${b}, ${f})`)
@@ -82,9 +83,5 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
 ) =>
   Variable(
     type(v),
-    expr`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`,
-    {
-      vertexHeader: [remap],
-      fragmentHeader: [remap]
-    }
+    expr`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`
   )

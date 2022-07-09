@@ -7,6 +7,8 @@ import {
   Mix,
   Multiply,
   Pipe,
+  Pow,
+  Remap,
   Simplex3DNoise,
   Sin,
   Smoothstep,
@@ -23,25 +25,29 @@ import { useShader } from "./useShader"
 
 export default function Playground() {
   const shader = useShader(() => {
-    const noise = Simplex3DNoise(Vec3(Multiply(VertexPosition, 0.11)))
+    const noise = Pow(
+      Remap(Simplex3DNoise(Vec3(Multiply(VertexPosition, 0.11))), -1, 1, 0, 1),
+      1.5
+    )
 
-    const steppedNoise = Smoothstep(-0.1, 0.1, noise)
+    const steppedNoise = Smoothstep(-0, 1, noise)
 
     const waterHeight = Float(
-      expr`-0.1 + sin(${Time} + ${VertexPosition}.y) * 0.02`
+      expr`0.3 + sin(${Time} + ${VertexPosition}.y) * 0.02`
     )
 
     return CustomShaderMaterialMaster({
-      position: Pipe(VertexPosition, ($) =>
-        Vec3(expr`${$} * (1.0 + ${steppedNoise} * 0.3)`)
+      position: Multiply(
+        VertexPosition,
+        Float(expr`1.0 + ${steppedNoise} * 0.3`)
       ),
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
         ($) => Mix($, new Color("#ec5"), Step(waterHeight, noise)),
-        ($) => Mix($, new Color("#494"), Step(0, noise)),
-        ($) => Mix($, new Color("#ccc"), Step(0.3, noise)),
-        ($) => Mix($, new Color("#fff"), Step(0.5, noise))
+        ($) => Mix($, new Color("#494"), Step(0.34, noise)),
+        ($) => Mix($, new Color("#ccc"), Step(0.5, noise)),
+        ($) => Mix($, new Color("#fff"), Step(0.7, noise))
       )
     })
   }, [])
