@@ -10,6 +10,7 @@ import {
   Sampler2D,
   Split,
   Subtract,
+  TilingUV,
   Time,
   Uniform,
   UV,
@@ -50,10 +51,12 @@ export default function Playground() {
       texture: Sampler2D("u_texture")
     }
 
+    const animatedOffset = Join(Multiply(Time, -0.03), 0)
+
     const map = SampleTexture(
       "u_texture",
       parameters.texture,
-      Subtract(Multiply(UV, new Vector2(4, 2)), Join(Multiply(Time, 0.03), 0))
+      TilingUV(UV, new Vector2(3, 1.5), animatedOffset)
     )
 
     const splitMap = Split(map)
