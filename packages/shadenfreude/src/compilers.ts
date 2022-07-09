@@ -89,6 +89,7 @@ export const compileVariable = (
   )
 }
 
+/**  Compile a program from the variable */
 export const compileProgram = (v: Variable, program: ProgramType) => {
   const state = compilerState()
   compileVariable(v, program, state)
@@ -113,7 +114,6 @@ export const compileShader = (root: Variable) => {
   prepare(root)
 
   const vertexShader = compileProgram(root, "vertex")
-
   const fragmentShader = compileProgram(root, "fragment")
 
   const uniforms = {
