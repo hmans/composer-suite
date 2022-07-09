@@ -13,6 +13,13 @@ export default function Playground() {
     const b = Float(2)
 
     return Float(expr`${add}(${a}, ${b})`)
+
+    // const noise = Simplex3DNoise(VertexPosition)
+
+    // return CustomShaderMaterialMaster({
+    //   diffuseColor: new Color("hotpink"),
+    //   alpha: noise
+    // })
   }, [])
 
   console.log(shader.vertexShader)
