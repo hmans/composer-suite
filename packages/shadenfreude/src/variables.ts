@@ -64,6 +64,15 @@ export type Variable<
 
 const nextAnonymousId = idGenerator()
 
+/**
+ * Create a variable. Variables are the nodes the shader tree is composed of. Everything in the tree
+ * is expressed as a variable.
+ *
+ * @param type GLSL type of the variable.
+ * @param value Value of the variable. Can be a JS value, a reference to another variable, or a string expression.
+ * @param configInput Optional configuration object.
+ * @returns A freshly created variable, just for you
+ */
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
