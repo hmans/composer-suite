@@ -21,6 +21,7 @@ import {
   Uniform,
   UV,
   Value,
+  Variable,
   Vec2,
   Vec3,
   Vec4
@@ -38,19 +39,25 @@ import textureUrl from "./textures/hexgrid.jpeg"
 const SampleTexture = (name: string, t: Bool, xy: Vec2) =>
   Vec4(`texture2D(${name}, xy)`, { inputs: { t, xy } })
 
+const useShader = (ctor: () => Variable, deps?: any) => {
+  const [shader, update] = useMemo(() => compileShader(ctor()), deps)
+  useFrame((_, dt) => update(dt))
+  return shader
+}
+
 export default function Playground() {
+  /* Load texture */
   const texture = useTexture(textureUrl)
   texture.wrapS = RepeatWrapping
   texture.wrapT = RepeatWrapping
 
+  /* Set up Leva controls */
   const controls = useControls("Uniforms", {
     visibility: { value: 0.5, min: 0, max: 1 },
     edgeThickness: { value: 0.1, min: 0, max: 0.5 }
   })
 
-  const [{ uniforms, ...shader }, update] = useMemo(() => {
-    console.log("compiling shader")
-
+  const { uniforms, ...shader } = useShader(() => {
     const parameters = {
       visibility: Uniform("float", "u_visibility"),
       edgeThickness: Uniform("float", "u_edgeThickness"),
@@ -74,7 +81,7 @@ export default function Playground() {
 
     const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
 
-    const root = CustomShaderMaterialMaster({
+    return CustomShaderMaterialMaster({
       diffuseColor: Pipe(
         Vec3(new Color("#4cf")),
         ($) => Multiply($, mapDiffuse),
@@ -82,8 +89,6 @@ export default function Playground() {
       ),
       alpha: dissolve.alpha
     })
-
-    return compileShader(root)
   }, [])
 
   const myUniforms = useMemo(
@@ -98,8 +103,6 @@ export default function Playground() {
 
   myUniforms.u_visibility.value = controls.visibility
   myUniforms.u_edgeThickness.value = controls.edgeThickness
-
-  useFrame((_, dt) => update(dt))
 
   // console.log(shader.vertexShader)
   // console.log(shader.fragmentShader)
