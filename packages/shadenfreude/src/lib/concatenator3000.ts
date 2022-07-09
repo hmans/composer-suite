@@ -59,8 +59,12 @@ export type Snippet = {
 }
 
 export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
-  const hash = sha256(concatenate(render(""))).toString()
+  const hash = sha256(concatenate(render("")))
+    .toString()
+    .substring(0, 10)
+
   const name = identifier("snippet", hash)
+
   const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
 
   return {

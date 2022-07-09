@@ -4,9 +4,9 @@ exports[`snippet creates a snippet with a rendered chunk 1`] = `
 Object {
   "_": "Snippet",
   "chunk": Array [
-    "/*** SNIPPET: snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 ***/",
-    "/* hi from snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259 */",
+    "/*** SNIPPET: snippet_b117418551 ***/",
+    "/* hi from snippet_b117418551 */",
   ],
-  "name": "snippet_b117418551e1b8d4b59f6c1e18105f25177e09509cd53bdfc6f76de146877259",
+  "name": "snippet_b117418551",
 }
 `;

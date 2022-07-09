@@ -62,14 +62,14 @@ describe("snippet", () => {
     const [shader] = compileShader(f)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** SNIPPET: snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9 ***/
-      float snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(float a, float b) { return a + b; }
+      "/*** SNIPPET: snippet_7dd01b876a ***/
+      float snippet_7dd01b876a(float a, float b) { return a + b; }
       void main()
       {
         /*** BEGIN: anon (1) ***/
         float float_anon_1;
         {
-          float value = snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(1, snippet_7dd01b876ac51c46f2484f6773fa837250a0197f2f0ff0533ac7373df8cf6ab9(2, 3));
+          float value = snippet_7dd01b876a(1, snippet_7dd01b876a(2, 3));
           float_anon_1 = value;
         }
         /*** END: anon (1) ***/
@@ -92,16 +92,16 @@ describe("snippet", () => {
     const [shader] = compileShader(f)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
-      "/*** SNIPPET: snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba ***/
-      float snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba(float a, float b) { return a * b; }
-      /*** SNIPPET: snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff ***/
-      float snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(float a, float b) { return a + snippet_3853dce07c2b5e268e8dfd14015417672771c0f7ffdb9d946747dfb86656afba(a, b); }
+      "/*** SNIPPET: snippet_3853dce07c ***/
+      float snippet_3853dce07c(float a, float b) { return a * b; }
+      /*** SNIPPET: snippet_98a183b64b ***/
+      float snippet_98a183b64b(float a, float b) { return a + snippet_3853dce07c(a, b); }
       void main()
       {
         /*** BEGIN: anon (1) ***/
         float float_anon_1;
         {
-          float value = snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(1, snippet_9670319365a5bf2e01a7c10af84a990eb71f98161426bb28ba0ea23843a656ff(2, 3));
+          float value = snippet_98a183b64b(1, snippet_98a183b64b(2, 3));
           float_anon_1 = value;
         }
         /*** END: anon (1) ***/
