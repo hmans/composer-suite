@@ -65,7 +65,6 @@ export type Snippet = {
   name: string
   chunk: Part | Part[]
   dependencies: Snippet[]
-  toString: () => string
 }
 
 export const snippet = (
@@ -75,7 +74,7 @@ export const snippet = (
   const hash = sha256(concatenate(render(""))).toString()
   const name = identifier("snippet", hash)
   const chunk = flatten(`/*** SNIPPET: ${name} ***/`, render(name))
-  return { _: "Snippet", name, chunk, dependencies, toString: () => name }
+  return { _: "Snippet", name, chunk, dependencies }
 }
 
 export function isSnippet(v: any): v is Snippet {
