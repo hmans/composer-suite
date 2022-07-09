@@ -112,11 +112,11 @@ export const Vec2 = (
   injectAPI(Variable("vec2", v, extras), (v) => ({
     get x() {
       return Float("v.x", { inputs: { v } })
+    },
+    get y() {
+      return Float("v.y", { inputs: { v } })
     }
   }))
-
-// const vec2 = Vec2(new Vector2())
-// vec2.x
 
 export const Vec3 = makeVariableHelper("vec3")
 export const Vec4 = makeVariableHelper("vec4")
