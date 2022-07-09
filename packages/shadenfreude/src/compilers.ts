@@ -25,7 +25,7 @@ const variableEndComment = (v: Variable) =>
 
 const renderSnippet = (
   s: Snippet,
-  stack: ReturnType<typeof dependencyStack>
+  stack: ReturnType<typeof compilerState>
 ): Parts => {
   if (!stack.freshSnippet(s)) return []
   return s.chunk
@@ -34,7 +34,7 @@ const renderSnippet = (
 export const compileHeader = (
   v: Variable,
   program: ProgramType,
-  stack = dependencyStack()
+  stack = compilerState()
 ): Parts => {
   if (!stack.freshVariable(v)) return []
 
@@ -65,7 +65,7 @@ export const compileHeader = (
 export const compileBody = (
   v: Variable,
   program: ProgramType,
-  stack = dependencyStack()
+  stack = compilerState()
 ): Parts => {
   if (!stack.freshVariable(v)) return []
 
@@ -102,21 +102,32 @@ export const compileBody = (
   ]
 }
 
-export const compileProgram = (v: Variable, program: ProgramType) =>
-  concatenate(
-    compileHeader(v, program),
-    "void main()",
-    block(compileBody(v, program))
-  )
+export const compileVariable = (
+  v: Variable,
+  program: ProgramType,
+  state = compilerState()
+) => {
+  return {
+    header: compileHeader(v, program),
+    body: compileBody(v, program)
+  }
+}
 
-const prepare = (v: Variable, stack = dependencyStack()) => {
-  if (!stack.freshVariable(v)) return
+export const compileProgram = (v: Variable, program: ProgramType) => {
+  const state = compilerState()
+  compileVariable(v, program, state)
+
+  concatenate(state.header, "void main()", block(state.body))
+}
+
+const prepare = (v: Variable, state = compilerState()) => {
+  if (!state.freshVariable(v)) return
 
   /* Prepare dependencies first */
-  variableDependencies(v).forEach((d) => prepare(d, stack))
+  variableDependencies(v).forEach((d) => prepare(d, state))
 
   /* Update the node's ID */
-  v._config.id = stack.nextId()
+  v._config.id = state.nextId()
 
   /* Give this variable a better name */
   v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
@@ -142,9 +153,12 @@ export const compileShader = (root: Variable) => {
   return [{ vertexShader, fragmentShader, uniforms }, update] as const
 }
 
-const dependencyStack = () => {
+const compilerState = () => {
   const seenVariables = new Set<Variable>()
   const seenSnippets = new Set<Snippet>()
+
+  const header = [] as Parts
+  const body = [] as Parts
 
   const nextId = idGenerator()
 
@@ -155,6 +169,8 @@ const dependencyStack = () => {
     freshSnippet: (s: Snippet) =>
       seenSnippets.has(s) ? false : seenSnippets.add(s) && true,
 
+    header,
+    body,
     nextId
   }
 }
