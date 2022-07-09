@@ -23,7 +23,7 @@ export default function Playground() {
     const a = Float(1)
     const b = Float(2)
 
-    return Float(expr`${a} + ${b}`, { dependencies: [a, b] })
+    return Float(expr`${a} + ${b}`)
   }, [])
 
   // console.log(shader.vertexShader)
