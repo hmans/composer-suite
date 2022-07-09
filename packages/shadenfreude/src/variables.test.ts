@@ -41,7 +41,11 @@ describe("variable", () => {
     expect(c.fragmentShader).toMatchSnapshot()
   })
 
-  it("provides a mechanism for variables to declare functions", () => {
-    const v = Bool(true, {})
+  it("provides a mechanism for variables to declare APIs", () => {
+    const v = Variable("float", 1, {}, (v) => ({
+      inverted: Float("-v", { inputs: { v } })
+    }))
+
+    expect(glslRepresentation(v.inverted.value)).toBe("-v")
   })
 })
