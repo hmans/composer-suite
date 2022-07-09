@@ -14,8 +14,7 @@ export type Expression = {
   render: () => string
 }
 
-const zip = (a: TemplateStringsArray | any[], b: any[]) =>
-  a.map((k, i) => [k, b[i]])
+const zip = (a: TemplateStringsArray, b: any[]) => a.map((k, i) => [k, b[i]])
 
 export const expr = (
   strings: TemplateStringsArray,
