@@ -6,10 +6,11 @@ import {
   concatenate,
   flatten,
   identifier,
-  isExpression,
+  isSnippet,
   Parts,
   resetConcatenator3000,
   sluggify,
+  Snippet,
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
@@ -39,7 +40,7 @@ export const compileHeader = (
 
   return [
     /* Render dependencies */
-    dependencies(v).map((dep) => compileHeader(dep, program, stack)),
+    variableDependencies(v).map((dep) => compileHeader(dep, program, stack)),
 
     /* Render header chunk */
     header.length && [variableBeginComment(v), header, variableEndComment(v)]
@@ -57,7 +58,7 @@ export const compileBody = (
 
   return [
     /* Render dependencies */
-    dependencies(v).map((dep) => compileBody(dep, program, stack)),
+    variableDependencies(v).map((dep) => compileBody(dep, program, stack)),
 
     variableBeginComment(v),
 
@@ -97,7 +98,7 @@ const prepare = (v: Variable, stack = dependencyStack()) => {
   if (!stack.fresh(v)) return
 
   /* Prepare dependencies first */
-  dependencies(v).forEach((d) => prepare(d, stack))
+  variableDependencies(v).forEach((d) => prepare(d, stack))
 
   /* Update the node's ID */
   v._config.id = stack.nextId()
@@ -138,7 +139,8 @@ const dependencyStack = () => {
   }
 }
 
-const dependencies = (v: Variable) =>
-  [isVariable(v.value) && v.value, ...v._config.dependencies].filter((d) =>
-    isVariable(d)
-  ) as Variable[]
+const variableDependencies = (v: Variable) =>
+  [isVariable(v.value) && v.value, ...v._config.dependencies].filter(isVariable)
+
+const snippetDependencies = (v: Variable) =>
+  v._config.dependencies.filter(isSnippet)

@@ -1,38 +1,20 @@
-import {
-  Add,
-  CustomShaderMaterialMaster,
-  Divide,
-  expr,
-  Float,
-  Fresnel,
-  Multiply,
-  Simplex3DNoise,
-  Smoothstep,
-  Time,
-  Vec3,
-  VertexPosition
-} from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial } from "three"
+import { expr, Float, snippet } from "shadenfreude"
+import { DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
+
+const snip = snippet(
+  (name) => `float ${name}(float a, float b) { return a + b; }`
+)
 
 export default function Playground() {
   const shader = useShader(() => {
     const a = Float(1)
     const b = Float(2)
 
-    // return Float(expr`${a} + ${b}`)
-
-    const t = Time
-
-    const noise = Smoothstep(
-      0,
-      0.01,
-      Simplex3DNoise(Divide(VertexPosition, 10))
-    )
-
-    return CustomShaderMaterialMaster({
-      diffuseColor: Add(new Color("#8f8"), Multiply(new Color("#88f"), noise))
+    return Float(expr`${snip}(${a}, ${b})`, {
+      vertexHeader: [snip],
+      fragmentHeader: [snip]
     })
   }, [])
 

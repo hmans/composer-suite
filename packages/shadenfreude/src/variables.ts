@@ -1,7 +1,7 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
 import { Expression, flushDependencies } from "./expressions"
 import { type } from "./glslType"
-import { identifier, Part } from "./lib/concatenator3000"
+import { identifier, Part, Snippet } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
 export type GLSLType =
@@ -35,7 +35,7 @@ export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  dependencies: Variable[]
+  dependencies: (Variable | Snippet)[]
   only?: "vertex" | "fragment"
   varying?: boolean
   vertexHeader?: Chunk
