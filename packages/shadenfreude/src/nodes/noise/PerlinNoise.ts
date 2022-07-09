@@ -33,7 +33,7 @@ const fade = snippet(
 
 const noise = snippet(
   (name) =>
-    `
+    expr`
     // Classic Perlin noise, periodic variant
     float ${name}(vec3 P, vec3 rep)
     {
@@ -103,6 +103,5 @@ const noise = snippet(
       float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
       return 2.2 * n_xyz;
     }
-  `,
-  [mod289, permute, taylorInvSqrt, fade]
+  `
 )
