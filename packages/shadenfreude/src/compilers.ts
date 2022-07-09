@@ -94,7 +94,9 @@ export const compileProgram = (v: Variable, program: ProgramType) => {
   const state = compilerState()
   compileVariable(v, program, state)
 
-  concatenate(state.header, "void main()", block(state.body))
+  console.log(state)
+
+  return concatenate(state.header, "void main()", block(state.body))
 }
 
 const prepare = (v: Variable, state = compilerState()) => {
