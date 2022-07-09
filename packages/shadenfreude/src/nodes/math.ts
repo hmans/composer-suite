@@ -35,25 +35,15 @@ export type FresnelProps = {
 }
 
 export const Fresnel = ({
-  alpha = 1,
   bias = 0,
   intensity = 1,
   power = 2,
   factor = 1
 }: FresnelProps = {}) =>
   Float(0, {
-    inputs: {
-      alpha,
-      bias,
-      intensity,
-      power,
-      factor,
-      ViewDirection,
-      normal: VertexNormalWorld
-    },
-    fragmentBody: `
-      float f_a = (factor + dot(ViewDirection, normal));
-      float f_fresnel = bias + intensity * pow(abs(f_a), power);
+    fragmentBody: expr`
+      float f_a = (${factor} + dot(${ViewDirection}, ${VertexNormalWorld}));
+      float f_fresnel = ${bias} + ${intensity} * pow(abs(f_a), ${power});
       f_fresnel = clamp(f_fresnel, 0.0, 1.0);
       value = f_fresnel;
     `
