@@ -49,7 +49,7 @@ export default function Playground() {
             Step(
               0,
               Simplex3DNoise(
-                Add(Vec3(Mul(VertexPosition, 0.5)), Mul(Time, 0.15))
+                Add(Vec3(Mul(VertexPosition, 0.3)), Mul(Time, 0.05))
               )
             )
           ),
