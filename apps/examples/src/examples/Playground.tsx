@@ -2,10 +2,8 @@ import { useTexture } from "@react-three/drei"
 import { useControls } from "leva"
 import { useMemo } from "react"
 import {
-  Add,
   Bool,
   CustomShaderMaterialMaster,
-  Dissolve,
   Join,
   Multiply,
   Pipe,
@@ -52,13 +50,6 @@ export default function Playground() {
       texture: Sampler2D("u_texture")
     }
 
-    /* Use the thing: */
-    const dissolve = Dissolve(
-      parameters.visibility,
-      0.3,
-      parameters.edgeThickness
-    )
-
     const map = SampleTexture(
       "u_texture",
       parameters.texture,
@@ -70,12 +61,9 @@ export default function Playground() {
     const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
 
     return CustomShaderMaterialMaster({
-      diffuseColor: Pipe(
-        Vec3(new Color("#4cf")),
-        ($) => Multiply($, mapDiffuse),
-        ($) => Add($, dissolve.color)
-      ),
-      alpha: dissolve.alpha
+      diffuseColor: Pipe(Vec3(new Color("#4cf")), ($) =>
+        Multiply($, mapDiffuse)
+      )
     })
   }, [])
 
