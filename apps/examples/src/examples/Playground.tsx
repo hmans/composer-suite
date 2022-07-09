@@ -59,9 +59,7 @@ export default function Playground() {
       TilingUV(UV, new Vector2(3, 1.5), animatedOffset)
     )
 
-    const splitMap = Split(map)
-
-    const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
+    const mapDiffuse = Join(map.x, map.y, map.z)
 
     return CustomShaderMaterialMaster({
       diffuseColor: Pipe(Vec3(new Color("#4cf")), ($) =>

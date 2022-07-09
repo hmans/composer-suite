@@ -107,6 +107,10 @@ export const Float = makeVariableHelper("float")
 export const Bool = makeVariableHelper("bool")
 
 export const Vec2 = makeVariableHelper("vec2", (v) => ({
+  X() {
+    return Float("v.x", { inputs: { v } })
+  },
+
   get x() {
     return Float("v.x", { inputs: { v } })
   },
