@@ -1,3 +1,4 @@
+import { Vector2 } from "three"
 import { glslRepresentation } from "./glslRepresentation"
 import { type } from "./glslType"
 import {
@@ -121,12 +122,12 @@ export const compileShader = (root: Variable) => {
 
   const uniforms = {
     u_time: { value: 0 },
-    u_resolution: { value: [0, 0] }
+    u_resolution: { value: new Vector2() }
   }
 
   const update = (dt: number) => {
     uniforms.u_time.value += dt
-    uniforms.u_resolution.value = [window.innerWidth, window.innerHeight]
+    uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight)
   }
 
   return [{ vertexShader, fragmentShader, uniforms }, update] as const

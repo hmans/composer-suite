@@ -1,67 +1,87 @@
-import { useFrame } from "@react-three/fiber"
+import { useTexture } from "@react-three/drei"
 import { useControls } from "leva"
 import { useMemo } from "react"
 import {
-  Add,
-  compileShader,
+  Bool,
   CustomShaderMaterialMaster,
-  Float,
+  Join,
   Multiply,
-  Simplex3DNoise,
-  Sin,
-  Smoothstep,
-  Step,
+  Pipe,
+  Sampler2D,
+  Split,
   Subtract,
+  TilingUV,
   Time,
   Uniform,
+  UV,
+  Vec2,
   Vec3,
-  VertexPosition
+  Vec4
 } from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial } from "three"
+import {
+  Color,
+  DoubleSide,
+  MeshStandardMaterial,
+  RepeatWrapping,
+  Vector2
+} from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+import textureUrl from "./textures/hexgrid.jpeg"
+import { useShader } from "./useShader"
+
+const SampleTexture = (name: string, t: Bool, xy: Vec2) =>
+  Vec4(`texture2D(${name}, xy)`, { inputs: { t, xy } })
 
 export default function Playground() {
-  const { u_threshold } = useControls("Uniforms", {
-    u_threshold: { value: 0, min: -1, max: 1 }
+  /* Load texture */
+  const texture = useTexture(textureUrl)
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
+
+  /* Set up Leva controls */
+  const controls = useControls("Uniforms", {
+    visibility: { value: 0.5, min: 0, max: 1 },
+    edgeThickness: { value: 0.1, min: 0, max: 0.5 }
   })
 
-  const [{ uniforms, ...shader }, update] = useMemo(() => {
-    console.log("compiling shader")
-
+  const { uniforms, ...shader } = useShader(() => {
     const parameters = {
-      threshold: Uniform("float", "u_threshold")
+      visibility: Uniform("float", "u_visibility"),
+      edgeThickness: Uniform("float", "u_edgeThickness"),
+      texture: Sampler2D("u_texture")
     }
 
-    /* Put this into an NPM package, I dare you: */
-    const Dissolve = (
-      threshold: Float = 0.5,
-      speed: Float = 1,
-      edgeColor: Vec3 = new Color(0, 10, 8)
-    ) => {
-      const noise = Simplex3DNoise(Multiply(VertexPosition, speed))
+    const animatedOffset = Join(Multiply(Time, -0.03), 0)
 
-      return {
-        color: Multiply(
-          edgeColor,
-          Smoothstep(Subtract(threshold, 0.2), threshold, noise)
-        ),
+    const map = SampleTexture(
+      "u_texture",
+      parameters.texture,
+      TilingUV(UV, new Vector2(3, 1.5), animatedOffset)
+    )
 
-        alpha: Step(noise, threshold)
-      }
-    }
+    const splitMap = Split(map)
 
-    /* Use the thing: */
-    const dissolve = Dissolve(parameters.threshold, 0.3)
+    const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
 
-    const root = CustomShaderMaterialMaster({
-      diffuseColor: Add(new Color("#666"), dissolve.color),
-      alpha: dissolve.alpha
+    return CustomShaderMaterialMaster({
+      diffuseColor: Pipe(Vec3(new Color("#4cf")), ($) =>
+        Multiply($, mapDiffuse)
+      )
     })
-
-    return compileShader(root)
   }, [])
 
-  useFrame((_, dt) => update(dt))
+  const myUniforms = useMemo(
+    () => ({
+      ...uniforms,
+      u_visibility: { value: controls.visibility },
+      u_edgeThickness: { value: controls.edgeThickness },
+      u_texture: { value: texture }
+    }),
+    []
+  )
+
+  myUniforms.u_visibility.value = controls.visibility
+  myUniforms.u_edgeThickness.value = controls.edgeThickness
 
   // console.log(shader.vertexShader)
   // console.log(shader.fragmentShader)
@@ -73,13 +93,12 @@ export default function Playground() {
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          uniforms={{
-            u_threshold: { value: u_threshold },
-            ...uniforms
-          }}
+          uniforms={myUniforms}
           {...shader}
           transparent
           side={DoubleSide}
+          metalness={0.5}
+          roughness={0.5}
         />
       </mesh>
     </group>
