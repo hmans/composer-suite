@@ -1,4 +1,5 @@
 import { Color } from "three"
+import { expr } from "../expressions"
 import { assignment, concatenate } from "../lib/concatenator3000"
 import { Bool, Float, Vec3 } from "../variables"
 import { VertexPosition } from "./geometry"
@@ -17,15 +18,7 @@ export const CustomShaderMaterialMaster = ({
   Bool(true, {
     title: "CustomShaderMaterial Master",
 
-    inputs: {
-      position: Vec3(position, { only: "vertex" }),
-      diffuseColor,
-      alpha
-    },
+    vertexBody: expr`moo`,
 
-    vertexBody: concatenate(assignment("csm_Position", "position")),
-
-    fragmentBody: concatenate(
-      assignment("csm_DiffuseColor", "vec4(diffuseColor, alpha)")
-    )
+    fragmentBody: expr`quack`
   })

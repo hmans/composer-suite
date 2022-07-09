@@ -1,22 +1,8 @@
-import { Expression, Float } from "shadenfreude"
+import { expr, Expression, Float } from "shadenfreude"
 import { glslRepresentation } from "shadenfreude/src/glslRepresentation"
 import { DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { useShader } from "./useShader"
-
-const zip = (a: TemplateStringsArray | any[], b: any[]) =>
-  a.map((k, i) => [k, b[i]])
-
-const expr = (strings: TemplateStringsArray, ...values: any[]): Expression => ({
-  _: "Expression",
-
-  values,
-
-  render: () =>
-    zip(strings, values.map(glslRepresentation))
-      .flat()
-      .join("")
-})
 
 export default function Playground() {
   const shader = useShader(() => {

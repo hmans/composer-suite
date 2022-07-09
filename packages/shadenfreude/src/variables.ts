@@ -1,5 +1,5 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { glslRepresentation } from "./glslRepresentation"
+import { Expression } from "./expressions"
 import { type } from "./glslType"
 import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
@@ -21,12 +21,6 @@ export type JSTypes = {
   vec4: Vector4
   mat3: Matrix3
   mat4: Matrix4
-}
-
-export type Expression = {
-  _: "Expression"
-  values: any[]
-  render: () => string
 }
 
 export type Value<T extends GLSLType = any> =
