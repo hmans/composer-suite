@@ -1,5 +1,5 @@
 import sha256 from "crypto-js/sha256"
-import { Expression } from "../variables"
+import { Expression } from "../expressions"
 
 export const resetConcatenator3000 = () => {
   seenSnippets.clear()
@@ -13,6 +13,8 @@ const compact = (p: any) => !!p
 
 const indent = (p: string) => "  " + p
 
+const renderExpressions = (v: any) => (isExpression(v) ? v.render() : v)
+
 export const block = (...parts: Parts): Parts => {
   const flattened = flatten(parts)
   return flattened.length > 0 ? ["{", flattened.map(indent), "}"] : []
@@ -25,6 +27,7 @@ export const line = (...parts: Parts) => flatten(...parts).join(" ")
 export const flatten = (...parts: Parts): Parts =>
   parts
     .map(renderSnippets)
+    .map(renderExpressions)
     .filter(compact)
     .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()

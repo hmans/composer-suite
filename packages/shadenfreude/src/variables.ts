@@ -1,5 +1,5 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { Expression } from "./expressions"
+import { Expression, flushDependencies } from "./expressions"
 import { type } from "./glslType"
 import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
@@ -73,7 +73,7 @@ export const Variable = <T extends GLSLType>(
     id,
     title: "anon",
     name: identifier("anonymous", id),
-    dependencies: [],
+    dependencies: flushDependencies(),
 
     /* User-provided configuration */
     ...configInput

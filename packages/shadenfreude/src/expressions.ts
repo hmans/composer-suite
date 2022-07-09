@@ -1,5 +1,13 @@
 import { glslRepresentation } from "./glslRepresentation"
 
+const collectedDependencies = new Array<any>()
+
+export const flushDependencies = () => {
+  const deps = [...collectedDependencies]
+  collectedDependencies.splice(0)
+  return deps
+}
+
 export type Expression = {
   _: "Expression"
   values: any[]
@@ -12,13 +20,17 @@ const zip = (a: TemplateStringsArray | any[], b: any[]) =>
 export const expr = (
   strings: TemplateStringsArray,
   ...values: any[]
-): Expression => ({
-  _: "Expression",
+): Expression => {
+  collectedDependencies.push(...values)
 
-  values,
+  return {
+    _: "Expression",
 
-  render: () =>
-    zip(strings, values.map(glslRepresentation))
-      .flat()
-      .join("")
-})
+    values,
+
+    render: () =>
+      zip(strings, values.map(glslRepresentation))
+        .flat()
+        .join("")
+  }
+}

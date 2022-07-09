@@ -139,8 +139,6 @@ const dependencyStack = () => {
 }
 
 const dependencies = (v: Variable) =>
-  [
-    isVariable(v.value) && v.value,
-    ...(isExpression(v.value) ? v.value.values : []),
-    ...v._config.dependencies
-  ].filter((d) => isVariable(d)) as Variable[]
+  [isVariable(v.value) && v.value, ...v._config.dependencies].filter((d) =>
+    isVariable(d)
+  ) as Variable[]
