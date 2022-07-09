@@ -68,7 +68,7 @@ export const Variable = <T extends GLSLType>(
   const config: VariableConfig<T> = {
     /* Defaults */
     id,
-    title: `Anonymous ${type} = ${glslRepresentation(value)}`,
+    title: "anon",
     name: identifier("anonymous", id),
     dependencies: [],
 
