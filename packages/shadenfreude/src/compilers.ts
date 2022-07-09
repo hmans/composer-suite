@@ -1,4 +1,5 @@
 import { Vector2 } from "three"
+import { isExpression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 import {
   assignment,
@@ -38,6 +39,14 @@ export const compileVariable = (
 ) => {
   if (!state.freshVariable(v)) return []
   if (v._config.only && v._config.only !== program) return []
+
+  /* Build a list of dependencies */
+  const dependencies = isExpression(v.value) ? v.value.values : [v.value]
+
+  /* Render dependencies */
+  dependencies.forEach(
+    (dep) => isVariable(dep) && compileVariable(dep, program, state)
+  )
 
   /* HEADER */
   const header = flatten(
