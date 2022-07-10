@@ -87,12 +87,12 @@ export const compileVariable = (
 
   /* Prepare this node */
   v._config.id = state.nextId()
-  v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
+  v._config.slug = identifier(v.type, sluggify(v._config.title), v._config.id)
 
   /* HEADER */
   const header = flatten(
     /* If this node is configured to use a varying, declare it */
-    v._config.varying && `varying ${v.type} v_${v._config.name};`,
+    v._config.varying && `varying ${v.type} v_${v._config.slug};`,
 
     /* Render the actual header chuink */
     v._config[`${program}Header`]
@@ -108,24 +108,24 @@ export const compileVariable = (
     nodeBeginComment(v),
 
     /* Declare the variable */
-    statement(v.type, v._config.name),
+    statement(v.type, v._config.slug),
 
     block(
       /* Make local value variable available */
       v._config.varying && program === "fragment"
-        ? statement(v.type, "value", "=", `v_${v._config.name}`)
+        ? statement(v.type, "value", "=", `v_${v._config.slug}`)
         : statement(v.type, "value", "=", glslRepresentation(v.value)),
 
       /* The body chunk, if there is one */
       v._config[`${program}Body`],
 
       /* Assign local value variable back to global variable */
-      assignment(v._config.name, "value"),
+      assignment(v._config.slug, "value"),
 
       /* If we're in vertex and have a varying, assign to it, too */
       v._config.varying &&
         program === "vertex" &&
-        assignment(`v_${v._config.name}`, "value")
+        assignment(`v_${v._config.slug}`, "value")
     ),
 
     nodeEndComment(v)

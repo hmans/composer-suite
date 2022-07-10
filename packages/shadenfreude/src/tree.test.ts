@@ -21,14 +21,14 @@ describe("Node", () => {
   it("supports expression values", () => {
     const a = Float(1)
     const v = Node("vec3", code`vec3(${a}, 1.0, 1.0)`)
-    expect(glsl(v.value)).toBe(`vec3(${a._config.name}, 1.0, 1.0)`)
+    expect(glsl(v.value)).toBe(`vec3(${a._config.slug}, 1.0, 1.0)`)
   })
 
   it("allows nodes to directly reference other nodes", () => {
     const source = Float(1)
     const v = Float(source)
     expect(v.value).toBe(source)
-    expect(glsl(v.value)).toBe(source._config.name)
+    expect(glsl(v.value)).toBe(source._config.slug)
   })
 
   it("supports a 'varying' flag that will automatically make it pass its data as a varying", () => {
@@ -64,13 +64,13 @@ describe("Node", () => {
     const Double = (f: Value<"float">) => Float(code`(${f}) * 2.0`)
     const a = Float(1)
     const v = Double(a)
-    expect(glsl(v.value)).toBe(`(${a._config.name}) * 2.0`)
+    expect(glsl(v.value)).toBe(`(${a._config.slug}) * 2.0`)
   })
 
   it("constructor functions can pass expression values to other nodes", () => {
     const Double = (f: Value<"float">) => Float(code`(${f}) * 2.0`)
     const a = Float(5)
     const v = Double(code`${a} + 5.0`)
-    expect(glsl(v.value)).toBe(`(${a._config.name} + 5.0) * 2.0`)
+    expect(glsl(v.value)).toBe(`(${a._config.slug} + 5.0) * 2.0`)
   })
 })

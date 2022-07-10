@@ -4,7 +4,7 @@ import { isSnippet } from "./lib/concatenator3000"
 import { isNode, Value } from "./tree"
 
 export const glslRepresentation = (value: Value): string => {
-  if (isNode(value)) return value._config.name
+  if (isNode(value)) return value._config.slug
   if (isExpression(value)) return value.render()
   if (isSnippet(value)) return value.name
 
