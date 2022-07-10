@@ -36,7 +36,7 @@ describe("Node", () => {
       "float",
       code`1.0 + 2.0 + onlyAvailableInVertex.x`, // a value expression that can only work in a vertex shader
       {
-        title: "A variable with a varying",
+        name: "A variable with a varying",
         varying: true,
         vertexBody: `value += 3.0;` // Modiyfing the value before it gets put into the varying
       }

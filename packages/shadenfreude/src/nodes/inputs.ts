@@ -3,14 +3,14 @@ import { Bool, GLSLType, Node } from "../tree"
 
 export const Uniform = <T extends GLSLType>(type: T, name: string) =>
   Node<T>(type, code`${name}`, {
-    title: `Uniform: ${name}`,
+    name: `Uniform: ${name}`,
     vertexHeader: `uniform ${type} ${name};`,
     fragmentHeader: `uniform ${type} ${name};`
   })
 
 export const Sampler2D = (name: string) =>
   Bool(true, {
-    title: `Sampler2D: ${name}`,
+    name: `Sampler2D: ${name}`,
     vertexHeader: `uniform sampler2D ${name};`,
     fragmentHeader: `uniform sampler2D ${name};`
   })

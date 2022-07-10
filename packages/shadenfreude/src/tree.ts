@@ -31,7 +31,7 @@ export type Chunk = Part | Part[]
 
 export type NodeConfig<T extends GLSLType = any> = {
   id: number
-  title: string
+  name: string
   slug: string
   only?: "vertex" | "fragment"
   varying?: boolean
@@ -77,7 +77,7 @@ export const Node = <T extends GLSLType>(
   const config: NodeConfig<T> = {
     /* Defaults */
     id,
-    title: "anon",
+    name: "anon",
     slug: identifier("anonymous", id),
 
     /* User-provided configuration */

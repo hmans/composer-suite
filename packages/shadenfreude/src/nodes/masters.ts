@@ -15,7 +15,7 @@ export const CustomShaderMaterialMaster = ({
   alpha = 1
 }: CustomShaderMaterialMasterprops = {}) =>
   Bool(true, {
-    title: "CustomShaderMaterial Master",
+    name: "CustomShaderMaterial Master",
     vertexBody: code`csm_Position = ${position};`,
     fragmentBody: code`csm_DiffuseColor = vec4(${diffuseColor}, ${alpha});`
   })

@@ -19,10 +19,10 @@ import { isNode, Node } from "./tree"
 export type ProgramType = "vertex" | "fragment"
 
 const nodeBeginComment = (v: Node) =>
-  `/*** BEGIN: ${v._config.title} (${v._config.id}) ***/`
+  `/*** BEGIN: ${v._config.name} (${v._config.id}) ***/`
 
 const nodeEndComment = (v: Node) =>
-  `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
+  `/*** END: ${v._config.name} (${v._config.id}) ***/\n`
 
 /**
  * Traverses the specified nodes and returns a list of all objects that can
@@ -87,7 +87,7 @@ export const compileVariable = (
 
   /* Prepare this node */
   v._config.id = state.nextId()
-  v._config.slug = identifier(v.type, sluggify(v._config.title), v._config.id)
+  v._config.slug = identifier(v.type, sluggify(v._config.name), v._config.id)
 
   /* HEADER */
   const header = flatten(

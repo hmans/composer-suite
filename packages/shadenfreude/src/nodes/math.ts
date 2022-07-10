@@ -11,7 +11,7 @@ export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   b: Value<any>
 ) => {
   return Node(type(a), code`${a} ${operator} ${b}`, {
-    title: `${title} (${type(a)})`
+    name: `${title} (${type(a)})`
   })
 }
 
