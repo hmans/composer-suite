@@ -1,3 +1,6 @@
+import { compileShader } from "../compilers"
+import { code } from "../expressions"
+import { Float } from "../variables"
 import { concatenate, flatten, snippet } from "./concatenator3000"
 
 describe("flatten", () => {
@@ -28,15 +31,15 @@ describe("concatenate", () => {
 describe("snippet", () => {
   it("creates a Snippet with a unique name", () => {
     const s = snippet(() => "/* code */")
-    expect(s.name).toEqual("snippet_31feb6d4164510e096ef2b0f71622b546bf46ebe")
+    expect(s.name).toEqual("snippet_a996254afd")
   })
 
   it("will generate the same snippet IDs for the same contents", () => {
     let code = "/* code */"
     const s1 = snippet(() => code)
     const s2 = snippet(() => code)
-    expect(s1.name).toEqual("snippet_31feb6d4164510e096ef2b0f71622b546bf46ebe")
-    expect(s2.name).toEqual("snippet_31feb6d4164510e096ef2b0f71622b546bf46ebe")
+    expect(s1.name).toEqual("snippet_a996254afd")
+    expect(s2.name).toEqual("snippet_a996254afd")
   })
 
   it("creates a snippet with a rendered chunk", () => {
@@ -45,31 +48,59 @@ describe("snippet", () => {
   })
 
   it("will only render once per program", () => {
-    const s = snippet((name) => `/* hi from ${name} */`)
-    expect(concatenate(s, s, s)).toMatchInlineSnapshot(`
-      "#ifndef unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c
-      #define unique_snippet_4af96d391f3b3f895b83baf57706b2808919303c
-      /* hi from snippet_4af96d391f3b3f895b83baf57706b2808919303c */
-      #endif"
+    const add = snippet(
+      (name) => `float ${name}(float a, float b) { return a + b; }`
+    )
+
+    const f = Float(code`${add}(1, ${add}(2, 3))`)
+    const [shader] = compileShader(f)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "/*** SNIPPET: snippet_7dd01b876a ***/
+      float snippet_7dd01b876a(float a, float b) { return a + b; }
+      void main()
+      {
+        /*** BEGIN: anon (1) ***/
+        float float_anon_1;
+        {
+          float value = snippet_7dd01b876a(1, snippet_7dd01b876a(2, 3));
+          float_anon_1 = value;
+        }
+        /*** END: anon (1) ***/
+
+      }"
     `)
   })
 
   it("allows a snippet to have dependencies to other snippets", () => {
-    const dependency = snippet(() => "/* I'm a dependency */")
+    const mul = snippet(
+      (name) => `float ${name}(float a, float b) { return a * b; }`
+    )
 
-    const s = snippet(() => "/* I'm a snippet that uses the dependency */", [
-      dependency
-    ])
+    const add = snippet(
+      (name) =>
+        code`float ${name}(float a, float b) { return a + ${mul}(a, b); }`
+    )
 
-    expect(concatenate(s.chunk)).toMatchInlineSnapshot(`
-      "#ifndef unique_snippet_48909555549b1882b2a60b58d2318319330bcf30
-      #define unique_snippet_48909555549b1882b2a60b58d2318319330bcf30
-      /* I'm a dependency */
-      #endif
-      #ifndef unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f
-      #define unique_snippet_bc6ad0f5a4df53f5e977f8df2a1dbc5068b8cb9f
-      /* I'm a snippet that uses the dependency */
-      #endif"
+    const f = Float(code`${add}(1, ${add}(2, 3))`)
+    const [shader] = compileShader(f)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "/*** SNIPPET: snippet_3853dce07c ***/
+      float snippet_3853dce07c(float a, float b) { return a * b; }
+      /*** SNIPPET: snippet_98a183b64b ***/
+      float snippet_98a183b64b(float a, float b) { return a + snippet_3853dce07c(a, b); }
+      void main()
+      {
+        /*** BEGIN: anon (1) ***/
+        float float_anon_1;
+        {
+          float value = snippet_98a183b64b(1, snippet_98a183b64b(2, 3));
+          float_anon_1 = value;
+        }
+        /*** END: anon (1) ***/
+
+      }"
     `)
   })
 })

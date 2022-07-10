@@ -1,5 +1,5 @@
 import { Color } from "three"
-import { assignment, concatenate } from "../lib/concatenator3000"
+import { code } from "../expressions"
 import { Bool, Float, Vec3 } from "../variables"
 import { VertexPosition } from "./geometry"
 
@@ -13,19 +13,9 @@ export const CustomShaderMaterialMaster = ({
   diffuseColor = new Color(1, 1, 1),
   position = VertexPosition,
   alpha = 1
-}: CustomShaderMaterialMasterprops) =>
+}: CustomShaderMaterialMasterprops = {}) =>
   Bool(true, {
     title: "CustomShaderMaterial Master",
-
-    inputs: {
-      position: Vec3(position, { only: "vertex" }),
-      diffuseColor,
-      alpha
-    },
-
-    vertexBody: concatenate(assignment("csm_Position", "position")),
-
-    fragmentBody: concatenate(
-      assignment("csm_DiffuseColor", "vec4(diffuseColor, alpha)")
-    )
+    vertexBody: code`csm_Position = ${position};`,
+    fragmentBody: code`csm_DiffuseColor = vec4(${diffuseColor}, ${alpha});`
   })

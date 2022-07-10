@@ -1,8 +1,12 @@
 import { Color, Vector2, Vector3, Vector4 } from "three"
+import { isExpression } from "./expressions"
+import { isSnippet } from "./lib/concatenator3000"
 import { isVariable, Value } from "./variables"
 
 export const glslRepresentation = (value: Value): string => {
-  if (isVariable(value)) return value.name
+  if (isVariable(value)) return value._config.name
+  if (isExpression(value)) return value.render()
+  if (isSnippet(value)) return value.name
 
   if (typeof value === "string") return value
 
@@ -23,9 +27,9 @@ export const glslRepresentation = (value: Value): string => {
 
   if (value instanceof Vector2)
     return `
-      vec3(
+      vec2(
         ${glslRepresentation(value.x)},
-        ${glslRepresentation(value.y)},
+        ${glslRepresentation(value.y)}
       )`
 
   if (value instanceof Vector3)

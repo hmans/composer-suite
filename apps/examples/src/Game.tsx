@@ -4,6 +4,8 @@ import { FC, Suspense, useState } from "react"
 import { Repeat } from "three-vfx"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
+import { Perf } from "r3f-perf"
+
 import "r3f-stage/styles.css"
 
 export const Game = () => (
@@ -19,6 +21,8 @@ export const Game = () => (
         <ExampleMatcher />
       </Suspense>
     </Route>
+
+    <Perf position="bottom-right" deepAnalyze />
   </R3FStage>
 )
 

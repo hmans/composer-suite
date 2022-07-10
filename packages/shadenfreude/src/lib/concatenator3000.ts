@@ -1,8 +1,5 @@
-import objectHash from "object-hash"
-
-export const resetConcatenator3000 = () => {
-  seenSnippets.clear()
-}
+import sha256 from "crypto-js/sha256"
+import { isExpression } from "../expressions"
 
 export type Part = any
 
@@ -11,6 +8,8 @@ export type Parts = Part[]
 const compact = (p: any) => !!p
 
 const indent = (p: string) => "  " + p
+
+const renderExpressions = (v: any) => (isExpression(v) ? v.render() : v)
 
 export const block = (...parts: Parts): Parts => {
   const flattened = flatten(parts)
@@ -23,7 +22,7 @@ export const line = (...parts: Parts) => flatten(...parts).join(" ")
 
 export const flatten = (...parts: Parts): Parts =>
   parts
-    .map(renderSnippets)
+    .map(renderExpressions)
     .filter(compact)
     .map((p) => (Array.isArray(p) ? flatten(...p) : p))
     .flat()
@@ -54,33 +53,28 @@ export const sluggify = (s: string) =>
 
 /*** Snippets ***/
 
-const seenSnippets = new Set<Snippet>()
-
 export type Snippet = {
   _: "Snippet"
   name: string
   chunk: Part | Part[]
 }
 
-export const snippet = (
-  render: (name: string) => Part | Parts[],
-  dependencies: Snippet[] = []
-): Snippet => {
-  const hash = objectHash(render(""))
+export const snippet = (render: (name: string) => Part | Parts[]): Snippet => {
+  const hash = sha256(concatenate(render("")))
+    .toString()
+    .substring(0, 10)
+
   const name = identifier("snippet", hash)
-  const chunk = flatten(dependencies, unique(name)(render(name)))
-  return { _: "Snippet", name, chunk }
+
+  const chunk = render(name)
+
+  return {
+    _: "Snippet",
+    name,
+    chunk
+  }
 }
 
-function isSnippet(v: any): v is Snippet {
+export function isSnippet(v: any): v is Snippet {
   return v && v._ === "Snippet"
 }
-
-const renderSnippet = (s: Snippet): Part | Part[] => {
-  if (seenSnippets.has(s)) return
-  seenSnippets.add(s)
-
-  return s.chunk
-}
-
-const renderSnippets = (p: any) => (isSnippet(p) ? renderSnippet(p) : p)
