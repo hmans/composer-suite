@@ -95,7 +95,7 @@ export const Node = <T extends GLSLType>(
   return v
 }
 
-export function isVariable(v: any): v is Node {
+export function isNode(v: any): v is Node {
   return v && v._ === "Variable"
 }
 

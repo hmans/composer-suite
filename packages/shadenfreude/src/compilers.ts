@@ -14,7 +14,7 @@ import {
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { isVariable, Node } from "./variables"
+import { isNode, Node } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
@@ -35,7 +35,7 @@ const getDependencies = (...sources: any[]): any[] =>
   sources
     .flat(Infinity)
     .map((s) =>
-      isVariable(s)
+      isNode(s)
         ? s
         : isExpression(s)
         ? [s.values, getDependencies(...s.values)]
@@ -55,7 +55,7 @@ const compileSnippet = (
 
   if (isExpression(s.chunk))
     s.chunk.values.forEach((v) => {
-      isVariable(v) && compileVariable(v, program, state)
+      isNode(v) && compileVariable(v, program, state)
       isSnippet(v) && compileSnippet(v, program, state)
     })
 
@@ -81,7 +81,7 @@ export const compileVariable = (
 
   /* Render variable and snippet dependencies */
   dependencies.forEach((dep) => {
-    isVariable(dep) && compileVariable(dep, program, state)
+    isNode(dep) && compileVariable(dep, program, state)
     isSnippet(dep) && compileSnippet(dep, program, state)
   })
 
