@@ -14,14 +14,14 @@ import {
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { isVariable, Variable } from "./variables"
+import { isVariable, Node } from "./variables"
 
 export type ProgramType = "vertex" | "fragment"
 
-const variableBeginComment = (v: Variable) =>
+const variableBeginComment = (v: Node) =>
   `/*** BEGIN: ${v._config.title} (${v._config.id}) ***/`
 
-const variableEndComment = (v: Variable) =>
+const variableEndComment = (v: Node) =>
   `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
 /**
@@ -63,7 +63,7 @@ const compileSnippet = (
 }
 
 export const compileVariable = (
-  v: Variable,
+  v: Node,
   program: ProgramType,
   state = compilerState()
 ) => {
@@ -133,14 +133,14 @@ export const compileVariable = (
 }
 
 /**  Compile a program from the variable */
-export const compileProgram = (v: Variable, program: ProgramType) => {
+export const compileProgram = (v: Node, program: ProgramType) => {
   const state = compilerState()
   compileVariable(v, program, state)
 
   return concatenate(state.header, "void main()", block(state.body))
 }
 
-export const compileShader = (root: Variable) => {
+export const compileShader = (root: Node) => {
   const vertexShader = compileProgram(root, "vertex")
   const fragmentShader = compileProgram(root, "fragment")
 
@@ -158,14 +158,13 @@ export const compileShader = (root: Variable) => {
 }
 
 const compilerState = () => {
-  const seen = new Set<Variable | Snippet>()
+  const seen = new Set<Node | Snippet>()
   const header = [] as Parts
   const body = [] as Parts
   const nextId = idGenerator()
 
   return {
-    isFresh: (v: Variable | Snippet) =>
-      seen.has(v) ? false : seen.add(v) && true,
+    isFresh: (v: Node | Snippet) => (seen.has(v) ? false : seen.add(v) && true),
 
     header,
     body,

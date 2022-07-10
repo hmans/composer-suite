@@ -1,6 +1,6 @@
 import { code } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
-import { Vec3, Float, Value } from "../../variables"
+import { Float, Value } from "../../variables"
 import { mod289 } from "./mod289"
 import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"

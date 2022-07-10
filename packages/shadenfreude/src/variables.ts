@@ -25,10 +25,7 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
-export type Value<T extends GLSLType = any> =
-  | Expression
-  | JSTypes[T]
-  | Variable<T>
+export type Value<T extends GLSLType = any> = Expression | JSTypes[T] | Node<T>
 
 export type Chunk = Part | Part[]
 
@@ -55,7 +52,7 @@ export interface INode<T extends GLSLType = any> {
   value: Value<T>
 }
 
-export type Variable<
+export type Node<
   T extends GLSLType = any,
   API extends Record<string, any> = {}
 > = INode<T> & API
@@ -71,7 +68,7 @@ const nextAnonymousId = idGenerator()
  * @param configInput Optional configuration object.
  * @returns A freshly created variable, just for you
  */
-export const Variable = <T extends GLSLType>(
+export const Node = <T extends GLSLType>(
   type: T,
   value: Value<T>,
   configInput: Partial<NodeConfig<T>> = {}
@@ -88,7 +85,7 @@ export const Variable = <T extends GLSLType>(
     ...configInput
   }
 
-  const v: Variable<T> = {
+  const v: Node<T> = {
     _: "Variable",
     _config: config,
     type,
@@ -98,7 +95,7 @@ export const Variable = <T extends GLSLType>(
   return v
 }
 
-export function isVariable(v: any): v is Variable {
+export function isVariable(v: any): v is Node {
   return v && v._ === "Variable"
 }
 
@@ -107,7 +104,7 @@ export function isVariable(v: any): v is Variable {
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
   extras?: Partial<NodeConfig<T>>
-) => Variable(type, v, extras)
+) => Node(type, v, extras)
 
 export const Float = makeVariableHelper("float")
 export const Bool = makeVariableHelper("bool")

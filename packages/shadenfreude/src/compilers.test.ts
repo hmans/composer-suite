@@ -1,25 +1,25 @@
 import { compileShader } from "./compilers"
 import { code } from "./expressions"
 import { assignment, statement } from "./lib/concatenator3000"
-import { Bool, Float, Variable } from "./variables"
+import { Float, Node } from "./variables"
 
 describe("compileShader", () => {
   it("returns a vertexShader", () => {
-    const v = Variable("float", 1)
+    const v = Node("float", 1)
     const [shader] = compileShader(v)
 
     expect(shader.vertexShader).toMatchSnapshot()
   })
 
   it("returns a fragmentShader", () => {
-    const v = Variable("float", 1)
+    const v = Node("float", 1)
     const [shader] = compileShader(v)
 
     expect(shader.fragmentShader).toMatchSnapshot()
   })
 
   it("includes the variable's chunks if it has them", () => {
-    const v = Variable("float", 1)
+    const v = Node("float", 1)
 
     v._config.vertexHeader = statement("uniform float u_time")
     v._config.vertexBody = assignment(
@@ -39,8 +39,8 @@ describe("compileShader", () => {
   })
 
   it("resolves dependencies to other variables", () => {
-    const a = Variable("float", 1)
-    const b = Variable("float", a)
+    const a = Node("float", 1)
+    const b = Node("float", a)
 
     const [shader] = compileShader(b)
 
