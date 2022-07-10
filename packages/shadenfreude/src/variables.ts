@@ -46,7 +46,7 @@ export type NodeConfig<T extends GLSLType = any> = {
  * Variable objects are free to expose any additional properties on top of this.
  */
 export interface INode<T extends GLSLType = any> {
-  _: "Variable"
+  _: "Node"
   _config: NodeConfig<T>
   type: T
   value: Value<T>
@@ -86,7 +86,7 @@ export const Node = <T extends GLSLType>(
   }
 
   const v: Node<T> = {
-    _: "Variable",
+    _: "Node",
     _config: config,
     type,
     value
@@ -96,7 +96,7 @@ export const Node = <T extends GLSLType>(
 }
 
 export function isNode(v: any): v is Node {
-  return v && v._ === "Variable"
+  return v && v._ === "Node"
 }
 
 /* Helpers */
