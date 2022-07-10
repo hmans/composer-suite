@@ -46,7 +46,21 @@ A lot of the time when building WebGL applications, you will write _shaders_ -- 
 
 Shadenfreude allows you to express your shader code as a tree of JavaScript objects, from which it will compile the GLSL for you. For example:
 
-TODO: a short hello world example
+```ts
+/* Define our base color */
+const baseColor = Vec3(new Color("hotpink"))
+
+/* Animate a value back and forth over time */
+const frequency = 0.3
+const t = Sin(Multiply(Time, frequency))
+
+compileShader(
+  ShaderMaterialMaster({
+    /* Animate the fragment color over time */
+    color: Multiply(baseColor, t)
+  })
+)
+```
 
 These objects are called **Nodes**, and every single one of them can be compiled into a shader program; but you typically start with a **Master Node**. Which Master you use entirely depends on how you intend to run the shader. Shadenfreude currently provides Masters for use with Three.js' `ShaderMaterial` as well as [three-custom-shader-material]; more Masters may be added in the future.
 
