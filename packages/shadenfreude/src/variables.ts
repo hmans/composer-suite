@@ -101,15 +101,15 @@ export function isVariable(v: any): v is Node {
 
 /* Helpers */
 
-const makeVariableHelper = <T extends GLSLType>(type: T) => (
+const makeNodeHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
   extras?: Partial<NodeConfig<T>>
 ) => Node(type, v, extras)
 
-export const Float = makeVariableHelper("float")
-export const Bool = makeVariableHelper("bool")
-export const Vec2 = makeVariableHelper("vec2")
-export const Vec3 = makeVariableHelper("vec3")
-export const Vec4 = makeVariableHelper("vec4")
-export const Mat3 = makeVariableHelper("mat3")
-export const Mat4 = makeVariableHelper("mat4")
+export const Float = makeNodeHelper("float")
+export const Bool = makeNodeHelper("bool")
+export const Vec2 = makeNodeHelper("vec2")
+export const Vec3 = makeNodeHelper("vec3")
+export const Vec4 = makeNodeHelper("vec4")
+export const Mat3 = makeNodeHelper("mat3")
+export const Mat4 = makeNodeHelper("mat4")
