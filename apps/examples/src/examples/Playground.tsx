@@ -1,12 +1,11 @@
 import {
   Add,
+  code,
   CustomShaderMaterialMaster,
   Dissolve,
-  code,
   Float,
   Mix,
   Mul,
-  Multiply,
   Pipe,
   Pow,
   Remap,
@@ -15,14 +14,12 @@ import {
   Smoothstep,
   Step,
   Sub,
-  Subtract,
   Time,
   Vec3,
   VertexPosition
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import { smootherstep } from "three/src/math/MathUtils"
 import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
 
