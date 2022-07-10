@@ -54,6 +54,12 @@ describe("variable", () => {
     expect(glsl(v.value)).toBe("1.0 * 2.0")
   })
 
+  it("constructor functions can pass string values to other variables", () => {
+    const Double = (f: Value<"float">) => Float(expr`${f} * 2.0`)
+    const v = Double("5.0")
+    expect(glsl(v.value)).toBe(`5.0 * 2.0`)
+  })
+
   it("constructor functions can pass references to other variables", () => {
     const Double = (f: Value<"float">) => Float(expr`${f} * 2.0`)
     const a = Float(1)
