@@ -16,7 +16,7 @@ If you've always liked the idea of composing shaders from node graphs, but secre
 - Nodes are just plain JavaScript objects, and they can implement anything from tiny pieces of processing, up to big monolithic behemoths of shader code!
 - Use all the language tools you already know to wrap individual branches into reusable, distributable components!
 - Developed in Typescript, with fantastic type support out of the box!
-- Compact library, lots of tests.
+- Compact library, lots of tests!
 
 Shadenfreude also has a couple of non-features:
 
