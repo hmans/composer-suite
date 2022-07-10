@@ -44,7 +44,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "rimraf": "^3.0.2",
-    "shadenfreude": "^0.1.1",
+    "shadenfreude": "^0.2.0",
     "three": "^0.141.0",
     "ts-jest": "^28.0.4",
     "tslib": "^2.4.0",
@@ -58,7 +58,7 @@
     "@react-three/fiber": ">=8.0.27",
     "react": ">=18.1.0",
     "react-dom": ">=18.1.0",
-    "shadenfreude": "^0.1.1",
+    "shadenfreude": "^0.2.0",
     "three": ">=0.141.0"
   },
   "babel": {
