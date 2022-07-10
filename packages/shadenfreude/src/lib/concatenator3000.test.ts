@@ -1,5 +1,5 @@
 import { compileShader } from "../compilers"
-import { expr } from "../expressions"
+import { code } from "../expressions"
 import { Float } from "../variables"
 import { concatenate, flatten, snippet } from "./concatenator3000"
 
@@ -52,7 +52,7 @@ describe("snippet", () => {
       (name) => `float ${name}(float a, float b) { return a + b; }`
     )
 
-    const f = Float(expr`${add}(1, ${add}(2, 3))`)
+    const f = Float(code`${add}(1, ${add}(2, 3))`)
     const [shader] = compileShader(f)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`
@@ -79,10 +79,10 @@ describe("snippet", () => {
 
     const add = snippet(
       (name) =>
-        expr`float ${name}(float a, float b) { return a + ${mul}(a, b); }`
+        code`float ${name}(float a, float b) { return a + ${mul}(a, b); }`
     )
 
-    const f = Float(expr`${add}(1, ${add}(2, 3))`)
+    const f = Float(code`${add}(1, ${add}(2, 3))`)
     const [shader] = compileShader(f)
 
     expect(shader.vertexShader).toMatchInlineSnapshot(`

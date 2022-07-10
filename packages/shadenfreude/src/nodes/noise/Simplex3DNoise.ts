@@ -1,13 +1,13 @@
-import { expr } from "../../expressions"
+import { code } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
 import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
-export const Simplex3DNoise = (p: Vec3) => Float(expr`${noise}(${p})`)
+export const Simplex3DNoise = (p: Vec3) => Float(code`${noise}(${p})`)
 
 const noise = snippet(
-  (name) => expr`
+  (name) => code`
 
 float ${name}(vec3 v){
   const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;

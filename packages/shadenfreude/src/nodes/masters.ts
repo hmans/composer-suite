@@ -1,5 +1,5 @@
 import { Color } from "three"
-import { expr } from "../expressions"
+import { code } from "../expressions"
 import { Bool, Float, Vec3 } from "../variables"
 import { VertexPosition } from "./geometry"
 
@@ -16,6 +16,6 @@ export const CustomShaderMaterialMaster = ({
 }: CustomShaderMaterialMasterprops = {}) =>
   Bool(true, {
     title: "CustomShaderMaterial Master",
-    vertexBody: expr`csm_Position = ${position};`,
-    fragmentBody: expr`csm_DiffuseColor = vec4(${diffuseColor}, ${alpha});`
+    vertexBody: code`csm_Position = ${position};`,
+    fragmentBody: code`csm_DiffuseColor = vec4(${diffuseColor}, ${alpha});`
   })

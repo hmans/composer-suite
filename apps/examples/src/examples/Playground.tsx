@@ -2,7 +2,7 @@ import {
   Add,
   CustomShaderMaterialMaster,
   Dissolve,
-  expr,
+  code,
   Float,
   Mix,
   Mul,
@@ -36,7 +36,7 @@ export default function Playground() {
     const steppedNoise = Smoothstep(-0, 1, noise)
 
     const waterHeight = Float(
-      expr`0.3 + sin(${Time} + ${VertexPosition}.y) * 0.02`
+      code`0.3 + sin(${Time} + ${VertexPosition}.y) * 0.02`
     )
 
     const waterNoise = Step(
@@ -47,7 +47,7 @@ export default function Playground() {
     const dissolve = Dissolve(Smoothstep(-0.5, 0.5, Sin(Time)), 0.1)
 
     return CustomShaderMaterialMaster({
-      position: Mul(VertexPosition, Float(expr`1.0 + ${steppedNoise} * 0.3`)),
+      position: Mul(VertexPosition, Float(code`1.0 + ${steppedNoise} * 0.3`)),
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),

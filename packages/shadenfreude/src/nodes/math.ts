@@ -1,4 +1,4 @@
-import { expr } from "../expressions"
+import { code } from "../expressions"
 import { type } from "../glslType"
 import { snippet } from "../lib/concatenator3000"
 import { Float, GLSLType, Value, Variable } from "../variables"
@@ -10,7 +10,7 @@ export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   a: Value<T>,
   b: Value<any>
 ) => {
-  return Variable(type(a), expr`${a} ${operator} ${b}`, {
+  return Variable(type(a), code`${a} ${operator} ${b}`, {
     title: `${title} (${type(a)})`
   })
 }
@@ -24,12 +24,12 @@ export const Sub = Subtract
 export const Mul = Multiply
 export const Div = Divide
 
-export const Sin = (x: Float) => Float(expr`sin(${x})`)
-export const Cos = (x: Float) => Float(expr`cos(${x})`)
-export const Pow = (x: Float, y: Float) => Float(expr`pow(${x}, ${y})`)
+export const Sin = (x: Float) => Float(code`sin(${x})`)
+export const Cos = (x: Float) => Float(code`cos(${x})`)
+export const Pow = (x: Float, y: Float) => Float(code`pow(${x}, ${y})`)
 
 export const Mix = <T extends GLSLType>(a: Value<T>, b: Value<T>, f: Float) =>
-  Variable(type(a), expr`mix(${a}, ${b}, ${f})`)
+  Variable(type(a), code`mix(${a}, ${b}, ${f})`)
 
 export type FresnelProps = {
   alpha?: Float
@@ -46,7 +46,7 @@ export const Fresnel = ({
   factor = 1
 }: FresnelProps = {}) =>
   Float(0, {
-    fragmentBody: expr`
+    fragmentBody: code`
       float f_a = (${factor} + dot(${ViewDirection}, ${VertexNormalWorld}));
       float f_fresnel = ${bias} + ${intensity} * pow(abs(f_a), ${power});
       f_fresnel = clamp(f_fresnel, 0.0, 1.0);
@@ -54,10 +54,10 @@ export const Fresnel = ({
     `
   })
 
-export const Step = (edge: Float, v: Float) => Float(expr`step(${edge}, ${v})`)
+export const Step = (edge: Float, v: Float) => Float(code`step(${edge}, ${v})`)
 
 export const Smoothstep = (min: Float, max: Float, v: Float) =>
-  Float(expr`smoothstep(${min}, ${max}, ${v})`)
+  Float(code`smoothstep(${min}, ${max}, ${v})`)
 
 const remap = snippet(
   (name) => `
@@ -87,5 +87,5 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
 ) =>
   Variable(
     type(v),
-    expr`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`
+    code`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`
   )

@@ -1,4 +1,4 @@
-import { expr } from "../../expressions"
+import { code } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
 import { mod289 } from "./mod289"
@@ -6,7 +6,7 @@ import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const PerlinNoise = (p: Vec3, rep: Vec3) =>
-  Float(expr`${noise.name}(${p}, ${rep})`, {
+  Float(code`${noise.name}(${p}, ${rep})`, {
     vertexHeader: [noise],
     fragmentHeader: [noise]
   })
@@ -33,7 +33,7 @@ const fade = snippet(
 
 const noise = snippet(
   (name) =>
-    expr`
+    code`
     // Classic Perlin noise, periodic variant
     float ${name}(vec3 P, vec3 rep)
     {

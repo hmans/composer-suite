@@ -8,7 +8,7 @@ export type Expression = {
 
 const zip = (a: TemplateStringsArray, b: any[]) => a.map((k, i) => [k, b[i]])
 
-export const expr = (
+export const code = (
   strings: TemplateStringsArray,
   ...values: any[]
 ): Expression => ({

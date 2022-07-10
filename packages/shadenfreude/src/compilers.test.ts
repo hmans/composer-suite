@@ -1,5 +1,5 @@
 import { compileShader } from "./compilers"
-import { expr } from "./expressions"
+import { code } from "./expressions"
 import { assignment, statement } from "./lib/concatenator3000"
 import { Bool, Float, Variable } from "./variables"
 
@@ -69,8 +69,8 @@ describe("compileShader", () => {
 
   it("doesn't render the same dependency twice", () => {
     const a = Float(1)
-    const b = Float(expr`${a}`)
-    const c = Float(expr`${a} + ${b}`)
+    const b = Float(code`${a}`)
+    const c = Float(code`${a} + ${b}`)
 
     const [shader] = compileShader(c)
 
