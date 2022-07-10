@@ -38,12 +38,12 @@ const getDependencies = (...sources: any[]): any[] =>
       isVariable(s)
         ? s
         : isExpression(s)
-        ? s.values
+        ? [s.values, getDependencies(...s.values)]
         : isSnippet(s)
         ? s
         : undefined
     )
-    .flat()
+    .flat(Infinity)
     .filter((d) => !!d)
 
 const compileSnippet = (

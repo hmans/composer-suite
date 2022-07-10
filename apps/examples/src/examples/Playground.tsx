@@ -25,8 +25,10 @@ import { useShader } from "./useShader"
 
 export default function Playground() {
   const shader = useShader(() => {
+    const scaledPos = Vec3(Mul(VertexPosition, 0.11))
+
     const noise = Pow(
-      Remap(Simplex3DNoise(Vec3(Mul(VertexPosition, 0.11))), -1, 1, 0, 1),
+      Remap(Simplex3DNoise(code`${scaledPos}`), -1, 1, 0, 1),
       1.5
     )
 
