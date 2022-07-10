@@ -1,6 +1,7 @@
 export * from "./geometry"
 export * from "./helpers"
 export * from "./inputs"
+export * from "./logic"
 export * from "./masters"
 export * from "./math"
 export * from "./noise"
