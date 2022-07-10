@@ -31,10 +31,24 @@ export type Chunk = Part | Part[]
 
 export type NodeConfig<T extends GLSLType = any> = {
   id: number
+
+  /** Human-readable name of this node. */
   name: string
+
+  /** Slug of this node. Automatically generated at compile-time. */
   slug: string
+
+  /** When set, the node will only be rendered in the specified program. */
   only?: "vertex" | "fragment"
+
+  /**
+   * When set to true, the value for this node will only be calculated in
+   * the vertex shader, and then passed to the fragment shader as a varying;
+   * the fragment shader will then source that varying, instead of calculating
+   * the value from scratch.
+   */
   varying?: boolean
+
   vertexHeader?: Chunk
   vertexBody?: Chunk
   fragmentHeader?: Chunk
