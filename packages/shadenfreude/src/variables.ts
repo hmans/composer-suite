@@ -48,7 +48,7 @@ export type NodeConfig<T extends GLSLType = any> = {
  * Any object that extends the IVariable type can be a variable in the shader tree.
  * Variable objects are free to expose any additional properties on top of this.
  */
-export interface IVariable<T extends GLSLType = any> {
+export interface INode<T extends GLSLType = any> {
   _: "Variable"
   _config: NodeConfig<T>
   type: T
@@ -58,7 +58,7 @@ export interface IVariable<T extends GLSLType = any> {
 export type Variable<
   T extends GLSLType = any,
   API extends Record<string, any> = {}
-> = IVariable<T> & API
+> = INode<T> & API
 
 const nextAnonymousId = idGenerator()
 
