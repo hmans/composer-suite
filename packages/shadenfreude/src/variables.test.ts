@@ -14,7 +14,7 @@ describe("variable", () => {
   })
 
   it("supports string values (which will be used as verbatim expressions)", () => {
-    const v = Variable("vec3", "vec3(1.0, 1.0, 1.0)")
+    const v = Variable("vec3", expr`vec3(1.0, 1.0, 1.0)`)
     expect(glsl(v.value)).toBe("vec3(1.0, 1.0, 1.0)")
   })
 
@@ -34,7 +34,7 @@ describe("variable", () => {
   it("supports a 'varying' flag that will automatically make it pass its data as a varying", () => {
     const v = Variable(
       "float",
-      "1.0 + 2.0 + onlyAvailableInVertex.x", // a value expression that can only work in a vertex shader
+      expr`1.0 + 2.0 + onlyAvailableInVertex.x`, // a value expression that can only work in a vertex shader
       {
         title: "A variable with a varying",
         varying: true,
@@ -54,9 +54,9 @@ describe("variable", () => {
     expect(glsl(v.value)).toBe("(1.0) * 2.0")
   })
 
-  it("constructor functions can pass string values to other variables", () => {
+  it("constructor functions can pass string values as expressions", () => {
     const Double = (f: Value<"float">) => Float(expr`(${f}) * 2.0`)
-    const v = Double("5.0")
+    const v = Double(expr`5.0`)
     expect(glsl(v.value)).toBe(`(5.0) * 2.0`)
   })
 

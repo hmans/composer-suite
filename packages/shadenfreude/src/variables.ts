@@ -26,7 +26,6 @@ export type JSTypes = {
 }
 
 export type Value<T extends GLSLType = any> =
-  | string
   | Expression
   | JSTypes[T]
   | Variable<T>

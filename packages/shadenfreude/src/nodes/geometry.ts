@@ -2,12 +2,12 @@ import { Vector2 } from "three"
 import { expr } from "../expressions"
 import { Mat4, Vec2, Vec3 } from "../variables"
 
-export const UV = Vec2("uv", { varying: true })
-export const VertexPosition = Vec3("position", { varying: true })
-export const VertexNormal = Vec3("normal", { varying: true })
-export const ViewMatrix = Mat4("viewMatrix", { varying: true })
-export const ModelMatrix = Mat4("modelMatrix", { varying: true })
-export const InstanceMatrix = Mat4("instanceMatrix", { varying: true })
+export const UV = Vec2(expr`uv`, { varying: true })
+export const VertexPosition = Vec3(expr`position`, { varying: true })
+export const VertexNormal = Vec3(expr`normal`, { varying: true })
+export const ViewMatrix = Mat4(expr`viewMatrix`, { varying: true })
+export const ModelMatrix = Mat4(expr`modelMatrix`, { varying: true })
+export const InstanceMatrix = Mat4(expr`instanceMatrix`, { varying: true })
 
 /*
 Now variables like VertexNormalWorld can just source those and work
