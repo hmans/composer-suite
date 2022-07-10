@@ -158,11 +158,13 @@ const root = CustomShaderMaterialMaster({
 
 There you go, you've built your first animated shader with Shadenfreude! Now go crazy!
 
-### Code Expressions
+### Math Operators
 
 TODO
 
-### Math Operators
+## Advanced Use
+
+### Code Expressions
 
 TODO
 
@@ -170,13 +172,11 @@ TODO
 
 TODO
 
-## Advanced Use
-
 ### Value Types
 
 TODO
 
-### Creating your own variable types
+## Creating your own node types
 
 TODO
 
@@ -185,6 +185,10 @@ TODO
 TODO
 
 ### Defining functions
+
+TODO
+
+### Marking a node as Varying
 
 TODO
 
