@@ -47,8 +47,4 @@ describe("variable", () => {
     expect(c.vertexShader).toMatchSnapshot()
     expect(c.fragmentShader).toMatchSnapshot()
   })
-
-  it("provides a mechanism for variables to declare functions", () => {
-    const v = Bool(true, {})
-  })
 })
