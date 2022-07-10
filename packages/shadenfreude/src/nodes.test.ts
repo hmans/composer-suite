@@ -1,7 +1,7 @@
 import { compileShader } from "./compilers"
 import { code } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
-import { Float, Value, Node } from "./variables"
+import { Float, Value, Node } from "./node"
 
 const glsl = glslRepresentation
 

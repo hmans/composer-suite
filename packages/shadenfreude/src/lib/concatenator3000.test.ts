@@ -1,6 +1,6 @@
 import { compileShader } from "../compilers"
 import { code } from "../expressions"
-import { Float } from "../variables"
+import { Float } from "../node"
 import { concatenate, flatten, snippet } from "./concatenator3000"
 
 describe("flatten", () => {

@@ -1,6 +1,6 @@
 import { Vector2 } from "three"
 import { code } from "../expressions"
-import { Mat4, Value, Vec2, Vec3 } from "../variables"
+import { Mat4, Value, Vec2, Vec3 } from "../node"
 
 export const UV = Vec2(code`uv`, { varying: true })
 export const VertexPosition = Vec3(code`position`, { varying: true })

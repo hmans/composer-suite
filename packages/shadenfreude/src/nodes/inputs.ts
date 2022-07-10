@@ -1,5 +1,5 @@
 import { code } from "../expressions"
-import { Bool, GLSLType, Node } from "../variables"
+import { Bool, GLSLType, Node } from "../node"
 
 export const Uniform = <T extends GLSLType>(type: T, name: string) =>
   Node<T>(type, code`${name}`, {
