@@ -32,7 +32,7 @@ export type Value<T extends GLSLType = any> =
 
 export type Chunk = Part | Part[]
 
-export type VariableConfig<T extends GLSLType = any> = {
+export type NodeConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
@@ -50,7 +50,7 @@ export type VariableConfig<T extends GLSLType = any> = {
  */
 export interface IVariable<T extends GLSLType = any> {
   _: "Variable"
-  _config: VariableConfig<T>
+  _config: NodeConfig<T>
   type: T
   value: Value<T>
 }
@@ -74,11 +74,11 @@ const nextAnonymousId = idGenerator()
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
-  configInput: Partial<VariableConfig<T>> = {}
+  configInput: Partial<NodeConfig<T>> = {}
 ) => {
   const id = nextAnonymousId()
 
-  const config: VariableConfig<T> = {
+  const config: NodeConfig<T> = {
     /* Defaults */
     id,
     title: "anon",
@@ -106,7 +106,7 @@ export function isVariable(v: any): v is Variable {
 
 const makeVariableHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
-  extras?: Partial<VariableConfig<T>>
+  extras?: Partial<NodeConfig<T>>
 ) => Variable(type, v, extras)
 
 export const Float = makeVariableHelper("float")
