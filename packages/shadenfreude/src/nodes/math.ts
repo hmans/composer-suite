@@ -29,6 +29,14 @@ export const Cos = (x: Value<"float">) => Float(code`cos(${x})`)
 export const Pow = (x: Value<"float">, y: Value<"float">) =>
   Float(code`pow(${x}, ${y})`)
 
+export const Clamp = <T extends GLSLType>(
+  x: Value<T>,
+  min: Value<T>,
+  max: Value<T>
+) => Node(type(x), code`clamp(${x}, ${min}, ${max})`)
+
+export const Clamp01 = (x: Value<"float">) => Clamp(x, 0, 1)
+
 export const Mix = <T extends GLSLType>(
   a: Value<T>,
   b: Value<T>,
