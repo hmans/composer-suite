@@ -1,21 +1,21 @@
 import { Color } from "three"
 import {
+  Add,
+  Multiply,
   Remap,
   Simplex3DNoise,
-  Multiply,
-  VertexPosition,
-  Add,
   Smoothstep,
+  Step,
   Subtract,
-  Step
+  VertexPosition
 } from "../nodes"
-import { Float, Vec3 } from "../variables"
+import { Value } from "../tree"
 
 export const Dissolve = (
-  visibility: Float = 0.5,
-  scale: Float = 1,
-  edgeThickness: Float = 0.1,
-  edgeColor: Vec3 = new Color(0, 10, 8)
+  visibility: Value<"float"> = 0.5,
+  scale: Value<"float"> = 1,
+  edgeThickness: Value<"float"> = 0.1,
+  edgeColor: Value<"vec3"> = new Color(0, 10, 8)
 ) => {
   const noise = Remap(
     Simplex3DNoise(Multiply(VertexPosition, scale)),

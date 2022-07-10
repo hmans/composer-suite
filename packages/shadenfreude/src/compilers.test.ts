@@ -18,7 +18,7 @@ describe("compileShader", () => {
     expect(shader.fragmentShader).toMatchSnapshot()
   })
 
-  it("includes the variable's chunks if it has them", () => {
+  it("includes the node's chunks if it has them", () => {
     const v = Node("float", 1)
 
     v._config.vertexHeader = statement("uniform float u_time")

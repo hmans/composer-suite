@@ -18,15 +18,15 @@ import { isNode, Node } from "./tree"
 
 export type ProgramType = "vertex" | "fragment"
 
-const variableBeginComment = (v: Node) =>
+const nodeBeginComment = (v: Node) =>
   `/*** BEGIN: ${v._config.title} (${v._config.id}) ***/`
 
-const variableEndComment = (v: Node) =>
+const nodeEndComment = (v: Node) =>
   `/*** END: ${v._config.title} (${v._config.id}) ***/\n`
 
 /**
- * Traverses the specified variables and returns a list of all objects that can
- * be dependencies of something else (variables, expressions, snippets, etc.)
+ * Traverses the specified nodes and returns a list of all objects that can
+ * be dependencies of something else (nodes, expressions, snippets, etc.)
  *
  * @param sources
  * @returns
@@ -79,19 +79,19 @@ export const compileVariable = (
     v._config.vertexBody
   )
 
-  /* Render variable and snippet dependencies */
+  /* Render node and snippet dependencies */
   dependencies.forEach((dep) => {
     isNode(dep) && compileVariable(dep, program, state)
     isSnippet(dep) && compileSnippet(dep, program, state)
   })
 
-  /* Prepare this variable */
+  /* Prepare this node */
   v._config.id = state.nextId()
   v._config.name = identifier(v.type, sluggify(v._config.title), v._config.id)
 
   /* HEADER */
   const header = flatten(
-    /* If this variable is configured to use a varying, declare it */
+    /* If this node is configured to use a varying, declare it */
     v._config.varying && `varying ${v.type} v_${v._config.name};`,
 
     /* Render the actual header chuink */
@@ -100,12 +100,12 @@ export const compileVariable = (
 
   state.header.push(
     /* Render header chunk */
-    header.length && [variableBeginComment(v), header, variableEndComment(v)]
+    header.length && [nodeBeginComment(v), header, nodeEndComment(v)]
   )
 
   /* BODY */
   state.body.push(
-    variableBeginComment(v),
+    nodeBeginComment(v),
 
     /* Declare the variable */
     statement(v.type, v._config.name),
@@ -128,14 +128,14 @@ export const compileVariable = (
         assignment(`v_${v._config.name}`, "value")
     ),
 
-    variableEndComment(v)
+    nodeEndComment(v)
   )
 }
 
-/**  Compile a program from the variable */
-export const compileProgram = (v: Node, program: ProgramType) => {
+/**  Compile a program from the given node */
+export const compileProgram = (root: Node, program: ProgramType) => {
   const state = compilerState()
-  compileVariable(v, program, state)
+  compileVariable(root, program, state)
 
   return concatenate(state.header, "void main()", block(state.body))
 }

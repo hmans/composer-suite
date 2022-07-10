@@ -9,11 +9,6 @@ export const ViewMatrix = Mat4(code`viewMatrix`, { varying: true })
 export const ModelMatrix = Mat4(code`modelMatrix`, { varying: true })
 export const InstanceMatrix = Mat4(code`instanceMatrix`, { varying: true })
 
-/*
-Now variables like VertexNormalWorld can just source those and work
-in both shader stages:
-*/
-
 export const VertexNormalWorld = Vec3(
   code`normalize(
       mat3(

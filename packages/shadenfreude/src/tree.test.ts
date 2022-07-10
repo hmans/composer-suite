@@ -6,7 +6,7 @@ import { Float, Value, Node } from "./tree"
 const glsl = glslRepresentation
 
 describe("Node", () => {
-  it("creates a variable of the specified type and value", () => {
+  it("creates a node of the specified type and value", () => {
     const v = Node("float", 1)
     expect(v.type).toBe("float")
     expect(v.value).toBe(1)
@@ -24,7 +24,7 @@ describe("Node", () => {
     expect(glsl(v.value)).toBe(`vec3(${a._config.name}, 1.0, 1.0)`)
   })
 
-  it("allows variables to directly reference other variables", () => {
+  it("allows variables to directly reference other nodes", () => {
     const source = Float(1)
     const v = Float(source)
     expect(v.value).toBe(source)

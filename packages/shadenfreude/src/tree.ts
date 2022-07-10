@@ -4,7 +4,7 @@ import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
 /**
- * The different GLSL types we're supporting in variables.
+ * The different GLSL types we're supporting in nodes.
  */
 export type GLSLType =
   | "bool"
@@ -42,8 +42,8 @@ export type NodeConfig<T extends GLSLType = any> = {
 }
 
 /**
- * Any object that extends the IVariable type can be a variable in the shader tree.
- * Variable objects are free to expose any additional properties on top of this.
+ * Any object that extends the INode type can be a node in the shader tree.
+ * Node objects are free to expose any additional properties on top of this.
  */
 export interface INode<T extends GLSLType = any> {
   _: "Node"
