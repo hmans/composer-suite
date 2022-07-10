@@ -29,6 +29,7 @@ Shadenfreude also has a couple of non-features:
 This document is going to explain the basics of writing shaders using Shadenfreude and developing your own nodes, but the best way to dive in probably is to check out one of the many great examples[^1].
 
 - **[The official Shadenfreude sandbox](https://codesandbox.io/s/shadenfreude-ts-y3h24k?file=/src/App.tsx)**. Fork it and go nuts!
+- [Chunky Planet Geneerator](https://codesandbox.io/s/shadenfreude-planet-gkulwg?file=/src/App.tsx)
 - [Dissolve Effect](https://codesandbox.io/s/shadenfreude-dissolve-ubzbxq?file=/src/App.tsx)
 
 [^1]: What do you mean, there aren't many examples listed here yet? Come on, cut me some slack, this library didn't even exist two weeks ago!
