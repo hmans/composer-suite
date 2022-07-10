@@ -1,6 +1,6 @@
 import { Vector2 } from "three"
 import { code } from "../expressions"
-import { Mat4, Vec2, Vec3 } from "../variables"
+import { Mat4, Value, Vec2, Vec3 } from "../variables"
 
 export const UV = Vec2(code`uv`, { varying: true })
 export const VertexPosition = Vec3(code`position`, { varying: true })
@@ -30,9 +30,9 @@ export const ViewDirection = Vec3(
 )
 
 export const TilingUV = (
-  uv: Vec2 = UV,
-  tiling: Vec2 = new Vector2(1, 1),
-  offset: Vec2 = new Vector2(0, 0)
+  uv: Value<"vec2"> = UV,
+  tiling: Value<"vec2"> = new Vector2(1, 1),
+  offset: Value<"vec2"> = new Vector2(0, 0)
 ) =>
   Vec2(
     code`vec2(

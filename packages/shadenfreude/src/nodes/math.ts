@@ -24,19 +24,23 @@ export const Sub = Subtract
 export const Mul = Multiply
 export const Div = Divide
 
-export const Sin = (x: Float) => Float(code`sin(${x})`)
-export const Cos = (x: Float) => Float(code`cos(${x})`)
-export const Pow = (x: Float, y: Float) => Float(code`pow(${x}, ${y})`)
+export const Sin = (x: Value<"float">) => Float(code`sin(${x})`)
+export const Cos = (x: Value<"float">) => Float(code`cos(${x})`)
+export const Pow = (x: Value<"float">, y: Value<"float">) =>
+  Float(code`pow(${x}, ${y})`)
 
-export const Mix = <T extends GLSLType>(a: Value<T>, b: Value<T>, f: Float) =>
-  Variable(type(a), code`mix(${a}, ${b}, ${f})`)
+export const Mix = <T extends GLSLType>(
+  a: Value<T>,
+  b: Value<T>,
+  f: Value<"float">
+) => Variable(type(a), code`mix(${a}, ${b}, ${f})`)
 
 export type FresnelProps = {
-  alpha?: Float
-  bias?: Float
-  intensity?: Float
-  power?: Float
-  factor?: Float
+  alpha?: Value<"float">
+  bias?: Value<"float">
+  intensity?: Value<"float">
+  power?: Value<"float">
+  factor?: Value<"float">
 }
 
 export const Fresnel = ({
@@ -54,10 +58,14 @@ export const Fresnel = ({
     `
   })
 
-export const Step = (edge: Float, v: Float) => Float(code`step(${edge}, ${v})`)
+export const Step = (edge: Value<"float">, v: Value<"float">) =>
+  Float(code`step(${edge}, ${v})`)
 
-export const Smoothstep = (min: Float, max: Float, v: Float) =>
-  Float(code`smoothstep(${min}, ${max}, ${v})`)
+export const Smoothstep = (
+  min: Value<"float">,
+  max: Value<"float">,
+  v: Value<"float">
+) => Float(code`smoothstep(${min}, ${max}, ${v})`)
 
 const remap = snippet(
   (name) => `

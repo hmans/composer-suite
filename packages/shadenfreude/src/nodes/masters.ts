@@ -1,12 +1,12 @@
 import { Color } from "three"
 import { code } from "../expressions"
-import { Bool, Float, Vec3 } from "../variables"
+import { Bool, Value } from "../variables"
 import { VertexPosition } from "./geometry"
 
 export type CustomShaderMaterialMasterprops = {
-  position?: Vec3
-  diffuseColor?: Vec3
-  alpha?: Float
+  position?: Value<"vec3">
+  diffuseColor?: Value<"vec3">
+  alpha?: Value<"float">
 }
 
 export const CustomShaderMaterialMaster = ({
