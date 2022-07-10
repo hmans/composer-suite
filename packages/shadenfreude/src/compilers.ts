@@ -14,7 +14,7 @@ import {
   statement
 } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
-import { isNode, Node } from "./node"
+import { isNode, Node } from "./tree"
 
 export type ProgramType = "vertex" | "fragment"
 

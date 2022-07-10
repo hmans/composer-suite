@@ -1,7 +1,7 @@
 import { code } from "../expressions"
 import { type } from "../glslType"
 import { snippet } from "../lib/concatenator3000"
-import { Float, GLSLType, Value, Node } from "../node"
+import { Float, GLSLType, Value, Node } from "../tree"
 import { VertexNormalWorld, ViewDirection } from "./geometry"
 
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <

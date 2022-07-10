@@ -1,7 +1,7 @@
 import { compileShader } from "./compilers"
 import { code } from "./expressions"
 import { assignment, statement } from "./lib/concatenator3000"
-import { Float, Node } from "./node"
+import { Float, Node } from "./tree"
 
 describe("compileShader", () => {
   it("returns a vertexShader", () => {

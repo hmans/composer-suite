@@ -1,6 +1,6 @@
 import { code } from "../expressions"
 import { type } from "../glslType"
-import { Float, Value, Node, Vec2, Vec3, Vec4 } from "../node"
+import { Float, Value, Node, Vec2, Vec3, Vec4 } from "../tree"
 
 export const JoinVector2 = (x: Value<"float">, y: Value<"float">) =>
   Vec2(code`vec2(${x}, ${y})`)
