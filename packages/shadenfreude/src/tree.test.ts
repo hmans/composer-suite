@@ -24,7 +24,7 @@ describe("Node", () => {
     expect(glsl(v.value)).toBe(`vec3(${a._config.name}, 1.0, 1.0)`)
   })
 
-  it("allows variables to directly reference other nodes", () => {
+  it("allows nodes to directly reference other nodes", () => {
     const source = Float(1)
     const v = Float(source)
     expect(v.value).toBe(source)
