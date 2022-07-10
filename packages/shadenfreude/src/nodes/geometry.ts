@@ -1,6 +1,6 @@
 import { Vector2 } from "three"
 import { code } from "../expressions"
-import { Mat4, Value, Vec2, Vec3 } from "../tree"
+import { Bool, Mat4, Value, Vec2, Vec3 } from "../tree"
 
 export const UV = Vec2(code`uv`, { varying: true })
 export const VertexPosition = Vec3(code`position`, { varying: true })
@@ -34,3 +34,6 @@ export const TilingUV = (
       ${uv}.x * ${tiling}.x + ${offset}.x,
       ${uv}.y * ${tiling}.y + ${offset}.y)`
   )
+
+export const IsFrontFacing = () =>
+  Bool(code`gl_FrontFacing`, { only: "fragment" })
