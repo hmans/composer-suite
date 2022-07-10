@@ -47,11 +47,11 @@ Shadenfreude allows you to express your shader code as a tree of JavaScript obje
 
 TODO: a short hello world example
 
-Shadenfreude constructs this tree from **Variables**. Every variable can be compiled into a shader program; but you typically start with a **Master**. Which Master you use entirely depends on how you intend to run the shader. Shadenfreude currently provides Masters for use with Three.js' `ShaderMaterial` as well as [three-custom-shader-material]; more Masters may be added in the future.
+These objects are called **Nodes**, and every single one of them can be compiled into a shader program; but you typically start with a **Master Node**. Which Master you use entirely depends on how you intend to run the shader. Shadenfreude currently provides Masters for use with Three.js' `ShaderMaterial` as well as [three-custom-shader-material]; more Masters may be added in the future.
 
 > **Note**
 >
-> Shadenfreude currently has a dependency to Three.js, but only really uses it for some type glue (eg. so you can pass a `THREE.Vector2` instance to set a `vec2` variable.) It is very likely that at some point in the future, Shadenfreude can be used outside of Three.js, too; PRs welcome!
+> Shadenfreude currently has a dependency to Three.js, but only really uses it for some type glue (eg. so you can pass a `THREE.Vector2` instance to set a `vec2` node.) It is very likely that at some point in the future, Shadenfreude can be used outside of Three.js, too; PRs welcome!
 
 ### With THREE.ShaderMaterial
 
@@ -85,32 +85,36 @@ const root = CustomShaderMaterialMaster({
 })
 ```
 
-### Variables
+### Nodes
 
-Everything in Shadenfreude is expressed as a **Variable**. That may sound a bit boring at first, but Variables are pretty powerful: they can inject their own shader code, declare what other variables they depend on, define and invoke functions, or just plain calculate stuff. Shadenfreude will compile your shader from a tree of these variables.
+Everything in Shadenfreude is expressed as a **Node**. Some basic facts about nodes:
 
-But let's start at the beginning. You can construct variables using the `Variable` function:
+- They always represent a specific value (of a specific GLSL type). For example, a node might represent a `float` value, or a `vec3`, and so on.
+- Their values can be static, or received as inputs from other nodes. For example, the final color node's value might be a mix of two other color nodes.
+- Nodes may perform anything from simple calculations, to more complex operations. They may even inject their own GLSL code, from short snippets to complete function libraries.
+
+But let's start at the beginning. You can construct nodes using the `Node` function, passing a type and a value:
 
 ```ts
-const f = Variable("float", 1)
+const f = Node("float", 1)
 ```
 
-The first argument is a GLSL type, the second the variable's value. Since you will be creating a lot of variables this way, there's also a set of helpers for the individual types:
+Since you will be creating _a lot_ of variables, there's also a set of helpers for the individual types:
 
 ```ts
-const f = Float(1)
-const v3 = Vec3(new Vector3())
+const f = Float(1) // equivalent to Node("float", 1)
+const v3 = Vec3(new Vector3()) // etc.
 const b = Bool(true)
 ```
 
-The value argument is pretty powerful. So far, we've been assigning JavaScript values (`1`, `new Vector 3()`, `true`, etc.), but we can also reference other variables:
+The value argument is pretty powerful. So far, we've been assigning JavaScript values (`1`, `new Vector 3()`, `true`, etc.), but we can also reference other nodes:
 
 ```ts
 const color = Vec3(new Color("hotpink"))
 const other = Vec3(color)
 ```
 
-You can perform mathematical operations on variables:
+You can perform mathematical operations on nodes:
 
 ```ts
 const color = Vec3(new Color("hotpink"))
