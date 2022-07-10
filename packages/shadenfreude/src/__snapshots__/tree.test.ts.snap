@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`variable supports a 'varying' flag that will automatically make it pass its data as a varying 1`] = `
+exports[`Node supports a 'varying' flag that will automatically make it pass its data as a varying 1`] = `
 "/*** BEGIN: A variable with a varying (1) ***/
 varying float v_float_A_variable_with_a_varying_1;
 /*** END: A variable with a varying (1) ***/
@@ -20,7 +20,7 @@ void main()
 }"
 `;
 
-exports[`variable supports a 'varying' flag that will automatically make it pass its data as a varying 2`] = `
+exports[`Node supports a 'varying' flag that will automatically make it pass its data as a varying 2`] = `
 "/*** BEGIN: A variable with a varying (1) ***/
 varying float v_float_A_variable_with_a_varying_1;
 /*** END: A variable with a varying (1) ***/

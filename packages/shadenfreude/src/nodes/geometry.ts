@@ -1,6 +1,6 @@
 import { Vector2 } from "three"
 import { code } from "../expressions"
-import { Mat4, Value, Vec2, Vec3 } from "../variables"
+import { Mat4, Value, Vec2, Vec3 } from "../tree"
 
 export const UV = Vec2(code`uv`, { varying: true })
 export const VertexPosition = Vec3(code`position`, { varying: true })
@@ -8,11 +8,6 @@ export const VertexNormal = Vec3(code`normal`, { varying: true })
 export const ViewMatrix = Mat4(code`viewMatrix`, { varying: true })
 export const ModelMatrix = Mat4(code`modelMatrix`, { varying: true })
 export const InstanceMatrix = Mat4(code`instanceMatrix`, { varying: true })
-
-/*
-Now variables like VertexNormalWorld can just source those and work
-in both shader stages:
-*/
 
 export const VertexNormalWorld = Vec3(
   code`normalize(

@@ -1,6 +1,6 @@
 import { code } from "../expressions"
 import { type } from "../glslType"
-import { Float, Value, Variable, Vec2, Vec3, Vec4 } from "../variables"
+import { Float, Value, Node, Vec2, Vec3, Vec4 } from "../tree"
 
 export const JoinVector2 = (x: Value<"float">, y: Value<"float">) =>
   Vec2(code`vec2(${x}, ${y})`)
@@ -37,4 +37,4 @@ export const SplitVector4 = (vector: Value<"vec4">) =>
   ] as const
 
 export const Normalize = <T extends "vec2" | "vec3" | "vec4">(x: Value<T>) =>
-  Variable(type(x) as T, code`normalize(${x})`)
+  Node(type(x) as T, code`normalize(${x})`)

@@ -1,6 +1,6 @@
 import { Color } from "three"
 import { code } from "../expressions"
-import { Bool, Value } from "../variables"
+import { Bool, Value } from "../tree"
 import { VertexPosition } from "./geometry"
 
 export type CustomShaderMaterialMasterprops = {

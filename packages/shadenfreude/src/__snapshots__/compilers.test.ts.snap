@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compileShader includes the variable's chunks if it has them 1`] = `
+exports[`compileShader includes the node's chunks if it has them 1`] = `
 "/*** BEGIN: anon (1) ***/
 uniform float u_time;
 /*** END: anon (1) ***/
@@ -19,7 +19,7 @@ void main()
 }"
 `;
 
-exports[`compileShader includes the variable's chunks if it has them 2`] = `
+exports[`compileShader includes the node's chunks if it has them 2`] = `
 "/*** BEGIN: anon (1) ***/
 uniform float u_time;
 /*** END: anon (1) ***/

@@ -1,5 +1,5 @@
 import { compileShader } from "../compilers"
-import { Float } from "../variables"
+import { Float } from "../tree"
 import { Pipe } from "./helpers"
 import { Add, Multiply } from "./math"
 

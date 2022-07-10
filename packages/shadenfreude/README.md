@@ -28,7 +28,8 @@ Shadenfreude also has a couple of non-features:
 
 This document is going to explain the basics of writing shaders using Shadenfreude and developing your own nodes, but the best way to dive in probably is to check out one of the many great examples[^1].
 
-- **[The official Shadenfreude sandbox](https://codesandbox.io/s/github/hmans/shadenfreude-sandbox?file=/src/App.js)**. Fork it and go nuts!
+- **[The official Shadenfreude sandbox](https://codesandbox.io/s/shadenfreude-ts-y3h24k?file=/src/App.tsx)**. Fork it and go nuts!
+- [Dissolve Effect](https://codesandbox.io/s/shadenfreude-dissolve-ubzbxq?file=/src/App.tsx)
 
 [^1]: What do you mean, there aren't many examples listed here yet? Come on, cut me some slack, this library didn't even exist two weeks ago!
 
@@ -36,23 +37,37 @@ This document is going to explain the basics of writing shaders using Shadenfreu
 
 > **Warning**
 >
-> This library is pretty young, and so is its documentation. Since the library is still in a lot of flux, the documentation currently focuses on just the basics, and assumes that you already have a certain amount of familiarity with writing shaders.
+> This library is pretty young, and so is its documentation. Since the library is still in a lot of flux, the documentation currently focuses on just the basics, and assumes that you already have a certain amount of familiarity with writing shaders. Just like the rest of this library, this documentation will grow over time.
+
+### Overview
+
+A lot of the time when building WebGL applications, you will write _shaders_ -- small (and sometimes big) programs written in [GLSL] that are uploaded to and then executed on your GPU.
+
+Shadenfreude allows you to express your shader code as a tree of JavaScript objects, from which it will compile the GLSL for you. For example:
+
+TODO: a short hello world example
+
+Shadenfreude constructs this tree from **Variables**. Every variable can be compiled into a shader program; but you typically start with a **Master**. Which Master you use entirely depends on how you intend to run the shader. Shadenfreude currently provides Masters for use with Three.js' `ShaderMaterial` as well as [three-custom-shader-material]; more Masters may be added in the future.
+
+> **Note**
+>
+> Shadenfreude currently has a dependency to Three.js, but only really uses it for some type glue (eg. so you can pass a `THREE.Vector2` instance to set a `vec2` variable.) It is very likely that at some point in the future, Shadenfreude can be used outside of Three.js, too; PRs welcome!
 
 ### With THREE.ShaderMaterial
 
 ```ts
-/* Shaders usually start with a master */
+/* Create the root node: */
 const root = ShaderMaterialMaster({
   color: new Color("hotpink")
 })
 
-/* Compile the shader. */
+/* Compile the shader: */
 const [shader, update] = compileShader(root)
 
-/* Pass the `shader` object into the ShaderMaterial constructor */
+/* Pass the `shader` object into the ShaderMaterial constructor: */
 const material = new THREE.ShaderMaterial(shader)
 
-/* And call `update` in your game loop. */
+/* And call `update` in your game loop: */
 function animate(dt: number) {
   /* ... */
   update(dt)
@@ -88,7 +103,7 @@ const v3 = Vec3(new Vector3())
 const b = Bool(true)
 ```
 
-Variables can reference other variables:
+The value argument is pretty powerful. So far, we've been assigning JavaScript values (`1`, `new Vector 3()`, `true`, etc.), but we can also reference other variables:
 
 ```ts
 const color = Vec3(new Color("hotpink"))
@@ -139,6 +154,10 @@ const root = CustomShaderMaterialMaster({
 
 There you go, you've built your first animated shader with Shadenfreude! Now go crazy!
 
+### Code Expressions
+
+TODO
+
 ### Math Operators
 
 TODO
@@ -169,3 +188,4 @@ TODO
 [three.js]: https://threejs.org/
 [react-three-fiber]: https://github.com/pmndrs/react-three-fiber
 [three-custom-shader-material]: https://github.com/FarazzShaikh/THREE-CustomShaderMaterial
+[glsl]: https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html

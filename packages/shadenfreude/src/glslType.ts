@@ -1,8 +1,8 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { GLSLType, Value, isVariable } from "./variables"
+import { GLSLType, Value, isNode } from "./tree"
 
 export const glslType = <T extends GLSLType>(value: Value<T>): T => {
-  if (isVariable(value)) return value.type
+  if (isNode(value)) return value.type
 
   if (typeof value === "number") return "float" as T
   if (value instanceof Vector4) return "vec4" as T

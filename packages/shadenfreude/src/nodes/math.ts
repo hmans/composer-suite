@@ -1,7 +1,7 @@
 import { code } from "../expressions"
 import { type } from "../glslType"
 import { snippet } from "../lib/concatenator3000"
-import { Float, GLSLType, Value, Variable } from "../variables"
+import { Float, GLSLType, Value, Node } from "../tree"
 import { VertexNormalWorld, ViewDirection } from "./geometry"
 
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
@@ -10,7 +10,7 @@ export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
   a: Value<T>,
   b: Value<any>
 ) => {
-  return Variable(type(a), code`${a} ${operator} ${b}`, {
+  return Node(type(a), code`${a} ${operator} ${b}`, {
     title: `${title} (${type(a)})`
   })
 }
@@ -33,7 +33,7 @@ export const Mix = <T extends GLSLType>(
   a: Value<T>,
   b: Value<T>,
   f: Value<"float">
-) => Variable(type(a), code`mix(${a}, ${b}, ${f})`)
+) => Node(type(a), code`mix(${a}, ${b}, ${f})`)
 
 export type FresnelProps = {
   alpha?: Value<"float">
@@ -93,7 +93,4 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   outMin: Value<T>,
   outMax: Value<T>
 ) =>
-  Variable(
-    type(v),
-    code`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`
-  )
+  Node(type(v), code`${remap}(${v}, ${inMin}, ${inMax}, ${outMin}, ${outMax})`)
