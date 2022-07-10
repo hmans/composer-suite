@@ -1,17 +1,13 @@
+import { code } from "../../expressions"
 import { snippet } from "../../lib/concatenator3000"
 import { Vec3, Float } from "../../variables"
 import { permute } from "./permute"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
-export const Simplex3DNoise = (p: Vec3) =>
-  Float(`${noise.name}(p)`, {
-    inputs: { p },
-    vertexHeader: [noise],
-    fragmentHeader: [noise]
-  })
+export const Simplex3DNoise = (p: Vec3) => Float(code`${noise}(${p})`)
 
 const noise = snippet(
-  (name) => `
+  (name) => code`
 
 float ${name}(vec3 v){
   const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
@@ -81,6 +77,5 @@ float ${name}(vec3 v){
   return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
                                 dot(p2,x2), dot(p3,x3) ) );
 }
-`,
-  [taylorInvSqrt, permute]
+`
 )

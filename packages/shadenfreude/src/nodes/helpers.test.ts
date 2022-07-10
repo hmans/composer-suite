@@ -16,20 +16,18 @@ describe("Pipe", () => {
     expect(shader.vertexShader).toMatchInlineSnapshot(`
       "void main()
       {
-        /*** BEGIN: Anonymous float = 1.0 (1) ***/
-        float float_Anonymous_float_1_0_1;
+        /*** BEGIN: anon (1) ***/
+        float float_anon_1;
         {
           float value = 1.0;
-          float_Anonymous_float_1_0_1 = value;
+          float_anon_1 = value;
         }
-        /*** END: Anonymous float = 1.0 (1) ***/
+        /*** END: anon (1) ***/
 
         /*** BEGIN: Add (float) (2) ***/
         float float_Add_float_2;
         {
-          float m_0 = float_Anonymous_float_1_0_1;
-          float m_1 = 1.0;
-          float value = m_0+m_1;
+          float value = float_anon_1 + 1.0;
           float_Add_float_2 = value;
         }
         /*** END: Add (float) (2) ***/
@@ -37,9 +35,7 @@ describe("Pipe", () => {
         /*** BEGIN: Multiply (float) (3) ***/
         float float_Multiply_float_3;
         {
-          float m_0 = float_Add_float_2;
-          float m_1 = 5.0;
-          float value = m_0*m_1;
+          float value = float_Add_float_2 * 5.0;
           float_Multiply_float_3 = value;
         }
         /*** END: Multiply (float) (3) ***/

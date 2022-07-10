@@ -1,104 +1,89 @@
-import { useTexture } from "@react-three/drei"
-import { useControls } from "leva"
-import { useMemo } from "react"
 import {
-  Bool,
+  Add,
+  code,
   CustomShaderMaterialMaster,
-  Join,
-  Multiply,
+  Dissolve,
+  Float,
+  Mix,
+  Mul,
   Pipe,
-  Sampler2D,
-  Split,
-  Subtract,
-  TilingUV,
+  Pow,
+  Remap,
+  Simplex3DNoise,
+  Sin,
+  Smoothstep,
+  Step,
+  Sub,
   Time,
-  Uniform,
-  UV,
-  Vec2,
   Vec3,
-  Vec4
+  VertexPosition
 } from "shadenfreude"
-import {
-  Color,
-  DoubleSide,
-  MeshStandardMaterial,
-  RepeatWrapping,
-  Vector2
-} from "three"
+import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import textureUrl from "./textures/hexgrid.jpeg"
+import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
 
-const SampleTexture = (name: string, t: Bool, xy: Vec2) =>
-  Vec4(`texture2D(${name}, xy)`, { inputs: { t, xy } })
-
 export default function Playground() {
-  /* Load texture */
-  const texture = useTexture(textureUrl)
-  texture.wrapS = RepeatWrapping
-  texture.wrapT = RepeatWrapping
+  const shader = useShader(() => {
+    const scaledPos = Vec3(Mul(VertexPosition, 0.11))
 
-  /* Set up Leva controls */
-  const controls = useControls("Uniforms", {
-    visibility: { value: 0.5, min: 0, max: 1 },
-    edgeThickness: { value: 0.1, min: 0, max: 0.5 }
-  })
-
-  const { uniforms, ...shader } = useShader(() => {
-    const parameters = {
-      visibility: Uniform("float", "u_visibility"),
-      edgeThickness: Uniform("float", "u_edgeThickness"),
-      texture: Sampler2D("u_texture")
-    }
-
-    const animatedOffset = Join(Multiply(Time, -0.03), 0)
-
-    const map = SampleTexture(
-      "u_texture",
-      parameters.texture,
-      TilingUV(UV, new Vector2(3, 1.5), animatedOffset)
+    const noise = Pow(
+      Remap(Simplex3DNoise(code`${scaledPos}`), -1, 1, 0, 1),
+      1.5
     )
 
-    const splitMap = Split(map)
+    const steppedNoise = Smoothstep(-0, 1, noise)
 
-    const mapDiffuse = Join(splitMap[0], splitMap[1], splitMap[2])
+    const waterHeight = Float(
+      code`0.3 + sin(${Time} + ${VertexPosition}.y) * 0.02`
+    )
+
+    const waterNoise = Step(
+      0,
+      Simplex3DNoise(Add(Vec3(Mul(VertexPosition, 0.3)), Mul(Time, 0.05)))
+    )
+
+    const dissolve = Dissolve(Smoothstep(-0.5, 0.5, Sin(Time)), 0.1)
 
     return CustomShaderMaterialMaster({
-      diffuseColor: Pipe(Vec3(new Color("#4cf")), ($) =>
-        Multiply($, mapDiffuse)
-      )
+      position: Mul(VertexPosition, Float(code`1.0 + ${steppedNoise} * 0.3`)),
+
+      diffuseColor: Pipe(
+        Vec3(new Color("#66c")),
+        /* Water noise yooooo */
+        ($) => Mix($, new Color("#67d"), waterNoise),
+        /* Foam */
+        ($) => Mix($, new Color("#ddf"), Step(Sub(waterHeight, 0.02), noise)),
+        /* Sand */
+        ($) => Mix($, new Color("#ec5"), Step(waterHeight, noise)),
+        /* Green */
+        ($) => Mix($, new Color("#494"), Step(0.34, noise)),
+        /* Mountains */
+        ($) => Mix($, new Color("#ccc"), Step(0.5, noise)),
+        /* Skyrim */
+        ($) => Mix($, new Color("#fff"), Step(0.7, noise)),
+        ($) => Add($, dissolve.color)
+      ),
+
+      alpha: dissolve.alpha
     })
   }, [])
 
-  const myUniforms = useMemo(
-    () => ({
-      ...uniforms,
-      u_visibility: { value: controls.visibility },
-      u_edgeThickness: { value: controls.edgeThickness },
-      u_texture: { value: texture }
-    }),
-    []
-  )
-
-  myUniforms.u_visibility.value = controls.visibility
-  myUniforms.u_edgeThickness.value = controls.edgeThickness
-
   // console.log(shader.vertexShader)
-  // console.log(shader.fragmentShader)
+  console.log(shader.fragmentShader)
 
   return (
-    <group position-y={15}>
+    <group position-y={18}>
+      {/* <Fog /> */}
+      <DustExample />
       <mesh>
-        <icosahedronGeometry args={[12, 8]} />
+        <icosahedronGeometry args={[12, 4]} />
 
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
-          uniforms={myUniforms}
           {...shader}
           transparent
           side={DoubleSide}
-          metalness={0.5}
-          roughness={0.5}
         />
       </mesh>
     </group>

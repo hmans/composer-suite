@@ -1,9 +1,11 @@
 import { Color, Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three"
-import { glslRepresentation } from "./glslRepresentation"
-import { type } from "./glslType"
+import { Expression } from "./expressions"
 import { identifier, Part } from "./lib/concatenator3000"
 import idGenerator from "./lib/idGenerator"
 
+/**
+ * The different GLSL types we're supporting in variables.
+ */
 export type GLSLType =
   | "bool"
   | "float"
@@ -23,7 +25,10 @@ export type JSTypes = {
   mat4: Matrix4
 }
 
-export type Value<T extends GLSLType = any> = string | JSTypes[T] | Variable<T>
+export type Value<T extends GLSLType = any> =
+  | Expression
+  | JSTypes[T]
+  | Variable<T>
 
 export type Chunk = Part | Part[]
 
@@ -31,7 +36,6 @@ export type VariableConfig<T extends GLSLType = any> = {
   id: number
   title: string
   name: string
-  inputs: Record<string, Value>
   only?: "vertex" | "fragment"
   varying?: boolean
   vertexHeader?: Chunk
@@ -58,6 +62,15 @@ export type Variable<
 
 const nextAnonymousId = idGenerator()
 
+/**
+ * Create a variable. Variables are the nodes the shader tree is composed of. Everything in the tree
+ * is expressed as a variable.
+ *
+ * @param type GLSL type of the variable.
+ * @param value Value of the variable. Can be a JS value, a reference to another variable, or a string expression.
+ * @param configInput Optional configuration object.
+ * @returns A freshly created variable, just for you
+ */
 export const Variable = <T extends GLSLType>(
   type: T,
   value: Value<T>,
@@ -68,9 +81,8 @@ export const Variable = <T extends GLSLType>(
   const config: VariableConfig<T> = {
     /* Defaults */
     id,
-    title: `Anonymous ${type} = ${glslRepresentation(value)}`,
+    title: "anon",
     name: identifier("anonymous", id),
-    inputs: {},
 
     /* User-provided configuration */
     ...configInput
@@ -88,10 +100,6 @@ export const Variable = <T extends GLSLType>(
 
 export function isVariable(v: any): v is Variable {
   return v && v._ === "Variable"
-}
-
-export function isType<T extends GLSLType>(v: any, t: T): v is Value<T> {
-  return type(v) === t
 }
 
 /* Helpers */
