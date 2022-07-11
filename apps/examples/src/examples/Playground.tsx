@@ -2,12 +2,13 @@ import { useTexture } from "@react-three/drei"
 import {
   code,
   CustomShaderMaterialMaster,
+  Mul,
   Sampler2D,
   Texture2D,
   TilingUV,
   UV
 } from "shadenfreude"
-import { MeshStandardMaterial, RepeatWrapping, Vector2 } from "three"
+import { Color, MeshStandardMaterial, RepeatWrapping, Vector2 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { Repeat } from "three-vfx"
 import { DustExample } from "./DustExample"
@@ -25,7 +26,7 @@ export default function Playground() {
     const sampled = Texture2D(texture, TilingUV(UV, new Vector2(1.5, 1)))
 
     return CustomShaderMaterialMaster({
-      diffuseColor: code`${sampled}.rgb`,
+      diffuseColor: Mul(new Color("#67a"), code`${sampled}.rgb`),
       alpha: code`${sampled}.a`
     })
   }, [])
