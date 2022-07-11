@@ -1,12 +1,19 @@
 import { Color } from "three"
 import {
   Add,
+  Bitangent,
+  Cross,
+  Mul,
   Multiply,
+  Normalize,
   Remap,
   Simplex3DNoise,
   Smoothstep,
   Step,
+  Sub,
   Subtract,
+  Tangent,
+  VertexNormal,
   VertexPosition
 } from "../nodes"
 import { Value } from "../tree"
@@ -33,4 +40,23 @@ export const Dissolve = (
 
     alpha: Step(noise, visibility)
   }
+}
+
+export const UpdateVertexNormal = (
+  modifier: (v: Value<"vec3">) => Value<"vec3">,
+  offset = 0.001
+) => {
+  const tangent = Tangent(VertexNormal)
+  const bitangent = Bitangent(VertexNormal, tangent)
+
+  const neighbor1 = Add(VertexPosition, Mul(tangent, offset))
+  const neighbor2 = Add(VertexPosition, Mul(bitangent, offset))
+
+  const displacedNeighbor1 = modifier(neighbor1)
+  const displacedNeighbor2 = modifier(neighbor2)
+
+  const displacedTangent = Sub(displacedNeighbor1, VertexPosition)
+  const displacedBitangent = Sub(displacedNeighbor2, VertexPosition)
+
+  return Normalize(Cross(displacedTangent, displacedBitangent))
 }
