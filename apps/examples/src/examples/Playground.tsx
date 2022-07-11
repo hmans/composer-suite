@@ -27,21 +27,27 @@ import { useShader } from "./useShader"
 export default function Playground() {
   const shader = useShader(() => {
     const ScaledNoise = (scale = 1, timeScale = 1) =>
-      Simplex3DNoise(
-        Add(Multiply(VertexPosition, scale), Multiply(Time, timeScale))
+      Remap(
+        Simplex3DNoise(
+          Add(Multiply(VertexPosition, scale), Multiply(Time, timeScale))
+        ),
+        -1,
+        1,
+        0,
+        1
       )
 
     const bigwaves = ScaledNoise(0.008, 0.1)
     const waves = ScaledNoise(0.025, 0.1)
     const ripples = ScaledNoise(5, 0.8)
-    const foam = Step(0, ScaledNoise(0.1, 0.1))
+    const foam = Step(0.5, ScaledNoise(0.1, 0.1))
 
     return CustomShaderMaterialMaster({
       position: Pipe(
         VertexPosition,
-        ($) => Add($, Add(Multiply(bigwaves, 4), 2)),
-        ($) => Add($, Add(Multiply(waves, 2), 1)),
-        ($) => Add($, Add(Multiply(ripples, 0.4), 0.2))
+        ($) => Add($, Multiply(bigwaves, 8)),
+        ($) => Add($, Multiply(waves, 4)),
+        ($) => Add($, Multiply(ripples, 0.2))
       ),
 
       diffuseColor: Pipe(Vec3(new Color("#99b")), ($) =>
@@ -56,7 +62,7 @@ export default function Playground() {
   console.log(shader.fragmentShader)
 
   return (
-    <group position-y={-5}>
+    <group position-y={-8}>
       {/* <Fog /> */}
       <DustExample />
       <mesh>
