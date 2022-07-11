@@ -37,7 +37,7 @@
   "dependencies": {
     "@changesets/cli": "^2.23.0",
     "@manypkg/cli": "^0.19.1",
-    "@preconstruct/cli": "^2.1.5"
+    "@preconstruct/cli": "^2.1.8"
   },
   "stackblitz": {
     "startCommand": "cd apps/examples && yarn dev"
