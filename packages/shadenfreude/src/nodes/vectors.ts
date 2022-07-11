@@ -41,6 +41,11 @@ export const normalize = (a: Value) => code`normalize(${a})`
 export const Normalize = <T extends "vec2" | "vec3" | "vec4">(a: Value<T>) =>
   Node(type(a) as T, normalize(a))
 
+export const cross = (a: Value<"vec3">, b: Value<"vec3">) =>
+  code`cross(${a}, ${b})`
+
+export const Cross = (a: Value<"vec3">, b: Value<"vec3">) => Vec3(cross(a, b))
+
 export const orthogonal = (v: Value<"vec3">) => code/*glsl*/ `
   normalize(
     abs(${v}.x) > abs(${v}.z)
@@ -48,12 +53,7 @@ export const orthogonal = (v: Value<"vec3">) => code/*glsl*/ `
     : vec3( 0.0, -${v}.z, ${v}.y)
   )`
 
-export const Tangent = (v: Value<"vec3">) => Vec3(orthogonal(v))
+export const Tangent = (a: Value<"vec3">) => Vec3(orthogonal(a))
 
-export const Bitangent = (p: Value<"vec3">, t: Value<"vec3">) =>
-  Normalize(Cross(p, t))
-
-export const cross = (a: Value<"vec3">, b: Value<"vec3">) =>
-  code`cross(${a}, ${b})`
-
-export const Cross = (a: Value<"vec3">, b: Value<"vec3">) => Vec3(cross(a, b))
+export const Bitangent = (a: Value<"vec3">, b: Value<"vec3">) =>
+  Normalize(Cross(a, b))
