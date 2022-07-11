@@ -58,6 +58,9 @@ export default function Playground() {
         ($) => Add($, Multiply(ripples, 0.2))
       )
 
+    const ModifiedVertex = (v: Value<"vec3">) =>
+      Mul(v, Float(code`1.0 + ${steppedNoise} * 0.3`))
+
     return CustomShaderMaterialMaster({
       position: ApplyWaves(VertexPosition),
       normal: UpdateVertexNormal(ApplyWaves),
