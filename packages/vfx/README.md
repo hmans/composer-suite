@@ -5,7 +5,10 @@
 [![Bundle Size](https://img.shields.io/bundlephobia/min/three-vfx?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=three-vfx)
 
 > **Warning**
-> This library is (extremely!) work-in-progress. **Use at your own risk.**
+>
+> This library is (extremely!) work-in-progress; meaning that **it is not done**, or ready for use in any other capacity. Please don't use this and assume that anything will work; it probably won't. And when you find something that does work, be ready for it to break in the next release. **Please don't open Issues or PRs for things that are broken**; I am most likely aware of them. **Use this library at your own risk.**
+>
+> If you're interested in using this library and want to keep up to date, please [follow me on Twitter](https://twitter.com/hmans), and/or click the Watch button for this repository.
 
 ## Introduction 👋
 
