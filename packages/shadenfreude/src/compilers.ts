@@ -73,11 +73,22 @@ export const compileNode = (
   if (pruning) return
 
   /* Build a list of dependencies from the various places that can have them: */
-  const dependencies = getDependencies(
-    v.value,
-    v._config[`${program}Header`],
-    v._config[`${program}Body`]
+  const valueDependencies = getDependencies(v.value)
+
+  const vertexDependencies = getDependencies(
+    v._config.vertexHeader,
+    v._config.vertexBody
   )
+  const fragmentDependencies = getDependencies(
+    v._config.fragmentHeader,
+    v._config.fragmentBody
+  )
+
+  const dependencies = [
+    ...valueDependencies,
+    ...fragmentDependencies,
+    ...vertexDependencies
+  ]
 
   /* Render node and snippet dependencies */
   dependencies.forEach((dep) => {
