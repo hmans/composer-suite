@@ -1,5 +1,5 @@
 import { code } from "../expressions"
-import { Bool, Value, Vec4 } from "../tree"
+import { Bool, Node, Value, Vec4 } from "../tree"
 
 export const Sampler2D = (name: string) => {
   /* TODO: find a better way to create the uniform here. Maybe reference an actual Uniform node and make it not write itself into a variable? */
@@ -14,7 +14,7 @@ export const Sampler2D = (name: string) => {
     toString: () => name
   }
 
-  return { ...node, ...api }
+  return { ...node, ...api } as Node<"bool"> & typeof api
 }
 
 export const Texture2D = (
