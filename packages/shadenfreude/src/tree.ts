@@ -115,6 +115,11 @@ export function isNode(v: any): v is Node {
 
 /* Helpers */
 
+export const withAPI = <T extends GLSLType, A extends {}>(
+  node: Node<T>,
+  api: A
+) => ({ ...node, ...api } as Node<T> & A)
+
 const makeNodeHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,
   extras?: Partial<NodeConfig<T>>

@@ -1,21 +1,19 @@
 import { code } from "../expressions"
-import { Bool, Node, Value, Vec4 } from "../tree"
+import { Bool, GLSLType, Node, Value, Vec4, withAPI } from "../tree"
 
-export const Sampler2D = (name: string) => {
-  /* TODO: find a better way to create the uniform here. Maybe reference an actual Uniform node and make it not write itself into a variable? */
-  const node = Bool(true, {
-    name: `Sampler2D: ${name}`,
-    vertexHeader: `uniform sampler2D ${name};`,
-    fragmentHeader: `uniform sampler2D ${name};`
-  })
+/* TODO: find a better way to create the uniform here. Maybe reference an actual Uniform node and make it not write itself into a variable? */
+export const Sampler2D = (name: string) =>
+  withAPI(
+    Bool(true, {
+      name: `Sampler2D: ${name}`,
+      vertexHeader: `uniform sampler2D ${name};`,
+      fragmentHeader: `uniform sampler2D ${name};`
+    }),
 
-  const api = {
-    name,
-    toString: () => name
-  }
-
-  return { ...node, ...api } as Node<"bool"> & typeof api
-}
+    {
+      toString: () => name
+    }
+  )
 
 export const Texture2D = (
   sampler2D: ReturnType<typeof Sampler2D>,
