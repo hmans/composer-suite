@@ -49,15 +49,14 @@ export const UpdateVertexNormal = (
   const tangent = Tangent(VertexNormal)
   const bitangent = Bitangent(VertexNormal, tangent)
 
-  const neighbor1 = Add(VertexPosition, Mul(tangent, offset))
-  const neighbor2 = Add(VertexPosition, Mul(bitangent, offset))
-
-  const displacedNeighbor1 = modifier(neighbor1)
-  const displacedNeighbor2 = modifier(neighbor2)
+  const displacedNeighbors = [
+    Add(VertexPosition, Mul(tangent, offset)),
+    Add(VertexPosition, Mul(bitangent, offset))
+  ].map(modifier)
 
   const position = modifier(VertexPosition)
-  const displacedTangent = Sub(displacedNeighbor1, position)
-  const displacedBitangent = Sub(displacedNeighbor2, position)
+  const displacedTangent = Sub(displacedNeighbors[0], position)
+  const displacedBitangent = Sub(displacedNeighbors[1], position)
 
   return Normalize(Cross(displacedTangent, displacedBitangent))
 }
