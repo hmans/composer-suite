@@ -15,6 +15,8 @@ import {
   Step,
   Sub,
   Time,
+  UpdateVertexNormal,
+  Value,
   Vec3,
   VertexPosition
 } from "shadenfreude"
@@ -45,8 +47,13 @@ export default function Playground() {
 
     const dissolve = Dissolve(Smoothstep(-0.5, 0.5, Sin(Time)), 0.1)
 
+    const ModifiedVertex = (v: Value<"vec3">) =>
+      Mul(v, Float(code`1.0 + ${steppedNoise} * 0.3`))
+
     return CustomShaderMaterialMaster({
-      position: Mul(VertexPosition, Float(code`1.0 + ${steppedNoise} * 0.3`)),
+      position: ModifiedVertex(VertexPosition),
+
+      normal: UpdateVertexNormal(ModifiedVertex, 0.0001),
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
