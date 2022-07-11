@@ -1,16 +1,20 @@
 import { useTexture } from "@react-three/drei"
 import {
+  Add,
   code,
   CustomShaderMaterialMaster,
+  Fresnel,
+  GreaterOrEqual,
+  If,
   Mul,
   Sampler2D,
   Texture2D,
   TilingUV,
-  UV
+  UV,
+  Vec3
 } from "shadenfreude"
 import { Color, MeshStandardMaterial, RepeatWrapping, Vector2 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-import { Repeat } from "three-vfx"
 import { DustExample } from "./DustExample"
 import hexgrid from "./textures/hexgrid.jpeg"
 import { useShader } from "./useShader"
@@ -25,8 +29,14 @@ export default function Playground() {
 
     const sampled = Texture2D(texture, TilingUV(UV, new Vector2(1.5, 1)))
 
+    const color = Vec3(code`${sampled}.rgb`)
+
     return CustomShaderMaterialMaster({
-      diffuseColor: Mul(new Color("#67a"), code`${sampled}.rgb`),
+      diffuseColor: Add(
+        Mul(color, new Color("#89c")),
+        Mul(new Color("white"), Fresnel({ intensity: 0.75 }))
+      ),
+
       alpha: code`${sampled}.a`
     })
   }, [])
