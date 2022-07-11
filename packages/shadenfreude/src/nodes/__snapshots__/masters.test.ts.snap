@@ -29,22 +29,10 @@ void main()
 `;
 
 exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 2`] = `
-"/*** BEGIN: anon (1) ***/
-varying vec3 v_vec3_anon_1;
-/*** END: anon (1) ***/
-
-void main()
+"void main()
 {
-  /*** BEGIN: anon (1) ***/
-  vec3 vec3_anon_1;
-  {
-    vec3 value = v_vec3_anon_1;
-    vec3_anon_1 = value;
-  }
-  /*** END: anon (1) ***/
-
-  /*** BEGIN: CustomShaderMaterial Master (2) ***/
-  bool bool_CustomShaderMaterial_Master_2;
+  /*** BEGIN: CustomShaderMaterial Master (1) ***/
+  bool bool_CustomShaderMaterial_Master_1;
   {
     bool value = true;
     csm_DiffuseColor = vec4(
@@ -53,9 +41,9 @@ void main()
         0.4117647058823529,
         0.7058823529411765
       ), 1.0);
-    bool_CustomShaderMaterial_Master_2 = value;
+    bool_CustomShaderMaterial_Master_1 = value;
   }
-  /*** END: CustomShaderMaterial Master (2) ***/
+  /*** END: CustomShaderMaterial Master (1) ***/
 
 }"
 `;

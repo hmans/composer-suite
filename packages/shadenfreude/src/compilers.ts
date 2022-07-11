@@ -73,10 +73,8 @@ export const compileVariable = (
   /* Build a list of dependencies from the various places that can have them: */
   const dependencies = getDependencies(
     v.value,
-    v._config.fragmentHeader,
-    v._config.fragmentBody,
-    v._config.vertexHeader,
-    v._config.vertexBody
+    v._config[`${program}Header`],
+    v._config[`${program}Body`]
   )
 
   /* Render node and snippet dependencies */

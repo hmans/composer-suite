@@ -154,22 +154,14 @@ describe("compileShader", () => {
         }
         /*** END: Fragment Only (1) ***/
 
-        /*** BEGIN: Universal  (2) ***/
-        float float_Universal_2;
-        {
-          float value = 1.0;
-          float_Universal_2 = value;
-        }
-        /*** END: Universal  (2) ***/
-
-        /*** BEGIN: Root (3) ***/
-        float float_Root_3;
+        /*** BEGIN: Root (2) ***/
+        float float_Root_2;
         {
           float value = 0.0;
           gl_FragColor = float_Fragment_Only_1;
-          float_Root_3 = value;
+          float_Root_2 = value;
         }
-        /*** END: Root (3) ***/
+        /*** END: Root (2) ***/
 
       }"
     `)
