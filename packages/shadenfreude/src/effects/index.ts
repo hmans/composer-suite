@@ -42,21 +42,28 @@ export const Dissolve = (
   }
 }
 
-export const UpdateVertexNormal = (
+export const ModifyVertex = (
+  originalPosition: Value<"vec3">,
+  originalNormal: Value<"vec3">,
   modifier: (v: Value<"vec3">) => Value<"vec3">,
   offset = 0.001
 ) => {
-  const tangent = Tangent(VertexNormal)
-  const bitangent = Bitangent(VertexNormal, tangent)
+  const tangent = Tangent(originalNormal)
+  const bitangent = Bitangent(originalNormal, tangent)
 
   const displacedNeighbors = [
-    Add(VertexPosition, Mul(tangent, offset)),
-    Add(VertexPosition, Mul(bitangent, offset))
+    Add(originalPosition, Mul(tangent, offset)),
+    Add(originalPosition, Mul(bitangent, offset))
   ].map(modifier)
 
-  const position = modifier(VertexPosition)
+  const position = modifier(originalPosition)
   const displacedTangent = Sub(displacedNeighbors[0], position)
   const displacedBitangent = Sub(displacedNeighbors[1], position)
 
-  return Normalize(Cross(displacedTangent, displacedBitangent))
+  const normal = Normalize(Cross(displacedTangent, displacedBitangent))
+
+  return {
+    position,
+    normal
+  }
 }

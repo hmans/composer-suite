@@ -1,6 +1,7 @@
 import {
   Add,
   CustomShaderMaterialMaster,
+  ModifyVertex,
   Mul,
   Multiply,
   Pipe,
@@ -8,9 +9,8 @@ import {
   Simplex3DNoise,
   Step,
   Time,
-  UpdateVertexNormal,
   Value,
-  Vec3,
+  VertexNormal,
   VertexPosition
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
@@ -46,12 +46,15 @@ export default function Playground() {
         ($) => Add($, Multiply(ripples, 0.2))
       )
 
-    return CustomShaderMaterialMaster({
-      /* Update the vertex position */
-      position: ApplyWaves(VertexPosition),
-      /* Fix the vertex normal (using the function from above) */
-      normal: UpdateVertexNormal(ApplyWaves),
+    const { position, normal } = ModifyVertex(
+      VertexPosition,
+      VertexNormal,
+      ApplyWaves
+    )
 
+    return CustomShaderMaterialMaster({
+      position,
+      normal,
       diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
       alpha: 0.9
     })
