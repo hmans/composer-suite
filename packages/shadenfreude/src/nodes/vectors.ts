@@ -36,5 +36,24 @@ export const SplitVector4 = (vector: Value<"vec4">) =>
     Float(code`${vector}.w`)
   ] as const
 
-export const Normalize = <T extends "vec2" | "vec3" | "vec4">(x: Value<T>) =>
-  Node(type(x) as T, code`normalize(${x})`)
+export const normalize = (a: Value) => code`normalize(${a})`
+
+export const Normalize = <T extends "vec2" | "vec3" | "vec4">(a: Value<T>) =>
+  Node(type(a) as T, normalize(a))
+
+export const orthogonal = (v: Value<"vec3">) => code/*glsl*/ `
+  normalize(
+    abs(${v}.x) > abs(${v}.z)
+    ? vec3( -${v}.y, ${v}.x, 0.0 )
+    : vec3( 0.0, -${v}.z, ${v}.y)
+  )`
+
+export const Tangent = (v: Value<"vec3">) => Vec3(orthogonal(v))
+
+export const Bitangent = (p: Value<"vec3">, t: Value<"vec3">) =>
+  Normalize(Cross(p, t))
+
+export const cross = (a: Value<"vec3">, b: Value<"vec3">) =>
+  code`cross(${a}, ${b})`
+
+export const Cross = (a: Value<"vec3">, b: Value<"vec3">) => Vec3(cross(a, b))
