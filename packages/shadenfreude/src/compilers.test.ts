@@ -107,12 +107,12 @@ describe("compileShader", () => {
 
   it("prunes entire branches that are not used in the respective program", () => {
     const onlyUsedInVertex = Float(1, { name: "Vertex Only" })
-    const onlyUsedInFragmewnt = Float(2, { name: "Fragment Only" })
+    const onlyUsedInFragment = Float(2, { name: "Fragment Only" })
 
     const root = Float(0, {
       name: "Root",
       vertexBody: code`gl_Position = ${onlyUsedInVertex};`,
-      fragmentBody: code`gl_FragColor = ${onlyUsedInFragmewnt};`
+      fragmentBody: code`gl_FragColor = ${onlyUsedInFragment};`
     })
 
     const [shader] = compileShader(root)
@@ -159,6 +159,78 @@ describe("compileShader", () => {
           float_Root_2 = value;
         }
         /*** END: Root (2) ***/
+
+      }"
+    `)
+  })
+
+  it("when pruning, it will still render varyings", () => {
+    const varying = Float(123, { name: "Varying", varying: true })
+    const onlyUsedInVertex = Float(1, { name: "Vertex Only" })
+    const onlyUsedInFragment = Float(varying, { name: "Fragment Only" })
+
+    const root = Float(0, {
+      name: "Root",
+      vertexBody: code`gl_Position = ${onlyUsedInVertex};`,
+      fragmentBody: code`gl_FragColor = ${onlyUsedInFragment};`
+    })
+
+    const [shader] = compileShader(root)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "void main()
+      {
+        /*** BEGIN: Vertex Only (1) ***/
+        float float_Vertex_Only_1;
+        {
+          float value = 1.0;
+          float_Vertex_Only_1 = value;
+        }
+        /*** END: Vertex Only (1) ***/
+
+        /*** BEGIN: Root (2) ***/
+        float float_Root_2;
+        {
+          float value = 0.0;
+          gl_Position = float_Vertex_Only_1;
+          float_Root_2 = value;
+        }
+        /*** END: Root (2) ***/
+
+      }"
+    `)
+
+    expect(shader.fragmentShader).toMatchInlineSnapshot(`
+      "/*** BEGIN: Varying (1) ***/
+      varying float v_float_Varying_1;
+      /*** END: Varying (1) ***/
+
+      void main()
+      {
+        /*** BEGIN: Varying (1) ***/
+        float float_Varying_1;
+        {
+          float value = v_float_Varying_1;
+          float_Varying_1 = value;
+        }
+        /*** END: Varying (1) ***/
+
+        /*** BEGIN: Fragment Only (2) ***/
+        float float_Fragment_Only_2;
+        {
+          float value = float_Varying_1;
+          float_Fragment_Only_2 = value;
+        }
+        /*** END: Fragment Only (2) ***/
+
+        /*** BEGIN: Root (3) ***/
+        float float_Root_3;
+        {
+          float value = 0.0;
+          gl_FragColor = float_Fragment_Only_2;
+          float_Root_3 = value;
+        }
+        /*** END: Root (3) ***/
 
       }"
     `)
