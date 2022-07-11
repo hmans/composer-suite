@@ -1,41 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 1`] = `
-"/*** BEGIN: anon (1) ***/
-varying vec3 v_vec3_anon_1;
-/*** END: anon (1) ***/
+"/*** BEGIN: Position (1) ***/
+varying vec3 v_vec3_Position_1;
+/*** END: Position (1) ***/
 
-/*** BEGIN: anon (2) ***/
-varying vec3 v_vec3_anon_2;
-/*** END: anon (2) ***/
+/*** BEGIN: Normal (2) ***/
+varying vec3 v_vec3_Normal_2;
+/*** END: Normal (2) ***/
 
 void main()
 {
-  /*** BEGIN: anon (1) ***/
-  vec3 vec3_anon_1;
+  /*** BEGIN: Position (1) ***/
+  vec3 vec3_Position_1;
   {
     vec3 value = position;
-    vec3_anon_1 = value;
-    v_vec3_anon_1 = value;
+    vec3_Position_1 = value;
+    v_vec3_Position_1 = value;
   }
-  /*** END: anon (1) ***/
+  /*** END: Position (1) ***/
 
-  /*** BEGIN: anon (2) ***/
-  vec3 vec3_anon_2;
+  /*** BEGIN: Normal (2) ***/
+  vec3 vec3_Normal_2;
   {
     vec3 value = normal;
-    vec3_anon_2 = value;
-    v_vec3_anon_2 = value;
+    vec3_Normal_2 = value;
+    v_vec3_Normal_2 = value;
   }
-  /*** END: anon (2) ***/
+  /*** END: Normal (2) ***/
 
   /*** BEGIN: CustomShaderMaterial Master (3) ***/
   bool bool_CustomShaderMaterial_Master_3;
   {
     bool value = true;
     
-      csm_Position = vec3_anon_1;
-      csm_Normal = vec3_anon_2;
+      csm_Position = vec3_Position_1;
+      csm_Normal = vec3_Normal_2;
     
     bool_CustomShaderMaterial_Master_3 = value;
   }
@@ -45,31 +45,31 @@ void main()
 `;
 
 exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 2`] = `
-"/*** BEGIN: anon (1) ***/
-varying vec3 v_vec3_anon_1;
-/*** END: anon (1) ***/
+"/*** BEGIN: Position (1) ***/
+varying vec3 v_vec3_Position_1;
+/*** END: Position (1) ***/
 
-/*** BEGIN: anon (2) ***/
-varying vec3 v_vec3_anon_2;
-/*** END: anon (2) ***/
+/*** BEGIN: Normal (2) ***/
+varying vec3 v_vec3_Normal_2;
+/*** END: Normal (2) ***/
 
 void main()
 {
-  /*** BEGIN: anon (1) ***/
-  vec3 vec3_anon_1;
+  /*** BEGIN: Position (1) ***/
+  vec3 vec3_Position_1;
   {
-    vec3 value = v_vec3_anon_1;
-    vec3_anon_1 = value;
+    vec3 value = v_vec3_Position_1;
+    vec3_Position_1 = value;
   }
-  /*** END: anon (1) ***/
+  /*** END: Position (1) ***/
 
-  /*** BEGIN: anon (2) ***/
-  vec3 vec3_anon_2;
+  /*** BEGIN: Normal (2) ***/
+  vec3 vec3_Normal_2;
   {
-    vec3 value = v_vec3_anon_2;
-    vec3_anon_2 = value;
+    vec3 value = v_vec3_Normal_2;
+    vec3_Normal_2 = value;
   }
-  /*** END: anon (2) ***/
+  /*** END: Normal (2) ***/
 
   /*** BEGIN: CustomShaderMaterial Master (3) ***/
   bool bool_CustomShaderMaterial_Master_3;

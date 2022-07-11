@@ -15,7 +15,7 @@ export const Sampler2D = (name: string) =>
     }
   )
 
-export const Texture2D = (
-  sampler2D: ReturnType<typeof Sampler2D>,
-  xy: Value<"vec2">
-) => Vec4(code`texture2D(${sampler2D}, ${xy})`)
+export type Sampler2D = ReturnType<typeof Sampler2D>
+
+export const Texture2D = (sampler2D: Sampler2D, xy: Value<"vec2">) =>
+  Vec4(code`texture2D(${sampler2D}, ${xy})`)
