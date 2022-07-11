@@ -105,7 +105,7 @@ describe("compileShader", () => {
     `)
   })
 
-  it("prunes entire branches that are not used in the respective program", () => {
+  it.skip("prunes entire branches that are not used in the respective program", () => {
     const onlyUsedInVertex = Float(1, { name: "Vertex Only" })
     const onlyUsedInFragment = Float(2, { name: "Fragment Only" })
 
@@ -180,7 +180,7 @@ describe("compileShader", () => {
     `)
   })
 
-  it("when pruning, it will still render varyings", () => {
+  it.skip("when pruning, it will still render varyings", () => {
     const varying = Float(123, { name: "Varying", varying: true })
     const onlyUsedInVertex = Float(1, { name: "Vertex Only" })
     const onlyUsedInFragment = Float(varying, { name: "Fragment Only" })
