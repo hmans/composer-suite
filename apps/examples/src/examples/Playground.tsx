@@ -37,22 +37,22 @@ export default function Playground() {
     const ripples = ScaledNoise(5, 0.8)
     const foam = Step(0.5, ScaledNoise(0.1, 0.1))
 
+    /* Define a function that modifies the vertex position */
     const ApplyWaves = (v: Value<"vec3">) =>
       Pipe(
-        Vec3(v),
+        v,
         ($) => Add($, Multiply(bigwaves, 8)),
         ($) => Add($, Multiply(waves, 4)),
         ($) => Add($, Multiply(ripples, 0.2))
       )
 
     return CustomShaderMaterialMaster({
+      /* Update the vertex position */
       position: ApplyWaves(VertexPosition),
+      /* Fix the vertex normal (using the function from above) */
       normal: UpdateVertexNormal(ApplyWaves),
 
-      diffuseColor: Pipe(Vec3(new Color("#bce")), ($) =>
-        Add($, Mul(foam, 0.03))
-      ),
-
+      diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
       alpha: 0.9
     })
   }, [])
