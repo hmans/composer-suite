@@ -5,6 +5,10 @@ exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 1`] = 
 varying vec3 v_vec3_anon_1;
 /*** END: anon (1) ***/
 
+/*** BEGIN: anon (2) ***/
+varying vec3 v_vec3_anon_2;
+/*** END: anon (2) ***/
+
 void main()
 {
   /*** BEGIN: anon (1) ***/
@@ -16,14 +20,26 @@ void main()
   }
   /*** END: anon (1) ***/
 
-  /*** BEGIN: CustomShaderMaterial Master (2) ***/
-  bool bool_CustomShaderMaterial_Master_2;
+  /*** BEGIN: anon (2) ***/
+  vec3 vec3_anon_2;
+  {
+    vec3 value = normal;
+    vec3_anon_2 = value;
+    v_vec3_anon_2 = value;
+  }
+  /*** END: anon (2) ***/
+
+  /*** BEGIN: CustomShaderMaterial Master (3) ***/
+  bool bool_CustomShaderMaterial_Master_3;
   {
     bool value = true;
-    csm_Position = vec3_anon_1;
-    bool_CustomShaderMaterial_Master_2 = value;
+    
+      csm_Position = vec3_anon_1;
+      csm_Normal = vec3_anon_2;
+    
+    bool_CustomShaderMaterial_Master_3 = value;
   }
-  /*** END: CustomShaderMaterial Master (2) ***/
+  /*** END: CustomShaderMaterial Master (3) ***/
 
 }"
 `;
@@ -32,6 +48,10 @@ exports[`CustomShaderMaterialMaster renders code for CustomShaderMaterial 2`] = 
 "/*** BEGIN: anon (1) ***/
 varying vec3 v_vec3_anon_1;
 /*** END: anon (1) ***/
+
+/*** BEGIN: anon (2) ***/
+varying vec3 v_vec3_anon_2;
+/*** END: anon (2) ***/
 
 void main()
 {
@@ -43,19 +63,29 @@ void main()
   }
   /*** END: anon (1) ***/
 
-  /*** BEGIN: CustomShaderMaterial Master (2) ***/
-  bool bool_CustomShaderMaterial_Master_2;
+  /*** BEGIN: anon (2) ***/
+  vec3 vec3_anon_2;
+  {
+    vec3 value = v_vec3_anon_2;
+    vec3_anon_2 = value;
+  }
+  /*** END: anon (2) ***/
+
+  /*** BEGIN: CustomShaderMaterial Master (3) ***/
+  bool bool_CustomShaderMaterial_Master_3;
   {
     bool value = true;
-    csm_DiffuseColor = vec4(
+    
+      csm_DiffuseColor = vec4(
       vec3(
         1.0,
         0.4117647058823529,
         0.7058823529411765
       ), 1.0);
-    bool_CustomShaderMaterial_Master_2 = value;
+    
+    bool_CustomShaderMaterial_Master_3 = value;
   }
-  /*** END: CustomShaderMaterial Master (2) ***/
+  /*** END: CustomShaderMaterial Master (3) ***/
 
 }"
 `;
