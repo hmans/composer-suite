@@ -1,29 +1,16 @@
 import {
   Add,
-  Bitangent,
-  code,
-  Cross,
   CustomShaderMaterialMaster,
-  Dissolve,
-  Float,
-  Mix,
   Mul,
   Multiply,
-  Normalize,
   Pipe,
-  Pow,
   Remap,
   Simplex3DNoise,
-  Sin,
-  Smoothstep,
   Step,
-  Sub,
-  Tangent,
   Time,
   UpdateVertexNormal,
   Value,
   Vec3,
-  VertexNormal,
   VertexPosition
 } from "shadenfreude"
 import { Color, DoubleSide, MeshStandardMaterial } from "three"
@@ -57,9 +44,6 @@ export default function Playground() {
         ($) => Add($, Multiply(waves, 4)),
         ($) => Add($, Multiply(ripples, 0.2))
       )
-
-    const ModifiedVertex = (v: Value<"vec3">) =>
-      Mul(v, Float(code`1.0 + ${steppedNoise} * 0.3`))
 
     return CustomShaderMaterialMaster({
       position: ApplyWaves(VertexPosition),
