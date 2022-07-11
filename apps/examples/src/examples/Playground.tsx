@@ -30,6 +30,25 @@ import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
 
+const UpdateVertexNormal = (
+  modifier: (v: Value<"vec3">) => Value<"vec3">,
+  offset = 0.001
+) => {
+  const tangent = Tangent(VertexNormal)
+  const bitangent = Bitangent(VertexNormal, tangent)
+
+  const neighbor1 = Add(VertexPosition, Mul(tangent, offset))
+  const neighbor2 = Add(VertexPosition, Mul(bitangent, offset))
+
+  const displacedNeighbor1 = modifier(neighbor1)
+  const displacedNeighbor2 = modifier(neighbor2)
+
+  const displacedTangent = Sub(displacedNeighbor1, VertexPosition)
+  const displacedBitangent = Sub(displacedNeighbor2, VertexPosition)
+
+  return Normalize(Cross(displacedTangent, displacedBitangent))
+}
+
 export default function Playground() {
   const shader = useShader(() => {
     const ScaledNoise = (scale = 1, timeScale = 1) =>
@@ -43,7 +62,13 @@ export default function Playground() {
         1
       )
 
-    const ModifiedVertex = (v: Value<"vec3">) =>
+    /* Calculate noises */
+    const bigwaves = ScaledNoise(0.008, 0.1)
+    const waves = ScaledNoise(0.025, 0.1)
+    const ripples = ScaledNoise(5, 0.8)
+    const foam = Step(0.5, ScaledNoise(0.1, 0.1))
+
+    const ApplyWaves = (v: Value<"vec3">) =>
       Pipe(
         Vec3(v),
         ($) => Add($, Multiply(bigwaves, 8)),
@@ -51,29 +76,9 @@ export default function Playground() {
         ($) => Add($, Multiply(ripples, 0.2))
       )
 
-    /* Calculate noises */
-    const bigwaves = ScaledNoise(0.008, 0.1)
-    const waves = ScaledNoise(0.025, 0.1)
-    const ripples = ScaledNoise(5, 0.8)
-    const foam = Step(0.5, ScaledNoise(0.1, 0.1))
-
-    /* Adjust vertex normal based on new position */
-    const tangent = Tangent(VertexNormal)
-    const bitangent = Bitangent(VertexNormal, tangent)
-
-    const offset = 0.001
-    const neighbor1 = Add(VertexPosition, Mul(tangent, offset))
-    const neighbor2 = Add(VertexPosition, Mul(bitangent, offset))
-
-    const displacedNeighbor1 = ModifiedVertex(neighbor1)
-    const displacedNeighbor2 = ModifiedVertex(neighbor2)
-
-    const displacedTangent = Sub(displacedNeighbor1, VertexPosition)
-    const displacedBitangent = Sub(displacedNeighbor2, VertexPosition)
-
     return CustomShaderMaterialMaster({
-      position: ModifiedVertex(VertexPosition),
-      normal: Normalize(Cross(displacedTangent, displacedBitangent)),
+      position: ApplyWaves(VertexPosition),
+      normal: UpdateVertexNormal(ApplyWaves),
 
       diffuseColor: Pipe(Vec3(new Color("#99b")), ($) =>
         Add($, Mul(foam, 0.03))
