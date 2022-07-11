@@ -53,7 +53,7 @@ export default function Playground() {
     return CustomShaderMaterialMaster({
       position: ModifiedVertex(VertexPosition),
 
-      normal: UpdateVertexNormal(ModifiedVertex, 0.0001),
+      normal: UpdateVertexNormal(ModifiedVertex),
 
       diffuseColor: Pipe(
         Vec3(new Color("#66c")),
