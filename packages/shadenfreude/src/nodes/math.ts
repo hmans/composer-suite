@@ -1,7 +1,7 @@
 import { code } from "../expressions"
 import { type } from "../glslType"
 import { snippet } from "../lib/concatenator3000"
-import { Float, GLSLType, Value, Node } from "../tree"
+import { Float, GLSLType, Node, Value } from "../tree"
 import { VertexNormalWorld, ViewDirection } from "./geometry"
 
 export const Operator = (title: string, operator: "+" | "-" | "*" | "/") => <
@@ -76,7 +76,7 @@ export const Smoothstep = (
 ) => Float(code`smoothstep(${min}, ${max}, ${v})`)
 
 const remap = snippet(
-  (name) => `
+  (name) => /*glsl*/ `
     float ${name}(float value, float inMin, float inMax, float outMin, float outMax) {
       return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
     }
