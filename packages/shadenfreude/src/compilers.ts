@@ -55,14 +55,14 @@ const compileSnippet = (
 
   if (isExpression(s.chunk))
     s.chunk.values.forEach((v) => {
-      isNode(v) && compileVariable(v, program, state)
+      isNode(v) && compileNode(v, program, state)
       isSnippet(v) && compileSnippet(v, program, state)
     })
 
   state.header.push(`/*** SNIPPET: ${s.name} ***/`, s.chunk)
 }
 
-export const compileVariable = (
+export const compileNode = (
   v: Node,
   program: ProgramType,
   state = compilerState(),
@@ -82,7 +82,7 @@ export const compileVariable = (
   /* Render node and snippet dependencies */
   dependencies.forEach((dep) => {
     const shouldPrune = v._config.only && v._config.only !== program
-    isNode(dep) && compileVariable(dep, program, state, shouldPrune)
+    isNode(dep) && compileNode(dep, program, state, shouldPrune)
     isSnippet(dep) && compileSnippet(dep, program, state)
   })
 
@@ -136,7 +136,7 @@ export const compileVariable = (
 /**  Compile a program from the given node */
 export const compileProgram = (root: Node, program: ProgramType) => {
   const state = compilerState()
-  compileVariable(root, program, state)
+  compileNode(root, program, state)
 
   return concatenate(state.header, "void main()", block(state.body))
 }
