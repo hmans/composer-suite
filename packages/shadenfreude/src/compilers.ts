@@ -68,7 +68,11 @@ export const compileVariable = (
   state = compilerState()
 ) => {
   if (!state.isFresh(v)) return []
-  if (v._config.only && v._config.only !== program) return []
+
+  if (v._config.only && v._config.only !== program) {
+    /* We are now in pruning mode. */
+    state.pruning = true
+  }
 
   /* Build a list of dependencies from the various places that can have them: */
   const dependencies = getDependencies(
@@ -86,6 +90,10 @@ export const compileVariable = (
   /* Prepare this node */
   v._config.id = state.nextId()
   v._config.slug = identifier(v.type, sluggify(v._config.name), v._config.id)
+
+  /* If we're in pruning mode, add nothing to the program. */
+  /* TODO: unless this is a varying node! */
+  if (state.pruning) return
 
   /* HEADER */
   const header = flatten(
@@ -166,6 +174,7 @@ const compilerState = () => {
 
     header,
     body,
-    nextId
+    nextId,
+    pruning: false
   }
 }
