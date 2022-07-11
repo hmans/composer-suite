@@ -20,6 +20,7 @@ import {
   Sub,
   Tangent,
   Time,
+  UpdateVertexNormal,
   Value,
   Vec3,
   VertexNormal,
@@ -29,25 +30,6 @@ import { Color, DoubleSide, MeshStandardMaterial } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
-
-const UpdateVertexNormal = (
-  modifier: (v: Value<"vec3">) => Value<"vec3">,
-  offset = 0.001
-) => {
-  const tangent = Tangent(VertexNormal)
-  const bitangent = Bitangent(VertexNormal, tangent)
-
-  const neighbor1 = Add(VertexPosition, Mul(tangent, offset))
-  const neighbor2 = Add(VertexPosition, Mul(bitangent, offset))
-
-  const displacedNeighbor1 = modifier(neighbor1)
-  const displacedNeighbor2 = modifier(neighbor2)
-
-  const displacedTangent = Sub(displacedNeighbor1, VertexPosition)
-  const displacedBitangent = Sub(displacedNeighbor2, VertexPosition)
-
-  return Normalize(Cross(displacedTangent, displacedBitangent))
-}
 
 export default function Playground() {
   const shader = useShader(() => {
