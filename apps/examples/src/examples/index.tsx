@@ -6,6 +6,7 @@ import { Fog } from "./Fog"
 import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { GLTFParticles } from "./GLTFParticles"
 import Playground from "./Playground"
+import ShadenfreudeTextures from "./ShadenfreudeTextures"
 import ShadenfreudeWater from "./ShadenfreudeWater"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
@@ -46,6 +47,11 @@ export default [
     path: "playground",
     name: "Shadenfreude Playground",
     component: <Playground />
+  },
+  {
+    path: "shadenfreude-textures",
+    name: "Shadenfreude Textures",
+    component: <ShadenfreudeTextures />
   },
   {
     path: "shadenfreude-water",

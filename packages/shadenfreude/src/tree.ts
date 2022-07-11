@@ -69,7 +69,7 @@ export interface INode<T extends GLSLType = any> {
 export type Node<
   T extends GLSLType = any,
   API extends Record<string, any> = {}
-> = INode<T> & API
+> = INode<T> & API & { toString: () => string }
 
 const nextAnonymousId = idGenerator()
 
@@ -102,7 +102,8 @@ export const Node = <T extends GLSLType>(
     _: "Node",
     _config: config,
     type,
-    value
+    value,
+    toString: () => config.slug
   }
 
   return v
@@ -113,6 +114,11 @@ export function isNode(v: any): v is Node {
 }
 
 /* Helpers */
+
+export const withAPI = <T extends GLSLType, A extends {}>(
+  node: Node<T>,
+  api: A
+) => ({ ...node, ...api } as Node<T> & A)
 
 const makeNodeHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,

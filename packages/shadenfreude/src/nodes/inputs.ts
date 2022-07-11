@@ -8,13 +8,6 @@ export const Uniform = <T extends GLSLType>(type: T, name: string) =>
     fragmentHeader: `uniform ${type} ${name};`
   })
 
-export const Sampler2D = (name: string) =>
-  Bool(true, {
-    name: `Sampler2D: ${name}`,
-    vertexHeader: `uniform sampler2D ${name};`,
-    fragmentHeader: `uniform sampler2D ${name};`
-  })
-
 export const Time = Uniform("float", "u_time")
 
 export const Resolution = Uniform("vec2", "u_resolution")
