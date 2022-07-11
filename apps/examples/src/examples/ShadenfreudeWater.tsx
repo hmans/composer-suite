@@ -91,20 +91,21 @@ export default function ShadenfreudeWater() {
           vec2 screenUv = gl_FragCoord.xy / ${Resolution};
 
           /* Get the existing depth at the fragment position */
-          float depthZ = texture2D(${sampler}, screenUv).x;
-          float depth = perspectiveDepthToViewZ(depthZ, ${cameraNear}, ${cameraFar});
+          float depth = perspectiveDepthToViewZ(
+            texture2D(${sampler}, screenUv).x,
+            ${cameraNear},
+            ${cameraFar});
 
           {
             /* Prepare some convenient local variables */
-            float d = depth;
-            float z = ${ViewPosition}.z;
-            float softness = 1.0;
+            float softness = 5.0;
 
             /* Calculate the distance to the fragment */
-            float distance = z - d;
+            float distance = ${ViewPosition}.z - depth;
 
             /* Apply the distance to the fragment alpha */
-            value = clamp(distance / softness, 0.0, 1.0);
+            // value = clamp(distance / softness, 0.0, 1.0);
+            value = distance;
           }
         `
       })
@@ -115,8 +116,11 @@ export default function ShadenfreudeWater() {
     return CustomShaderMaterialMaster({
       position,
       normal,
-      diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
-      alpha: depth
+      diffuseColor: Pipe(
+        new Color("#bce"),
+        ($) => Add($, Mul(foam, 0.03)),
+        ($) => Add($, code`1.0 - ${Step(0.8, depth)}`)
+      )
     })
   }, [])
 
