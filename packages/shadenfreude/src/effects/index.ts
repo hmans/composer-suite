@@ -55,8 +55,9 @@ export const UpdateVertexNormal = (
   const displacedNeighbor1 = modifier(neighbor1)
   const displacedNeighbor2 = modifier(neighbor2)
 
-  const displacedTangent = Sub(displacedNeighbor1, VertexPosition)
-  const displacedBitangent = Sub(displacedNeighbor2, VertexPosition)
+  const position = modifier(VertexPosition)
+  const displacedTangent = Sub(displacedNeighbor1, position)
+  const displacedBitangent = Sub(displacedNeighbor2, position)
 
   return Normalize(Cross(displacedTangent, displacedBitangent))
 }
