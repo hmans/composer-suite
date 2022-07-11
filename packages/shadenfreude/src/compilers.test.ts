@@ -104,4 +104,74 @@ describe("compileShader", () => {
       }"
     `)
   })
+
+  it("prunes entire branches that are marked to live in only one of the programs", () => {
+    const universalNode = Float(1, { name: "Universal " })
+    const fragmentOnlyNode = Float(2, {
+      name: "Fragment Only",
+      only: "fragment"
+    })
+
+    const root = Float(0, {
+      name: "Root",
+      vertexBody: code`gl_Position = ${universalNode};`,
+      fragmentBody: code`gl_FragColor = ${fragmentOnlyNode};`
+    })
+
+    const [shader] = compileShader(root)
+
+    expect(shader.vertexShader).toMatchInlineSnapshot(`
+      "void main()
+      {
+        /*** BEGIN: Universal  (1) ***/
+        float float_Universal_1;
+        {
+          float value = 1.0;
+          float_Universal_1 = value;
+        }
+        /*** END: Universal  (1) ***/
+
+        /*** BEGIN: Root (2) ***/
+        float float_Root_2;
+        {
+          float value = 0.0;
+          gl_Position = float_Universal_1;
+          float_Root_2 = value;
+        }
+        /*** END: Root (2) ***/
+
+      }"
+    `)
+
+    expect(shader.fragmentShader).toMatchInlineSnapshot(`
+      "void main()
+      {
+        /*** BEGIN: Fragment Only (1) ***/
+        float float_Fragment_Only_1;
+        {
+          float value = 2.0;
+          float_Fragment_Only_1 = value;
+        }
+        /*** END: Fragment Only (1) ***/
+
+        /*** BEGIN: Universal  (2) ***/
+        float float_Universal_2;
+        {
+          float value = 1.0;
+          float_Universal_2 = value;
+        }
+        /*** END: Universal  (2) ***/
+
+        /*** BEGIN: Root (3) ***/
+        float float_Root_3;
+        {
+          float value = 0.0;
+          gl_FragColor = float_Fragment_Only_1;
+          float_Root_3 = value;
+        }
+        /*** END: Root (3) ***/
+
+      }"
+    `)
+  })
 })
