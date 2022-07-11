@@ -55,33 +55,45 @@ const compileSnippet = (
 
   if (isExpression(s.chunk))
     s.chunk.values.forEach((v) => {
-      isNode(v) && compileVariable(v, program, state)
+      isNode(v) && compileNode(v, program, state)
       isSnippet(v) && compileSnippet(v, program, state)
     })
 
   state.header.push(`/*** SNIPPET: ${s.name} ***/`, s.chunk)
 }
 
-export const compileVariable = (
+export const compileNode = (
   v: Node,
   program: ProgramType,
-  state = compilerState()
+  state = compilerState(),
+  pruning = false
 ) => {
   if (!state.isFresh(v)) return []
-  if (v._config.only && v._config.only !== program) return []
+
+  if (pruning) return
 
   /* Build a list of dependencies from the various places that can have them: */
-  const dependencies = getDependencies(
-    v.value,
-    v._config.fragmentHeader,
-    v._config.fragmentBody,
+  const valueDependencies = getDependencies(v.value)
+
+  const vertexDependencies = getDependencies(
     v._config.vertexHeader,
     v._config.vertexBody
   )
+  const fragmentDependencies = getDependencies(
+    v._config.fragmentHeader,
+    v._config.fragmentBody
+  )
+
+  const dependencies = [
+    ...valueDependencies,
+    ...fragmentDependencies,
+    ...vertexDependencies
+  ]
 
   /* Render node and snippet dependencies */
   dependencies.forEach((dep) => {
-    isNode(dep) && compileVariable(dep, program, state)
+    const shouldPrune = v._config.only && v._config.only !== program
+    isNode(dep) && compileNode(dep, program, state, shouldPrune)
     isSnippet(dep) && compileSnippet(dep, program, state)
   })
 
@@ -135,7 +147,7 @@ export const compileVariable = (
 /**  Compile a program from the given node */
 export const compileProgram = (root: Node, program: ProgramType) => {
   const state = compilerState()
-  compileVariable(root, program, state)
+  compileNode(root, program, state)
 
   return concatenate(state.header, "void main()", block(state.body))
 }
