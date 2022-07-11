@@ -24,13 +24,13 @@ import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
 import { useShader } from "./useShader"
 
-const ScaledNoise = (scale = 1, timeScale = 1) =>
-  Simplex3DNoise(
-    Add(Multiply(VertexPosition, scale), Multiply(Time, timeScale))
-  )
-
 export default function Playground() {
   const shader = useShader(() => {
+    const ScaledNoise = (scale = 1, timeScale = 1) =>
+      Simplex3DNoise(
+        Add(Multiply(VertexPosition, scale), Multiply(Time, timeScale))
+      )
+
     const bigwaves = ScaledNoise(0.008, 0.1)
     const waves = ScaledNoise(0.025, 0.1)
     const ripples = ScaledNoise(5, 0.8)
@@ -43,9 +43,11 @@ export default function Playground() {
         ($) => Add($, Add(Multiply(waves, 2), 1)),
         ($) => Add($, Add(Multiply(ripples, 0.4), 0.2))
       ),
+
       diffuseColor: Pipe(Vec3(new Color("#99b")), ($) =>
         Add($, Multiply(foam, 0.03))
       ),
+
       alpha: 0.9
     })
   }, [])
