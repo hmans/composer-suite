@@ -80,7 +80,7 @@ export default function Playground() {
       position: ApplyWaves(VertexPosition),
       normal: UpdateVertexNormal(ApplyWaves),
 
-      diffuseColor: Pipe(Vec3(new Color("#99b")), ($) =>
+      diffuseColor: Pipe(Vec3(new Color("#bce")), ($) =>
         Add($, Mul(foam, 0.03))
       ),
 
@@ -88,7 +88,7 @@ export default function Playground() {
     })
   }, [])
 
-  console.log(shader.vertexShader)
+  // console.log(shader.vertexShader)
   // console.log(shader.fragmentShader)
 
   return (
