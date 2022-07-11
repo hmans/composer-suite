@@ -1,3 +1,4 @@
+import { useFrame } from "@react-three/fiber"
 import {
   Add,
   code,
@@ -5,6 +6,7 @@ import {
   Float,
   ModelMatrix,
   ModifyVertex,
+  Mul,
   Multiply,
   Pipe,
   Remap,
@@ -16,6 +18,7 @@ import {
   Texture2D,
   TilingUV,
   Time,
+  Uniform,
   UV,
   Value,
   Vec4,
@@ -23,7 +26,13 @@ import {
   VertexPosition,
   ViewMatrix
 } from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial, Vector2 } from "three"
+import {
+  Color,
+  DoubleSide,
+  MeshStandardMaterial,
+  Texture,
+  Vector2
+} from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
@@ -66,18 +75,11 @@ export default function ShadenfreudeWater() {
     )
 
     const Depth = (sampler: Sampler2D, uv: Value<"vec2">) => {
-      const readDepth = snippet(
-        (readDepth) => code`
-          float ${readDepth}(vec2 coord) {
-            float depthZ = texture2D(${sampler}, ${UV}).x;
-            float viewZ = perspectiveDepthToViewZ(depthZ, u_cameraNear, u_cameraFar);
-            return viewZ;
-          }
-        `
-      )
+      const cameraNear = Uniform("float", "u_cameraNear")
+      const cameraFar = Uniform("float", "u_cameraFar")
 
       const ViewPosition = Vec4(
-        code`${ViewMatrix} * ${ModelMatrix} * ${VertexPosition}`,
+        code`${ViewMatrix} * ${ModelMatrix} * vec4(${VertexPosition}, 1.0)`,
         { varying: true }
       )
 
@@ -89,7 +91,8 @@ export default function ShadenfreudeWater() {
           vec2 screenUv = gl_FragCoord.xy / ${Resolution};
 
           /* Get the existing depth at the fragment position */
-          float depth = ${readDepth}(screenUv);
+          float depthZ = texture2D(${sampler}, screenUv).x;
+          float depth = perspectiveDepthToViewZ(depthZ, ${cameraNear}, ${cameraFar});
 
           {
             /* Prepare some convenient local variables */
@@ -103,7 +106,6 @@ export default function ShadenfreudeWater() {
             /* Apply the distance to the fragment alpha */
             value = clamp(distance / softness, 0.0, 1.0);
           }
-
         `
       })
     }
@@ -113,11 +115,22 @@ export default function ShadenfreudeWater() {
     return CustomShaderMaterialMaster({
       position,
       normal,
-      // diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
-      diffuseColor: new Color("hotpink"),
+      diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
       alpha: depth
     })
   }, [])
+
+  const uniforms = {
+    ...shader.uniforms,
+    u_depth: { value: depthTexture },
+    u_cameraNear: { value: 0 },
+    u_cameraFar: { value: 0 }
+  }
+
+  useFrame(({ camera }) => {
+    uniforms.u_cameraNear.value = camera.near
+    uniforms.u_cameraFar.value = camera.far
+  })
 
   // console.log(shader.vertexShader)
   console.log(shader.fragmentShader)
@@ -132,10 +145,7 @@ export default function ShadenfreudeWater() {
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shader}
-          uniforms={{
-            ...shader.uniforms,
-            u_depth: { value: depthTexture }
-          }}
+          uniforms={uniforms}
           transparent
           side={DoubleSide}
           // wireframe
