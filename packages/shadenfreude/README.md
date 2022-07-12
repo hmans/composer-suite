@@ -1,6 +1,6 @@
 # /Shádenfreude/, German: the joy of writing shaders
 
-## Introduction
+## Introduction!
 
 Creating shaders from node graphs is fun -- users of engines like Unity or Unreal Engine do it all the time! Shadenfreude aims at **providing a node-based shader composition experience from a code-first perspective**, designed for use with [Three.js].
 

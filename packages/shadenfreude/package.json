@@ -7,7 +7,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "Node-based Shader Composition!",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/shadenfreude.cjs.js",
   "module": "dist/shadenfreude.esm.js",
   "types": "dist/shadenfreude.cjs.d.ts",
