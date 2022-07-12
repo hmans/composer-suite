@@ -13,30 +13,29 @@ import {
   Resolution,
   Sampler2D,
   Simplex3DNoise,
-  snippet,
   Step,
-  Texture2D,
-  TilingUV,
   Time,
   Uniform,
   UV,
   Value,
+  Vec2,
   Vec4,
   VertexNormal,
   VertexPosition,
   ViewMatrix
 } from "shadenfreude"
-import {
-  Color,
-  DoubleSide,
-  MeshStandardMaterial,
-  Texture,
-  Vector2
-} from "three"
+import { Color, DoubleSide, MeshStandardMaterial, Vector2 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { useShader } from "./useShader"
+
+/* TODO: refactor this after we've cleaned up our dependency pruning */
+const FragmentCoordinates = Vec2(new Vector2(), {
+  fragmentBody: `value = gl_FragCoord.xy;`
+})
+
+const ScreenUV = Vec2(code`${FragmentCoordinates} / ${Resolution}`)
 
 export default function ShadenfreudeWater() {
   const { depthTexture } = useDepthBuffer()
@@ -87,12 +86,9 @@ export default function ShadenfreudeWater() {
         name: "Depth Difference",
 
         fragmentBody: code`
-          /* Normalize fragment coordinates to screen space */
-          vec2 screenUv = gl_FragCoord.xy / ${Resolution};
-
           /* Get the existing depth at the fragment position */
           float depth = perspectiveDepthToViewZ(
-            texture2D(${sampler}, screenUv).x,
+            texture2D(${sampler}, ${ScreenUV}).x,
             ${cameraNear},
             ${cameraFar});
 
