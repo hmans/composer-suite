@@ -17,7 +17,6 @@ import {
   Texture2D,
   Time,
   Uniform,
-  UV,
   Value,
   Vec2,
   Vec4,
