@@ -38,6 +38,33 @@ const FragmentCoordinates = Vec2(new Vector2(), {
 
 const ScreenUV = Vec2(code`${FragmentCoordinates} / ${Resolution}`)
 
+/* Scene Depth */
+
+const cameraNear = Uniform("float", "u_cameraNear")
+const cameraFar = Uniform("float", "u_cameraFar")
+
+const ViewPosition = Vec4(
+  code`${ViewMatrix} * ${ModelMatrix} * vec4(${VertexPosition}, 1.0)`,
+  {
+    name: "Position (View Space)",
+    varying: true
+  }
+)
+
+const depthSampler = Sampler2D("u_depth")
+
+const SceneDepth = () =>
+  Float(0, {
+    name: "Scene Depth (Eye Units)",
+
+    fragmentBody: code`
+      value = perspectiveDepthToViewZ(
+        ${Texture2D(depthSampler, ScreenUV)}.x,
+        ${cameraNear},
+        ${cameraFar});
+    `
+  })
+
 export default function ShadenfreudeWater() {
   const { depthTexture } = useDepthBuffer()
 
@@ -74,31 +101,12 @@ export default function ShadenfreudeWater() {
       ApplyWaves
     )
 
-    const Depth = (sampler: Sampler2D, uv: Value<"vec2">) => {
-      const cameraNear = Uniform("float", "u_cameraNear")
-      const cameraFar = Uniform("float", "u_cameraFar")
-
-      const ViewPosition = Vec4(
-        code`${ViewMatrix} * ${ModelMatrix} * vec4(${VertexPosition}, 1.0)`,
-        { varying: true }
-      )
-
-      return Float(code`${uv}.x`, {
-        name: "Depth Difference",
-
-        fragmentBody: code`
-          /* Get the existing depth at the fragment position, in eye units */
-          float depth = perspectiveDepthToViewZ(
-            ${Texture2D(sampler, ScreenUV)}.x,
-            ${cameraNear},
-            ${cameraFar});
-
-          value = ${ViewPosition}.z - depth;
-        `
+    const Depth = () =>
+      Float(code`${ViewPosition}.z - ${SceneDepth()}`, {
+        name: "Depth Difference"
       })
-    }
 
-    const depth = Depth(Sampler2D("u_depth"), UV)
+    const depth = Depth()
 
     return CustomShaderMaterialMaster({
       position,
