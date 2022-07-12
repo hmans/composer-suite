@@ -14,6 +14,7 @@ import {
   Sampler2D,
   Simplex3DNoise,
   Step,
+  Texture2D,
   Time,
   Uniform,
   UV,
@@ -86,23 +87,13 @@ export default function ShadenfreudeWater() {
         name: "Depth Difference",
 
         fragmentBody: code`
-          /* Get the existing depth at the fragment position */
+          /* Get the existing depth at the fragment position, in eye units */
           float depth = perspectiveDepthToViewZ(
-            texture2D(${sampler}, ${ScreenUV}).x,
+            ${Texture2D(sampler, ScreenUV)}.x,
             ${cameraNear},
             ${cameraFar});
 
-          {
-            /* Prepare some convenient local variables */
-            float softness = 5.0;
-
-            /* Calculate the distance to the fragment */
-            float distance = ${ViewPosition}.z - depth;
-
-            /* Apply the distance to the fragment alpha */
-            // value = clamp(distance / softness, 0.0, 1.0);
-            value = distance;
-          }
+          value = ${ViewPosition}.z - depth;
         `
       })
     }
