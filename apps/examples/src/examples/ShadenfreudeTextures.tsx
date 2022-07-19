@@ -24,8 +24,9 @@ export default function ShadenfreudeTextures() {
 
   const shader = useShader(() => {
     const texture = Sampler2D("u_texture")
+
     const sampled = Texture2D(texture, TilingUV(UV, new Vector2(1.5, 1)))
-    const textureColor = Vec3(code`${sampled}.rgb`)
+    const textureColor = sampled.color
 
     return CustomShaderMaterialMaster({
       diffuseColor: Add(
@@ -33,7 +34,7 @@ export default function ShadenfreudeTextures() {
         Mul(new Color("white"), Fresnel({ intensity: 0.75 }))
       ),
 
-      alpha: code`${sampled}.a`
+      alpha: sampled.alpha
     })
   }, [])
 

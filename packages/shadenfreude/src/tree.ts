@@ -118,7 +118,7 @@ export function isNode(v: any): v is Node {
 export const withAPI = <T extends GLSLType, A extends {}>(
   node: Node<T>,
   api: A
-) => ({ ...node, ...api } as Node<T> & A)
+) => ({ ...node, ...api } as Node<T, A>)
 
 const makeNodeHelper = <T extends GLSLType>(type: T) => (
   v: Value<T>,

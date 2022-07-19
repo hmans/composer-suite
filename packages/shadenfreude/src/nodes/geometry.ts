@@ -2,12 +2,35 @@ import { Vector2 } from "three"
 import { code } from "../expressions"
 import { Bool, Mat4, Value, Vec2, Vec3 } from "../tree"
 
-export const UV = Vec2(code`uv`, { varying: true })
-export const VertexPosition = Vec3(code`position`, { varying: true })
-export const VertexNormal = Vec3(code`normal`, { varying: true })
-export const ViewMatrix = Mat4(code`viewMatrix`, { varying: true })
-export const ModelMatrix = Mat4(code`modelMatrix`, { varying: true })
-export const InstanceMatrix = Mat4(code`instanceMatrix`, { varying: true })
+export const UV = Vec2(code`uv`, {
+  name: "UV",
+  varying: true
+})
+
+export const VertexPosition = Vec3(code`position`, {
+  name: "Position",
+  varying: true
+})
+
+export const VertexNormal = Vec3(code`normal`, {
+  name: "Normal",
+  varying: true
+})
+
+export const ViewMatrix = Mat4(code`viewMatrix`, {
+  name: "View Matrix",
+  varying: true
+})
+
+export const ModelMatrix = Mat4(code`modelMatrix`, {
+  name: "Model Matrix",
+  varying: true
+})
+
+export const InstanceMatrix = Mat4(code`instanceMatrix`, {
+  name: "Instance Matrix",
+  varying: true
+})
 
 export const VertexNormalWorld = Vec3(
   code`normalize(

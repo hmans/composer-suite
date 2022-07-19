@@ -156,9 +156,12 @@ export const compileShader = (root: Node) => {
   const vertexShader = compileProgram(root, "vertex")
   const fragmentShader = compileProgram(root, "fragment")
 
+  /* TODO: eeeeeh */
   const uniforms = {
     u_time: { value: 0 },
-    u_resolution: { value: new Vector2() }
+    u_resolution: { value: new Vector2() },
+    u_cameraNear: { value: 0 },
+    u_cameraFar: { value: 0 }
   }
 
   const update = (dt: number) => {

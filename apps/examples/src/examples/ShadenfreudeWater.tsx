@@ -1,24 +1,72 @@
+import { useFrame } from "@react-three/fiber"
 import {
   Add,
+  code,
   CustomShaderMaterialMaster,
+  Float,
+  ModelMatrix,
   ModifyVertex,
   Mul,
   Multiply,
   Pipe,
   Remap,
+  Resolution,
+  Sampler2D,
   Simplex3DNoise,
   Step,
+  Texture2D,
   Time,
+  Uniform,
   Value,
+  Vec2,
+  Vec4,
   VertexNormal,
-  VertexPosition
+  VertexPosition,
+  ViewMatrix
 } from "shadenfreude"
-import { Color, DoubleSide, MeshStandardMaterial } from "three"
+import { Color, DoubleSide, MeshStandardMaterial, Vector2 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import { DustExample } from "./DustExample"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { useShader } from "./useShader"
 
+/* TODO: refactor this after we've cleaned up our dependency pruning */
+const FragmentCoordinates = Vec2(new Vector2(), {
+  fragmentBody: `value = gl_FragCoord.xy;`
+})
+
+const ScreenUV = Vec2(code`${FragmentCoordinates} / ${Resolution}`)
+
+/* Scene Depth */
+
+const cameraNear = Uniform("float", "u_cameraNear")
+const cameraFar = Uniform("float", "u_cameraFar")
+
+const ViewPosition = Vec4(
+  code`${ViewMatrix} * ${ModelMatrix} * vec4(${VertexPosition}, 1.0)`,
+  {
+    name: "Position (View Space)",
+    varying: true
+  }
+)
+
+const depthSampler = Sampler2D("u_depth")
+
+const SceneDepth = () =>
+  Float(0, {
+    name: "Scene Depth (Eye Units)",
+
+    fragmentBody: code`
+      value = perspectiveDepthToViewZ(
+        ${Texture2D(depthSampler, ScreenUV)}.x,
+        ${cameraNear},
+        ${cameraFar});
+    `
+  })
+
 export default function ShadenfreudeWater() {
+  const { depthTexture } = useDepthBuffer()
+
   const shader = useShader(() => {
     const ScaledNoise = (scale = 1, timeScale = 1) =>
       Remap(
@@ -52,16 +100,38 @@ export default function ShadenfreudeWater() {
       ApplyWaves
     )
 
+    const Depth = () =>
+      Float(code`${ViewPosition}.z - ${SceneDepth()}`, {
+        name: "Depth Difference"
+      })
+
+    const depth = Depth()
+
     return CustomShaderMaterialMaster({
       position,
       normal,
-      diffuseColor: Pipe(new Color("#bce"), ($) => Add($, Mul(foam, 0.03))),
-      alpha: 0.9
+      diffuseColor: Pipe(
+        new Color("#bce"),
+        ($) => Add($, Mul(foam, 0.03)),
+        ($) => Add($, code`1.0 - ${Step(0.8, depth)}`)
+      )
     })
   }, [])
 
+  const uniforms = {
+    ...shader.uniforms,
+    u_depth: { value: depthTexture },
+    u_cameraNear: { value: 0 },
+    u_cameraFar: { value: 0 }
+  }
+
+  useFrame(({ camera }) => {
+    uniforms.u_cameraNear.value = camera.near
+    uniforms.u_cameraFar.value = camera.far
+  })
+
   // console.log(shader.vertexShader)
-  // console.log(shader.fragmentShader)
+  console.log(shader.fragmentShader)
 
   return (
     <group position-y={-8}>
@@ -73,6 +143,7 @@ export default function ShadenfreudeWater() {
         <CustomShaderMaterial
           baseMaterial={MeshStandardMaterial}
           {...shader}
+          uniforms={uniforms}
           transparent
           side={DoubleSide}
           // wireframe
