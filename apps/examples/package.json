@@ -18,7 +18,7 @@
     "shadenfreude": "0.2.2",
     "three": "^0.141.0",
     "three-custom-shader-material": "^3.4.4",
-    "three-vfx": "^0.1.0",
+    "three-vfx": "^0.2.0",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {

@@ -1,5 +1,54 @@
 # vfx
 
+## 0.2.0
+
+### Minor Changes
+
+- e3ceedd: **New:** The shader that runs particle effects has been heavily refactored and modularized, giving you significantly more control over its behavior.
+- eb0c10d: **Breaking Change:** `<ParticlesMaterial>` has been renamed to `<MeshParticlesMaterial>` to reflect the fact that it is supposed to be used together with `<MeshParticles>`. Among other things, this is also in preparation for potential future support of point particles.
+- 5ed1564: **Breaking Change:** Due to the complete refactoring of much of the shader code, some of the per-particle defaults have changed:
+
+  - Min and max Alpha now default to 1 (before, particles were configured to fade to 0 over their lifetime)
+  - Lifetime duration of new particles now defaults to `Infinity` (before, the default was `1`.)
+
+- 8aec47f: **Breaking Change:** The top-level `<VisualEffect>` component has been removed, as it didn't actually implement any kind of functionality whatsoever.
+- baf11be: **New:** Soft Particles support! `<MeshParticlesMaterial>` now has new `softness`, `softnessFunction` and `depthTexture` props.
+
+  ```tsx
+  export const SoftParticlesExample = () => {
+    const depthBuffer = useDepthBuffer()
+
+    return (
+      <MeshParticles>
+        <planeGeometry args={[20, 20]} />
+
+        <MeshParticlesMaterial
+          baseMaterial={MeshStandardMaterial}
+          color="hotpink"
+          billboard
+          transparent
+          depthWrite={false}
+          softness={5}
+          depthTexture={depthBuffer.depthTexture}
+        />
+
+        <Emitter
+          count={1}
+          setup={(c) => {
+            c.lifetime = Infinity
+          }}
+        />
+      </MeshParticles>
+    )
+  }
+  ```
+
+### Patch Changes
+
+- 4371469: **New:** `<Emitter>` now is a full Three.js scene object and can nest children.
+- 4371469: **New:** `<Emitter>` now supports an optional `continuous` flag. If it is set, the emitter will emit particles every frame. This is useful for effects that need to constantly emit new particles, where the use of `<Repeat>` would be too costly and/or inaccurate.
+- be7aff8: **Fixed:** The `u_time` uniform now starts at 0 and accumulates frame delta times, meaning that 1) it can be used to determine the absolute age of the emitter (potentially time-scaled), and 2) its simulation is essentially paused when no delta times accumulate (eg. when the time is scaled to 0, or the browser tab is in the background.)
+
 ## 0.1.0
 
 ### Minor Changes
