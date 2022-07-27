@@ -9,6 +9,7 @@ import {
   Float,
   GLSLType,
   InstanceMatrix,
+  Mat3,
   Mul,
   OneMinus,
   pipe,
@@ -53,13 +54,6 @@ const ParticleAge = Sub(EffectAge, LifetimeStart)
 const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
-const ControlParticleLifetime = (v: Value<"vec3">) =>
-  Vec3(v, {
-    fragment: {
-      body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-    }
-  })
-
 const AnimateScaleOverTime = (position: Value<"vec3">) =>
   pipe(
     ParticleProgress,
@@ -73,10 +67,17 @@ const AnimateVelocityOverTime = (
 ) =>
   pipe(
     velocity,
-    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
+    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
     (v) => Mul(v, ParticleAge),
     (v) => Add(position, v)
   )
+
+const ControlParticleLifetime = (v: Value<"vec3">) =>
+  Vec3(v, {
+    fragment: {
+      body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
+    }
+  })
 
 const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
