@@ -1,6 +1,13 @@
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
+  $,
+  Add,
   CustomShaderMaterialMaster,
+  Float,
+  GLSLType,
+  Time,
+  Uniform,
+  Unit,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -16,6 +23,15 @@ import {
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
+const Attribute = (type: GLSLType, name: string) =>
+  Unit(type, $`${name}`, {
+    name: `Attribute: ${name}`,
+    varying: true,
+    vertex: {
+      header: $`attribute ${type} ${name};`
+    }
+  })
+
 const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
 
@@ -23,6 +39,14 @@ const makeAttribute = (count: number, itemSize: number) =>
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
+  const effectAgeUniform = Uniform("float", 0)
+
+  const effectAge = Float(effectAgeUniform, {
+    update: (dt) => (effectAgeUniform.value += dt)
+  })
+
+  // const EffectAge = Attribute("float", "effectAge")
+
   useLayoutEffect(() => {
     /* Prepare geometry */
     const { geometry, count } = imesh.current
@@ -36,6 +60,8 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const spawn = () => {
     if (!imesh.current) return
 
+    const { geometry, material } = imesh.current
+
     console.log("cursor:", cursor)
 
     /* Set the matrix at cursor */
@@ -48,6 +74,19 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
       )
     )
 
+    /* Make up some lifetime */
+    geometry.attributes.lifetime.setXY(
+      cursor,
+      effectAgeUniform.value,
+      effectAgeUniform.value + 1
+    )
+
+    /* Make up a velocity */
+    geometry.attributes.velocity.setXYZ(
+      cursor,
+      ...new Vector3().randomDirection().toArray()
+    )
+
     /* Advance cursor */
     cursor = (cursor + 1) % imesh.current.count
 
@@ -56,7 +95,7 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
 
   const color = Vec3(new Color("hotpink"))
 
-  const position = VertexPosition
+  const position = Add(VertexPosition, effectAge)
 
   return { spawn, color, position }
 }
@@ -78,7 +117,7 @@ export default function Playground() {
 
     const id = setInterval(() => {
       spawn()
-    }, 500)
+    }, 200)
 
     return () => clearInterval(id)
   }, [])
