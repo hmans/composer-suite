@@ -43,16 +43,11 @@ const ParticleAge = Sub(EffectAge, LifetimeStart)
 const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
-const AnimateScaleOverTime = (position: Value<"vec3">) =>
-  pipe(
-    ParticleProgress,
-    (v) => OneMinus(v),
-    (v) => Mul(position, v)
-  )
+const AnimateScale = (scale: Value<"float"> = 1) => (position: Value<"vec3">) =>
+  Mul(position, scale)
 
-const AnimateVelocityOverTime = (
-  position: Value<"vec3">,
-  velocity: Value<"vec3"> = Attribute("vec3", "velocity")
+const AnimateVelocityOverTime = (velocity: Value<"vec3">) => (
+  position: Value<"vec3">
 ) =>
   pipe(
     velocity,
@@ -77,8 +72,8 @@ const makeAttribute = (count: number, itemSize: number) =>
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const position = pipe(
     VertexPosition,
-    AnimateScaleOverTime,
-    AnimateVelocityOverTime
+    AnimateScale(OneMinus(ParticleProgress)),
+    AnimateVelocityOverTime(Attribute("vec3", "velocity"))
   )
 
   const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
