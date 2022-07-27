@@ -60,19 +60,23 @@ const ControlParticleLifetime = (v: Value<"vec3">) =>
     }
   })
 
-const AnimateScaleOverTime = (v: Value<"vec3">) => {
-  return Mul(v, OneMinus(ParticleProgress))
-}
-
-const AnimateVelocityOverTime = (v: Value<"vec3">) => {
-  const offset = pipe(
-    Attribute("vec3", "velocity"),
-    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
-    (v) => Mul(v, ParticleAge)
+const AnimateScaleOverTime = (position: Value<"vec3">) =>
+  pipe(
+    ParticleProgress,
+    (v) => OneMinus(v),
+    (v) => Mul(position, v)
   )
 
-  return Add(v, offset)
-}
+const AnimateVelocityOverTime = (
+  position: Value<"vec3">,
+  velocity: Value<"vec3"> = Attribute("vec3", "velocity")
+) =>
+  pipe(
+    velocity,
+    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
+    (v) => Mul(v, ParticleAge),
+    (v) => Add(position, v)
+  )
 
 const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
