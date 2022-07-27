@@ -1,6 +1,11 @@
 import { InstancedMeshProps } from "@react-three/fiber"
-import React, { forwardRef, useRef, useImperativeHandle } from "react"
-import { InstancedMesh } from "three"
+import React, {
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+  useEffect
+} from "react"
+import { InstancedMesh, Matrix4 } from "three"
 
 export type ParticlesProps = InstancedMeshProps
 
@@ -15,5 +20,13 @@ export const Particles = forwardRef<Particles, ParticlesProps>((props, ref) => {
     mesh: mesh.current
   }))
 
-  return <instancedMesh {...props} ref={mesh} />
+  useEffect(() => {
+    mesh.current.setMatrixAt(0, new Matrix4())
+    mesh.current.count = 1
+    mesh.current.instanceMatrix.needsUpdate = true
+  }, [])
+
+  return (
+    <instancedMesh args={[undefined, undefined, 1000]} {...props} ref={mesh} />
+  )
 })
