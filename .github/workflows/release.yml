@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Set up Yarn cache
+        uses: c-hive/gha-yarn-cache@v2
+
       - name: Install Dependencies
         run: yarn
 
@@ -39,34 +42,29 @@ jobs:
       #   if: steps.changesets.outputs.published == 'true'
       #   # You can do something when a publish happens.
       #   run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
-
-  canary_release:
-    name: Canary Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-        with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
-
-      - name: Setup Node.js 14.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-
-      - name: Install Dependencies
-        run: yarn
-
-      - name: Create .npmrc
-        run: |
-          cat << EOF > "$HOME/.npmrc"
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          EOF
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish Snapshot Release
-        run: |
-          yarn changeset version --snapshot canary
-          yarn release --no-git-tag --snapshot canary --tag canary
+  # canary_release:
+  #   name: Canary Release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Repo
+  #       uses: actions/checkout@v2
+  #       with:
+  #         # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+  #         fetch-depth: 0
+  #     - name: Setup Node.js 14.x
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 14.x
+  #     - name: Install Dependencies
+  #       run: yarn
+  #     - name: Create .npmrc
+  #       run: |
+  #         cat << EOF > "$HOME/.npmrc"
+  #           //registry.npmjs.org/:_authToken=$NPM_TOKEN
+  #         EOF
+  #       env:
+  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #     - name: Publish Snapshot Release
+  #       run: |
+  #         yarn changeset version --snapshot canary
+  #         yarn release --no-git-tag --snapshot canary --tag canary
