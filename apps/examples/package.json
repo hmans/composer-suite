@@ -10,6 +10,7 @@
   "dependencies": {
     "@react-three/drei": "^9.16.0",
     "@react-three/fiber": "^8.0.22",
+    "fp-ts": "^2.12.2",
     "leva": "^0.9.28",
     "r3f-perf": "^6.4.2",
     "r3f-stage": "^0.1.0",

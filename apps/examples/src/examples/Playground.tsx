@@ -1,3 +1,4 @@
+import { flow } from "fp-ts/es6/function"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
   $,
@@ -8,11 +9,13 @@ import {
   GLSLType,
   InstanceMatrix,
   Mul,
+  OneMinus,
   pipe,
   SplitVector2,
   Sub,
   Uniform,
   Unit,
+  Value,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -60,13 +63,25 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
 
   const color = Vec3(new Color("hotpink"))
 
-  const AnimateVelocityOverTime = pipe(
-    Attribute("vec3", "velocity"),
-    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
-    (v) => Mul(v, ParticleAge)
-  )
+  const AnimateScaleOverTime = (v: Value<"vec3">) => {
+    return Mul(v, OneMinus(ParticleProgress))
+  }
 
-  const position = pipe(VertexPosition, (v) => Add(v, AnimateVelocityOverTime))
+  const AnimateVelocityOverTime = (v: Value<"vec3">) => {
+    const offset = pipe(
+      Attribute("vec3", "velocity"),
+      (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
+      (v) => Mul(v, ParticleAge)
+    )
+
+    return Add(v, offset)
+  }
+
+  const position = pipe(
+    VertexPosition,
+    AnimateScaleOverTime,
+    AnimateVelocityOverTime
+  )
 
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
