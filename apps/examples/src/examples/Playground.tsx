@@ -3,9 +3,13 @@ import {
   $,
   Add,
   CustomShaderMaterialMaster,
+  Div,
   Float,
   GLSLType,
-  Time,
+  Mul,
+  pipe,
+  SplitVector2,
+  Sub,
   Uniform,
   Unit,
   Vec3,
@@ -23,7 +27,7 @@ import {
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
-const Attribute = (type: GLSLType, name: string) =>
+const Attribute = <T extends GLSLType>(type: T, name: string) =>
   Unit(type, $`${name}`, {
     name: `Attribute: ${name}`,
     varying: true,
@@ -39,14 +43,29 @@ const makeAttribute = (count: number, itemSize: number) =>
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
-  const effectAgeUniform = Uniform("float", 0)
+  const EffectAgeUniform = Uniform("float", 0)
 
-  const effectAge = Float(effectAgeUniform, {
-    update: (dt) => (effectAgeUniform.value += dt)
+  const EffectAge = Float(EffectAgeUniform, {
+    update: (dt) => (EffectAgeUniform.value += dt)
   })
 
-  // const EffectAge = Attribute("float", "effectAge")
+  const [LifetimeStart, LifetimeEnd] = SplitVector2(
+    Attribute("vec2", "lifetime")
+  )
 
+  const ParticleAge = Sub(EffectAge, LifetimeStart)
+  const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
+  const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
+
+  const color = Vec3(new Color("hotpink"))
+
+  const AnimateVelocityOverTime = pipe(Attribute("vec3", "velocity"), (v) =>
+    Mul(v, ParticleAge)
+  )
+
+  const position = pipe(VertexPosition, (v) => Add(v, AnimateVelocityOverTime))
+
+  /* Create attributes on the geometry */
   useLayoutEffect(() => {
     /* Prepare geometry */
     const { geometry, count } = imesh.current
@@ -77,25 +96,23 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     /* Make up some lifetime */
     geometry.attributes.lifetime.setXY(
       cursor,
-      effectAgeUniform.value,
-      effectAgeUniform.value + 1
+      EffectAgeUniform.value,
+      EffectAgeUniform.value + 1
     )
+    geometry.attributes.lifetime.needsUpdate = true
 
     /* Make up a velocity */
     geometry.attributes.velocity.setXYZ(
       cursor,
       ...new Vector3().randomDirection().toArray()
     )
+    geometry.attributes.velocity.needsUpdate = true
 
     /* Advance cursor */
     cursor = (cursor + 1) % imesh.current.count
 
     imesh.current.instanceMatrix.needsUpdate = true
   }
-
-  const color = Vec3(new Color("hotpink"))
-
-  const position = Add(VertexPosition, effectAge)
 
   return { spawn, color, position }
 }
