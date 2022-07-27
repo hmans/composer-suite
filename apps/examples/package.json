@@ -18,6 +18,7 @@
     "three": "^0.141.0",
     "three-custom-shader-material": "^3.4.4",
     "three-vfx": "^0.2.0",
+    "vfx-composer": "^0.0.1",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
