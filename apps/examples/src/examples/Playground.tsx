@@ -148,8 +148,6 @@ export default function Playground() {
   })
 
   useEffect(() => {
-    spawn()
-
     const id = setInterval(() => {
       spawn()
     }, 80)
