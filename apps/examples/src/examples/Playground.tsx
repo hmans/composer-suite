@@ -6,6 +6,7 @@ import {
   Div,
   Float,
   GLSLType,
+  InstanceMatrix,
   Mul,
   pipe,
   SplitVector2,
@@ -59,8 +60,10 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
 
   const color = Vec3(new Color("hotpink"))
 
-  const AnimateVelocityOverTime = pipe(Attribute("vec3", "velocity"), (v) =>
-    Mul(v, ParticleAge)
+  const AnimateVelocityOverTime = pipe(
+    Attribute("vec3", "velocity"),
+    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
+    (v) => Mul(v, ParticleAge)
   )
 
   const position = pipe(VertexPosition, (v) => Add(v, AnimateVelocityOverTime))
@@ -104,7 +107,7 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     /* Make up a velocity */
     geometry.attributes.velocity.setXYZ(
       cursor,
-      ...new Vector3().randomDirection().toArray()
+      ...new Vector3(0, 1, 0).toArray()
     )
     geometry.attributes.velocity.needsUpdate = true
 
