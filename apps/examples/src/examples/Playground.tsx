@@ -61,7 +61,12 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
   const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
-  const color = Vec3(new Color("hotpink"))
+  const ControlParticleLifetime = (v: Value<"vec3">) =>
+    Vec3(v, {
+      fragment: {
+        body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
+      }
+    })
 
   const AnimateScaleOverTime = (v: Value<"vec3">) => {
     return Mul(v, OneMinus(ParticleProgress))
@@ -82,6 +87,8 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     AnimateScaleOverTime,
     AnimateVelocityOverTime
   )
+
+  const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
 
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
