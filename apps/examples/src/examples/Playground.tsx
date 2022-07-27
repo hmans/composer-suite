@@ -46,6 +46,8 @@ const ParticleAge = Sub(EffectAge, LifetimeStart)
 const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
+type ParticleValues = Record<string, any>
+
 const AnimateScale = (scale: Value<"float"> = 1) => (position: Value<"vec3">) =>
   Mul(position, scale)
 
@@ -83,7 +85,10 @@ const makeAttribute = (count: number, itemSize: number) =>
 /**
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
-const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
+const useParticles = (
+  imesh: MutableRefObject<InstancedMesh>,
+  values: ParticleValues
+) => {
   const position = pipe(
     /* Start with the original vertex position */
     VertexPosition,
@@ -109,7 +114,11 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     const { geometry, count } = imesh.current
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
-    geometry.setAttribute("velocity", makeAttribute(count, 3))
+
+    for (const [name, value] of Object.entries(values)) {
+      const itemSize = 3 // TODO: use proper item size
+      geometry.setAttribute(name, makeAttribute(count, itemSize))
+    }
   })
 
   let cursor = 0
@@ -139,11 +148,14 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
       geometry.attributes.lifetime.needsUpdate = true
 
       /* Make up a velocity */
-      geometry.attributes.velocity.setXYZ(
-        cursor,
-        ...new Vector3(plusMinus(5), between(10, 20), plusMinus(5)).toArray()
-      )
-      geometry.attributes.velocity.needsUpdate = true
+      for (const [name, valueOrFunction] of Object.entries(values)) {
+        const value =
+          typeof valueOrFunction === "function"
+            ? valueOrFunction()
+            : valueOrFunction
+        geometry.attributes[name].setXYZ(cursor, value.x, value.y, value.z)
+        geometry.attributes[name].needsUpdate = true
+      }
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
@@ -158,7 +170,10 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
 export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
-  const { spawn, color, position } = useParticles(imesh)
+  const { spawn, color, position } = useParticles(imesh, {
+    velocity: () => new Vector3(plusMinus(2), between(5, 15), plusMinus(2)),
+    acceleration: new Vector3(0, -10, 0)
+  })
 
   const shader = useShader(() => {
     return CustomShaderMaterialMaster({
