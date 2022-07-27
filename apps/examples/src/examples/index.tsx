@@ -5,6 +5,7 @@ import { FireflyExample } from "./FireflyExample"
 import { Fog } from "./Fog"
 import { FuzzyBlobExample } from "./FuzzyBlobExample"
 import { GLTFParticles } from "./GLTFParticles"
+import Playground from "./Playground"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
@@ -39,5 +40,6 @@ export default [
         <DustExample />
       </>
     )
-  }
+  },
+  { path: "playground", name: "Playground", component: <Playground /> }
 ] as ExampleDefinition[]
