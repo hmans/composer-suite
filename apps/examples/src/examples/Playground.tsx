@@ -12,6 +12,7 @@ import {
   Mul,
   OneMinus,
   pipe,
+  Remap,
   SplitVector2,
   Sub,
   Uniform,
@@ -72,7 +73,8 @@ const makeAttribute = (count: number, itemSize: number) =>
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const position = pipe(
     VertexPosition,
-    AnimateScale(OneMinus(ParticleProgress)),
+    AnimateScale(Remap(ParticleProgress, 0, 1, 0, 5)),
+    // AnimateScale(OneMinus(ParticleProgress)),
     AnimateVelocityOverTime(Attribute("vec3", "velocity"))
   )
 
