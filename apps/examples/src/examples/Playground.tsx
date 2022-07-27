@@ -1,4 +1,5 @@
 import { flow } from "fp-ts/es6/function"
+import { plusMinus, upTo } from "randomish"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
   $,
@@ -40,6 +41,39 @@ const Attribute = <T extends GLSLType>(type: T, name: string) =>
     }
   })
 
+const EffectAgeUniform = Uniform("float", 0)
+
+const EffectAge = Float(EffectAgeUniform, {
+  update: (dt) => (EffectAgeUniform.value += dt)
+})
+
+const [LifetimeStart, LifetimeEnd] = SplitVector2(Attribute("vec2", "lifetime"))
+
+const ParticleAge = Sub(EffectAge, LifetimeStart)
+const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
+const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
+
+const ControlParticleLifetime = (v: Value<"vec3">) =>
+  Vec3(v, {
+    fragment: {
+      body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
+    }
+  })
+
+const AnimateScaleOverTime = (v: Value<"vec3">) => {
+  return Mul(v, OneMinus(ParticleProgress))
+}
+
+const AnimateVelocityOverTime = (v: Value<"vec3">) => {
+  const offset = pipe(
+    Attribute("vec3", "velocity"),
+    (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
+    (v) => Mul(v, ParticleAge)
+  )
+
+  return Add(v, offset)
+}
+
 const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
 
@@ -47,41 +81,6 @@ const makeAttribute = (count: number, itemSize: number) =>
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
-  const EffectAgeUniform = Uniform("float", 0)
-
-  const EffectAge = Float(EffectAgeUniform, {
-    update: (dt) => (EffectAgeUniform.value += dt)
-  })
-
-  const [LifetimeStart, LifetimeEnd] = SplitVector2(
-    Attribute("vec2", "lifetime")
-  )
-
-  const ParticleAge = Sub(EffectAge, LifetimeStart)
-  const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
-  const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
-
-  const ControlParticleLifetime = (v: Value<"vec3">) =>
-    Vec3(v, {
-      fragment: {
-        body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-      }
-    })
-
-  const AnimateScaleOverTime = (v: Value<"vec3">) => {
-    return Mul(v, OneMinus(ParticleProgress))
-  }
-
-  const AnimateVelocityOverTime = (v: Value<"vec3">) => {
-    const offset = pipe(
-      Attribute("vec3", "velocity"),
-      (v) => Vec3($`${v} * mat3(${InstanceMatrix})`),
-      (v) => Mul(v, ParticleAge)
-    )
-
-    return Add(v, offset)
-  }
-
   const position = pipe(
     VertexPosition,
     AnimateScaleOverTime,
@@ -129,7 +128,7 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     /* Make up a velocity */
     geometry.attributes.velocity.setXYZ(
       cursor,
-      ...new Vector3(0, 1, 0).toArray()
+      ...new Vector3(plusMinus(1), upTo(5), plusMinus(1)).toArray()
     )
     geometry.attributes.velocity.needsUpdate = true
 
@@ -159,7 +158,7 @@ export default function Playground() {
 
     const id = setInterval(() => {
       spawn()
-    }, 200)
+    }, 80)
 
     return () => clearInterval(id)
   }, [])
