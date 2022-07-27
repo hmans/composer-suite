@@ -3,7 +3,8 @@ import React, {
   forwardRef,
   useRef,
   useImperativeHandle,
-  useEffect
+  useEffect,
+  createRef
 } from "react"
 import { InstancedMesh, Matrix4 } from "three"
 
@@ -14,29 +15,33 @@ export type Particles = {
 }
 
 export const makeParticles = () => {
+  const imesh = createRef<InstancedMesh>()
+
+  const spawn = () => {
+    if (!imesh.current)
+      throw new Error("Particles mesh not created, can't spawn particle!")
+
+    imesh.current.setMatrixAt(0, new Matrix4())
+    imesh.current.count = 1
+    imesh.current.instanceMatrix.needsUpdate = true
+  }
+
   const Root = forwardRef<Particles, ParticlesProps>((props, ref) => {
-    const mesh = useRef<InstancedMesh>(null!)
-
     useImperativeHandle(ref, () => ({
-      mesh: mesh.current
+      mesh: imesh.current!
     }))
-
-    useEffect(() => {
-      mesh.current.setMatrixAt(0, new Matrix4())
-      mesh.current.count = 1
-      mesh.current.instanceMatrix.needsUpdate = true
-    }, [])
 
     return (
       <instancedMesh
         args={[undefined, undefined, 1000]}
         {...props}
-        ref={mesh}
+        ref={imesh}
       />
     )
   })
 
   return {
-    Root
+    Root,
+    spawn
   }
 }
