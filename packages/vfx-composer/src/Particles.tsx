@@ -13,20 +13,30 @@ export type Particles = {
   mesh: InstancedMesh
 }
 
-export const Particles = forwardRef<Particles, ParticlesProps>((props, ref) => {
-  const mesh = useRef<InstancedMesh>(null!)
+export const makeParticles = () => {
+  const Root = forwardRef<Particles, ParticlesProps>((props, ref) => {
+    const mesh = useRef<InstancedMesh>(null!)
 
-  useImperativeHandle(ref, () => ({
-    mesh: mesh.current
-  }))
+    useImperativeHandle(ref, () => ({
+      mesh: mesh.current
+    }))
 
-  useEffect(() => {
-    mesh.current.setMatrixAt(0, new Matrix4())
-    mesh.current.count = 1
-    mesh.current.instanceMatrix.needsUpdate = true
-  }, [])
+    useEffect(() => {
+      mesh.current.setMatrixAt(0, new Matrix4())
+      mesh.current.count = 1
+      mesh.current.instanceMatrix.needsUpdate = true
+    }, [])
 
-  return (
-    <instancedMesh args={[undefined, undefined, 1000]} {...props} ref={mesh} />
-  )
-})
+    return (
+      <instancedMesh
+        args={[undefined, undefined, 1000]}
+        {...props}
+        ref={mesh}
+      />
+    )
+  })
+
+  return {
+    Root
+  }
+}

@@ -1,10 +1,17 @@
-import { Particles } from "vfx-composer"
+import { MeshStandardMaterial } from "three"
+import CustomShaderMaterial from "three-custom-shader-material"
+import { makeParticles } from "vfx-composer"
+
+const Effect = makeParticles()
 
 export default function Playground() {
   return (
-    <Particles position-y={2}>
+    <Effect.Root position-y={2}>
       <boxGeometry />
-      <meshStandardMaterial color="hotpink" />
-    </Particles>
+      <CustomShaderMaterial
+        baseMaterial={MeshStandardMaterial}
+        color="hotpink"
+      />
+    </Effect.Root>
   )
 }
