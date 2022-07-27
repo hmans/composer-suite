@@ -1,4 +1,4 @@
-import { between, plusMinus, upTo } from "randomish"
+import { between, plusMinus, power, upTo } from "randomish"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
   $,
@@ -12,6 +12,7 @@ import {
   Mul,
   OneMinus,
   pipe,
+  Pow,
   Remap,
   Smoothstep,
   SplitVector2,
@@ -48,13 +49,24 @@ const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 const AnimateScale = (scale: Value<"float"> = 1) => (position: Value<"vec3">) =>
   Mul(position, scale)
 
-const AnimateVelocityOverTime = (velocity: Value<"vec3">) => (
+const AnimateStatelessVelocity = (velocity: Value<"vec3">) => (
   position: Value<"vec3">
 ) =>
   pipe(
     velocity,
     (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
     (v) => Mul(v, ParticleAge),
+    (v) => Add(position, v)
+  )
+
+const AnimateStatelessAcceleration = (acceleration: Value<"vec3">) => (
+  position: Value<"vec3">
+) =>
+  pipe(
+    acceleration,
+    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
+    (v) => Mul(v, Pow(ParticleAge, 2)),
+    (v) => Mul(v, 0.5),
     (v) => Add(position, v)
   )
 
@@ -82,9 +94,11 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     /* We can layer multiple of these! */
     AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
 
-    /* Also animate velocity, sourcing per-particle velocity
-           from a buffer attribute */
-    AnimateVelocityOverTime(Attribute("vec3", "velocity"))
+    /* Gravity! */
+    AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
+
+    /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
+    AnimateStatelessVelocity(Attribute("vec3", "velocity"))
   )
 
   const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
@@ -100,42 +114,42 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
 
   let cursor = 0
 
-  const spawn = () => {
+  const spawn = (count: number = 1) => {
     if (!imesh.current) return
 
     const { geometry, material } = imesh.current
 
-    console.log("cursor:", cursor)
-
-    /* Set the matrix at cursor */
-    imesh.current.setMatrixAt(
-      cursor,
-      new Matrix4().compose(
-        new Vector3().randomDirection(),
-        new Quaternion().random(),
-        new Vector3(1, 1, 1)
+    for (let i = 0; i < count; i++) {
+      /* Set the matrix at cursor */
+      imesh.current.setMatrixAt(
+        cursor,
+        new Matrix4().compose(
+          new Vector3().randomDirection(),
+          new Quaternion().random(),
+          new Vector3(1, 1, 1)
+        )
       )
-    )
 
-    /* Make up some lifetime */
-    geometry.attributes.lifetime.setXY(
-      cursor,
-      EffectAgeUniform.value,
-      EffectAgeUniform.value + between(1, 2)
-    )
-    geometry.attributes.lifetime.needsUpdate = true
+      /* Make up some lifetime */
+      geometry.attributes.lifetime.setXY(
+        cursor,
+        EffectAgeUniform.value + between(0, 1),
+        EffectAgeUniform.value + between(1, 2)
+      )
+      geometry.attributes.lifetime.needsUpdate = true
 
-    /* Make up a velocity */
-    geometry.attributes.velocity.setXYZ(
-      cursor,
-      ...new Vector3(plusMinus(1), upTo(5), plusMinus(1)).toArray()
-    )
-    geometry.attributes.velocity.needsUpdate = true
+      /* Make up a velocity */
+      geometry.attributes.velocity.setXYZ(
+        cursor,
+        ...new Vector3(plusMinus(5), between(10, 20), plusMinus(5)).toArray()
+      )
+      geometry.attributes.velocity.needsUpdate = true
 
-    /* Advance cursor */
-    cursor = (cursor + 1) % imesh.current.count
+      /* Advance cursor */
+      cursor = (cursor + 1) % imesh.current.count
 
-    imesh.current.instanceMatrix.needsUpdate = true
+      imesh.current.instanceMatrix.needsUpdate = true
+    }
   }
 
   return { spawn, color, position }
@@ -155,7 +169,7 @@ export default function Playground() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      spawn()
+      spawn(between(3, 5))
     }, 80)
 
     return () => clearInterval(id)
@@ -164,7 +178,7 @@ export default function Playground() {
   return (
     <instancedMesh
       ref={imesh}
-      args={[undefined, undefined, 1000]}
+      args={[undefined, undefined, 10000]}
       position-y={2}
     >
       <boxGeometry />
