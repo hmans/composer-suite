@@ -1,13 +1,12 @@
-import { flow } from "fp-ts/es6/function"
 import { plusMinus, upTo } from "randomish"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
   $,
   Add,
+  Attribute,
   CustomShaderMaterialMaster,
   Div,
   Float,
-  GLSLType,
   InstanceMatrix,
   Mat3,
   Mul,
@@ -16,7 +15,6 @@ import {
   SplitVector2,
   Sub,
   Uniform,
-  Unit,
   Value,
   Vec3,
   VertexPosition
@@ -32,15 +30,6 @@ import {
   Vector3
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
-
-const Attribute = <T extends GLSLType>(type: T, name: string) =>
-  Unit(type, $`${name}`, {
-    name: `Attribute: ${name}`,
-    varying: true,
-    vertex: {
-      header: $`attribute ${type} ${name};`
-    }
-  })
 
 const EffectAgeUniform = Uniform("float", 0)
 

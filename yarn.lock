@@ -3790,7 +3790,7 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-fp-ts@^2.12.1, fp-ts@^2.12.2:
+fp-ts@^2.12.1:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.12.2.tgz#a191db2dbbb04f48a0e75050b94f57cc876c7b40"
   integrity sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==
@@ -6388,10 +6388,10 @@ shader-composer-toybox@^0.0.7:
   resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.7.tgz#627c6b7c59b4930248df12e549f41026fab09585"
   integrity sha512-F0Xq32Uz3RqpKOoMCIfd3U0lZ2Bx8clt4koYMiE6QRCxRchbJfEcVL2F4/k85b7PdOeQCPEJ9i4vuRdKM84EGA==
 
-shader-composer@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.0.10.tgz#6a2e62edbe45b85ed9e0b140f83b95e9725754d4"
-  integrity sha512-tsanIhXPGWjaxBlcLXmp7z0Yp26hjWm8thh9BpLFn8FGEIWdL3A4II9JlWigHtpjZZx5EyoF7BhdQ27tqXrJ3Q==
+shader-composer@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.0.11.tgz#3f938905b1a4e593921c7b100d0e6ad2fa53e90b"
+  integrity sha512-5wtYV/azLj9C2MtLbQn+k25hHmP6Gw9kYIo7hrBuiNwIAmzmXrLdhf+IoLUz2szA0asudIk9Bxao82cH2wlEyA==
   dependencies:
     crypto-js "^4.1.1"
     fp-ts "^2.12.1"
