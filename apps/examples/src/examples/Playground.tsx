@@ -1,4 +1,4 @@
-import { plusMinus, upTo } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
 import {
   $,
@@ -13,6 +13,7 @@ import {
   OneMinus,
   pipe,
   Remap,
+  Smoothstep,
   SplitVector2,
   Sub,
   Uniform,
@@ -72,9 +73,17 @@ const makeAttribute = (count: number, itemSize: number) =>
  */
 const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const position = pipe(
+    /* Start with the original vertex position */
     VertexPosition,
-    AnimateScale(Remap(ParticleProgress, 0, 1, 0, 5)),
-    // AnimateScale(OneMinus(ParticleProgress)),
+
+    /* Animate the scale! Let's go all smoothsteppy! */
+    AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
+
+    /* We can layer multiple of these! */
+    AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
+
+    /* Also animate velocity, sourcing per-particle velocity
+           from a buffer attribute */
     AnimateVelocityOverTime(Attribute("vec3", "velocity"))
   )
 
@@ -112,7 +121,7 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     geometry.attributes.lifetime.setXY(
       cursor,
       EffectAgeUniform.value,
-      EffectAgeUniform.value + 1
+      EffectAgeUniform.value + between(1, 2)
     )
     geometry.attributes.lifetime.needsUpdate = true
 
