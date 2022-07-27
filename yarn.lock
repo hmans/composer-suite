@@ -6383,6 +6383,11 @@ shader-composer-r3f@^0.0.5:
   resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.0.5.tgz#46d99a264f14f6017dcfeedc3f40fb89909ad1f3"
   integrity sha512-IJSLfjQEefYlu4WvoekEGYAdVEsF1TCEI5Qtc4P8sMyQjLCBw+y9XGlelr80qiWy/3PJxD3GpUu4BN+riGeeZA==
 
+shader-composer-toybox@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.7.tgz#627c6b7c59b4930248df12e549f41026fab09585"
+  integrity sha512-F0Xq32Uz3RqpKOoMCIfd3U0lZ2Bx8clt4koYMiE6QRCxRchbJfEcVL2F4/k85b7PdOeQCPEJ9i4vuRdKM84EGA==
+
 shader-composer@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.0.10.tgz#6a2e62edbe45b85ed9e0b140f83b95e9725754d4"
