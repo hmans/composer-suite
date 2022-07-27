@@ -117,7 +117,7 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const spawn = (count: number = 1) => {
     if (!imesh.current) return
 
-    const { geometry, material } = imesh.current
+    const { geometry } = imesh.current
 
     for (let i = 0; i < count; i++) {
       /* Set the matrix at cursor */
