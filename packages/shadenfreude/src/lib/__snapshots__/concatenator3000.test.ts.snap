@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`snippet creates a snippet with a rendered chunk 1`] = `
-Object {
-  "_": "Snippet",
-  "chunk": "/* hi from snippet_b117418551 */",
-  "name": "snippet_b117418551",
-}
-`;
