@@ -50,6 +50,8 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "shader-composer": "^0.0.10",
+    "shader-composer-r3f": "^0.0.5",
     "three-custom-shader-material": "^3.4.4"
   },
   "peerDependencies": {

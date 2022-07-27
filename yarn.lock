@@ -3061,6 +3061,11 @@ cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
+
 css.escape@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/css.escape/-/css.escape-1.5.1.tgz#42e27d4fa04ae32f931a4b4d4191fa9cddee97cb"
@@ -3784,6 +3789,11 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+fp-ts@^2.12.1:
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.12.2.tgz#a191db2dbbb04f48a0e75050b94f57cc876c7b40"
+  integrity sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -6367,6 +6377,19 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
+
+shader-composer-r3f@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.0.5.tgz#46d99a264f14f6017dcfeedc3f40fb89909ad1f3"
+  integrity sha512-IJSLfjQEefYlu4WvoekEGYAdVEsF1TCEI5Qtc4P8sMyQjLCBw+y9XGlelr80qiWy/3PJxD3GpUu4BN+riGeeZA==
+
+shader-composer@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.0.10.tgz#6a2e62edbe45b85ed9e0b140f83b95e9725754d4"
+  integrity sha512-tsanIhXPGWjaxBlcLXmp7z0Yp26hjWm8thh9BpLFn8FGEIWdL3A4II9JlWigHtpjZZx5EyoF7BhdQ27tqXrJ3Q==
+  dependencies:
+    crypto-js "^4.1.1"
+    fp-ts "^2.12.1"
 
 shebang-command@^1.2.0:
   version "1.2.0"
