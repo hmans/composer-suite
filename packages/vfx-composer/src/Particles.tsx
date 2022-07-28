@@ -1,47 +1,79 @@
 import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
   forwardRef,
-  useRef,
   useImperativeHandle,
-  useEffect,
-  createRef
+  useLayoutEffect,
+  useMemo,
+  useRef
 } from "react"
-import { InstancedMesh, Matrix4 } from "three"
+import { CustomShaderMaterialMaster } from "shader-composer"
+import { InstancedMesh, Material } from "three"
+import CustomShaderMaterial from "three-custom-shader-material/vanilla"
+import { LifetimeModule, modularPipe, Module } from "./modules"
+import { useParticles } from "./useParticles"
 
-export type ParticlesProps = InstancedMeshProps
+export type ParticlesProps = InstancedMeshProps & {
+  maxParticles?: number
+  modules?: Module[]
+}
 
 export type Particles = {
   mesh: InstancedMesh
+  spawn: (count?: number) => void
 }
 
-export const makeParticles = () => {
-  const imesh = createRef<InstancedMesh>()
+export const Particles = forwardRef<Particles, ParticlesProps>(
+  ({ maxParticles = 1000, modules = [], children, ...props }, ref) => {
+    const imesh = useRef<InstancedMesh>(null!)
 
-  const spawn = () => {
-    if (!imesh.current)
-      throw new Error("Particles mesh not created, can't spawn particle!")
+    const variables = useMemo(() => modularPipe(LifetimeModule(), ...modules), [
+      modules
+    ])
 
-    imesh.current.setMatrixAt(0, new Matrix4())
-    imesh.current.count = 1
-    imesh.current.instanceMatrix.needsUpdate = true
-  }
+    const master = useMemo(
+      () =>
+        CustomShaderMaterialMaster({
+          position: variables.position,
+          diffuseColor: variables.color,
+          alpha: variables.alpha
+        }),
+      [variables]
+    )
 
-  const Root = forwardRef<Particles, ParticlesProps>((props, ref) => {
+    const { spawn, shader } = useParticles(imesh, master)
+
+    /* Patch material */
+    useLayoutEffect(() => {
+      if (!imesh.current) return
+
+      const material = imesh.current.material as Material
+
+      const csm = new CustomShaderMaterial({
+        ...shader,
+        baseMaterial: material
+      })
+
+      imesh.current.material = csm
+
+      return () => {
+        imesh.current.material = material
+        csm.dispose()
+      }
+    }, [shader])
+
     useImperativeHandle(ref, () => ({
-      mesh: imesh.current!
+      mesh: imesh.current!,
+      spawn
     }))
 
     return (
       <instancedMesh
-        args={[undefined, undefined, 1000]}
-        {...props}
         ref={imesh}
-      />
+        args={[undefined, undefined, maxParticles]}
+        {...props}
+      >
+        {children}
+      </instancedMesh>
     )
-  })
-
-  return {
-    Root,
-    spawn
   }
-}
+)

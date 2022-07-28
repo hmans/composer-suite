@@ -38,9 +38,8 @@ export const makeAttribute = (count: number, itemSize: number) =>
  */
 export const useParticles = (
   imesh: MutableRefObject<InstancedMesh>,
-  masterFun: () => Unit
+  master: Unit
 ) => {
-  const master = useMemo(masterFun, [])
   const attributeUnits = useRef<ParticleAttribute<any>[]>([])
 
   /* Let's compile the shader first. */

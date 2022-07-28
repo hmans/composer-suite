@@ -1,56 +1,62 @@
-import { between } from "randomish"
+import { between, plusMinus } from "randomish"
 import { useEffect, useRef } from "react"
-import { CustomShaderMaterialMaster, OneMinus } from "shader-composer"
-import { InstancedMesh, MeshStandardMaterial, Vector3 } from "three"
-import CustomShaderMaterial from "three-custom-shader-material"
+import { Mul, OneMinus } from "shader-composer"
+import { Vector3 } from "three"
 import {
   AccelerationModule,
-  LifetimeModule,
-  modularPipe,
   ParticleProgress,
+  Particles,
   ScaleModule,
-  useParticles,
   VelocityModule
 } from "vfx-composer"
 
 export default function Playground() {
-  const imesh = useRef<InstancedMesh>(null!)
-
-  const { spawn, shader } = useParticles(imesh, () => {
-    const { color, position, alpha } = modularPipe(
-      LifetimeModule(),
-      ScaleModule(OneMinus(ParticleProgress)),
-      VelocityModule(new Vector3(0, 15, 0)),
-      AccelerationModule(new Vector3(0, -9.81, 0))
-    )
-
-    return CustomShaderMaterialMaster({
-      position,
-      diffuseColor: color,
-      alpha
-    })
-  })
+  const particles = useRef<Particles>(null!)
 
   useEffect(() => {
+    const { spawn } = particles.current
+
     const id = setInterval(() => {
-      spawn(between(3, 5))
+      spawn()
     }, 80)
 
     return () => clearInterval(id)
   }, [])
 
   return (
-    <instancedMesh
-      ref={imesh}
-      args={[undefined, undefined, 10000]}
+    <Particles
+      ref={particles}
       position-y={2}
+      modules={[
+        /*
+        Scale the particle. Pass a Shader Unit to steer scale over time.
+        */
+        ScaleModule(OneMinus(ParticleProgress)),
+
+        /*
+        Perform gravity. Gravity is the same for all particles, so we're using
+        a constant Vector3 value here.
+        */
+        AccelerationModule(new Vector3(0, -9.81, 0)),
+
+        /*
+        Simulate velocity. Velocity should be different for each particle, so
+        we're passing a function that returns a new Vector3 for every spawned
+        particle. The module will automatically set up an instanced buffer
+        attribute and upload newly filled values to the GPU. ✨
+        */
+        VelocityModule(
+          () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
+        ),
+
+        (payload) => ({ ...payload, position: Mul(payload.position, 2) })
+      ]}
     >
+      {/* You can assign any geometry. */}
       <boxGeometry />
-      <CustomShaderMaterial
-        baseMaterial={MeshStandardMaterial}
-        color="hotpink"
-        {...shader}
-      />
-    </instancedMesh>
+
+      {/* And any material! */}
+      <meshStandardMaterial color="white" />
+    </Particles>
   )
 }

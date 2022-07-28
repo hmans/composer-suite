@@ -10,8 +10,8 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Color } from "three"
-import { ParticleAge, ParticleProgress } from "./units"
+import { Color, Vector3 } from "three"
+import { ParticleAge, ParticleAttribute, ParticleProgress } from "./units"
 
 export type ModulePayload = {
   position: Value<"vec3">
@@ -41,18 +41,18 @@ export const LifetimeModule = (): Module => ({ position, color, alpha }) => ({
   })
 })
 
-export const VelocityModule = (velocity: Value<"vec3">): Module => ({
-  position,
-  color,
-  alpha
-}) => ({
+export const VelocityModule = (
+  velocity: Value<"vec3"> | (() => Vector3)
+): Module => ({ position, color, alpha }) => ({
   /* This module doesn't touch color... */
   color,
   alpha,
 
   /* ...but it does update position */
   position: pipe(
-    velocity,
+    typeof velocity === "function"
+      ? ParticleAttribute("vec3", velocity)
+      : velocity,
     (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
     (v) => Mul(v, ParticleAge),
     (v) => Add(position, v)
