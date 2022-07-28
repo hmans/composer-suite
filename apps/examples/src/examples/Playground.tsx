@@ -56,8 +56,6 @@ const ParticleAge = Sub(EffectAge, LifetimeStart)
 const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
-type ParticleValues = Record<string, any>
-
 const AnimateScale = (scale: Value<"float"> = 1) => (position: Value<"vec3">) =>
   Mul(position, scale)
 
