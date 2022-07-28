@@ -1,1 +1,1 @@
-packages/vfx/README.md
+packages/vfx-composer/README.md

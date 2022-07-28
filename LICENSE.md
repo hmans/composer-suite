@@ -1,1 +1,1 @@
-packages/vfx/LICENSE.md
+packages/vfx-composer/LICENSE.md
