@@ -43,7 +43,6 @@ export default function Playground() {
         AnimateStatelessVelocity(
           ParticleAttribute(
             "vec3",
-            "velocity",
             () => new Vector3(plusMinus(4), between(5, 20), plusMinus(4))
           )
         )

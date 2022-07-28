@@ -30,46 +30,51 @@ export type ParticleAttribute<T extends GLSLType> = Unit<T> & {
   setupParticle: (mesh: InstancedMesh, index: number) => void
 }
 
+let nextAttributeId = 1
+
 export const ParticleAttribute = <T extends GLSLType>(
   type: T,
-  name: string,
   getParticleValue: () => JSTypes[T]
-): ParticleAttribute<T> => ({
-  ...Attribute(type, name),
-  isParticleAttribute: true,
+): ParticleAttribute<T> => {
+  const name = `a_particle_${nextAttributeId++}`
 
-  setupMesh: ({ geometry, count }: InstancedMesh) => {
-    const itemSize =
-      type === "vec2" ? 2 : type === "vec3" ? 3 : type === "vec4" ? 4 : 4
+  return {
+    ...Attribute(type, name),
+    isParticleAttribute: true,
 
-    geometry.setAttribute(name, makeAttribute(count, itemSize))
-  },
+    setupMesh: ({ geometry, count }: InstancedMesh) => {
+      const itemSize =
+        type === "vec2" ? 2 : type === "vec3" ? 3 : type === "vec4" ? 4 : 4
 
-  setupParticle: ({ geometry }: InstancedMesh, index: number) => {
-    const value = getParticleValue()
-    const attribute = geometry.attributes[name]
+      geometry.setAttribute(name, makeAttribute(count, itemSize))
+    },
 
-    switch (type) {
-      case "vec2": {
-        attribute.setXY(index, ...(value as Vector2).toArray())
-        break
+    setupParticle: ({ geometry }: InstancedMesh, index: number) => {
+      const value = getParticleValue()
+      const attribute = geometry.attributes[name]
+
+      switch (type) {
+        case "vec2": {
+          attribute.setXY(index, ...(value as Vector2).toArray())
+          break
+        }
+
+        case "vec3": {
+          attribute.setXYZ(index, ...(value as Vector3).toArray())
+          break
+        }
+
+        case "vec4": {
+          attribute.setXYZW(index, ...(value as Vector4).toArray())
+          break
+        }
       }
 
-      case "vec3": {
-        attribute.setXYZ(index, ...(value as Vector3).toArray())
-        break
-      }
-
-      case "vec4": {
-        attribute.setXYZW(index, ...(value as Vector4).toArray())
-        break
-      }
+      /* TODO: only do partial uploads */
+      attribute.needsUpdate = true
     }
-
-    /* TODO: only do partial uploads */
-    attribute.needsUpdate = true
   }
-})
+}
 
 export function isParticleAttribute<T extends GLSLType>(
   item: Unit<T>
