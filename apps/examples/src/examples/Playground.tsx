@@ -1,54 +1,45 @@
-import { between, plusMinus } from "randomish"
+import { between } from "randomish"
 import { useEffect, useRef } from "react"
 import {
   CustomShaderMaterialMaster,
+  OneMinus,
   pipe,
-  Smoothstep,
-  Vec3,
   VertexPosition
 } from "shader-composer"
 import { Color, InstancedMesh, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import {
-  AnimateScale,
-  AnimateStatelessAcceleration,
-  AnimateStatelessVelocity,
-  ControlParticleLifetime,
-  ParticleAttribute,
+  LifetimeModule,
   ParticleProgress,
-  useParticles
+  ScaleModule,
+  useParticles,
+  VelocityModule
 } from "vfx-composer"
 
 export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
-  const { spawn, shader } = useParticles(imesh, () =>
-    CustomShaderMaterialMaster({
-      diffuseColor: pipe(Vec3(new Color("hotpink")), ControlParticleLifetime),
+  const { spawn, shader } = useParticles(imesh, () => {
+    const modules = [
+      LifetimeModule(),
+      ScaleModule(OneMinus(ParticleProgress)),
+      VelocityModule(new Vector3(0, 10, 0))
+    ] as const
 
-      position: pipe(
-        /* Start with the original vertex position */
-        VertexPosition,
+    const { color, position } = pipe(
+      {
+        color: new Color("hotpink"),
+        position: VertexPosition
+      },
+      ...modules
+    )
 
-        /* Animate the scale! Let's go all smoothsteppy! */
-        AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
+    return CustomShaderMaterialMaster({
+      diffuseColor: color,
 
-        /* We can layer multiple of these! */
-        AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
-
-        /* Gravity! */
-        AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
-
-        /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
-        AnimateStatelessVelocity(
-          ParticleAttribute(
-            "vec3",
-            () => new Vector3(plusMinus(4), between(5, 20), plusMinus(4))
-          )
-        )
-      )
+      position
     })
-  )
+  })
 
   useEffect(() => {
     const id = setInterval(() => {
