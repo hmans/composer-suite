@@ -95,35 +95,3 @@ export const [LifetimeStart, LifetimeEnd] = SplitVector2(
 export const ParticleAge = Sub(EffectAge, LifetimeStart)
 export const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 export const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
-
-export const AnimateScale = (scale: Value<"float"> = 1) => (
-  position: Value<"vec3">
-) => Mul(position, scale)
-
-export const AnimateStatelessVelocity = (velocity: Value<"vec3">) => (
-  position: Value<"vec3">
-) =>
-  pipe(
-    velocity,
-    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
-    (v) => Mul(v, ParticleAge),
-    (v) => Add(position, v)
-  )
-
-export const AnimateStatelessAcceleration = (acceleration: Value<"vec3">) => (
-  position: Value<"vec3">
-) =>
-  pipe(
-    acceleration,
-    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
-    (v) => Mul(v, Pow(ParticleAge, 2)),
-    (v) => Mul(v, 0.5),
-    (v) => Add(position, v)
-  )
-
-export const ControlParticleLifetime = (v: Value<"vec3">) =>
-  Vec3(v, {
-    fragment: {
-      body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-    }
-  })

@@ -5,6 +5,7 @@ import {
   Mat3,
   Mul,
   pipe,
+  Pow,
   Value,
   Vec3
 } from "shader-composer"
@@ -38,6 +39,20 @@ export const VelocityModule = (velocity: Value<"vec3">): Module => ({
     velocity,
     (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
     (v) => Mul(v, ParticleAge),
+    (v) => Add(position, v)
+  )
+})
+
+export const AccelerationModule = (acceleration: Value<"vec3">): Module => ({
+  position,
+  color
+}) => ({
+  color,
+  position: pipe(
+    acceleration,
+    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
+    (v) => Mul(v, Pow(ParticleAge, 2)),
+    (v) => Mul(v, 0.5),
     (v) => Add(position, v)
   )
 })

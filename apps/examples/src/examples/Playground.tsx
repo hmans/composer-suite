@@ -9,6 +9,7 @@ import {
 import { Color, InstancedMesh, MeshStandardMaterial, Vector3 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 import {
+  AccelerationModule,
   LifetimeModule,
   ParticleProgress,
   ScaleModule,
@@ -23,7 +24,8 @@ export default function Playground() {
     const modules = [
       LifetimeModule(),
       ScaleModule(OneMinus(ParticleProgress)),
-      VelocityModule(new Vector3(0, 10, 0))
+      VelocityModule(new Vector3(0, 7, 0)),
+      AccelerationModule(new Vector3(0, -10, 0))
     ] as const
 
     const { color, position } = pipe(
