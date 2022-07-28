@@ -1,5 +1,11 @@
 import { between, plusMinus, power, upTo } from "randomish"
-import { MutableRefObject, useEffect, useLayoutEffect, useRef } from "react"
+import {
+  MutableRefObject,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef
+} from "react"
 import {
   $,
   Add,
@@ -93,26 +99,11 @@ HOOKS
 /**
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
-const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
-  const position = pipe(
-    /* Start with the original vertex position */
-    VertexPosition,
-
-    /* Animate the scale! Let's go all smoothsteppy! */
-    AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
-
-    /* We can layer multiple of these! */
-    AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
-
-    /* Gravity! */
-    AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
-
-    /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
-    AnimateStatelessVelocity(Attribute("vec3", "velocity"))
-  )
-
-  const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
-
+const useParticles = (
+  imesh: MutableRefObject<InstancedMesh>,
+  position: Value<"vec3">,
+  color: Value<"vec3">
+) => {
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
     /* Prepare geometry */
@@ -173,13 +164,32 @@ const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
     }
   }
 
-  return { spawn, color, position }
+  return { spawn }
 }
 
 export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
-  const { spawn, color, position } = useParticles(imesh)
+  const position = pipe(
+    /* Start with the original vertex position */
+    VertexPosition,
+
+    /* Animate the scale! Let's go all smoothsteppy! */
+    AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
+
+    /* We can layer multiple of these! */
+    AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
+
+    /* Gravity! */
+    AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
+
+    /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
+    AnimateStatelessVelocity(Attribute("vec3", "velocity"))
+  )
+
+  const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
+
+  const { spawn } = useParticles(imesh, position, color)
 
   const shader = useShader(() => {
     return CustomShaderMaterialMaster({
