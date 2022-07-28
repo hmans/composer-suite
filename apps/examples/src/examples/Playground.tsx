@@ -34,6 +34,10 @@ import {
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
+/*
+SHADER UNITS
+*/
+
 const EffectAgeUniform = Uniform("float", 0)
 
 const EffectAge = Float(EffectAgeUniform, {
@@ -82,13 +86,14 @@ const ControlParticleLifetime = (v: Value<"vec3">) =>
 const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
 
+/*
+HOOKS
+*/
+
 /**
  * Prepares the given instanced mesh and returns an API for interacting with it.
  */
-const useParticles = (
-  imesh: MutableRefObject<InstancedMesh>,
-  values: ParticleValues
-) => {
+const useParticles = (imesh: MutableRefObject<InstancedMesh>) => {
   const position = pipe(
     /* Start with the original vertex position */
     VertexPosition,
@@ -115,10 +120,11 @@ const useParticles = (
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
 
-    for (const [name, value] of Object.entries(values)) {
-      const itemSize = 3 // TODO: use proper item size
-      geometry.setAttribute(name, makeAttribute(count, itemSize))
-    }
+    /* TODO: create attributes */
+    // for (const [name, value] of Object.entries(values)) {
+    //   const itemSize = 3 // TODO: use proper item size
+    //   geometry.setAttribute(name, makeAttribute(count, itemSize))
+    // }
   })
 
   let cursor = 0
@@ -132,6 +138,7 @@ const useParticles = (
       /* Set the matrix at cursor */
       imesh.current.setMatrixAt(
         cursor,
+
         new Matrix4().compose(
           new Vector3().randomDirection(),
           new Quaternion().random(),
@@ -147,15 +154,17 @@ const useParticles = (
       )
       geometry.attributes.lifetime.needsUpdate = true
 
-      /* Make up a velocity */
-      for (const [name, valueOrFunction] of Object.entries(values)) {
-        const value =
-          typeof valueOrFunction === "function"
-            ? valueOrFunction()
-            : valueOrFunction
-        geometry.attributes[name].setXYZ(cursor, value.x, value.y, value.z)
-        geometry.attributes[name].needsUpdate = true
-      }
+      /* TODO: write into provided attributes */
+
+      // /* Make up a velocity */
+      // for (const [name, valueOrFunction] of Object.entries(values)) {
+      //   const value =
+      //     typeof valueOrFunction === "function"
+      //       ? valueOrFunction()
+      //       : valueOrFunction
+      //   geometry.attributes[name].setXYZ(cursor, value.x, value.y, value.z)
+      //   geometry.attributes[name].needsUpdate = true
+      // }
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
@@ -170,10 +179,7 @@ const useParticles = (
 export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
-  const { spawn, color, position } = useParticles(imesh, {
-    velocity: () => new Vector3(plusMinus(2), between(5, 15), plusMinus(2)),
-    acceleration: new Vector3(0, -10, 0)
-  })
+  const { spawn, color, position } = useParticles(imesh)
 
   const shader = useShader(() => {
     return CustomShaderMaterialMaster({
