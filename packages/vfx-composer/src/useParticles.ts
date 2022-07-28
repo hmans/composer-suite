@@ -43,6 +43,9 @@ export const useParticles = (
   const master = useMemo(masterFun, [])
   const attributeUnits = useRef<ParticleAttribute<any>[]>([])
 
+  /* Let's compile the shader first. */
+  const shader = useShader(() => master)
+
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
     /* Prepare geometry */
@@ -95,8 +98,6 @@ export const useParticles = (
       imesh.current.instanceMatrix.needsUpdate = true
     }
   }
-
-  const shader = useShader(() => master)
 
   return { spawn, shader }
 }
