@@ -1,4 +1,4 @@
-import { between } from "randomish"
+import { between, plusMinus } from "randomish"
 import { useEffect, useRef } from "react"
 import {
   CustomShaderMaterialMaster,
@@ -11,6 +11,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 import {
   AccelerationModule,
   LifetimeModule,
+  ParticleAttribute,
   ParticleProgress,
   ScaleModule,
   useParticles,
@@ -21,24 +22,33 @@ export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
   const { spawn, shader } = useParticles(imesh, () => {
+    const velocity = ParticleAttribute(
+      "vec3",
+      () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
+    )
+
+    const gravity = new Vector3(0, -9.81, 0)
+
     const modules = [
       LifetimeModule(),
       ScaleModule(OneMinus(ParticleProgress)),
-      VelocityModule(new Vector3(0, 7, 0)),
-      AccelerationModule(new Vector3(0, -10, 0))
+      VelocityModule(velocity),
+      AccelerationModule(gravity)
     ] as const
 
-    const { color, position } = pipe(
+    const { color, position, alpha } = pipe(
       {
         color: new Color("hotpink"),
-        position: VertexPosition
+        position: VertexPosition,
+        alpha: 1
       },
       ...modules
     )
 
     return CustomShaderMaterialMaster({
+      position,
       diffuseColor: color,
-      position
+      alpha
     })
   })
 

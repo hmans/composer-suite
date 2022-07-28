@@ -1,23 +1,14 @@
 import {
-  $,
-  Add,
   Attribute,
   Div,
   Float,
   GLSLType,
-  InstanceMatrix,
   isUnit,
   JSTypes,
-  Mat3,
-  Mul,
-  pipe,
-  Pow,
   SplitVector2,
   Sub,
   Uniform,
-  Unit,
-  Value,
-  Vec3
+  Unit
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { makeAttribute } from "./useParticles"
