@@ -7,8 +7,10 @@ import {
   pipe,
   Pow,
   Value,
-  Vec3
+  Vec3,
+  VertexPosition
 } from "shader-composer"
+import { Color } from "three"
 import { ParticleAge, ParticleProgress } from "./units"
 
 export type ModulePayload = {
@@ -18,6 +20,16 @@ export type ModulePayload = {
 }
 
 export type Module = (input: ModulePayload) => ModulePayload
+
+export const modularPipe = (...modules: Module[]) =>
+  pipe(
+    {
+      color: new Color("red"),
+      position: VertexPosition,
+      alpha: 1
+    },
+    ...(modules as [Module])
+  )
 
 export const LifetimeModule = (): Module => ({ position, color, alpha }) => ({
   position,
