@@ -15,7 +15,7 @@
     "r3f-stage": "^0.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "shader-composer": "^0.1.1",
+    "shader-composer": "^0.1.2",
     "shader-composer-r3f": "^0.1.0",
     "shader-composer-toybox": "^0.0.7",
     "three": "^0.141.0",

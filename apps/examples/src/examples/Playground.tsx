@@ -1,4 +1,4 @@
-import { between, plusMinus, power, upTo } from "randomish"
+import { between } from "randomish"
 import {
   MutableRefObject,
   useEffect,
@@ -16,17 +16,17 @@ import {
   InstanceMatrix,
   Mat3,
   Mul,
-  OneMinus,
   pipe,
   Pow,
-  Remap,
   Smoothstep,
   SplitVector2,
   Sub,
   Uniform,
+  Unit,
   Value,
   Vec3,
-  VertexPosition
+  VertexPosition,
+  walkTree
 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import {
@@ -101,15 +101,18 @@ HOOKS
  */
 const useParticles = (
   imesh: MutableRefObject<InstancedMesh>,
-  position: Value<"vec3">,
-  color: Value<"vec3">
+  masterFun: () => Unit
 ) => {
+  const master = useMemo(masterFun, [])
+
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
     /* Prepare geometry */
     const { geometry, count } = imesh.current
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
+
+    walkTree(master, console.log)
 
     /* TODO: create attributes */
     // for (const [name, value] of Object.entries(values)) {
@@ -164,39 +167,36 @@ const useParticles = (
     }
   }
 
-  return { spawn }
+  const shader = useShader(() => master)
+
+  return { spawn, shader }
 }
 
 export default function Playground() {
   const imesh = useRef<InstancedMesh>(null!)
 
-  const position = pipe(
-    /* Start with the original vertex position */
-    VertexPosition,
+  const { spawn, shader } = useParticles(imesh, () =>
+    CustomShaderMaterialMaster({
+      diffuseColor: pipe(Vec3(new Color("hotpink")), ControlParticleLifetime),
 
-    /* Animate the scale! Let's go all smoothsteppy! */
-    AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
+      position: pipe(
+        /* Start with the original vertex position */
+        VertexPosition,
 
-    /* We can layer multiple of these! */
-    AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
+        /* Animate the scale! Let's go all smoothsteppy! */
+        AnimateScale(Smoothstep(0, 0.5, ParticleProgress)),
 
-    /* Gravity! */
-    AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
+        /* We can layer multiple of these! */
+        AnimateScale(Smoothstep(1.0, 0.8, ParticleProgress)),
 
-    /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
-    AnimateStatelessVelocity(Attribute("vec3", "velocity"))
-  )
+        /* Gravity! */
+        AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
 
-  const color = pipe(Vec3(new Color("hotpink")), ControlParticleLifetime)
-
-  const { spawn } = useParticles(imesh, position, color)
-
-  const shader = useShader(() => {
-    return CustomShaderMaterialMaster({
-      diffuseColor: color,
-      position
+        /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
+        AnimateStatelessVelocity(Attribute("vec3", "velocity"))
+      )
     })
-  })
+  )
 
   useEffect(() => {
     const id = setInterval(() => {
