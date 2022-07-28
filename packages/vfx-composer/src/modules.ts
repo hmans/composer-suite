@@ -65,5 +65,6 @@ export const AccelerationModule = (acceleration: Value<"vec3">): Module => ({
 
 export const ScaleModule = (scale: Value<"float"> = 1): Module => ({
   position,
-  color
-}) => ({ color, position: Mul(position, scale) })
+  color,
+  alpha
+}) => ({ color, alpha, position: Mul(position, scale) })
