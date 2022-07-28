@@ -36,7 +36,6 @@ import { useShader } from "shader-composer-r3f"
 import {
   Color,
   InstancedBufferAttribute,
-  InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
   MeshStandardMaterial,
