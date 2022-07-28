@@ -10,13 +10,12 @@ import {
   Vector3
 } from "three"
 import {
-  Delay,
   Emitter,
-  Lifetime,
   MeshParticles,
   MeshParticlesMaterial,
   Repeat
 } from "three-vfx"
+import { Delay, Lifetime } from "timeline-composer"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
