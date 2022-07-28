@@ -1,8 +1,8 @@
 ![VFX Composer](https://user-images.githubusercontent.com/1061/181590577-6a51b542-eb11-429e-9fae-35ecc949d0df.jpg)
 
-[![Version](https://img.shields.io/npm/v/three-vfx?style=for-the-badge)](https://www.npmjs.com/package/three-vfx)
-[![Downloads](https://img.shields.io/npm/dt/three-vfx.svg?style=for-the-badge)](https://www.npmjs.com/package/three-vfx)
-[![Bundle Size](https://img.shields.io/bundlephobia/min/three-vfx?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=three-vfx)
+[![Version](https://img.shields.io/npm/v/vfx-composer?style=for-the-badge)](https://www.npmjs.com/package/vfx-composer)
+[![Downloads](https://img.shields.io/npm/dt/vfx-composer.svg?style=for-the-badge)](https://www.npmjs.com/package/vfx-composer)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/vfx-composer?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=vfx-composer)
 
 > **Warning**
 >
@@ -12,7 +12,7 @@
 
 ## Introduction 👋
 
-`three-vfx` is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber). It aims to be highly performant (with effects almost entirely simulated on the GPU) and easy to extend.
+VFX Composer (formerly known as three-vfx, or 3VFX) is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber). It aims to be highly performant (with effects almost entirely simulated on the GPU) and easy to extend.
 
 ## Status ⚠️
 
