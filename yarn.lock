@@ -6346,10 +6346,10 @@ shader-composer-toybox@^0.0.7:
   resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.7.tgz#627c6b7c59b4930248df12e549f41026fab09585"
   integrity sha512-F0Xq32Uz3RqpKOoMCIfd3U0lZ2Bx8clt4koYMiE6QRCxRchbJfEcVL2F4/k85b7PdOeQCPEJ9i4vuRdKM84EGA==
 
-shader-composer@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.1.0.tgz#c3476b893ecf2842fce390c99fc0335e5642bcc5"
-  integrity sha512-M+ShTmMUmjKSx8tCB6CSO6M8EG/eojdAkLRXS8CEJYMlhQrclvmu8yvu0ip9Rhqq1eSkfYeex2by09MEkYS44g==
+shader-composer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.1.1.tgz#881e2a6a4ca4e22b3f6e2890205ad5d461ad7ff5"
+  integrity sha512-oVxMtG4MbMsPFfoG6Zjqmozv+1N89nosuHCM9aA1m91TDu4up3ONBIZ7mTYbbgGltdGf9WJzhhALxejBjK19zA==
   dependencies:
     crypto-js "^4.1.1"
     fp-ts "^2.12.1"
