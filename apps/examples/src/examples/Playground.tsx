@@ -38,7 +38,6 @@ export default function Playground() {
 
     return CustomShaderMaterialMaster({
       diffuseColor: color,
-
       position
     })
   })
