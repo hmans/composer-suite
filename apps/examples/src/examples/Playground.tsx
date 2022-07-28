@@ -49,7 +49,7 @@ import CustomShaderMaterial from "three-custom-shader-material"
 collect helper
 */
 
-const collect = (root: Item, check: (item: Item) => boolean) => {
+const collectFromTree = (root: Item, check: (item: Item) => boolean) => {
   const found = new Array<Item>()
 
   walkTree(root, (item) => {
@@ -178,7 +178,7 @@ const useParticles = (
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
 
-    attributeUnits.current = collect(master, isParticleAttribute)
+    attributeUnits.current = collectFromTree(master, isParticleAttribute)
 
     for (const unit of attributeUnits.current) {
       unit.setupMesh(imesh.current)
