@@ -1,4 +1,4 @@
-import { between } from "randomish"
+import { between, plusMinus } from "randomish"
 import {
   MutableRefObject,
   useEffect,
@@ -41,7 +41,9 @@ import {
   Matrix4,
   MeshStandardMaterial,
   Quaternion,
-  Vector3
+  Vector2,
+  Vector3,
+  Vector4
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
 
@@ -89,14 +91,27 @@ const ParticleAttribute = <T extends GLSLType>(
   },
 
   setupParticle: ({ geometry }: InstancedMesh, index: number) => {
-    console.log("hi from setupParticle")
     const value = getParticleValue()
     const attribute = geometry.attributes[name]
 
-    if (value instanceof Vector3) {
-      attribute.setXYZ(index, value.x, value.y, value.z)
+    switch (type) {
+      case "vec2": {
+        attribute.setXY(index, ...(value as Vector2).toArray())
+        break
+      }
+
+      case "vec3": {
+        attribute.setXYZ(index, ...(value as Vector3).toArray())
+        break
+      }
+
+      case "vec4": {
+        attribute.setXYZW(index, ...(value as Vector4).toArray())
+        break
+      }
     }
 
+    /* TODO: only do partial uploads */
     attribute.needsUpdate = true
   }
 })
@@ -251,10 +266,11 @@ export default function Playground() {
 
         /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
         AnimateStatelessVelocity(
-          ParticleAttribute("vec3", "velocity", () => {
-            console.log("YOOOO")
-            return new Vector3(5, 40, 0)
-          })
+          ParticleAttribute(
+            "vec3",
+            "velocity",
+            () => new Vector3(plusMinus(4), between(5, 20), plusMinus(4))
+          )
         )
       )
     })
