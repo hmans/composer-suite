@@ -13,7 +13,10 @@ import {
   CustomShaderMaterialMaster,
   Div,
   Float,
+  GLSLType,
   InstanceMatrix,
+  isUnit,
+  JSTypes,
   Mat3,
   Mul,
   pipe,
@@ -32,6 +35,7 @@ import { useShader } from "shader-composer-r3f"
 import {
   Color,
   InstancedBufferAttribute,
+  InstancedBufferGeometry,
   InstancedMesh,
   Matrix4,
   MeshStandardMaterial,
@@ -39,6 +43,52 @@ import {
   Vector3
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+
+/*
+Particle Attribute Unit
+*/
+
+type MeshSetupCallback = (mesh: InstancedMesh) => void
+
+type ParticleAttribute<T extends GLSLType> = Unit<T> & {
+  isParticleAttribute: true
+  setupMesh: MeshSetupCallback
+  setupParticle: (mesh: InstancedMesh, index: number) => void
+}
+
+const ParticleAttribute = <T extends GLSLType>(
+  type: T,
+  name: string,
+  getParticleValue: () => JSTypes[T]
+): ParticleAttribute<T> => ({
+  ...Attribute(type, name),
+  isParticleAttribute: true,
+
+  setupMesh: ({ geometry, count }: InstancedMesh) => {
+    const itemSize =
+      type === "vec2" ? 2 : type === "vec3" ? 3 : type === "vec4" ? 4 : 4
+
+    geometry.setAttribute(name, makeAttribute(count, itemSize))
+  },
+
+  setupParticle: ({ geometry }: InstancedMesh, index: number) => {
+    console.log("hi from setupParticle")
+    const value = getParticleValue()
+    const attribute = geometry.attributes[name]
+
+    if (value instanceof Vector3) {
+      attribute.setXYZ(index, value.x, value.y, value.z)
+    }
+
+    attribute.needsUpdate = true
+  }
+})
+
+function isParticleAttribute<T extends GLSLType>(
+  item: Unit<T>
+): item is ParticleAttribute<T> {
+  return isUnit(item) && "isParticleAttribute" in item
+}
 
 /*
 SHADER UNITS
@@ -110,13 +160,11 @@ const useParticles = (
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
 
-    walkTree(master, console.log)
-
-    /* TODO: create attributes */
-    // for (const [name, value] of Object.entries(values)) {
-    //   const itemSize = 3 // TODO: use proper item size
-    //   geometry.setAttribute(name, makeAttribute(count, itemSize))
-    // }
+    walkTree(master, (item) => {
+      if (isParticleAttribute(item)) {
+        item.setupMesh(imesh.current)
+      }
+    })
   })
 
   let cursor = 0
@@ -146,17 +194,12 @@ const useParticles = (
       )
       geometry.attributes.lifetime.needsUpdate = true
 
-      /* TODO: write into provided attributes */
-
-      // /* Make up a velocity */
-      // for (const [name, valueOrFunction] of Object.entries(values)) {
-      //   const value =
-      //     typeof valueOrFunction === "function"
-      //       ? valueOrFunction()
-      //       : valueOrFunction
-      //   geometry.attributes[name].setXYZ(cursor, value.x, value.y, value.z)
-      //   geometry.attributes[name].needsUpdate = true
-      // }
+      /* Genererate values for per-particle attributes */
+      walkTree(master, (item) => {
+        if (isParticleAttribute(item)) {
+          item.setupParticle(imesh.current, cursor)
+        }
+      })
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
@@ -191,7 +234,12 @@ export default function Playground() {
         AnimateStatelessAcceleration(new Vector3(0, -10, 0)),
 
         /* Also animate velocity, sourcing per-particle velocity from a buffer attribute */
-        AnimateStatelessVelocity(Attribute("vec3", "velocity"))
+        AnimateStatelessVelocity(
+          ParticleAttribute("vec3", "velocity", () => {
+            console.log("YOOOO")
+            return new Vector3(5, 40, 0)
+          })
+        )
       )
     })
   )
