@@ -16,6 +16,7 @@ import {
   GLSLType,
   InstanceMatrix,
   isUnit,
+  Item,
   JSTypes,
   Mat3,
   Mul,
@@ -43,6 +44,22 @@ import {
   Vector3
 } from "three"
 import CustomShaderMaterial from "three-custom-shader-material"
+
+/*
+collect helper
+*/
+
+const collect = (root: Item, check: (item: Item) => boolean) => {
+  const found = new Array<Item>()
+
+  walkTree(root, (item) => {
+    if (check(item)) {
+      found.push(item)
+    }
+  })
+
+  return found
+}
 
 /*
 Particle Attribute Unit
@@ -152,6 +169,7 @@ const useParticles = (
   masterFun: () => Unit
 ) => {
   const master = useMemo(masterFun, [])
+  const attributeUnits = useRef<ParticleAttribute<any>[]>([])
 
   /* Create attributes on the geometry */
   useLayoutEffect(() => {
@@ -160,11 +178,11 @@ const useParticles = (
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
 
-    walkTree(master, (item) => {
-      if (isParticleAttribute(item)) {
-        item.setupMesh(imesh.current)
-      }
-    })
+    attributeUnits.current = collect(master, isParticleAttribute)
+
+    for (const unit of attributeUnits.current) {
+      unit.setupMesh(imesh.current)
+    }
   })
 
   let cursor = 0
@@ -195,11 +213,9 @@ const useParticles = (
       geometry.attributes.lifetime.needsUpdate = true
 
       /* Genererate values for per-particle attributes */
-      walkTree(master, (item) => {
-        if (isParticleAttribute(item)) {
-          item.setupParticle(imesh.current, cursor)
-        }
-      })
+      for (const unit of attributeUnits.current) {
+        unit.setupParticle(imesh.current, cursor)
+      }
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
