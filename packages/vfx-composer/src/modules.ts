@@ -10,6 +10,7 @@ import {
   pipe,
   Pow,
   Value,
+  vec3,
   Vec3
 } from "shader-composer"
 import { ParticleAge, ParticleProgress } from "./units"
@@ -58,3 +59,20 @@ export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
 
 export const Velocity = (velocity: Input<"vec3">) =>
   Translate(Mul(velocity, ParticleAge))
+
+export const Acceleration = (acceleration: Input<"vec3">) =>
+  Translate(
+    pipe(
+      acceleration,
+      (v) => Mul(v, Pow(ParticleAge, 2)),
+      (v) => Mul(v, 0.5)
+    )
+  )
+
+/**
+ * Apply a downward force, just like gravity.
+ *
+ * @param amount The gravity force (default: 9.81).
+ */
+export const Gravity = (amount: Input<"float"> = 9.81) =>
+  Acceleration(vec3(0, -amount, 0))

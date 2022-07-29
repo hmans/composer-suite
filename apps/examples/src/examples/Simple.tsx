@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import { Vector3 } from "three"
 import { Repeat } from "three-vfx"
 import { Emitter, Particles } from "vfx-composer/fiber"
-import { Velocity } from "vfx-composer/modules"
+import { Acceleration, Gravity, Velocity } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import textureUrl from "./textures/particle.png"
 
@@ -18,7 +18,7 @@ export const Simple = () => {
     )
 
     return {
-      position: [Velocity(velocity)]
+      position: [Velocity(velocity), Gravity()]
     }
   }, [])
 
