@@ -1,7 +1,7 @@
-import { between } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { Add, Mul, OneMinus, Rotation3DY } from "shader-composer"
-import { Vector3 } from "three"
+import { Add, Mix, Mul, OneMinus, Rotation3DY, Uniform } from "shader-composer"
+import { Color, Vector3 } from "three"
 import {
   ParticleAge,
   ParticleAttribute,
@@ -53,11 +53,29 @@ export default function Playground() {
 
         (input) => ({
           ...input,
+
+          color: Mix(
+            input.color,
+            new Color("black"),
+
+            /* Color darkness amount */
+            ParticleAttribute("float", () => upTo(0.2))
+          ),
+
           position: Add(
             input.position,
             Mul(
-              ParticleAttribute("vec3", () => new Vector3(between(2, 6), 0, 0)),
-              Rotation3DY(Mul(ParticleAge, 5))
+              /* Spawn position */
+              ParticleAttribute("vec3", () => new Vector3(plusMinus(6), 0, 0)),
+
+              Rotation3DY(
+                Mul(
+                  ParticleAge,
+
+                  /* Speed */
+                  ParticleAttribute("float", () => between(2, 5))
+                )
+              )
             )
           )
         }),
