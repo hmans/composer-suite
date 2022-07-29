@@ -1,6 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { useMemo } from "react"
-import { Emitter, Particles } from "vfx-composer"
+import { Particles } from "vfx-composer"
+import { Emitter } from "vfx-composer/fiber"
 import textureUrl from "./textures/particle.png"
 
 export const Simple = () => {
