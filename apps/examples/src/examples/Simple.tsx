@@ -24,11 +24,11 @@ export const Simple = () => {
 
   return (
     <Particles inputs={inputs}>
-      <boxGeometry />
-      <meshStandardMaterial color="hotpink" />
+      <sphereGeometry />
+      <meshStandardMaterial color="cyan" />
 
       <Repeat interval={0.2}>
-        <Emitter count={1} />
+        <Emitter count={10} />
       </Repeat>
     </Particles>
   )
