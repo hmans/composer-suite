@@ -32,7 +32,7 @@ export type ModulePipe = Module[]
 export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
   pipe(initial, ...(modules as [Module]))
 
-export const LifetimeModule = (): Module => (state) => ({
+export const Lifetime = (): Module => (state) => ({
   ...state,
   color: Vec3(state.color, {
     fragment: {
