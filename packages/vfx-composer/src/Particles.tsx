@@ -10,7 +10,7 @@ import { CustomShaderMaterialMaster } from "shader-composer"
 import { InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 import { LifetimeModule, modularPipe, Module } from "./modules"
-import { useParticles } from "./useParticles"
+import { SpawnOptions, useParticles } from "./useParticles"
 
 export type ParticlesProps = InstancedMeshProps & {
   maxParticles?: number
@@ -19,7 +19,7 @@ export type ParticlesProps = InstancedMeshProps & {
 
 export type Particles = {
   mesh: InstancedMesh
-  spawn: (count?: number) => void
+  spawn: (count?: number, opts?: SpawnOptions) => void
 }
 
 export const Particles = forwardRef<Particles, ParticlesProps>(

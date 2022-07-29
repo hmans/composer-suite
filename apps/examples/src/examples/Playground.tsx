@@ -1,16 +1,15 @@
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import {
+  $,
   Add,
   Cos,
+  InstanceMatrix,
   Mix,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
-  Rotation3DY,
-  Sin,
-  Uniform,
-  Value
+  Rotation3DY
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import {
@@ -39,8 +38,11 @@ const FirestormModule = (): Module => (input) => {
     position: Add(
       input.position,
       Mul(
-        Mul(spawnOffset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2)))),
-        Rotation3DY(Mul(ParticleAge, speed))
+        Mul(
+          Mul(spawnOffset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2)))),
+          Rotation3DY(Mul(ParticleAge, speed))
+        ),
+        $`mat3(${InstanceMatrix})`
       )
     )
   }
@@ -53,7 +55,10 @@ export default function Playground() {
     const { spawn } = particles.current
 
     const id = setInterval(() => {
-      spawn(20)
+      spawn(20, {
+        position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
+        rotation: (q) => q.random()
+      })
     }, 80)
 
     return () => clearInterval(id)
