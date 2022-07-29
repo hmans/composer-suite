@@ -1,7 +1,6 @@
 import { between, plusMinus } from "randomish"
 import { useEffect, useMemo, useRef } from "react"
 import {
-  $,
   Add,
   Cos,
   Float,
