@@ -5,6 +5,7 @@ import {
   Add,
   Cos,
   Float,
+  mat3,
   Mix,
   Mul,
   NormalizePlusMinusOne,
@@ -49,10 +50,7 @@ export default function Playground() {
 
   const rotatedOffset = Mul(
     offset,
-    $`mat3(${Rotation3D(
-      new Vector3(0.4, 0.8, 0.4),
-      Add(EffectAge, ParticleAge)
-    )})`
+    mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
   )
 
   const position = Vec3(
