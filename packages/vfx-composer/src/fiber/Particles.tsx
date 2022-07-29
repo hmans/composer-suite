@@ -14,7 +14,7 @@ import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 import { ModulePipe, pipeModules } from "../modules"
 import { SpawnOptions, useParticles } from "./useParticles"
 
-export type ParticleInputs = {
+export type ParticleModules = {
   position?: ModulePipe<"vec3">
   color?: ModulePipe<"vec3">
   alpha?: ModulePipe<"float">
@@ -22,7 +22,7 @@ export type ParticleInputs = {
 
 export type ParticlesProps = InstancedMeshProps & {
   maxParticles?: number
-  inputs: ParticleInputs
+  modules: ParticleModules
 }
 
 export type ParticlesAPI = {
@@ -38,25 +38,25 @@ const ParticlesAPIContext = createContext<ParticlesAPI>(null!)
 export const useParticlesAPI = () => useContext(ParticlesAPIContext)
 
 export const Particles = forwardRef<Particles, ParticlesProps>(
-  ({ maxParticles = 1000, inputs, children, ...props }, ref) => {
+  ({ maxParticles = 1000, modules, children, ...props }, ref) => {
     /* Reference to the InstancedMesh we're about to create */
     const imesh = useRef<InstancedMesh>(null!)
 
-    /* Create the Shader Composer master, using the inputs provided. */
+    /* Create the Shader Composer master, using the modules provided. */
     const master = useMemo(
       () =>
         CustomShaderMaterialMaster({
-          position: inputs.position
-            ? pipeModules(VertexPosition, ...inputs.position)
+          position: modules.position
+            ? pipeModules(VertexPosition, ...modules.position)
             : undefined,
 
-          diffuseColor: inputs.color
-            ? pipeModules(new Color("red"), ...inputs.color)
+          diffuseColor: modules.color
+            ? pipeModules(new Color("red"), ...modules.color)
             : undefined,
 
-          alpha: inputs.alpha ? pipeModules(1, ...inputs.alpha) : undefined
+          alpha: modules.alpha ? pipeModules(1, ...modules.alpha) : undefined
         }),
-      [inputs]
+      [modules]
     )
 
     /* Initialize particles. */
