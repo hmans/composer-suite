@@ -51,35 +51,28 @@ export default function Playground() {
       mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
     )
 
-    const position = Vec3(
-      pipe(
-        VertexPosition,
-
-        Velocity(new Vector3(plusMinus(2), between(8, 12), plusMinus(2))),
-
-        Translate(
-          pipe(
-            ParticleAge,
-            (age) => Mul(age, Float(5)),
-            (time) => Rotation3DY(time),
-            (rotation) => Mul(rotatedOffset, rotation),
-            (offset) =>
-              Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
-          )
+    const position = [
+      Velocity(
+        ParticleAttribute(
+          "vec3",
+          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
         )
       ),
 
-      { varying: true }
-    )
-
-    const color = pipe(Vec3(new Color("#ccc")), LifetimeModule(), (v) =>
-      Mix(v, new Color("#000"), ParticleProgress)
-    )
+      Translate(
+        pipe(
+          ParticleAge,
+          (age) => Mul(age, Float(5)),
+          (time) => Rotation3DY(time),
+          (rotation) => Mul(rotatedOffset, rotation),
+          (offset) =>
+            Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+        )
+      )
+    ]
 
     return {
-      position,
-      color,
-      alpha: 1
+      position
     }
   }, [])
 
@@ -88,7 +81,7 @@ export default function Playground() {
       maxParticles={300000}
       ref={particles}
       position-y={2}
-      inputs={inputs}
+      modules={inputs}
     >
       {/* You can assign any geometry. */}
       <boxGeometry args={[0.5, 0.5, 0.5]} />
