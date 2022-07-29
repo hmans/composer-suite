@@ -32,31 +32,19 @@ export type ModulePipe = Module[]
 export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
   pipe(initial, ...(modules as [Module]))
 
-export const LifetimeModule = () => (color: Input<"vec3">) =>
-  Vec3(color, {
+export const LifetimeModule = (): Module => (state) => ({
+  ...state,
+  color: Vec3(state.color, {
     fragment: {
       body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
     }
   })
+})
 
-export const AccelerationModule = (acceleration: Value<"vec3">) => (
-  position: Input<"vec3">
-) =>
-  pipe(
-    acceleration,
-    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
-    (v) => Mul(v, Pow(ParticleAge, 2)),
-    (v) => Mul(v, 0.5),
-    (v) => Add(position, v)
-  )
-
-export const ScaleModule = (scale: Input<"float"> = 1) => (
-  position: Input<"vec3">
-) => Mul(position, scale)
-
-export const MultiplyWith = (factor: Input<any>) => <T extends GLSLType>(
-  input: Input<T>
-) => Mul(input, factor)
+export const Scale = (scale: Input<"float"> = 1): Module => (state) => ({
+  ...state,
+  position: Mul(state.position, scale)
+})
 
 export const Translate = (offset: Input<"vec3">): Module => (state) => ({
   ...state,
