@@ -1,14 +1,19 @@
 import {
+  $,
   Attribute,
   Div,
   Float,
   GLSLType,
+  Input,
   isUnit,
   JSTypes,
+  Snippet,
   SplitVector2,
   Sub,
   Uniform,
-  Unit
+  Unit,
+  Vec3,
+  ViewMatrix
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { makeAttribute } from "./util/makeAttribute"
@@ -99,3 +104,17 @@ export const [LifetimeStart, LifetimeEnd] = SplitVector2(
 export const ParticleAge = Sub(EffectAge, LifetimeStart)
 export const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
 export const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
+
+export const billboard = Snippet(
+  (name) => $`
+    vec3 ${name}(vec2 v, mat4 view){
+      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
+      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
+      vec3 p = right * v.x + up * v.y;
+      return p;
+    }
+  `
+)
+
+export const Billboard = (position: Input<"vec3">) =>
+  Vec3($`${billboard}(${position}.xy, ${ViewMatrix})`)

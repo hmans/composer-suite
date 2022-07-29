@@ -13,7 +13,11 @@ import {
   vec3,
   Vec3
 } from "shader-composer"
-import { ParticleAge, ParticleProgress } from "./units"
+import {
+  Billboard as BillboardUnit,
+  ParticleAge,
+  ParticleProgress
+} from "./units"
 
 export type Module<T extends GLSLType> = (input: Input<T>) => Input<T>
 
@@ -76,3 +80,6 @@ export const Acceleration = (acceleration: Input<"vec3">) =>
  */
 export const Gravity = (amount: Input<"float"> = 9.81) =>
   Acceleration(vec3(0, -amount, 0))
+
+export const Billboard = () => (position: Input<"vec3">) =>
+  BillboardUnit(position)
