@@ -2,33 +2,21 @@
 collect helper
 */
 
-import { MutableRefObject, useMemo, useRef, useLayoutEffect } from "react"
-import { Item, walkTree, Unit } from "shader-composer"
+import { MutableRefObject, useLayoutEffect, useRef } from "react"
+import { collectFromTree, Unit } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
-  Vector3,
-  Quaternion
+  Quaternion,
+  Vector3
 } from "three"
 import {
   EffectAgeUniform,
   isParticleAttribute,
   ParticleAttribute
 } from "./units"
-
-const collectFromTree = (root: Item, check: (item: Item) => boolean) => {
-  const found = new Array<Item>()
-
-  walkTree(root, (item) => {
-    if (check(item)) {
-      found.push(item)
-    }
-  })
-
-  return found
-}
 
 export const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
