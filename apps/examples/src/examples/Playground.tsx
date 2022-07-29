@@ -1,5 +1,5 @@
 import { between, plusMinus } from "randomish"
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import {
   $,
   Add,
@@ -43,48 +43,50 @@ export default function Playground() {
     return () => clearInterval(id)
   }, [])
 
-  const offset = ParticleAttribute(
-    "vec3",
-    () => new Vector3(plusMinus(10), 0, plusMinus(10))
-  )
+  const inputs = useMemo(() => {
+    const offset = ParticleAttribute(
+      "vec3",
+      () => new Vector3(plusMinus(10), 0, plusMinus(10))
+    )
 
-  const rotatedOffset = Mul(
-    offset,
-    mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
-  )
+    const rotatedOffset = Mul(
+      offset,
+      mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
+    )
 
-  const position = Vec3(
-    pipe(
-      VertexPosition,
+    const position = Vec3(
+      pipe(
+        VertexPosition,
 
-      VelocityModule(
-        () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
+        VelocityModule(
+          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
+        ),
+
+        OffsetModule(
+          pipe(
+            ParticleAge,
+            (age) => Mul(age, Float(5)),
+            (time) => Rotation3DY(time),
+            (rotation) => Mul(rotatedOffset, rotation),
+            (offset) =>
+              Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+          )
+        )
       ),
 
-      OffsetModule(
-        pipe(
-          ParticleAge,
-          (age) => Mul(age, Float(5)),
-          (time) => Rotation3DY(time),
-          (rotation) => Mul(rotatedOffset, rotation),
-          (offset) =>
-            Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
-        )
-      )
-    ),
+      { varying: true }
+    )
 
-    { varying: true }
-  )
+    const color = pipe(Vec3(new Color("#ccc")), LifetimeModule(), (v) =>
+      Mix(v, new Color("#000"), ParticleProgress)
+    )
 
-  const color = pipe(Vec3(new Color("#ccc")), LifetimeModule(), (v) =>
-    Mix(v, new Color("#000"), ParticleProgress)
-  )
-
-  const inputs = {
-    position,
-    color,
-    alpha: 1
-  }
+    return {
+      position,
+      color,
+      alpha: 1
+    }
+  }, [])
 
   return (
     <Particles
