@@ -36,8 +36,8 @@ export const Simple = () => {
         depthWrite={false}
       />
 
-      <Repeat interval={0.2}>
-        <Emitter count={3} />
+      <Repeat interval={0.1}>
+        <Emitter count={5} />
       </Repeat>
     </Particles>
   )
