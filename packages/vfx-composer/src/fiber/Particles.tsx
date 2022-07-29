@@ -8,21 +8,21 @@ import React, {
   useMemo,
   useRef
 } from "react"
-import { CustomShaderMaterialMaster, VertexPosition } from "shader-composer"
+import {
+  $,
+  CustomShaderMaterialMaster,
+  Float,
+  Vec3,
+  VertexPosition
+} from "shader-composer"
 import { Color, InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 import { ModulePipe, pipeModules } from "../modules"
 import { SpawnOptions, useParticles } from "./useParticles"
 
-export type ParticleModules = {
-  position?: ModulePipe<"vec3">
-  color?: ModulePipe<"vec3">
-  alpha?: ModulePipe<"float">
-}
-
 export type ParticlesProps = InstancedMeshProps & {
   maxParticles?: number
-  modules: ParticleModules
+  modules: ModulePipe
 }
 
 export type ParticlesAPI = {
@@ -43,21 +43,22 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
     const imesh = useRef<InstancedMesh>(null!)
 
     /* Create the Shader Composer master, using the modules provided. */
-    const master = useMemo(
-      () =>
-        CustomShaderMaterialMaster({
-          position: modules.position
-            ? pipeModules(VertexPosition, ...modules.position)
-            : undefined,
+    const master = useMemo(() => {
+      const initialState = {
+        position: VertexPosition,
+        color: Vec3($`diffuse.rgb`),
+        alpha: 1
+      }
+      /* Transform state with given modules */
+      const { position, color, alpha } = pipeModules(initialState, ...modules)
 
-          diffuseColor: modules.color
-            ? pipeModules(new Color("red"), ...modules.color)
-            : undefined,
-
-          alpha: modules.alpha ? pipeModules(1, ...modules.alpha) : undefined
-        }),
-      [modules]
-    )
+      /* Return master unit */
+      return CustomShaderMaterialMaster({
+        position,
+        diffuseColor: color,
+        alpha
+      })
+    }, [modules])
 
     /* Initialize particles. */
     const { spawn, shader } = useParticles(imesh, master)

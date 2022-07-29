@@ -19,14 +19,18 @@ import {
   ParticleProgress
 } from "./units"
 
-export type Module<T extends GLSLType> = (input: Input<T>) => Input<T>
+export type ModuleState = {
+  position: Input<"vec3">
+  color: Input<"vec3">
+  alpha: Input<"float">
+}
 
-export type ModulePipe<T extends GLSLType> = Module<T>[]
+export type Module = (state: ModuleState) => ModuleState
 
-export const pipeModules = <T extends GLSLType>(
-  initial: Input<T>,
-  ...modules: Module<T>[]
-) => pipe(initial, ...(modules as [Module<T>]))
+export type ModulePipe = Module[]
+
+export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
+  pipe(initial, ...(modules as [Module]))
 
 export const LifetimeModule = () => (color: Input<"vec3">) =>
   Vec3(color, {
@@ -54,12 +58,14 @@ export const MultiplyWith = (factor: Input<any>) => <T extends GLSLType>(
   input: Input<T>
 ) => Mul(input, factor)
 
-export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
-  pipe(
+export const Translate = (offset: Input<"vec3">): Module => (state) => ({
+  ...state,
+  position: pipe(
     offset,
     (v) => Mul(v, mat3(InstanceMatrix)),
-    (v) => Add(position, v)
+    (v) => Add(state.position, v)
   )
+})
 
 export const Velocity = (velocity: Input<"vec3">) =>
   Translate(Mul(velocity, ParticleAge))
@@ -81,5 +87,7 @@ export const Acceleration = (acceleration: Input<"vec3">) =>
 export const Gravity = (amount: Input<"float"> = 9.81) =>
   Acceleration(vec3(0, -amount, 0))
 
-export const Billboard = () => (position: Input<"vec3">) =>
-  BillboardUnit(position)
+export const Billboard = (): Module => (state) => ({
+  ...state,
+  position: BillboardUnit(state.position)
+})
