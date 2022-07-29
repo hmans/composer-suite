@@ -1,5 +1,6 @@
 import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
+  createContext,
   forwardRef,
   useImperativeHandle,
   useLayoutEffect,
@@ -27,10 +28,14 @@ export type Particles = {
   spawn: (count?: number, opts?: SpawnOptions) => void
 }
 
+const ParticlesContenxt = createContext<Particles>(null!)
+
 export const Particles = forwardRef<Particles, ParticlesProps>(
   ({ maxParticles = 1000, inputs, children, ...props }, ref) => {
+    /* Reference to the InstancedMesh we're about to create */
     const imesh = useRef<InstancedMesh>(null!)
 
+    /* Create the Shader Composer master, using the inputs provided. */
     const master = useMemo(
       () =>
         CustomShaderMaterialMaster({
@@ -41,9 +46,10 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
       [inputs]
     )
 
+    /* Initialize particles. */
     const { spawn, shader } = useParticles(imesh, master)
 
-    /* Patch material */
+    /* Patch material. */
     useLayoutEffect(() => {
       if (!imesh.current) return
 
