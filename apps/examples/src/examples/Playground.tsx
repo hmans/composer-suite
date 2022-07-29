@@ -22,9 +22,9 @@ import {
   ParticleAge,
   ParticleAttribute,
   ParticleProgress,
-  Particles,
   VelocityModule
 } from "vfx-composer"
+import { Particles } from "vfx-composer/fiber"
 
 export default function Playground() {
   const particles = useRef<Particles>(null!)

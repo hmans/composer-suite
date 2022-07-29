@@ -11,7 +11,7 @@ import {
   Unit
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
-import { makeAttribute } from "./useParticles"
+import { makeAttribute } from "./util/makeAttribute"
 
 export type MeshSetupCallback = (mesh: InstancedMesh) => void
 

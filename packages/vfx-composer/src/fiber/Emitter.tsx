@@ -1,12 +1,12 @@
 import { Object3DProps, useFrame } from "@react-three/fiber"
 import React, {
   forwardRef,
-  useRef,
   useEffect,
-  useImperativeHandle
+  useImperativeHandle,
+  useRef
 } from "react"
 import { Object3D } from "three"
-import { useParticlesAPI } from "../Particles"
+import { useParticlesAPI } from "./Particles"
 
 export type EmitterProps = Object3DProps & {
   count?: number
