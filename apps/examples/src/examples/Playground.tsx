@@ -5,18 +5,21 @@ import {
   Cos,
   Float,
   mat3,
-  Mix,
   Mul,
   NormalizePlusMinusOne,
+  OneMinus,
   pipe,
   Rotation3D,
-  Rotation3DY,
-  Vec3,
-  VertexPosition
+  Rotation3DY
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { Particles } from "vfx-composer/fiber"
-import { LifetimeModule, Translate, Velocity } from "vfx-composer/modules"
+import {
+  LifetimeModule,
+  SetColor,
+  Translate,
+  Velocity
+} from "vfx-composer/modules"
 import {
   EffectAge,
   ParticleAge,
@@ -51,7 +54,9 @@ export default function Playground() {
       mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
     )
 
-    const position = [
+    return [
+      LifetimeModule(),
+
       Velocity(
         ParticleAttribute(
           "vec3",
@@ -68,12 +73,10 @@ export default function Playground() {
           (offset) =>
             Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
         )
-      )
-    ]
+      ),
 
-    return {
-      position
-    }
+      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress)))
+    ]
   }, [])
 
   return (
