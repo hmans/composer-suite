@@ -1,9 +1,9 @@
 import { useTexture } from "@react-three/drei"
 import { useMemo } from "react"
-import { Add, VertexPosition } from "shader-composer"
+import { Vector3 } from "three"
 import { Repeat } from "three-vfx"
 import { Emitter, Particles } from "vfx-composer/fiber"
-import { ParticleAge } from "vfx-composer/units"
+import { Translate } from "vfx-composer/modules"
 import textureUrl from "./textures/particle.png"
 
 export const Simple = () => {
@@ -11,7 +11,7 @@ export const Simple = () => {
 
   const inputs = useMemo(() => {
     return {
-      position: Add(VertexPosition, ParticleAge)
+      position: [Translate(new Vector3(0, 0, 0))]
     }
   }, [])
 

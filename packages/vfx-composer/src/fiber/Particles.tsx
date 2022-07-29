@@ -8,15 +8,21 @@ import React, {
   useMemo,
   useRef
 } from "react"
-import { CustomShaderMaterialMaster, Input } from "shader-composer"
-import { InstancedMesh, Material } from "three"
+import {
+  CustomShaderMaterialMaster,
+  Input,
+  pipe,
+  VertexPosition
+} from "shader-composer"
+import { Color, InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
+import { ModulePipe, pipeModules } from "../modules"
 import { SpawnOptions, useParticles } from "./useParticles"
 
 export type ParticleInputs = {
-  position?: Input<"vec3">
-  color?: Input<"vec3">
-  alpha?: Input<"float">
+  position?: ModulePipe<"vec3">
+  color?: ModulePipe<"vec3">
+  alpha?: ModulePipe<"float">
 }
 
 export type ParticlesProps = InstancedMeshProps & {
@@ -45,9 +51,15 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
     const master = useMemo(
       () =>
         CustomShaderMaterialMaster({
-          position: inputs.position,
-          diffuseColor: inputs.color,
-          alpha: inputs.alpha
+          position: inputs.position
+            ? pipeModules(VertexPosition, ...inputs.position)
+            : undefined,
+
+          diffuseColor: inputs.color
+            ? pipeModules(new Color(), ...inputs.color)
+            : undefined,
+
+          alpha: inputs.alpha ? pipeModules(1, ...inputs.alpha) : undefined
         }),
       [inputs]
     )

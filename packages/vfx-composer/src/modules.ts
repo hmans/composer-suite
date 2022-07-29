@@ -1,6 +1,7 @@
 import {
   $,
   Add,
+  GLSLType,
   Input,
   InstanceMatrix,
   Mat3,
@@ -12,6 +13,15 @@ import {
 } from "shader-composer"
 import { Vector3 } from "three"
 import { ParticleAge, ParticleAttribute, ParticleProgress } from "./units"
+
+export type Module<T extends GLSLType> = (input: Input<T>) => Input<T>
+
+export type ModulePipe<T extends GLSLType> = Module<T>[]
+
+export const pipeModules = <T extends GLSLType>(
+  initial: Input<T>,
+  ...modules: Module<T>[]
+) => pipe(initial, ...(modules as [Module<T>]))
 
 export const LifetimeModule = () => (color: Input<"vec3">) =>
   Vec3(color, {
@@ -47,6 +57,5 @@ export const ScaleModule = (scale: Input<"float"> = 1) => (
   position: Input<"vec3">
 ) => Mul(position, scale)
 
-export const OffsetModule = (offset: Input<"vec3">) => (
-  position: Input<"vec3">
-) => Add(position, Mul(offset, $`mat3(${InstanceMatrix})`))
+export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
+  Add(position, Mul(offset, $`mat3(${InstanceMatrix})`))
