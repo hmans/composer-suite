@@ -118,3 +118,6 @@ export const billboard = Snippet(
 
 export const Billboard = (position: Input<"vec3">) =>
   Vec3($`${billboard}(${position}.xy, ${ViewMatrix})`)
+
+export const Random = (n: Input<"float">) =>
+  Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })

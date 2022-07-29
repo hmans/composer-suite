@@ -28,7 +28,7 @@ export const Simple = () => {
       <meshStandardMaterial color="cyan" map={texture} transparent />
 
       <Repeat interval={0.2}>
-        <Emitter count={5} />
+        <Emitter count={3} />
       </Repeat>
     </Particles>
   )
