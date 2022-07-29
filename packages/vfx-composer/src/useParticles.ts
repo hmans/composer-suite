@@ -1,16 +1,12 @@
-/*
-collect helper
-*/
-
-import { MutableRefObject, useMemo, useRef, useLayoutEffect } from "react"
-import { Item, walkTree, Unit } from "shader-composer"
+import { MutableRefObject, useLayoutEffect, useRef } from "react"
+import { collectFromTree, Unit } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import {
   InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
-  Vector3,
-  Quaternion
+  Quaternion,
+  Vector3
 } from "three"
 import {
   EffectAgeUniform,
@@ -18,20 +14,19 @@ import {
   ParticleAttribute
 } from "./units"
 
-const collectFromTree = (root: Item, check: (item: Item) => boolean) => {
-  const found = new Array<Item>()
-
-  walkTree(root, (item) => {
-    if (check(item)) {
-      found.push(item)
-    }
-  })
-
-  return found
+export type SpawnOptions = {
+  position?: (position: Vector3) => Vector3
+  rotation?: (rotation: Quaternion) => Quaternion
+  scale?: (scale: Vector3) => Vector3
 }
 
 export const makeAttribute = (count: number, itemSize: number) =>
   new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
+
+const tmpPosition = new Vector3()
+const tmpRotation = new Quaternion()
+const tmpScale = new Vector3()
+const tmpMatrix = new Matrix4()
 
 /**
  * Prepares the given instanced mesh and returns an API for interacting with it.
@@ -61,20 +56,25 @@ export const useParticles = (
 
   let cursor = 0
 
-  const spawn = (count: number = 1) => {
+  const spawn = (count: number = 1, opts: SpawnOptions = {}) => {
     if (!imesh.current) return
 
     const { geometry } = imesh.current
 
     for (let i = 0; i < count; i++) {
+      /* Reset configuration variables */
+      tmpPosition.set(0, 0, 0)
+      tmpRotation.set(0, 0, 0, 1)
+      tmpScale.set(1, 1, 1)
+
       /* Set the matrix at cursor */
       imesh.current.setMatrixAt(
         cursor,
 
-        new Matrix4().compose(
-          new Vector3().randomDirection().multiplyScalar(Math.random() * 3),
-          new Quaternion(),
-          new Vector3(1, 1, 1)
+        tmpMatrix.compose(
+          opts.position ? opts.position(tmpPosition) : tmpPosition,
+          opts.rotation ? opts.rotation(tmpRotation) : tmpRotation,
+          opts.scale ? opts.scale(tmpScale) : tmpScale
         )
       )
 

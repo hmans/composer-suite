@@ -1,50 +1,30 @@
-import { between, plusMinus, upTo } from "randomish"
-import { useEffect, useRef } from "react"
+import { between, plusMinus } from "randomish"
+import { useEffect, useMemo, useRef } from "react"
 import {
   Add,
   Cos,
+  Float,
+  mat3,
   Mix,
   Mul,
   NormalizePlusMinusOne,
-  OneMinus,
+  pipe,
+  Rotation3D,
   Rotation3DY,
-  Sin,
-  Uniform,
-  Value
+  Vec3,
+  VertexPosition
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import {
-  Module,
+  EffectAge,
+  LifetimeModule,
+  OffsetModule,
   ParticleAge,
   ParticleAttribute,
   ParticleProgress,
   Particles,
-  ScaleModule,
   VelocityModule
 } from "vfx-composer"
-
-const FirestormModule = (): Module => (input) => {
-  const spawnOffset = ParticleAttribute(
-    "vec3",
-    () => new Vector3(plusMinus(6), 0, 0)
-  )
-  const speed = ParticleAttribute("float", () => between(2, 5))
-  const darkness = ParticleAttribute("float", () => upTo(0.2))
-
-  return {
-    ...input,
-
-    color: Mix(input.color, new Color("black"), darkness),
-
-    position: Add(
-      input.position,
-      Mul(
-        Mul(spawnOffset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2)))),
-        Rotation3DY(Mul(ParticleAge, speed))
-      )
-    )
-  }
-}
 
 export default function Playground() {
   const particles = useRef<Particles>(null!)
@@ -53,46 +33,69 @@ export default function Playground() {
     const { spawn } = particles.current
 
     const id = setInterval(() => {
-      spawn(20)
-    }, 80)
+      spawn(between(500, 1000), {
+        position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
+        rotation: (q) => q.random()
+      })
+    }, 100)
 
     return () => clearInterval(id)
   }, [])
 
-  return (
-    <Particles
-      ref={particles}
-      position-y={2}
-      modules={[
-        /*
-        Scale the particle. Pass a Shader Unit to steer scale over time.
-        */
-        ScaleModule(OneMinus(ParticleProgress)),
+  const inputs = useMemo(() => {
+    const offset = ParticleAttribute(
+      "vec3",
+      () => new Vector3(plusMinus(10), 0, plusMinus(10))
+    )
 
-        /*
-        Perform gravity. Gravity is the same for all particles, so we're using
-        a constant Vector3 value here.
-        */
-        // AccelerationModule(new Vector3(0, -9.81, 0)),
+    const rotatedOffset = Mul(
+      offset,
+      mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
+    )
 
-        /*
-        Simulate velocity. Velocity should be different for each particle, so
-        we're passing a function that returns a new Vector3 for every spawned
-        particle. The module will automatically set up an instanced buffer
-        attribute and upload newly filled values to the GPU. ✨
-        */
+    const position = Vec3(
+      pipe(
+        VertexPosition,
+
         VelocityModule(
-          new Vector3(0, 4, 0)
-          // () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
+          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
         ),
 
-        FirestormModule(),
+        OffsetModule(
+          pipe(
+            ParticleAge,
+            (age) => Mul(age, Float(5)),
+            (time) => Rotation3DY(time),
+            (rotation) => Mul(rotatedOffset, rotation),
+            (offset) =>
+              Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+          )
+        )
+      ),
 
-        (payload) => ({ ...payload, position: Mul(payload.position, 2) })
-      ]}
+      { varying: true }
+    )
+
+    const color = pipe(Vec3(new Color("#ccc")), LifetimeModule(), (v) =>
+      Mix(v, new Color("#000"), ParticleProgress)
+    )
+
+    return {
+      position,
+      color,
+      alpha: 1
+    }
+  }, [])
+
+  return (
+    <Particles
+      maxParticles={300000}
+      ref={particles}
+      position-y={2}
+      inputs={inputs}
     >
       {/* You can assign any geometry. */}
-      <boxGeometry />
+      <boxGeometry args={[0.5, 0.5, 0.5]} />
 
       {/* And any material! */}
       <meshStandardMaterial color="white" />
