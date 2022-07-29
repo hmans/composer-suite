@@ -12,13 +12,11 @@ const InstancedVec3 = (ctor: () => Vector3) => ParticleAttribute("vec3", ctor)
 const modules = {
   position: [
     Billboard(),
-
     Velocity(
       InstancedVec3(
         () => new Vector3(plusMinus(5), between(5, 18), plusMinus(5))
       )
     ),
-
     Gravity()
   ]
 }
