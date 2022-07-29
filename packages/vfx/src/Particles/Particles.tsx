@@ -55,8 +55,6 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
 
       /* This function will spawn new particles. */
       return (count: number) => {
-        console.log("spawning", count)
-
         /* Grab some stuff we need */
         const { material, geometry } = imesh.current
 
