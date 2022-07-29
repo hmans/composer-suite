@@ -1,22 +1,16 @@
-import { between, plusMinus, upTo } from "randomish"
+import { between, plusMinus } from "randomish"
 import { useEffect, useRef } from "react"
 import {
   $,
   Add,
-  Clamp01,
   Cos,
-  Div,
   Float,
-  InstanceMatrix,
   Mix,
   Mul,
   NormalizePlusMinusOne,
-  OneMinus,
   pipe,
   Rotation3D,
   Rotation3DY,
-  Sin,
-  SplitVector3,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -24,7 +18,6 @@ import { Color, Vector3 } from "three"
 import {
   EffectAge,
   LifetimeModule,
-  Module,
   OffsetModule,
   ParticleAge,
   ParticleAttribute,
