@@ -9,13 +9,16 @@ import {
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
-  Rotation3DY
+  pipe,
+  Rotation3DY,
+  VertexPosition
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import {
   Module,
   ParticleAge,
   ParticleAttribute,
+  ParticleInputs,
   ParticleProgress,
   Particles,
   ScaleModule,
@@ -64,38 +67,14 @@ export default function Playground() {
     return () => clearInterval(id)
   }, [])
 
+  const inputs: ParticleInputs = {
+    position: pipe(VertexPosition, (p) => Add(p, ParticleAge)),
+    color: new Color("hotpink"),
+    alpha: 1
+  }
+
   return (
-    <Particles
-      ref={particles}
-      position-y={2}
-      modules={[
-        /*
-        Scale the particle. Pass a Shader Unit to steer scale over time.
-        */
-        ScaleModule(OneMinus(ParticleProgress)),
-
-        /*
-        Perform gravity. Gravity is the same for all particles, so we're using
-        a constant Vector3 value here.
-        */
-        // AccelerationModule(new Vector3(0, -9.81, 0)),
-
-        /*
-        Simulate velocity. Velocity should be different for each particle, so
-        we're passing a function that returns a new Vector3 for every spawned
-        particle. The module will automatically set up an instanced buffer
-        attribute and upload newly filled values to the GPU. ✨
-        */
-        VelocityModule(
-          new Vector3(0, 4, 0)
-          // () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
-        ),
-
-        FirestormModule(),
-
-        (payload) => ({ ...payload, position: Mul(payload.position, 2) })
-      ]}
-    >
+    <Particles ref={particles} position-y={2} inputs={inputs}>
       {/* You can assign any geometry. */}
       <boxGeometry />
 
