@@ -8,12 +8,7 @@ import React, {
   useMemo,
   useRef
 } from "react"
-import {
-  CustomShaderMaterialMaster,
-  Input,
-  pipe,
-  VertexPosition
-} from "shader-composer"
+import { CustomShaderMaterialMaster, VertexPosition } from "shader-composer"
 import { Color, InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 import { ModulePipe, pipeModules } from "../modules"
