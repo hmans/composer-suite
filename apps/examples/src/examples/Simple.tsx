@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { useMemo } from "react"
-import { Vector3 } from "three"
+import { Color, Vector3 } from "three"
 import { Repeat } from "three-vfx"
 import { Emitter, Particles } from "vfx-composer/fiber"
 import { Acceleration, Gravity, Velocity } from "vfx-composer/modules"
@@ -23,12 +23,12 @@ export const Simple = () => {
   }, [])
 
   return (
-    <Particles inputs={inputs}>
-      <sphereGeometry />
+    <Particles maxParticles={100} inputs={inputs}>
+      <planeGeometry />
       <meshStandardMaterial color="cyan" />
 
       <Repeat interval={0.2}>
-        <Emitter count={10} />
+        <Emitter count={5} />
       </Repeat>
     </Particles>
   )
