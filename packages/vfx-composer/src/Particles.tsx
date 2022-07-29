@@ -6,14 +6,9 @@ import React, {
   useMemo,
   useRef
 } from "react"
-import {
-  CustomShaderMaterialMaster,
-  Input,
-  VertexPosition
-} from "shader-composer"
+import { CustomShaderMaterialMaster, Input } from "shader-composer"
 import { InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
-import { LifetimeModule, modularPipe, Module } from "./modules"
 import { SpawnOptions, useParticles } from "./useParticles"
 
 export type ParticleInputs = {
