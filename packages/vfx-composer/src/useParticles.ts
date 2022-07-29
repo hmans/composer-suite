@@ -72,8 +72,8 @@ export const useParticles = (
         cursor,
 
         new Matrix4().compose(
-          new Vector3().randomDirection(),
-          new Quaternion().random(),
+          new Vector3().randomDirection().multiplyScalar(Math.random() * 3),
+          new Quaternion(),
           new Vector3(1, 1, 1)
         )
       )
@@ -82,7 +82,7 @@ export const useParticles = (
       geometry.attributes.lifetime.setXY(
         cursor,
         EffectAgeUniform.value + 0,
-        EffectAgeUniform.value + 1
+        EffectAgeUniform.value + 4
       )
       geometry.attributes.lifetime.needsUpdate = true
 

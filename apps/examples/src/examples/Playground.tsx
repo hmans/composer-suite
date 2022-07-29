@@ -1,9 +1,10 @@
-import { between, plusMinus } from "randomish"
+import { between } from "randomish"
 import { useEffect, useRef } from "react"
-import { Mul, OneMinus } from "shader-composer"
+import { Add, Mul, OneMinus, Rotation3DY } from "shader-composer"
 import { Vector3 } from "three"
 import {
-  AccelerationModule,
+  ParticleAge,
+  ParticleAttribute,
   ParticleProgress,
   Particles,
   ScaleModule,
@@ -17,7 +18,7 @@ export default function Playground() {
     const { spawn } = particles.current
 
     const id = setInterval(() => {
-      spawn()
+      spawn(20)
     }, 80)
 
     return () => clearInterval(id)
@@ -37,7 +38,7 @@ export default function Playground() {
         Perform gravity. Gravity is the same for all particles, so we're using
         a constant Vector3 value here.
         */
-        AccelerationModule(new Vector3(0, -9.81, 0)),
+        // AccelerationModule(new Vector3(0, -9.81, 0)),
 
         /*
         Simulate velocity. Velocity should be different for each particle, so
@@ -46,8 +47,20 @@ export default function Playground() {
         attribute and upload newly filled values to the GPU. ✨
         */
         VelocityModule(
-          () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
+          new Vector3(0, 4, 0)
+          // () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
         ),
+
+        (input) => ({
+          ...input,
+          position: Add(
+            input.position,
+            Mul(
+              ParticleAttribute("vec3", () => new Vector3(between(2, 6), 0, 0)),
+              Rotation3DY(Mul(ParticleAge, 5))
+            )
+          )
+        }),
 
         (payload) => ({ ...payload, position: Mul(payload.position, 2) })
       ]}
