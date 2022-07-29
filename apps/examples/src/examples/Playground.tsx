@@ -1,8 +1,20 @@
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { Add, Mix, Mul, OneMinus, Rotation3DY, Uniform } from "shader-composer"
+import {
+  Add,
+  Cos,
+  Mix,
+  Mul,
+  NormalizePlusMinusOne,
+  OneMinus,
+  Rotation3DY,
+  Sin,
+  Uniform,
+  Value
+} from "shader-composer"
 import { Color, Vector3 } from "three"
 import {
+  Module,
   ParticleAge,
   ParticleAttribute,
   ParticleProgress,
@@ -10,6 +22,38 @@ import {
   ScaleModule,
   VelocityModule
 } from "vfx-composer"
+
+const FirestormModule = (): Module => (input) => ({
+  ...input,
+
+  color: Mix(
+    input.color,
+    new Color("black"),
+
+    /* Color darkness amount */
+    ParticleAttribute("float", () => upTo(0.2))
+  ),
+
+  position: Add(
+    input.position,
+    Mul(
+      /* Spawn position */
+      Mul(
+        ParticleAttribute("vec3", () => new Vector3(plusMinus(6), 0, 0)),
+        NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2)))
+      ),
+
+      Rotation3DY(
+        Mul(
+          ParticleAge,
+
+          /* Speed */
+          ParticleAttribute("float", () => between(2, 5))
+        )
+      )
+    )
+  )
+})
 
 export default function Playground() {
   const particles = useRef<Particles>(null!)
@@ -51,34 +95,7 @@ export default function Playground() {
           // () => new Vector3(plusMinus(3), between(5, 15), plusMinus(3))
         ),
 
-        (input) => ({
-          ...input,
-
-          color: Mix(
-            input.color,
-            new Color("black"),
-
-            /* Color darkness amount */
-            ParticleAttribute("float", () => upTo(0.2))
-          ),
-
-          position: Add(
-            input.position,
-            Mul(
-              /* Spawn position */
-              ParticleAttribute("vec3", () => new Vector3(plusMinus(6), 0, 0)),
-
-              Rotation3DY(
-                Mul(
-                  ParticleAge,
-
-                  /* Speed */
-                  ParticleAttribute("float", () => between(2, 5))
-                )
-              )
-            )
-          )
-        }),
+        FirestormModule(),
 
         (payload) => ({ ...payload, position: Mul(payload.position, 2) })
       ]}

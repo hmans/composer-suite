@@ -35,7 +35,15 @@ export const ParticleAttribute = <T extends GLSLType>(
 
     setupMesh: ({ geometry, count }: InstancedMesh) => {
       const itemSize =
-        type === "vec2" ? 2 : type === "vec3" ? 3 : type === "vec4" ? 4 : 4
+        type === "float"
+          ? 1
+          : type === "vec2"
+          ? 2
+          : type === "vec3"
+          ? 3
+          : type === "vec4"
+          ? 4
+          : 4
 
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
@@ -45,6 +53,11 @@ export const ParticleAttribute = <T extends GLSLType>(
       const attribute = geometry.attributes[name]
 
       switch (type) {
+        case "float": {
+          attribute.setX(index, value as number)
+          break
+        }
+
         case "vec2": {
           attribute.setXY(index, ...(value as Vector2).toArray())
           break
