@@ -2,6 +2,7 @@ import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
   createContext,
   forwardRef,
+  useContext,
   useImperativeHandle,
   useLayoutEffect,
   useMemo,
@@ -23,12 +24,17 @@ export type ParticlesProps = InstancedMeshProps & {
   inputs: ParticleInputs
 }
 
-export type Particles = {
-  mesh: InstancedMesh
+export type ParticlesAPI = {
   spawn: (count?: number, opts?: SpawnOptions) => void
 }
 
-const ParticlesContenxt = createContext<Particles>(null!)
+export type Particles = {
+  mesh: InstancedMesh
+} & ParticlesAPI
+
+const ParticlesAPIContext = createContext<ParticlesAPI>(null!)
+
+export const useParticlesAPI = () => useContext(ParticlesAPIContext)
 
 export const Particles = forwardRef<Particles, ParticlesProps>(
   ({ maxParticles = 1000, inputs, children, ...props }, ref) => {
@@ -79,7 +85,9 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
         args={[undefined, undefined, maxParticles]}
         {...props}
       >
-        {children}
+        <ParticlesAPIContext.Provider value={{ spawn }}>
+          {children}
+        </ParticlesAPIContext.Provider>
       </instancedMesh>
     )
   }
