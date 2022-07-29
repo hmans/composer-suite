@@ -16,7 +16,7 @@ import {
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { Particles } from "vfx-composer/fiber"
-import { LifetimeModule, Translate, VelocityModule } from "vfx-composer/modules"
+import { LifetimeModule, Translate, Velocity } from "vfx-composer/modules"
 import {
   EffectAge,
   ParticleAge,
@@ -55,9 +55,7 @@ export default function Playground() {
       pipe(
         VertexPosition,
 
-        VelocityModule(
-          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
-        ),
+        Velocity(new Vector3(plusMinus(2), between(8, 12), plusMinus(2))),
 
         Translate(
           pipe(

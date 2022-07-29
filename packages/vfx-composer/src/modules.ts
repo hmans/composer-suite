@@ -30,18 +30,6 @@ export const LifetimeModule = () => (color: Input<"vec3">) =>
     }
   })
 
-export const VelocityModule = (velocity: Input<"vec3"> | (() => Vector3)) => (
-  position: Input<"vec3">
-) =>
-  pipe(
-    typeof velocity === "function"
-      ? ParticleAttribute("vec3", velocity)
-      : velocity,
-    (v) => Mul(v, $`mat3(${InstanceMatrix})`),
-    (v) => Mul(v, ParticleAge),
-    (v) => Add(position, v)
-  )
-
 export const AccelerationModule = (acceleration: Value<"vec3">) => (
   position: Input<"vec3">
 ) =>
@@ -59,3 +47,13 @@ export const ScaleModule = (scale: Input<"float"> = 1) => (
 
 export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
   Add(position, Mul(offset, $`mat3(${InstanceMatrix})`))
+
+export const Velocity = (velocity: Input<"vec3">) => (
+  position: Input<"vec3">
+) =>
+  pipe(
+    velocity,
+    (v) => Mul(v, $`mat3(${InstanceMatrix})`),
+    (v) => Mul(v, ParticleAge),
+    (v) => Add(position, v)
+  )
