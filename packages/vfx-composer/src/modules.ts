@@ -4,6 +4,7 @@ import {
   GLSLType,
   Input,
   InstanceMatrix,
+  mat3,
   Mat3,
   Mul,
   pipe,
@@ -11,8 +12,7 @@ import {
   Value,
   Vec3
 } from "shader-composer"
-import { Vector3 } from "three"
-import { ParticleAge, ParticleAttribute, ParticleProgress } from "./units"
+import { ParticleAge, ParticleProgress } from "./units"
 
 export type Module<T extends GLSLType> = (input: Input<T>) => Input<T>
 
@@ -45,15 +45,16 @@ export const ScaleModule = (scale: Input<"float"> = 1) => (
   position: Input<"vec3">
 ) => Mul(position, scale)
 
-export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
-  Add(position, Mul(offset, $`mat3(${InstanceMatrix})`))
+export const MultiplyWith = (factor: Input<any>) => <T extends GLSLType>(
+  input: Input<T>
+) => Mul(input, factor)
 
-export const Velocity = (velocity: Input<"vec3">) => (
-  position: Input<"vec3">
-) =>
+export const Translate = (offset: Input<"vec3">) => (position: Input<"vec3">) =>
   pipe(
-    velocity,
-    (v) => Mul(v, $`mat3(${InstanceMatrix})`),
-    (v) => Mul(v, ParticleAge),
+    offset,
+    (v) => Mul(v, mat3(InstanceMatrix)),
     (v) => Add(position, v)
   )
+
+export const Velocity = (velocity: Input<"vec3">) =>
+  Translate(Mul(velocity, ParticleAge))

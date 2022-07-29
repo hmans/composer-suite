@@ -56,7 +56,7 @@ export const Particles = forwardRef<Particles, ParticlesProps>(
             : undefined,
 
           diffuseColor: inputs.color
-            ? pipeModules(new Color(), ...inputs.color)
+            ? pipeModules(new Color("red"), ...inputs.color)
             : undefined,
 
           alpha: inputs.alpha ? pipeModules(1, ...inputs.alpha) : undefined
