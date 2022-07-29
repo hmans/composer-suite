@@ -79,3 +79,8 @@ export const Billboard = (): Module => (state) => ({
   ...state,
   position: BillboardUnit(state.position)
 })
+
+export const SetColor = (color: Input<"vec3">): Module => (state) => ({
+  ...state,
+  color
+})
