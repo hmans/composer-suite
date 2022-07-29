@@ -8,22 +8,12 @@ import {
   Mix,
   Mul,
   NormalizePlusMinusOne,
-  OneMinus,
   pipe,
   Rotation3DY,
   VertexPosition
 } from "shader-composer"
 import { Color, Vector3 } from "three"
-import {
-  Module,
-  ParticleAge,
-  ParticleAttribute,
-  ParticleInputs,
-  ParticleProgress,
-  Particles,
-  ScaleModule,
-  VelocityModule
-} from "vfx-composer"
+import { Module, ParticleAge, ParticleAttribute, Particles } from "vfx-composer"
 
 const FirestormModule = (): Module => (input) => {
   const spawnOffset = ParticleAttribute(
@@ -67,7 +57,7 @@ export default function Playground() {
     return () => clearInterval(id)
   }, [])
 
-  const inputs: ParticleInputs = {
+  const inputs = {
     position: pipe(VertexPosition, (p) => Add(p, ParticleAge)),
     color: new Color("hotpink"),
     alpha: 1
