@@ -66,7 +66,9 @@ export default function Playground() {
     pipe(
       VertexPosition,
 
-      VelocityModule(() => new Vector3(0, between(8, 10), 0)),
+      VelocityModule(
+        () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
+      ),
 
       OffsetModule(
         pipe(
