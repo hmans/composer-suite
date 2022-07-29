@@ -14,7 +14,7 @@ export const Simple = () => {
   const inputs = useMemo(() => {
     const velocity = ParticleAttribute(
       "vec3",
-      () => new Vector3(plusMinus(2), between(2, 8), plusMinus(2))
+      () => new Vector3(plusMinus(5), between(5, 18), plusMinus(5))
     )
 
     return {
