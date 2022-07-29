@@ -25,7 +25,7 @@ export const Simple = () => {
   return (
     <Particles maxParticles={100} inputs={inputs}>
       <planeGeometry />
-      <meshStandardMaterial color="cyan" />
+      <meshStandardMaterial color="cyan" map={texture} transparent />
 
       <Repeat interval={0.2}>
         <Emitter count={5} />

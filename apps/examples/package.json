@@ -19,7 +19,7 @@
     "shader-composer-r3f": "^0.1.0",
     "shader-composer-toybox": "^0.0.8",
     "three": "^0.143.0",
-    "three-custom-shader-material": "^3.4.4",
+    "three-custom-shader-material": "^3.5.1",
     "three-vfx": "^0.2.0",
     "timeline-composer": "^0.0.2",
     "vfx-composer": "^0.0.1",

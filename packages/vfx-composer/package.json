@@ -63,7 +63,7 @@
   "dependencies": {
     "shader-composer": "^0.1.6",
     "shader-composer-r3f": "^0.1.0",
-    "three-custom-shader-material": "^3.4.4"
+    "three-custom-shader-material": "^3.5.1"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.27",
