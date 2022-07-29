@@ -1,7 +1,3 @@
-/*
-collect helper
-*/
-
 import { MutableRefObject, useLayoutEffect, useRef } from "react"
 import { collectFromTree, Unit } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
