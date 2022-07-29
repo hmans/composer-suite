@@ -1,9 +1,9 @@
 import { useTexture } from "@react-three/drei"
 import { useMemo } from "react"
-import { Add, Time, VertexPosition } from "shader-composer"
+import { Add, VertexPosition } from "shader-composer"
 import { Repeat } from "three-vfx"
-import { ParticleAge } from "vfx-composer"
-import { Particles, Emitter } from "vfx-composer/fiber"
+import { Emitter, Particles } from "vfx-composer/fiber"
+import { ParticleAge } from "vfx-composer/units"
 import textureUrl from "./textures/particle.png"
 
 export const Simple = () => {

@@ -1,0 +1,4 @@
+{
+  "main": "dist/vfx-composer-units.cjs.js",
+  "module": "dist/vfx-composer-units.esm.js"
+}

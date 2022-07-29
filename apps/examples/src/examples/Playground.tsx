@@ -15,16 +15,18 @@ import {
   VertexPosition
 } from "shader-composer"
 import { Color, Vector3 } from "three"
+import { Particles } from "vfx-composer/fiber"
 import {
-  EffectAge,
   LifetimeModule,
   OffsetModule,
+  VelocityModule
+} from "vfx-composer/modules"
+import {
+  EffectAge,
   ParticleAge,
   ParticleAttribute,
-  ParticleProgress,
-  VelocityModule
-} from "vfx-composer"
-import { Particles } from "vfx-composer/fiber"
+  ParticleProgress
+} from "vfx-composer/units"
 
 export default function Playground() {
   const particles = useRef<Particles>(null!)

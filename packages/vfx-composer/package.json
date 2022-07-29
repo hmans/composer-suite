@@ -13,6 +13,8 @@
   "types": "dist/vfx-composer.cjs.d.ts",
   "files": [
     "fiber/**",
+    "units/**",
+    "modules/**",
     "dist/**",
     "LICENSE",
     "README.md"
@@ -20,6 +22,8 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
+      "units.ts",
+      "modules.ts",
       "fiber/index.ts"
     ]
   },

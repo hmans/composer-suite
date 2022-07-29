@@ -1,2 +1,1 @@
-export * from "./modules"
-export * from "./units"
+export const shaderComposer = "cool!"
