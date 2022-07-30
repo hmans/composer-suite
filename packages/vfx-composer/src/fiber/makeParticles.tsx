@@ -2,8 +2,6 @@ import { InstancedMeshProps, Object3DProps, useFrame } from "@react-three/fiber"
 import React, {
   createRef,
   forwardRef,
-  MutableRefObject,
-  RefObject,
   useEffect,
   useImperativeHandle,
   useRef
@@ -11,6 +9,7 @@ import React, {
 import { InstancedMesh, Matrix4, Object3D, Quaternion, Vector3 } from "three"
 import { ModulePipe } from "../modules"
 
+/* A couple of temporary variables to avoid allocations */
 const tmpPosition = new Vector3()
 const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
@@ -28,24 +27,26 @@ export const makeParticles = (
   const imeshRef = createRef<InstancedMesh>()
   let cursor = 0
 
-  const spawn = (count: number) => {
+  const spawn = (count: number = 1) => {
     const imesh = imeshRef.current!
 
-    /* Reset instance configuration values */
-    tmpPosition.set(0, 0, 0)
-    tmpRotation.set(0, 0, 0, 1)
-    tmpScale.set(1, 1, 1)
+    for (let i = 0; i < count; i++) {
+      /* Reset instance configuration values */
+      tmpPosition.set(0, 0, 0)
+      tmpRotation.set(0, 0, 0, 1)
+      tmpScale.set(1, 1, 1)
 
-    tmpPosition.randomDirection().multiplyScalar(Math.random() * 10)
+      tmpPosition.randomDirection().multiplyScalar(Math.random() * 10)
 
-    tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
+      tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
 
-    /* Store and upload matrix */
-    imesh.setMatrixAt(cursor, tmpMatrix)
-    imesh.instanceMatrix.needsUpdate = true
+      /* Store and upload matrix */
+      imesh.setMatrixAt(cursor, tmpMatrix)
+      imesh.instanceMatrix.needsUpdate = true
 
-    /* Advance cursor */
-    cursor = (cursor + 1) % maxParticles
+      /* Advance cursor */
+      cursor = (cursor + 1) % maxParticles
+    }
   }
 
   /* ROOT COMPONENT */
@@ -63,7 +64,7 @@ export const makeParticles = (
 
   /* EMITTER COMPONENT */
   const Emitter = forwardRef<Object3D, EmitterProps>(
-    ({ continuous, count = 0, ...props }, ref) => {
+    ({ continuous, count = 1, ...props }, ref) => {
       const object = useRef<Object3D>(null!)
 
       useImperativeHandle(ref, () => object.current)
