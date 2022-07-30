@@ -1,52 +1,86 @@
 import {
   $,
   Add,
+  GLSLType,
   Input,
   InstanceMatrix,
+  mat3,
   Mat3,
   Mul,
   pipe,
   Pow,
   Value,
+  vec3,
   Vec3
 } from "shader-composer"
-import { Vector3 } from "three"
-import { ParticleAge, ParticleAttribute, ParticleProgress } from "./units"
+import {
+  Billboard as BillboardUnit,
+  ParticleAge,
+  ParticleProgress
+} from "./units"
 
-export const LifetimeModule = () => (color: Input<"vec3">) =>
-  Vec3(color, {
+export type ModuleState = {
+  position: Input<"vec3">
+  color: Input<"vec3">
+  alpha: Input<"float">
+}
+
+export type Module = (state: ModuleState) => ModuleState
+
+export type ModulePipe = Module[]
+
+export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
+  pipe(initial, ...(modules as [Module]))
+
+export const Lifetime = (): Module => (state) => ({
+  ...state,
+  color: Vec3(state.color, {
     fragment: {
       body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
     }
   })
+})
 
-export const VelocityModule = (velocity: Input<"vec3"> | (() => Vector3)) => (
-  position: Input<"vec3">
-) =>
-  pipe(
-    typeof velocity === "function"
-      ? ParticleAttribute("vec3", velocity)
-      : velocity,
-    (v) => Mul(v, $`mat3(${InstanceMatrix})`),
-    (v) => Mul(v, ParticleAge),
-    (v) => Add(position, v)
+export const Scale = (scale: Input<"float"> = 1): Module => (state) => ({
+  ...state,
+  position: Mul(state.position, scale)
+})
+
+export const Translate = (offset: Input<"vec3">): Module => (state) => ({
+  ...state,
+  position: pipe(
+    offset,
+    (v) => Mul(v, mat3(InstanceMatrix)),
+    (v) => Add(state.position, v)
+  )
+})
+
+export const Velocity = (velocity: Input<"vec3">) =>
+  Translate(Mul(velocity, ParticleAge))
+
+export const Acceleration = (acceleration: Input<"vec3">) =>
+  Translate(
+    pipe(
+      acceleration,
+      (v) => Mul(v, Pow(ParticleAge, 2)),
+      (v) => Mul(v, 0.5)
+    )
   )
 
-export const AccelerationModule = (acceleration: Value<"vec3">) => (
-  position: Input<"vec3">
-) =>
-  pipe(
-    acceleration,
-    (v) => Mul(v, Mat3($`mat3(${InstanceMatrix})`)),
-    (v) => Mul(v, Pow(ParticleAge, 2)),
-    (v) => Mul(v, 0.5),
-    (v) => Add(position, v)
-  )
+/**
+ * Apply a downward force, just like gravity.
+ *
+ * @param amount The gravity force (default: 9.81).
+ */
+export const Gravity = (amount: Input<"float"> = 9.81) =>
+  Acceleration(vec3(0, -amount, 0))
 
-export const ScaleModule = (scale: Input<"float"> = 1) => (
-  position: Input<"vec3">
-) => Mul(position, scale)
+export const Billboard = (): Module => (state) => ({
+  ...state,
+  position: BillboardUnit(state.position)
+})
 
-export const OffsetModule = (offset: Input<"vec3">) => (
-  position: Input<"vec3">
-) => Add(position, Mul(offset, $`mat3(${InstanceMatrix})`))
+export const SetColor = (color: Input<"vec3">): Module => (state) => ({
+  ...state,
+  color
+})

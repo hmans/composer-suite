@@ -1,27 +1,19 @@
 import { MutableRefObject, useLayoutEffect, useRef } from "react"
 import { collectFromTree, Unit } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
-import {
-  InstancedBufferAttribute,
-  InstancedMesh,
-  Matrix4,
-  Quaternion,
-  Vector3
-} from "three"
+import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
 import {
   EffectAgeUniform,
   isParticleAttribute,
   ParticleAttribute
-} from "./units"
+} from "../units"
+import { makeAttribute } from "../util/makeAttribute"
 
 export type SpawnOptions = {
   position?: (position: Vector3) => Vector3
   rotation?: (rotation: Quaternion) => Quaternion
   scale?: (scale: Vector3) => Vector3
 }
-
-export const makeAttribute = (count: number, itemSize: number) =>
-  new InstancedBufferAttribute(new Float32Array(count * itemSize), itemSize)
 
 const tmpPosition = new Vector3()
 const tmpRotation = new Quaternion()

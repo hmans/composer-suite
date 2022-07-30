@@ -6346,10 +6346,10 @@ shader-composer-toybox@^0.0.8:
   resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.8.tgz#de6bfdfd0970339a3f6ffb0f39be3d7808bb206c"
   integrity sha512-LPczukpmQIQkQoZ0ApIBWknZODwnGOArGIJEj2kinGIqgQGskR4lXf4mBAGx13hVoKAfoJ4Bv+FtG8hKQcNF5Q==
 
-shader-composer@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.1.5.tgz#1bf32af580111295e25de1998b76afa2db94de9c"
-  integrity sha512-mC9Ktw/tQGvCaJQ6dFUow8sh+puWkvFzxQI37IZ+Hwae8Sq+NQyDezh+MwD2D4ZvAdMzrRSguzxpViz5meYApA==
+shader-composer@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.1.7.tgz#38b1b89887f8ce7b1b839b664f3891c6b67423ff"
+  integrity sha512-RUyytjn417oFzQZWEe4SeRih5h/6SwDbojt2FeQjzwni7Bso1J8joampEvau6nrmUpDerdccFK/DNsapdytgGw==
   dependencies:
     crypto-js "^4.1.1"
     fp-ts "^2.12.1"
@@ -6751,10 +6751,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-three-custom-shader-material@^3.4.4:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-3.5.0.tgz#8361df69b1b42cf0db078b217566b908c856de82"
-  integrity sha512-DiwBjwDPBsM8S5/diqd+CNkjomgNKpTwueycWyG7SeW0yLH7I/BQKZrnSQ7h3RGCEUM12JUePXE+94e4ykAsWA==
+three-custom-shader-material@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-3.5.1.tgz#3d6b424cfbe9e1cecb19ea5a43dfe9e2335808cd"
+  integrity sha512-Yf1pjWMAiqyUP0yQcvzPaBxohH5ta+JKPJ8anU6a2SGrOJ5Kx7FyFDbr9y3eJrwVGzBhFvZZyRtgRShT8r1rSg==
   dependencies:
     glsl-token-functions "^1.0.1"
     glsl-token-string "^1.0.1"

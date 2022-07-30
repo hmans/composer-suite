@@ -1,4 +1,1 @@
-export * from "./modules"
-export * from "./Particles"
-export * from "./units"
-export * from "./useParticles"
+export const shaderComposer = "cool!"

@@ -5,26 +5,22 @@ import {
   Cos,
   Float,
   mat3,
-  Mix,
   Mul,
   NormalizePlusMinusOne,
+  OneMinus,
   pipe,
   Rotation3D,
-  Rotation3DY,
-  Vec3,
-  VertexPosition
+  Rotation3DY
 } from "shader-composer"
 import { Color, Vector3 } from "three"
+import { Particles } from "vfx-composer/fiber"
+import { Lifetime, SetColor, Translate, Velocity } from "vfx-composer/modules"
 import {
   EffectAge,
-  LifetimeModule,
-  OffsetModule,
   ParticleAge,
   ParticleAttribute,
-  ParticleProgress,
-  Particles,
-  VelocityModule
-} from "vfx-composer"
+  ParticleProgress
+} from "vfx-composer/units"
 
 export default function Playground() {
   const particles = useRef<Particles>(null!)
@@ -53,38 +49,29 @@ export default function Playground() {
       mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
     )
 
-    const position = Vec3(
-      pipe(
-        VertexPosition,
+    return [
+      Lifetime(),
 
-        VelocityModule(
+      Velocity(
+        ParticleAttribute(
+          "vec3",
           () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
-        ),
-
-        OffsetModule(
-          pipe(
-            ParticleAge,
-            (age) => Mul(age, Float(5)),
-            (time) => Rotation3DY(time),
-            (rotation) => Mul(rotatedOffset, rotation),
-            (offset) =>
-              Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
-          )
         )
       ),
 
-      { varying: true }
-    )
+      Translate(
+        pipe(
+          ParticleAge,
+          (age) => Mul(age, Float(5)),
+          (time) => Rotation3DY(time),
+          (rotation) => Mul(rotatedOffset, rotation),
+          (offset) =>
+            Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+        )
+      ),
 
-    const color = pipe(Vec3(new Color("#ccc")), LifetimeModule(), (v) =>
-      Mix(v, new Color("#000"), ParticleProgress)
-    )
-
-    return {
-      position,
-      color,
-      alpha: 1
-    }
+      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress)))
+    ]
   }, [])
 
   return (
@@ -92,7 +79,7 @@ export default function Playground() {
       maxParticles={300000}
       ref={particles}
       position-y={2}
-      inputs={inputs}
+      modules={inputs}
     >
       {/* You can assign any geometry. */}
       <boxGeometry args={[0.5, 0.5, 0.5]} />
