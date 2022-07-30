@@ -15,7 +15,9 @@ const tmpMatrix = new Matrix4()
 export class Particles extends InstancedMesh {
   public cursor: number = 0
 
-  public spawn(count: number = 1, setupInstance: InstanceSetupCallback) {
+  public spawn(count: number = 1, setupInstance?: InstanceSetupCallback) {
+    console.log("spawning", count)
+
     for (let i = 0; i < count; i++) {
       /* Reset instance configuration values */
       tmpPosition.set(0, 0, 0)
