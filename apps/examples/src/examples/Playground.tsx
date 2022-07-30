@@ -1,7 +1,7 @@
+import { useFrame } from "@react-three/fiber"
 import { between, plusMinus } from "randomish"
-import { useEffect, useMemo, useRef } from "react"
+import { useMemo, useRef } from "react"
 import {
-  Add,
   Cos,
   Float,
   mat3,
@@ -40,33 +40,24 @@ export default function Playground() {
     []
   )
 
-  useEffect(() => {
+  useFrame(() => {
     const { spawn } = particles.current
 
-    const id = setInterval(() => {
-      spawn(between(500, 1000), {
-        position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
-        rotation: (q) => q.random(),
-        setup: () => {
-          variables.velocity.value.set(
-            plusMinus(1),
-            between(5, 18),
-            plusMinus(1)
-          )
-
-          variables.offset.value.set(plusMinus(15), plusMinus(5), plusMinus(15))
-        }
-      })
-    }, 100)
-
-    return () => clearInterval(id)
-  }, [])
+    spawn(between(100, 200), {
+      position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
+      rotation: (q) => q.random(),
+      setup: () => {
+        variables.velocity.value.set(plusMinus(1), between(5, 18), plusMinus(1))
+        variables.offset.value.set(plusMinus(15), plusMinus(5), plusMinus(15))
+      }
+    })
+  })
 
   const inputs = useMemo(() => {
     const rotatedOffset = pipe(
       EffectAge,
-      (v) => Mul(v, 1.2),
-      (v) => Rotation3D(new Vector3(0.1, 0.8, 0.2), v),
+      (v) => Mul(v, 2),
+      (v) => Rotation3D(new Vector3(0.3, 1, 0.3), v),
       (v) => Mul(variables.offset, mat3(v))
     )
 
@@ -83,11 +74,19 @@ export default function Playground() {
       Translate(
         pipe(
           ParticleAge,
-          (age) => Mul(age, Float(5)),
-          (time) => Rotation3DY(time),
-          (rotation) => Mul(rotatedOffset, rotation),
-          (offset) =>
-            Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+          (v) => Mul(v, 3),
+          (v) => Rotation3DY(v),
+          (v) => Mul(rotatedOffset, v),
+          (v) =>
+            Mul(
+              v,
+              pipe(
+                ParticleAge,
+                (v) => Mul(v, 1.5),
+                (v) => Cos(v),
+                (v) => NormalizePlusMinusOne(v)
+              )
+            )
         )
       ),
 
