@@ -1,5 +1,4 @@
-import { InstancedMeshProps } from "@react-three/fiber"
-import { Instance } from "@react-three/fiber/dist/declarations/src/core/renderer"
+import { InstancedMeshProps, Object3DProps } from "@react-three/fiber"
 import React, {
   createRef,
   forwardRef,
@@ -7,7 +6,7 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react"
-import { InstancedMesh, Matrix4 } from "three"
+import { InstancedMesh, Matrix4, Object3D } from "three"
 import { ModulePipe } from "../modules"
 
 export const makeParticles = (modules: ModulePipe = []) => {
@@ -30,5 +29,18 @@ export const makeParticles = (modules: ModulePipe = []) => {
     )
   })
 
-  return { Root, spawn }
+  /* EMITTER COMPONENT */
+  const Emitter = forwardRef<Object3D, Object3DProps>((props, ref) => {
+    const object = useRef<Object3D>(null!)
+
+    useImperativeHandle(ref, () => object.current)
+
+    useEffect(() => {
+      spawn()
+    }, [])
+
+    return <object3D ref={object} {...props} />
+  })
+
+  return { Root, Emitter, spawn }
 }
