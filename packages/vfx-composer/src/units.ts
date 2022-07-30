@@ -23,14 +23,17 @@ export type MeshSetupCallback = (mesh: InstancedMesh) => void
 export type ParticleAttribute<T extends GLSLType> = Unit<T> & {
   isParticleAttribute: true
   setupMesh: MeshSetupCallback
-  setupParticle: (mesh: InstancedMesh, index: number) => void
+  setupParticle: (
+    mesh: InstancedMesh,
+    index: number,
+    getParticleValue: () => JSTypes[T]
+  ) => void
 }
 
 let nextAttributeId = 1
 
 export const ParticleAttribute = <T extends GLSLType>(
-  type: T,
-  getParticleValue: () => JSTypes[T]
+  type: T
 ): ParticleAttribute<T> => {
   const name = `a_particle_${nextAttributeId++}`
 
@@ -53,7 +56,11 @@ export const ParticleAttribute = <T extends GLSLType>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    setupParticle: ({ geometry }: InstancedMesh, index: number) => {
+    setupParticle: (
+      { geometry }: InstancedMesh,
+      index: number,
+      getParticleValue: () => JSTypes[T]
+    ) => {
       const value = getParticleValue()
       const attribute = geometry.attributes[name]
 

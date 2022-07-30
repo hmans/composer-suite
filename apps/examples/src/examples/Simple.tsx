@@ -18,14 +18,9 @@ export const Simple = () => {
   const texture = useTexture(textureUrl)
 
   const variables = {
-    velocity: ParticleAttribute(
-      "vec3",
-      () => new Vector3(plusMinus(5), between(5, 18), plusMinus(5))
-    ),
+    velocity: ParticleAttribute("vec3"),
 
-    color: ParticleAttribute("vec3", () =>
-      chance(0.5) ? new Color(0xffffff) : new Color(0x000000)
-    )
+    color: ParticleAttribute("vec3")
   }
 
   return (
@@ -71,8 +66,15 @@ export const Simple = () => {
         <Emitter
           count={5}
           setup={(imesh, index) => {
-            variables.velocity.setupParticle(imesh, index)
-            variables.color.setupParticle(imesh, index)
+            variables.velocity.setupParticle(
+              imesh,
+              index,
+              () => new Vector3(plusMinus(5), between(5, 18), plusMinus(5))
+            )
+
+            variables.color.setupParticle(imesh, index, () =>
+              chance(0.5) ? new Color(0xffffff) : new Color(0x000000)
+            )
           }}
         />
       </Repeat>
