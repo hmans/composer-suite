@@ -68,7 +68,7 @@ export const Simple = () => {
 
       {/* Finally, emit some particles! */}
       <Repeat interval={0.1}>
-        <Emitter count={5} />
+        <Emitter count={5} setup={(index) => {}} />
       </Repeat>
     </Particles>
   )

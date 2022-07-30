@@ -9,10 +9,13 @@ import {
 } from "../units"
 import { makeAttribute } from "../util/makeAttribute"
 
+export type ParticleSetupCallback = (index: number) => void
+
 export type SpawnOptions = {
   position?: (position: Vector3) => Vector3
   rotation?: (rotation: Quaternion) => Quaternion
   scale?: (scale: Vector3) => Vector3
+  setup?: ParticleSetupCallback
 }
 
 const tmpPosition = new Vector3()
@@ -82,6 +85,9 @@ export const useParticles = (
       for (const unit of attributeUnits.current) {
         unit.setupParticle(imesh.current, cursor)
       }
+
+      /* Invoke setup callback */
+      opts.setup?.(cursor)
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
