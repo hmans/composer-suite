@@ -1,15 +1,12 @@
 import {
   $,
   Add,
-  GLSLType,
   Input,
   InstanceMatrix,
   mat3,
-  Mat3,
   Mul,
   pipe,
   Pow,
-  Value,
   vec3,
   Vec3
 } from "shader-composer"
