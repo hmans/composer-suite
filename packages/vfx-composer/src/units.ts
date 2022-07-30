@@ -20,22 +20,27 @@ import { makeAttribute } from "./util/makeAttribute"
 
 export type MeshSetupCallback = (mesh: InstancedMesh) => void
 
-export type ParticleAttribute<T extends GLSLType> = Unit<T> & {
+export type ParticleAttribute<T extends GLSLType, J extends JSTypes[T]> = Unit<
+  T
+> & {
   isParticleAttribute: true
   setupMesh: MeshSetupCallback
   setupParticle: (
     mesh: InstancedMesh,
     index: number,
-    getParticleValue: () => JSTypes[T]
+    getParticleValue: (configurator: J) => J
   ) => void
 }
 
 let nextAttributeId = 1
 
-export const ParticleAttribute = <T extends GLSLType>(
-  type: T
-): ParticleAttribute<T> => {
+export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
+  type: T,
+  setup: () => J
+): ParticleAttribute<T, J> => {
   const name = `a_particle_${nextAttributeId++}`
+
+  const configurator = setup()
 
   return {
     ...Attribute(type, name),
@@ -59,9 +64,9 @@ export const ParticleAttribute = <T extends GLSLType>(
     setupParticle: (
       { geometry }: InstancedMesh,
       index: number,
-      getParticleValue: () => JSTypes[T]
+      getParticleValue: (configurator: J) => J
     ) => {
-      const value = getParticleValue()
+      const value = getParticleValue(configurator)
       const attribute = geometry.attributes[name]
 
       switch (type) {
@@ -92,9 +97,9 @@ export const ParticleAttribute = <T extends GLSLType>(
   }
 }
 
-export function isParticleAttribute<T extends GLSLType>(
+export function isParticleAttribute<T extends GLSLType, J extends JSTypes[T]>(
   item: Unit<T>
-): item is ParticleAttribute<T> {
+): item is ParticleAttribute<T, J> {
   return isUnit(item) && "isParticleAttribute" in item
 }
 
