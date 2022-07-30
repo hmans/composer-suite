@@ -37,12 +37,12 @@ export const Simple = () => {
       <Repeat interval={0.1}>
         <Emitter
           count={5}
-          setup={(mesh, index) => {
-            variables.velocity.setupParticle(mesh, index, (v) =>
+          setup={() => {
+            variables.velocity.setup((v) =>
               v.set(plusMinus(5), between(5, 18), plusMinus(5))
             )
 
-            variables.color.setupParticle(mesh, index, (c) =>
+            variables.color.setup((c) =>
               c.set(chance(0.5) ? 0xffffff : 0x000000)
             )
           }}

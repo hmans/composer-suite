@@ -33,6 +33,8 @@ export const useParticles = (
   imesh: MutableRefObject<InstancedMesh>,
   master: Unit
 ) => {
+  const attributeUnits = useRef<ParticleAttribute<any, any>[]>([])
+
   /* Let's compile the shader first. */
   const shader = useShader(() => master)
 
@@ -43,7 +45,9 @@ export const useParticles = (
 
     geometry.setAttribute("lifetime", makeAttribute(count, 2))
 
-    for (const unit of collectFromTree(master, isParticleAttribute)) {
+    attributeUnits.current = collectFromTree(master, isParticleAttribute)
+
+    for (const unit of attributeUnits.current) {
       unit.setupMesh(imesh.current)
     }
   })
@@ -79,6 +83,11 @@ export const useParticles = (
         EffectAgeUniform.value + 4
       )
       geometry.attributes.lifetime.needsUpdate = true
+
+      /* Genererate values for per-particle attributes */
+      for (const unit of attributeUnits.current) {
+        unit.setupParticle(imesh.current, cursor)
+      }
 
       /* Invoke setup callback */
       opts.setup?.(imesh.current, cursor)
