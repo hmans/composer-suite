@@ -49,12 +49,12 @@ export default function Playground() {
         rotation: (q) => q.random(),
         setup: () => {
           variables.velocity.value.set(
-            plusMinus(5),
+            plusMinus(1),
             between(5, 18),
-            plusMinus(5)
+            plusMinus(1)
           )
 
-          variables.offset.value.set(plusMinus(10), 0, plusMinus(10))
+          variables.offset.value.set(plusMinus(15), plusMinus(5), plusMinus(15))
         }
       })
     }, 100)
@@ -63,9 +63,11 @@ export default function Playground() {
   }, [])
 
   const inputs = useMemo(() => {
-    const rotatedOffset = Mul(
-      variables.offset,
-      mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
+    const rotatedOffset = pipe(
+      EffectAge,
+      (v) => Mul(v, 1.2),
+      (v) => Rotation3D(new Vector3(0.1, 0.8, 0.2), v),
+      (v) => Mul(variables.offset, mat3(v))
     )
 
     return [
