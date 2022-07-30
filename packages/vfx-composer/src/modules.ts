@@ -10,6 +10,7 @@ import {
   vec3,
   Vec3
 } from "shader-composer"
+import { Color } from "three"
 import {
   Billboard as BillboardUnit,
   ParticleAge,
@@ -99,10 +100,10 @@ export const DefaultModules = ({
   velocity
 }: DefaultModulesProps) =>
   [
-    Lifetime(),
     billboard && Billboard(),
     scale && Scale(scale),
     velocity && Velocity(velocity),
     gravity && Gravity(gravity),
-    color && SetColor(color)
+    color && SetColor(color),
+    Lifetime()
   ].filter((d) => !!d) as ModulePipe
