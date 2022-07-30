@@ -18,7 +18,14 @@ const tmpMatrix = new Matrix4()
 export type EmitterProps = Object3DProps & {
   count?: number
   continuous?: boolean
+  setup?: InstanceSetupCallback
 }
+
+export type InstanceSetupCallback = (
+  position: Vector3,
+  rotation: Quaternion,
+  scale: Vector3
+) => void
 
 export const makeParticles = (
   maxParticles = 1000,
@@ -27,7 +34,7 @@ export const makeParticles = (
   const imeshRef = createRef<InstancedMesh>()
   let cursor = 0
 
-  const spawn = (count: number = 1) => {
+  const spawn = (count: number = 1, setupInstance?: InstanceSetupCallback) => {
     const imesh = imeshRef.current!
 
     for (let i = 0; i < count; i++) {
@@ -36,7 +43,8 @@ export const makeParticles = (
       tmpRotation.set(0, 0, 0, 1)
       tmpScale.set(1, 1, 1)
 
-      tmpPosition.randomDirection().multiplyScalar(Math.random() * 10)
+      /* Invoke setup callback, if given */
+      setupInstance?.(tmpPosition, tmpRotation, tmpScale)
 
       tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
 
@@ -64,19 +72,19 @@ export const makeParticles = (
 
   /* EMITTER COMPONENT */
   const Emitter = forwardRef<Object3D, EmitterProps>(
-    ({ continuous, count = 1, ...props }, ref) => {
+    ({ continuous, count = 1, setup, ...props }, ref) => {
       const object = useRef<Object3D>(null!)
 
       useImperativeHandle(ref, () => object.current)
 
       useEffect(() => {
         if (continuous) return
-        spawn(count)
+        spawn(count, setup)
       }, [])
 
       useFrame(() => {
         if (continuous) {
-          spawn(count)
+          spawn(count, setup)
         }
       })
 

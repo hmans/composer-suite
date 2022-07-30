@@ -1,3 +1,4 @@
+import { upTo } from "randomish"
 import { Color, Vector3 } from "three"
 import { makeParticles } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
@@ -17,7 +18,12 @@ export const Simple = () => {
         <meshStandardMaterial color="hotpink" />
       </Effect.Root>
 
-      <Effect.Emitter continuous />
+      <Effect.Emitter
+        continuous
+        setup={(p) => {
+          p.randomDirection().multiplyScalar(upTo(10))
+        }}
+      />
     </group>
   )
 }
