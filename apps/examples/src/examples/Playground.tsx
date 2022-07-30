@@ -16,6 +16,7 @@ import {
 import { Color, Vector3 } from "three"
 import { Particles } from "vfx-composer/fiber"
 import {
+  Billboard,
   Lifetime,
   Scale,
   SetColor,
