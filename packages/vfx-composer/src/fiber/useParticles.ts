@@ -9,7 +9,10 @@ import {
 } from "../units"
 import { makeAttribute } from "../util/makeAttribute"
 
-export type ParticleSetupCallback = (index: number) => void
+export type ParticleSetupCallback = (
+  imesh: InstancedMesh,
+  index: number
+) => void
 
 export type SpawnOptions = {
   position?: (position: Vector3) => Vector3
@@ -81,13 +84,8 @@ export const useParticles = (
       )
       geometry.attributes.lifetime.needsUpdate = true
 
-      /* Genererate values for per-particle attributes */
-      for (const unit of attributeUnits.current) {
-        unit.setupParticle(imesh.current, cursor)
-      }
-
       /* Invoke setup callback */
-      opts.setup?.(cursor)
+      opts.setup?.(imesh.current, cursor)
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
