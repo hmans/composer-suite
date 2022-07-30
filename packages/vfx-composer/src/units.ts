@@ -25,7 +25,7 @@ export type ParticleAttribute<T extends GLSLType, J extends JSTypes[T]> = Unit<
 > & {
   isParticleAttribute: true
   setupMesh: MeshSetupCallback
-  setup: (ctor: (configurator: J) => J) => void
+  value: J
   setupParticle: (mesh: InstancedMesh, index: number) => void
 }
 
@@ -58,7 +58,7 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    setup: (callback: (configurator: J) => J) => callback(configurator),
+    value: configurator,
 
     setupParticle: ({ geometry }: InstancedMesh, index: number) => {
       const value = configurator

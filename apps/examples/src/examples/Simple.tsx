@@ -38,13 +38,13 @@ export const Simple = () => {
         <Emitter
           count={5}
           setup={() => {
-            variables.velocity.setup((v) =>
-              v.set(plusMinus(5), between(5, 18), plusMinus(5))
+            variables.velocity.value.set(
+              plusMinus(5),
+              between(5, 18),
+              plusMinus(5)
             )
 
-            variables.color.setup((c) =>
-              c.set(chance(0.5) ? 0xffffff : 0x000000)
-            )
+            variables.color.value.set(chance(0.5) ? 0xffffff : 0x000000)
           }}
         />
       </Repeat>
