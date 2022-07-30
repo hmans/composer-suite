@@ -32,10 +32,13 @@ import {
 export default function Playground() {
   const particles = useRef<Particles>(null!)
 
-  const variables = {
-    velocity: ParticleAttribute("vec3", () => new Vector3()),
-    offset: ParticleAttribute("vec3", () => new Vector3())
-  }
+  const variables = useMemo(
+    () => ({
+      velocity: ParticleAttribute("vec3", () => new Vector3()),
+      offset: ParticleAttribute("vec3", () => new Vector3())
+    }),
+    []
+  )
 
   useEffect(() => {
     const { spawn } = particles.current
@@ -98,10 +101,7 @@ export default function Playground() {
       position-y={2}
       modules={inputs}
     >
-      {/* You can assign any geometry. */}
       <boxGeometry args={[0.5, 0.5, 0.5]} />
-
-      {/* And any material! */}
       <meshStandardMaterial color="white" />
     </Particles>
   )
