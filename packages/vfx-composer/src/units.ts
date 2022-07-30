@@ -20,19 +20,24 @@ import { makeAttribute } from "./util/makeAttribute"
 
 export type MeshSetupCallback = (mesh: InstancedMesh) => void
 
-export type ParticleAttribute<T extends GLSLType> = Unit<T> & {
+export type ParticleAttribute<T extends GLSLType, J extends JSTypes[T]> = Unit<
+  T
+> & {
   isParticleAttribute: true
   setupMesh: MeshSetupCallback
+  value: J
   setupParticle: (mesh: InstancedMesh, index: number) => void
 }
 
 let nextAttributeId = 1
 
-export const ParticleAttribute = <T extends GLSLType>(
+export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
   type: T,
-  getParticleValue: () => JSTypes[T]
-): ParticleAttribute<T> => {
+  initValue: () => J
+): ParticleAttribute<T, J> => {
   const name = `a_particle_${nextAttributeId++}`
+
+  let value = initValue()
 
   return {
     ...Attribute(type, name),
@@ -53,8 +58,14 @@ export const ParticleAttribute = <T extends GLSLType>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
+    get value() {
+      return value
+    },
+    set value(v: J) {
+      value = v
+    },
+
     setupParticle: ({ geometry }: InstancedMesh, index: number) => {
-      const value = getParticleValue()
       const attribute = geometry.attributes[name]
 
       switch (type) {
@@ -85,9 +96,9 @@ export const ParticleAttribute = <T extends GLSLType>(
   }
 }
 
-export function isParticleAttribute<T extends GLSLType>(
+export function isParticleAttribute<T extends GLSLType, J extends JSTypes[T]>(
   item: Unit<T>
-): item is ParticleAttribute<T> {
+): item is ParticleAttribute<T, J> {
   return isUnit(item) && "isParticleAttribute" in item
 }
 
@@ -117,7 +128,7 @@ export const billboard = Snippet(
 )
 
 export const Billboard = (position: Input<"vec3">) =>
-  Vec3($`${billboard}(${position}.xy, viewMatrix)`)
+  Vec3($`${billboard}(${position}.xy, viewMatrix * instanceMatrix)`)
 
 export const Random = (n: Input<"float">) =>
   Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })

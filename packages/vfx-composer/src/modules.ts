@@ -1,18 +1,16 @@
 import {
   $,
   Add,
-  GLSLType,
   Input,
   InstanceMatrix,
   mat3,
-  Mat3,
   Mul,
   pipe,
   Pow,
-  Value,
   vec3,
   Vec3
 } from "shader-composer"
+import { Color } from "three"
 import {
   Billboard as BillboardUnit,
   ParticleAge,
@@ -80,7 +78,33 @@ export const Billboard = (): Module => (state) => ({
   position: BillboardUnit(state.position)
 })
 
+/* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */
 export const SetColor = (color: Input<"vec3">): Module => (state) => ({
   ...state,
   color
 })
+
+export type DefaultModulesProps = {
+  billboard?: Input<"bool">
+  gravity?: Input<"float">
+  scale?: Input<"float">
+  color?: Input<"vec3">
+  alpha?: Input<"float">
+  velocity?: Input<"vec3">
+}
+
+export const DefaultModules = ({
+  billboard,
+  gravity,
+  scale,
+  color,
+  velocity
+}: DefaultModulesProps) =>
+  [
+    billboard && Billboard(),
+    scale && Scale(scale),
+    velocity && Velocity(velocity),
+    gravity && Gravity(gravity),
+    color && SetColor(color),
+    Lifetime()
+  ].filter((d) => !!d) as ModulePipe

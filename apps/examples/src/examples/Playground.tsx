@@ -1,20 +1,31 @@
+import { useFrame } from "@react-three/fiber"
 import { between, plusMinus } from "randomish"
-import { useEffect, useMemo, useRef } from "react"
+import { useMemo, useRef } from "react"
 import {
-  Add,
   Cos,
   Float,
+  GLSLType,
+  Input,
   mat3,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
+  Remap,
   Rotation3D,
-  Rotation3DY
+  Rotation3DY,
+  Smoothstep
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { Particles } from "vfx-composer/fiber"
-import { Lifetime, SetColor, Translate, Velocity } from "vfx-composer/modules"
+import {
+  Billboard,
+  Lifetime,
+  Scale,
+  SetColor,
+  Translate,
+  Velocity
+} from "vfx-composer/modules"
 import {
   EffectAge,
   ParticleAge,
@@ -25,66 +36,76 @@ import {
 export default function Playground() {
   const particles = useRef<Particles>(null!)
 
-  useEffect(() => {
+  const variables = useMemo(
+    () => ({
+      velocity: ParticleAttribute("vec3", () => new Vector3()),
+      offset: ParticleAttribute("vec3", () => new Vector3())
+    }),
+    []
+  )
+
+  useFrame(() => {
     const { spawn } = particles.current
 
-    const id = setInterval(() => {
-      spawn(between(500, 1000), {
-        position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
-        rotation: (q) => q.random()
-      })
-    }, 100)
+    spawn(between(100, 200), {
+      position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
+      rotation: (q) => q.random(),
+      setup: () => {
+        variables.velocity.value.set(plusMinus(1), between(5, 18), plusMinus(1))
+        variables.offset.value.set(plusMinus(15), plusMinus(5), plusMinus(15))
+      }
+    })
+  })
 
-    return () => clearInterval(id)
-  }, [])
-
-  const inputs = useMemo(() => {
-    const offset = ParticleAttribute(
-      "vec3",
-      () => new Vector3(plusMinus(10), 0, plusMinus(10))
+  const ScaleByParticleAge = () => <T extends GLSLType>(input: Input<T>) =>
+    pipe(
+      ParticleAge,
+      (v) => Mul(v, 1.5),
+      (v) => Cos(v),
+      (v) => Mul(input, v)
     )
 
-    const rotatedOffset = Mul(
-      offset,
-      mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
+  const inputs = useMemo(() => {
+    const rotatedOffset = pipe(
+      EffectAge,
+      (v) => Mul(v, 2),
+      (v) => Rotation3D(new Vector3(0.3, 1, 0.3), v),
+      (v) => Mul(variables.offset, mat3(v))
     )
 
     return [
-      Lifetime(),
-
-      Velocity(
-        ParticleAttribute(
-          "vec3",
-          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
+      Scale(
+        Mul(
+          Smoothstep(0, 0.1, ParticleProgress),
+          Smoothstep(1, 0.8, ParticleProgress)
         )
       ),
+
+      Velocity(variables.velocity),
 
       Translate(
         pipe(
           ParticleAge,
-          (age) => Mul(age, Float(5)),
-          (time) => Rotation3DY(time),
-          (rotation) => Mul(rotatedOffset, rotation),
-          (offset) =>
-            Mul(offset, NormalizePlusMinusOne(Cos(Mul(ParticleAge, 2))))
+          (v) => Mul(v, 3),
+          (v) => Rotation3DY(v),
+          (v) => Mul(rotatedOffset, v),
+          ScaleByParticleAge()
         )
       ),
 
-      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress)))
+      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress))),
+      Lifetime()
     ]
   }, [])
 
   return (
     <Particles
-      maxParticles={300000}
+      maxParticles={50_000}
       ref={particles}
       position-y={2}
       modules={inputs}
     >
-      {/* You can assign any geometry. */}
       <boxGeometry args={[0.5, 0.5, 0.5]} />
-
-      {/* And any material! */}
       <meshStandardMaterial color="white" />
     </Particles>
   )

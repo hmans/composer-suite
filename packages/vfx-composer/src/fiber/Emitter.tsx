@@ -7,25 +7,27 @@ import React, {
 } from "react"
 import { Object3D } from "three"
 import { useParticlesAPI } from "./Particles"
+import { ParticleSetupCallback } from "./useParticles"
 
 export type EmitterProps = Object3DProps & {
   count?: number
   continuous?: boolean
+  setup?: ParticleSetupCallback
 }
 
 export const Emitter = forwardRef<Object3D, EmitterProps>(
-  ({ count = 0, continuous = false, ...props }, ref) => {
+  ({ count = 0, continuous = false, setup, ...props }, ref) => {
     const { spawn } = useParticlesAPI()
     const object = useRef<Object3D>(null!)
 
     useEffect(() => {
       if (continuous) return
-      spawn(count)
+      spawn(count, { setup })
     }, [])
 
     useFrame(() => {
       if (continuous) {
-        spawn(count)
+        spawn(count, { setup })
       }
     })
 

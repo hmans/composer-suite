@@ -9,10 +9,16 @@ import {
 } from "../units"
 import { makeAttribute } from "../util/makeAttribute"
 
+export type ParticleSetupCallback = (
+  imesh: InstancedMesh,
+  index: number
+) => void
+
 export type SpawnOptions = {
   position?: (position: Vector3) => Vector3
   rotation?: (rotation: Quaternion) => Quaternion
   scale?: (scale: Vector3) => Vector3
+  setup?: ParticleSetupCallback
 }
 
 const tmpPosition = new Vector3()
@@ -27,7 +33,7 @@ export const useParticles = (
   imesh: MutableRefObject<InstancedMesh>,
   master: Unit
 ) => {
-  const attributeUnits = useRef<ParticleAttribute<any>[]>([])
+  const attributeUnits = useRef<ParticleAttribute<any, any>[]>([])
 
   /* Let's compile the shader first. */
   const shader = useShader(() => master)
@@ -74,7 +80,7 @@ export const useParticles = (
       geometry.attributes.lifetime.setXY(
         cursor,
         EffectAgeUniform.value + 0,
-        EffectAgeUniform.value + 4
+        EffectAgeUniform.value + 3
       )
       geometry.attributes.lifetime.needsUpdate = true
 
@@ -82,6 +88,9 @@ export const useParticles = (
       for (const unit of attributeUnits.current) {
         unit.setupParticle(imesh.current, cursor)
       }
+
+      /* Invoke setup callback */
+      opts.setup?.(imesh.current, cursor)
 
       /* Advance cursor */
       cursor = (cursor + 1) % imesh.current.count
