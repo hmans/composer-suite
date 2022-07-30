@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { compileShader, CustomShaderMaterialMaster } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { makeParticles } from "vfx-composer/fiber"
@@ -10,6 +11,10 @@ export const Simple = () => {
     velocity: ParticleAttribute("vec3", () => new Vector3()),
     color: ParticleAttribute("vec3", () => new Color())
   }
+
+  useEffect(() => {
+    Effect.spawn()
+  }, [])
 
   return (
     <group>

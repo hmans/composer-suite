@@ -1,5 +1,7 @@
 import { InstancedMeshProps } from "@react-three/fiber"
+import { Instance } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import React, {
+  createRef,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -9,15 +11,15 @@ import { InstancedMesh, Matrix4 } from "three"
 import { ModulePipe } from "../modules"
 
 export const makeParticles = (modules: ModulePipe = []) => {
+  const imesh = createRef<InstancedMesh>()
+
+  const spawn = () => {
+    imesh.current!.setMatrixAt(0, new Matrix4())
+  }
+
   /* ROOT COMPONENT */
   const Root = forwardRef<InstancedMesh, InstancedMeshProps>((props, ref) => {
-    const imesh = useRef<InstancedMesh>(null!)
-
-    useEffect(() => {
-      imesh.current.setMatrixAt(0, new Matrix4())
-    }, [])
-
-    useImperativeHandle(ref, () => imesh.current)
+    useImperativeHandle(ref, () => imesh.current!)
 
     return (
       <instancedMesh
@@ -28,5 +30,5 @@ export const makeParticles = (modules: ModulePipe = []) => {
     )
   })
 
-  return { Root }
+  return { Root, spawn }
 }
