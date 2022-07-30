@@ -84,3 +84,28 @@ export const SetColor = (color: Input<"vec3">): Module => (state) => ({
   ...state,
   color
 })
+
+export type DefaultModulesProps = {
+  billboard?: Input<"bool">
+  gravity?: Input<"float">
+  scale?: Input<"float">
+  color?: Input<"vec3">
+  alpha?: Input<"float">
+  velocity?: Input<"vec3">
+}
+
+export const DefaultModules = ({
+  billboard,
+  gravity,
+  scale,
+  color,
+  velocity
+}: DefaultModulesProps) =>
+  [
+    Lifetime(),
+    billboard && Billboard(),
+    scale && Scale(scale),
+    velocity && Velocity(velocity),
+    gravity && Gravity(gravity),
+    color && SetColor(color)
+  ].filter((d) => !!d) as ModulePipe
