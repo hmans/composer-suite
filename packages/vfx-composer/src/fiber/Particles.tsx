@@ -11,11 +11,10 @@ import React, {
 import {
   $,
   CustomShaderMaterialMaster,
-  Float,
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Color, InstancedMesh, Material } from "three"
+import { InstancedMesh, Material } from "three"
 import CustomShaderMaterial from "three-custom-shader-material/vanilla"
 import { ModulePipe, pipeModules } from "../modules"
 import { SpawnOptions, useParticles } from "./useParticles"
