@@ -10,11 +10,18 @@ import {
   OneMinus,
   pipe,
   Rotation3D,
-  Rotation3DY
+  Rotation3DY,
+  Smoothstep
 } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { Particles } from "vfx-composer/fiber"
-import { Lifetime, SetColor, Translate, Velocity } from "vfx-composer/modules"
+import {
+  Lifetime,
+  Scale,
+  SetColor,
+  Translate,
+  Velocity
+} from "vfx-composer/modules"
 import {
   EffectAge,
   ParticleAge,
@@ -25,13 +32,27 @@ import {
 export default function Playground() {
   const particles = useRef<Particles>(null!)
 
+  const variables = {
+    velocity: ParticleAttribute("vec3", () => new Vector3()),
+    offset: ParticleAttribute("vec3", () => new Vector3())
+  }
+
   useEffect(() => {
     const { spawn } = particles.current
 
     const id = setInterval(() => {
       spawn(between(500, 1000), {
         position: (p) => p.set(plusMinus(2), 0, plusMinus(2)),
-        rotation: (q) => q.random()
+        rotation: (q) => q.random(),
+        setup: () => {
+          variables.velocity.value.set(
+            plusMinus(5),
+            between(5, 18),
+            plusMinus(5)
+          )
+
+          variables.offset.value.set(plusMinus(10), 0, plusMinus(10))
+        }
       })
     }, 100)
 
@@ -39,25 +60,20 @@ export default function Playground() {
   }, [])
 
   const inputs = useMemo(() => {
-    const offset = ParticleAttribute(
-      "vec3",
-      () => new Vector3(plusMinus(10), 0, plusMinus(10))
-    )
-
     const rotatedOffset = Mul(
-      offset,
+      variables.offset,
       mat3(Rotation3D(new Vector3(0.4, 0.8, 0.4), Add(EffectAge, ParticleAge)))
     )
 
     return [
-      Lifetime(),
-
-      Velocity(
-        ParticleAttribute(
-          "vec3",
-          () => new Vector3(plusMinus(2), between(8, 12), plusMinus(2))
+      Scale(
+        Mul(
+          Smoothstep(0, 0.1, ParticleProgress),
+          Smoothstep(1, 0.8, ParticleProgress)
         )
       ),
+
+      Velocity(variables.velocity),
 
       Translate(
         pipe(
@@ -70,7 +86,8 @@ export default function Playground() {
         )
       ),
 
-      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress)))
+      SetColor(Mul(new Color("#ccc"), OneMinus(ParticleProgress))),
+      Lifetime()
     ]
   }, [])
 

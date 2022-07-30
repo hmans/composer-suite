@@ -78,6 +78,7 @@ export const Billboard = (): Module => (state) => ({
   position: BillboardUnit(state.position)
 })
 
+/* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */
 export const SetColor = (color: Input<"vec3">): Module => (state) => ({
   ...state,
   color
