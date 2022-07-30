@@ -19,7 +19,6 @@ export const Simple = () => {
 
   const variables = {
     velocity: ParticleAttribute("vec3"),
-
     color: ParticleAttribute("vec3")
   }
 
