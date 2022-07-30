@@ -17,7 +17,7 @@ export const Simple = () => {
         <meshStandardMaterial color="hotpink" />
       </Effect.Root>
 
-      <Effect.Emitter />
+      <Effect.Emitter continuous />
     </group>
   )
 }
