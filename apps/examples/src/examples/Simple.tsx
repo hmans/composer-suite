@@ -18,11 +18,12 @@ export const Simple = () => {
 
   return (
     <Particles
-      maxParticles={100}
+      maxParticles={1000}
       modules={DefaultModules({
         velocity: variables.velocity,
         color: variables.color,
-        scale: OneMinus(ParticleProgress)
+        scale: OneMinus(ParticleProgress),
+        billboard: true
       })}
     >
       <planeGeometry />

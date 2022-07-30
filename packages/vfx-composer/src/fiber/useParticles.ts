@@ -80,7 +80,7 @@ export const useParticles = (
       geometry.attributes.lifetime.setXY(
         cursor,
         EffectAgeUniform.value + 0,
-        EffectAgeUniform.value + 4
+        EffectAgeUniform.value + 1
       )
       geometry.attributes.lifetime.needsUpdate = true
 
