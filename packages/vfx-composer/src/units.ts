@@ -33,11 +33,11 @@ let nextAttributeId = 1
 
 export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
   type: T,
-  setup: () => J
+  initValue: () => J
 ): ParticleAttribute<T, J> => {
   const name = `a_particle_${nextAttributeId++}`
 
-  const configurator = setup()
+  let value = initValue()
 
   return {
     ...Attribute(type, name),
@@ -58,10 +58,14 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    value: configurator,
+    get value() {
+      return value
+    },
+    set value(v: J) {
+      value = v
+    },
 
     setupParticle: ({ geometry }: InstancedMesh, index: number) => {
-      const value = configurator
       const attribute = geometry.attributes[name]
 
       switch (type) {
