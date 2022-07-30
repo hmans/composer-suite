@@ -4,11 +4,14 @@ import { useMemo, useRef } from "react"
 import {
   Cos,
   Float,
+  GLSLType,
+  Input,
   mat3,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
+  Remap,
   Rotation3D,
   Rotation3DY,
   Smoothstep
@@ -54,6 +57,14 @@ export default function Playground() {
     })
   })
 
+  const ScaleByParticleAge = () => <T extends GLSLType>(input: Input<T>) =>
+    pipe(
+      ParticleAge,
+      (v) => Mul(v, 1.5),
+      (v) => Cos(v),
+      (v) => Mul(input, v)
+    )
+
   const inputs = useMemo(() => {
     const rotatedOffset = pipe(
       EffectAge,
@@ -78,16 +89,7 @@ export default function Playground() {
           (v) => Mul(v, 3),
           (v) => Rotation3DY(v),
           (v) => Mul(rotatedOffset, v),
-          (v) =>
-            Mul(
-              v,
-              pipe(
-                ParticleAge,
-                (v) => Mul(v, 1.5),
-                (v) => Cos(v),
-                (v) => NormalizePlusMinusOne(v)
-              )
-            )
+          ScaleByParticleAge()
         )
       ),
 
@@ -98,7 +100,7 @@ export default function Playground() {
 
   return (
     <Particles
-      maxParticles={300000}
+      maxParticles={50_000}
       ref={particles}
       position-y={2}
       modules={inputs}
