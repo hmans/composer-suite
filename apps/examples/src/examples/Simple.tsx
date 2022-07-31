@@ -1,6 +1,6 @@
 import { extend, Node, useFrame } from "@react-three/fiber"
 import { upTo } from "randomish"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { Particles } from "vfx-composer"
 
 extend({ Particles })
