@@ -23,15 +23,18 @@ export const Simple = () => {
   }))
 
   const [time] = useState(() => Time())
-  const [lifetime] = useState(() => Lifetime(variables.lifetime, time))
 
-  const [modules] = useState(() => [
-    SetColor(variables.color),
-    Scale(OneMinus(lifetime.ParticleProgress)),
-    Velocity(variables.velocity, lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-    lifetime.module
-  ])
+  const [modules] = useState(() => {
+    const lifetime = Lifetime(variables.lifetime, time)
+
+    return [
+      SetColor(variables.color),
+      Scale(OneMinus(lifetime.ParticleProgress)),
+      Velocity(variables.velocity, lifetime.ParticleAge),
+      Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+      lifetime.module
+    ]
+  })
 
   return (
     <group>
