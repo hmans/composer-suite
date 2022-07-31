@@ -29,11 +29,14 @@ const vanillaCode = (parent: Object3D) => {
   const modules = [
     lifetime.module,
     Scale(OneMinus(lifetime.ParticleProgress)),
-    Velocity(variables.velocity, lifetime.ParticleAge)
-    // Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge)
+    Velocity(variables.velocity, lifetime.ParticleAge),
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge)
   ]
 
-  /* Create material */
+  /*
+  Create a particles material. These can patch themselves into existing
+  material, like MeshStandardMaterial or MeshPhysicalMaterial!
+  */
   const material = new ParticlesMaterial({
     baseMaterial: new MeshStandardMaterial({
       color: "hotpink"
@@ -44,25 +47,29 @@ const vanillaCode = (parent: Object3D) => {
   /* Create geometry */
   const geometry = new BoxGeometry()
 
-  /* Create mesh */
+  /* Create mesh and add it to the scene. */
   const particles = new Particles(geometry, material, 1000)
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
     material.tick(dt)
 
-    particles.spawn(1, ({ position, rotation }) => {
+    particles.spawn(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()
 
-      /* Set a lifetime */
+      /* Write values into the instanced attributes */
       const { lifetime, velocity } = variables
       const t = time.uniform.value
-      lifetime.setupParticle(particles, (v) => v.set(t, t + between(1, 2)))
-      velocity.setupParticle(particles, (v) =>
+
+      lifetime.setupParticle(particles, (v) => {
+        v.set(t, t + between(1, 2))
+      })
+
+      velocity.setupParticle(particles, (v) => {
         v.set(plusMinus(5), between(5, 18), plusMinus(5))
-      )
+      })
     })
   })
 

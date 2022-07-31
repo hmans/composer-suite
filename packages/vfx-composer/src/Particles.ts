@@ -1,8 +1,6 @@
-import { collectFromTree, walkTree } from "shader-composer"
+import { walkTree } from "shader-composer"
 import {
-  BufferGeometry,
-  InstancedBufferGeometry,
-  InstancedMesh,
+  BufferGeometry, InstancedMesh,
   Matrix4,
   Quaternion,
   Vector3

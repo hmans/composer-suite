@@ -1,15 +1,11 @@
 import {
   $,
   Attribute,
-  Div,
   Float,
   GLSLType,
   Input,
   JSTypes,
   Snippet,
-  SplitVector2,
-  Sub,
-  Uniform,
   Vec3
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
@@ -46,7 +42,10 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    setupParticle: ({ geometry, cursor }: Particles, setup?: (v: J) => J) => {
+    setupParticle: (
+      { geometry, cursor }: Particles,
+      setup?: (v: J) => void
+    ) => {
       setup?.(value)
 
       const attribute = geometry.attributes[name]
