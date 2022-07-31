@@ -1,4 +1,4 @@
-import { extend } from "@react-three/fiber"
+import { extend, useFrame } from "@react-three/fiber"
 import React, { forwardRef, useImperativeHandle, useRef } from "react"
 import { iCSMProps } from "three-custom-shader-material"
 import { ModulePipe } from "../modules"
@@ -12,10 +12,20 @@ export const ParticlesMaterial = forwardRef<
   ParticlesMaterialImpl,
   ParticlesMaterialProps
 >((props, ref) => {
-  const particles = useRef<ParticlesMaterialImpl>(null!)
+  const material = useRef<ParticlesMaterialImpl>(null!)
 
-  useImperativeHandle(ref, () => particles.current)
+  useFrame((_, dt) => {
+    material.current.tick(dt)
+  })
 
-  // @ts-ignore
-  return <vfxComposerParticlesMaterial_ {...props} ref={particles} />
+  useImperativeHandle(ref, () => material.current)
+
+  return (
+    // @ts-ignore
+    <vfxComposerParticlesMaterial_
+      attach="material"
+      {...props}
+      ref={material}
+    />
+  )
 })

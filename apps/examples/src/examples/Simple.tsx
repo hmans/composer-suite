@@ -1,50 +1,38 @@
-import { useEffect, useMemo, useRef } from "react"
+import { useFrame } from "@react-three/fiber"
+import { between, plusMinus, upTo } from "randomish"
+import { useEffect, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { ParticlesMaterial as ParticlesMaterialImpl } from "vfx-composer"
-import { Particles, ParticlesMaterial } from "vfx-composer/fiber"
-import { Particles as ParticlesImpl } from "vfx-composer"
 import {
-  SetColor,
-  Scale,
-  Velocity,
+  Particles as ParticlesImpl,
+  ParticlesMaterial as ParticlesMaterialImpl
+} from "vfx-composer"
+import { Particles, ParticlesMaterial } from "vfx-composer/fiber"
+import {
   Acceleration,
+  Lifetime,
   ModulePipe,
-  Lifetime
+  Scale,
+  SetColor,
+  Velocity
 } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
-import { useFrame } from "@react-three/fiber"
-import { between, upTo, plusMinus } from "randomish"
+
+const variables = {
+  lifetime: ParticleAttribute(new Vector2()),
+  velocity: ParticleAttribute(new Vector3()),
+  color: ParticleAttribute(new Color())
+}
+
+const time = Time()
+const lifetime = Lifetime(variables.lifetime, time)
 
 export const Simple = () => {
-  const variables = {
-    lifetime: ParticleAttribute(new Vector2()),
-    velocity: ParticleAttribute(new Vector3()),
-    color: ParticleAttribute(new Color())
-  }
-
-  const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
-
   const particles = useRef<ParticlesImpl>(null!)
 
-  const modules = [
-    SetColor(variables.color),
-    Scale(OneMinus(lifetime.ParticleProgress)),
-    Velocity(variables.velocity, lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-    lifetime.module
-  ] as ModulePipe
-
-  useEffect(() => {
-    particles.current.setupParticles()
-  }, [])
-
-  useFrame((_, dt) => {
+  useFrame(() => {
     const { lifetime, velocity, color } = variables
     const t = time.uniform.value
-
-    material.tick(dt)
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
@@ -69,9 +57,15 @@ export const Simple = () => {
         <boxGeometry />
 
         <ParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
+          baseMaterial={new MeshStandardMaterial()}
           color="hotpink"
-          modules={modules}
+          modules={[
+            SetColor(variables.color),
+            Scale(OneMinus(lifetime.ParticleProgress)),
+            Velocity(variables.velocity, lifetime.ParticleAge),
+            Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+            lifetime.module
+          ]}
         />
       </Particles>
     </group>

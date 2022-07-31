@@ -34,7 +34,8 @@ export class Particles extends InstancedMesh<
 
   public setupParticles() {
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
-    this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item.setupMesh)
+    /* FIXME: shaderRoot might be undefined - fix! */
+    this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item?.setupMesh)
 
     for (const unit of this.attributeUnits)  {
       unit.setupMesh(this)

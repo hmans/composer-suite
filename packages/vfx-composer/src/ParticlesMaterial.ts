@@ -7,6 +7,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
+import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
@@ -17,23 +18,28 @@ export type ParticlesMaterialArgs = iCSMParams & {
 }
 
 export class ParticlesMaterial extends CustomShaderMaterial {
-  public modules: ModulePipe = []
+  private _modules: ModulePipe = []
+
+  get modules() {
+    return this._modules
+  }
+
+  set modules(v: ModulePipe) {
+    this._modules = v
+    this.setupShader()
+  }
 
   private shaderUpdate?: (dt: number) => void
   public shaderRoot?: Unit
 
-  constructor({
-    modules,
-    ...opts
-  }: ConstructorParameters<typeof CustomShaderMaterial>[0] & {
-    modules?: ModulePipe
-  }) {
-    super(opts)
+  constructor(args: ParticlesMaterialArgs = {} as ParticlesMaterialArgs) {
+    super({
+      ...args,
+      baseMaterial: MeshStandardMaterial,
+      cacheKey: () => Math.random().toFixed()
+    })
 
-    if (modules) {
-      this.modules = modules
-      this.setupShader()
-    }
+    this.modules = args.modules || []
   }
 
   setupShader() {
@@ -47,7 +53,7 @@ export class ParticlesMaterial extends CustomShaderMaterial {
     /* Transform state with given modules. */
     const { position, color, alpha } = pipeModules(
       initialState,
-      ...this.modules
+      ...this._modules
     )
 
     const shaderRoot = CustomShaderMaterialMaster({
