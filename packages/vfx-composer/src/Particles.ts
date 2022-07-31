@@ -1,4 +1,4 @@
-import { walkTree } from "shader-composer"
+import { collectFromTree, Unit, walkTree } from "shader-composer"
 import {
   BufferGeometry, InstancedMesh,
   Matrix4,
@@ -25,16 +25,16 @@ export class Particles extends InstancedMesh<
   ParticlesMaterial
 > {
   public cursor: number = 0
+  private attributeUnits: { setupMesh: (particles: Particles) => void }[]
 
   constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, ParticlesMaterial>>) {
     super(...args)
-    this.setupParticles()
-  }
 
-  public setupParticles() {
-    walkTree(this.material.shaderRoot, (item) => {
-      item.setupMesh?.(this)
-    })
+    /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
+    this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item.setupMesh)
+    for (const unit of this.attributeUnits)  {
+      unit.setupMesh(this)
+    }
   }
 
   public spawn(count: number = 1, setupInstance?: InstanceSetupCallback) {
