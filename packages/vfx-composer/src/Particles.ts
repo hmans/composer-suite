@@ -1,4 +1,4 @@
-import { collectFromTree, Unit, walkTree } from "shader-composer"
+import { collectFromTree } from "shader-composer"
 import {
   BufferGeometry, InstancedMesh,
   Matrix4,
@@ -6,6 +6,7 @@ import {
   Vector3
 } from "three"
 import { ParticlesMaterial } from "./ParticlesMaterial"
+import { ParticleAttribute } from "./units"
 
 export type InstanceSetupCallback = (config: {
   cursor: number
@@ -25,7 +26,7 @@ export class Particles extends InstancedMesh<
   ParticlesMaterial
 > {
   public cursor: number = 0
-  private attributeUnits: { setupMesh: (particles: Particles) => void }[]
+  private attributeUnits: ParticleAttribute[]
 
   constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, ParticlesMaterial>>) {
     super(...args)
@@ -51,6 +52,11 @@ export class Particles extends InstancedMesh<
         rotation: tmpRotation,
         scale: tmpScale
       })
+
+      /* Write all known attributes */
+      for (const unit of this.attributeUnits) {
+        unit.setupParticle(this)
+      }
 
       tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
 

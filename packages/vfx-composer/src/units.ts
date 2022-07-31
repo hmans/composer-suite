@@ -26,6 +26,8 @@ type GLSLTypeFor<J> = J extends number
 
 let nextAttributeId = 1
 
+export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
+
 export const ParticleAttribute = <
   J extends number | Vector2 | Vector3 | Color | Vector4,
   T extends GLSLTypeFor<J>

@@ -73,13 +73,8 @@ const vanillaCode = (parent: Object3D) => {
       const t = time.uniform.value
 
       lifetime.value.set(t, t + between(1, 2))
-      lifetime.setupParticle(particles)
-
       velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
-      velocity.setupParticle(particles)
-
       color.value.setRGB(Math.random(), Math.random(), Math.random())
-      color.setupParticle(particles)
     })
   })
 
