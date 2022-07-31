@@ -2,7 +2,6 @@ import { upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import {
   Add,
-  compileShader,
   CustomShaderMaterialMaster,
   pipe,
   Time,
@@ -15,9 +14,7 @@ import {
   MeshStandardMaterial,
   Object3D
 } from "three"
-import CustomShaderMaterial from "three-custom-shader-material/vanilla"
-import { Particles, patchMaterial } from "vfx-composer"
-import { ParticlesMaterial } from "vfx-composer/src/ParticlesMaterial"
+import { Particles, ParticlesMaterial } from "vfx-composer"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (parent: Object3D) => {
