@@ -97,7 +97,7 @@ export const SetColor = (color: Input<"vec3">): Module => (state) => ({
 })
 
 export type DefaultModulesProps = {
-  time?: Input<"float">
+  time: Input<"float">
   lifetime: Input<"vec2">
   billboard?: Input<"bool">
   gravity?: Input<"float">
@@ -109,7 +109,7 @@ export type DefaultModulesProps = {
 }
 
 export const DefaultModules = ({
-  time = Time(),
+  time,
   lifetime: lifetimeInput,
   billboard,
   scale,
