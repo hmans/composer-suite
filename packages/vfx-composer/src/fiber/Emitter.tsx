@@ -2,6 +2,7 @@ import { Object3DProps, useFrame } from "@react-three/fiber"
 import React, {
   forwardRef,
   MutableRefObject,
+  RefObject,
   useEffect,
   useImperativeHandle,
   useRef
@@ -10,7 +11,7 @@ import { Object3D } from "three"
 import { InstanceSetupCallback, Particles } from "../Particles"
 
 export type EmitterProps = Object3DProps & {
-  particles: MutableRefObject<Particles>
+  particles: MutableRefObject<Particles> | RefObject<Particles>
   count?: number
   continuous?: boolean
   setup?: InstanceSetupCallback
@@ -22,12 +23,12 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     useEffect(() => {
       if (continuous) return
-      particles.current.emit(count, setup)
+      particles.current?.emit(count, setup)
     }, [])
 
     useFrame(() => {
       if (continuous) {
-        particles.current.emit(count, setup)
+        particles.current?.emit(count, setup)
       }
     })
 

@@ -3,7 +3,7 @@ import { useRef, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
-import { Emitter, Particles, ParticlesMaterial } from "vfx-composer/fiber"
+import { makeParticles, ParticlesMaterial } from "vfx-composer/fiber"
 import {
   Acceleration,
   Lifetime,
@@ -12,6 +12,8 @@ import {
   Velocity
 } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
+
+const Effect = makeParticles()
 
 export const Simple = () => {
   const particles = useRef<ParticlesImpl>(null!)
@@ -38,7 +40,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Particles maxParticles={1000} ref={particles}>
+      <Effect.Root maxParticles={1000}>
         <boxGeometry />
 
         <ParticlesMaterial
@@ -46,12 +48,11 @@ export const Simple = () => {
           color="hotpink"
           modules={modules}
         />
-      </Particles>
+      </Effect.Root>
 
-      <Emitter
+      <Effect.Emitter
         count={1}
         continuous
-        particles={particles}
         setup={({ position, rotation }) => {
           const t = time.uniform.value
           const { lifetime, velocity, color } = variables
