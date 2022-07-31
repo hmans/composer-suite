@@ -30,11 +30,9 @@ export class Particles extends InstancedMesh<
 
   constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, ParticlesMaterial>>) {
     super(...args)
-
-    this.setupMesh()
   }
 
-  public setupMesh() {
+  public setupParticles() {
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
     this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item.setupMesh)
 

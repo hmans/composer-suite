@@ -62,10 +62,12 @@ const vanillaCode = (parent: Object3D) => {
   const particles = new Particles(new BoxGeometry(), material, 1000)
   particles.position.set(10, 0, 0)
   parent.add(particles)
+  particles.setupParticles()
 
   const particles2 = new Particles(new SphereGeometry(), material, 1000)
   particles2.position.set(-10, 0, 0)
   parent.add(particles2)
+  particles2.setupParticles()
 
   const stopLoop = loop((dt) => {
     material.tick(dt)

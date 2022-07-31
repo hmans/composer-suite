@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import {
   BoxGeometry,
@@ -51,6 +51,10 @@ export const Simple = () => {
     })
   }, [])
 
+  useEffect(() => {
+    particles.current.setupParticles()
+  }, [])
+
   useFrame((_, dt) => {
     const { lifetime, velocity, color } = variables
     const t = time.uniform.value
@@ -76,7 +80,9 @@ export const Simple = () => {
 
   return (
     <group>
-      <Particles args={[geometry, material, 1000]} ref={particles}></Particles>
+      <Particles args={[undefined, material, 1000]} ref={particles}>
+        <boxGeometry />
+      </Particles>
     </group>
   )
 }
