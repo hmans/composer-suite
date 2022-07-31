@@ -11,17 +11,32 @@ import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
 import { ModulePipe, ModuleState, pipeModules } from "./modules"
-import { Particles } from "./Particles"
 
 export type ParticlesMaterialArgs = iCSMParams & {
   modules: ModulePipe
 }
 
 export class ParticlesMaterial extends CustomShaderMaterial {
-  private shaderUpdate: (dt: number) => void
-  public shaderRoot: Unit
+  public modules: ModulePipe = []
 
-  constructor({ modules, ...args }: ParticlesMaterialArgs) {
+  private shaderUpdate?: (dt: number) => void
+  public shaderRoot?: Unit
+
+  constructor({
+    modules,
+    ...opts
+  }: ConstructorParameters<typeof CustomShaderMaterial>[0] & {
+    modules?: ModulePipe
+  }) {
+    super(opts)
+
+    if (modules) {
+      this.modules = modules
+      this.setupShader()
+    }
+  }
+
+  setupShader() {
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,
@@ -30,7 +45,10 @@ export class ParticlesMaterial extends CustomShaderMaterial {
     }
 
     /* Transform state with given modules. */
-    const { position, color, alpha } = pipeModules(initialState, ...modules)
+    const { position, color, alpha } = pipeModules(
+      initialState,
+      ...this.modules
+    )
 
     const shaderRoot = CustomShaderMaterialMaster({
       position,
@@ -41,13 +59,13 @@ export class ParticlesMaterial extends CustomShaderMaterial {
     /* And finally compile a shader from the state. */
     const [shader, { update }] = compileShader(shaderRoot)
 
-    super({ ...args, ...shader })
+    super.update({ ...shader })
 
     this.shaderRoot = shaderRoot
     this.shaderUpdate = update
   }
 
   tick(dt: number) {
-    this.shaderUpdate(dt)
+    this.shaderUpdate?.(dt)
   }
 }

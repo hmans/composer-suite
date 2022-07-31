@@ -1,14 +1,8 @@
 import { useEffect, useMemo, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
-import {
-  BoxGeometry,
-  Color,
-  MeshStandardMaterial,
-  Vector2,
-  Vector3
-} from "three"
-import { ParticlesMaterial } from "vfx-composer"
-import { Particles } from "vfx-composer/fiber"
+import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { ParticlesMaterial as ParticlesMaterialImpl } from "vfx-composer"
+import { Particles, ParticlesMaterial } from "vfx-composer/fiber"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import {
   SetColor,
@@ -34,22 +28,13 @@ export const Simple = () => {
 
   const particles = useRef<ParticlesImpl>(null!)
 
-  const geometry = useMemo(() => new BoxGeometry(), [])
-
-  const material = useMemo(() => {
-    const modules = [
-      SetColor(variables.color),
-      Scale(OneMinus(lifetime.ParticleProgress)),
-      Velocity(variables.velocity, lifetime.ParticleAge),
-      Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-      lifetime.module
-    ] as ModulePipe
-
-    return new ParticlesMaterial({
-      baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
-      modules
-    })
-  }, [])
+  const modules = [
+    SetColor(variables.color),
+    Scale(OneMinus(lifetime.ParticleProgress)),
+    Velocity(variables.velocity, lifetime.ParticleAge),
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    lifetime.module
+  ] as ModulePipe
 
   useEffect(() => {
     particles.current.setupParticles()
@@ -80,8 +65,14 @@ export const Simple = () => {
 
   return (
     <group>
-      <Particles args={[undefined, material, 1000]} ref={particles}>
+      <Particles args={[undefined, undefined, 1000]} ref={particles}>
         <boxGeometry />
+
+        <ParticlesMaterial
+          baseMaterial={MeshStandardMaterial}
+          color="hotpink"
+          modules={modules}
+        />
       </Particles>
     </group>
   )

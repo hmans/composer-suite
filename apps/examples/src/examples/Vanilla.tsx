@@ -58,6 +58,9 @@ const vanillaCode = (parent: Object3D) => {
     modules
   })
 
+  // material.modules = modules
+  // material.setupShader()
+
   /* Create mesh and add it to the scene. */
   const particles = new Particles(new BoxGeometry(), material, 1000)
   particles.position.set(10, 0, 0)
