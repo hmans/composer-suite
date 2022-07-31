@@ -13,8 +13,8 @@ import {
 import { Particles, ParticlesMaterial } from "vfx-composer"
 import {
   Acceleration,
-  DefaultModules,
   Lifetime,
+  ModulePipe,
   Scale,
   SetColor,
   Velocity
@@ -32,14 +32,21 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create a Lifetime module. */
   const time = Time()
+  const lifetime = Lifetime(variables.lifetime, time)
 
-  /* Set up a module pipeline. */
-  const modules = DefaultModules({
-    time,
-    lifetime: variables.lifetime,
-    velocity: variables.velocity,
-    scale: 0.2
-  })
+  /*
+  The behavior of your particle effects is defined by a series of modules. Each
+  of these can change the particle's position, color, opacity, and so on.
+  VFX Composer comes with a collection of these modules, as well as some
+  preconfigured module pipelines, but you can of course just create your own.
+  */
+  const modules = [
+    SetColor(variables.color),
+    Scale(OneMinus(lifetime.ParticleProgress)),
+    Velocity(variables.velocity, lifetime.ParticleAge),
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    lifetime.module
+  ].filter((d) => !!d) as ModulePipe
 
   /*
   Create a particles material. These can patch themselves into existing
@@ -60,6 +67,11 @@ const vanillaCode = (parent: Object3D) => {
   const stopLoop = loop((dt) => {
     material.tick(dt)
 
+    /*
+    Spawn a bunch of particles. The callback function will be invoked once
+    per spawned particle, and is used to set up per-particle data that needs
+    to be provided from JavaScript. (The nature of this data is up to you.)
+    */
     particles.spawn(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(10))
