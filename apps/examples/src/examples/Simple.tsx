@@ -35,7 +35,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Particles args={[undefined, undefined, 1000]} ref={particles}>
+      <Particles maxParticles={5000} ref={particles}>
         <boxGeometry />
 
         <ParticlesMaterial

@@ -9,10 +9,10 @@ import { Particles as ParticlesImpl } from "../Particles"
 
 extend({ VfxComposerParticles_: ParticlesImpl })
 
-export type ParticlesProps = InstancedMeshProps
+export type ParticlesProps = InstancedMeshProps & { maxParticles?: number }
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
-  (props, ref) => {
+  ({ maxParticles = 1000, geometry, material, ...props }, ref) => {
     const particles = useRef<ParticlesImpl>(null!)
 
     useEffect(() => {
@@ -21,7 +21,13 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     useImperativeHandle(ref, () => particles.current)
 
-    // @ts-ignore
-    return <vfxComposerParticles_ {...props} ref={particles} />
+    return (
+      // @ts-ignore
+      <vfxComposerParticles_
+        args={[geometry, material, maxParticles]}
+        {...props}
+        ref={particles}
+      />
+    )
   }
 )
