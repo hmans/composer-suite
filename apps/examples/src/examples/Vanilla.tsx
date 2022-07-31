@@ -75,7 +75,7 @@ const vanillaCode = (parent: Object3D) => {
 
     particles.spawn(1, ({ cursor, position, rotation }) => {
       /* Terrible workaround */
-      const t = time._unitConfig.value.value
+      const t = time.uniform.value
 
       lifetimeAttribute.value.set(t, t + 2)
       lifetimeAttribute.setupParticle(particles, cursor)
