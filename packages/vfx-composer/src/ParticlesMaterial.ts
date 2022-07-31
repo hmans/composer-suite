@@ -3,6 +3,7 @@ import {
   compileShader,
   CustomShaderMaterialMaster,
   Float,
+  Unit,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -10,6 +11,7 @@ import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
 import { ModulePipe, ModuleState, pipeModules } from "./modules"
+import { Particles } from "./Particles"
 
 export type ParticlesMaterialArgs = iCSMParams & {
   modules: ModulePipe
@@ -17,6 +19,7 @@ export type ParticlesMaterialArgs = iCSMParams & {
 
 export class ParticlesMaterial extends CustomShaderMaterial {
   private shaderUpdate: (dt: number) => void
+  public shaderRoot: Unit
 
   constructor({ modules, ...args }: ParticlesMaterialArgs) {
     /* Define an initial module state. */
@@ -29,17 +32,18 @@ export class ParticlesMaterial extends CustomShaderMaterial {
     /* Transform state with given modules. */
     const { position, color, alpha } = pipeModules(initialState, ...modules)
 
+    const shaderRoot = CustomShaderMaterialMaster({
+      position,
+      diffuseColor: color,
+      alpha
+    })
+
     /* And finally compile a shader from the state. */
-    const [shader, { update }] = compileShader(
-      CustomShaderMaterialMaster({
-        position,
-        diffuseColor: color,
-        alpha
-      })
-    )
+    const [shader, { update }] = compileShader(shaderRoot)
 
     super({ ...args, ...shader })
 
+    this.shaderRoot = shaderRoot
     this.shaderUpdate = update
   }
 

@@ -1,4 +1,12 @@
-import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
+import {
+  BufferGeometry,
+  InstancedBufferGeometry,
+  InstancedMesh,
+  Matrix4,
+  Quaternion,
+  Vector3
+} from "three"
+import { ParticlesMaterial } from "./ParticlesMaterial"
 
 export type InstanceSetupCallback = (config: {
   cursor: number
@@ -13,8 +21,20 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
-export class Particles extends InstancedMesh {
+export class Particles extends InstancedMesh<
+  InstancedBufferGeometry,
+  ParticlesMaterial
+> {
   public cursor: number = 0
+
+  constructor(...args: ConstructorParameters<typeof InstancedMesh<InstancedBufferGeometry, ParticlesMaterial>>) {
+    super(...args)
+    this.setupParticles()
+  }
+
+  public setupParticles() {
+    console.log(this.material.shaderRoot)
+  }
 
   public spawn(count: number = 1, setupInstance?: InstanceSetupCallback) {
     for (let i = 0; i < count; i++) {

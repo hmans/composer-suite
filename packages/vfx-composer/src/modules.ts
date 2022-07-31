@@ -104,18 +104,18 @@ export type DefaultModulesProps = {
   velocity?: Input<"vec3">
 }
 
-export const DefaultModules = ({
-  billboard,
-  gravity,
-  scale,
-  color,
-  velocity
-}: DefaultModulesProps) =>
-  [
-    billboard && Billboard(),
-    scale && Scale(scale),
-    velocity && Velocity(velocity),
-    gravity && Gravity(gravity),
-    color && SetColor(color),
-    Lifetime()
-  ].filter((d) => !!d) as ModulePipe
+// export const DefaultModules = ({
+//   billboard,
+//   gravity,
+//   scale,
+//   color,
+//   velocity
+// }: DefaultModulesProps) =>
+//   [
+//     billboard && Billboard(),
+//     scale && Scale(scale),
+//     velocity && Velocity(velocity),
+//     gravity && Gravity(gravity),
+//     color && SetColor(color),
+//     Lifetime()
+//   ].filter((d) => !!d) as ModulePipe
