@@ -34,12 +34,13 @@ export class Particles extends InstancedMesh<
 
   public setupParticles() {
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
-    /* FIXME: shaderRoot might be undefined - fix! */
-    this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item?.setupMesh)
+    if (this.material.shaderRoot) {
+    this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item.setupMesh)
 
     for (const unit of this.attributeUnits)  {
       unit.setupMesh(this)
     }
+  }
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
@@ -57,16 +58,16 @@ export class Particles extends InstancedMesh<
         scale: tmpScale
       })
 
-      /* Write all known attributes */
-      for (const unit of this.attributeUnits) {
-        unit.setupParticle(this)
-      }
-
       tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
 
       /* Store and upload matrix */
       this.setMatrixAt(this.cursor, tmpMatrix)
       this.instanceMatrix.needsUpdate = true
+
+      /* Write all known attributes */
+      for (const unit of this.attributeUnits) {
+        unit.setupParticle(this)
+      }
 
       /* Advance cursor */
       this.cursor = (this.cursor + 1) % this.count

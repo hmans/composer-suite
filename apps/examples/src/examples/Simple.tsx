@@ -4,7 +4,7 @@ import { useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
-import { Particles, ParticlesMaterial } from "vfx-composer/fiber"
+import { Emitter, Particles, ParticlesMaterial } from "vfx-composer/fiber"
 import {
   Acceleration,
   Lifetime,
@@ -14,38 +14,17 @@ import {
 } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
-const variables = {
-  lifetime: ParticleAttribute(new Vector2()),
-  velocity: ParticleAttribute(new Vector3()),
-  color: ParticleAttribute(new Color())
-}
-
-const time = Time()
-const lifetime = Lifetime(variables.lifetime, time)
-
 export const Simple = () => {
   const particles = useRef<ParticlesImpl>(null!)
 
-  useFrame(() => {
-    const { lifetime, velocity, color } = variables
-    const t = time.uniform.value
+  const variables = {
+    lifetime: ParticleAttribute(new Vector2()),
+    velocity: ParticleAttribute(new Vector3()),
+    color: ParticleAttribute(new Color())
+  }
 
-    /*
-    Spawn a bunch of particles. The callback function will be invoked once
-    per spawned particle, and is used to set up per-particle data that needs
-    to be provided from JavaScript. (The nature of this data is up to you.)
-    */
-    particles.current.emit(between(1, 5), ({ position, rotation }) => {
-      /* Randomize the instance transform */
-      position.randomDirection().multiplyScalar(upTo(4))
-      rotation.random()
-
-      /* Write values into the instanced attributes */
-      lifetime.value.set(t, t + between(1, 2))
-      velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
-      color.value.setRGB(Math.random(), Math.random(), Math.random())
-    })
-  })
+  const time = Time()
+  const lifetime = Lifetime(variables.lifetime, time)
 
   return (
     <group>
@@ -64,6 +43,25 @@ export const Simple = () => {
           ]}
         />
       </Particles>
+
+      <Emitter
+        count={1}
+        continuous
+        particles={particles}
+        setup={({ position, rotation }) => {
+          const t = time.uniform.value
+          const { lifetime, velocity, color } = variables
+
+          /* Randomize the instance transform */
+          position.randomDirection().multiplyScalar(upTo(4))
+          rotation.random()
+
+          /* Write values into the instanced attributes */
+          lifetime.value.set(t, t + between(1, 2))
+          velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
+          color.value.setRGB(Math.random(), Math.random(), Math.random())
+        }}
+      />
     </group>
   )
 }
