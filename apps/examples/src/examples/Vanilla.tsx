@@ -1,5 +1,6 @@
 import { upTo } from "randomish"
 import { useEffect, useRef } from "react"
+import { Rotation3D } from "shader-composer"
 import { BoxGeometry, Group, MeshStandardMaterial, Object3D } from "three"
 import { Particles } from "vfx-composer"
 import { loop } from "./lib/loop"
@@ -12,7 +13,10 @@ const vanillaCode = (parent: Object3D) => {
   parent.add(particles)
 
   const stopLoop = loop(() => {
-    particles.spawn(1, (p) => p.randomDirection().multiplyScalar(upTo(10)))
+    particles.spawn(1, ({ position, rotation }) => {
+      position.randomDirection().multiplyScalar(upTo(10))
+      rotation.random()
+    })
   })
 
   return () => {

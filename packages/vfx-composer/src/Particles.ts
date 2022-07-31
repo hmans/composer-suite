@@ -1,10 +1,10 @@
 import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
 
-export type InstanceSetupCallback = (
-  position: Vector3,
-  rotation: Quaternion,
+export type InstanceSetupCallback = (config: {
+  position: Vector3
+  rotation: Quaternion
   scale: Vector3
-) => void
+}) => void
 
 /* A couple of temporary variables to avoid allocations */
 const tmpPosition = new Vector3()
@@ -25,7 +25,11 @@ export class Particles extends InstancedMesh {
       tmpScale.set(1, 1, 1)
 
       /* Invoke setup callback, if given */
-      setupInstance?.(tmpPosition, tmpRotation, tmpScale)
+      setupInstance?.({
+        position: tmpPosition,
+        rotation: tmpRotation,
+        scale: tmpScale
+      })
 
       tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
 
