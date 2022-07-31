@@ -10,7 +10,9 @@ export class ParticlesMaterial extends CustomShaderMaterial {
 
   constructor({ shaderRoot, ...args }: ParticlesMaterialArgs) {
     const [shader, { update }] = compileShader(shaderRoot)
+
     super({ ...args, ...shader })
+
     this.shaderUpdate = update
   }
 

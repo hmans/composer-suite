@@ -1,17 +1,9 @@
-import {
-  Add,
-  CustomShaderMaterialMaster,
-  pipe,
-  Time,
-  VertexPosition
-} from "shader-composer"
+import { Unit } from "shader-composer"
 import { Material } from "three"
 import { ParticlesMaterial } from "./ParticlesMaterial"
 
-export const patchMaterial = (material: Material) =>
+export const patchMaterial = (baseMaterial: Material, shaderRoot: Unit) =>
   new ParticlesMaterial({
-    baseMaterial: material,
-    shaderRoot: CustomShaderMaterialMaster({
-      position: pipe(VertexPosition, (v) => Add(v, Time()))
-    })
+    baseMaterial,
+    shaderRoot
   })
