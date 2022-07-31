@@ -1,17 +1,13 @@
 import { useFrame } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import {
-  Particles as ParticlesImpl,
-  ParticlesMaterial as ParticlesMaterialImpl
-} from "vfx-composer"
+import { Particles as ParticlesImpl } from "vfx-composer"
 import { Particles, ParticlesMaterial } from "vfx-composer/fiber"
 import {
   Acceleration,
   Lifetime,
-  ModulePipe,
   Scale,
   SetColor,
   Velocity
