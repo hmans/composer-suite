@@ -22,6 +22,7 @@ import { loop } from "./lib/loop"
 
 const vanillaCode = (parent: Object3D) => {
   const geometry = new BoxGeometry()
+
   const material = new ParticlesMaterial({
     baseMaterial: MeshStandardMaterial,
     shaderRoot: CustomShaderMaterialMaster({
@@ -29,6 +30,7 @@ const vanillaCode = (parent: Object3D) => {
       position: pipe(VertexPosition, (v) => Add(v, Time()))
     })
   })
+
   const particles = new Particles(geometry, material, 10000)
 
   parent.add(particles)
