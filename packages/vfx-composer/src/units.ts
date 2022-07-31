@@ -30,9 +30,10 @@ export const ParticleAttribute = <
   J extends number | Vector2 | Vector3 | Color | Vector4,
   T extends GLSLTypeFor<J>
 >(
-  value: J
+  initialValue: J
 ) => {
   const name = `a_particle_${nextAttributeId++}`
+  let value = initialValue
   const type = glslType(value as Input<T>)
 
   return {
@@ -55,12 +56,15 @@ export const ParticleAttribute = <
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    setupParticle: (
-      { geometry, cursor }: Particles,
-      setup?: (v: J) => void
-    ) => {
-      setup?.(value)
+    get value() {
+      return value
+    },
 
+    set value(v: J) {
+      value = v
+    },
+
+    setupParticle: ({ geometry, cursor }: Particles) => {
       const attribute = geometry.attributes[name]
 
       switch (type) {
