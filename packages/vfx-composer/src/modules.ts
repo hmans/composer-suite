@@ -10,6 +10,7 @@ import {
   Pow,
   SplitVector2,
   Sub,
+  Time,
   vec3,
   Vec3
 } from "shader-composer"
@@ -96,26 +97,34 @@ export const SetColor = (color: Input<"vec3">): Module => (state) => ({
 })
 
 export type DefaultModulesProps = {
+  time?: Input<"float">
+  lifetime: Input<"vec2">
   billboard?: Input<"bool">
   gravity?: Input<"float">
   scale?: Input<"float">
   color?: Input<"vec3">
   alpha?: Input<"float">
   velocity?: Input<"vec3">
+  acceleration?: Input<"vec3">
 }
 
-// export const DefaultModules = ({
-//   billboard,
-//   gravity,
-//   scale,
-//   color,
-//   velocity
-// }: DefaultModulesProps) =>
-//   [
-//     billboard && Billboard(),
-//     scale && Scale(scale),
-//     velocity && Velocity(velocity),
-//     gravity && Gravity(gravity),
-//     color && SetColor(color),
-//     Lifetime()
-//   ].filter((d) => !!d) as ModulePipe
+export const DefaultModules = ({
+  time = Time(),
+  lifetime: lifetimeInput,
+  billboard,
+  scale,
+  color,
+  velocity,
+  acceleration
+}: DefaultModulesProps) => {
+  const lifetime = Lifetime(lifetimeInput, time)
+
+  return [
+    lifetime.module,
+    billboard && Billboard(),
+    scale && Scale(scale),
+    velocity && Velocity(velocity, lifetime.ParticleAge),
+    acceleration && Acceleration(acceleration, lifetime.ParticleAge),
+    color && SetColor(color)
+  ].filter((d) => !!d) as ModulePipe
+}

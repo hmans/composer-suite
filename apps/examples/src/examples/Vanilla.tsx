@@ -13,6 +13,7 @@ import {
 import { Particles, ParticlesMaterial } from "vfx-composer"
 import {
   Acceleration,
+  DefaultModules,
   Lifetime,
   Scale,
   SetColor,
@@ -31,16 +32,14 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
 
   /* Set up a module pipeline. */
-  const modules = [
-    lifetime.module,
-    Scale(OneMinus(lifetime.ParticleProgress)),
-    Velocity(variables.velocity, lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-    SetColor(variables.color)
-  ]
+  const modules = DefaultModules({
+    time,
+    lifetime: variables.lifetime,
+    velocity: variables.velocity,
+    scale: 0.2
+  })
 
   /*
   Create a particles material. These can patch themselves into existing
