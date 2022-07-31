@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import {
   BoxGeometry,
+  Color,
   Group,
   MeshStandardMaterial,
   Object3D,
@@ -10,15 +11,22 @@ import {
   Vector3
 } from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
-import { Acceleration, Lifetime, Scale, Velocity } from "vfx-composer/modules"
+import {
+  Acceleration,
+  Lifetime,
+  Scale,
+  SetColor,
+  Velocity
+} from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (parent: Object3D) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
   const variables = {
-    lifetime: ParticleAttribute("vec2", new Vector2()),
-    velocity: ParticleAttribute("vec3", new Vector3())
+    lifetime: ParticleAttribute(new Vector2()),
+    velocity: ParticleAttribute(new Vector3()),
+    color: ParticleAttribute(new Color())
   }
 
   /* Create a Lifetime module. */
@@ -30,7 +38,8 @@ const vanillaCode = (parent: Object3D) => {
     lifetime.module,
     Scale(OneMinus(lifetime.ParticleProgress)),
     Velocity(variables.velocity, lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge)
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    SetColor(variables.color)
   ]
 
   /*
@@ -60,7 +69,7 @@ const vanillaCode = (parent: Object3D) => {
       rotation.random()
 
       /* Write values into the instanced attributes */
-      const { lifetime, velocity } = variables
+      const { lifetime, velocity, color } = variables
       const t = time.uniform.value
 
       lifetime.setupParticle(particles, (v) => {
@@ -70,6 +79,10 @@ const vanillaCode = (parent: Object3D) => {
       velocity.setupParticle(particles, (v) => {
         v.set(plusMinus(5), between(5, 18), plusMinus(5))
       })
+
+      color.setupParticle(particles, (v) =>
+        v.setRGB(Math.random(), Math.random(), Math.random())
+      )
     })
   })
 

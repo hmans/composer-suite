@@ -2,26 +2,41 @@ import {
   $,
   Attribute,
   Float,
-  GLSLType,
+  glslType,
   Input,
-  JSTypes,
   Snippet,
   Vec3
 } from "shader-composer"
-import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
+import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
 import { makeAttribute } from "./util/makeAttribute"
 
+/* TODO: promote this into Shader Composer */
+type GLSLTypeFor<J> = J extends number
+  ? "float"
+  : J extends Vector2
+  ? "vec2"
+  : J extends Vector3
+  ? "vec3"
+  : J extends Vector4
+  ? "vec4"
+  : J extends Color
+  ? "vec3"
+  : never
+
 let nextAttributeId = 1
 
-export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
-  type: T,
+export const ParticleAttribute = <
+  J extends number | Vector2 | Vector3 | Color | Vector4,
+  T extends GLSLTypeFor<J>
+>(
   value: J
 ) => {
   const name = `a_particle_${nextAttributeId++}`
+  const type = glslType(value as Input<T>)
 
   return {
-    ...Attribute(type, name),
+    ...Attribute<T>(type, name),
 
     isParticleAttribute: true,
 
