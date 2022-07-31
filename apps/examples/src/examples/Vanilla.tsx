@@ -46,6 +46,7 @@ const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
 
   return {
     module,
+    time,
     ParticleAge,
     ParticleMaxAge,
     ParticleStartTime,
@@ -67,10 +68,16 @@ export const Velocity = (velocity: Input<"vec3">, time: Input<"float">) =>
   Translate(Mul(velocity, time))
 
 const vanillaCode = (parent: Object3D) => {
-  const time = Time()
-  const lifetimeAttribute = ParticleAttribute("vec2", () => new Vector2())
-  const lifetime = Lifetime(lifetimeAttribute, time)
+  /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
+  const variables = {
+    lifetime: ParticleAttribute("vec2", () => new Vector2())
+  }
 
+  /* Create a Lifetime module. */
+  const time = Time()
+  const lifetime = Lifetime(variables.lifetime, time)
+
+  /* Set up a module pipeline. */
   const modules = [
     lifetime.module,
     Velocity(new Vector3(0, 10, 0), lifetime.ParticleAge)
@@ -89,7 +96,7 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create mesh */
   const particles = new Particles(geometry, material, 10000)
-  lifetimeAttribute.setupMesh(particles)
+  variables.lifetime.setupMesh(particles)
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
@@ -102,7 +109,7 @@ const vanillaCode = (parent: Object3D) => {
 
       /* Set a lifetime */
       const t = time.uniform.value
-      lifetimeAttribute.setupParticle(particles, (lifetime) =>
+      variables.lifetime.setupParticle(particles, (lifetime) =>
         lifetime.set(t, t + between(1, 2))
       )
     })
