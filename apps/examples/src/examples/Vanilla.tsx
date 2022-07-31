@@ -74,7 +74,10 @@ const vanillaCode = (parent: Object3D) => {
     material.tick(dt)
 
     particles.spawn(1, ({ cursor, position, rotation }) => {
-      lifetimeAttribute.value.set(0, 100)
+      /* Terrible workaround */
+      const t = time._unitConfig.value.value
+
+      lifetimeAttribute.value.set(t, t + 2)
       lifetimeAttribute.setupParticle(particles, cursor)
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()
