@@ -2,6 +2,7 @@ import {
   $,
   compileShader,
   CustomShaderMaterialMaster,
+  Float,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -20,8 +21,8 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   constructor({ modules, ...args }: ParticlesMaterialArgs) {
     const initialState = {
       position: VertexPosition,
-      color: Vec3($`diffuse.rgb`),
-      alpha: 1
+      color: Vec3($`csm_DiffuseColor.rgb`),
+      alpha: Float($`csm_DiffuseColor.a`)
     }
 
     /* Transform state with given modules */
