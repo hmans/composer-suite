@@ -47,9 +47,7 @@ const vanillaCode = (parent: Object3D) => {
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
   const material = new ParticlesMaterial({
-    baseMaterial: new MeshStandardMaterial({
-      color: "hotpink"
-    }),
+    baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })
 
