@@ -5,6 +5,10 @@ import {
   Add,
   Div,
   Input,
+  InstanceMatrix,
+  mat3,
+  Mul,
+  pipe,
   SplitVector2,
   Sub,
   Time,
@@ -16,7 +20,8 @@ import {
   Group,
   MeshStandardMaterial,
   Object3D,
-  Vector2
+  Vector2,
+  Vector3
 } from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
 import { Module } from "vfx-composer/modules"
@@ -39,35 +44,52 @@ const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
     })
   })
 
-  return { module, ParticleAge, ParticleProgress }
+  return {
+    module,
+    ParticleAge,
+    ParticleMaxAge,
+    ParticleStartTime,
+    ParticleEndTime,
+    ParticleProgress
+  }
 }
+
+export const Translate = (offset: Input<"vec3">): Module => (state) => ({
+  ...state,
+  position: pipe(
+    offset,
+    (v) => Mul(v, mat3(InstanceMatrix)),
+    (v) => Add(state.position, v)
+  )
+})
+
+export const Velocity = (velocity: Input<"vec3">, time: Input<"float">) =>
+  Translate(Mul(velocity, time))
 
 const vanillaCode = (parent: Object3D) => {
   const time = Time()
-
-  const geometry = new BoxGeometry()
-
-  const lifetimeAttribute = ParticleAttribute("vec2", () => new Vector2(0, 100))
-
+  const lifetimeAttribute = ParticleAttribute("vec2", () => new Vector2())
   const lifetime = Lifetime(lifetimeAttribute, time)
 
+  const modules = [
+    lifetime.module,
+    Velocity(new Vector3(0, 10, 0), lifetime.ParticleAge)
+  ]
+
+  /* Create material */
   const material = new ParticlesMaterial({
     baseMaterial: new MeshStandardMaterial({
       color: "hotpink"
     }),
-    modules: [
-      lifetime.module,
-      (state) => ({
-        ...state,
-        position: Add(state.position, lifetime.ParticleAge)
-      })
-    ]
+    modules
   })
 
+  /* Create geometry */
+  const geometry = new BoxGeometry()
+
+  /* Create mesh */
   const particles = new Particles(geometry, material, 10000)
-
   lifetimeAttribute.setupMesh(particles)
-
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
