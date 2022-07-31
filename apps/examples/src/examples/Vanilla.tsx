@@ -17,8 +17,8 @@ import { loop } from "./lib/loop"
 const vanillaCode = (parent: Object3D) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
   const variables = {
-    lifetime: ParticleAttribute("vec2", () => new Vector2()),
-    velocity: ParticleAttribute("vec3", () => new Vector3())
+    lifetime: ParticleAttribute("vec2", new Vector2()),
+    velocity: ParticleAttribute("vec3", new Vector3())
   }
 
   /* Create a Lifetime module. */

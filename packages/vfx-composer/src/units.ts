@@ -16,11 +16,9 @@ let nextAttributeId = 1
 
 export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
   type: T,
-  initValue: () => J
+  value: J
 ) => {
   const name = `a_particle_${nextAttributeId++}`
-
-  let value = initValue()
 
   return {
     ...Attribute(type, name),
