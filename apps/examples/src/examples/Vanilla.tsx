@@ -1,21 +1,6 @@
-import { between, upTo } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import {
-  $,
-  Add,
-  Div,
-  Input,
-  InstanceMatrix,
-  mat3,
-  Mul,
-  OneMinus,
-  pipe,
-  SplitVector2,
-  Sub,
-  Time,
-  vec2,
-  Vec3
-} from "shader-composer"
+import { OneMinus, Time } from "shader-composer"
 import {
   BoxGeometry,
   Group,
@@ -25,21 +10,15 @@ import {
   Vector3
 } from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
-import {
-  Acceleration,
-  Gravity,
-  Lifetime,
-  Module,
-  Scale,
-  Velocity
-} from "vfx-composer/modules"
+import { Acceleration, Lifetime, Scale, Velocity } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (parent: Object3D) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
   const variables = {
-    lifetime: ParticleAttribute("vec2", () => new Vector2())
+    lifetime: ParticleAttribute("vec2", () => new Vector2()),
+    velocity: ParticleAttribute("vec3", () => new Vector3())
   }
 
   /* Create a Lifetime module. */
@@ -49,9 +28,9 @@ const vanillaCode = (parent: Object3D) => {
   /* Set up a module pipeline. */
   const modules = [
     lifetime.module,
-    Velocity(new Vector3(0, 20, 0), lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-    Scale(OneMinus(lifetime.ParticleAge))
+    Scale(OneMinus(lifetime.ParticleProgress)),
+    Velocity(variables.velocity, lifetime.ParticleAge)
+    // Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge)
   ]
 
   /* Create material */
@@ -66,8 +45,9 @@ const vanillaCode = (parent: Object3D) => {
   const geometry = new BoxGeometry()
 
   /* Create mesh */
-  const particles = new Particles(geometry, material, 10000)
+  const particles = new Particles(geometry, material, 1000)
   variables.lifetime.setupMesh(particles)
+  variables.velocity.setupMesh(particles)
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
@@ -79,9 +59,11 @@ const vanillaCode = (parent: Object3D) => {
       rotation.random()
 
       /* Set a lifetime */
+      const { lifetime, velocity } = variables
       const t = time.uniform.value
-      variables.lifetime.setupParticle(particles, (lifetime) =>
-        lifetime.set(t, t + between(1, 2))
+      lifetime.setupParticle(particles, (v) => v.set(t, t + between(1, 2)))
+      velocity.setupParticle(particles, (v) =>
+        v.set(plusMinus(5), between(5, 18), plusMinus(5))
       )
     })
   })
