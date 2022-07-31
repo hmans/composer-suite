@@ -1,24 +1,8 @@
-import { between, upTo } from "randomish"
+import { upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import { BoxGeometry, Group, MeshStandardMaterial, Object3D } from "three"
 import { Particles } from "vfx-composer"
-
-const loop = (callback: () => void) => {
-  let running = true
-
-  const tick = () => {
-    if (running) {
-      requestAnimationFrame(tick)
-      callback()
-    }
-  }
-
-  tick()
-
-  return () => {
-    running = false
-  }
-}
+import { loop } from "./lib/loop"
 
 const vanillaCode = (parent: Object3D) => {
   const geometry = new BoxGeometry()
