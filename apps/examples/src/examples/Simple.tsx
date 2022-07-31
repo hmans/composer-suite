@@ -1,8 +1,7 @@
 import { between, plusMinus, upTo } from "randomish"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { Particles as ParticlesImpl } from "vfx-composer"
 import { makeParticles, ParticlesMaterial } from "vfx-composer/fiber"
 import {
   Acceleration,
@@ -16,27 +15,14 @@ import { ParticleAttribute } from "vfx-composer/units"
 const Effect = makeParticles()
 
 export const Simple = () => {
-  const particles = useRef<ParticlesImpl>(null!)
-
   const [variables] = useState(() => ({
+    time: Time(),
     lifetime: ParticleAttribute(new Vector2()),
     velocity: ParticleAttribute(new Vector3()),
     color: ParticleAttribute(new Color())
   }))
 
-  const [time] = useState(() => Time())
-
-  const [modules] = useState(() => {
-    const lifetime = Lifetime(variables.lifetime, time)
-
-    return [
-      SetColor(variables.color),
-      Scale(OneMinus(lifetime.ParticleProgress)),
-      Velocity(variables.velocity, lifetime.ParticleAge),
-      Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-      lifetime.module
-    ]
-  })
+  const lifetime = Lifetime(variables.lifetime, variables.time)
 
   return (
     <group>
@@ -46,7 +32,13 @@ export const Simple = () => {
         <ParticlesMaterial
           baseMaterial={MeshStandardMaterial}
           color="hotpink"
-          modules={modules}
+          modules={[
+            SetColor(variables.color),
+            Scale(OneMinus(lifetime.ParticleProgress)),
+            Velocity(variables.velocity, lifetime.ParticleAge),
+            Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+            lifetime.module
+          ]}
         />
       </Effect.Root>
 
@@ -54,7 +46,7 @@ export const Simple = () => {
         count={1}
         continuous
         setup={({ position, rotation }) => {
-          const t = time.uniform.value
+          const t = variables.time.uniform.value
           const { lifetime, velocity, color } = variables
 
           /* Randomize the instance transform */
