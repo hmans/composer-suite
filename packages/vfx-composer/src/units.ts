@@ -16,25 +16,15 @@ import {
   ViewMatrix
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
+import { Particles } from "./Particles"
 import { makeAttribute } from "./util/makeAttribute"
-
-export type MeshSetupCallback = (mesh: InstancedMesh) => void
-
-export type ParticleAttribute<T extends GLSLType, J extends JSTypes[T]> = Unit<
-  T
-> & {
-  isParticleAttribute: true
-  setupMesh: MeshSetupCallback
-  value: J
-  setupParticle: (mesh: InstancedMesh, index: number) => void
-}
 
 let nextAttributeId = 1
 
 export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
   type: T,
   initValue: () => J
-): ParticleAttribute<T, J> => {
+) => {
   const name = `a_particle_${nextAttributeId++}`
 
   let value = initValue()
@@ -59,34 +49,29 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
       geometry.setAttribute(name, makeAttribute(count, itemSize))
     },
 
-    get value() {
-      return value
-    },
-    set value(v: J) {
-      value = v
-    },
+    setupParticle: ({ geometry, cursor }: Particles, setup?: (v: J) => J) => {
+      setup?.(value)
 
-    setupParticle: ({ geometry }: InstancedMesh, index: number) => {
       const attribute = geometry.attributes[name]
 
       switch (type) {
         case "float": {
-          attribute.setX(index, value as number)
+          attribute.setX(cursor, value as number)
           break
         }
 
         case "vec2": {
-          attribute.setXY(index, ...(value as Vector2).toArray())
+          attribute.setXY(cursor, ...(value as Vector2).toArray())
           break
         }
 
         case "vec3": {
-          attribute.setXYZ(index, ...(value as Vector3).toArray())
+          attribute.setXYZ(cursor, ...(value as Vector3).toArray())
           break
         }
 
         case "vec4": {
-          attribute.setXYZW(index, ...(value as Vector4).toArray())
+          attribute.setXYZW(cursor, ...(value as Vector4).toArray())
           break
         }
       }
@@ -95,12 +80,6 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
       attribute.needsUpdate = true
     }
   }
-}
-
-export function isParticleAttribute<T extends GLSLType, J extends JSTypes[T]>(
-  item: Unit<T>
-): item is ParticleAttribute<T, J> {
-  return isUnit(item) && "isParticleAttribute" in item
 }
 
 export const EffectAgeUniform = Uniform("float", 0)

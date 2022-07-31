@@ -1,4 +1,4 @@
-import { upTo } from "randomish"
+import { between, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import {
   $,
@@ -96,13 +96,15 @@ const vanillaCode = (parent: Object3D) => {
     material.tick(dt)
 
     particles.spawn(1, ({ cursor, position, rotation }) => {
-      /* Terrible workaround */
-      const t = time.uniform.value
-
-      lifetimeAttribute.value.set(t, t + 2)
-      lifetimeAttribute.setupParticle(particles, cursor)
+      /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()
+
+      /* Set a lifetime */
+      const t = time.uniform.value
+      lifetimeAttribute.setupParticle(particles, (lifetime) =>
+        lifetime.set(t, t + between(1, 2))
+      )
     })
   })
 
