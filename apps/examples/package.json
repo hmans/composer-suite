@@ -22,7 +22,7 @@
     "three-custom-shader-material": "^3.5.1",
     "three-vfx": "^0.2.0",
     "timeline-composer": "^0.1.1",
-    "vfx-composer": "^0.0.1",
+    "vfx-composer": "^0.1.0",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
