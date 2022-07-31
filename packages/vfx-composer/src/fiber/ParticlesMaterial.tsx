@@ -1,5 +1,10 @@
 import { extend, useFrame } from "@react-three/fiber"
-import React, { forwardRef, useImperativeHandle, useRef } from "react"
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef
+} from "react"
 import { iCSMProps } from "three-custom-shader-material"
 import { ModulePipe } from "../modules"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../ParticlesMaterial"
@@ -13,6 +18,8 @@ export const ParticlesMaterial = forwardRef<
   ParticlesMaterialProps
 >((props, ref) => {
   const material = useRef<ParticlesMaterialImpl>(null!)
+
+  useEffect(() => console.log("ParticlesMaterial rendered"))
 
   useFrame((_, dt) => {
     material.current.tick(dt)

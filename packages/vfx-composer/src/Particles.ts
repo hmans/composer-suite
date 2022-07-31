@@ -9,7 +9,7 @@ import { ParticlesMaterial } from "./ParticlesMaterial"
 import { ParticleAttribute } from "./units"
 
 export type InstanceSetupCallback = (config: {
-  cursor: number
+  index: number
   position: Vector3
   rotation: Quaternion
   scale: Vector3
@@ -52,7 +52,7 @@ export class Particles extends InstancedMesh<
 
       /* Invoke setup callback, if given */
       setupInstance?.({
-        cursor: this.cursor,
+        index: this.cursor,
         position: tmpPosition,
         rotation: tmpRotation,
         scale: tmpScale

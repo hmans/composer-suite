@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
@@ -17,14 +17,28 @@ import { ParticleAttribute } from "vfx-composer/units"
 export const Simple = () => {
   const particles = useRef<ParticlesImpl>(null!)
 
-  const variables = {
-    lifetime: ParticleAttribute(new Vector2()),
-    velocity: ParticleAttribute(new Vector3()),
-    color: ParticleAttribute(new Color())
-  }
+  const variables = useMemo(
+    () => ({
+      lifetime: ParticleAttribute(new Vector2()),
+      velocity: ParticleAttribute(new Vector3()),
+      color: ParticleAttribute(new Color())
+    }),
+    []
+  )
 
-  const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
+  const time = useMemo(() => Time(), [])
+  const lifetime = useMemo(() => Lifetime(variables.lifetime, time), [])
+
+  const modules = useMemo(
+    () => [
+      SetColor(variables.color),
+      Scale(OneMinus(lifetime.ParticleProgress)),
+      Velocity(variables.velocity, lifetime.ParticleAge),
+      Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+      lifetime.module
+    ],
+    []
+  )
 
   return (
     <group>
@@ -32,15 +46,9 @@ export const Simple = () => {
         <boxGeometry />
 
         <ParticlesMaterial
-          baseMaterial={new MeshStandardMaterial()}
+          baseMaterial={MeshStandardMaterial}
           color="hotpink"
-          modules={[
-            SetColor(variables.color),
-            Scale(OneMinus(lifetime.ParticleProgress)),
-            Velocity(variables.velocity, lifetime.ParticleAge),
-            Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-            lifetime.module
-          ]}
+          modules={modules}
         />
       </Particles>
 

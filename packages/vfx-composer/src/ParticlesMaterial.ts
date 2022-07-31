@@ -25,8 +25,11 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   }
 
   set modules(v: ModulePipe) {
-    this._modules = v
-    this.setupShader()
+    if (this._modules !== v) {
+      console.log("new modules received", this._modules, v)
+      this._modules = v
+      this.setupShader()
+    }
   }
 
   private shaderUpdate?: (dt: number) => void
@@ -35,14 +38,14 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   constructor(args: ParticlesMaterialArgs = {} as ParticlesMaterialArgs) {
     super({
       ...args,
-      baseMaterial: MeshStandardMaterial,
-      cacheKey: () => Math.random().toFixed()
+      baseMaterial: MeshStandardMaterial
     })
 
     this.modules = args.modules || []
   }
 
   setupShader() {
+    console.log("setupShader")
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,

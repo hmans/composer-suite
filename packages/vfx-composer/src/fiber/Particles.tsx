@@ -3,7 +3,6 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
-  useLayoutEffect,
   useRef
 } from "react"
 import { Particles as ParticlesImpl } from "../Particles"
@@ -16,7 +15,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (props, ref) => {
     const particles = useRef<ParticlesImpl>(null!)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       particles.current.setupParticles()
     }, [])
 
