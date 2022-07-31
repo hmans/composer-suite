@@ -1,19 +1,7 @@
 import { upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import {
-  Add,
-  CustomShaderMaterialMaster,
-  pipe,
-  Time,
-  VertexPosition
-} from "shader-composer"
-import {
-  BoxGeometry,
-  Color,
-  Group,
-  MeshStandardMaterial,
-  Object3D
-} from "three"
+import { Add, Time } from "shader-composer"
+import { BoxGeometry, Group, MeshStandardMaterial, Object3D } from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
 import { loop } from "./lib/loop"
 
@@ -22,10 +10,12 @@ const vanillaCode = (parent: Object3D) => {
 
   const material = new ParticlesMaterial({
     baseMaterial: MeshStandardMaterial,
-    shaderRoot: CustomShaderMaterialMaster({
-      diffuseColor: new Color("hotpink"),
-      position: pipe(VertexPosition, (v) => Add(v, Time()))
-    })
+    modules: [
+      (state) => ({
+        ...state,
+        position: Add(state.position, Time())
+      })
+    ]
   })
 
   const particles = new Particles(geometry, material, 10000)
