@@ -26,7 +26,6 @@ export class ParticlesMaterial extends CustomShaderMaterial {
 
   set modules(v: ModulePipe) {
     if (this._modules !== v) {
-      console.log("new modules received", this._modules, v)
       this._modules = v
       this.setupShader()
     }
@@ -45,7 +44,6 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   }
 
   setupShader() {
-    console.log("setupShader")
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,

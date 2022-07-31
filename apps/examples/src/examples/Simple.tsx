@@ -1,6 +1,5 @@
-import { useFrame } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
-import { useMemo, useRef } from "react"
+import { useRef, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
@@ -17,28 +16,22 @@ import { ParticleAttribute } from "vfx-composer/units"
 export const Simple = () => {
   const particles = useRef<ParticlesImpl>(null!)
 
-  const variables = useMemo(
-    () => ({
-      lifetime: ParticleAttribute(new Vector2()),
-      velocity: ParticleAttribute(new Vector3()),
-      color: ParticleAttribute(new Color())
-    }),
-    []
-  )
+  const [variables] = useState(() => ({
+    lifetime: ParticleAttribute(new Vector2()),
+    velocity: ParticleAttribute(new Vector3()),
+    color: ParticleAttribute(new Color())
+  }))
 
-  const time = useMemo(() => Time(), [])
-  const lifetime = useMemo(() => Lifetime(variables.lifetime, time), [])
+  const [time] = useState(() => Time())
+  const [lifetime] = useState(() => Lifetime(variables.lifetime, time))
 
-  const modules = useMemo(
-    () => [
-      SetColor(variables.color),
-      Scale(OneMinus(lifetime.ParticleProgress)),
-      Velocity(variables.velocity, lifetime.ParticleAge),
-      Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
-      lifetime.module
-    ],
-    []
-  )
+  const [modules] = useState(() => [
+    SetColor(variables.color),
+    Scale(OneMinus(lifetime.ParticleProgress)),
+    Velocity(variables.velocity, lifetime.ParticleAge),
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    lifetime.module
+  ])
 
   return (
     <group>
@@ -61,7 +54,7 @@ export const Simple = () => {
           const { lifetime, velocity, color } = variables
 
           /* Randomize the instance transform */
-          position.randomDirection().multiplyScalar(upTo(4))
+          position.randomDirection().multiplyScalar(upTo(6))
           rotation.random()
 
           /* Write values into the instanced attributes */
