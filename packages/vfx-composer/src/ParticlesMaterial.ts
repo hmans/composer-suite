@@ -9,7 +9,7 @@ import {
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
-import { ModulePipe, pipeModules } from "./modules"
+import { ModulePipe, ModuleState, pipeModules } from "./modules"
 
 export type ParticlesMaterialArgs = iCSMParams & {
   modules: ModulePipe
@@ -19,15 +19,17 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   private shaderUpdate: (dt: number) => void
 
   constructor({ modules, ...args }: ParticlesMaterialArgs) {
-    const initialState = {
+    /* Define an initial module state. */
+    const initialState: ModuleState = {
       position: VertexPosition,
       color: Vec3($`csm_DiffuseColor.rgb`),
       alpha: Float($`csm_DiffuseColor.a`)
     }
 
-    /* Transform state with given modules */
+    /* Transform state with given modules. */
     const { position, color, alpha } = pipeModules(initialState, ...modules)
 
+    /* And finally compile a shader from the state. */
     const [shader, { update }] = compileShader(
       CustomShaderMaterialMaster({
         position,
