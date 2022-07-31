@@ -1,6 +1,5 @@
 import { upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { Rotation3D } from "shader-composer"
 import { BoxGeometry, Group, MeshStandardMaterial, Object3D } from "three"
 import { Particles } from "vfx-composer"
 import { loop } from "./lib/loop"
