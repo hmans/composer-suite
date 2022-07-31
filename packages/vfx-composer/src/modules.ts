@@ -1,21 +1,19 @@
 import {
   $,
   Add,
+  Div,
   Input,
   InstanceMatrix,
   mat3,
   Mul,
   pipe,
   Pow,
+  SplitVector2,
+  Sub,
   vec3,
   Vec3
 } from "shader-composer"
-import { Color } from "three"
-import {
-  Billboard as BillboardUnit,
-  ParticleAge,
-  ParticleProgress
-} from "./units"
+import { Billboard as BillboardUnit } from "./units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -30,14 +28,32 @@ export type ModulePipe = Module[]
 export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
   pipe(initial, ...(modules as [Module]))
 
-export const Lifetime = (): Module => (state) => ({
-  ...state,
-  color: Vec3(state.color, {
-    fragment: {
-      body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-    }
+export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
+  const [ParticleStartTime, ParticleEndTime] = SplitVector2(lifetime)
+
+  const ParticleMaxAge = Sub(ParticleEndTime, ParticleStartTime)
+  const ParticleAge = Sub(time, ParticleStartTime)
+  const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
+
+  const module: Module = (state) => ({
+    ...state,
+    color: Vec3(state.color, {
+      fragment: {
+        body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
+      }
+    })
   })
-})
+
+  return {
+    module,
+    time,
+    ParticleAge,
+    ParticleMaxAge,
+    ParticleStartTime,
+    ParticleEndTime,
+    ParticleProgress
+  }
+}
 
 export const Scale = (scale: Input<"float"> = 1): Module => (state) => ({
   ...state,
@@ -53,25 +69,20 @@ export const Translate = (offset: Input<"vec3">): Module => (state) => ({
   )
 })
 
-export const Velocity = (velocity: Input<"vec3">) =>
-  Translate(Mul(velocity, ParticleAge))
+export const Velocity = (velocity: Input<"vec3">, time: Input<"float">) =>
+  Translate(Mul(velocity, time))
 
-export const Acceleration = (acceleration: Input<"vec3">) =>
+export const Acceleration = (
+  acceleration: Input<"vec3">,
+  time: Input<"float">
+) =>
   Translate(
     pipe(
       acceleration,
-      (v) => Mul(v, Pow(ParticleAge, 2)),
+      (v) => Mul(v, Pow(time, 2)),
       (v) => Mul(v, 0.5)
     )
   )
-
-/**
- * Apply a downward force, just like gravity.
- *
- * @param amount The gravity force (default: 9.81).
- */
-export const Gravity = (amount: Input<"float"> = 9.81) =>
-  Acceleration(vec3(0, -amount, 0))
 
 export const Billboard = (): Module => (state) => ({
   ...state,

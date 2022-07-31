@@ -8,6 +8,7 @@ import {
   InstanceMatrix,
   mat3,
   Mul,
+  OneMinus,
   pipe,
   SplitVector2,
   Sub,
@@ -24,48 +25,16 @@ import {
   Vector3
 } from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
-import { Module } from "vfx-composer/modules"
+import {
+  Acceleration,
+  Gravity,
+  Lifetime,
+  Module,
+  Scale,
+  Velocity
+} from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
-
-const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
-  const [ParticleStartTime, ParticleEndTime] = SplitVector2(lifetime)
-
-  const ParticleMaxAge = Sub(ParticleEndTime, ParticleStartTime)
-  const ParticleAge = Sub(time, ParticleStartTime)
-  const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
-
-  const module: Module = (state) => ({
-    ...state,
-    color: Vec3(state.color, {
-      fragment: {
-        body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-      }
-    })
-  })
-
-  return {
-    module,
-    time,
-    ParticleAge,
-    ParticleMaxAge,
-    ParticleStartTime,
-    ParticleEndTime,
-    ParticleProgress
-  }
-}
-
-export const Translate = (offset: Input<"vec3">): Module => (state) => ({
-  ...state,
-  position: pipe(
-    offset,
-    (v) => Mul(v, mat3(InstanceMatrix)),
-    (v) => Add(state.position, v)
-  )
-})
-
-export const Velocity = (velocity: Input<"vec3">, time: Input<"float">) =>
-  Translate(Mul(velocity, time))
 
 const vanillaCode = (parent: Object3D) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
@@ -80,7 +49,9 @@ const vanillaCode = (parent: Object3D) => {
   /* Set up a module pipeline. */
   const modules = [
     lifetime.module,
-    Velocity(new Vector3(0, 10, 0), lifetime.ParticleAge)
+    Velocity(new Vector3(0, 20, 0), lifetime.ParticleAge),
+    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    Scale(OneMinus(lifetime.ParticleAge))
   ]
 
   /* Create material */
@@ -102,7 +73,7 @@ const vanillaCode = (parent: Object3D) => {
   const stopLoop = loop((dt) => {
     material.tick(dt)
 
-    particles.spawn(1, ({ cursor, position, rotation }) => {
+    particles.spawn(1, ({ position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()

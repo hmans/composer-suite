@@ -5,15 +5,12 @@ import {
   Float,
   GLSLType,
   Input,
-  isUnit,
   JSTypes,
   Snippet,
   SplitVector2,
   Sub,
   Uniform,
-  Unit,
-  Vec3,
-  ViewMatrix
+  Vec3
 } from "shader-composer"
 import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
@@ -81,20 +78,6 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
     }
   }
 }
-
-export const EffectAgeUniform = Uniform("float", 0)
-
-export const EffectAge = Float(EffectAgeUniform, {
-  update: (dt) => (EffectAgeUniform.value += dt)
-})
-
-export const [LifetimeStart, LifetimeEnd] = SplitVector2(
-  Attribute("vec2", "lifetime")
-)
-
-export const ParticleAge = Sub(EffectAge, LifetimeStart)
-export const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
-export const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
 export const billboard = Snippet(
   (name) => $`
