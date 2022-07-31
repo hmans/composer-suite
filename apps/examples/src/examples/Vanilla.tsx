@@ -41,7 +41,9 @@ const vanillaCode = (parent: Object3D) => {
   const lifetime = Lifetime(vec2(0, 100), Time())
 
   const material = new ParticlesMaterial({
-    baseMaterial: MeshStandardMaterial,
+    baseMaterial: new MeshStandardMaterial({
+      color: "hotpink"
+    }),
     modules: [
       lifetime.module,
       (state) => ({
