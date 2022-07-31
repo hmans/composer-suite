@@ -72,7 +72,7 @@ const vanillaCode = (parent: Object3D) => {
     per spawned particle, and is used to set up per-particle data that needs
     to be provided from JavaScript. (The nature of this data is up to you.)
     */
-    particles.spawn(between(1, 5), ({ position, rotation }) => {
+    particles.emit(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()

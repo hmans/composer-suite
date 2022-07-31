@@ -38,7 +38,7 @@ export class Particles extends InstancedMesh<
     }
   }
 
-  public spawn(count: number = 1, setupInstance?: InstanceSetupCallback) {
+  public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
     for (let i = 0; i < count; i++) {
       /* Reset instance configuration values */
       tmpPosition.set(0, 0, 0)
