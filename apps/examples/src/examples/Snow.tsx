@@ -5,9 +5,9 @@ import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat,
   SpawnSetup
 } from "three-vfx"
+import { Repeat } from "timeline-composer"
 import { particleUrl } from "./textures"
 
 export const Snow = ({ intensity = 100, lifetime = 10 }) => {
@@ -43,7 +43,7 @@ export const Snow = ({ intensity = 100, lifetime = 10 }) => {
         setup={setup({ preDelay: true })}
       />
 
-      <Repeat interval={1}>
+      <Repeat seconds={1}>
         <Emitter count={intensity} setup={setup()} />
       </Repeat>
     </MeshParticles>

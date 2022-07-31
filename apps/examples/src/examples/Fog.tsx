@@ -5,9 +5,9 @@ import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat,
   SpawnSetup
 } from "three-vfx"
+import { Repeat } from "timeline-composer"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
@@ -46,7 +46,7 @@ export const Fog = () => {
 
       <Emitter count={20} setup={setup({ preDelay: 15 })} />
 
-      <Repeat interval={5}>
+      <Repeat seconds={5}>
         <Emitter count={() => between(5, 10)} setup={setup()} />
       </Repeat>
     </MeshParticles>

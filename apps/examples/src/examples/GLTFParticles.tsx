@@ -1,12 +1,8 @@
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
 import { Euler } from "three"
-import {
-  Emitter,
-  MeshParticles,
-  MeshParticlesMaterial,
-  Repeat
-} from "three-vfx"
+import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
+import { Repeat } from "timeline-composer"
 
 export const GLTFParticles = () => {
   const gltf = useGLTF("/models/spaceship26.gltf") as any
@@ -17,7 +13,7 @@ export const GLTFParticles = () => {
     <MeshParticles geometry={geometry} maxParticles={500}>
       <MeshParticlesMaterial baseMaterial={material} depthTest depthWrite />
 
-      <Repeat interval={1}>
+      <Repeat seconds={1}>
         <Emitter
           count={8}
           setup={(c) => {
