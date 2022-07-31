@@ -1,14 +1,12 @@
-import { extend, InstancedMeshProps } from "@react-three/fiber"
+import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
-  useMemo
+  useState
 } from "react"
 import { Particles as ParticlesImpl } from "../Particles"
 import { ParticlesMaterial as ParticlesMaterialImpl } from "../ParticlesMaterial"
-
-extend({ VfxComposerParticles_: ParticlesImpl })
 
 export type ParticlesProps = InstancedMeshProps & {
   material?: ParticlesMaterialImpl
@@ -17,16 +15,21 @@ export type ParticlesProps = InstancedMeshProps & {
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   ({ maxParticles = 1000, geometry, material, ...props }, ref) => {
-    const particles = useMemo(
-      () => new ParticlesImpl(geometry, material, maxParticles),
-      [maxParticles]
+    /* We're using useState because it gives better guarantees than useMemo. */
+    const [particles, setParticles] = useState(
+      () => new ParticlesImpl(geometry, material, maxParticles)
     )
 
+    /* We still want to update the particles when the props change. */
+    useEffect(() => {
+      setParticles(new ParticlesImpl(geometry, material, maxParticles))
+    }, [geometry, material, maxParticles])
+
+    /* Setup particles in an effect (after materials and geometry are assigned) */
     useEffect(() => {
       particles.setupParticles()
+      return () => particles.dispose()
     }, [particles])
-
-    useEffect(() => () => particles.dispose(), [])
 
     useImperativeHandle(ref, () => particles)
 
