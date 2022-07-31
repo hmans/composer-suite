@@ -1,6 +1,7 @@
 import { InstancedMesh, Matrix4, Quaternion, Vector3 } from "three"
 
 export type InstanceSetupCallback = (config: {
+  cursor: number
   position: Vector3
   rotation: Quaternion
   scale: Vector3
@@ -24,6 +25,7 @@ export class Particles extends InstancedMesh {
 
       /* Invoke setup callback, if given */
       setupInstance?.({
+        cursor: this.cursor,
         position: tmpPosition,
         rotation: tmpRotation,
         scale: tmpScale

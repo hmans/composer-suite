@@ -11,9 +11,16 @@ import {
   vec2,
   Vec3
 } from "shader-composer"
-import { BoxGeometry, Group, MeshStandardMaterial, Object3D } from "three"
+import {
+  BoxGeometry,
+  Group,
+  MeshStandardMaterial,
+  Object3D,
+  Vector2
+} from "three"
 import { Particles, ParticlesMaterial } from "vfx-composer"
 import { Module } from "vfx-composer/modules"
+import { ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
 const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
@@ -38,7 +45,9 @@ const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
 const vanillaCode = (parent: Object3D) => {
   const geometry = new BoxGeometry()
 
-  const lifetime = Lifetime(vec2(0, 100), Time())
+  const lifetimeAttribute = ParticleAttribute("vec2", () => new Vector2(0, 100))
+
+  const lifetime = Lifetime(lifetimeAttribute, Time())
 
   const material = new ParticlesMaterial({
     baseMaterial: new MeshStandardMaterial({
@@ -55,12 +64,16 @@ const vanillaCode = (parent: Object3D) => {
 
   const particles = new Particles(geometry, material, 10000)
 
+  lifetimeAttribute.setupMesh(particles)
+
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
     material.tick(dt)
 
-    particles.spawn(1, ({ position, rotation }) => {
+    particles.spawn(1, ({ cursor, position, rotation }) => {
+      lifetimeAttribute.value.set(0, 100)
+      lifetimeAttribute.setupParticle(particles, cursor)
       position.randomDirection().multiplyScalar(upTo(10))
       rotation.random()
     })

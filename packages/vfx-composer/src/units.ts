@@ -41,6 +41,7 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
 
   return {
     ...Attribute(type, name),
+
     isParticleAttribute: true,
 
     setupMesh: ({ geometry, count }: InstancedMesh) => {
