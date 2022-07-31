@@ -1,3 +1,4 @@
+import { collectFromTree, walkTree } from "shader-composer"
 import {
   BufferGeometry,
   InstancedBufferGeometry,
@@ -22,18 +23,20 @@ const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
 export class Particles extends InstancedMesh<
-  InstancedBufferGeometry,
+  BufferGeometry,
   ParticlesMaterial
 > {
   public cursor: number = 0
 
-  constructor(...args: ConstructorParameters<typeof InstancedMesh<InstancedBufferGeometry, ParticlesMaterial>>) {
+  constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, ParticlesMaterial>>) {
     super(...args)
     this.setupParticles()
   }
 
   public setupParticles() {
-    console.log(this.material.shaderRoot)
+    walkTree(this.material.shaderRoot, (item) => {
+      item.setupMesh?.(this)
+    })
   }
 
   public spawn(count: number = 1, setupInstance?: InstanceSetupCallback) {

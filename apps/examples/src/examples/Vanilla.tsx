@@ -46,8 +46,6 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create mesh */
   const particles = new Particles(geometry, material, 1000)
-  variables.lifetime.setupMesh(particles)
-  variables.velocity.setupMesh(particles)
   parent.add(particles)
 
   const stopLoop = loop((dt) => {
