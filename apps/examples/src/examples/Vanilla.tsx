@@ -43,11 +43,13 @@ const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
 }
 
 const vanillaCode = (parent: Object3D) => {
+  const time = Time()
+
   const geometry = new BoxGeometry()
 
   const lifetimeAttribute = ParticleAttribute("vec2", () => new Vector2(0, 100))
 
-  const lifetime = Lifetime(lifetimeAttribute, Time())
+  const lifetime = Lifetime(lifetimeAttribute, time)
 
   const material = new ParticlesMaterial({
     baseMaterial: new MeshStandardMaterial({
