@@ -1,1 +1,1 @@
-export const foo = "bar"
+import { Particles } from "../Particles"

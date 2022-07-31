@@ -7,6 +7,7 @@ import {
   Group,
   MeshStandardMaterial,
   Object3D,
+  SphereGeometry,
   Vector2,
   Vector3
 } from "three"
@@ -57,15 +58,20 @@ const vanillaCode = (parent: Object3D) => {
     modules
   })
 
-  /* Create geometry */
-  const geometry = new BoxGeometry()
-
   /* Create mesh and add it to the scene. */
-  const particles = new Particles(geometry, material, 1000)
+  const particles = new Particles(new BoxGeometry(), material, 1000)
+  particles.position.set(10, 0, 0)
   parent.add(particles)
+
+  const particles2 = new Particles(new SphereGeometry(), material, 1000)
+  particles2.position.set(-10, 0, 0)
+  parent.add(particles2)
 
   const stopLoop = loop((dt) => {
     material.tick(dt)
+
+    const { lifetime, velocity, color } = variables
+    const t = time.uniform.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
@@ -74,15 +80,21 @@ const vanillaCode = (parent: Object3D) => {
     */
     particles.emit(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
-      position.randomDirection().multiplyScalar(upTo(10))
+      position.randomDirection().multiplyScalar(upTo(4))
       rotation.random()
 
       /* Write values into the instanced attributes */
-      const { lifetime, velocity, color } = variables
-      const t = time.uniform.value
-
       lifetime.value.set(t, t + between(1, 2))
       velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
+      color.value.setRGB(Math.random(), Math.random(), Math.random())
+    })
+
+    particles2.emit(between(1, 5), ({ position, rotation }) => {
+      /* Randomize the instance transform */
+      position.randomDirection().multiplyScalar(upTo(2))
+      rotation.random()
+
+      velocity.value.set(plusMinus(5), between(5, 6), plusMinus(5))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })
   })
@@ -90,8 +102,12 @@ const vanillaCode = (parent: Object3D) => {
   return () => {
     stopLoop()
     parent.remove(particles)
+    parent.remove(particles2)
+
+    particles.geometry.dispose()
     particles.dispose()
-    geometry.dispose()
+    particles2.geometry.dispose()
+    particles2.dispose()
     material.dispose()
   }
 }
