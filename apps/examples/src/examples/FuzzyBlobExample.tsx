@@ -7,9 +7,9 @@ import {
   Emitter,
   MeshParticles,
   MeshParticlesMaterial,
-  Repeat,
   SpawnSetup
 } from "three-vfx"
+import { Repeat } from "timeline-composer"
 
 const useTime = () => {
   const t = useRef(0)
@@ -71,7 +71,7 @@ export const Sparks = () => {
         scaleFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
       />
 
-      <Repeat times={Infinity} interval={0.2}>
+      <Repeat times={Infinity} seconds={0.2}>
         <Emitter
           count={between(50, 100)}
           setup={(c) => {
@@ -122,7 +122,7 @@ const GroundParticles = () => {
         colorFunction="cubicIn(v_progress)"
       />
 
-      <Repeat times={Infinity} interval={0.2}>
+      <Repeat times={Infinity} seconds={0.2}>
         <Emitter count={300} setup={suckUpwards} />
       </Repeat>
     </MeshParticles>
@@ -139,7 +139,7 @@ const GroundRocks = () => {
         colorFunction="cubicIn(v_progress)"
       />
 
-      <Repeat times={Infinity} interval={0.2}>
+      <Repeat times={Infinity} seconds={0.2}>
         <Emitter
           count={5}
           setup={(c, index) => {
@@ -185,7 +185,7 @@ const CrumblyFloor = () => {
         }}
       />
 
-      <Repeat interval={1}>
+      <Repeat seconds={1}>
         <Emitter
           count={20}
           setup={(c) => {
