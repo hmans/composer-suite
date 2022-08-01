@@ -15,7 +15,6 @@ import { Particles, ParticlesMaterial } from "vfx-composer"
 import {
   Acceleration,
   Lifetime,
-  ModulePipe,
   Scale,
   SetColor,
   Velocity
