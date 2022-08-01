@@ -24,8 +24,8 @@ export const Simple = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={500_000} safetyBuffer={1_000}>
-        <boxGeometry />
+      <Effect.Root maxParticles={100_000} safetyBuffer={1_000}>
+        <planeGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
           <VFX.Scale scale={OneMinus(ParticleProgress)} />
