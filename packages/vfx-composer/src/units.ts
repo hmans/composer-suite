@@ -91,7 +91,6 @@ export const ParticleAttribute = <
         }
       }
 
-      /* TODO: only do partial uploads */
       attribute.needsUpdate = true
     }
   }

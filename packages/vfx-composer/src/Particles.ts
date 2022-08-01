@@ -25,10 +25,10 @@ const tmpMatrix = new Matrix4()
 
 export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   public cursor: number = 0
-  private attributeUnits: ParticleAttribute[] = []
-
   public maxParticles: number
   public safetyBuffer: number
+
+  private attributeUnits: ParticleAttribute[] = []
 
   constructor(
     geometry: BufferGeometry | undefined,
@@ -87,7 +87,6 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
 
       /* Store and upload matrix */
       this.setMatrixAt(this.cursor, tmpMatrix)
-      this.instanceMatrix.needsUpdate = true
 
       /* Write all known attributes */
       for (const unit of this.attributeUnits) {
