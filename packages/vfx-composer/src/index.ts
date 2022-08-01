@@ -1,1 +1,2 @@
-export const shaderComposer = "cool!"
+export * from "./Particles"
+export * from "./VFXMaterial"

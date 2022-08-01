@@ -9,6 +9,7 @@ import Playground from "./Playground"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
+import { Vanilla } from "./Vanilla"
 
 export type ExampleDefinition = {
   path: string
@@ -18,6 +19,7 @@ export type ExampleDefinition = {
 
 export default [
   { path: "simple", name: "Simple", component: <Simple /> },
+  { path: "vanilla", name: "Vanilla", component: <Vanilla /> },
   { path: "explosion", name: "Explosion", component: <Explosion /> },
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
   { path: "fog", name: "Fog", component: <Fog /> },

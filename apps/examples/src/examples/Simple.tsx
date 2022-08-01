@@ -1,54 +1,63 @@
-import { useTexture } from "@react-three/drei"
-import { between, chance, plusMinus } from "randomish"
-import { OneMinus } from "shader-composer"
-import { Color, Vector3 } from "three"
-import { Repeat } from "three-vfx"
-import { Emitter, Particles } from "vfx-composer/fiber"
-import { DefaultModules } from "vfx-composer/modules"
-import { ParticleAttribute, ParticleProgress } from "vfx-composer/units"
-import textureUrl from "./textures/particle.png"
+import { between, plusMinus, upTo } from "randomish"
+import { useState } from "react"
+import { OneMinus, Time } from "shader-composer"
+import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Lifetime } from "vfx-composer/modules"
+import { ParticleAttribute } from "vfx-composer/units"
+
+const Effect = makeParticles()
 
 export const Simple = () => {
-  const texture = useTexture(textureUrl)
+  const [variables] = useState(() => ({
+    time: Time(),
+    lifetime: ParticleAttribute(new Vector2()),
+    velocity: ParticleAttribute(new Vector3()),
+    color: ParticleAttribute(new Color())
+  }))
 
-  const variables = {
-    velocity: ParticleAttribute("vec3", () => new Vector3()),
-    color: ParticleAttribute("vec3", () => new Color())
-  }
+  const lifetime = Lifetime({
+    lifetime: variables.lifetime,
+    time: variables.time
+  })
 
   return (
-    <Particles
-      maxParticles={1000}
-      modules={DefaultModules({
-        velocity: variables.velocity,
-        color: variables.color,
-        scale: OneMinus(ParticleProgress),
-        billboard: true
-      })}
-    >
-      <planeGeometry />
-      <meshStandardMaterial
-        color="white"
-        map={texture}
-        alphaMap={texture}
-        transparent
-        depthWrite={false}
+    <group>
+      <Effect.Root maxParticles={1000}>
+        <boxGeometry />
+
+        <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+          <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
+          <VFX.Velocity
+            velocity={variables.velocity}
+            time={lifetime.ParticleAge}
+          />
+          <VFX.Acceleration
+            force={new Vector3(0, -10, 0)}
+            time={lifetime.ParticleAge}
+          />
+          <VFX.SetColor color={variables.color} />
+          <VFX.Module module={lifetime.module} />
+        </VFXMaterial>
+      </Effect.Root>
+
+      <Effect.Emitter
+        count={1}
+        continuous
+        setup={({ position, rotation }) => {
+          const t = variables.time.uniform.value
+          const { lifetime, velocity, color } = variables
+
+          /* Randomize the instance transform */
+          position.randomDirection().multiplyScalar(upTo(6))
+          rotation.random()
+
+          /* Write values into the instanced attributes */
+          lifetime.value.set(t, t + between(1, 2))
+          velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
+          color.value.setRGB(Math.random(), Math.random(), Math.random())
+        }}
       />
-
-      <Repeat interval={0.1}>
-        <Emitter
-          count={5}
-          setup={() => {
-            variables.velocity.value.set(
-              plusMinus(5),
-              between(5, 18),
-              plusMinus(5)
-            )
-
-            variables.color.value.set(chance(0.5) ? 0xffffff : 0x000000)
-          }}
-        />
-      </Repeat>
-    </Particles>
+    </group>
   )
 }

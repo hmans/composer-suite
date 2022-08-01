@@ -1,46 +1,46 @@
 import {
   $,
   Attribute,
-  Div,
   Float,
-  GLSLType,
+  glslType,
   Input,
-  isUnit,
-  JSTypes,
   Snippet,
-  SplitVector2,
-  Sub,
-  Uniform,
-  Unit,
-  Vec3,
-  ViewMatrix
+  Vec3
 } from "shader-composer"
-import { InstancedMesh, Vector2, Vector3, Vector4 } from "three"
+import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
+import { Particles } from "./Particles"
 import { makeAttribute } from "./util/makeAttribute"
 
-export type MeshSetupCallback = (mesh: InstancedMesh) => void
-
-export type ParticleAttribute<T extends GLSLType, J extends JSTypes[T]> = Unit<
-  T
-> & {
-  isParticleAttribute: true
-  setupMesh: MeshSetupCallback
-  value: J
-  setupParticle: (mesh: InstancedMesh, index: number) => void
-}
+/* TODO: promote this into Shader Composer */
+type GLSLTypeFor<J> = J extends number
+  ? "float"
+  : J extends Vector2
+  ? "vec2"
+  : J extends Vector3
+  ? "vec3"
+  : J extends Vector4
+  ? "vec4"
+  : J extends Color
+  ? "vec3"
+  : never
 
 let nextAttributeId = 1
 
-export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
-  type: T,
-  initValue: () => J
-): ParticleAttribute<T, J> => {
-  const name = `a_particle_${nextAttributeId++}`
+export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
 
-  let value = initValue()
+export const ParticleAttribute = <
+  J extends number | Vector2 | Vector3 | Color | Vector4,
+  T extends GLSLTypeFor<J>
+>(
+  initialValue: J
+) => {
+  const name = `a_particle_${nextAttributeId++}`
+  let value = initialValue
+  const type = glslType(value as Input<T>)
 
   return {
-    ...Attribute(type, name),
+    ...Attribute<T>(type, name),
+
     isParticleAttribute: true,
 
     setupMesh: ({ geometry, count }: InstancedMesh) => {
@@ -61,31 +61,32 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
     get value() {
       return value
     },
+
     set value(v: J) {
       value = v
     },
 
-    setupParticle: ({ geometry }: InstancedMesh, index: number) => {
+    setupParticle: ({ geometry, cursor }: Particles) => {
       const attribute = geometry.attributes[name]
 
       switch (type) {
         case "float": {
-          attribute.setX(index, value as number)
+          attribute.setX(cursor, value as number)
           break
         }
 
         case "vec2": {
-          attribute.setXY(index, ...(value as Vector2).toArray())
+          attribute.setXY(cursor, ...(value as Vector2).toArray())
           break
         }
 
         case "vec3": {
-          attribute.setXYZ(index, ...(value as Vector3).toArray())
+          attribute.setXYZ(cursor, ...(value as Vector3).toArray())
           break
         }
 
         case "vec4": {
-          attribute.setXYZW(index, ...(value as Vector4).toArray())
+          attribute.setXYZW(cursor, ...(value as Vector4).toArray())
           break
         }
       }
@@ -95,26 +96,6 @@ export const ParticleAttribute = <T extends GLSLType, J extends JSTypes[T]>(
     }
   }
 }
-
-export function isParticleAttribute<T extends GLSLType, J extends JSTypes[T]>(
-  item: Unit<T>
-): item is ParticleAttribute<T, J> {
-  return isUnit(item) && "isParticleAttribute" in item
-}
-
-export const EffectAgeUniform = Uniform("float", 0)
-
-export const EffectAge = Float(EffectAgeUniform, {
-  update: (dt) => (EffectAgeUniform.value += dt)
-})
-
-export const [LifetimeStart, LifetimeEnd] = SplitVector2(
-  Attribute("vec2", "lifetime")
-)
-
-export const ParticleAge = Sub(EffectAge, LifetimeStart)
-export const ParticleMaxAge = Sub(LifetimeEnd, LifetimeStart)
-export const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
 
 export const billboard = Snippet(
   (name) => $`

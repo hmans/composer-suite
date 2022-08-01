@@ -1,101 +1,38 @@
 import { InstancedMeshProps } from "@react-three/fiber"
 import React, {
-  createContext,
   forwardRef,
-  useContext,
+  useEffect,
   useImperativeHandle,
-  useLayoutEffect,
-  useMemo,
-  useRef
+  useState
 } from "react"
-import {
-  $,
-  CustomShaderMaterialMaster,
-  Vec3,
-  VertexPosition
-} from "shader-composer"
-import { InstancedMesh, Material } from "three"
-import CustomShaderMaterial from "three-custom-shader-material/vanilla"
-import { ModulePipe, pipeModules } from "../modules"
-import { SpawnOptions, useParticles } from "./useParticles"
+import { Particles as ParticlesImpl } from "../Particles"
+import { VFXMaterial as ParticlesMaterialImpl } from "../VFXMaterial"
 
 export type ParticlesProps = InstancedMeshProps & {
+  material?: ParticlesMaterialImpl
   maxParticles?: number
-  modules: ModulePipe
 }
 
-export type ParticlesAPI = {
-  spawn: (count?: number, opts?: SpawnOptions) => void
-}
-
-export type Particles = {
-  mesh: InstancedMesh
-} & ParticlesAPI
-
-const ParticlesAPIContext = createContext<ParticlesAPI>(null!)
-
-export const useParticlesAPI = () => useContext(ParticlesAPIContext)
-
-export const Particles = forwardRef<Particles, ParticlesProps>(
-  ({ maxParticles = 1000, modules, children, ...props }, ref) => {
-    /* Reference to the InstancedMesh we're about to create */
-    const imesh = useRef<InstancedMesh>(null!)
-
-    /* Create the Shader Composer master, using the modules provided. */
-    const master = useMemo(() => {
-      const initialState = {
-        position: VertexPosition,
-        color: Vec3($`diffuse.rgb`),
-        alpha: 1
-      }
-      /* Transform state with given modules */
-      const { position, color, alpha } = pipeModules(initialState, ...modules)
-
-      /* Return master unit */
-      return CustomShaderMaterialMaster({
-        position,
-        diffuseColor: color,
-        alpha
-      })
-    }, [modules])
-
-    /* Initialize particles. */
-    const { spawn, shader } = useParticles(imesh, master)
-
-    /* Patch material. */
-    useLayoutEffect(() => {
-      if (!imesh.current) return
-
-      const material = imesh.current.material as Material
-
-      const csm = new CustomShaderMaterial({
-        ...shader,
-        baseMaterial: material
-      })
-
-      imesh.current.material = csm
-
-      return () => {
-        imesh.current.material = material
-        csm.dispose()
-      }
-    }, [shader])
-
-    useImperativeHandle(ref, () => ({
-      mesh: imesh.current!,
-      spawn
-    }))
-
-    return (
-      <instancedMesh
-        ref={imesh}
-        args={[undefined, undefined, maxParticles]}
-        {...props}
-      >
-        <ParticlesAPIContext.Provider value={{ spawn }}>
-          {children}
-        </ParticlesAPIContext.Provider>
-      </instancedMesh>
+export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
+  ({ maxParticles = 1000, geometry, material, ...props }, ref) => {
+    /* We're using useState because it gives better guarantees than useMemo. */
+    const [particles, setParticles] = useState(
+      () => new ParticlesImpl(geometry, material, maxParticles)
     )
+
+    /* We still want to update the particles when the props change. */
+    useEffect(() => {
+      setParticles(new ParticlesImpl(geometry, material, maxParticles))
+    }, [geometry, material, maxParticles])
+
+    /* Setup particles in an effect (after materials and geometry are assigned) */
+    useEffect(() => {
+      particles.setupParticles()
+      return () => particles.dispose()
+    }, [particles])
+
+    useImperativeHandle(ref, () => particles)
+
+    return <primitive object={particles} {...props} />
   }
 )
