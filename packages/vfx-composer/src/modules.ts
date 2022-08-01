@@ -10,8 +10,6 @@ import {
   Pow,
   SplitVector2,
   Sub,
-  Time,
-  vec3,
   Vec3
 } from "shader-composer"
 import { Billboard as BillboardUnit } from "./units"

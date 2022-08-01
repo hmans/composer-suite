@@ -1,5 +1,5 @@
 import { between, plusMinus, upTo } from "randomish"
-import { useState } from "react"
+import React, { FC, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { makeParticles, ParticlesMaterial } from "vfx-composer/fiber"
@@ -11,6 +11,32 @@ import {
   Velocity
 } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
+
+import * as VFXModules from "vfx-composer/modules"
+type VFXModules = typeof VFXModules
+
+const vfxComponents = new Map()
+
+type VFXProxy = {
+  [K in keyof VFXModules]: FC<Parameters<VFXModules[K]>>
+}
+
+const VFX = new Proxy(vfxComponents as VFXProxy, {
+  get(_, name) {
+    if (typeof name !== "string") return undefined
+
+    if (!vfxComponents.has(name)) {
+      console.log(`creating new component for ${name}`)
+
+      vfxComponents.set(name, () => {
+        console.log(`Hi from VFX.${name}`)
+        return <></>
+      })
+    }
+
+    return vfxComponents.get(name)
+  }
+})
 
 const Effect = makeParticles()
 
@@ -39,7 +65,11 @@ export const Simple = () => {
             Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
             lifetime.module
           ]}
-        />
+        >
+          <VFX.Acceleration />
+          <VFX.Acceleration />
+          <VFX.Acceleration />
+        </ParticlesMaterial>
       </Effect.Root>
 
       <Effect.Emitter
