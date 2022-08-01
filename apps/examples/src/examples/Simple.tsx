@@ -77,7 +77,6 @@ export const Simple = () => {
         <boxGeometry />
 
         <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
-          <VFX.SetColor color={variables.color} />
           <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
           <VFX.Velocity
             velocity={variables.velocity}
@@ -88,6 +87,7 @@ export const Simple = () => {
             time={lifetime.ParticleAge}
           />
 
+          <VFX.SetColor color={variables.color} />
           <VFX.Module module={lifetime.module} />
         </ParticlesMaterial>
       </Effect.Root>
