@@ -47,7 +47,7 @@ const vanillaCode = (parent: Object3D) => {
     Velocity({ velocity: variables.velocity, time: lifetime.ParticleAge }),
     Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.ParticleAge }),
     lifetime.module
-  ].filter((d) => !!d) as ModulePipe
+  ]
 
   /*
   Create a particles material. These can patch themselves into existing
