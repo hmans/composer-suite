@@ -1,6 +1,8 @@
 import { collectFromTree } from "shader-composer"
 import {
+  BufferAttribute,
   BufferGeometry,
+  InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
   Quaternion,
@@ -55,6 +57,19 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
+    /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
+    const allAttributes = [
+      this.instanceMatrix,
+      ...Object.values(this.geometry.attributes)
+    ] as BufferAttribute[]
+
+    allAttributes.forEach((attribute) => {
+      attribute.needsUpdate = true
+      attribute.updateRange.offset = this.cursor * attribute.itemSize
+      attribute.updateRange.count = count * attribute.itemSize
+    })
+
+    /* Emit the requested number of particles. */
     for (let i = 0; i < count; i++) {
       /* Reset instance configuration values */
       tmpPosition.set(0, 0, 0)
