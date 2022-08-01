@@ -27,7 +27,9 @@ export type ModulePipe = Module[]
 export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
   pipe(initial, ...(modules as [Module]))
 
-export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
+export type LifetimeProps = { lifetime: Input<"vec2">; time: Input<"float"> }
+
+export const Lifetime = ({ lifetime, time }: LifetimeProps) => {
   const [ParticleStartTime, ParticleEndTime] = SplitVector2(lifetime)
 
   const ParticleMaxAge = Sub(ParticleEndTime, ParticleStartTime)
@@ -54,12 +56,20 @@ export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
   }
 }
 
-export const Scale = (scale: Input<"float"> = 1): Module => (state) => ({
+type ScaleProps = {
+  scale: Input<"float">
+}
+
+export const Scale = ({ scale = 1 }: ScaleProps): Module => (state) => ({
   ...state,
   position: Mul(state.position, scale)
 })
 
-export const Translate = (offset: Input<"vec3">): Module => (state) => ({
+type TranslateProps = {
+  offset: Input<"vec3">
+}
+
+export const Translate = ({ offset }: TranslateProps): Module => (state) => ({
   ...state,
   position: pipe(
     offset,
@@ -68,20 +78,27 @@ export const Translate = (offset: Input<"vec3">): Module => (state) => ({
   )
 })
 
-export const Velocity = (velocity: Input<"vec3">, time: Input<"float">) =>
-  Translate(Mul(velocity, time))
-
-export const Acceleration = (
-  acceleration: Input<"vec3">,
+type VelocityProps = {
+  velocity: Input<"vec3">
   time: Input<"float">
-) =>
-  Translate(
-    pipe(
-      acceleration,
+}
+
+export const Velocity = ({ velocity, time }: VelocityProps) =>
+  Translate({ offset: Mul(velocity, time) })
+
+type AccelerationProps = {
+  force: Input<"vec3">
+  time: Input<"float">
+}
+
+export const Acceleration = ({ force, time }: AccelerationProps) =>
+  Translate({
+    offset: pipe(
+      force,
       (v) => Mul(v, Pow(time, 2)),
       (v) => Mul(v, 0.5)
     )
-  )
+  })
 
 export const Billboard = (): Module => (state) => ({
   ...state,
@@ -89,7 +106,9 @@ export const Billboard = (): Module => (state) => ({
 })
 
 /* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */
-export const SetColor = (color: Input<"vec3">): Module => (state) => ({
+export const SetColor = ({ color }: { color: Input<"vec3"> }): Module => (
+  state
+) => ({
   ...state,
   color
 })

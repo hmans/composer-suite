@@ -18,7 +18,7 @@ type VFXModules = typeof VFXModules
 const vfxComponents = new Map()
 
 type VFXProxy = {
-  [K in keyof VFXModules]: FC<Parameters<VFXModules[K]>>
+  [K in keyof VFXModules]: FC<Parameters<VFXModules[K]>[0]>
 }
 
 const VFX = new Proxy(vfxComponents as VFXProxy, {
@@ -48,7 +48,10 @@ export const Simple = () => {
     color: ParticleAttribute(new Color())
   }))
 
-  const lifetime = Lifetime(variables.lifetime, variables.time)
+  const lifetime = Lifetime({
+    lifetime: variables.lifetime,
+    time: variables.time
+  })
 
   return (
     <group>
@@ -59,16 +62,23 @@ export const Simple = () => {
           baseMaterial={MeshStandardMaterial}
           color="hotpink"
           modules={[
-            SetColor(variables.color),
-            Scale(OneMinus(lifetime.ParticleProgress)),
-            Velocity(variables.velocity, lifetime.ParticleAge),
-            Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+            SetColor({ color: variables.color }),
+            Scale({ scale: OneMinus(lifetime.ParticleProgress) }),
+            Velocity({
+              velocity: variables.velocity,
+              time: lifetime.ParticleAge
+            }),
+            Acceleration({
+              force: new Vector3(0, -10, 0),
+              time: lifetime.ParticleAge
+            }),
             lifetime.module
           ]}
         >
-          <VFX.Acceleration />
-          <VFX.Acceleration />
-          <VFX.Acceleration />
+          <VFX.Acceleration
+            force={new Vector3(0, -10, 0)}
+            time={lifetime.ParticleAge}
+          />
         </ParticlesMaterial>
       </Effect.Root>
 
