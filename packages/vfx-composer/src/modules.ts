@@ -112,3 +112,5 @@ export const SetColor = ({ color }: { color: Input<"vec3"> }): Module => (
   ...state,
   color
 })
+
+export const Module = ({ module }: { module: Module }): Module => module

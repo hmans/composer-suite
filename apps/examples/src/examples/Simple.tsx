@@ -1,11 +1,16 @@
 import { between, plusMinus, upTo } from "randomish"
-import React, { FC, useState } from "react"
+import React, { FC, useLayoutEffect, useMemo, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { makeParticles, ParticlesMaterial } from "vfx-composer/fiber"
+import {
+  makeParticles,
+  ParticlesMaterial,
+  useParticlesMaterialContext
+} from "vfx-composer/fiber"
 import {
   Acceleration,
   Lifetime,
+  Module,
   Scale,
   SetColor,
   Velocity
@@ -17,23 +22,36 @@ type VFXModules = typeof VFXModules
 
 const vfxComponents = new Map()
 
+type VFXComponentProps<K extends keyof VFXModules> = Parameters<
+  VFXModules[K]
+>[0]
+
 type VFXProxy = {
-  [K in keyof VFXModules]: FC<Parameters<VFXModules[K]>[0]>
+  [K in keyof VFXModules]: FC<VFXComponentProps<K>>
 }
 
-const VFX = new Proxy(vfxComponents as VFXProxy, {
-  get(_, name) {
-    if (typeof name !== "string") return undefined
+const makeComponent = <K extends keyof VFXModules>(name: K) => (
+  props: VFXComponentProps<K>
+) => {
+  console.log(`Hi from VFX.${name}`)
+  const { addModule, removeModule } = useParticlesMaterialContext()
 
+  const module = useMemo(() => VFXModules[name](props), [name, props])
+
+  useLayoutEffect(() => {
+    const module = VFXModules[name](props)
+    addModule(module)
+    return () => removeModule(module)
+  }, [])
+
+  return null
+}
+
+const VFX: VFXProxy = new Proxy(VFXModules, {
+  get(_, name: keyof VFXModules) {
     if (!vfxComponents.has(name)) {
-      console.log(`creating new component for ${name}`)
-
-      vfxComponents.set(name, () => {
-        console.log(`Hi from VFX.${name}`)
-        return <></>
-      })
+      vfxComponents.set(name, makeComponent(name))
     }
-
     return vfxComponents.get(name)
   }
 })
@@ -58,27 +76,19 @@ export const Simple = () => {
       <Effect.Root maxParticles={1000}>
         <boxGeometry />
 
-        <ParticlesMaterial
-          baseMaterial={MeshStandardMaterial}
-          color="hotpink"
-          modules={[
-            SetColor({ color: variables.color }),
-            Scale({ scale: OneMinus(lifetime.ParticleProgress) }),
-            Velocity({
-              velocity: variables.velocity,
-              time: lifetime.ParticleAge
-            }),
-            Acceleration({
-              force: new Vector3(0, -10, 0),
-              time: lifetime.ParticleAge
-            }),
-            lifetime.module
-          ]}
-        >
+        <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+          <VFX.SetColor color={variables.color} />
+          <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
+          <VFX.Velocity
+            velocity={variables.velocity}
+            time={lifetime.ParticleAge}
+          />
           <VFX.Acceleration
             force={new Vector3(0, -10, 0)}
             time={lifetime.ParticleAge}
           />
+
+          <VFX.Module module={lifetime.module} />
         </ParticlesMaterial>
       </Effect.Root>
 
