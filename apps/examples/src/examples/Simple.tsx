@@ -48,7 +48,7 @@ export const Simple = () => {
             rotation.random()
 
             /* Write values into the instanced attributes */
-            const start = t + random()
+            const start = t
             lifetime.value.set(start, start + between(1, 3))
             velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
             color.value.setRGB(Math.random(), Math.random(), Math.random())
