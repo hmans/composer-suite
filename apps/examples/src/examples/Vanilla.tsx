@@ -33,7 +33,7 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
+  const lifetime = Lifetime({ lifetime: variables.lifetime, time })
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -42,10 +42,10 @@ const vanillaCode = (parent: Object3D) => {
   preconfigured module pipelines, but you can of course just create your own.
   */
   const modules = [
-    SetColor(variables.color),
-    Scale(OneMinus(lifetime.ParticleProgress)),
-    Velocity(variables.velocity, lifetime.ParticleAge),
-    Acceleration(new Vector3(0, -10, 0), lifetime.ParticleAge),
+    SetColor({ color: variables.color }),
+    Scale({ scale: OneMinus(lifetime.ParticleProgress) }),
+    Velocity({ velocity: variables.velocity, time: lifetime.ParticleAge }),
+    Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.ParticleAge }),
     lifetime.module
   ].filter((d) => !!d) as ModulePipe
 
