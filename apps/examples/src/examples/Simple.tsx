@@ -1,61 +1,10 @@
 import { between, plusMinus, upTo } from "randomish"
-import { FC, useLayoutEffect, useMemo, useState } from "react"
+import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import {
-  makeParticles,
-  useVFXMaterialContext,
-  VFXMaterial
-} from "vfx-composer/fiber"
-import * as VFXModules from "vfx-composer/modules"
-import {
-  Lifetime,
-  Module,
-  ModuleFactory,
-  ModuleProps
-} from "vfx-composer/modules"
+import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
-
-type VFXModules = typeof VFXModules
-
-const cache = new Map<string, VFXComponent<any>>()
-
-type VFXComponentProps<K extends keyof VFXModules> = Parameters<
-  VFXModules[K]
->[0]
-
-type VFXComponent<K extends keyof VFXModules> = FC<VFXComponentProps<K>>
-
-type VFXProxy = {
-  [K in keyof VFXModules]: VFXModules[K] extends (...args: any[]) => Module
-    ? VFXComponent<K>
-    : never
-}
-
-const makeModuleComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
-  props: P
-) => {
-  const module = useMemo(() => fac(props), [props])
-
-  const { addModule, removeModule } = useVFXMaterialContext()
-
-  useLayoutEffect(() => {
-    addModule(module)
-    return () => removeModule(module)
-  }, [module])
-
-  return null
-}
-
-const VFX = new Proxy<VFXProxy>({} as VFXProxy, {
-  get<N extends keyof VFXModules>(target: any, name: N) {
-    if (!cache.has(name)) {
-      // @ts-ignore
-      cache.set(name, makeModuleComponent(VFXModules[name]))
-    }
-    return cache.get(name)
-  }
-})
 
 const Effect = makeParticles()
 
