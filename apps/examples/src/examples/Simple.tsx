@@ -32,7 +32,7 @@ type VFXProxy = {
     : never
 }
 
-const MakeComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
+const makeModuleComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
   props: P
 ) => {
   const module = useMemo(() => fac(props), [props])
@@ -51,7 +51,7 @@ const VFX = new Proxy<VFXProxy>({} as VFXProxy, {
   get<N extends keyof VFXModules>(target: any, name: N) {
     if (!cache.has(name)) {
       // @ts-ignore
-      cache.set(name, MakeComponent(VFXModules[name]))
+      cache.set(name, makeModuleComponent(VFXModules[name]))
     }
     return cache.get(name)
   }
