@@ -2,15 +2,10 @@ import { collectFromTree } from "shader-composer"
 import {
   BufferAttribute,
   BufferGeometry,
-  Camera,
-  Group,
   InstancedMesh,
-  Material,
   Matrix4,
   Quaternion,
-  Scene,
-  Vector3,
-  WebGLRenderer
+  Vector3
 } from "three"
 import { ParticleAttribute } from "./units"
 import { VFXMaterial } from "./VFXMaterial"
@@ -99,10 +94,11 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
         scale: tmpScale
       })
 
-      tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
-
       /* Store and upload matrix */
-      this.setMatrixAt(this.cursor, tmpMatrix)
+      this.setMatrixAt(
+        this.cursor,
+        tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
+      )
 
       /* Write all known attributes */
       for (const unit of this.attributeUnits) {
