@@ -1,7 +1,8 @@
-import { between, plusMinus, upTo } from "randomish"
+import { between, number, plusMinus, power, upTo } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { Repeat } from "timeline-composer"
 import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
@@ -23,7 +24,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={1000} safetyBuffer={100}>
+      <Effect.Root maxParticles={10_000} safetyBuffer={1_000}>
         <boxGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
@@ -35,8 +36,9 @@ export const Simple = () => {
         </VFXMaterial>
       </Effect.Root>
 
+      {/* <Repeat seconds={1}> */}
       <Effect.Emitter
-        count={1}
+        count={10}
         continuous
         setup={({ position, rotation }) => {
           const t = variables.time.uniform.value
@@ -47,11 +49,13 @@ export const Simple = () => {
           rotation.random()
 
           /* Write values into the instanced attributes */
-          lifetime.value.set(t, t + between(1, 2))
+          const start = t + number()
+          lifetime.value.set(start, start + power() * between(1, 3))
           velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
           color.value.setRGB(Math.random(), Math.random(), Math.random())
         }}
       />
+      {/* </Repeat> */}
     </group>
   )
 }
