@@ -7,7 +7,7 @@ import {
   ParticlesMaterial,
   useParticlesMaterialContext
 } from "vfx-composer/fiber"
-import { Lifetime } from "vfx-composer/modules"
+import { Lifetime, Module } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
 import * as VFXModules from "vfx-composer/modules"
@@ -22,7 +22,9 @@ type VFXComponentProps<K extends keyof VFXModules> = Parameters<
 type VFXComponent<K extends keyof VFXModules> = FC<VFXComponentProps<K>>
 
 type VFXProxy = {
-  [K in keyof VFXModules]: FC<VFXComponentProps<K>>
+  [K in keyof VFXModules]: VFXModules[K] extends (...args: any[]) => Module
+    ? VFXComponent<K>
+    : never
 }
 
 const makeComponent = <K extends keyof VFXModules>(
