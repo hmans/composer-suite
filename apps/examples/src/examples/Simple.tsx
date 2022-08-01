@@ -26,23 +26,24 @@ type VFXComponentProps<K extends keyof VFXModules> = Parameters<
   VFXModules[K]
 >[0]
 
+type VFXComponent<K extends keyof VFXModules> = FC<VFXComponentProps<K>>
+
 type VFXProxy = {
   [K in keyof VFXModules]: FC<VFXComponentProps<K>>
 }
 
-const makeComponent = <K extends keyof VFXModules>(name: K) => (
-  props: VFXComponentProps<K>
-) => {
+const makeComponent = <K extends keyof VFXModules>(
+  name: K
+): VFXComponent<K> => (props) => {
   console.log(`Hi from VFX.${name}`)
   const { addModule, removeModule } = useParticlesMaterialContext()
 
   const module = useMemo(() => VFXModules[name](props), [name, props])
 
   useLayoutEffect(() => {
-    const module = VFXModules[name](props)
     addModule(module)
     return () => removeModule(module)
-  }, [])
+  }, [module])
 
   return null
 }

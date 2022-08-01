@@ -11,7 +11,8 @@ import { MeshStandardMaterial } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
-import { ModulePipe, ModuleState, pipeModules } from "./modules"
+import { ModulePipe, ModuleState } from "./modules"
+import { pipeModules } from "./util/pipeModules"
 
 export type ParticlesMaterialArgs = iCSMParams & {
   modules: ModulePipe

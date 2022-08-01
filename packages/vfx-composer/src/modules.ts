@@ -24,9 +24,6 @@ export type Module = (state: ModuleState) => ModuleState
 
 export type ModulePipe = Module[]
 
-export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
-  pipe(initial, ...(modules as [Module]))
-
 export type LifetimeProps = { lifetime: Input<"vec2">; time: Input<"float"> }
 
 export const Lifetime = ({ lifetime, time }: LifetimeProps) => {
