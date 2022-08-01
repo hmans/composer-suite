@@ -81,7 +81,12 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
       }
 
       /* Advance cursor */
-      this.cursor = (this.cursor + 1) % this.maxParticles
+      this.cursor++
+    }
+
+    /* If we've gone past the safe limit, go back to the beginning. */
+    if (this.cursor >= this.maxParticles) {
+      this.cursor = 0
     }
   }
 }

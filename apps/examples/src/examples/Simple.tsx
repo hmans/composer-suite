@@ -20,7 +20,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={1000}>
+      <Effect.Root maxParticles={1000} safetyBuffer={100}>
         <boxGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
