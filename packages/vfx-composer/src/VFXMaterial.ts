@@ -19,13 +19,13 @@ export type VFXMaterialArgs = iCSMParams & {
 }
 
 export class VFXMaterial extends CustomShaderMaterial {
-  private _modules: ModulePipe = []
+  private _modules: ModulePipe | undefined = undefined
 
   get modules() {
     return this._modules
   }
 
-  set modules(v: ModulePipe) {
+  set modules(v: ModulePipe | undefined) {
     if (this._modules !== v) {
       this._modules = v
       this.recompile()
@@ -55,9 +55,11 @@ export class VFXMaterial extends CustomShaderMaterial {
     /* Transform state with given modules. */
     const { position, color, alpha } = pipeModules(
       initialState,
-      ...this._modules
+      ...(this._modules || [])
     )
 
+    /* Create a shader root. We're currently using CSM for everything, so
+    always pick a CustomShaderMaterialMaster. */
     const shaderRoot = CustomShaderMaterialMaster({
       position,
       diffuseColor: color,
@@ -67,6 +69,7 @@ export class VFXMaterial extends CustomShaderMaterial {
     /* And finally compile a shader from the state. */
     const [shader, { update }] = compileShader(shaderRoot)
 
+    /* And let CSM know that it was updated. */
     super.update({ ...shader })
 
     this.shaderRoot = shaderRoot
