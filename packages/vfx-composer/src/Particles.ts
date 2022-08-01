@@ -2,14 +2,13 @@ import { collectFromTree } from "shader-composer"
 import {
   BufferAttribute,
   BufferGeometry,
-  InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
   Quaternion,
   Vector3
 } from "three"
-import { VFXMaterial } from "./VFXMaterial"
 import { ParticleAttribute } from "./units"
+import { VFXMaterial } from "./VFXMaterial"
 
 export type InstanceSetupCallback = (config: {
   index: number
