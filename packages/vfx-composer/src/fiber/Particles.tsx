@@ -6,7 +6,7 @@ import React, {
   useState
 } from "react"
 import { Particles as ParticlesImpl } from "../Particles"
-import { ParticlesMaterial as ParticlesMaterialImpl } from "../ParticlesMaterial"
+import { VFXMaterial as ParticlesMaterialImpl } from "../VFXMaterial"
 
 export type ParticlesProps = InstancedMeshProps & {
   material?: ParticlesMaterialImpl

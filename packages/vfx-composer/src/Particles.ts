@@ -5,7 +5,7 @@ import {
   Quaternion,
   Vector3
 } from "three"
-import { ParticlesMaterial } from "./ParticlesMaterial"
+import { VFXMaterial } from "./VFXMaterial"
 import { ParticleAttribute } from "./units"
 
 export type InstanceSetupCallback = (config: {
@@ -23,12 +23,12 @@ const tmpMatrix = new Matrix4()
 
 export class Particles extends InstancedMesh<
   BufferGeometry,
-  ParticlesMaterial
+  VFXMaterial
 > {
   public cursor: number = 0
   private attributeUnits: ParticleAttribute[] = []
 
-  constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, ParticlesMaterial>>) {
+  constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, VFXMaterial>>) {
     super(...args)
   }
 

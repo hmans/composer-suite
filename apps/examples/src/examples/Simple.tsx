@@ -4,8 +4,8 @@ import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import {
   makeParticles,
-  ParticlesMaterial,
-  useParticlesMaterialContext
+  VFXMaterial,
+  useVFXMaterialContext
 } from "vfx-composer/fiber"
 import { Lifetime, Module } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
@@ -30,7 +30,7 @@ type VFXProxy = {
 const makeComponent = <K extends keyof VFXModules>(
   name: K
 ): VFXComponent<K> => (props) => {
-  const { addModule, removeModule } = useParticlesMaterialContext()
+  const { addModule, removeModule } = useVFXMaterialContext()
 
   const module = useMemo(() => VFXModules[name](props as any) as Module, [
     name,
@@ -74,7 +74,7 @@ export const Simple = () => {
       <Effect.Root maxParticles={1000}>
         <boxGeometry />
 
-        <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+        <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
           <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
           <VFX.Velocity
             velocity={variables.velocity}
@@ -87,7 +87,7 @@ export const Simple = () => {
 
           <VFX.SetColor color={variables.color} />
           <VFX.Module module={lifetime.module} />
-        </ParticlesMaterial>
+        </VFXMaterial>
       </Effect.Root>
 
       <Effect.Emitter

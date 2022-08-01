@@ -14,11 +14,11 @@ import CustomShaderMaterial, {
 import { ModulePipe, ModuleState } from "./modules"
 import { pipeModules } from "./util/pipeModules"
 
-export type ParticlesMaterialArgs = iCSMParams & {
+export type VFXMaterialArgs = iCSMParams & {
   modules: ModulePipe
 }
 
-export class ParticlesMaterial extends CustomShaderMaterial {
+export class VFXMaterial extends CustomShaderMaterial {
   private _modules: ModulePipe = []
 
   get modules() {
@@ -35,7 +35,7 @@ export class ParticlesMaterial extends CustomShaderMaterial {
   private shaderUpdate?: (dt: number) => void
   public shaderRoot?: Unit
 
-  constructor(args: ParticlesMaterialArgs = {} as ParticlesMaterialArgs) {
+  constructor(args: VFXMaterialArgs = {} as VFXMaterialArgs) {
     super({
       ...args,
       baseMaterial: MeshStandardMaterial

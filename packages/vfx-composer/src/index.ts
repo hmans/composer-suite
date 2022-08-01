@@ -1,2 +1,2 @@
 export * from "./Particles"
-export * from "./ParticlesMaterial"
+export * from "./VFXMaterial"

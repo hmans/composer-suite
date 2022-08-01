@@ -11,7 +11,7 @@ import {
   Vector2,
   Vector3
 } from "three"
-import { Particles, ParticlesMaterial } from "vfx-composer"
+import { Particles, VFXMaterial } from "vfx-composer"
 import {
   Acceleration,
   Lifetime,
@@ -52,7 +52,7 @@ const vanillaCode = (parent: Object3D) => {
   Create a particles material. These can patch themselves into existing
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
-  const material = new ParticlesMaterial({
+  const material = new VFXMaterial({
     baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })
