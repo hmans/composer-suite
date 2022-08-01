@@ -26,9 +26,7 @@ export type ModuleFactory<P extends ModuleProps> = (props: P) => Module
 
 export type ModulePipe = Module[]
 
-export type LifetimeProps = { lifetime: Input<"vec2">; time: Input<"float"> }
-
-export const Lifetime = ({ lifetime, time }: LifetimeProps) => {
+export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
   const [ParticleStartTime, ParticleEndTime] = SplitVector2(lifetime)
 
   const ParticleMaxAge = Sub(ParticleEndTime, ParticleStartTime)

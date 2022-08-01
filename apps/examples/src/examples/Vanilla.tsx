@@ -32,7 +32,7 @@ const vanillaCode = (parent: Object3D) => {
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = Lifetime({ lifetime: variables.lifetime, time })
+  const lifetime = Lifetime(variables.lifetime, time)
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each

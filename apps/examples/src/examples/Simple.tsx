@@ -16,10 +16,7 @@ export const Simple = () => {
     color: ParticleAttribute(new Color())
   }))
 
-  const lifetime = Lifetime({
-    lifetime: variables.lifetime,
-    time: variables.time
-  })
+  const lifetime = Lifetime(variables.lifetime, variables.time)
 
   return (
     <group>
