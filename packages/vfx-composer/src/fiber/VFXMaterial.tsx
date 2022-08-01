@@ -74,6 +74,7 @@ export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
     })
 
     return (
+      // @ts-ignore
       <vfxComposerVFXMaterial attach="material" ref={material} {...props}>
         <Context.Provider value={{ addModule, removeModule }}>
           {children}
