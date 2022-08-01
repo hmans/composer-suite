@@ -1,17 +1,28 @@
-import { InstancedMeshProps } from "@react-three/fiber"
+import { extend, InstancedMeshProps, Node } from "@react-three/fiber"
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
-  useState
+  useRef
 } from "react"
 import { Particles as ParticlesImpl } from "../Particles"
-import { VFXMaterial as ParticlesMaterialImpl } from "../VFXMaterial"
+import { VFXMaterial as VFXMaterialImpl } from "../VFXMaterial"
 
-export type ParticlesProps = InstancedMeshProps & {
-  material?: ParticlesMaterialImpl
+export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
+  args?: ConstructorParameters<typeof ParticlesImpl>
+  material?: VFXMaterialImpl
   maxParticles?: number
   safetyBuffer?: number
+}
+
+extend({ VfxComposerParticles: ParticlesImpl })
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      vfxComposerParticles: ParticlesProps
+    }
+  }
 }
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
@@ -19,19 +30,20 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     { maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
     ref
   ) => {
-    /* We're using useState because it gives better guarantees than useMemo. */
-    const [particles] = useState(
-      () => new ParticlesImpl(geometry, material, maxParticles, safetyBuffer)
-    )
+    const particles = useRef<ParticlesImpl>(null!)
 
-    /* Setup particles in an effect (after materials and geometry are assigned) */
     useEffect(() => {
-      particles.setupParticles()
-      return () => particles.dispose()
-    }, [particles])
+      particles.current.setupParticles()
+    }, [])
 
-    useImperativeHandle(ref, () => particles)
+    useImperativeHandle(ref, () => particles.current)
 
-    return <primitive object={particles} {...props} />
+    return (
+      <vfxComposerParticles
+        args={[geometry, material, maxParticles, safetyBuffer]}
+        ref={particles}
+        {...props}
+      />
+    )
   }
 )
