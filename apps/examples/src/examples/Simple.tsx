@@ -1,5 +1,5 @@
 import { between, plusMinus, upTo } from "randomish"
-import React, { FC, useLayoutEffect, useMemo, useState } from "react"
+import { FC, useLayoutEffect, useMemo, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import {
@@ -7,14 +7,7 @@ import {
   ParticlesMaterial,
   useParticlesMaterialContext
 } from "vfx-composer/fiber"
-import {
-  Acceleration,
-  Lifetime,
-  Module,
-  Scale,
-  SetColor,
-  Velocity
-} from "vfx-composer/modules"
+import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
 import * as VFXModules from "vfx-composer/modules"
