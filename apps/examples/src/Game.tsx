@@ -1,10 +1,10 @@
 import { button, useControls } from "leva"
+import { Perf } from "r3f-perf"
 import { R3FStage } from "r3f-stage"
 import { FC, Suspense, useState } from "react"
-import { Repeat } from "three-vfx"
+import { Repeat } from "timeline-composer"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
-import { Perf } from "r3f-perf"
 
 import "r3f-stage/styles.css"
 
@@ -43,7 +43,7 @@ const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
   })
 
   return (
-    <Repeat key={v} times={loop ? Infinity : 0} interval={interval}>
+    <Repeat key={v} times={loop ? Infinity : 0} seconds={interval}>
       {example.component}
     </Repeat>
   )
