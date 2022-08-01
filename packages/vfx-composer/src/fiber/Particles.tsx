@@ -11,13 +11,17 @@ import { VFXMaterial as ParticlesMaterialImpl } from "../VFXMaterial"
 export type ParticlesProps = InstancedMeshProps & {
   material?: ParticlesMaterialImpl
   maxParticles?: number
+  safetyBuffer?: number
 }
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
-  ({ maxParticles = 1000, geometry, material, ...props }, ref) => {
+  (
+    { maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
+    ref
+  ) => {
     /* We're using useState because it gives better guarantees than useMemo. */
     const [particles, setParticles] = useState(
-      () => new ParticlesImpl(geometry, material, maxParticles)
+      () => new ParticlesImpl(geometry, material, maxParticles, safetyBuffer)
     )
 
     /* We still want to update the particles when the props change. */
