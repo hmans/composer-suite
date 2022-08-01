@@ -27,8 +27,6 @@ type VFXProxy = {
     : never
 }
 
-const VFXMaterial = ParticlesMaterial
-
 const makeComponent = <K extends keyof VFXModules>(
   name: K
 ): VFXComponent<K> => (props) => {
@@ -74,7 +72,7 @@ export const Simple = () => {
       <Effect.Root maxParticles={1000}>
         <boxGeometry />
 
-        <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+        <ParticlesMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
           <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
           <VFX.Velocity
             velocity={variables.velocity}
@@ -87,7 +85,7 @@ export const Simple = () => {
 
           <VFX.SetColor color={variables.color} />
           <VFX.Module module={lifetime.module} />
-        </VFXMaterial>
+        </ParticlesMaterial>
       </Effect.Root>
 
       <Effect.Emitter
