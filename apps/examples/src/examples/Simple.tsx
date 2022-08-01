@@ -1,4 +1,4 @@
-import { between, plusMinus, upTo } from "randomish"
+import { between, plusMinus, random, upTo } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
@@ -38,7 +38,7 @@ export const Simple = () => {
 
       <Repeat seconds={1}>
         <Effect.Emitter
-          count={10}
+          count={100}
           setup={({ position, rotation }) => {
             const t = variables.time.uniform.value
             const { lifetime, velocity, color } = variables
@@ -48,7 +48,7 @@ export const Simple = () => {
             rotation.random()
 
             /* Write values into the instanced attributes */
-            const start = t
+            const start = t + random()
             lifetime.value.set(start, start + between(1, 3))
             velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
             color.value.setRGB(Math.random(), Math.random(), Math.random())
