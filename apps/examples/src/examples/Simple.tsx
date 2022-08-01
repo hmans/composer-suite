@@ -13,7 +13,7 @@ import { ParticleAttribute } from "vfx-composer/units"
 import * as VFXModules from "vfx-composer/modules"
 type VFXModules = typeof VFXModules
 
-const vfxComponents = new Map()
+const vfxComponents = new Map<keyof VFXModules, VFXComponent<any>>()
 
 type VFXComponentProps<K extends keyof VFXModules> = Parameters<
   VFXModules[K]
@@ -30,10 +30,12 @@ type VFXProxy = {
 const makeComponent = <K extends keyof VFXModules>(
   name: K
 ): VFXComponent<K> => (props) => {
-  console.log(`Hi from VFX.${name}`)
   const { addModule, removeModule } = useParticlesMaterialContext()
 
-  const module = useMemo(() => VFXModules[name](props), [name, props])
+  const module = useMemo(() => VFXModules[name](props as any) as Module, [
+    name,
+    props
+  ])
 
   useLayoutEffect(() => {
     addModule(module)
@@ -43,10 +45,10 @@ const makeComponent = <K extends keyof VFXModules>(
   return null
 }
 
-const VFX: VFXProxy = new Proxy(VFXModules, {
+const VFX = new Proxy<VFXProxy>({} as VFXProxy, {
   get(_, name: keyof VFXModules) {
     if (!vfxComponents.has(name)) {
-      vfxComponents.set(name, makeComponent(name))
+      vfxComponents.set(name, makeComponent(name) as any)
     }
     return vfxComponents.get(name)
   }
