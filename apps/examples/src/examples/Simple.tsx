@@ -16,7 +16,10 @@ export const Simple = () => {
     color: ParticleAttribute(new Color())
   }))
 
-  const lifetime = Lifetime(variables.lifetime, variables.time)
+  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
+    variables.lifetime,
+    variables.time
+  )
 
   return (
     <group>
@@ -24,17 +27,11 @@ export const Simple = () => {
         <boxGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
-          <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
-          <VFX.Velocity
-            velocity={variables.velocity}
-            time={lifetime.ParticleAge}
-          />
-          <VFX.Acceleration
-            force={new Vector3(0, -10, 0)}
-            time={lifetime.ParticleAge}
-          />
+          <VFX.Scale scale={OneMinus(ParticleProgress)} />
+          <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
+          <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
           <VFX.SetColor color={variables.color} />
-          <VFX.Module module={lifetime.module} />
+          <VFX.Module module={lifetimeModule} />
         </VFXMaterial>
       </Effect.Root>
 
