@@ -22,6 +22,8 @@ export type ModuleState = {
 
 export type Module = (state: ModuleState) => ModuleState
 
+export type ModuleFactory<P extends {}> = (props: P) => Module
+
 export type ModulePipe = Module[]
 
 export type LifetimeProps = { lifetime: Input<"vec2">; time: Input<"float"> }
@@ -57,7 +59,7 @@ type ScaleProps = {
   scale: Input<"float">
 }
 
-export const Scale = ({ scale = 1 }: ScaleProps): Module => (state) => ({
+export const Scale: ModuleFactory<ScaleProps> = ({ scale = 1 }) => (state) => ({
   ...state,
   position: Mul(state.position, scale)
 })
