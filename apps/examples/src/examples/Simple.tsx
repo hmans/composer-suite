@@ -1,12 +1,43 @@
 import { between, plusMinus, upTo } from "randomish"
 import { useState } from "react"
-import { OneMinus, Time } from "shader-composer"
+import { Input, OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
 const Effect = makeParticles()
+
+export const DefaultParticleModules = ({
+  color,
+  gravity,
+  lifetime,
+  scale,
+  velocity
+}: {
+  color?: Input<"vec3">
+  gravity?: Input<"vec3">
+  lifetime: ReturnType<typeof Lifetime>
+  scale?: Input<"float">
+  velocity?: Input<"vec3">
+}) => (
+  <>
+    {scale !== undefined && (
+      <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
+    )}
+    {velocity !== undefined && (
+      <VFX.Velocity velocity={velocity} time={lifetime.ParticleAge} />
+    )}
+    {gravity !== undefined && (
+      <VFX.Acceleration
+        force={new Vector3(0, -10, 0)}
+        time={lifetime.ParticleAge}
+      />
+    )}
+    {color !== undefined && <VFX.SetColor color={color} />}
+    <VFX.Module module={lifetime.module} />
+  </>
+)
 
 export const Simple = () => {
   const [variables] = useState(() => ({
@@ -27,17 +58,12 @@ export const Simple = () => {
         <boxGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
-          <VFX.Scale scale={OneMinus(lifetime.ParticleProgress)} />
-          <VFX.Velocity
+          <DefaultParticleModules
+            lifetime={lifetime}
+            gravity={new Vector3(0, -10, 0)}
             velocity={variables.velocity}
-            time={lifetime.ParticleAge}
+            color={variables.color}
           />
-          <VFX.Acceleration
-            force={new Vector3(0, -10, 0)}
-            time={lifetime.ParticleAge}
-          />
-          <VFX.SetColor color={variables.color} />
-          <VFX.Module module={lifetime.module} />
         </VFXMaterial>
       </Effect.Root>
 
