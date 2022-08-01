@@ -2,10 +2,15 @@ import { collectFromTree } from "shader-composer"
 import {
   BufferAttribute,
   BufferGeometry,
+  Camera,
+  Group,
   InstancedMesh,
+  Material,
   Matrix4,
   Quaternion,
-  Vector3
+  Scene,
+  Vector3,
+  WebGLRenderer
 } from "three"
 import { ParticleAttribute } from "./units"
 import { VFXMaterial } from "./VFXMaterial"
@@ -29,6 +34,7 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   public safetyBuffer: number
 
   private attributeUnits: ParticleAttribute[] = []
+  private lastCursor = 0
 
   constructor(
     geometry: BufferGeometry | undefined,
@@ -39,6 +45,28 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
     super(geometry, material, count + safetyBuffer)
     this.maxParticles = count
     this.safetyBuffer = safetyBuffer
+
+    this.onBeforeRender = () => {
+      /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
+      const allAttributes = [
+        this.instanceMatrix,
+        ...Object.values(this.geometry.attributes)
+      ] as BufferAttribute[]
+
+      allAttributes.forEach((attribute) => {
+        attribute.needsUpdate = true
+        attribute.updateRange.offset = this.lastCursor * attribute.itemSize
+        attribute.updateRange.count =
+          (this.cursor - this.lastCursor) * attribute.itemSize
+      })
+
+      /* If we've gone past the safe limit, go back to the beginning. */
+      if (this.cursor >= this.maxParticles) {
+        this.cursor = 0
+      }
+
+      this.lastCursor = this.cursor
+    }
   }
 
   public setupParticles() {
@@ -56,18 +84,6 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
-    /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
-    const allAttributes = [
-      this.instanceMatrix,
-      ...Object.values(this.geometry.attributes)
-    ] as BufferAttribute[]
-
-    allAttributes.forEach((attribute) => {
-      attribute.needsUpdate = true
-      attribute.updateRange.offset = this.cursor * attribute.itemSize
-      attribute.updateRange.count = count * attribute.itemSize
-    })
-
     /* Emit the requested number of particles. */
     for (let i = 0; i < count; i++) {
       /* Reset instance configuration values */
@@ -95,11 +111,6 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
 
       /* Advance cursor */
       this.cursor++
-    }
-
-    /* If we've gone past the safe limit, go back to the beginning. */
-    if (this.cursor >= this.maxParticles) {
-      this.cursor = 0
     }
   }
 }
