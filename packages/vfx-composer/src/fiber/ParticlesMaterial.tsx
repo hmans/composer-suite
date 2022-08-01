@@ -1,15 +1,17 @@
-import { extend, useFrame } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 import React, {
   createContext,
   forwardRef,
+  useEffect,
   useImperativeHandle,
-  useRef
+  useState
 } from "react"
 import { iCSMProps } from "three-custom-shader-material"
 import { ModulePipe } from "../modules"
-import { ParticlesMaterial as ParticlesMaterialImpl } from "../ParticlesMaterial"
-
-extend({ VfxComposerParticlesMaterial_: ParticlesMaterialImpl })
+import {
+  ParticlesMaterial as ParticlesMaterialImpl,
+  ParticlesMaterialArgs
+} from "../ParticlesMaterial"
 
 const Context = createContext<ParticlesMaterialImpl>(null!)
 
@@ -18,20 +20,22 @@ export type ParticlesMaterialProps = iCSMProps & { modules: ModulePipe }
 export const ParticlesMaterial = forwardRef<
   ParticlesMaterialImpl,
   ParticlesMaterialProps
->((props, ref) => {
-  const material = useRef<ParticlesMaterialImpl>(null!)
+>(({ children, ...props }, ref) => {
+  const [material, setMaterial] = useState(
+    () => new ParticlesMaterialImpl(props as ParticlesMaterialArgs)
+  )
 
   useFrame((_, dt) => {
-    material.current.tick(dt)
+    material.tick(dt)
   })
 
-  useImperativeHandle(ref, () => material.current)
+  useEffect(() => () => material.dispose(), [material])
+
+  useImperativeHandle(ref, () => material)
 
   return (
-    <vfxComposerParticlesMaterial_ attach="material" {...props} ref={material}>
-      <Context.Provider value={material.current}>
-        {props.children}
-      </Context.Provider>
-    </vfxComposerParticlesMaterial_>
+    <primitive object={material} attach="material" {...props}>
+      <Context.Provider value={material}>{children}</Context.Provider>
+    </primitive>
   )
 })
