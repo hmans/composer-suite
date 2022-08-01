@@ -1,6 +1,7 @@
 import { collectFromTree } from "shader-composer"
 import {
-  BufferGeometry, InstancedMesh,
+  BufferGeometry,
+  InstancedMesh,
   Matrix4,
   Quaternion,
   Vector3
@@ -21,23 +22,33 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
-export class Particles extends InstancedMesh<
-  BufferGeometry,
-  VFXMaterial
-> {
+export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   public cursor: number = 0
   private attributeUnits: ParticleAttribute[] = []
 
-  constructor(...args: ConstructorParameters<typeof InstancedMesh<BufferGeometry, VFXMaterial>>) {
-    super(...args)
+  public maxParticles: number
+  public safetyBuffer: number
+
+  constructor(
+    geometry: BufferGeometry | undefined,
+    material: VFXMaterial | undefined,
+    count: number,
+    safetyBuffer: number = 100
+  ) {
+    super(geometry, material, count + safetyBuffer)
+    this.maxParticles = count
+    this.safetyBuffer = safetyBuffer
   }
 
   public setupParticles() {
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
     if (this.material.shaderRoot) {
-      this.attributeUnits = collectFromTree(this.material.shaderRoot, (item) => item.setupMesh)
+      this.attributeUnits = collectFromTree(
+        this.material.shaderRoot,
+        (item) => item.setupMesh
+      )
 
-      for (const unit of this.attributeUnits)  {
+      for (const unit of this.attributeUnits) {
         unit.setupMesh(this)
       }
     }
@@ -70,7 +81,7 @@ export class Particles extends InstancedMesh<
       }
 
       /* Advance cursor */
-      this.cursor = (this.cursor + 1) % this.count
+      this.cursor = (this.cursor + 1) % this.maxParticles
     }
   }
 }
