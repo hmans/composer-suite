@@ -32,15 +32,18 @@ export class VFXMaterial extends CustomShaderMaterial {
     }
   }
 
+  /**
+   * The per-frame update function returned by compileShader.
+   */
   private shaderUpdate?: (dt: number) => void
+
+  /**
+   * The Shader Composer root node for this material.
+   */
   public shaderRoot?: Unit
 
   constructor(args: VFXMaterialArgs = {} as VFXMaterialArgs) {
-    super({
-      ...args,
-      baseMaterial: MeshStandardMaterial
-    })
-
+    super({ ...args, baseMaterial: MeshStandardMaterial })
     this.modules = args.modules || []
   }
 
@@ -60,19 +63,18 @@ export class VFXMaterial extends CustomShaderMaterial {
 
     /* Create a shader root. We're currently using CSM for everything, so
     always pick a CustomShaderMaterialMaster. */
-    const shaderRoot = CustomShaderMaterialMaster({
+    this.shaderRoot = CustomShaderMaterialMaster({
       position,
       diffuseColor: color,
       alpha
     })
 
     /* And finally compile a shader from the state. */
-    const [shader, { update }] = compileShader(shaderRoot)
+    const [shader, { update }] = compileShader(this.shaderRoot)
 
     /* And let CSM know that it was updated. */
     super.update({ ...shader })
 
-    this.shaderRoot = shaderRoot
     this.shaderUpdate = update
   }
 
