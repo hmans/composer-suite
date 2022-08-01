@@ -8,7 +8,7 @@ import { ParticleAttribute } from "vfx-composer/units"
 
 const Effect = makeParticles()
 
-export const DefaultParticleModules = ({
+export const SimpleParticles = ({
   color,
   gravity,
   lifetime,
@@ -58,7 +58,7 @@ export const Simple = () => {
         <boxGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
-          <DefaultParticleModules
+          <SimpleParticles
             lifetime={lifetime}
             gravity={new Vector3(0, -10, 0)}
             velocity={variables.velocity}
