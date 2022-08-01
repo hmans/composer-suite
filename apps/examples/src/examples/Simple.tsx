@@ -4,16 +4,21 @@ import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import {
   makeParticles,
-  VFXMaterial,
-  useVFXMaterialContext
+  useVFXMaterialContext,
+  VFXMaterial
 } from "vfx-composer/fiber"
-import { Lifetime, Module } from "vfx-composer/modules"
+import * as VFXModules from "vfx-composer/modules"
+import {
+  Lifetime,
+  Module,
+  ModuleFactory,
+  ModuleProps
+} from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
-import * as VFXModules from "vfx-composer/modules"
 type VFXModules = typeof VFXModules
 
-const vfxComponents = new Map<keyof VFXModules, VFXComponent<any>>()
+const cache = new Map<string, VFXComponent<any>>()
 
 type VFXComponentProps<K extends keyof VFXModules> = Parameters<
   VFXModules[K]
@@ -27,15 +32,12 @@ type VFXProxy = {
     : never
 }
 
-const makeComponent = <K extends keyof VFXModules>(
-  name: K
-): VFXComponent<K> => (props) => {
-  const { addModule, removeModule } = useVFXMaterialContext()
+const MakeComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
+  props: P
+) => {
+  const module = useMemo(() => fac(props), [props])
 
-  const module = useMemo(() => VFXModules[name](props as any) as Module, [
-    name,
-    props
-  ])
+  const { addModule, removeModule } = useVFXMaterialContext()
 
   useLayoutEffect(() => {
     addModule(module)
@@ -46,11 +48,12 @@ const makeComponent = <K extends keyof VFXModules>(
 }
 
 const VFX = new Proxy<VFXProxy>({} as VFXProxy, {
-  get(_, name: keyof VFXModules) {
-    if (!vfxComponents.has(name)) {
-      vfxComponents.set(name, makeComponent(name) as any)
+  get<N extends keyof VFXModules>(target: any, name: N) {
+    if (!cache.has(name)) {
+      // @ts-ignore
+      cache.set(name, MakeComponent(VFXModules[name]))
     }
-    return vfxComponents.get(name)
+    return cache.get(name)
   }
 })
 
@@ -84,7 +87,6 @@ export const Simple = () => {
             force={new Vector3(0, -10, 0)}
             time={lifetime.ParticleAge}
           />
-
           <VFX.SetColor color={variables.color} />
           <VFX.Module module={lifetime.module} />
         </VFXMaterial>

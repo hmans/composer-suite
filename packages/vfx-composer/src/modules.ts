@@ -21,8 +21,8 @@ export type ModuleState = {
 }
 
 export type Module = (state: ModuleState) => ModuleState
-
-export type ModuleFactory<P extends {}> = (props: P) => Module
+export type ModuleProps = Record<string, any>
+export type ModuleFactory<P extends ModuleProps> = (props: P) => Module
 
 export type ModulePipe = Module[]
 
