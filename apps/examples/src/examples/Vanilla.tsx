@@ -56,9 +56,7 @@ const vanillaCode = (parent: Object3D) => {
     baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })
-
-  // material.modules = modules
-  // material.setupShader()
+  material.compileModules()
 
   /* Create mesh and add it to the scene. */
   const particles = new Particles(new BoxGeometry(), material, 1000)

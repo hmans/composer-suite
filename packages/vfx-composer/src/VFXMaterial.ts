@@ -28,7 +28,6 @@ export class VFXMaterial extends CustomShaderMaterial {
   set modules(v: ModulePipe | undefined) {
     if (this._modules !== v) {
       this._modules = v
-      this.recompile()
     }
   }
 
@@ -47,7 +46,7 @@ export class VFXMaterial extends CustomShaderMaterial {
     this.modules = args.modules || []
   }
 
-  private recompile() {
+  public compileModules() {
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,

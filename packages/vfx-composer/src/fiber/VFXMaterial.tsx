@@ -24,35 +24,46 @@ export type VFXMaterialProps = iCSMProps
 export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
   ({ children, ...props }, ref) => {
     const [modules, setModules] = useState<ModulePipe>([])
+    const [version, setVersion] = useState(0)
 
-    const [material, setMaterial] = useState(
+    const [material] = useState(
       () => new VFXMaterialImpl(props as VFXMaterialArgs)
     )
 
+    /* Run the material's per-frame tick. */
     useFrame((_, dt) => {
       material.tick(dt)
     })
 
+    /* Update the material's modules (leading to a recompilation of the shader)
+    when they change. */
     useEffect(() => {
       material.modules = modules
     }, [modules])
 
+    /* Dispose of the material on unmount, or when the material changes. */
     useEffect(() => () => material.dispose(), [material])
 
+    /* Pass on the ref. */
     useImperativeHandle(ref, () => material)
+
+    /* Recompile on version change */
+    useEffect(() => {
+      material.compileModules()
+    }, [version])
 
     const addModule = useCallback(
       (module: Module) => {
-        console.log("adding module", module)
         setModules((modules) => [...modules, module])
+        setVersion((v) => v + 1)
       },
       [material]
     )
 
     const removeModule = useCallback(
       (module: Module) => {
-        console.log("removing module", module)
-        // setModules((modules) => [...modules, module])
+        setModules((modules) => modules.filter((m) => m !== module))
+        setVersion((v) => v + 1)
       },
       [material]
     )
