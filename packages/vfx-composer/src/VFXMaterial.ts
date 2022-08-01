@@ -19,13 +19,13 @@ export type VFXMaterialArgs = iCSMParams & {
 }
 
 export class VFXMaterial extends CustomShaderMaterial {
-  private _modules: ModulePipe | undefined = undefined
+  private _modules: ModulePipe = []
 
   get modules() {
     return this._modules
   }
 
-  set modules(v: ModulePipe | undefined) {
+  set modules(v: ModulePipe) {
     if (this._modules !== v) {
       this._modules = v
     }

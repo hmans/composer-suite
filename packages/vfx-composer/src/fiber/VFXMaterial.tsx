@@ -9,8 +9,9 @@ import React, {
   useState
 } from "react"
 import { iCSMProps } from "three-custom-shader-material"
-import { Module, ModulePipe } from "../modules"
+import { Module } from "../modules"
 import { VFXMaterial as VFXMaterialImpl, VFXMaterialArgs } from "../VFXMaterial"
+import { useVersion } from "../util/useVersion"
 
 const Context = createContext<{
   addModule: (module: Module) => void
@@ -23,29 +24,14 @@ export type VFXMaterialProps = iCSMProps
 
 export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
   ({ children, ...props }, ref) => {
-    const [modules, setModules] = useState<ModulePipe>([])
-    const [version, setVersion] = useState(0)
+    const [version, bumpVersion] = useVersion()
 
     const [material] = useState(
       () => new VFXMaterialImpl(props as VFXMaterialArgs)
     )
 
-    /* Run the material's per-frame tick. */
-    useFrame((_, dt) => {
-      material.tick(dt)
-    })
-
-    /* Update the material's modules (leading to a recompilation of the shader)
-    when they change. */
-    useEffect(() => {
-      material.modules = modules
-    }, [modules])
-
     /* Dispose of the material on unmount, or when the material changes. */
     useEffect(() => () => material.dispose(), [material])
-
-    /* Pass on the ref. */
-    useImperativeHandle(ref, () => material)
 
     /* Recompile on version change */
     useEffect(() => {
@@ -54,19 +40,27 @@ export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
 
     const addModule = useCallback(
       (module: Module) => {
-        setModules((modules) => [...modules, module])
-        setVersion((v) => v + 1)
+        material.modules = [...material.modules, module]
+        bumpVersion()
       },
       [material]
     )
 
     const removeModule = useCallback(
       (module: Module) => {
-        setModules((modules) => modules.filter((m) => m !== module))
-        setVersion((v) => v + 1)
+        material.modules = material.modules.filter((m) => m !== module)
+        bumpVersion()
       },
       [material]
     )
+
+    /* Pass on the ref. */
+    useImperativeHandle(ref, () => material)
+
+    /* Run the material's per-frame tick. */
+    useFrame((_, dt) => {
+      material.tick(dt)
+    })
 
     return (
       <primitive object={material} attach="material" {...props}>
