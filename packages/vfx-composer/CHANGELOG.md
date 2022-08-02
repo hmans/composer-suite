@@ -1,5 +1,11 @@
 # vfx-composer
 
+## 0.2.0-next.1
+
+### Minor Changes
+
+- cd19781: **Changed:** `<Emitter>` now applies its world transform to spawned particles, meaning you can parent it to other scene objects for easy-peasy particle trails.
+
 ## 0.2.0-next.0
 
 ### Minor Changes
