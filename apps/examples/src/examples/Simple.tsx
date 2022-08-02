@@ -43,29 +43,21 @@ export const Simple = () => {
           <VFX.Billboard />
           <VFX.Scale scale={OneMinus(ParticleProgress)} />
           <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
-          <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
           <VFX.Module module={lifetimeModule} />
         </VFXMaterial>
 
-        <Repeat interval={1}>
-          <Emitter
-            count={100}
-            setup={({ position }) => {
-              /* Randomize the instance transform */
-              position.randomDirection().multiplyScalar(upTo(1))
-
-              /* Write values into the instanced attributes */
-              const t = variables.time.uniform.value
-              const start = t //+ random()
-              variables.lifetime.value.set(start, start + between(1, 3))
-              variables.velocity.value.set(
-                plusMinus(5),
-                between(5, 18),
-                plusMinus(5)
-              )
-            }}
-          />
-        </Repeat>
+        <Emitter
+          continuous
+          setup={() => {
+            const t = variables.time.uniform.value
+            variables.lifetime.value.set(t, t + between(1, 3))
+            variables.velocity.value.set(
+              plusMinus(2),
+              between(2, 4),
+              plusMinus(2)
+            )
+          }}
+        />
       </Particles>
     </group>
   )
