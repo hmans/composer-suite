@@ -13,26 +13,28 @@ import {
   Vec2,
   Vec3,
   Vec4,
-  Uniform
+  Uniform,
+  VertexPosition
 } from "shader-composer"
 import { MeshStandardMaterial, Vector3 } from "three"
+import { depthTexture } from "three-vfx/src/layers"
 import { InstanceSetupCallback } from "vfx-composer"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
-const ViewPosition = Vec4(
-  $`viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);`,
-  { varying: true }
-)
+const ViewPosition = (position: Input<"vec3">) =>
+  Vec4($`viewMatrix * instanceMatrix * modelMatrix * vec4(${position}, 1.0);`, {
+    varying: true
+  })
 
 const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
 const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 
-const CameraNear = Uniform<"float", number>("float", 0)
-const CameraFar = Uniform<"float", number>("float", 1)
+export const CameraNear = Uniform<"float", number>("float", 0)
+export const CameraFar = Uniform<"float", number>("float", 1)
 
 const SceneDepth = (xy: Input<"vec2">, texture: Input<"sampler2D">) =>
   Float(
@@ -40,16 +42,15 @@ const SceneDepth = (xy: Input<"vec2">, texture: Input<"sampler2D">) =>
     { name: "Scene Depth" }
   )
 
-const SoftParticle = (
+const DistanceToSceneDepth = (depthTexture: Input<"sampler2D">) =>
+  Float($`(${ViewPosition}.z - ${SceneDepth(ScreenUV, depthTexture)})`)
+
+export const SoftParticle = (
+  position: Input<"vec3">,
   softness: Input<"float">,
   depthTexture: Input<"sampler2D">
 ) =>
-  Float(
-    $`clamp((${ViewPosition}.z - ${SceneDepth(
-      ScreenUV,
-      depthTexture
-    )}) / ${softness}, 0.0, 1.0)`
-  )
+  Float($`clamp(${DistanceToSceneDepth(depthTexture)} / ${softness}, 0.0, 1.0)`)
 
 export const Fog = () => {
   const depthTexture = useDepthBuffer().depthTexture
@@ -86,6 +87,7 @@ export const Fog = () => {
         <VFX.SetAlpha alpha={0.5} />
         <VFX.Velocity velocity={velocity} time={time} />
         <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+
         <VFX.Billboard />
 
         <VFX.Module

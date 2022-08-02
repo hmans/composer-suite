@@ -23,6 +23,11 @@ export default [
   { path: "vanilla", name: "Vanilla", component: <Vanilla /> },
   { path: "stress", name: "Stress", component: <Stress /> },
   { path: "firefly", name: "Firefly", component: <FireflyExample /> },
+  {
+    path: "softparticles",
+    name: "Soft Particles",
+    component: <SoftParticlesExample />
+  },
   { path: "fog", name: "Fog", component: <Fog /> },
   { path: "explosion", name: "Explosion (Legacy)", component: <Explosion /> },
   { path: "snow", name: "Snow (Legacy)", component: <Snow intensity={500} /> },
@@ -31,11 +36,6 @@ export default [
     path: "fuzzyblob",
     name: "Fuzzy Blob (Legacy)",
     component: <FuzzyBlobExample />
-  },
-  {
-    path: "softparticles",
-    name: "Soft Particles (Legacy)",
-    component: <SoftParticlesExample />
   },
   {
     path: "gltf",
