@@ -22,7 +22,8 @@ import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 const ViewPosition = Vec4(
-  $`viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);`
+  $`viewMatrix * instanceMatrix * modelMatrix * vec4(csm_Position, 1.0);`,
+  { varying: true }
 )
 
 const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
@@ -48,8 +49,11 @@ const SoftParticle = (color: Input<"vec3">, depthTexture: Input<"sampler2D">) =>
         /* Get the existing depth at the fragment position */
         float depth = ${readDepth}(${ScreenUV}, ${depthTexture}, 0.0, 1.0);
 
+        float d = depth;
+        float z = ${ViewZ};
+
+        float distance = z - d;
         float softness = 1.0;
-        float distance = 0.5;
         value = ${color} * clamp(distance / softness, 0.0, 1.0);
       `
     }
