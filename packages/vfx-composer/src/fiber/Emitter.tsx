@@ -35,7 +35,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     ref
   ) => {
     const object = useRef<Object3D>(null!)
-    const particles = particlesProp?.current || useParticlesContext()
+    const particlesFromContext = useParticlesContext()
 
     const emitterSetup = useCallback<InstanceSetupCallback>(
       (props) => {
@@ -46,17 +46,22 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
         setup?.(props)
       },
-      [particles, setup]
+      [setup]
     )
 
     useEffect(() => {
+      const particles = particlesProp?.current || particlesFromContext
+
       if (!particles) return
       if (continuous) return
+
       particlesMatrix.copy(particles!.matrixWorld).invert()
       particles.emit(count, emitterSetup)
-    }, [particles])
+    }, [])
 
     useFrame(() => {
+      const particles = particlesProp?.current || particlesFromContext
+
       if (!particles) return
       if (!continuous) return
       particlesMatrix.copy(particles!.matrixWorld).invert()
