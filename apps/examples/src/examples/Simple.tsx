@@ -36,7 +36,9 @@ export const Simple = () => {
         </VFXMaterial>
       </Effect.Root>
 
-      <Delay seconds={1} onComplete={() => console.log("hi!")} />
+      <Repeat seconds={1}>
+        <Delay seconds={1} onComplete={() => console.log("hi!")} />
+      </Repeat>
 
       <Repeat seconds={1}>
         <Effect.Emitter
