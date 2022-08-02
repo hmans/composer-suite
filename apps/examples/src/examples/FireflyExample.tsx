@@ -1,11 +1,34 @@
 import { useFrame } from "@react-three/fiber"
 import { upTo } from "randomish"
-import { useRef } from "react"
-import { Color, Mesh, MeshStandardMaterial, NormalBlending } from "three"
-import { Emitter, MeshParticles, MeshParticlesMaterial } from "three-vfx"
+import { useRef, useState } from "react"
+import { OneMinus, Time } from "shader-composer"
+import {
+  Color,
+  Mesh,
+  MeshStandardMaterial,
+  NormalBlending,
+  Vector2,
+  Vector3
+} from "three"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Lifetime } from "vfx-composer/modules"
+import { ParticleAttribute } from "vfx-composer/units"
+
+const tmpVec3 = new Vector3()
 
 export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
+
+  const [variables] = useState(() => ({
+    time: Time(),
+    lifetime: ParticleAttribute(new Vector2()),
+    velocity: ParticleAttribute(new Vector3())
+  }))
+
+  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
+    variables.lifetime,
+    variables.time
+  )
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime
@@ -17,36 +40,42 @@ export const FireflyExample = () => {
   })
 
   return (
-    <MeshParticles>
+    <Particles>
       <planeGeometry args={[0.2, 0.2]} />
 
-      <MeshParticlesMaterial
+      <VFXMaterial
         baseMaterial={MeshStandardMaterial}
         color={new Color(2, 1, 2)}
         blending={NormalBlending}
-        billboard
-        depthTest={true}
-        depthWrite={false}
         transparent
-      />
+      >
+        <VFX.Billboard />
+        <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
+        <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
+        <VFX.SetAlpha alpha={OneMinus(ParticleProgress)} />
+        <VFX.Module module={lifetimeModule} />
+      </VFXMaterial>
 
       <mesh ref={mesh}>
         <dodecahedronGeometry args={[0.5]} />
         <meshStandardMaterial color="hotpink" />
-      </mesh>
 
-      <Emitter
-        continuous
-        count={10}
-        setup={(c) => {
-          c.position.randomDirection().add(mesh.current.position)
-          c.lifetime.delay = upTo(0.1)
-          c.lifetime.duration = upTo(1)
-          c.velocity.randomDirection().multiplyScalar(upTo(5))
-          c.acceleration.set(0, -12, 0)
-          c.alpha.max = 0
-        }}
-      />
-    </MeshParticles>
+        <Emitter
+          continuous
+          count={10}
+          setup={({ position }) => {
+            /*
+            The position automatically inherits the emitter's position, but let's
+            add a little random offset to spice things up!
+            */
+            position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.8)))
+
+            const t = variables.time.uniform.value
+            variables.lifetime.value.set(t, t + 1)
+            variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
+          }}
+        />
+      </mesh>
+    </Particles>
   )
 }
