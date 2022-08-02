@@ -72,9 +72,9 @@ export const ParticleAttribute = <
       const attribute = geometry.attributes[name]
 
       if (typeof value === "number") {
-        attribute.setX(cursor, value as number)
+        attribute.setX(cursor, value)
       } else if (value instanceof Vector2) {
-        attribute.setXY(cursor, (value as Vector2).x, (value as Vector2).y)
+        attribute.setXY(cursor, value.x, value.y)
       } else if (value instanceof Vector3) {
         attribute.setXYZ(cursor, value.x, value.y, value.z)
       } else if (value instanceof Color) {
