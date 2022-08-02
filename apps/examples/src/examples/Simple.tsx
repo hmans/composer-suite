@@ -1,16 +1,9 @@
 import { useTexture } from "@react-three/drei"
-import { between, plusMinus, random, upTo } from "randomish"
+import { between, plusMinus } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { Repeat } from "three-vfx"
-import {
-  Emitter,
-  makeParticles,
-  Particles,
-  VFX,
-  VFXMaterial
-} from "vfx-composer/fiber"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
