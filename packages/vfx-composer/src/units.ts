@@ -71,39 +71,17 @@ export const ParticleAttribute = <
     setupParticle: ({ geometry, cursor }: Particles) => {
       const attribute = geometry.attributes[name]
 
-      switch (type) {
-        case "float": {
-          attribute.setX(cursor, value as number)
-          break
-        }
-
-        case "vec2": {
-          attribute.setXY(cursor, (value as Vector2).x, (value as Vector2).y)
-          break
-        }
-
-        case "vec3": {
-          if (value instanceof Color) {
-            attribute.setXYZ(cursor, value.r, value.g, value.b)
-          } else if (value instanceof Vector3) {
-            attribute.setXYZ(cursor, value.x, value.y, value.z)
-          }
-          break
-        }
-
-        case "vec4": {
-          attribute.setXYZW(
-            cursor,
-            (value as Vector4).x,
-            (value as Vector4).y,
-            (value as Vector4).z,
-            (value as Vector4).w
-          )
-          break
-        }
+      if (typeof value === "number") {
+        attribute.setX(cursor, value as number)
+      } else if (value instanceof Vector2) {
+        attribute.setXY(cursor, (value as Vector2).x, (value as Vector2).y)
+      } else if (value instanceof Vector3) {
+        attribute.setXYZ(cursor, value.x, value.y, value.z)
+      } else if (value instanceof Color) {
+        attribute.setXYZ(cursor, value.r, value.g, value.b)
+      } else if (value instanceof Vector4) {
+        attribute.setXYZW(cursor, value.x, value.y, value.z, value.w)
       }
-
-      attribute.needsUpdate = true
     }
   }
 }
