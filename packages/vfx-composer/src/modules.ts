@@ -22,7 +22,7 @@ export type ModuleState = {
 
 export type Module = (state: ModuleState) => ModuleState
 export type ModuleProps = Record<string, any>
-export type ModuleFactory<P extends ModuleProps> = (props: P) => Module
+export type ModuleFactory<P extends ModuleProps = {}> = (props: P) => Module
 
 export type ModulePipe = Module[]
 
@@ -97,7 +97,7 @@ export const Acceleration = ({ force, time }: AccelerationProps) =>
     )
   })
 
-export const Billboard = (): Module => (state) => ({
+export const Billboard: ModuleFactory = () => (state) => ({
   ...state,
   position: BillboardUnit(state.position)
 })

@@ -1,9 +1,12 @@
-import { extend, InstancedMeshProps, Node } from "@react-three/fiber"
+import { extend, InstancedMeshProps } from "@react-three/fiber"
 import React, {
+  createContext,
   forwardRef,
+  useContext,
   useEffect,
   useImperativeHandle,
-  useRef
+  useRef,
+  useState
 } from "react"
 import { Particles as ParticlesImpl } from "../Particles"
 import { VFXMaterial as VFXMaterialImpl } from "../VFXMaterial"
@@ -25,16 +28,33 @@ declare global {
   }
 }
 
+const Context = createContext<ParticlesImpl | null>(null)
+
+export const useParticlesContext = () => useContext(Context)
+
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    { maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
+    {
+      children,
+      maxParticles = 1000,
+      safetyBuffer = 100,
+      geometry,
+      material,
+      ...props
+    },
     ref
   ) => {
+    const [_, setReady] = useState(false)
     const particles = useRef<ParticlesImpl>(null!)
 
+    /*
+    We need to initialize the particles mesh in an effect, because in most cases,
+    the material driving it will only be created in its children.
+    */
     useEffect(() => {
       particles.current.setupParticles()
-    }, [])
+      setReady(true)
+    }, [particles])
 
     useImperativeHandle(ref, () => particles.current)
 
@@ -43,7 +63,11 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
         args={[geometry, material, maxParticles, safetyBuffer]}
         ref={particles}
         {...props}
-      />
+      >
+        <Context.Provider value={particles.current}>
+          {children}
+        </Context.Provider>
+      </vfxComposerParticles>
     )
   }
 )

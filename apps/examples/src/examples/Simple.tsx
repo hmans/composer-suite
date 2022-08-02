@@ -1,22 +1,27 @@
+import { useTexture } from "@react-three/drei"
 import { between, plusMinus, random, upTo } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
-import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Repeat } from "three-vfx"
-import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import {
+  Emitter,
+  makeParticles,
+  Particles,
+  VFX,
+  VFXMaterial
+} from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
-
-const Effect = makeParticles()
-
-const FREQ = 8
+import { particleUrl } from "./textures"
 
 export const Simple = () => {
+  const texture = useTexture(particleUrl)
+
   const [variables] = useState(() => ({
     time: Time(),
     lifetime: ParticleAttribute(new Vector2()),
-    velocity: ParticleAttribute(new Vector3()),
-    color: ParticleAttribute(new Color())
+    velocity: ParticleAttribute(new Vector3())
   }))
 
   const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
@@ -26,37 +31,42 @@ export const Simple = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
+      <Particles maxParticles={1000} safetyBuffer={1_000}>
         <planeGeometry />
 
-        <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+        <VFXMaterial
+          baseMaterial={MeshStandardMaterial}
+          map={texture}
+          transparent
+          depthWrite={false}
+        >
+          <VFX.Billboard />
           <VFX.Scale scale={OneMinus(ParticleProgress)} />
           <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
           <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
-          <VFX.SetColor color={variables.color} />
           <VFX.Module module={lifetimeModule} />
         </VFXMaterial>
-      </Effect.Root>
 
-      <Repeat interval={1 / FREQ}>
-        <Effect.Emitter
-          count={100_000 / FREQ}
-          setup={({ position, rotation }) => {
-            const t = variables.time.uniform.value
-            const { lifetime, velocity, color } = variables
+        <Repeat interval={1}>
+          <Emitter
+            count={100}
+            setup={({ position }) => {
+              /* Randomize the instance transform */
+              position.randomDirection().multiplyScalar(upTo(1))
 
-            /* Randomize the instance transform */
-            position.randomDirection().multiplyScalar(upTo(6))
-            rotation.random()
-
-            /* Write values into the instanced attributes */
-            const start = t + random() / FREQ
-            lifetime.value.set(start, start + between(1, 3))
-            velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
-            color.value.setRGB(Math.random(), Math.random(), Math.random())
-          }}
-        />
-      </Repeat>
+              /* Write values into the instanced attributes */
+              const t = variables.time.uniform.value
+              const start = t //+ random()
+              variables.lifetime.value.set(start, start + between(1, 3))
+              variables.velocity.value.set(
+                plusMinus(5),
+                between(5, 18),
+                plusMinus(5)
+              )
+            }}
+          />
+        </Repeat>
+      </Particles>
     </group>
   )
 }
