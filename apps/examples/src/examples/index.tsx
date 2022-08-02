@@ -9,6 +9,7 @@ import Playground from "./Playground"
 import { Simple } from "./Simple"
 import { Snow } from "./Snow"
 import { SoftParticlesExample } from "./SoftParticlesExample"
+import { Stress } from "./Stress"
 import { Vanilla } from "./Vanilla"
 
 export type ExampleDefinition = {
@@ -20,6 +21,7 @@ export type ExampleDefinition = {
 export default [
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "vanilla", name: "Vanilla", component: <Vanilla /> },
+  { path: "stress", name: "Stress", component: <Stress /> },
   { path: "explosion", name: "Explosion (Legacy)", component: <Explosion /> },
   { path: "firefly", name: "Firefly (Legacy)", component: <FireflyExample /> },
   { path: "fog", name: "Fog (Legacy)", component: <Fog /> },

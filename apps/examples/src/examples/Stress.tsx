@@ -11,7 +11,7 @@ const Effect = makeParticles()
 
 const FREQ = 8
 
-export const Simple = () => {
+export const Stress = () => {
   const [variables] = useState(() => ({
     time: Time(),
     lifetime: ParticleAttribute(new Vector2()),
