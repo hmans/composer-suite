@@ -42,22 +42,27 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
     this.safetyBuffer = safetyBuffer
 
     this.onBeforeRender = () => {
-      /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
-      const allAttributes = [
-        this.instanceMatrix,
-        ...Object.values(this.geometry.attributes)
-      ] as BufferAttribute[]
+      const emitted = this.cursor - this.lastCursor
 
-      allAttributes.forEach((attribute) => {
-        attribute.needsUpdate = true
-        attribute.updateRange.offset = this.lastCursor * attribute.itemSize
-        attribute.updateRange.count =
-          (this.cursor - this.lastCursor) * attribute.itemSize
-      })
+      if (emitted > 0) {
+        console.log(this.lastCursor, emitted)
 
-      /* If we've gone past the safe limit, go back to the beginning. */
-      if (this.cursor >= this.maxParticles) {
-        this.cursor = 0
+        /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
+        const allAttributes = [
+          this.instanceMatrix,
+          ...Object.values(this.geometry.attributes)
+        ] as BufferAttribute[]
+
+        allAttributes.forEach((attribute) => {
+          attribute.needsUpdate = true
+          // attribute.updateRange.offset = this.lastCursor * attribute.itemSize
+          // attribute.updateRange.count = emitted * attribute.itemSize
+        })
+
+        /* If we've gone past the safe limit, go back to the beginning. */
+        if (this.cursor >= this.maxParticles) {
+          this.cursor = 0
+        }
       }
 
       this.lastCursor = this.cursor
