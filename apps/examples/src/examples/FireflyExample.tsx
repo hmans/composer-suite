@@ -57,18 +57,17 @@ export const FireflyExample = () => {
       <mesh ref={mesh}>
         <dodecahedronGeometry args={[0.5]} />
         <meshStandardMaterial color="hotpink" />
-      </mesh>
 
-      <Emitter
-        continuous
-        count={10}
-        setup={({ position }) => {
-          const t = variables.time.uniform.value
-          position.randomDirection().add(mesh.current.position)
-          variables.lifetime.value.set(t, t + 1)
-          variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
-        }}
-      />
+        <Emitter
+          continuous
+          count={10}
+          setup={() => {
+            const t = variables.time.uniform.value
+            variables.lifetime.value.set(t, t + 1)
+            variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
+          }}
+        />
+      </mesh>
     </Particles>
   )
 }

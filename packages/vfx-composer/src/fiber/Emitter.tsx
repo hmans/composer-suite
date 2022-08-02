@@ -1,8 +1,10 @@
 import { Object3DProps, useFrame } from "@react-three/fiber"
+import { Instance } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import React, {
   forwardRef,
   MutableRefObject,
   RefObject,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef
@@ -32,16 +34,27 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     const object = useRef<Object3D>(null!)
     const particles = particlesProp?.current || useParticlesContext()
 
+    const emitterSetup = useCallback<InstanceSetupCallback>(
+      (props) => {
+        /* TODO: do the same for rotation and scale, too */
+        object.current.getWorldPosition(props.position)
+        particles!.worldToLocal(props.position)
+
+        setup?.(props)
+      },
+      [particles]
+    )
+
     useEffect(() => {
       if (!particles) return
       if (continuous) return
-      particles.emit(count, setup)
+      particles.emit(count, emitterSetup)
     }, [particles])
 
     useFrame(() => {
       if (!particles) return
       if (!continuous) return
-      particles.emit(count, setup)
+      particles.emit(count, emitterSetup)
     })
 
     useImperativeHandle(ref, () => object.current)
