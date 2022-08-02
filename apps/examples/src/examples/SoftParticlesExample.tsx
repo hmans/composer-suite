@@ -9,9 +9,10 @@ import {
   Resolution,
   Uniform,
   Vec2,
+  Vec4,
   ViewMatrix
 } from "shader-composer"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, Vector4 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
@@ -19,13 +20,10 @@ const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
 const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 
-const ViewZ = (position: Input<"vec3">) =>
-  Float(0, {
-    varying: true,
-    vertex: {
-      body: $`value = (${ViewMatrix} * ${InstanceMatrix} * ${ModelMatrix} * vec4(${position}, 1.0)).z;`
-    }
-  })
+const ToViewSpace = (position: Input<"vec3">) =>
+  Vec4(
+    $`${ViewMatrix} * ${InstanceMatrix} * ${ModelMatrix} * vec4(${position}, 1.0)`
+  )
 
 const SoftParticle = (
   softness: Input<"float">,
@@ -46,7 +44,12 @@ const SoftParticle = (
         /* Get the existing depth at the fragment position */
         float depth = readDepth(${ScreenUV});
 
-        float v_viewZ = ${ViewZ(position)};
+        float v_viewZ = ${Float(0, {
+          varying: true,
+          vertex: {
+            body: $`value = (${ToViewSpace(position)}).z;`
+          }
+        })};
 
         /* Prepare some convenient local variables */
         float d = depth;
