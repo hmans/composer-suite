@@ -24,12 +24,11 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     useEffect(() => {
       if (continuous) return
       particles.current?.emit(count, setup)
-    }, [])
+    }, [particles])
 
     useFrame(() => {
-      if (continuous) {
-        particles.current?.emit(count, setup)
-      }
+      if (!continuous) return
+      particles.current?.emit(count, setup)
     })
 
     useImperativeHandle(ref, () => object.current)

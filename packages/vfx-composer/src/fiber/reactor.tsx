@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useMemo } from "react"
+import { FC, useEffect, useMemo } from "react"
 import * as VFXModules from "../modules"
 import { Module, ModuleFactory, ModuleProps } from "../modules"
 import { useVFXMaterialContext } from "./VFXMaterial"
@@ -25,7 +25,7 @@ const makeModuleComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
 
   const { addModule, removeModule } = useVFXMaterialContext()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     addModule(module)
     return () => removeModule(module)
   }, [module])

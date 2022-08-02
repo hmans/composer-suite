@@ -103,13 +103,16 @@ const vanillaCode = (parent: Object3D) => {
 
   return () => {
     stopLoop()
+
     parent.remove(particles)
     parent.remove(particles2)
 
     particles.geometry.dispose()
     particles.dispose()
+
     particles2.geometry.dispose()
     particles2.dispose()
+
     material.dispose()
   }
 }

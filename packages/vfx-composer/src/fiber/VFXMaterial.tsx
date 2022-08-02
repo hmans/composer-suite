@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber"
+import { extend, useFrame } from "@react-three/fiber"
 import React, {
   createContext,
   forwardRef,
@@ -6,6 +6,7 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState
 } from "react"
 import { iCSMProps } from "three-custom-shader-material"
@@ -22,25 +23,31 @@ export const useVFXMaterialContext = () => useContext(Context)
 
 export type VFXMaterialProps = iCSMProps
 
+extend({ VfxComposerVFXMaterial: VFXMaterialImpl })
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      vfxComposerVFXMaterial: VFXMaterialProps
+    }
+  }
+}
+
 export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
   ({ children, ...props }, ref) => {
+    const material = useRef<VFXMaterialImpl>(null!)
     const [version, bumpVersion] = useVersion()
-
-    const [material] = useState(
-      () => new VFXMaterialImpl(props as VFXMaterialArgs)
-    )
-
-    /* Dispose of the material on unmount, or when the material changes. */
-    useEffect(() => () => material.dispose(), [material])
 
     /* Recompile on version change */
     useEffect(() => {
-      material.compileModules()
+      if (!material.current) return
+      material.current.compileModules()
     }, [version])
 
     const addModule = useCallback(
       (module: Module) => {
-        material.modules = [...material.modules, module]
+        if (!material.current) return
+        material.current.modules = [...material.current.modules, module]
         bumpVersion()
       },
       [material]
@@ -48,26 +55,31 @@ export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
 
     const removeModule = useCallback(
       (module: Module) => {
-        material.modules = material.modules.filter((m) => m !== module)
+        if (!material.current) return
+        material.current.modules = material.current.modules.filter(
+          (m) => m !== module
+        )
         bumpVersion()
       },
       [material]
     )
 
     /* Pass on the ref. */
-    useImperativeHandle(ref, () => material)
+    useImperativeHandle(ref, () => material.current)
 
     /* Run the material's per-frame tick. */
     useFrame((_, dt) => {
-      material.tick(dt)
+      if (!material.current) return
+      material.current.tick(dt)
     })
 
     return (
-      <primitive object={material} attach="material" {...props}>
+      // @ts-ignore
+      <vfxComposerVFXMaterial attach="material" ref={material} {...props}>
         <Context.Provider value={{ addModule, removeModule }}>
           {children}
         </Context.Provider>
-      </primitive>
+      </vfxComposerVFXMaterial>
     )
   }
 )
