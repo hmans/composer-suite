@@ -20,21 +20,29 @@ export type ExampleDefinition = {
 export default [
   { path: "simple", name: "Simple", component: <Simple /> },
   { path: "vanilla", name: "Vanilla", component: <Vanilla /> },
-  { path: "explosion", name: "Explosion", component: <Explosion /> },
-  { path: "firefly", name: "Firefly", component: <FireflyExample /> },
-  { path: "fog", name: "Fog", component: <Fog /> },
-  { path: "snow", name: "Snow", component: <Snow intensity={500} /> },
-  { path: "dust", name: "Dust", component: <DustExample /> },
-  { path: "fuzzyblob", name: "Fuzzy Blob", component: <FuzzyBlobExample /> },
+  { path: "explosion", name: "Explosion (Legacy)", component: <Explosion /> },
+  { path: "firefly", name: "Firefly (Legacy)", component: <FireflyExample /> },
+  { path: "fog", name: "Fog (Legacy)", component: <Fog /> },
+  { path: "snow", name: "Snow (Legacy)", component: <Snow intensity={500} /> },
+  { path: "dust", name: "Dust (Legacy)", component: <DustExample /> },
+  {
+    path: "fuzzyblob",
+    name: "Fuzzy Blob (Legacy)",
+    component: <FuzzyBlobExample />
+  },
   {
     path: "softparticles",
-    name: "Soft Particles",
+    name: "Soft Particles (Legacy)",
     component: <SoftParticlesExample />
   },
-  { path: "gltf", name: "GLTF Particles", component: <GLTFParticles /> },
+  {
+    path: "gltf",
+    name: "GLTF Particles (Legacy)",
+    component: <GLTFParticles />
+  },
   {
     path: "combined",
-    name: "Combined",
+    name: "Combined (Legacy)",
     component: (
       <>
         <Fog />
