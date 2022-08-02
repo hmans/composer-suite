@@ -3,10 +3,13 @@ import {
   $,
   Float,
   Input,
+  InstanceMatrix,
+  ModelMatrix,
   Mul,
   Resolution,
   Uniform,
-  Vec2
+  Vec2,
+  ViewMatrix
 } from "shader-composer"
 import { MeshStandardMaterial } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
@@ -16,9 +19,18 @@ const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
 const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 
+const ViewZ = (position: Input<"vec3">) =>
+  Float(0, {
+    varying: true,
+    vertex: {
+      body: $`value = (${ViewMatrix} * ${InstanceMatrix} * ${ModelMatrix} * vec4(${position}, 1.0)).z;`
+    }
+  })
+
 const SoftParticle = (
   softness: Input<"float">,
-  depthTexture: Input<"sampler2D">
+  depthTexture: Input<"sampler2D">,
+  position: Input<"vec3">
 ) =>
   Float(1, {
     name: "Soft Particle",
@@ -34,7 +46,7 @@ const SoftParticle = (
         /* Get the existing depth at the fragment position */
         float depth = readDepth(${ScreenUV});
 
-        float v_viewZ = 1.0;
+        float v_viewZ = ${ViewZ(position)};
 
         /* Prepare some convenient local variables */
         float d = depth;
@@ -78,7 +90,10 @@ export const SoftParticlesExample = () => {
         <VFX.Module
           module={(state) => ({
             ...state,
-            alpha: Mul(state.alpha, SoftParticle(1, depthSampler2D))
+            alpha: Mul(
+              state.alpha,
+              SoftParticle(1, depthSampler2D, state.position)
+            )
           })}
         />
       </VFXMaterial>
