@@ -79,7 +79,7 @@ export const Fog = () => {
   const setup: InstanceSetupCallback = ({ position, scale }) => {
     position.set(plusMinus(10), between(0, 15), plusMinus(10))
     scale.setScalar(between(5, 10))
-    velocity.value.randomDirection().multiplyScalar(upTo(0.01))
+    velocity.value.randomDirection().multiplyScalar(upTo(0.002))
     rotation.value = plusMinus(0.1)
   }
 
