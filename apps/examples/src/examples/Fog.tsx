@@ -10,15 +10,16 @@ import { CameraFar, CameraNear, SoftParticle } from "./lib/softies"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
+const velocity = ParticleAttribute(new Vector3())
+const rotation = ParticleAttribute(0 as number)
+const scale = ParticleAttribute(1 as number)
+
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
 
   const depthSampler2D = Uniform("sampler2D", useDepthBuffer().depthTexture)
 
   const time = Time()
-  const velocity = ParticleAttribute(new Vector3())
-  const rotation = ParticleAttribute(0 as number)
-  const scale = ParticleAttribute(1 as number)
 
   useFrame(({ camera }) => {
     Resolution.value.set(window.innerWidth, window.innerHeight)
@@ -51,7 +52,6 @@ export const Fog = () => {
           <VFX.Velocity velocity={velocity} time={time} />
           <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <VFX.Scale scale={scale} />
-
           <VFX.Billboard />
 
           <VFX.Module
