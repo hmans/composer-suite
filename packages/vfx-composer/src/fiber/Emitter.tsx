@@ -9,7 +9,7 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react"
-import { Matrix4, Object3D } from "three"
+import { Matrix4, Object3D, Quaternion, Vector3 } from "three"
 import { InstanceSetupCallback, Particles } from "../Particles"
 import { useParticlesContext } from "./Particles"
 
@@ -19,6 +19,9 @@ export type EmitterProps = Object3DProps & {
   continuous?: boolean
   setup?: InstanceSetupCallback
 }
+
+const tmpMatrix = new Matrix4()
+const particlesMatrix = new Matrix4()
 
 export const Emitter = forwardRef<Object3D, EmitterProps>(
   (
@@ -36,11 +39,10 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     const emitterSetup = useCallback<InstanceSetupCallback>(
       (props) => {
-        const m4 = new Matrix4()
-
-        /* TODO: do the same for rotation and scale, too */
-        object.current.getWorldPosition(props.position)
-        particles!.worldToLocal(props.position)
+        tmpMatrix
+          .copy(object.current.matrixWorld)
+          .premultiply(particlesMatrix)
+          .decompose(props.position, props.rotation, props.scale)
 
         setup?.(props)
       },
@@ -50,12 +52,14 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     useEffect(() => {
       if (!particles) return
       if (continuous) return
+      particlesMatrix.copy(particles!.matrixWorld).invert()
       particles.emit(count, emitterSetup)
     }, [particles])
 
     useFrame(() => {
       if (!particles) return
       if (!continuous) return
+      particlesMatrix.copy(particles!.matrixWorld).invert()
       particles.emit(count, emitterSetup)
     })
 
