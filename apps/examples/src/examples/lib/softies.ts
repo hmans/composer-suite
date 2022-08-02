@@ -4,12 +4,25 @@ import {
   Input,
   InstanceMatrix,
   ModelMatrix,
+  Mul,
   Resolution,
   Uniform,
   Vec2,
   Vec4,
   ViewMatrix
 } from "shader-composer"
+import { ModuleFactory } from "vfx-composer/modules"
+
+export const SoftParticles: ModuleFactory<{
+  softness: Input<"float">
+  depthSampler2D: Input<"sampler2D">
+}> = ({ softness, depthSampler2D }) => (state) => ({
+  ...state,
+  alpha: Mul(
+    state.alpha,
+    SoftParticle(softness, depthSampler2D, state.position)
+  )
+})
 
 export const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
