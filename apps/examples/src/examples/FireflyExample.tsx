@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { upTo } from "randomish"
 import { useRef, useState } from "react"
-import { Time } from "shader-composer"
+import { OneMinus, Time } from "shader-composer"
 import {
   Color,
   Mesh,
@@ -50,6 +50,7 @@ export const FireflyExample = () => {
         <VFX.Billboard />
         <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
         <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
+        <VFX.SetAlpha alpha={OneMinus(ParticleProgress)} />
         <VFX.Module module={lifetimeModule} />
       </VFXMaterial>
 

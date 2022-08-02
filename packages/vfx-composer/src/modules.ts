@@ -110,4 +110,11 @@ export const SetColor = ({ color }: { color: Input<"vec3"> }): Module => (
   color
 })
 
+export const SetAlpha = ({ alpha }: { alpha: Input<"float"> }): Module => (
+  state
+) => ({
+  ...state,
+  alpha
+})
+
 export const Module = ({ module }: { module: Module }): Module => module
