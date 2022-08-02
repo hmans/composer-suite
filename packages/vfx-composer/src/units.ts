@@ -78,17 +78,28 @@ export const ParticleAttribute = <
         }
 
         case "vec2": {
-          attribute.setXY(cursor, ...(value as Vector2).toArray())
+          attribute.setXY(cursor, (value as Vector2).x, (value as Vector2).y)
           break
         }
 
         case "vec3": {
-          attribute.setXYZ(cursor, ...(value as Vector3).toArray())
+          attribute.setXYZ(
+            cursor,
+            (value as Vector3).x,
+            (value as Vector3).y,
+            (value as Vector3).z
+          )
           break
         }
 
         case "vec4": {
-          attribute.setXYZW(cursor, ...(value as Vector4).toArray())
+          attribute.setXYZW(
+            cursor,
+            (value as Vector4).x,
+            (value as Vector4).y,
+            (value as Vector4).z,
+            (value as Vector4).w
+          )
           break
         }
       }
