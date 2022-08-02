@@ -9,6 +9,8 @@ import { ParticleAttribute } from "vfx-composer/units"
 
 const Effect = makeParticles()
 
+const FREQ = 8
+
 export const Simple = () => {
   const [variables] = useState(() => ({
     time: Time(),
@@ -24,7 +26,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={100_000} safetyBuffer={1_000}>
+      <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
         <planeGeometry />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
@@ -36,9 +38,9 @@ export const Simple = () => {
         </VFXMaterial>
       </Effect.Root>
 
-      <Repeat interval={1}>
+      <Repeat interval={1 / FREQ}>
         <Effect.Emitter
-          count={100}
+          count={100_000 / FREQ}
           setup={({ position, rotation }) => {
             const t = variables.time.uniform.value
             const { lifetime, velocity, color } = variables
@@ -48,7 +50,7 @@ export const Simple = () => {
             rotation.random()
 
             /* Write values into the instanced attributes */
-            const start = t + random()
+            const start = t + random() / FREQ
             lifetime.value.set(start, start + between(1, 3))
             velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
             color.value.setRGB(Math.random(), Math.random(), Math.random())
