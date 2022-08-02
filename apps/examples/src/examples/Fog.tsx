@@ -34,20 +34,11 @@ const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 const CameraNear = Uniform<"float", number>("float", 0)
 const CameraFar = Uniform<"float", number>("float", 1)
 
-const readDepth = Snippet(
-  (name) => $`
-    float ${name}(vec2 coord, sampler2D depthTexture, float near, float far) {
-      float depthZ = texture2D(depthTexture, coord).x;
-      float viewZ = perspectiveDepthToViewZ(depthZ, near, far);
-      return viewZ;
-    }
-  `
-)
-
 const SceneDepth = (xy: Input<"vec2">, texture: Input<"sampler2D">) =>
-  Float($`${readDepth}(${xy}, ${texture}, ${CameraNear}, ${CameraFar})`, {
-    name: "Scene Depth"
-  })
+  Float(
+    $`perspectiveDepthToViewZ(texture2D(${texture}, ${xy}).x, ${CameraNear}, ${CameraFar})`,
+    { name: "Scene Depth" }
+  )
 
 const SoftParticle = (
   softness: Input<"float">,
@@ -92,7 +83,7 @@ export const Fog = () => {
         transparent
         depthWrite={false}
       >
-        <VFX.SetAlpha alpha={0.15} />
+        <VFX.SetAlpha alpha={0.5} />
         <VFX.Velocity velocity={velocity} time={time} />
         <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
         <VFX.Billboard />
@@ -100,7 +91,7 @@ export const Fog = () => {
         <VFX.Module
           module={(state) => ({
             ...state,
-            alpha: Mul(state.alpha, SoftParticle(5, depthSampler2D))
+            alpha: Mul(state.alpha, SoftParticle(3, depthSampler2D))
           })}
         />
       </VFXMaterial>
