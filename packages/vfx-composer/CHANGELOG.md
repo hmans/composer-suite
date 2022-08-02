@@ -1,5 +1,11 @@
 # vfx-composer
 
+## 0.2.0-next.2
+
+### Patch Changes
+
+- bfd1588: **Fixed:** `<Emitter>` could no longer work with `<Particles>` refs passed into its `particles` prop. Woops!
+
 ## 0.2.0-next.1
 
 ### Minor Changes
