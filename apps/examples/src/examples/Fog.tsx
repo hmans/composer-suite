@@ -31,6 +31,9 @@ const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
 const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 
+const CameraNear = Uniform<"float", number>("float", 0)
+const CameraFar = Uniform<"float", number>("float", 1)
+
 const readDepth = Snippet(
   (name) => $`
     float ${name}(vec2 coord, sampler2D depthTexture, float near, float far) {
@@ -41,28 +44,21 @@ const readDepth = Snippet(
   `
 )
 
-const CameraNear = Uniform<"float", number>("float", 0)
-const CameraFar = Uniform<"float", number>("float", 1)
+const SceneDepth = (xy: Input<"vec2">, texture: Input<"sampler2D">) =>
+  Float($`${readDepth}(${xy}, ${texture}, ${CameraNear}, ${CameraFar})`, {
+    name: "Scene Depth"
+  })
 
 const SoftParticle = (
   softness: Input<"float">,
   depthTexture: Input<"sampler2D">
 ) =>
-  Float(0, {
-    fragment: {
-      body: $`
-        /* Get the existing depth at the fragment position */
-        float d = ${readDepth}(${ScreenUV}, ${depthTexture}, ${CameraNear}, ${CameraFar});
-
-        /* Get the distance from the fragment position to the camera */
-        float z = ${ViewPosition}.z;
-
-        float distance = z - d;
-        float softness = ${softness};
-        value = clamp(distance / softness, 0.0, 1.0);
-      `
-    }
-  })
+  Float(
+    $`clamp((${ViewPosition}.z - ${SceneDepth(
+      ScreenUV,
+      depthTexture
+    )}) / ${softness}, 0.0, 1.0)`
+  )
 
 export const Fog = () => {
   const depthTexture = useDepthBuffer().depthTexture
