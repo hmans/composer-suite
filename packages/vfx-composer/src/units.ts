@@ -83,12 +83,11 @@ export const ParticleAttribute = <
         }
 
         case "vec3": {
-          attribute.setXYZ(
-            cursor,
-            (value as Vector3).x,
-            (value as Vector3).y,
-            (value as Vector3).z
-          )
+          if (value instanceof Color) {
+            attribute.setXYZ(cursor, value.r, value.g, value.b)
+          } else if (value instanceof Vector3) {
+            attribute.setXYZ(cursor, value.x, value.y, value.z)
+          }
           break
         }
 
