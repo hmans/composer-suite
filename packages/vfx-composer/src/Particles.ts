@@ -3,6 +3,7 @@ import {
   BufferAttribute,
   BufferGeometry,
   InstancedMesh,
+  InterleavedBufferAttribute,
   Matrix4,
   Quaternion,
   Vector3
@@ -29,6 +30,12 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   public safetyBuffer: number
 
   private attributeUnits: ParticleAttribute[] = []
+
+  private uploadableAttributes: (
+    | BufferAttribute
+    | InterleavedBufferAttribute
+  )[] = []
+
   private lastCursor = 0
 
   constructor(
@@ -45,15 +52,9 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
       const emitted = this.cursor - this.lastCursor
 
       if (emitted > 0) {
-        /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
-        const userAttributes = this.attributeUnits.map(
-          (unit) => this.geometry.attributes[unit.name]
-        )
-
-        const allAttributes = [this.instanceMatrix, ...userAttributes]
-
-        allAttributes.forEach((attribute) => {
+        this.uploadableAttributes.forEach((attribute) => {
           attribute.needsUpdate = true
+
           if (attribute instanceof BufferAttribute) {
             attribute.updateRange.offset = this.lastCursor * attribute.itemSize
             attribute.updateRange.count = emitted * attribute.itemSize
@@ -71,6 +72,8 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   }
 
   public setupParticles() {
+    this.uploadableAttributes = []
+
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
     if (this.material.shaderRoot) {
       this.attributeUnits = collectFromTree(
@@ -81,6 +84,12 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
       for (const unit of this.attributeUnits) {
         unit.setupMesh(this)
       }
+
+      /* Build a list of attributes we will upload every frame. */
+      const userAttributes = this.attributeUnits.map(
+        (unit) => this.geometry.attributes[unit.name]
+      )
+      this.uploadableAttributes = [this.instanceMatrix, ...userAttributes]
     }
   }
 
