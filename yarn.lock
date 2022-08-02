@@ -6795,10 +6795,10 @@ through2@^0.6.3:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
 
-timeline-composer@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/timeline-composer/-/timeline-composer-0.1.1.tgz#5df59508581aeec92f1e1f0e652a3472d245f0ca"
-  integrity sha512-hHcuaF9gZ9qu1EC2zd9HOVw0eTzsT6EVBqi2m2lT/HykAxNAcvI36zwMrWt0uuDufJ/775TAF/znQwf3T6Htew==
+timeline-composer@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/timeline-composer/-/timeline-composer-0.1.2.tgz#62de6f481aeab1f06bb70f634fd21dbe57189559"
+  integrity sha512-LPaERYYXMecmaB17BWWi5+zsFpy57UAJV6lyrkQKgPSiRTV/qpq1Om1ygBo+jhnOuUWRdsGVBw6wo6twfhY5tA==
 
 tiny-inflate@^1.0.3:
   version "1.0.3"
