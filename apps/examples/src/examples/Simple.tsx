@@ -2,7 +2,7 @@ import { between, plusMinus, random, upTo } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { Delay, Repeat } from "timeline-composer"
+import { Delay, Repeat } from "three-vfx"
 import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
@@ -36,11 +36,11 @@ export const Simple = () => {
         </VFXMaterial>
       </Effect.Root>
 
-      <Repeat seconds={1} times={10}>
+      <Repeat interval={1} times={10}>
         <Delay seconds={1} onComplete={() => console.log("hi!")} />
       </Repeat>
 
-      <Repeat seconds={1}>
+      <Repeat interval={1}>
         <Effect.Emitter
           count={100}
           setup={({ position, rotation }) => {
