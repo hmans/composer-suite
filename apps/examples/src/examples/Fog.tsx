@@ -27,7 +27,7 @@ export const Fog = () => {
   })
 
   const setup: InstanceSetupCallback = ({ position }) => {
-    position.set(plusMinus(10), between(0, 15), plusMinus(10))
+    position.set(plusMinus(10), between(0, 20), plusMinus(10))
     velocity.value.randomDirection().multiplyScalar(upTo(0.002))
     rotation.value = plusMinus(0.1)
     scale.value = between(10, 50)
@@ -35,7 +35,7 @@ export const Fog = () => {
 
   return (
     <>
-      <mesh position-y={9}>
+      <mesh position-y={13}>
         <torusKnotGeometry args={[7, 2.5, 100]} />
         <meshStandardMaterial color="hotpink" metalness={0.1} roughness={0.2} />
       </mesh>
