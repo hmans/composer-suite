@@ -42,7 +42,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
         setup?.(props)
       },
-      [particles]
+      [particles, setup]
     )
 
     useEffect(() => {

@@ -14,6 +14,8 @@ import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
+const tmpVec3 = new Vector3()
+
 export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
 
@@ -61,7 +63,9 @@ export const FireflyExample = () => {
         <Emitter
           continuous
           count={10}
-          setup={() => {
+          setup={({ position }) => {
+            position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.8)))
+
             const t = variables.time.uniform.value
             variables.lifetime.value.set(t, t + 1)
             variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
