@@ -41,6 +41,8 @@ export const ParticleAttribute = <
   return {
     ...Attribute<T>(type, name),
 
+    name,
+
     isParticleAttribute: true,
 
     setupMesh: ({ geometry, count }: InstancedMesh) => {

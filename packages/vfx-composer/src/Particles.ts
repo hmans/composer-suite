@@ -50,13 +50,15 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
         /* Mark all attribute ranges that need to be uploaded to the GPU this frame. */
         const allAttributes = [
           this.instanceMatrix,
-          ...Object.values(this.geometry.attributes)
+          ...this.attributeUnits.map(
+            (unit) => this.geometry.attributes[unit.name]
+          )
         ] as BufferAttribute[]
 
         allAttributes.forEach((attribute) => {
           attribute.needsUpdate = true
-          // attribute.updateRange.offset = this.lastCursor * attribute.itemSize
-          // attribute.updateRange.count = emitted * attribute.itemSize
+          attribute.updateRange.offset = this.lastCursor * attribute.itemSize
+          attribute.updateRange.count = emitted * attribute.itemSize
         })
 
         /* If we've gone past the safe limit, go back to the beginning. */
