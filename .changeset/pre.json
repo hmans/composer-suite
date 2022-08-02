@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "examples": "0.0.0",
+    "r3f-stage": "0.1.2",
+    "three-vfx": "0.2.1",
+    "vfx-composer": "0.1.0"
+  },
+  "changesets": []
+}
