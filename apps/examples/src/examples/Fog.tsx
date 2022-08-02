@@ -1,10 +1,9 @@
 import { useTexture } from "@react-three/drei"
-import { between, insideSphere, plusMinus, power, upTo } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
-import { MeshStandardMaterial, Vector2, Vector3 } from "three"
+import { MeshStandardMaterial, Vector3 } from "three"
 import { InstanceSetupCallback } from "vfx-composer"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
-import { Lifetime, Scale } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
@@ -14,14 +13,8 @@ export const Fog = () => {
   const texture = useTexture(smokeUrl)
 
   const time = Time()
-  const lifetime = ParticleAttribute(new Vector2())
   const velocity = ParticleAttribute(new Vector3())
   const rotation = ParticleAttribute(0 as number)
-
-  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
-    lifetime,
-    time
-  )
 
   const setup: InstanceSetupCallback = ({ position, scale }) => {
     position.set(plusMinus(10), between(0, 15), plusMinus(10))
@@ -40,16 +33,8 @@ export const Fog = () => {
         depthWrite={false}
       >
         <VFX.SetAlpha alpha={0.15} />
-        <VFX.Velocity velocity={velocity} time={ParticleAge} />
-        <VFX.Module
-          module={(state) => ({
-            ...state,
-            position: Mul(
-              state.position,
-              Rotation3DZ(Mul(ParticleAge, rotation))
-            )
-          })}
-        />
+        <VFX.Velocity velocity={velocity} time={time} />
+        <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
         <VFX.Billboard />
       </VFXMaterial>
 
