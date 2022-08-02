@@ -34,33 +34,39 @@ export const Fog = () => {
   }
 
   return (
-    <Particles>
-      <planeGeometry />
-      <VFXMaterial
-        baseMaterial={MeshStandardMaterial}
-        map={texture}
-        transparent
-        depthWrite={false}
-      >
-        <VFX.SetAlpha alpha={0.15} />
-        <VFX.Velocity velocity={velocity} time={time} />
-        <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
-        <VFX.Scale scale={scale} />
+    <>
+      <mesh position-y={9}>
+        <torusKnotGeometry args={[7, 2.5, 100]} />
+        <meshStandardMaterial color="hotpink" metalness={0.1} roughness={0.2} />
+      </mesh>
+      <Particles>
+        <planeGeometry />
+        <VFXMaterial
+          baseMaterial={MeshStandardMaterial}
+          map={texture}
+          transparent
+          depthWrite={false}
+        >
+          <VFX.SetAlpha alpha={0.15} />
+          <VFX.Velocity velocity={velocity} time={time} />
+          <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <VFX.Scale scale={scale} />
 
-        <VFX.Billboard />
+          <VFX.Billboard />
 
-        <VFX.Module
-          module={(state) => ({
-            ...state,
-            alpha: Mul(
-              state.alpha,
-              SoftParticle(10, depthSampler2D, state.position)
-            )
-          })}
-        />
-      </VFXMaterial>
+          <VFX.Module
+            module={(state) => ({
+              ...state,
+              alpha: Mul(
+                state.alpha,
+                SoftParticle(10, depthSampler2D, state.position)
+              )
+            })}
+          />
+        </VFXMaterial>
 
-      <Emitter count={10} setup={setup} />
-    </Particles>
+        <Emitter count={50} setup={setup} />
+      </Particles>
+    </>
   )
 }
