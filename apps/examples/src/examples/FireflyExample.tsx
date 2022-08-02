@@ -64,6 +64,10 @@ export const FireflyExample = () => {
           continuous
           count={10}
           setup={({ position }) => {
+            /*
+            The position automatically inherits the emitter's position, but let's
+            add a little random offset to spice things up!
+            */
             position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.8)))
 
             const t = variables.time.uniform.value

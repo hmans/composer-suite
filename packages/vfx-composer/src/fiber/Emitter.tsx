@@ -9,7 +9,7 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react"
-import { Object3D } from "three"
+import { Matrix4, Object3D } from "three"
 import { InstanceSetupCallback, Particles } from "../Particles"
 import { useParticlesContext } from "./Particles"
 
@@ -36,6 +36,8 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     const emitterSetup = useCallback<InstanceSetupCallback>(
       (props) => {
+        const m4 = new Matrix4()
+
         /* TODO: do the same for rotation and scale, too */
         object.current.getWorldPosition(props.position)
         particles!.worldToLocal(props.position)
