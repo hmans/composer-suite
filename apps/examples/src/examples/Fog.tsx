@@ -1,4 +1,5 @@
 import { useTexture } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
 import {
   $,
@@ -30,8 +31,6 @@ const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
 const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
 
-const ViewZ = Float($`${ViewPosition}.z`, { varying: true })
-
 const readDepth = Snippet(
   (name) => $`
     float ${name}(vec2 coord, sampler2D depthTexture, float near, float far) {
@@ -42,19 +41,25 @@ const readDepth = Snippet(
   `
 )
 
-const SoftParticle = (color: Input<"vec3">, depthTexture: Input<"sampler2D">) =>
-  Vec3(color, {
+const CameraNear = Uniform<"float", number>("float", 0)
+const CameraFar = Uniform<"float", number>("float", 1)
+
+const SoftParticle = (
+  softness: Input<"float">,
+  depthTexture: Input<"sampler2D">
+) =>
+  Float(0, {
     fragment: {
       body: $`
         /* Get the existing depth at the fragment position */
-        float depth = ${readDepth}(${ScreenUV}, ${depthTexture}, 0.0, 1.0);
+        float d = ${readDepth}(${ScreenUV}, ${depthTexture}, ${CameraNear}, ${CameraFar});
 
-        float d = depth;
-        float z = ${ViewZ};
+        /* Get the distance from the fragment position to the camera */
+        float z = ${ViewPosition}.z;
 
         float distance = z - d;
-        float softness = 1.0;
-        value = ${color} * clamp(distance / softness, 0.0, 1.0);
+        float softness = ${softness};
+        value = clamp(distance / softness, 0.0, 1.0);
       `
     }
   })
@@ -68,6 +73,12 @@ export const Fog = () => {
   const time = Time()
   const velocity = ParticleAttribute(new Vector3())
   const rotation = ParticleAttribute(0 as number)
+
+  useFrame(({ camera }) => {
+    Resolution.value.set(window.innerWidth, window.innerHeight)
+    CameraNear.value = camera.near
+    CameraFar.value = camera.far
+  })
 
   const setup: InstanceSetupCallback = ({ position, scale }) => {
     position.set(plusMinus(10), between(0, 15), plusMinus(10))
@@ -93,7 +104,7 @@ export const Fog = () => {
         <VFX.Module
           module={(state) => ({
             ...state,
-            color: SoftParticle(state.color, depthSampler2D)
+            alpha: Mul(state.alpha, SoftParticle(5, depthSampler2D))
           })}
         />
       </VFXMaterial>
