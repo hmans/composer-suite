@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber"
-import { useLayoutEffect, useMemo } from "react"
+import { useEffect, useLayoutEffect, useMemo } from "react"
 import { DepthTexture, WebGLRenderTarget } from "three"
 
 export function useDepthBuffer(resolution = 0.5) {
@@ -21,10 +21,10 @@ export function useDepthBuffer(resolution = 0.5) {
     const textureHeight = size.height * dpr * resolution
 
     renderTarget.setSize(textureWidth, textureHeight)
-  }, [resolution, size.width, size.height, dpr])
+  }, [renderTarget, resolution, size.width, size.height, dpr])
 
   /* Dispose of render target at unmount */
-  useLayoutEffect(() => () => renderTarget.dispose(), [])
+  useEffect(() => () => renderTarget.dispose(), [])
 
   /* Every frame, render to our render target so we get a fresh depth texture. */
   useFrame((state) => {

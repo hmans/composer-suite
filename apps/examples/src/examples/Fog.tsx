@@ -34,15 +34,16 @@ export const Fog = () => {
   const texture = useTexture(smokeUrl)
   const { depthTexture } = useDepthBuffer()
 
-  const [{ time, velocity, rotation, scale, depthSampler2D }] = useState(
-    () => ({
-      depthSampler2D: Uniform("sampler2D", depthTexture),
-      time: Time(),
-      velocity: ParticleAttribute(new Vector3()),
-      rotation: ParticleAttribute(0 as number),
-      scale: ParticleAttribute(1 as number)
-    })
-  )
+  const [{ time, velocity, rotation, scale }] = useState(() => ({
+    time: Time(),
+    velocity: ParticleAttribute(new Vector3()),
+    rotation: ParticleAttribute(0 as number),
+    scale: ParticleAttribute(1 as number)
+  }))
+
+  const depthSampler2D = useMemo(() => Uniform("sampler2D", depthTexture), [
+    depthTexture
+  ])
 
   useFrame(({ camera }) => {
     Resolution.value.set(window.innerWidth, window.innerHeight)
@@ -80,7 +81,6 @@ export const Fog = () => {
           <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <VFX.Scale scale={scale} />
           <VFX.Billboard />
-
           <VFX.Module
             module={SoftParticles({ softness: 10, depthSampler2D })}
           />
