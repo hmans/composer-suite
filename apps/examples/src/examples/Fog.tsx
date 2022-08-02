@@ -9,26 +9,26 @@ import { ParticleAttribute } from "vfx-composer/units"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
-const time = Time()
-const lifetime = ParticleAttribute(new Vector2())
-const velocity = ParticleAttribute(new Vector3())
-const rotation = ParticleAttribute(0 as number)
-
-const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
-  lifetime,
-  time
-)
-
-const setup: InstanceSetupCallback = ({ position, scale }) => {
-  position.set(plusMinus(10), between(0, 15), plusMinus(10))
-  scale.setScalar(between(5, 10))
-  velocity.value.randomDirection().multiplyScalar(upTo(0.01))
-  rotation.value = plusMinus(0.1)
-}
-
 export const Fog = () => {
   const depthTexture = useDepthBuffer().depthTexture
   const texture = useTexture(smokeUrl)
+
+  const time = Time()
+  const lifetime = ParticleAttribute(new Vector2())
+  const velocity = ParticleAttribute(new Vector3())
+  const rotation = ParticleAttribute(0 as number)
+
+  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
+    lifetime,
+    time
+  )
+
+  const setup: InstanceSetupCallback = ({ position, scale }) => {
+    position.set(plusMinus(10), between(0, 15), plusMinus(10))
+    scale.setScalar(between(5, 10))
+    velocity.value.randomDirection().multiplyScalar(upTo(0.01))
+    rotation.value = plusMinus(0.1)
+  }
 
   return (
     <Particles>
