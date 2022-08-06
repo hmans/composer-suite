@@ -73,7 +73,7 @@
   "dependencies": {
     "@react-three/drei": "^9.19.2",
     "leva": "^0.9.28",
-    "postprocessing": "^6.28.1",
+    "postprocessing": "^6.28.5",
     "r3f-perf": "^6.4.2"
   }
 }
