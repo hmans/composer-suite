@@ -36,7 +36,7 @@ export const Fog = () => {
     <group>
       <mesh position-y={13}>
         <torusKnotGeometry args={[7, 2.5, 100]} />
-        <meshStandardMaterial color="hotpink" metalness={0.1} roughness={0.2} />
+        <meshStandardMaterial color="gold" metalness={0.1} roughness={0.2} />
       </mesh>
 
       <Particles>
