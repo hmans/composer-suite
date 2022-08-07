@@ -78,6 +78,7 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
     if (this.material.shaderRoot) {
       this.attributeUnits = collectFromTree(
         this.material.shaderRoot,
+        "any",
         (item) => item.setupMesh
       )
 
