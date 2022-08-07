@@ -1,54 +1,72 @@
 import { useTexture } from "@react-three/drei"
-import { between, insideSphere, plusMinus, upTo } from "randomish"
-import { MeshStandardMaterial, NormalBlending, Vector3 } from "three"
-import {
-  Emitter,
-  MeshParticles,
-  MeshParticlesMaterial,
-  SpawnSetup
-} from "three-vfx"
-import { Repeat } from "timeline-composer"
+import { useFrame } from "@react-three/fiber"
+import { between, plusMinus, upTo } from "randomish"
+import { useCallback, useMemo, useState } from "react"
+import { Mul, Resolution, Rotation3DZ, Time, Uniform } from "shader-composer"
+import { MeshStandardMaterial, Vector3 } from "three"
+import { InstanceSetupCallback } from "vfx-composer"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { ParticleAttribute } from "vfx-composer/units"
+import { CameraFar, CameraNear, SoftParticles } from "./lib/softies"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
-  const depthTexture = useDepthBuffer().depthTexture
-
   const texture = useTexture(smokeUrl)
+  const { depthTexture } = useDepthBuffer()
 
-  const setup = ({ preDelay = 0 } = {}): SpawnSetup => (c) => {
-    c.position.set(0, 6, 0).add(insideSphere(5) as Vector3)
-    c.velocity.randomDirection().multiplyScalar(between(0, 1))
-    c.lifetime.delay = upTo(5) - preDelay
-    c.lifetime.duration = 30
-    c.scale.min.setScalar(between(10, 50))
-    c.scale.max.setScalar(c.scale.min.x * (1.0 + plusMinus(0.3)))
-    c.alpha.min = 0
-    c.alpha.max = between(0.05, 0.1)
-  }
+  const [{ time, velocity, rotation, scale }] = useState(() => ({
+    time: Time(),
+    velocity: ParticleAttribute(new Vector3()),
+    rotation: ParticleAttribute(0 as number),
+    scale: ParticleAttribute(1 as number)
+  }))
+
+  const depthSampler2D = useMemo(() => Uniform("sampler2D", depthTexture), [
+    depthTexture
+  ])
+
+  useFrame(({ camera }) => {
+    Resolution.value.set(window.innerWidth, window.innerHeight)
+    CameraNear.value = camera.near
+    CameraFar.value = camera.far
+  })
 
   return (
-    <MeshParticles maxParticles={500}>
-      <planeGeometry />
+    <group>
+      <mesh position-y={13}>
+        <torusKnotGeometry args={[7, 2.5, 100]} />
+        <meshStandardMaterial color="gold" metalness={0.1} roughness={0.2} />
+      </mesh>
 
-      <MeshParticlesMaterial
-        baseMaterial={MeshStandardMaterial}
-        map={texture}
-        blending={NormalBlending}
-        depthTest={true}
-        depthWrite={false}
-        depthTexture={depthTexture}
-        billboard
-        softness={5}
-        transparent
-        colorFunction="smoothstep(0.0, 1.0, sin(v_progress * PI))"
-      />
+      <Particles>
+        <planeGeometry />
+        <VFXMaterial
+          baseMaterial={MeshStandardMaterial}
+          map={texture}
+          transparent
+          depthWrite={false}
+        >
+          <VFX.SetAlpha alpha={0.15} />
+          <VFX.Velocity velocity={velocity} time={time} />
+          <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <VFX.Scale scale={scale} />
+          <VFX.Billboard />
+          <VFX.Module
+            module={SoftParticles({ softness: 10, depthSampler2D })}
+          />
+        </VFXMaterial>
 
-      <Emitter count={20} setup={setup({ preDelay: 15 })} />
-
-      <Repeat seconds={5}>
-        <Emitter count={() => between(5, 10)} setup={setup()} />
-      </Repeat>
-    </MeshParticles>
+        <Emitter
+          count={50}
+          setup={({ position }) => {
+            position.set(plusMinus(10), between(-4, 17), plusMinus(10))
+            velocity.value.randomDirection().multiplyScalar(upTo(0.002))
+            rotation.value = plusMinus(0.1)
+            scale.value = between(10, 50)
+          }}
+        />
+      </Particles>
+    </group>
   )
 }

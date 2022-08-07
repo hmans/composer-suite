@@ -40,36 +40,28 @@ export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
 
     /* Recompile on version change */
     useEffect(() => {
-      if (!material.current) return
       material.current.compileModules()
     }, [version])
 
-    const addModule = useCallback(
-      (module: Module) => {
-        if (!material.current) return
-        material.current.modules = [...material.current.modules, module]
-        bumpVersion()
-      },
-      [material]
-    )
+    const addModule = useCallback((module: Module) => {
+      if (!material.current) return
+      material.current.modules = [...material.current.modules, module]
+      bumpVersion()
+    }, [])
 
-    const removeModule = useCallback(
-      (module: Module) => {
-        if (!material.current) return
-        material.current.modules = material.current.modules.filter(
-          (m) => m !== module
-        )
-        bumpVersion()
-      },
-      [material]
-    )
+    const removeModule = useCallback((module: Module) => {
+      if (!material.current) return
+      material.current.modules = material.current.modules.filter(
+        (m) => m !== module
+      )
+      bumpVersion()
+    }, [])
 
     /* Pass on the ref. */
     useImperativeHandle(ref, () => material.current)
 
     /* Run the material's per-frame tick. */
     useFrame((_, dt) => {
-      if (!material.current) return
       material.current.tick(dt)
     })
 

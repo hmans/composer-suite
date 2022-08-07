@@ -57,7 +57,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
       particlesMatrix.copy(particles!.matrixWorld).invert()
       particles.emit(count, emitterSetup)
-    }, [])
+    }, [particlesFromContext])
 
     useFrame(() => {
       const particles = particlesProp?.current || particlesFromContext
