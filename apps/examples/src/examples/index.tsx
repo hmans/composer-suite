@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { Bubbles } from "./Bubbles"
 import { DustExample } from "./DustExample"
 import { Explosion } from "./Explosion"
 import { FireflyExample } from "./FireflyExample"
@@ -29,6 +30,7 @@ export default [
     component: <SoftParticlesExample />
   },
   { path: "fog", name: "Fog", component: <Fog /> },
+  { path: "bubbles", name: "Bubbles", component: <Bubbles /> },
   { path: "explosion", name: "Explosion (Legacy)", component: <Explosion /> },
   { path: "snow", name: "Snow (Legacy)", component: <Snow intensity={500} /> },
   { path: "dust", name: "Dust (Legacy)", component: <DustExample /> },
