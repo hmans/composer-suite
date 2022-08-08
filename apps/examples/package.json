@@ -8,9 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^9.19.2",
-    "@react-three/fiber": "^8.0.22",
-    "leva": "^0.9.28",
+    "@react-three/drei": "^9.19.7",
+    "@react-three/fiber": "^8.3.0",
+    "leva": "^0.9.30",
     "r3f-perf": "^6.4.2",
     "r3f-stage": "^0.1.0",
     "react": "^18.1.0",
@@ -26,7 +26,7 @@
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
-    "@types/react": "^18.0.12",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.5",
     "@types/three": "^0.143.0",
     "@vitejs/plugin-react": "^2.0.0",
