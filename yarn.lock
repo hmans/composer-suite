@@ -6398,20 +6398,20 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-shader-composer-r3f@0.1.1-canary-20220807164644:
-  version "0.1.1-canary-20220807164644"
-  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.1.1-canary-20220807164644.tgz#7351f4a04a46d6afc581a152c059e110933ed0c7"
-  integrity sha512-vJOs8CUQnI1Vfn5FZFr6DeyKVrrUbPk0YbCs4xUbReChEzzIyT/fycg1J1ZWJzbIuzzqQYWRdyM40sWR3Q8O0A==
+shader-composer-r3f@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.1.1.tgz#b362683788ef302ffef99f1a7fe69b340a7830d0"
+  integrity sha512-nU05WShlnLA0//rcK0TG1+TyAVT7RGJdelA9ao+G6eojLVX75TrKn/+/9JQlVPXGXKKAtL/SLJZt11s3EmQRiw==
 
-shader-composer-toybox@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.8.tgz#de6bfdfd0970339a3f6ffb0f39be3d7808bb206c"
-  integrity sha512-LPczukpmQIQkQoZ0ApIBWknZODwnGOArGIJEj2kinGIqgQGskR4lXf4mBAGx13hVoKAfoJ4Bv+FtG8hKQcNF5Q==
+shader-composer-toybox@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.9.tgz#9b1b6770db651b48385c7f528905ff65341d3205"
+  integrity sha512-LAMzTZTGkcCtP5SvDihH1UZMBRVkZGc3UlWQnesa1sMpSGWV47z0D4mUeiybSYFz8dDmIJA3QeykGJuCaUAWnA==
 
-shader-composer@0.2.0-canary-20220807164644:
-  version "0.2.0-canary-20220807164644"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.2.0-canary-20220807164644.tgz#9858a6178b48ee9314d62494a074db97762a9ec9"
-  integrity sha512-BxvDaCd8orZpOmJ9EXyqPtk4khVRcaLOQvOGFKgAcOinhCU+eXl9mnGEcMoMZoaCSaY0I2Yi6HzdF5d5Sgt5tg==
+shader-composer@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.2.1.tgz#70ee32538b2ca2fc03bb9450991c558ec7816592"
+  integrity sha512-3/sEQ5vY/D/Q7GMLgrQkl/KNJtixY/MPmJEl8vsHfM13provgXmmkh2tNGlxPTNBRJzXSi91d6Qn06ZI808Sog==
   dependencies:
     fp-ts "^2.12.1"
 
