@@ -1,18 +1,19 @@
 import { useTexture } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+import { useThree } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
 import { useMemo, useState } from "react"
-import { Mul, Resolution, Rotation3DZ, Time, Uniform } from "shader-composer"
-import { MeshStandardMaterial, Vector3 } from "three"
+import { Mul, Rotation3DZ, Time, Uniform } from "shader-composer"
+import { MeshStandardMaterial, PerspectiveCamera, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { CameraFar, CameraNear, SoftParticles } from "./lib/softies"
+import { SoftParticles, ThreeStuff } from "./lib/softies"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
   const { depthTexture } = useDepthBuffer()
+  const { scene, camera } = useThree()
 
   const [{ time, velocity, rotation, scale }] = useState(() => ({
     time: Time(),
@@ -24,12 +25,6 @@ export const Fog = () => {
   const depthSampler2D = useMemo(() => Uniform("sampler2D", depthTexture), [
     depthTexture
   ])
-
-  useFrame(({ camera }) => {
-    Resolution.value.set(window.innerWidth, window.innerHeight)
-    CameraNear.value = camera.near
-    CameraFar.value = camera.far
-  })
 
   return (
     <group>
@@ -52,7 +47,11 @@ export const Fog = () => {
           <VFX.Scale scale={scale} />
           <VFX.Billboard />
           <VFX.Module
-            module={SoftParticles({ softness: 10, depthSampler2D })}
+            module={SoftParticles({
+              softness: 10,
+              depthSampler2D,
+              threeStuff: ThreeStuff(scene, camera as PerspectiveCamera)
+            })}
           />
         </VFXMaterial>
 
