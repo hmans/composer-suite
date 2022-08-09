@@ -1,12 +1,16 @@
 import {
   $,
+  Div,
   Float,
   Input,
   InstanceMatrix,
   ModelMatrix,
   Mul,
+  pipe,
   Resolution,
+  Saturate,
   Snippet,
+  Sub,
   Uniform,
   Vec2,
   Vec4,
@@ -56,11 +60,16 @@ export const SoftParticle = (
   depthTexture: Input<"sampler2D">,
   position: Input<"vec3">
 ) => {
-  const positionViewZ = ToViewSpace(position).z
   const sceneDepth = Float($`${readDepth}(${ScreenUV}, ${depthTexture})`)
 
   return Float(
-    $`clamp((${positionViewZ} - ${sceneDepth}) / ${softness}, 0.0, 1.0)`,
+    pipe(
+      position,
+      (v) => ToViewSpace(v).z,
+      (v) => Sub(v, sceneDepth),
+      (v) => Div(v, softness),
+      (v) => Saturate(v)
+    ),
     { name: "Soft Particle" }
   )
 }
