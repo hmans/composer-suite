@@ -51,11 +51,8 @@ export const SoftParticle = (
       body: $`
         float d = readDepth(${ScreenUV});
 
-        float z = ${Float(0, {
-          varying: true,
-          vertex: {
-            body: $`value = (${ToViewSpace(position)}).z;`
-          }
+        float z = ${Float(ToViewSpace(position).z, {
+          varying: true
         })};
 
         value = clamp((z - d) / ${softness}, 0.0, 1.0);
