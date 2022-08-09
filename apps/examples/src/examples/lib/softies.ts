@@ -27,7 +27,7 @@ export const SoftParticles: ModuleFactory<{
   ...state,
   alpha: Mul(
     state.alpha,
-    SoftParticle(softness, SceneDepth(ScreenUV, depthSampler2D), state.position)
+    SoftParticle(softness, depthSampler2D, state.position)
   )
 })
 
@@ -72,7 +72,7 @@ const SceneDepth = (xy: Input<"vec2">, depthTexture: Unit<"sampler2D">) => {
 
 export const SoftParticle = (
   softness: Input<"float">,
-  sceneDepth: Input<"float">,
+  depthTexture: Unit<"sampler2D">,
   position: Input<"vec3">
 ) =>
   Float(
@@ -81,7 +81,7 @@ export const SoftParticle = (
       /* Convert position to view space and grab depth */
       (v) => ToViewSpace(v).z,
       /* Subtract from the existing scene depth at the fragment coordinate */
-      (v) => Sub(v, sceneDepth),
+      (v) => Sub(v, SceneDepth(ScreenUV, depthTexture)),
       /* Divide by softness factor */
       (v) => Div(v, softness),
       /* Clamp between 0 and 1 */
