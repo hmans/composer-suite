@@ -10,8 +10,8 @@ export const SoftParticlesExample = () => {
   const depthSampler2D = Uniform("sampler2D", useDepthBuffer().depthTexture)
 
   /* TODO: extract this into sc-r3f? */
-  const { scene, camera } = useThree()
-  const renderContext = useMemo(() => RenderContext(scene, camera), [
+  const { gl, scene, camera } = useThree()
+  const renderContext = useMemo(() => RenderContext(gl, scene, camera), [
     scene,
     camera
   ])

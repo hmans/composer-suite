@@ -18,10 +18,13 @@ import {
 } from "shader-composer"
 import {
   Camera,
+  DepthTexture,
   Float16BufferAttribute,
   PerspectiveCamera,
   Scene,
-  Vector2
+  Vector2,
+  WebGLRenderer,
+  WebGLRenderTarget
 } from "three"
 import { ModuleFactory } from "vfx-composer/modules"
 
@@ -60,9 +63,15 @@ const ReadDepth = (
 
 const SceneDepth = (
   xy: Input<"vec2">,
-  depthTexture: Unit<"sampler2D">,
+  _depthTexture: Unit<"sampler2D">,
   renderContext: RenderContext
 ) => {
+  const renderTarget = new WebGLRenderTarget(256, 256, {
+    depthTexture: new DepthTexture(256, 256)
+  })
+
+  const depthTexture = Uniform("sampler2D", renderTarget.depthTexture)
+
   return Float(
     ReadDepth(
       xy,
@@ -70,8 +79,16 @@ const SceneDepth = (
       renderContext.CameraNear,
       renderContext.CameraFar
     ),
+
     {
-      name: "Scene Depth"
+      name: "Scene Depth",
+
+      update: () => {
+        /* Render depth texture */
+        renderContext.gl.setRenderTarget(renderTarget)
+        renderContext.gl.render(renderContext.scene, renderContext.camera)
+        renderContext.gl.setRenderTarget(null)
+      }
     }
   )
 }
@@ -137,7 +154,11 @@ export const CameraFar = (camera: Camera) => {
   })
 }
 
-export const RenderContext = (scene: Scene, camera: Camera) => {
+export const RenderContext = (
+  gl: WebGLRenderer,
+  scene: Scene,
+  camera: Camera
+) => {
   const ResolutionUniform = Uniform("vec2", new Vector2())
 
   const Resolution = Vec2(ResolutionUniform, {
@@ -148,6 +169,7 @@ export const RenderContext = (scene: Scene, camera: Camera) => {
   })
 
   return {
+    gl,
     scene,
     camera,
     CameraNear: CameraNear(camera),
