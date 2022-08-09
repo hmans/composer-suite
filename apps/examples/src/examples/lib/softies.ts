@@ -116,8 +116,8 @@ export const SoftParticles: ModuleFactory<{
 export type RenderContext = ReturnType<typeof RenderContext>
 
 export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
-  const CameraNearUniform = Uniform<"float", number>("float", 0)
-  const CameraFarUniform = Uniform<"float", number>("float", 1)
+  const CameraNearUniform = Uniform("float", 0 as number)
+  const CameraFarUniform = Uniform("float", 1 as number)
 
   const CameraNear = Float(CameraNearUniform, {
     name: "Camera Near",
