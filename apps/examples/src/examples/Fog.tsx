@@ -55,7 +55,7 @@ export const Fog = () => {
           <VFX.Module
             module={SoftParticles({
               softness: 10,
-              depthSampler2D,
+              depthTexture: depthSampler2D,
               renderContext
             })}
           />

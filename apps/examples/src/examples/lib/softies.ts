@@ -103,13 +103,13 @@ export const SoftParticle = (
 
 export const SoftParticles: ModuleFactory<{
   softness: Input<"float">
-  depthSampler2D: Unit<"sampler2D">
+  depthTexture: Unit<"sampler2D">
   renderContext: RenderContext
-}> = ({ softness, depthSampler2D, renderContext }) => (state) => ({
+}> = ({ softness, depthTexture, renderContext }) => (state) => ({
   ...state,
   alpha: Mul(
     state.alpha,
-    SoftParticle(softness, depthSampler2D, state.position, renderContext)
+    SoftParticle(softness, depthTexture, state.position, renderContext)
   )
 })
 
