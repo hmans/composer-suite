@@ -61,10 +61,15 @@ const ReadDepth = (
 const SceneDepth = (
   xy: Input<"vec2">,
   depthTexture: Unit<"sampler2D">,
-  threeStuff: ReturnType<typeof ThreeStuff>
+  renderContext: RenderContext
 ) => {
   return Float(
-    ReadDepth(xy, depthTexture, threeStuff.CameraNear, threeStuff.CameraFar),
+    ReadDepth(
+      xy,
+      depthTexture,
+      renderContext.CameraNear,
+      renderContext.CameraFar
+    ),
     {
       name: "Scene Depth"
     }
@@ -75,9 +80,9 @@ export const SoftParticle = (
   softness: Input<"float">,
   depthTexture: Unit<"sampler2D">,
   position: Input<"vec3">,
-  threeStuff: ReturnType<typeof ThreeStuff>
+  renderContext: RenderContext
 ) => {
-  const screenUV = Vec2($`${FragmentCoordinate} / ${threeStuff.Resolution}`)
+  const screenUV = Vec2($`${FragmentCoordinate} / ${renderContext.Resolution}`)
 
   return Float(
     pipe(
@@ -85,7 +90,7 @@ export const SoftParticle = (
       /* Convert position to view space and grab depth */
       (v) => ToViewSpace(v).z,
       /* Subtract from the existing scene depth at the fragment coordinate */
-      (v) => Sub(v, SceneDepth(screenUV, depthTexture, threeStuff)),
+      (v) => Sub(v, SceneDepth(screenUV, depthTexture, renderContext)),
       /* Divide by softness factor */
       (v) => Div(v, softness),
       /* Clamp between 0 and 1 */
@@ -99,16 +104,18 @@ export const SoftParticle = (
 export const SoftParticles: ModuleFactory<{
   softness: Input<"float">
   depthSampler2D: Unit<"sampler2D">
-  threeStuff: ReturnType<typeof ThreeStuff>
-}> = ({ softness, depthSampler2D, threeStuff }) => (state) => ({
+  renderContext: RenderContext
+}> = ({ softness, depthSampler2D, renderContext }) => (state) => ({
   ...state,
   alpha: Mul(
     state.alpha,
-    SoftParticle(softness, depthSampler2D, state.position, threeStuff)
+    SoftParticle(softness, depthSampler2D, state.position, renderContext)
   )
 })
 
-export const ThreeStuff = (scene: Scene, camera: PerspectiveCamera) => {
+export type RenderContext = ReturnType<typeof RenderContext>
+
+export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
   const CameraNearUniform = Uniform<"float", number>("float", 0)
   const CameraFarUniform = Uniform<"float", number>("float", 1)
 

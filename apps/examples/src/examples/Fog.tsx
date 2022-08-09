@@ -6,7 +6,7 @@ import { Mul, Rotation3DZ, Time, Uniform } from "shader-composer"
 import { MeshStandardMaterial, PerspectiveCamera, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { SoftParticles, ThreeStuff } from "./lib/softies"
+import { SoftParticles, RenderContext } from "./lib/softies"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
@@ -50,7 +50,7 @@ export const Fog = () => {
             module={SoftParticles({
               softness: 10,
               depthSampler2D,
-              threeStuff: ThreeStuff(scene, camera as PerspectiveCamera)
+              renderContext: RenderContext(scene, camera as PerspectiveCamera)
             })}
           />
         </VFXMaterial>
