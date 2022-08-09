@@ -49,16 +49,6 @@ export const ToViewSpace = (position: Input<"vec3">) =>
 export const CameraNear = Uniform<"float", number>("float", 0)
 export const CameraFar = Uniform<"float", number>("float", 1)
 
-const readDepth = Snippet(
-  (name) => $`
-    float ${name}(vec2 coord, sampler2D depthTexture) {
-      float depthZ = texture2D(depthTexture, coord).x;
-      float viewZ = perspectiveDepthToViewZ(depthZ, ${CameraNear}, ${CameraFar});
-      return viewZ;
-    }
-  `
-)
-
 const ReadDepth = (
   xy: Input<"vec2">,
   depthTexture: Unit<"sampler2D">,
@@ -79,7 +69,7 @@ const SceneDepth = (xy: Input<"vec2">, depthTexture: Unit<"sampler2D">) =>
 
 export const SoftParticle = (
   softness: Input<"float">,
-  depthTexture: Input<"sampler2D">,
+  depthTexture: Unit<"sampler2D">,
   position: Input<"vec3">
 ) =>
   Float(
