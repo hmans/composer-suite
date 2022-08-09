@@ -6,6 +6,7 @@ import {
   ModelMatrix,
   Mul,
   Resolution,
+  Snippet,
   Uniform,
   Vec2,
   Vec4,
@@ -37,6 +38,19 @@ export const ToViewSpace = (position: Input<"vec3">) =>
     { varying: true }
   )
 
+export const CameraNear = Uniform<"float", number>("float", 0)
+export const CameraFar = Uniform<"float", number>("float", 1)
+
+const readDepth = Snippet(
+  (name) => $`
+    float ${name}(vec2 coord, sampler2D depthTexture) {
+      float depthZ = texture2D(depthTexture, coord).x;
+      float viewZ = perspectiveDepthToViewZ(depthZ, ${CameraNear}, ${CameraFar});
+      return viewZ;
+    }
+  `
+)
+
 export const SoftParticle = (
   softness: Input<"float">,
   depthTexture: Input<"sampler2D">,
@@ -47,21 +61,10 @@ export const SoftParticle = (
   return Float(1, {
     name: "Soft Particle",
     fragment: {
-      header: $`
-        float readDepth(vec2 coord) {
-          float depthZ = texture2D(${depthTexture}, coord).x;
-          float viewZ = perspectiveDepthToViewZ(depthZ, ${CameraNear}, ${CameraFar});
-          return viewZ;
-        }
-      `,
       body: $`
-        float d = readDepth(${ScreenUV});
-
+        float d = ${readDepth}(${ScreenUV}, ${depthTexture});
         value = clamp((${positionViewZ} - d) / ${softness}, 0.0, 1.0);
       `
     }
   })
 }
-
-export const CameraNear = Uniform<"float", number>("float", 0)
-export const CameraFar = Uniform<"float", number>("float", 1)
