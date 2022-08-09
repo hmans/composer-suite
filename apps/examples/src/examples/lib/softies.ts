@@ -31,7 +31,9 @@ export const SoftParticles: ModuleFactory<{
 
 export const FragmentCoordinate = Vec2($`gl_FragCoord.xy`)
 
-export const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`)
+export const ScreenUV = Vec2($`${FragmentCoordinate} / ${Resolution}`, {
+  name: "Screen UV"
+})
 
 /**
  * Converts the given position (which is assumed to be in local space) to view space.
@@ -66,10 +68,15 @@ export const SoftParticle = (
   Float(
     pipe(
       position,
+      /* Convert position to view space and grab depth */
       (v) => ToViewSpace(v).z,
+      /* Subtract from the existing scene depth at the fragment coordinate */
       (v) => Sub(v, SceneDepth(ScreenUV, depthTexture)),
+      /* Divide by softness factor */
       (v) => Div(v, softness),
+      /* Clamp between 0 and 1 */
       (v) => Saturate(v)
     ),
+
     { name: "Soft Particle" }
   )
