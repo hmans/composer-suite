@@ -61,11 +61,7 @@ const ReadDepth = (
     { name: "Read Depth" }
   )
 
-const SceneDepth = (
-  xy: Input<"vec2">,
-  _depthTexture: Unit<"sampler2D">,
-  renderContext: RenderContext
-) => {
+const SceneDepth = (xy: Input<"vec2">, renderContext: RenderContext) => {
   const renderTarget = new WebGLRenderTarget(256, 256, {
     depthTexture: new DepthTexture(256, 256)
   })
@@ -95,7 +91,6 @@ const SceneDepth = (
 
 export const SoftParticle = (
   softness: Input<"float">,
-  depthTexture: Unit<"sampler2D">,
   position: Input<"vec3">,
   renderContext: RenderContext
 ) => {
@@ -107,7 +102,7 @@ export const SoftParticle = (
       /* Convert position to view space and grab depth */
       (v) => ToViewSpace(v).z,
       /* Subtract from the existing scene depth at the fragment coordinate */
-      (v) => Sub(v, SceneDepth(screenUV, depthTexture, renderContext)),
+      (v) => Sub(v, SceneDepth(screenUV, renderContext)),
       /* Divide by softness factor */
       (v) => Div(v, softness),
       /* Clamp between 0 and 1 */
@@ -120,14 +115,10 @@ export const SoftParticle = (
 
 export const SoftParticles: ModuleFactory<{
   softness: Input<"float">
-  depthTexture: Unit<"sampler2D">
   renderContext: RenderContext
-}> = ({ softness, depthTexture, renderContext }) => (state) => ({
+}> = ({ softness, renderContext }) => (state) => ({
   ...state,
-  alpha: Mul(
-    state.alpha,
-    SoftParticle(softness, depthTexture, state.position, renderContext)
-  )
+  alpha: Mul(state.alpha, SoftParticle(softness, state.position, renderContext))
 })
 
 export type RenderContext = ReturnType<typeof RenderContext>

@@ -2,17 +2,15 @@ import { useTexture } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
 import { useMemo, useState } from "react"
-import { Mul, Rotation3DZ, Time, Uniform } from "shader-composer"
+import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
 import { RenderContext, SoftParticles } from "./lib/softies"
-import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
-  const { depthTexture } = useDepthBuffer()
 
   /* TODO: extract this into sc-r3f? */
   const { gl, scene, camera } = useThree()
@@ -27,10 +25,6 @@ export const Fog = () => {
     rotation: ParticleAttribute(0 as number),
     scale: ParticleAttribute(1 as number)
   }))
-
-  const depthSampler2D = useMemo(() => Uniform("sampler2D", depthTexture), [
-    depthTexture
-  ])
 
   return (
     <group>
@@ -55,7 +49,6 @@ export const Fog = () => {
           <VFX.Module
             module={SoftParticles({
               softness: 10,
-              depthTexture: depthSampler2D,
               renderContext
             })}
           />
