@@ -62,9 +62,16 @@ const ReadDepth = (
   )
 
 const SceneDepth = (xy: Input<"vec2">, renderContext: RenderContext) => {
-  const renderTarget = new WebGLRenderTarget(256, 256, {
-    depthTexture: new DepthTexture(256, 256)
-  })
+  const renderTarget = new WebGLRenderTarget(
+    renderContext.Resolution.uniform.value.x,
+    renderContext.Resolution.uniform.value.y,
+    {
+      depthTexture: new DepthTexture(
+        renderContext.Resolution.uniform.value.x,
+        renderContext.Resolution.uniform.value.y
+      )
+    }
+  )
 
   const depthTexture = Uniform("sampler2D", renderTarget.depthTexture)
 
@@ -152,12 +159,15 @@ export const RenderContext = (
 ) => {
   const ResolutionUniform = Uniform("vec2", new Vector2())
 
-  const Resolution = Vec2(ResolutionUniform, {
-    name: "Resolution",
-    update: () => {
-      ResolutionUniform.value.set(window.innerWidth, window.innerHeight)
-    }
-  })
+  const Resolution = {
+    ...Vec2(ResolutionUniform, {
+      name: "Resolution",
+      update: () => {
+        ResolutionUniform.value.set(window.innerWidth, window.innerHeight)
+      }
+    }),
+    uniform: ResolutionUniform
+  }
 
   return {
     gl,
