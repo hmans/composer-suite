@@ -19,7 +19,6 @@ import {
 import {
   Camera,
   DepthTexture,
-  Float16BufferAttribute,
   PerspectiveCamera,
   Scene,
   Vector2,
