@@ -115,27 +115,41 @@ export const SoftParticles: ModuleFactory<{
 
 export type RenderContext = ReturnType<typeof RenderContext>
 
-export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
-  const CameraNearUniform = Uniform("float", 0 as number)
-  const CameraFarUniform = Uniform("float", 1 as number)
+export const CameraNear = (camera: Camera) => {
+  const uniform = Uniform("float", 0 as number)
 
-  const CameraNear = Float(CameraNearUniform, {
+  return Float(uniform, {
     name: "Camera Near",
-    update: () => (CameraNearUniform.value = camera.near)
+    update: () => {
+      if (camera instanceof PerspectiveCamera) uniform.value = camera.near
+    }
   })
+}
 
-  const CameraFar = Float(CameraFarUniform, {
+export const CameraFar = (camera: Camera) => {
+  const uniform = Uniform("float", 0 as number)
+
+  return Float(uniform, {
     name: "Camera Far",
-    update: () => (CameraFarUniform.value = camera.far)
+    update: () => {
+      if (camera instanceof PerspectiveCamera) uniform.value = camera.far
+    }
   })
+}
 
+export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
   const ResolutionUniform = Uniform("vec2", new Vector2())
 
   const Resolution = Vec2(ResolutionUniform, {
     name: "Resolution",
-    update: () =>
+    update: () => {
       ResolutionUniform.value.set(window.innerWidth, window.innerHeight)
+    }
   })
 
-  return { CameraNear, CameraFar, Resolution }
+  return {
+    CameraNear: CameraNear(camera),
+    CameraFar: CameraFar(camera),
+    Resolution
+  }
 }
