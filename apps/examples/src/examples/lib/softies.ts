@@ -11,7 +11,9 @@ import {
   Saturate,
   Snippet,
   Sub,
+  Texture2D,
   Uniform,
+  Unit,
   Vec2,
   Vec4,
   ViewMatrix
@@ -57,8 +59,23 @@ const readDepth = Snippet(
   `
 )
 
-const SceneDepth = (xy: Input<"vec2">, depthTexture: Input<"sampler2D">) =>
-  Float($`${readDepth}(${xy}, ${depthTexture})`, { name: "Scene Depth" })
+const ReadDepth = (
+  xy: Input<"vec2">,
+  depthTexture: Unit<"sampler2D">,
+  cameraNear: Input<"float"> = CameraNear,
+  cameraFar: Input<"float"> = CameraFar
+) =>
+  Float(
+    pipe(
+      xy,
+      (v) => Texture2D(depthTexture, v).x,
+      (v) => $`perspectiveDepthToViewZ(${v}, ${cameraNear}, ${cameraFar})`
+    ),
+    { name: "Read Depth" }
+  )
+
+const SceneDepth = (xy: Input<"vec2">, depthTexture: Unit<"sampler2D">) =>
+  Float(ReadDepth(xy, depthTexture), { name: "Scene Depth" })
 
 export const SoftParticle = (
   softness: Input<"float">,
