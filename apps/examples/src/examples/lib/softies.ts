@@ -64,8 +64,11 @@ const ReadDepth = (
     { name: "Read Depth" }
   )
 
-const SceneDepth = (xy: Input<"vec2">, depthTexture: Unit<"sampler2D">) =>
-  Float(ReadDepth(xy, depthTexture), { name: "Scene Depth" })
+const SceneDepth = (xy: Input<"vec2">, depthTexture: Unit<"sampler2D">) => {
+  // TODO: make your own damn depth texture
+
+  return Float(ReadDepth(xy, depthTexture), { name: "Scene Depth" })
+}
 
 export const SoftParticle = (
   softness: Input<"float">,
