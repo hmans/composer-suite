@@ -137,7 +137,7 @@ export const CameraFar = (camera: Camera) => {
   })
 }
 
-export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
+export const RenderContext = (scene: Scene, camera: Camera) => {
   const ResolutionUniform = Uniform("vec2", new Vector2())
 
   const Resolution = Vec2(ResolutionUniform, {
@@ -148,6 +148,8 @@ export const RenderContext = (scene: Scene, camera: PerspectiveCamera) => {
   })
 
   return {
+    scene,
+    camera,
     CameraNear: CameraNear(camera),
     CameraFar: CameraFar(camera),
     Resolution

@@ -13,7 +13,13 @@ import { smokeUrl } from "./textures"
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
   const { depthTexture } = useDepthBuffer()
+
+  /* TODO: extract this into sc-r3f? */
   const { scene, camera } = useThree()
+  const renderContext = useMemo(() => RenderContext(scene, camera), [
+    scene,
+    camera
+  ])
 
   const [{ time, velocity, rotation, scale }] = useState(() => ({
     time: Time(),
@@ -50,7 +56,7 @@ export const Fog = () => {
             module={SoftParticles({
               softness: 10,
               depthSampler2D,
-              renderContext: RenderContext(scene, camera as PerspectiveCamera)
+              renderContext
             })}
           />
         </VFXMaterial>

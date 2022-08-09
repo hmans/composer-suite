@@ -1,14 +1,20 @@
 import { useThree } from "@react-three/fiber"
+import { useMemo } from "react"
 import { Mul, Uniform } from "shader-composer"
-import { MeshStandardMaterial, PerspectiveCamera } from "three"
+import { MeshStandardMaterial } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
-import { SoftParticle, RenderContext } from "./lib/softies"
+import { RenderContext, SoftParticle } from "./lib/softies"
 import { useDepthBuffer } from "./lib/useDepthBuffer"
 
 export const SoftParticlesExample = () => {
   const depthSampler2D = Uniform("sampler2D", useDepthBuffer().depthTexture)
 
+  /* TODO: extract this into sc-r3f? */
   const { scene, camera } = useThree()
+  const renderContext = useMemo(() => RenderContext(scene, camera), [
+    scene,
+    camera
+  ])
 
   return (
     <Particles>
@@ -26,12 +32,7 @@ export const SoftParticlesExample = () => {
             ...state,
             alpha: Mul(
               state.alpha,
-              SoftParticle(
-                3,
-                depthSampler2D,
-                state.position,
-                RenderContext(scene, camera as PerspectiveCamera)
-              )
+              SoftParticle(3, depthSampler2D, state.position, renderContext)
             )
           })}
         />
