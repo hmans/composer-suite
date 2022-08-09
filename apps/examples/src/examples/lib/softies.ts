@@ -55,21 +55,21 @@ const readDepth = Snippet(
   `
 )
 
+const SceneDepth = (xy: Input<"vec2">, depthTexture: Input<"sampler2D">) =>
+  Float($`${readDepth}(${xy}, ${depthTexture})`, { name: "Scene Depth" })
+
 export const SoftParticle = (
   softness: Input<"float">,
   depthTexture: Input<"sampler2D">,
   position: Input<"vec3">
-) => {
-  const sceneDepth = Float($`${readDepth}(${ScreenUV}, ${depthTexture})`)
-
-  return Float(
+) =>
+  Float(
     pipe(
       position,
       (v) => ToViewSpace(v).z,
-      (v) => Sub(v, sceneDepth),
+      (v) => Sub(v, SceneDepth(ScreenUV, depthTexture)),
       (v) => Div(v, softness),
       (v) => Saturate(v)
     ),
     { name: "Soft Particle" }
   )
-}
