@@ -57,13 +57,13 @@ export const SoftParticle = (
   position: Input<"vec3">
 ) => {
   const positionViewZ = ToViewSpace(position).z
+  const sceneDepth = Float($`${readDepth}(${ScreenUV}, ${depthTexture})`)
 
   return Float(1, {
     name: "Soft Particle",
     fragment: {
       body: $`
-        float d = ${readDepth}(${ScreenUV}, ${depthTexture});
-        value = clamp((${positionViewZ} - d) / ${softness}, 0.0, 1.0);
+        value = clamp((${positionViewZ} - ${sceneDepth}) / ${softness}, 0.0, 1.0);
       `
     }
   })
