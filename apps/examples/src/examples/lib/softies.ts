@@ -39,7 +39,7 @@ export const FragmentCoordinate = Vec2($`gl_FragCoord.xy`, {
  * Converts the given position vector (which is assumed to be in local space)
  * to view space.
  */
-export const ToViewSpace = (position: Input<"vec3">) =>
+export const ConvertToViewSpace = (position: Input<"vec3">) =>
   Vec4(
     $`${ViewMatrix} * ${InstanceMatrix} * ${ModelMatrix} * vec4(${position}, 1.0)`,
     { varying: true }
@@ -121,7 +121,7 @@ export const SoftParticle = (
     pipe(
       position,
       /* Convert position to view space and grab depth */
-      (v) => ToViewSpace(v).z,
+      (v) => ConvertToViewSpace(v).z,
       /* Subtract from the existing scene depth at the fragment coordinate */
       (v) => Sub(v, SceneDepth(screenUV, renderContext)),
       /* Divide by softness factor */
