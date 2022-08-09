@@ -75,6 +75,8 @@ const SceneDepth = (xy: Input<"vec2">, renderContext: RenderContext) => {
 
   const depthTexture = Uniform("sampler2D", renderTarget.depthTexture)
 
+  const tmpVec2 = new Vector2()
+
   return Float(
     ReadDepth(
       xy,
@@ -87,6 +89,19 @@ const SceneDepth = (xy: Input<"vec2">, renderContext: RenderContext) => {
       name: "Scene Depth",
 
       update: () => {
+        /* Adjust render texture resolution to match the current resolution. */
+        tmpVec2.copy(renderContext.Resolution.uniform.value)
+        if (
+          tmpVec2.x !== renderTarget.width ||
+          tmpVec2.y !== renderTarget.height
+        ) {
+          console.log("Resizing render target...", tmpVec2)
+          renderTarget.setSize(tmpVec2.x, tmpVec2.y)
+          renderTarget.depthTexture.dispose()
+          renderTarget.depthTexture = new DepthTexture(tmpVec2.x, tmpVec2.y)
+          depthTexture.value = renderTarget.depthTexture
+        }
+
         /* Render depth texture */
         renderContext.gl.setRenderTarget(renderTarget)
         renderContext.gl.render(renderContext.scene, renderContext.camera)
