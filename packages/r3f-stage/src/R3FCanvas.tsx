@@ -6,7 +6,7 @@ import { LinearEncoding } from "three"
 import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 import { Perf } from "r3f-perf"
-import { Layers } from "../../../apps/examples/src/examples/Layers"
+import { Layers } from "./Layers"
 
 export const R3FCanvas: FC<{ children: ReactNode; perf?: boolean }> = ({
   children,

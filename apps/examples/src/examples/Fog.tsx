@@ -1,13 +1,12 @@
 import { useTexture } from "@react-three/drei"
+import { Layers } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useState } from "react"
-import { Mul, Rotation3DZ, Time, UniformUnit } from "shader-composer"
+import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { SceneDepthTexture } from "shader-composer-toybox"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { Layers } from "./Layers"
-import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
