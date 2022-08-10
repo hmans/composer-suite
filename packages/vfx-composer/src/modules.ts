@@ -10,6 +10,7 @@ import {
   Pow,
   SplitVector2,
   Sub,
+  Unit,
   Vec3
 } from "shader-composer"
 import { Billboard as BillboardUnit, SoftParticle } from "./units"
@@ -113,9 +114,10 @@ export const Billboard: ModuleFactory = () => (state) => ({
 
 export const SoftParticles: ModuleFactory<{
   softness: Input<"float">
-}> = ({ softness }) => (state) => ({
+  depthTexture: Unit<"sampler2D">
+}> = ({ softness, depthTexture }) => (state) => ({
   ...state,
-  alpha: Mul(state.alpha, SoftParticle(softness, state.position))
+  alpha: Mul(state.alpha, SoftParticle(softness, state.position, depthTexture))
 })
 
 /* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */

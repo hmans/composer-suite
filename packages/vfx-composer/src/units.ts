@@ -7,12 +7,13 @@ import {
   Input,
   InstanceMatrix,
   LocalToViewSpace,
+  PerspectiveDepth,
   pipe,
   Saturate,
-  SceneDepth,
   ScreenUV,
   Snippet,
   Sub,
+  Unit,
   Vec3,
   ViewMatrix
 } from "shader-composer"
@@ -114,7 +115,8 @@ export const Random = (n: Input<"float">) =>
 
 export const SoftParticle = (
   softness: Input<"float">,
-  position: Input<"vec3">
+  position: Input<"vec3">,
+  depthTexture: Unit<"sampler2D">
 ) => {
   return Float(
     pipe(
@@ -122,7 +124,7 @@ export const SoftParticle = (
       /* Convert position to view space and grab depth */
       (v) => LocalToViewSpace(v).z,
       /* Subtract from the existing scene depth at the fragment coordinate */
-      (v) => Sub(v, SceneDepth(ScreenUV)),
+      (v) => Sub(v, PerspectiveDepth(ScreenUV, depthTexture)),
       /* Divide by softness factor */
       (v) => Div(v, softness),
       /* Clamp between 0 and 1 */
