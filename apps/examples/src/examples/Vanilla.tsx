@@ -129,6 +129,9 @@ const vanillaCode = (
 export const Vanilla = () => {
   const group = useRef<Group>(null!)
   const { camera, scene, gl } = useThree()
-  useEffect(() => vanillaCode(group.current, camera, scene, gl), [])
+  useEffect(
+    () => vanillaCode(group.current, camera as PerspectiveCamera, scene, gl),
+    []
+  )
   return <group ref={group}></group>
 }
