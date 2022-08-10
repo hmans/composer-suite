@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ["three-vfx", "vfx-composer", "shader-composer", "r3f-stage"],
+    exclude: ["three-vfx", "vfx-composer", "r3f-stage"],
     include: ["react/jsx-runtime"]
   }
 })
