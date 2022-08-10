@@ -6,6 +6,7 @@ import { LinearEncoding } from "three"
 import { PostProcessing } from "./PostProcessing"
 import { Stage } from "./Stage"
 import { Perf } from "r3f-perf"
+import { Layers } from "../../../apps/examples/src/examples/Layers"
 
 export const R3FCanvas: FC<{ children: ReactNode; perf?: boolean }> = ({
   children,
@@ -51,7 +52,11 @@ export const R3FCanvas: FC<{ children: ReactNode; perf?: boolean }> = ({
         shadow-bias={-0.0001}
       />
       <fog attach="fog" args={["#987", 50, 300]} />
-      <PerspectiveCamera position={[0, 10, 50]} makeDefault />
+      <PerspectiveCamera
+        position={[0, 10, 50]}
+        layers-mask={Layers.Default + Layers.TransparentFX}
+        makeDefault
+      />
 
       <OrbitControls
         maxPolarAngle={Math.PI / 2}

@@ -1,17 +1,14 @@
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus, upTo } from "randomish"
 import { useState } from "react"
-import { Mul, Rotation3DZ, Time } from "shader-composer"
+import { Mul, Rotation3DZ, Time, UniformUnit } from "shader-composer"
 import { SceneDepthTexture } from "shader-composer-toybox"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
+import { Layers } from "./Layers"
+import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
-
-const Layers = {
-  Default: 1,
-  TransparentFX: 2
-}
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
@@ -30,7 +27,7 @@ export const Fog = () => {
         <meshStandardMaterial color="gold" metalness={0.1} roughness={0.2} />
       </mesh>
 
-      <Particles layers-mask={Layers.Default + Layers.TransparentFX}>
+      <Particles layers={Layers.TransparentFX}>
         <planeGeometry />
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
