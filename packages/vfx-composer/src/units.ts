@@ -148,19 +148,13 @@ export const SceneDepth = (xy: Input<"vec2">, resolution = 0.5) => {
   const width = 256
   const height = 256
 
-  const renderTargets = [
-    new WebGLRenderTarget(width, height, {
-      depthTexture: new DepthTexture(width, height)
-    }),
-
-    new WebGLRenderTarget(width, height, {
-      depthTexture: new DepthTexture(width, height)
-    })
-  ]
+  const renderTarget = new WebGLRenderTarget(width, height, {
+    depthTexture: new DepthTexture(width, height)
+  })
 
   let cursor = 0
 
-  const uniform = Uniform("sampler2D", renderTargets[0].depthTexture)
+  const uniform = Uniform("sampler2D", renderTarget.depthTexture)
 
   return Float(
     ReadPerspectiveDepth(xy, uniform, CameraNear, CameraFar),
@@ -169,7 +163,7 @@ export const SceneDepth = (xy: Input<"vec2">, resolution = 0.5) => {
       name: "Scene Depth",
 
       update: (dt, camera, scene, gl) => {
-        const renderTarget = renderTargets[cursor]
+        // const renderTarget = renderTargets[cursor]
 
         /* Update rendertarget size if necessary */
         const width = gl.domElement.width * gl.getPixelRatio() * resolution
@@ -186,13 +180,12 @@ export const SceneDepth = (xy: Input<"vec2">, resolution = 0.5) => {
         gl.setRenderTarget(null)
 
         /* Cycle render targets */
-        uniform.value = renderTargets[cursor].depthTexture
+        // uniform.value = renderTargets[cursor].depthTexture
         cursor = (cursor + 1) % 2
       },
 
       dispose: () => {
-        renderTargets[0].dispose()
-        renderTargets[1].dispose()
+        renderTarget.dispose()
       }
     }
   )
