@@ -1,3 +1,4 @@
+import { Camera } from "@react-three/fiber"
 import {
   $,
   compileShader,
@@ -7,7 +8,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, Scene, WebGLRenderer } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
@@ -34,7 +35,12 @@ export class VFXMaterial extends CustomShaderMaterial {
   /**
    * The per-frame update function returned by compileShader.
    */
-  private shaderUpdate?: (dt: number) => void
+  private shaderUpdate?: (
+    dt: number,
+    camera: Camera,
+    scene: Scene,
+    renderer: WebGLRenderer
+  ) => void
 
   /**
    * The Shader Composer root node for this material.
@@ -77,7 +83,7 @@ export class VFXMaterial extends CustomShaderMaterial {
     this.shaderUpdate = update
   }
 
-  tick(dt: number) {
-    this.shaderUpdate?.(dt)
+  tick(dt: number, camera: Camera, scene: Scene, renderer: WebGLRenderer) {
+    this.shaderUpdate?.(dt, camera, scene, renderer)
   }
 }

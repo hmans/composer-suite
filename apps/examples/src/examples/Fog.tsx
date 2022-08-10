@@ -6,18 +6,11 @@ import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { RenderContext, SoftParticles } from "./lib/softies"
+import { SoftParticles } from "./lib/softies"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
-
-  /* TODO: extract this into sc-r3f? */
-  const { gl, scene, camera } = useThree()
-  const renderContext = useMemo(() => RenderContext(gl, scene, camera), [
-    scene,
-    camera
-  ])
 
   const [{ time, velocity, rotation, scale }] = useState(() => ({
     time: Time(),
@@ -48,8 +41,7 @@ export const Fog = () => {
           <VFX.Billboard />
           <VFX.Module
             module={SoftParticles({
-              softness: 10,
-              renderContext
+              softness: 10
             })}
           />
         </VFXMaterial>

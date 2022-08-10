@@ -42,7 +42,7 @@ export const Stress = () => {
         <Effect.Emitter
           count={100_000 / FREQ}
           setup={({ position, rotation }) => {
-            const t = variables.time.uniform.value
+            const t = variables.time.value
             const { lifetime, velocity, color } = variables
 
             /* Randomize the instance transform */

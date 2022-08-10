@@ -55,7 +55,7 @@ export const Bubbles = () => {
           <Emitter
             count={between(20, 50)}
             setup={({ position }) => {
-              const t = time.uniform.value
+              const t = time.value
               position.set(plusMinus(10), -5, plusMinus(10))
               lifetime.value.set(t, t + between(2, 5))
               velocity.value.set(plusMinus(2), between(0, 2), plusMinus(2))
