@@ -4,8 +4,10 @@ import {
   Float,
   glslType,
   Input,
+  InstanceMatrix,
   Snippet,
-  Vec3
+  Vec3,
+  ViewMatrix
 } from "shader-composer"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
@@ -98,7 +100,7 @@ export const billboard = Snippet(
 )
 
 export const Billboard = (position: Input<"vec3">) =>
-  Vec3($`${billboard}(${position}.xy, viewMatrix * instanceMatrix)`)
+  Vec3($`${billboard}(${position}.xy, ${ViewMatrix} * ${InstanceMatrix})`)
 
 export const Random = (n: Input<"float">) =>
   Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })
