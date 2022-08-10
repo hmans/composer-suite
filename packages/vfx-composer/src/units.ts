@@ -1,8 +1,6 @@
 import {
   $,
   Attribute,
-  CameraFar,
-  CameraNear,
   Div,
   Float,
   glslType,
@@ -10,24 +8,15 @@ import {
   InstanceMatrix,
   LocalToViewSpace,
   pipe,
-  ReadPerspectiveDepth,
   Saturate,
+  SceneDepth,
   ScreenUV,
   Snippet,
   Sub,
-  Uniform,
   Vec3,
   ViewMatrix
 } from "shader-composer"
-import {
-  Color,
-  DepthTexture,
-  InstancedMesh,
-  Vector2,
-  Vector3,
-  Vector4,
-  WebGLRenderTarget
-} from "three"
+import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
 import { makeAttribute } from "./util/makeAttribute"
 
@@ -141,52 +130,5 @@ export const SoftParticle = (
     ),
 
     { name: "Soft Particle" }
-  )
-}
-
-export const SceneDepth = (xy: Input<"vec2">, resolution = 0.5) => {
-  const width = 256
-  const height = 256
-
-  const renderTarget = new WebGLRenderTarget(width, height, {
-    depthTexture: new DepthTexture(width, height)
-  })
-
-  let cursor = 0
-
-  const uniform = Uniform("sampler2D", renderTarget.depthTexture)
-
-  return Float(
-    ReadPerspectiveDepth(xy, uniform, CameraNear, CameraFar),
-
-    {
-      name: "Scene Depth",
-
-      update: (dt, camera, scene, gl) => {
-        // const renderTarget = renderTargets[cursor]
-
-        /* Update rendertarget size if necessary */
-        const width = gl.domElement.width * gl.getPixelRatio() * resolution
-        const height = gl.domElement.height * gl.getPixelRatio() * resolution
-
-        if (renderTarget.width !== width || renderTarget.height !== height) {
-          renderTarget.setSize(width, height)
-        }
-
-        /* Render depth texture */
-        gl.setRenderTarget(renderTarget)
-        gl.clear()
-        gl.render(scene, camera)
-        gl.setRenderTarget(null)
-
-        /* Cycle render targets */
-        // uniform.value = renderTargets[cursor].depthTexture
-        cursor = (cursor + 1) % 2
-      },
-
-      dispose: () => {
-        renderTarget.dispose()
-      }
-    }
   )
 }
