@@ -1,3 +1,4 @@
+import { SceneDepthTexture } from "shader-composer-toybox"
 import { MeshStandardMaterial } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 
@@ -13,7 +14,7 @@ export const SoftParticlesExample = () => {
         depthWrite={false}
       >
         <VFX.Billboard />
-        <VFX.SoftParticles softness={3} />
+        <VFX.SoftParticles softness={3} depthTexture={SceneDepthTexture()} />
       </VFXMaterial>
 
       <Emitter />
