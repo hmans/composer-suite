@@ -7,7 +7,7 @@ import {
   RenderPass,
   SelectiveBloomEffect
 } from "postprocessing"
-import { useLayoutEffect, useMemo } from "react"
+import { useEffect, useLayoutEffect, useMemo } from "react"
 import { HalfFloatType } from "three"
 
 const usePass = (
@@ -23,7 +23,7 @@ const usePass = (
 }
 
 export const PostProcessing = () => {
-  const { gl, scene, camera } = useThree()
+  const { gl, scene, camera, size } = useThree()
 
   const composer = useMemo(
     () => new EffectComposer(gl, { frameBufferType: HalfFloatType }),
@@ -48,6 +48,10 @@ export const PostProcessing = () => {
     bloomEffect,
     camera
   ])
+
+  useEffect(() => {
+    composer.setSize(size.width, size.height)
+  }, [composer, size.width, size.height])
 
   useFrame(() => {
     composer.render()
