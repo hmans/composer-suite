@@ -1,7 +1,5 @@
-import { Mul } from "shader-composer"
 import { MeshStandardMaterial } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
-import { SoftParticle } from "./lib/softies"
 
 export const SoftParticlesExample = () => {
   return (
@@ -15,12 +13,7 @@ export const SoftParticlesExample = () => {
         depthWrite={false}
       >
         <VFX.Billboard />
-        <VFX.Module
-          module={(state) => ({
-            ...state,
-            alpha: Mul(state.alpha, SoftParticle(3, state.position))
-          })}
-        />
+        <VFX.SoftParticles softness={3} />
       </VFXMaterial>
 
       <Emitter />

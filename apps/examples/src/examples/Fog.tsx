@@ -1,12 +1,10 @@
 import { useTexture } from "@react-three/drei"
-import { useThree } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { SoftParticles } from "./lib/softies"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
@@ -39,11 +37,7 @@ export const Fog = () => {
           <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <VFX.Scale scale={scale} />
           <VFX.Billboard />
-          <VFX.Module
-            module={SoftParticles({
-              softness: 10
-            })}
-          />
+          <VFX.SoftParticles softness={10} />
         </VFXMaterial>
 
         <Emitter

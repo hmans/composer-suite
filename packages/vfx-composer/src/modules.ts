@@ -12,7 +12,7 @@ import {
   Sub,
   Vec3
 } from "shader-composer"
-import { Billboard as BillboardUnit } from "./units"
+import { Billboard as BillboardUnit, SoftParticle } from "./units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -109,6 +109,13 @@ export const Acceleration = ({ force, time }: AccelerationProps) =>
 export const Billboard: ModuleFactory = () => (state) => ({
   ...state,
   position: BillboardUnit(state.position)
+})
+
+export const SoftParticles: ModuleFactory<{
+  softness: Input<"float">
+}> = ({ softness }) => (state) => ({
+  ...state,
+  alpha: Mul(state.alpha, SoftParticle(softness, state.position))
 })
 
 /* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */

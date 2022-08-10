@@ -1,11 +1,18 @@
 import {
   $,
   Attribute,
+  Div,
   Float,
   glslType,
   Input,
   InstanceMatrix,
+  LocalToViewSpace,
+  pipe,
+  Saturate,
+  SceneDepth,
+  ScreenUV,
   Snippet,
+  Sub,
   Vec3,
   ViewMatrix
 } from "shader-composer"
@@ -104,3 +111,24 @@ export const Billboard = (position: Input<"vec3">) =>
 
 export const Random = (n: Input<"float">) =>
   Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })
+
+export const SoftParticle = (
+  softness: Input<"float">,
+  position: Input<"vec3">
+) => {
+  return Float(
+    pipe(
+      position,
+      /* Convert position to view space and grab depth */
+      (v) => LocalToViewSpace(v).z,
+      /* Subtract from the existing scene depth at the fragment coordinate */
+      (v) => Sub(v, SceneDepth(ScreenUV)),
+      /* Divide by softness factor */
+      (v) => Div(v, softness),
+      /* Clamp between 0 and 1 */
+      (v) => Saturate(v)
+    ),
+
+    { name: "Soft Particle" }
+  )
+}
