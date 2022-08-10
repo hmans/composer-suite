@@ -61,8 +61,8 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
-    "shader-composer": "0.2.1",
-    "shader-composer-r3f": "0.1.1",
+    "shader-composer": "0.3.0-canary-20220810115525",
+    "shader-composer-r3f": "0.2.0-canary-20220810115525",
     "three-custom-shader-material": "^4.0.0"
   },
   "peerDependencies": {
