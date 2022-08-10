@@ -51,7 +51,7 @@ export const PostProcessing = () => {
 
   useEffect(() => {
     composer.setSize(size.width, size.height)
-  }, [composer, size.width, size.height])
+  }, [composer, size])
 
   useFrame(() => {
     composer.render()
