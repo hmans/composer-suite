@@ -1965,6 +1965,29 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
+"@react-three/drei@^9.16.0":
+  version "9.22.4"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.4.tgz#80ff894f24eaf8bed4b05216379ff63f553e2b42"
+  integrity sha512-C5/IUGTTwkEqrZ2JrNvwBpVdhLppcv2u5TrL7fIbepVJxPcgKqIet3u77weilS99d2lzfH7zaPYhX7EXq9UvxA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@react-spring/three" "^9.3.1"
+    "@use-gesture/react" "^10.2.0"
+    detect-gpu "^4.0.19"
+    glsl-noise "^0.0.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    meshline "^2.0.4"
+    react-composer "^5.0.3"
+    react-merge-refs "^1.1.0"
+    stats.js "^0.17.0"
+    suspend-react "^0.0.8"
+    three-mesh-bvh "^0.5.10"
+    three-stdlib "^2.13.0"
+    troika-three-text "^0.46.4"
+    utility-types "^3.10.0"
+    zustand "^3.5.13"
+
 "@react-three/drei@^9.19.7":
   version "9.19.7"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.19.7.tgz#0b57fa817112d22963941e5a3df68c0f39c094b1"
@@ -2722,13 +2745,6 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
-
-brace-expansion@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.1.tgz#1edc459e0f0c548486ecf9fc99f2221364b9a0ae"
-  integrity sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==
-  dependencies:
-    balanced-match "^1.0.0"
 
 braces@^2.3.1:
   version "2.3.2"
@@ -5087,11 +5103,6 @@ json5@^2.2.1:
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.1.tgz#655d50ed1e6f95ad1a3caababd2b0efda10b395c"
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
 
-jsonc-parser@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/jsonc-parser/-/jsonc-parser-3.1.0.tgz#73b8f0e5c940b83d03476bc2e51a20ef0932615d"
-  integrity sha512-DRf0QjnNeCUds3xTjKlQQ3DpJD51GvDjJfnxUVWg6PZTo2otSm+slzNAxU/35hF8/oJIKoG9slq30JYOsF2azg==
-
 jsonfile@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
@@ -5154,7 +5165,7 @@ ktx-parse@^0.2.1:
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.2.2.tgz#b037b66044855215b332cb73104590af49e47791"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
-leva@^0.9.30:
+leva@^0.9.28, leva@^0.9.30:
   version "0.9.30"
   resolved "https://registry.yarnpkg.com/leva/-/leva-0.9.30.tgz#65805865721f2f4be7c7fb6f03bf5bea7e9db6ba"
   integrity sha512-sAf+kYaiyLIYyNyxVwq7V9A+xFuzbHc34uN7wLz7UTxGh5zxiEKVJ2K8k1zC42N3PEt2cOg0NgwlYa+NITdDHw==
@@ -5276,11 +5287,6 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lunr@^2.3.9:
-  version "2.3.9"
-  resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.9.tgz#18b123142832337dd6e964df1a5a7707b25d35e1"
-  integrity sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
-
 lz-string@^1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
@@ -5340,11 +5346,6 @@ map-visit@^1.0.0:
   integrity sha512-4y7uGv8bd2WdM9vpQsiQNo41Ln1NvhvDRuVt0k2JZQ+ezN2uaQes7lZeZ+QQUHOLQAtDaBJ+7wCbi+ab/KFs+w==
   dependencies:
     object-visit "^1.0.0"
-
-marked@^4.0.18:
-  version "4.0.18"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.18.tgz#cd0ac54b2e5610cfb90e8fd46ccaa8292c9ed569"
-  integrity sha512-wbLDJ7Zh0sqA0Vdg6aqlbT+yPxqLblpAZh1mK2+AO2twQkPywvvqQNfEPVwSSRjZ7dZcdeVBIAgiO7MMp3Dszw==
 
 meow@^6.0.0:
   version "6.1.1"
@@ -5465,13 +5466,6 @@ minimatch@^3.0.4, minimatch@^3.1.1:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
-
-minimatch@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.1.0.tgz#1717b464f4971b144f6aabe8f2d0b8e4511e09c7"
-  integrity sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==
-  dependencies:
-    brace-expansion "^2.0.1"
 
 minimist-options@4.1.0, minimist-options@^4.0.2:
   version "4.1.0"
@@ -5886,7 +5880,7 @@ postcss@^8.4.14:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.28.5:
+postprocessing@^6.28.1:
   version "6.28.5"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.5.tgz#82363194d366f606cf0f25e32028fd46debca919"
   integrity sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==
@@ -6003,6 +5997,16 @@ r3f-perf@^6.4.2:
     "@radix-ui/react-icons" "^1.0.3"
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
+
+r3f-stage@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.1.2.tgz#a1bdc110e04f30f5139dbac5e8cc850681c18047"
+  integrity sha512-hIV1k+llzZUPRoJ7lXd8bB8nrOJ+OrFMx1pcw8LcbNd5d/+9N7qnXgQkK13vZfJ/7xDZ3Xt39/j3jJpJxMrFzQ==
+  dependencies:
+    "@react-three/drei" "^9.16.0"
+    leva "^0.9.28"
+    postprocessing "^6.28.1"
+    r3f-perf "^6.4.2"
 
 randomish@^0.1.4:
   version "0.1.4"
@@ -6443,15 +6447,6 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
-
-shiki@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.10.1.tgz#6f9a16205a823b56c072d0f1a0bcd0f2646bef14"
-  integrity sha512-VsY7QJVzU51j5o1+DguUd+6vmCmZ5v/6gYu4vyYAhzjuNQU6P/vmSy4uQaOhvje031qQMiW0d2BwgMH52vqMng==
-  dependencies:
-    jsonc-parser "^3.0.0"
-    vscode-oniguruma "^1.6.1"
-    vscode-textmate "5.2.0"
 
 side-channel@^1.0.4:
   version "1.0.4"
@@ -7022,16 +7017,6 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
-typedoc@^0.23.10:
-  version "0.23.10"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.23.10.tgz#285d595a5f2e35ccdf6f38eba4dfe951d5bff461"
-  integrity sha512-03EUiu/ZuScUBMnY6p0lY+HTH8SwhzvRE3gImoemdPDWXPXlks83UGTx++lyquWeB1MTwm9D9Ca8RIjkK3AFfQ==
-  dependencies:
-    lunr "^2.3.9"
-    marked "^4.0.18"
-    minimatch "^5.1.0"
-    shiki "^0.10.1"
-
 typescript@^4.7.3:
   version "4.7.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.4.tgz#1a88596d1cf47d59507a1bcdfb5b9dfe4d488235"
@@ -7173,16 +7158,6 @@ vite@^3.0.4:
     rollup "^2.75.6"
   optionalDependencies:
     fsevents "~2.3.2"
-
-vscode-oniguruma@^1.6.1:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-1.6.2.tgz#aeb9771a2f1dbfc9083c8a7fdd9cccaa3f386607"
-  integrity sha512-KH8+KKov5eS/9WhofZR8M8dMHWN2gTxjMsG4jd04YhpbPR91fUj7rYQ2/XjeHCJWbg7X++ApRIU9NUwM2vTvLA==
-
-vscode-textmate@5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-5.2.0.tgz#01f01760a391e8222fe4f33fbccbd1ad71aed74e"
-  integrity sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
