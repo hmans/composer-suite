@@ -1,37 +1,14 @@
 import { button, useControls } from "leva"
 import { Perf } from "r3f-perf"
-import { R3FStage } from "r3f-stage"
 import { FC, Suspense, useState } from "react"
 import { Repeat } from "timeline-composer"
 import { Route, useRoute } from "wouter"
 import examples, { ExampleDefinition } from "./examples"
 
 import "r3f-stage/styles.css"
+import { Application } from "r3f-stage"
 
-export const Game = () => (
-  <R3FStage
-    footer={
-      <a href="https://github.com/hmans/three-vfx" target="_blank">
-        github.com/hmans/three-vfx
-      </a>
-    }
-  >
-    <Route path="/:path">
-      <Suspense>
-        <ExampleMatcher />
-      </Suspense>
-    </Route>
-
-    <Perf position="bottom-right" deepAnalyze />
-  </R3FStage>
-)
-
-const ExampleMatcher = () => {
-  const [match, params] = useRoute("/:path")
-  const example = match && (examples.find((e) => e.path == params!.path) as any)
-
-  return example?.component && <Example example={example} />
-}
+export const Game = () => <Application></Application>
 
 const Example: FC<{ example: ExampleDefinition }> = ({ example }) => {
   const [v, setV] = useState(Math.random())

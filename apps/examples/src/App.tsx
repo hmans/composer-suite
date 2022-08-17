@@ -1,13 +1,4 @@
-import { Redirect, Route } from "wouter"
-import { Game } from "./Game"
-import { Navigation } from "./Navigation"
+import { Application } from "r3f-stage"
+import "r3f-stage/styles.css"
 
-export default () => (
-  <>
-    <Navigation />
-    <Game />
-    <Route path="/">
-      <Redirect to="/fog" />
-    </Route>
-  </>
-)
+export default () => <Application></Application>
