@@ -1976,10 +1976,33 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-three/drei@^9.21.0", "@react-three/drei@^9.22.6":
+"@react-three/drei@^9.22.6":
   version "9.22.6"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.6.tgz#0a521516ce8f8b886a20144a36758426c42b1e1b"
   integrity sha512-nw5/WwnZi3TEJrG7sbBGUGBCVQRADXaKlevveWf8F+++/qmwelX5MFJ0b4LJl7wOxdIzsdOC9kHQ/qJBnT8ZXA==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@react-spring/three" "^9.3.1"
+    "@use-gesture/react" "^10.2.0"
+    detect-gpu "^4.0.19"
+    glsl-noise "^0.0.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    meshline "^2.0.4"
+    react-composer "^5.0.3"
+    react-merge-refs "^1.1.0"
+    stats.js "^0.17.0"
+    suspend-react "^0.0.8"
+    three-mesh-bvh "^0.5.10"
+    three-stdlib "^2.13.0"
+    troika-three-text "^0.46.4"
+    utility-types "^3.10.0"
+    zustand "^3.5.13"
+
+"@react-three/drei@^9.22.7":
+  version "9.22.7"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.7.tgz#b283116a091286e3ee1dbebd40a93949767930af"
+  integrity sha512-LCjdSo7iaVcZcYuCQcUQxkbGMxO7o4Pnt+5q0sDGui9VYHjCR+33D29ZdAUf7zBsfu7lWMSk7+rPwhzC9cSeAQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -5977,15 +6000,6 @@ quick-lru@^5.1.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-r3f-perf@^6.4.2:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/r3f-perf/-/r3f-perf-6.4.2.tgz#bc04d4f0bb6a318bee2fce21382a6ad5f8f1b43b"
-  integrity sha512-DUsNOZhEiqpnyceVD/oCB65nwzS/jN43AAEQWxAt/ijZWKuQLa8Hi/uDHGCdUfZ/mfFVFRmvuPsFJrZZPV6aEg==
-  dependencies:
-    "@radix-ui/react-icons" "^1.0.3"
-    "@stitches/react" "^1.2.6"
-    zustand "^3.7.1"
-
 r3f-perf@^6.4.4:
   version "6.4.4"
   resolved "https://registry.yarnpkg.com/r3f-perf/-/r3f-perf-6.4.4.tgz#8c76a67717b28306f3040869825e4b404bf653fd"
@@ -5995,18 +6009,17 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.2.6.tgz#9d6f2d6bbac3259f70f52e542b0258df0afa33e6"
-  integrity sha512-zw0iziQV2ZVbej+mlhRhT25cydU+C5lGiNGUEhUYFOGQtNng2qcn32LhRIgnzMlVAL9t0kLRJ1cUXD36yCPXXQ==
+r3f-stage@^0.3.0-next.0:
+  version "0.3.0-next.0"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.0.tgz#5e89648c8a889faa80919839633209198124d03f"
+  integrity sha512-Be8UEFCNyLirkM5pS6l51QdnUY8G7QW+JWA9EnG3OtbBY5HytuSQ7f08KhvnC8biOezncQwZIbMZ0wZVg9U60Q==
   dependencies:
-    "@react-three/drei" "^9.21.0"
+    "@react-three/drei" "^9.22.7"
     "@react-three/fiber" "^8.3.1"
     leva "^0.9.30"
     postprocessing "^6.28.5"
-    r3f-perf "^6.4.2"
-    react "^18.2.0"
-    react-dom "^18.2.0"
+    r3f-perf "^6.4.4"
+    statery "^0.5.4"
     three ">=0.143.0"
     wouter "^2.8.0-alpha.2"
 
@@ -6037,7 +6050,7 @@ react-composer@^5.0.3:
   dependencies:
     prop-types "^15.6.0"
 
-react-dom@^18.1.0, react-dom@^18.2.0:
+react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -6094,7 +6107,7 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react@^18.1.0, react@^18.2.0:
+react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -6633,6 +6646,11 @@ stack-utils@^2.0.3:
   dependencies:
     escape-string-regexp "^2.0.0"
 
+statery@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/statery/-/statery-0.5.4.tgz#a48fcb68e2e99aa769a65c638094ea8ac774fc44"
+  integrity sha512-AqOOGAVqz7kFBeA+EHzrj9rlv7jW3Sy0fqnxz4BImXqslU5cyv6b8ds8FCumGaUDdTWN5tdxmBLhuX+4jrZMzw==
+
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
@@ -6813,6 +6831,16 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
+three-custom-shader-material@^3.4.4:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-3.5.3.tgz#00b4bc0d5664560a6d3e409cbe24d033697b5952"
+  integrity sha512-AkCYGwmEhSLKR876m3xM8eZzwovQKOgIk79gG27tZevvC/d8sbeC1CbKxjWXEgZ+eLLdLrn4rnPAsLtaxSh08g==
+  dependencies:
+    glsl-token-functions "^1.0.1"
+    glsl-token-string "^1.0.1"
+    glsl-tokenizer "^2.1.5"
+    object-hash "^3.0.0"
+
 three-custom-shader-material@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-4.0.0.tgz#d4f1abab7199caf110c0a94aa0df8f3cccb8a1f5"
@@ -6843,6 +6871,14 @@ three-stdlib@^2.13.0:
     opentype.js "^1.3.3"
     potpack "^1.0.1"
     zstddec "^0.0.2"
+
+three-vfx@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/three-vfx/-/three-vfx-0.2.1.tgz#f26e1cc57797d44356c9e2695e6f2e8c1ecd9efb"
+  integrity sha512-MT+c8uFOYxfaOlJtX5yfGZv5WplDPWhDp748QjjnWtU6HcemDZdha/7kqCUtuRbbjtHi3OInJE7CKp0I4g7bDA==
+  dependencies:
+    react-merge-refs "^1.1.0"
+    three-custom-shader-material "^3.4.4"
 
 three@>=0.143.0, three@^0.143.0:
   version "0.143.0"
