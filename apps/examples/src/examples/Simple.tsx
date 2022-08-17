@@ -8,7 +8,7 @@ import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
 
-export const Simple = () => {
+export default function Simple() {
   const texture = useTexture(particleUrl)
 
   const [variables] = useState(() => ({
@@ -25,7 +25,7 @@ export const Simple = () => {
   return (
     <group>
       <Particles maxParticles={1000} safetyBuffer={1_000}>
-        <planeGeometry />
+        <planeGeometry args={[0.2, 0.2]} />
 
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
@@ -45,9 +45,9 @@ export const Simple = () => {
             const t = variables.time.uniform.value
             variables.lifetime.value.set(t, t + between(1, 3))
             variables.velocity.value.set(
-              plusMinus(2),
-              between(2, 4),
-              plusMinus(2)
+              plusMinus(1),
+              between(1, 2),
+              plusMinus(1)
             )
           }}
         />
