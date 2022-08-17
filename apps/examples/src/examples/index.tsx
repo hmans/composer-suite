@@ -1,7 +1,6 @@
-import { Examples } from "r3f-stage"
 import { lazy } from "react"
 
-const examples: Examples = {
+const examples = {
   simple: { title: "Simple", Example: lazy(() => import("./Simple")) }
   // { path: "vanilla", name: "Vanilla", component: <Vanilla /> },
   // { path: "stress", name: "Stress", component: <Stress /> },

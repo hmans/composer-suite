@@ -10,19 +10,10 @@
   "dependencies": {
     "@react-three/drei": "^9.22.7",
     "@react-three/fiber": "^8.3.1",
-    "leva": "^0.9.30",
-    "r3f-perf": "^6.4.4",
     "r3f-stage": "0.3.0-next.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "shader-composer": "0.2.1",
-    "shader-composer-r3f": "0.1.1",
-    "shader-composer-toybox": "^0.0.9",
-    "three": "^0.143.0",
-    "three-custom-shader-material": "^4.0.0",
-    "timeline-composer": "^0.1.5",
-    "vfx-composer": "^0.2.0-next.2",
-    "wouter": "^2.8.0-alpha.2"
+    "three": "^0.143.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",

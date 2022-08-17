@@ -6399,11 +6399,6 @@ shader-composer-r3f@0.1.1:
   resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.1.1.tgz#b362683788ef302ffef99f1a7fe69b340a7830d0"
   integrity sha512-nU05WShlnLA0//rcK0TG1+TyAVT7RGJdelA9ao+G6eojLVX75TrKn/+/9JQlVPXGXKKAtL/SLJZt11s3EmQRiw==
 
-shader-composer-toybox@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.9.tgz#9b1b6770db651b48385c7f528905ff65341d3205"
-  integrity sha512-LAMzTZTGkcCtP5SvDihH1UZMBRVkZGc3UlWQnesa1sMpSGWV47z0D4mUeiybSYFz8dDmIJA3QeykGJuCaUAWnA==
-
 shader-composer@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.2.1.tgz#70ee32538b2ca2fc03bb9450991c558ec7816592"
@@ -6839,11 +6834,6 @@ through2@^0.6.3:
   dependencies:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
-
-timeline-composer@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/timeline-composer/-/timeline-composer-0.1.5.tgz#37708e9e262986bbe6ca7d7f511d645a8c7ea7bd"
-  integrity sha512-FQ1CHUbfv/lxAVrfS9+AE0nXUlW4wPaRXN2MBb3i5wKiHSbTxFJz5MsVScxcUiehcbb5X9XEAq+EAupHOuYYAQ==
 
 tiny-inflate@^1.0.3:
   version "1.0.3"

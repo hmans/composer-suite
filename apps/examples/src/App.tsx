@@ -4,11 +4,8 @@ import Simple from "./examples/Simple"
 
 export default () => (
   <Application>
-    <Example path="simple">
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="white" />
-      </mesh>
-    </Example>
+    {/* <Example path="simple">
+      <Simple />
+    </Example> */}
   </Application>
 )
