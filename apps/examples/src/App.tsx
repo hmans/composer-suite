@@ -4,8 +4,6 @@ import Simple from "./examples/Simple"
 
 export default () => (
   <Application>
-    {/* <Example path="simple">
-      <Simple />
-    </Example> */}
+    <Example path="simple">{/* <Simple /> */}</Example>
   </Application>
 )
