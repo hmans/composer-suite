@@ -1976,30 +1976,7 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-three/drei@^9.16.0":
-  version "9.22.4"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.4.tgz#80ff894f24eaf8bed4b05216379ff63f553e2b42"
-  integrity sha512-C5/IUGTTwkEqrZ2JrNvwBpVdhLppcv2u5TrL7fIbepVJxPcgKqIet3u77weilS99d2lzfH7zaPYhX7EXq9UvxA==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@react-spring/three" "^9.3.1"
-    "@use-gesture/react" "^10.2.0"
-    detect-gpu "^4.0.19"
-    glsl-noise "^0.0.0"
-    lodash.omit "^4.5.0"
-    lodash.pick "^4.4.0"
-    meshline "^2.0.4"
-    react-composer "^5.0.3"
-    react-merge-refs "^1.1.0"
-    stats.js "^0.17.0"
-    suspend-react "^0.0.8"
-    three-mesh-bvh "^0.5.10"
-    three-stdlib "^2.13.0"
-    troika-three-text "^0.46.4"
-    utility-types "^3.10.0"
-    zustand "^3.5.13"
-
-"@react-three/drei@^9.22.6":
+"@react-three/drei@^9.21.0", "@react-three/drei@^9.22.6":
   version "9.22.6"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.6.tgz#0a521516ce8f8b886a20144a36758426c42b1e1b"
   integrity sha512-nw5/WwnZi3TEJrG7sbBGUGBCVQRADXaKlevveWf8F+++/qmwelX5MFJ0b4LJl7wOxdIzsdOC9kHQ/qJBnT8ZXA==
@@ -5176,7 +5153,7 @@ ktx-parse@^0.2.1:
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.2.2.tgz#b037b66044855215b332cb73104590af49e47791"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
-leva@^0.9.28, leva@^0.9.30:
+leva@^0.9.30:
   version "0.9.30"
   resolved "https://registry.yarnpkg.com/leva/-/leva-0.9.30.tgz#65805865721f2f4be7c7fb6f03bf5bea7e9db6ba"
   integrity sha512-sAf+kYaiyLIYyNyxVwq7V9A+xFuzbHc34uN7wLz7UTxGh5zxiEKVJ2K8k1zC42N3PEt2cOg0NgwlYa+NITdDHw==
@@ -5891,7 +5868,7 @@ postcss@^8.4.16:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.28.1:
+postprocessing@^6.28.5:
   version "6.28.5"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.5.tgz#82363194d366f606cf0f25e32028fd46debca919"
   integrity sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==
@@ -6018,15 +5995,20 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.1.2.tgz#a1bdc110e04f30f5139dbac5e8cc850681c18047"
-  integrity sha512-hIV1k+llzZUPRoJ7lXd8bB8nrOJ+OrFMx1pcw8LcbNd5d/+9N7qnXgQkK13vZfJ/7xDZ3Xt39/j3jJpJxMrFzQ==
+r3f-stage@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.2.6.tgz#9d6f2d6bbac3259f70f52e542b0258df0afa33e6"
+  integrity sha512-zw0iziQV2ZVbej+mlhRhT25cydU+C5lGiNGUEhUYFOGQtNng2qcn32LhRIgnzMlVAL9t0kLRJ1cUXD36yCPXXQ==
   dependencies:
-    "@react-three/drei" "^9.16.0"
-    leva "^0.9.28"
-    postprocessing "^6.28.1"
+    "@react-three/drei" "^9.21.0"
+    "@react-three/fiber" "^8.3.1"
+    leva "^0.9.30"
+    postprocessing "^6.28.5"
     r3f-perf "^6.4.2"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    three ">=0.143.0"
+    wouter "^2.8.0-alpha.2"
 
 randomish@^0.1.4:
   version "0.1.4"
@@ -6055,7 +6037,7 @@ react-composer@^5.0.3:
   dependencies:
     prop-types "^15.6.0"
 
-react-dom@^18.1.0:
+react-dom@^18.1.0, react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -6112,7 +6094,7 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react@^18.1.0:
+react@^18.1.0, react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -6862,7 +6844,7 @@ three-stdlib@^2.13.0:
     potpack "^1.0.1"
     zstddec "^0.0.2"
 
-three@^0.143.0:
+three@>=0.143.0, three@^0.143.0:
   version "0.143.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.143.0.tgz#1455bca132cc2b20beb7f41d313e10c29e5ed9df"
   integrity sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==
