@@ -42,7 +42,7 @@ export default function Simple() {
         <Emitter
           continuous
           setup={() => {
-            const t = variables.time.uniform.value
+            const t = variables.time.value
             variables.lifetime.value.set(t, t + between(1, 3))
             variables.velocity.value.set(
               plusMinus(1),
