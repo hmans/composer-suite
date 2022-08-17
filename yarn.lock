@@ -5977,10 +5977,10 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.3.0-next.7:
-  version "0.3.0-next.7"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.7.tgz#a863ba41d2a1a82cb0a8328cff9b7a2b219c162d"
-  integrity sha512-1XF2CEdV9C7W4IJ7tdRaMs8BGYjV/CPAW1Xv1+kUgksjr8lyY/4oEJhW/fTbdMkL3wiH93wfatzo0s4fWOt3Tw==
+r3f-stage@^0.3.0-next.8:
+  version "0.3.0-next.8"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.8.tgz#1ded25da34585f31de8497e2d94101c25593035a"
+  integrity sha512-cIcbO/ZPxmAKAnOqiqHqWu6Hecec4cOrCMwWImBM/0BvMLhs0HqTgdSp8qzmt46bHg3pBMk/0MP7yKMc8uOodw==
   dependencies:
     "@react-three/drei" "^9.22.7"
     "@react-three/fiber" "^8.3.1"
