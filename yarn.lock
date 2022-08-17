@@ -5977,16 +5977,19 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@0.3.0-next.1:
-  version "0.3.0-next.1"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.1.tgz#5a6a705c223fd53b99bc7c6dcb1c804f2a3d9a02"
-  integrity sha512-k86aDEqNbPcaqjhwJb8dlESfT80LieLqx+PsZ/m7PHChBSyyUf3yWzLBY99qAb3YnkAasIHNucKPQVEJBeW+Qw==
+r3f-stage@^0.3.0-next.7:
+  version "0.3.0-next.7"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.7.tgz#a863ba41d2a1a82cb0a8328cff9b7a2b219c162d"
+  integrity sha512-1XF2CEdV9C7W4IJ7tdRaMs8BGYjV/CPAW1Xv1+kUgksjr8lyY/4oEJhW/fTbdMkL3wiH93wfatzo0s4fWOt3Tw==
   dependencies:
+    "@react-three/drei" "^9.22.7"
+    "@react-three/fiber" "^8.3.1"
     leva "^0.9.30"
     postprocessing "^6.28.5"
     r3f-perf "^6.4.4"
-    statery "^0.5.4"
+    three ">=0.143.0"
     wouter "^2.8.0-alpha.2"
+    zustand "^3.6.9"
 
 randomish@^0.1.4:
   version "0.1.4"
@@ -6394,15 +6397,18 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-shader-composer-r3f@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.1.1.tgz#b362683788ef302ffef99f1a7fe69b340a7830d0"
-  integrity sha512-nU05WShlnLA0//rcK0TG1+TyAVT7RGJdelA9ao+G6eojLVX75TrKn/+/9JQlVPXGXKKAtL/SLJZt11s3EmQRiw==
+shader-composer-r3f@^0.2.0-next.0:
+  version "0.2.0-next.0"
+  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.2.0-next.0.tgz#f4b346d2f95adc0855a1be6e201f6ede0000ca10"
+  integrity sha512-5qMsPVMzyV/d55A6b0dHp0GXgcpl77md8HGuwzzPY1ioYeNX3PQIOywsnJAr/OLm2k8k0ysTxs7SRnXsY2qsNQ==
+  dependencies:
+    shader-composer "^0.3.0-next.0"
+    three-custom-shader-material "^4.0.0"
 
-shader-composer@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.2.1.tgz#70ee32538b2ca2fc03bb9450991c558ec7816592"
-  integrity sha512-3/sEQ5vY/D/Q7GMLgrQkl/KNJtixY/MPmJEl8vsHfM13provgXmmkh2tNGlxPTNBRJzXSi91d6Qn06ZI808Sog==
+shader-composer@^0.3.0-next.0:
+  version "0.3.0-next.0"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-next.0.tgz#7236115fa3b58ee20809e31a7796061b8b447c6f"
+  integrity sha512-q13clS32yAzHvNxlcZBsfTGxbeK7ZLWy4I6MqMp3B+dZPUz6jvv+U1nyRb3QoNBbtfaCTeU0Qj9TeZSsUbZoKQ==
   dependencies:
     fp-ts "^2.12.1"
 
@@ -6605,11 +6611,6 @@ stack-utils@^2.0.3:
   integrity sha512-xrQcmYhOsn/1kX+Vraq+7j4oE2j/6BFscZ0etmYg81xuM8Gq0022Pxb8+IqgOFUIaxHs0KaSb7T1+OegiNrNFA==
   dependencies:
     escape-string-regexp "^2.0.0"
-
-statery@^0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/statery/-/statery-0.5.4.tgz#a48fcb68e2e99aa769a65c638094ea8ac774fc44"
-  integrity sha512-AqOOGAVqz7kFBeA+EHzrj9rlv7jW3Sy0fqnxz4BImXqslU5cyv6b8ds8FCumGaUDdTWN5tdxmBLhuX+4jrZMzw==
 
 static-extend@^0.1.1:
   version "0.1.2"
@@ -6822,7 +6823,7 @@ three-stdlib@^2.13.0:
     potpack "^1.0.1"
     zstddec "^0.0.2"
 
-three@^0.143.0:
+three@>=0.143.0, three@^0.143.0:
   version "0.143.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.143.0.tgz#1455bca132cc2b20beb7f41d313e10c29e5ed9df"
   integrity sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==
@@ -7129,7 +7130,7 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-vite@^3.0.8:
+vite@^3.0.7:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/vite/-/vite-3.0.8.tgz#aa095ad8e3e5da46d9ec7e878f262678965d6531"
   integrity sha512-AOZ4eN7mrkJiOLuw8IA7piS4IdOQyQCA81GxGsAQvAZzMRi9ZwGB3TOaYsj4uLAWK46T5L4AfQ6InNGlxX30IQ==
