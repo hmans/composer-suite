@@ -2,13 +2,7 @@ import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
-import {
-  AdditiveBlending,
-  Color,
-  MeshStandardMaterial,
-  Vector2,
-  Vector3
-} from "three"
+import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
