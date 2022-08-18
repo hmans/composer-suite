@@ -6,6 +6,7 @@ import {
   Float,
   Unit,
   Vec3,
+  VertexNormal,
   VertexPosition
 } from "shader-composer"
 import { MeshStandardMaterial, Scene, WebGLRenderer } from "three"
@@ -63,12 +64,13 @@ export class VFXMaterial extends CustomShaderMaterial {
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,
+      normal: VertexNormal,
       color: Vec3($`csm_DiffuseColor.rgb`),
       alpha: Float($`csm_DiffuseColor.a`)
     }
 
     /* Transform state with given modules. */
-    const { position, color, alpha } = pipeModules(
+    const { position, normal, color, alpha } = pipeModules(
       initialState,
       ...(this._modules || [])
     )
@@ -77,6 +79,7 @@ export class VFXMaterial extends CustomShaderMaterial {
     always pick a CustomShaderMaterialMaster. */
     this.shaderRoot = CustomShaderMaterialMaster({
       position,
+      normal,
       diffuseColor: color,
       alpha
     })

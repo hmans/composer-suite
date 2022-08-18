@@ -17,6 +17,7 @@ import { Billboard as BillboardUnit, SoftParticle } from "./units"
 
 export type ModuleState = {
   position: Input<"vec3">
+  normal: Input<"vec3">
   color: Input<"vec3">
   alpha: Input<"float">
 }
