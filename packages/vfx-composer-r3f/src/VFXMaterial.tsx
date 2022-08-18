@@ -1,3 +1,4 @@
+import { useVersion } from "@hmans/use-version"
 import { extend, useFrame, useThree } from "@react-three/fiber"
 import React, {
   createContext,
@@ -11,7 +12,6 @@ import React, {
 import { iCSMProps } from "three-custom-shader-material"
 import { VFXMaterial as VFXMaterialImpl } from "vfx-composer"
 import { Module } from "vfx-composer/modules"
-import { useVersion } from "./util/useVersion"
 
 const Context = createContext<{
   addModule: (module: Module) => void
