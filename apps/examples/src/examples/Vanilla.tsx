@@ -68,13 +68,17 @@ const vanillaCode = (
   material.compileModules()
 
   /* Create mesh and add it to the scene. */
-  const particles = new Particles(new BoxGeometry(), material, 1000)
-  particles.position.set(10, 0, 0)
+  const particles = new Particles(
+    new BoxGeometry(0.2, 0.2, 0.2),
+    material,
+    1000
+  )
+  particles.position.set(2, 0, 0)
   parent.add(particles)
   particles.setupParticles()
 
-  const particles2 = new Particles(new SphereGeometry(), material, 1000)
-  particles2.position.set(-10, 0, 0)
+  const particles2 = new Particles(new SphereGeometry(0.2), material, 1000)
+  particles2.position.set(-2, 0, 0)
   parent.add(particles2)
   particles2.setupParticles()
 
@@ -91,21 +95,21 @@ const vanillaCode = (
     */
     particles.emit(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
-      position.randomDirection().multiplyScalar(upTo(4))
+      position.randomDirection().multiplyScalar(upTo(2))
       rotation.random()
 
       /* Write values into the instanced attributes */
       lifetime.value.set(t, t + between(1, 2))
-      velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
+      velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })
 
     particles2.emit(between(1, 5), ({ position, rotation }) => {
       /* Randomize the instance transform */
-      position.randomDirection().multiplyScalar(upTo(2))
+      position.randomDirection().multiplyScalar(upTo(0.5))
       rotation.random()
 
-      velocity.value.set(plusMinus(5), between(5, 6), plusMinus(5))
+      velocity.value.set(plusMinus(2), between(2, 4), plusMinus(2))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })
   })
