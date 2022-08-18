@@ -5977,17 +5977,16 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.3.0-next.8:
-  version "0.3.0-next.8"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.8.tgz#1ded25da34585f31de8497e2d94101c25593035a"
-  integrity sha512-cIcbO/ZPxmAKAnOqiqHqWu6Hecec4cOrCMwWImBM/0BvMLhs0HqTgdSp8qzmt46bHg3pBMk/0MP7yKMc8uOodw==
+r3f-stage@^0.3.0-next.9:
+  version "0.3.0-next.9"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.9.tgz#571cd712fddb76164b4959774f4795082da50ac9"
+  integrity sha512-LEpwVoqKOMyMy192kW9ZAc1lUb4dSGCbt20sBi8DyHhZDS3zL5au0Dc7ZJumwVXLG2jRLfE/7R7nSd4g78VO7A==
   dependencies:
     "@react-three/drei" "^9.22.7"
-    "@react-three/fiber" "^8.3.1"
     leva "^0.9.30"
     postprocessing "^6.28.5"
     r3f-perf "^6.4.4"
-    three ">=0.143.0"
+    render-composer "^0.1.4"
     wouter "^2.8.0-alpha.2"
     zustand "^3.6.9"
 
@@ -6212,6 +6211,11 @@ regjsparser@^0.8.2:
   integrity sha512-J3LABycON/VNEu3abOviqGHuB/LOtOQj8SKmfP9anY5GfAVw/SPjwzSjxGjbZXIxbGfqTHtJw58C2Li/WkStmA==
   dependencies:
     jsesc "~0.5.0"
+
+render-composer@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/render-composer/-/render-composer-0.1.4.tgz#16b42fc3d04093e1769da2ce88544290da838257"
+  integrity sha512-KUo09pGW0ahtqJ5xycaXRfAq5AfJym1jcL9A/xbZFAhKJQ0iv1aP1xx8XmN2i/5hkIWuquI0OAYu0vMY4thNtw==
 
 repeat-element@^1.1.2:
   version "1.1.4"
@@ -6823,7 +6827,7 @@ three-stdlib@^2.13.0:
     potpack "^1.0.1"
     zstddec "^0.0.2"
 
-three@>=0.143.0, three@^0.143.0:
+three@^0.143.0:
   version "0.143.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.143.0.tgz#1455bca132cc2b20beb7f41d313e10c29e5ed9df"
   integrity sha512-oKcAGYHhJ46TGEuHjodo2n6TY2R6lbvrkp+feKZxqsUL/WkH7GKKaeu6RHeyb2Xjfk2dPLRKLsOP0KM2VgT8Zg==
