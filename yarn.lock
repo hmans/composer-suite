@@ -1976,33 +1976,10 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-three/drei@^9.16.0":
-  version "9.22.4"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.4.tgz#80ff894f24eaf8bed4b05216379ff63f553e2b42"
-  integrity sha512-C5/IUGTTwkEqrZ2JrNvwBpVdhLppcv2u5TrL7fIbepVJxPcgKqIet3u77weilS99d2lzfH7zaPYhX7EXq9UvxA==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@react-spring/three" "^9.3.1"
-    "@use-gesture/react" "^10.2.0"
-    detect-gpu "^4.0.19"
-    glsl-noise "^0.0.0"
-    lodash.omit "^4.5.0"
-    lodash.pick "^4.4.0"
-    meshline "^2.0.4"
-    react-composer "^5.0.3"
-    react-merge-refs "^1.1.0"
-    stats.js "^0.17.0"
-    suspend-react "^0.0.8"
-    three-mesh-bvh "^0.5.10"
-    three-stdlib "^2.13.0"
-    troika-three-text "^0.46.4"
-    utility-types "^3.10.0"
-    zustand "^3.5.13"
-
-"@react-three/drei@^9.22.6":
-  version "9.22.6"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.6.tgz#0a521516ce8f8b886a20144a36758426c42b1e1b"
-  integrity sha512-nw5/WwnZi3TEJrG7sbBGUGBCVQRADXaKlevveWf8F+++/qmwelX5MFJ0b4LJl7wOxdIzsdOC9kHQ/qJBnT8ZXA==
+"@react-three/drei@^9.22.7":
+  version "9.22.7"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.7.tgz#b283116a091286e3ee1dbebd40a93949767930af"
+  integrity sha512-LCjdSo7iaVcZcYuCQcUQxkbGMxO7o4Pnt+5q0sDGui9VYHjCR+33D29ZdAUf7zBsfu7lWMSk7+rPwhzC9cSeAQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -5176,7 +5153,7 @@ ktx-parse@^0.2.1:
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.2.2.tgz#b037b66044855215b332cb73104590af49e47791"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
-leva@^0.9.28, leva@^0.9.30:
+leva@^0.9.30:
   version "0.9.30"
   resolved "https://registry.yarnpkg.com/leva/-/leva-0.9.30.tgz#65805865721f2f4be7c7fb6f03bf5bea7e9db6ba"
   integrity sha512-sAf+kYaiyLIYyNyxVwq7V9A+xFuzbHc34uN7wLz7UTxGh5zxiEKVJ2K8k1zC42N3PEt2cOg0NgwlYa+NITdDHw==
@@ -5891,7 +5868,7 @@ postcss@^8.4.16:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.28.1:
+postprocessing@^6.28.5:
   version "6.28.5"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.5.tgz#82363194d366f606cf0f25e32028fd46debca919"
   integrity sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==
@@ -6000,15 +5977,6 @@ quick-lru@^5.1.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-r3f-perf@^6.4.2:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/r3f-perf/-/r3f-perf-6.4.2.tgz#bc04d4f0bb6a318bee2fce21382a6ad5f8f1b43b"
-  integrity sha512-DUsNOZhEiqpnyceVD/oCB65nwzS/jN43AAEQWxAt/ijZWKuQLa8Hi/uDHGCdUfZ/mfFVFRmvuPsFJrZZPV6aEg==
-  dependencies:
-    "@radix-ui/react-icons" "^1.0.3"
-    "@stitches/react" "^1.2.6"
-    zustand "^3.7.1"
-
 r3f-perf@^6.4.4:
   version "6.4.4"
   resolved "https://registry.yarnpkg.com/r3f-perf/-/r3f-perf-6.4.4.tgz#8c76a67717b28306f3040869825e4b404bf653fd"
@@ -6018,15 +5986,18 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.1.2.tgz#a1bdc110e04f30f5139dbac5e8cc850681c18047"
-  integrity sha512-hIV1k+llzZUPRoJ7lXd8bB8nrOJ+OrFMx1pcw8LcbNd5d/+9N7qnXgQkK13vZfJ/7xDZ3Xt39/j3jJpJxMrFzQ==
+r3f-stage@^0.3.0-next.9:
+  version "0.3.0-next.9"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.0-next.9.tgz#571cd712fddb76164b4959774f4795082da50ac9"
+  integrity sha512-LEpwVoqKOMyMy192kW9ZAc1lUb4dSGCbt20sBi8DyHhZDS3zL5au0Dc7ZJumwVXLG2jRLfE/7R7nSd4g78VO7A==
   dependencies:
-    "@react-three/drei" "^9.16.0"
-    leva "^0.9.28"
-    postprocessing "^6.28.1"
-    r3f-perf "^6.4.2"
+    "@react-three/drei" "^9.22.7"
+    leva "^0.9.30"
+    postprocessing "^6.28.5"
+    r3f-perf "^6.4.4"
+    render-composer "^0.1.4"
+    wouter "^2.8.0-alpha.2"
+    zustand "^3.6.9"
 
 randomish@^0.1.4:
   version "0.1.4"
@@ -6250,6 +6221,11 @@ regjsparser@^0.8.2:
   dependencies:
     jsesc "~0.5.0"
 
+render-composer@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/render-composer/-/render-composer-0.1.4.tgz#16b42fc3d04093e1769da2ce88544290da838257"
+  integrity sha512-KUo09pGW0ahtqJ5xycaXRfAq5AfJym1jcL9A/xbZFAhKJQ0iv1aP1xx8XmN2i/5hkIWuquI0OAYu0vMY4thNtw==
+
 repeat-element@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.4.tgz#be681520847ab58c7568ac75fbfad28ed42d39e9"
@@ -6434,20 +6410,20 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-shader-composer-r3f@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.1.1.tgz#b362683788ef302ffef99f1a7fe69b340a7830d0"
-  integrity sha512-nU05WShlnLA0//rcK0TG1+TyAVT7RGJdelA9ao+G6eojLVX75TrKn/+/9JQlVPXGXKKAtL/SLJZt11s3EmQRiw==
+shader-composer-r3f@0.2.0-canary-20220810170700:
+  version "0.2.0-canary-20220810170700"
+  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.2.0-canary-20220810170700.tgz#f61cb932a38da98e364383fc216e4c64c24cf8a4"
+  integrity sha512-XIfFgRpzyWm9o+Pil5jbChUT6MqsCuGvq4R5zBDusm7IgaOUnEuHLDjfOC4dVK2UNUIYL9RLFHkTD48OH1Iijg==
 
-shader-composer-toybox@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.0.9.tgz#9b1b6770db651b48385c7f528905ff65341d3205"
-  integrity sha512-LAMzTZTGkcCtP5SvDihH1UZMBRVkZGc3UlWQnesa1sMpSGWV47z0D4mUeiybSYFz8dDmIJA3QeykGJuCaUAWnA==
+shader-composer-toybox@0.1.0-canary-20220810170700:
+  version "0.1.0-canary-20220810170700"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0-canary-20220810170700.tgz#6824e4b26bbd28f537eadfae10fcd6a9047b9dc2"
+  integrity sha512-dUmIlGG+ZleRoWsV/FIKWh/chyEAIgl/+9PJ+S6l7d2hJD02eDry/BvTBrHMb/c6BiFKrXCY6boCXZRD0bxM+w==
 
-shader-composer@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.2.1.tgz#70ee32538b2ca2fc03bb9450991c558ec7816592"
-  integrity sha512-3/sEQ5vY/D/Q7GMLgrQkl/KNJtixY/MPmJEl8vsHfM13provgXmmkh2tNGlxPTNBRJzXSi91d6Qn06ZI808Sog==
+shader-composer@0.3.0-canary-20220810170700:
+  version "0.3.0-canary-20220810170700"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-canary-20220810170700.tgz#a06a1c9e5cda71878da9c811121d68fa3fcfab37"
+  integrity sha512-BKjD0V8kV52EUj1y4bWFkgaSX6bHV+iGQiSfsI6uSuYrM8KPTDc6JxF4S4tjWfh9hZ3xRkMjX8trfhbEJfJXCg==
   dependencies:
     fp-ts "^2.12.1"
 

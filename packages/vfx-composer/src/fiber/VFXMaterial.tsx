@@ -1,4 +1,4 @@
-import { extend, useFrame } from "@react-three/fiber"
+import { extend, useFrame, useThree } from "@react-three/fiber"
 import React, {
   createContext,
   forwardRef,
@@ -35,6 +35,10 @@ declare global {
 
 export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
   ({ children, ...props }, ref) => {
+    const scene = useThree((s) => s.scene)
+    const camera = useThree((s) => s.camera)
+    const renderer = useThree((s) => s.gl)
+
     const material = useRef<VFXMaterialImpl>(null!)
     const [version, bumpVersion] = useVersion()
 
@@ -62,7 +66,7 @@ export const VFXMaterial = forwardRef<VFXMaterialImpl, VFXMaterialProps>(
 
     /* Run the material's per-frame tick. */
     useFrame((_, dt) => {
-      material.current.tick(dt)
+      material.current.tick(dt, camera, scene, renderer)
     })
 
     return (

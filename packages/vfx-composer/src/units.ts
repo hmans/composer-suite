@@ -1,11 +1,21 @@
 import {
   $,
   Attribute,
+  Div,
   Float,
   glslType,
   Input,
+  InstanceMatrix,
+  LocalToViewSpace,
+  PerspectiveDepth,
+  pipe,
+  Saturate,
+  ScreenUV,
   Snippet,
-  Vec3
+  Sub,
+  Unit,
+  Vec3,
+  ViewMatrix
 } from "shader-composer"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
@@ -98,7 +108,29 @@ export const billboard = Snippet(
 )
 
 export const Billboard = (position: Input<"vec3">) =>
-  Vec3($`${billboard}(${position}.xy, viewMatrix * instanceMatrix)`)
+  Vec3($`${billboard}(${position}.xy, ${ViewMatrix} * ${InstanceMatrix})`)
 
 export const Random = (n: Input<"float">) =>
   Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })
+
+export const SoftParticle = (
+  softness: Input<"float">,
+  position: Input<"vec3">,
+  depthTexture: Unit<"sampler2D">
+) => {
+  return Float(
+    pipe(
+      position,
+      /* Convert position to view space and grab depth */
+      (v) => LocalToViewSpace(v).z,
+      /* Subtract from the existing scene depth at the fragment coordinate */
+      (v) => Sub(v, PerspectiveDepth(ScreenUV, depthTexture)),
+      /* Divide by softness factor */
+      (v) => Div(v, softness),
+      /* Clamp between 0 and 1 */
+      (v) => Saturate(v)
+    ),
+
+    { name: "Soft Particle" }
+  )
+}

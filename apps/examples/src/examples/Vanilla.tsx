@@ -1,3 +1,4 @@
+import { useThree } from "@react-three/fiber"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
@@ -7,9 +8,12 @@ import {
   Group,
   MeshStandardMaterial,
   Object3D,
+  PerspectiveCamera,
+  Scene,
   SphereGeometry,
   Vector2,
-  Vector3
+  Vector3,
+  WebGLRenderer
 } from "three"
 import { Particles, VFXMaterial } from "vfx-composer"
 import {
@@ -22,7 +26,12 @@ import {
 import { ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
-const vanillaCode = (parent: Object3D) => {
+const vanillaCode = (
+  parent: Object3D,
+  camera: PerspectiveCamera,
+  scene: Scene,
+  renderer: WebGLRenderer
+) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
   const variables = {
     lifetime: ParticleAttribute(new Vector2()),
@@ -70,10 +79,10 @@ const vanillaCode = (parent: Object3D) => {
   particles2.setupParticles()
 
   const stopLoop = loop((dt) => {
-    material.tick(dt)
+    material.tick(dt, camera, scene, renderer)
 
     const { lifetime, velocity, color } = variables
-    const t = time.uniform.value
+    const t = time.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
@@ -119,6 +128,10 @@ const vanillaCode = (parent: Object3D) => {
 
 export const Vanilla = () => {
   const group = useRef<Group>(null!)
-  useEffect(() => vanillaCode(group.current), [])
+  const { camera, scene, gl } = useThree()
+  useEffect(
+    () => vanillaCode(group.current, camera as PerspectiveCamera, scene, gl),
+    []
+  )
   return <group ref={group}></group>
 }

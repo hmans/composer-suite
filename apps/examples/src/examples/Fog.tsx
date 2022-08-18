@@ -1,18 +1,16 @@
 import { useTexture } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+import { Layers } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
-import { useMemo, useState } from "react"
-import { Mul, Resolution, Rotation3DZ, Time, Uniform } from "shader-composer"
+import { useState } from "react"
+import { Mul, Rotation3DZ, Time } from "shader-composer"
+import { SceneDepthTexture } from "shader-composer-toybox"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
 import { ParticleAttribute } from "vfx-composer/units"
-import { CameraFar, CameraNear, SoftParticles } from "./lib/softies"
-import { useDepthBuffer } from "./lib/useDepthBuffer"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
-  const { depthTexture } = useDepthBuffer()
 
   const [{ time, velocity, rotation, scale }] = useState(() => ({
     time: Time(),
@@ -21,16 +19,6 @@ export const Fog = () => {
     scale: ParticleAttribute(1 as number)
   }))
 
-  const depthSampler2D = useMemo(() => Uniform("sampler2D", depthTexture), [
-    depthTexture
-  ])
-
-  useFrame(({ camera }) => {
-    Resolution.value.set(window.innerWidth, window.innerHeight)
-    CameraNear.value = camera.near
-    CameraFar.value = camera.far
-  })
-
   return (
     <group>
       <mesh position-y={13}>
@@ -38,7 +26,7 @@ export const Fog = () => {
         <meshStandardMaterial color="gold" metalness={0.1} roughness={0.2} />
       </mesh>
 
-      <Particles>
+      <Particles layers={Layers.TransparentFX}>
         <planeGeometry />
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
@@ -51,8 +39,12 @@ export const Fog = () => {
           <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <VFX.Scale scale={scale} />
           <VFX.Billboard />
-          <VFX.Module
-            module={SoftParticles({ softness: 10, depthSampler2D })}
+          <VFX.SoftParticles
+            softness={10}
+            depthTexture={SceneDepthTexture({
+              resolution: 0.5,
+              layer: Layers.TransparentFX
+            })}
           />
         </VFXMaterial>
 

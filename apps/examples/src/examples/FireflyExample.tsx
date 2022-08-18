@@ -70,7 +70,7 @@ export const FireflyExample = () => {
             */
             position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.8)))
 
-            const t = variables.time.uniform.value
+            const t = variables.time.value
             variables.lifetime.value.set(t, t + 1)
             variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
           }}

@@ -1,3 +1,4 @@
+import { Camera } from "@react-three/fiber"
 import {
   $,
   compileShader,
@@ -7,7 +8,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { MeshStandardMaterial } from "three"
+import { MeshStandardMaterial, Scene, WebGLRenderer } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
@@ -34,7 +35,16 @@ export class VFXMaterial extends CustomShaderMaterial {
   /**
    * The per-frame update function returned by compileShader.
    */
-  private shaderUpdate?: (dt: number) => void
+  private shaderMeta?: {
+    update: (
+      dt: number,
+      camera: Camera,
+      scene: Scene,
+      renderer: WebGLRenderer
+    ) => void
+
+    dispose: () => void
+  }
 
   /**
    * The Shader Composer root node for this material.
@@ -47,6 +57,9 @@ export class VFXMaterial extends CustomShaderMaterial {
   }
 
   public compileModules() {
+    /* If we've already had a shader, dispose of it. */
+    this.shaderMeta?.dispose()
+
     /* Define an initial module state. */
     const initialState: ModuleState = {
       position: VertexPosition,
@@ -69,15 +82,20 @@ export class VFXMaterial extends CustomShaderMaterial {
     })
 
     /* And finally compile a shader from the state. */
-    const [shader, { update }] = compileShader(this.shaderRoot)
+    const [shader, meta] = compileShader(this.shaderRoot)
 
     /* And let CSM know that it was updated. */
     super.update({ ...shader })
 
-    this.shaderUpdate = update
+    this.shaderMeta = meta
   }
 
-  tick(dt: number) {
-    this.shaderUpdate?.(dt)
+  tick(dt: number, camera: Camera, scene: Scene, renderer: WebGLRenderer) {
+    this.shaderMeta?.update(dt, camera, scene, renderer)
+  }
+
+  dispose() {
+    this.shaderMeta?.dispose()
+    super.dispose()
   }
 }
