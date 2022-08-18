@@ -1,4 +1,0 @@
-{
-  "main": "dist/vfx-composer-fiber.cjs.js",
-  "module": "dist/vfx-composer-fiber.esm.js"
-}

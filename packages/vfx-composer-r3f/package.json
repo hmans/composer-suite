@@ -1,30 +1,21 @@
 {
-  "name": "vfx-composer",
+  "name": "vfx-composer-r3f",
   "private": false,
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hendrik.mans.de"
   },
-  "description": "Composable, GPU-driven Visual Effects for Three.js and React-Three-Fiber.",
+  "description": "React-Three-Fiber bindings for VFX Composer.",
   "version": "0.2.0-next.2",
-  "main": "dist/vfx-composer.cjs.js",
-  "module": "dist/vfx-composer.esm.js",
-  "types": "dist/vfx-composer.cjs.d.ts",
+  "main": "dist/vfx-composer-r3f.cjs.js",
+  "module": "dist/vfx-composer-r3f.esm.js",
+  "types": "dist/vfx-composer-r3f.cjs.d.ts",
   "files": [
-    "units/**",
-    "modules/**",
     "dist/**",
     "LICENSE",
     "README.md"
   ],
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts",
-      "units.ts",
-      "modules.ts"
-    ]
-  },
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
@@ -61,7 +52,8 @@
   "dependencies": {
     "shader-composer": "0.3.0-canary-20220810170700",
     "shader-composer-r3f": "0.2.0-canary-20220810170700",
-    "three-custom-shader-material": "^4.0.0"
+    "three-custom-shader-material": "^4.0.0",
+    "vfx-composer": "^0.2.0-next.2"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.27",

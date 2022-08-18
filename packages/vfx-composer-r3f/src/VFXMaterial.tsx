@@ -6,13 +6,12 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
-  useRef,
-  useState
+  useRef
 } from "react"
 import { iCSMProps } from "three-custom-shader-material"
-import { Module } from "../modules"
-import { VFXMaterial as VFXMaterialImpl, VFXMaterialArgs } from "../VFXMaterial"
-import { useVersion } from "../util/useVersion"
+import { VFXMaterial as VFXMaterialImpl } from "vfx-composer"
+import { Module } from "vfx-composer/modules"
+import { useVersion } from "./util/useVersion"
 
 const Context = createContext<{
   addModule: (module: Module) => void

@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo } from "react"
-import * as VFXModules from "../modules"
-import { Module, ModuleFactory, ModuleProps } from "../modules"
+import * as VFXModules from "vfx-composer/modules"
+import { Module, ModuleFactory, ModuleProps } from "vfx-composer/modules"
 import { useVFXMaterialContext } from "./VFXMaterial"
 type VFXModules = typeof VFXModules
 

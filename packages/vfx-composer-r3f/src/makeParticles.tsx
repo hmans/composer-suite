@@ -1,6 +1,6 @@
 import React, { createRef } from "react"
 import { Particles, ParticlesProps } from "./Particles"
-import { Particles as ParticlesImpl } from "../Particles"
+import { Particles as ParticlesImpl } from "vfx-composer"
 import { Emitter, EmitterProps } from "./Emitter"
 
 export const makeParticles = () => {

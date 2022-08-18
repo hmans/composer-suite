@@ -9,7 +9,7 @@ import {
   Vector2,
   Vector3
 } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"

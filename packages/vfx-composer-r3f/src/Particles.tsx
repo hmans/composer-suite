@@ -8,8 +8,8 @@ import React, {
   useRef,
   useState
 } from "react"
-import { Particles as ParticlesImpl } from "../Particles"
-import { VFXMaterial as VFXMaterialImpl } from "../VFXMaterial"
+import { Particles as ParticlesImpl } from "vfx-composer"
+import { VFXMaterial as VFXMaterialImpl } from "vfx-composer"
 
 export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
   args?: ConstructorParameters<typeof ParticlesImpl>

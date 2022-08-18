@@ -1,5 +1,4 @@
 import { Object3DProps, useFrame } from "@react-three/fiber"
-import { Instance } from "@react-three/fiber/dist/declarations/src/core/renderer"
 import React, {
   forwardRef,
   MutableRefObject,
@@ -9,8 +8,8 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react"
-import { Matrix4, Object3D, Quaternion, Vector3 } from "three"
-import { InstanceSetupCallback, Particles } from "../Particles"
+import { Matrix4, Object3D } from "three"
+import { InstanceSetupCallback, Particles } from "vfx-composer"
 import { useParticlesContext } from "./Particles"
 
 export type EmitterProps = Object3DProps & {
