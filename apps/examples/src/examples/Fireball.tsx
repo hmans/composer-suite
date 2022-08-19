@@ -1,3 +1,4 @@
+import { useTexture } from "@react-three/drei"
 import {
   Add,
   Input,
@@ -7,8 +8,11 @@ import {
   OneMinus,
   pipe,
   Pow,
+  Texture2D,
   Time,
+  UniformUnit,
   Unit,
+  vec2,
   Vec3,
   vec3,
   VertexPosition
@@ -46,7 +50,7 @@ const DistortSurface: ModuleFactory<DistortSurfaceProps> = ({
 }
 
 type LavaProps = {
-  time?: Input<"float">
+  offset?: Input<"vec3">
   scale?: Input<"float">
   octaves?: number
   power?: Input<"float">
@@ -54,7 +58,7 @@ type LavaProps = {
 }
 
 const Lava: ModuleFactory<LavaProps> = ({
-  time = Time(),
+  offset = vec3(0, 0, 0),
   scale = 1,
   octaves = 5,
   power = 1,
@@ -62,21 +66,13 @@ const Lava: ModuleFactory<LavaProps> = ({
 }) => (state) => ({
   ...state,
   color: pipe(
-    time,
-    /* Modify the original vertex position using offset based on time. */
-    (v) => vec3(Mul(v, 0.1), Mul(v, 0.3), Mul(v, 0.5)),
-    (v) => Add(VertexPosition, v),
-
-    /* Apply the user-provided turbulence scale. */
+    VertexPosition,
+    (v) => Add(v, offset),
     (v) => Mul(v, scale),
-
-    /* Calculate the turbulence. */
     (v) => Turbulence3D(v, octaves),
     (v) => NormalizePlusMinusOne(v),
-    (v) => Pow(v, power),
     (v) => OneMinus(v),
-
-    /* Apply color */
+    (v) => Pow(v, power),
     (v) => color(v)
   )
 })
@@ -97,7 +93,8 @@ export default function FireballExample() {
 
           <VFX.Module
             module={Lava({
-              scale: 0.5,
+              offset: Mul(vec3(0.1, 0.2, 0.5), Time()),
+              scale: 0.4,
               octaves: 5
             })}
           />
