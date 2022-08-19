@@ -8,6 +8,7 @@ import {
   pipe,
   Pow,
   Time,
+  Unit,
   Vec3,
   vec3,
   VertexPosition
@@ -49,17 +50,18 @@ type LavaProps = {
   scale?: Input<"float">
   octaves?: number
   power?: Input<"float">
+  color?: (heat: Input<"float">) => Unit<"vec3">
 }
 
 const Lava: ModuleFactory<LavaProps> = ({
   time = Time(),
   scale = 1,
   octaves = 5,
-  power = 1
-}) => (state) => {
-  /* Create another unit that calculates the fragment color based on
-		noise turbulence. */
-  const color = pipe(
+  power = 1,
+  color = (heat) => Lerp(new Color("black"), new Color("white"), heat)
+}) => (state) => ({
+  ...state,
+  color: pipe(
     time,
     /* Modify the original vertex position using offset based on time. */
     (v) => vec3(Mul(v, 0.1), Mul(v, 0.3), Mul(v, 0.5)),
@@ -74,12 +76,10 @@ const Lava: ModuleFactory<LavaProps> = ({
     (v) => Pow(v, power),
     (v) => OneMinus(v),
 
-    /* Source the color from the provided texture. */
-    (v) => Lerp(Vec3(new Color("white")), new Color("black"), v)
+    /* Apply color */
+    (v) => color(v)
   )
-
-  return { ...state, color }
-}
+})
 
 export default function FireballExample() {
   return (
