@@ -39,7 +39,7 @@ export default function FireballExample() {
 
         <VFXMaterial baseMaterial={MeshStandardMaterial}>
           <VFX.Module
-            module={DistortSurface({ amplitude: 0.1, frequency: 0.5 })}
+            module={DistortSurface({ amplitude: 0.1, frequency: 0.7 })}
           />
         </VFXMaterial>
       </mesh>
