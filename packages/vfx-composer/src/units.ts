@@ -1,5 +1,6 @@
 import {
   $,
+  Add,
   Attribute,
   Div,
   Float,
@@ -7,16 +8,22 @@ import {
   Input,
   InstanceMatrix,
   LocalToViewSpace,
+  Mul,
+  NormalizePlusMinusOne,
+  OneMinus,
   PerspectiveDepth,
   pipe,
+  Pow,
   Saturate,
   ScreenUV,
   Snippet,
   Sub,
   Unit,
+  vec3,
   Vec3,
   ViewMatrix
 } from "shader-composer"
+import { Turbulence3D } from "shader-composer-toybox"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "./Particles"
 import { makeAttribute } from "./util/makeAttribute"
@@ -134,3 +141,23 @@ export const SoftParticle = (
     { name: "Soft Particle" }
   )
 }
+
+export type HeatOptions = {
+  offset?: Input<"vec3">
+  scale?: Input<"float">
+  octaves?: number
+  power?: Input<"float">
+}
+export const Heat = (
+  v: Input<"vec3">,
+  { offset = vec3(0, 0, 0), scale = 1, octaves = 5, power = 1 }: HeatOptions
+) =>
+  pipe(
+    v,
+    (v) => Add(v, offset),
+    (v) => Mul(v, scale),
+    (v) => Turbulence3D(v, octaves),
+    (v) => NormalizePlusMinusOne(v),
+    (v) => OneMinus(v),
+    (v) => Pow(v, power)
+  )

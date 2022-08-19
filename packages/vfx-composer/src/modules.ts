@@ -7,20 +7,22 @@ import {
   InstanceMatrix,
   mat3,
   Mul,
-  NormalizePlusMinusOne,
-  OneMinus,
   pipe,
   Pow,
   SplitVector2,
   Sub,
   Unit,
-  vec3,
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
+import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
-import { Billboard as BillboardUnit, SoftParticle } from "./units"
+import {
+  Billboard as BillboardUnit,
+  Heat,
+  HeatOptions,
+  SoftParticle
+} from "./units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -158,20 +160,11 @@ export const SetAlpha = ({ alpha }: { alpha: Input<"float"> }): Module => (
 
 export const Module = ({ module }: { module: Module }): Module => module
 
-export type LavaProps = {
-  offset?: Input<"vec3">
-  scale?: Input<"float">
-  octaves?: number
-  power?: Input<"float">
+export type LavaProps = HeatOptions & {
   color?: (heat: Input<"float">) => Unit<"vec3">
 }
 
 export const Lava: ModuleFactory<LavaProps> = ({
-  offset = vec3(0, 0, 0),
-  scale = 1,
-  octaves = 5,
-  power = 1,
-
   color = (heat) =>
     Gradient(
       heat,
@@ -181,17 +174,13 @@ export const Lava: ModuleFactory<LavaProps> = ({
       [new Color("#E85D04"), 0.6],
       [new Color("#FFBA08").multiplyScalar(2), 0.8],
       [new Color("white").multiplyScalar(2), 0.9]
-    )
+    ),
+  ...opts
 }) => (state) => ({
   ...state,
   color: pipe(
     VertexPosition,
-    (v) => Add(v, offset),
-    (v) => Mul(v, scale),
-    (v) => Turbulence3D(v, octaves),
-    (v) => NormalizePlusMinusOne(v),
-    (v) => OneMinus(v),
-    (v) => Pow(v, power),
+    (v) => Heat(v, opts),
     (v) => color(v)
   )
 })
