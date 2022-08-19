@@ -88,7 +88,7 @@ export class VFXMaterial extends CustomShaderMaterial {
     const [shader, meta] = compileShader(this.shaderRoot)
 
     /* And let CSM know that it was updated. */
-    super.update({ ...shader })
+    super.update({ ...shader, cacheKey: () => String(Math.random()) })
 
     this.shaderMeta = meta
   }
