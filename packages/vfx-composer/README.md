@@ -12,9 +12,9 @@
 
 ## Introduction 👋
 
-VFX Composer (formerly known as three-vfx, or 3VFX) is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber) (through the [vfx-composer-r3f](https://github.com/hmans/vfx-composer/tree/main/packages/vfx-composer-r3f) package.) It allows you to build complex visual effects in a declarative way, compiling them into shaders using the [Shader Composer](https://github.com/hmans/shader-composer) library.
+VFX Composer (formerly known as three-vfx, or 3VFX) is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber) (through the [vfx-composer-r3f](https://github.com/hmans/vfx-composer/tree/main/packages/vfx-composer-r3f) package.) It allows you to build complex visual effects in a declarative way, compiling them into shaders using the [Shader Composer](https://github.com/hmans/shader-composer) library. All your VFX then execute on the GPU.
 
-Its most important exports are:
+VFX Composer's main exports are:
 
 #### VFXMaterial 🎨
 
