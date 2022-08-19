@@ -3,6 +3,7 @@ import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import { Simple } from "./examples/Simple"
+import { SoftParticlesExample } from "./examples/SoftParticlesExample"
 import { Vanilla } from "./examples/Vanilla"
 
 export default () => (
@@ -22,6 +23,10 @@ export default () => (
           example creates two particle effects that re-use the same VFX
           material, but have different geometries and emitting behaviors.
         </Description>
+      </Example>
+
+      <Example path="soft-particles" title="Soft Particles">
+        <SoftParticlesExample />
       </Example>
 
       <Example path="fireball" title="Fireball">

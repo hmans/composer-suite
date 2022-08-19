@@ -1,11 +1,14 @@
-import { SceneDepthTexture } from "shader-composer-toybox"
+import { useRenderPipeline } from "r3f-stage"
+import { useUniformUnit } from "shader-composer-r3f"
 import { MeshStandardMaterial } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
 
 export const SoftParticlesExample = () => {
+  const depthTexture = useUniformUnit("sampler2D", useRenderPipeline().depth)
+
   return (
     <Particles>
-      <planeGeometry args={[20, 20]} />
+      <planeGeometry args={[5, 5]} />
 
       <VFXMaterial
         baseMaterial={MeshStandardMaterial}
@@ -14,7 +17,7 @@ export const SoftParticlesExample = () => {
         depthWrite={false}
       >
         <VFX.Billboard />
-        <VFX.SoftParticles softness={3} depthTexture={SceneDepthTexture()} />
+        <VFX.SoftParticles softness={2} depthTexture={depthTexture} />
       </VFXMaterial>
 
       <Emitter />
