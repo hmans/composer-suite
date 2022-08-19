@@ -16,11 +16,11 @@ VFX Composer (formerly known as three-vfx, or 3VFX) is a visual effects library 
 
 Its most important exports are:
 
-#### VFXMaterial
+#### VFXMaterial 🎨
 
 A custom material that can be used to render a visual effect. It accepts a list of **effect modules** which are compiled into a single shader. VFXMaterial happily extends Three's built-in materials, from THREE.ShaderMaterial to THREE.MeshPhysicalMaterial, and can even inject its shaders into materials loaded from eg. GLTF files.
 
-#### Particles
+#### Particles 🎆
 
 A highly optimized particle system engine based on THREE.InstancedMesh. It can use any geometry for its particles, and is typically coupled with a **VFXMaterial** instance that will animate them.
 
