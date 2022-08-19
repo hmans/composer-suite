@@ -2,7 +2,6 @@ import {
   $,
   Add,
   Attribute,
-  Clamp,
   Clamp01,
   Div,
   Float,
@@ -11,17 +10,15 @@ import {
   InstanceMatrix,
   LocalToViewSpace,
   Mul,
-  NormalizePlusMinusOne,
-  OneMinus,
   PerspectiveDepth,
   pipe,
   Pow,
-  Remap,
   Saturate,
   ScreenUV,
   Snippet,
   Sub,
   Unit,
+  varying,
   vec3,
   Vec3,
   ViewMatrix
@@ -132,7 +129,7 @@ export const SoftParticle = (
     pipe(
       position,
       /* Convert position to view space and grab depth */
-      (v) => LocalToViewSpace(v).z,
+      (v) => varying(LocalToViewSpace(v).z),
       /* Subtract from the existing scene depth at the fragment coordinate */
       (v) => Sub(v, PerspectiveDepth(ScreenUV, depthTexture)),
       /* Divide by softness factor */

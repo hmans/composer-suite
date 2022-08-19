@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { upTo } from "randomish"
+import { chance, upTo } from "randomish"
 import { useRef, useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import {
@@ -10,7 +10,7 @@ import {
   Vector2,
   Vector3
 } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
@@ -21,6 +21,7 @@ export const FireflyExample = () => {
 
   const [variables] = useState(() => ({
     time: Time(),
+    color: ParticleAttribute(new Color()),
     lifetime: ParticleAttribute(new Vector2()),
     velocity: ParticleAttribute(new Vector3())
   }))
@@ -33,19 +34,19 @@ export const FireflyExample = () => {
   useFrame(({ clock }) => {
     const t = clock.elapsedTime
     mesh.current.position.set(
-      Math.sin(t * 5) * Math.cos(t) * 5,
-      10 + Math.cos(t * 3) * Math.sin(t) * 8,
-      Math.sin(t * 1) * Math.cos(t * 0.5) * 3
+      Math.sin(t * 5) * Math.cos(t) * 1.5,
+      3 + Math.cos(t * 3) * Math.sin(t),
+      Math.sin(t * 3.3) * 1.5
     )
   })
 
   return (
     <Particles>
-      <planeGeometry args={[0.2, 0.2]} />
+      <planeGeometry args={[0.05, 0.05]} />
 
       <VFXMaterial
         baseMaterial={MeshStandardMaterial}
-        color={new Color(2, 1, 2)}
+        color={new Color(4, 1, 4)}
         blending={NormalBlending}
         transparent
       >
@@ -53,11 +54,12 @@ export const FireflyExample = () => {
         <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
         <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
         <VFX.SetAlpha alpha={OneMinus(ParticleProgress)} />
+        <VFX.SetColor color={variables.color} />
         <VFX.Module module={lifetimeModule} />
       </VFXMaterial>
 
       <mesh ref={mesh}>
-        <dodecahedronGeometry args={[0.5]} />
+        <dodecahedronGeometry args={[0.2]} />
         <meshStandardMaterial color="hotpink" />
 
         <Emitter
@@ -68,11 +70,15 @@ export const FireflyExample = () => {
             The position automatically inherits the emitter's position, but let's
             add a little random offset to spice things up!
             */
-            position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.8)))
+            position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.4)))
+
+            chance(0.5)
+              ? variables.color.value.setRGB(3, 1, 3)
+              : variables.color.value.setRGB(1, 3, 3)
 
             const t = variables.time.value
             variables.lifetime.value.set(t, t + 1)
-            variables.velocity.value.randomDirection().multiplyScalar(upTo(5))
+            variables.velocity.value.randomDirection().multiplyScalar(upTo(2))
           }}
         />
       </mesh>
