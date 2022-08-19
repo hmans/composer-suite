@@ -6,12 +6,15 @@ import {
   Input,
   InstanceMatrix,
   mat3,
+  Mix,
   Mul,
   pipe,
   Pow,
+  Smoothstep,
   SplitVector2,
   Sub,
   Unit,
+  vec3,
   Vec3,
   VertexPosition
 } from "shader-composer"
@@ -184,6 +187,33 @@ export const Lava: ModuleFactory<LavaProps> = ({
     (v) => color(v)
   )
 })
+
+export type PlasmaProps = HeatOptions & {
+  color?: (heat: Input<"float">) => Unit<"vec3">
+}
+
+export const Plasma: ModuleFactory<PlasmaProps> = ({
+  color = (heat: Input<"float">) =>
+    Gradient(
+      heat,
+      [new Color("#457b9d"), 0.6],
+      [new Color("#a2d2ff"), 0.7],
+      [new Color("white").multiplyScalar(3), 0.81]
+    ),
+  offset,
+  scale = 0.5,
+  octaves = 3,
+  power = 1
+}) => (state) => {
+  const heat = Heat(state.position, { offset, scale, octaves, power })
+  const alpha = Smoothstep(0.6, 0.8, heat)
+
+  return {
+    ...state,
+    alpha,
+    color: color(heat)
+  }
+}
 
 export type DistortSurfaceProps = {
   offset?: Input<"vec3" | "float">

@@ -143,7 +143,7 @@ export const SoftParticle = (
 }
 
 export type HeatOptions = {
-  offset?: Input<"vec3">
+  offset?: Input<"vec3" | "float">
   scale?: Input<"float">
   octaves?: number
   power?: Input<"float">

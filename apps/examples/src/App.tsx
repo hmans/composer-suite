@@ -1,6 +1,7 @@
 import { Application, Description, Example, FlatStage } from "r3f-stage"
 import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
+import PlasmaBallExample from "./examples/PlasmaBall"
 import { Simple } from "./examples/Simple"
 import { Vanilla } from "./examples/Vanilla"
 
@@ -30,6 +31,10 @@ export default () => (
           An animated fireball! This example uses a normal mesh together with
           VFXMaterial.
         </Description>
+      </Example>
+
+      <Example path="plasmaball" title="Plasma Ball">
+        <PlasmaBallExample />
       </Example>
     </FlatStage>
   </Application>
