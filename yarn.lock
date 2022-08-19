@@ -1339,6 +1339,11 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.1.2.tgz#d2fb7b968141139e5c2419553e5295382c265e7d"
   integrity sha512-bbZIpW6fdyf7FMaeDmw3cBbkTqsecxEkwlVKgVfqqXWBPLH6azxhPA2V9F7OhoZSVrsnMYw7QuyK6qutXPjEew==
 
+"@hmans/use-version@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@hmans/use-version/-/use-version-0.0.2.tgz#3b61f7ad5c7042a11836b42ce53eba0b37746c80"
+  integrity sha512-fkHcIxHFjNimT9+DuUax92MWpIKxZDMGsAVAM5AK4sE5GEMDVbiSq+ayKWMMYuLPqQn05ZJ01/D27CS7lA624g==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -6410,20 +6415,32 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-shader-composer-r3f@0.2.0-canary-20220810170700:
-  version "0.2.0-canary-20220810170700"
-  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.2.0-canary-20220810170700.tgz#f61cb932a38da98e364383fc216e4c64c24cf8a4"
-  integrity sha512-XIfFgRpzyWm9o+Pil5jbChUT6MqsCuGvq4R5zBDusm7IgaOUnEuHLDjfOC4dVK2UNUIYL9RLFHkTD48OH1Iijg==
+shader-composer-r3f@0.2.0-next.0:
+  version "0.2.0-next.0"
+  resolved "https://registry.yarnpkg.com/shader-composer-r3f/-/shader-composer-r3f-0.2.0-next.0.tgz#f4b346d2f95adc0855a1be6e201f6ede0000ca10"
+  integrity sha512-5qMsPVMzyV/d55A6b0dHp0GXgcpl77md8HGuwzzPY1ioYeNX3PQIOywsnJAr/OLm2k8k0ysTxs7SRnXsY2qsNQ==
+  dependencies:
+    shader-composer "^0.3.0-next.0"
+    three-custom-shader-material "^4.0.0"
 
-shader-composer-toybox@0.1.0-canary-20220810170700:
-  version "0.1.0-canary-20220810170700"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0-canary-20220810170700.tgz#6824e4b26bbd28f537eadfae10fcd6a9047b9dc2"
-  integrity sha512-dUmIlGG+ZleRoWsV/FIKWh/chyEAIgl/+9PJ+S6l7d2hJD02eDry/BvTBrHMb/c6BiFKrXCY6boCXZRD0bxM+w==
+shader-composer-toybox@^0.1.0-next.0:
+  version "0.1.0-next.0"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0-next.0.tgz#5598741794e923de3a6c9c2b387bfe2df684e091"
+  integrity sha512-Xw648Mwbql5U34LCiA+AVgYiz1HZP2lmxBbjIxrcN5u3t+68sb1/FAFmW/5rDD+XnMR9naI6wa6PfTYyWKRk3g==
+  dependencies:
+    shader-composer "^0.3.0-next.0"
 
-shader-composer@0.3.0-canary-20220810170700:
-  version "0.3.0-canary-20220810170700"
-  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-canary-20220810170700.tgz#a06a1c9e5cda71878da9c811121d68fa3fcfab37"
-  integrity sha512-BKjD0V8kV52EUj1y4bWFkgaSX6bHV+iGQiSfsI6uSuYrM8KPTDc6JxF4S4tjWfh9hZ3xRkMjX8trfhbEJfJXCg==
+shader-composer@0.3.0-next.1:
+  version "0.3.0-next.1"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-next.1.tgz#b0af51a57caea72e5dee32a181863810e1ec93d2"
+  integrity sha512-pY1vTY8YMz5oar+b5m+QEMOn0oyyvX0mP4ItQPK3yRMRi9nP9fpYMbFOYPyPMm81at0KVYAXJgUQSkibYhnKsw==
+  dependencies:
+    fp-ts "^2.12.1"
+
+shader-composer@^0.3.0-next.0:
+  version "0.3.0-next.0"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-next.0.tgz#7236115fa3b58ee20809e31a7796061b8b447c6f"
+  integrity sha512-q13clS32yAzHvNxlcZBsfTGxbeK7ZLWy4I6MqMp3B+dZPUz6jvv+U1nyRb3QoNBbtfaCTeU0Qj9TeZSsUbZoKQ==
   dependencies:
     fp-ts "^2.12.1"
 
