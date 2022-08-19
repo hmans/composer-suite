@@ -1,4 +1,10 @@
-import { Application, Description, Example, FlatStage } from "r3f-stage"
+import {
+  Application,
+  Description,
+  Example,
+  FlatStage,
+  Heading
+} from "r3f-stage"
 import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
 import { FireflyExample } from "./examples/FireflyExample"
@@ -12,17 +18,15 @@ import { Vanilla } from "./examples/Vanilla"
 export default () => (
   <Application>
     <FlatStage>
-      <Example path="particles/simple" title="Simple Particles" makeDefault>
+      <Heading>Particle Effects</Heading>
+
+      <Example path="particles/simple" title="Simple" makeDefault>
         <Simple />
 
         <Description>The Hello World of VFX Composer particles!</Description>
       </Example>
 
-      <Example
-        path="particles/stress"
-        title="Particles Stress Test"
-        makeDefault
-      >
+      <Example path="particles/stress" title="Stress Test" makeDefault>
         <Stress />
 
         <Description>
@@ -31,11 +35,11 @@ export default () => (
         </Description>
       </Example>
 
-      <Example path="particles/firefly" title="Firefly Particles" makeDefault>
+      <Example path="particles/firefly" title="Firefly" makeDefault>
         <FireflyExample />
       </Example>
 
-      <Example path="particles/vanilla" title="Vanilla Particles">
+      <Example path="particles/vanilla" title="Vanilla Three.js">
         <Vanilla />
 
         <Description>
@@ -52,6 +56,8 @@ export default () => (
       <Example path="fog" title="Fog">
         <Fog />
       </Example>
+
+      <Heading>Effects</Heading>
 
       <Example path="fireball" title="Fireball">
         <FireballExample />
