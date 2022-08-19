@@ -22,10 +22,21 @@ export type ModuleState = {
   alpha: Input<"float">
 }
 
+/**
+ * A Module is a function that accepts a module state as its input and returns a new module state.
+ */
 export type Module = (state: ModuleState) => ModuleState
-export type ModuleProps = Record<string, any>
-export type ModuleFactory<P extends ModuleProps = {}> = (props: P) => Module
 
+/**
+ * A Module Factory is a function that returns a Module.
+ */
+export type ModuleFactory<P extends Record<string, any> = {}> = (
+  props: P
+) => Module
+
+/**
+ * A Module Pipe is an array of Modules.
+ */
 export type ModulePipe = Module[]
 
 export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
@@ -121,7 +132,7 @@ export const SoftParticles: ModuleFactory<{
   alpha: Mul(state.alpha, SoftParticle(softness, state.position, depthTexture))
 })
 
-/* TODO: overriding color is very bad because it will override Lifetime. Find a better solution! */
+/* TODO: overriding color is very bad because it will override Lifetime's actions. Find a better solution! */
 export const SetColor = ({ color }: { color: Input<"vec3"> }): Module => (
   state
 ) => ({

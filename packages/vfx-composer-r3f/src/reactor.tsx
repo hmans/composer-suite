@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo } from "react"
 import * as VFXModules from "vfx-composer/modules"
-import { Module, ModuleFactory, ModuleProps } from "vfx-composer/modules"
+import { Module, ModuleFactory, ModuleFactoryProps } from "vfx-composer/modules"
 import { useVFXMaterialContext } from "./VFXMaterial"
 type VFXModules = typeof VFXModules
 
@@ -18,9 +18,9 @@ type VFXProxy = {
     : never
 }
 
-const makeModuleComponent = <P extends ModuleProps>(fac: ModuleFactory<P>) => (
-  props: P
-) => {
+const makeModuleComponent = <P extends ModuleFactoryProps>(
+  fac: ModuleFactory<P>
+) => (props: P) => {
   const module = useMemo(() => fac(props), [props])
 
   const { addModule, removeModule } = useVFXMaterialContext()
