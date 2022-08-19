@@ -12,7 +12,7 @@ export default function FireballExample() {
 
   return (
     <group position-y={1.5}>
-      <directionalLight intensity={1} position={[20, 10, 10]} />
+      <directionalLight intensity={0.5} position={[20, 10, 10]} />
 
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
