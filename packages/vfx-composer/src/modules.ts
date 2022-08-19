@@ -202,19 +202,17 @@ export const Lava: ModuleFactory<LavaProps> = ({
 })
 
 export type DistortSurfaceProps = {
-  time?: Input<"float">
-  frequency?: Input<"float">
+  offset?: Input<"vec3" | "float">
   amplitude?: Input<"float">
 }
 
 export const DistortSurface: ModuleFactory<DistortSurfaceProps> = ({
-  time = Time(),
-  frequency = 1,
+  offset = 1,
   amplitude = 1
 }) => (state) => {
   const displacement = pipe(
     state.position,
-    (v) => Add(v, Mul(time, frequency)),
+    (v) => Add(v, offset),
     (v) => PSRDNoise3D(v),
     (v) => Mul(v, amplitude)
   )
