@@ -25,6 +25,11 @@ export default () => (
 
       <Example path="fireball" title="Fireball">
         <FireballExample />
+
+        <Description>
+          An animated fireball! This example uses a normal mesh together with
+          VFXMaterial.
+        </Description>
       </Example>
     </FlatStage>
   </Application>
