@@ -192,11 +192,12 @@ export const Lava: ModuleFactory<LavaProps> = ({
   color = (heat) =>
     Gradient(
       heat,
-      [new Color("black"), 0],
-      [new Color("black"), 0.2],
-      [new Color("red"), 0.6],
-      [new Color("yellow"), 0.7],
-      [new Color("white"), 1]
+      [new Color("#03071E"), 0],
+      [new Color("#03071E"), 0.3],
+      [new Color("#DC2F02"), 0.5],
+      [new Color("#E85D04"), 0.6],
+      [new Color("#FFBA08").multiplyScalar(2), 0.8],
+      [new Color("white").multiplyScalar(2), 0.9]
     )
 }) => (state) => ({
   ...state,
