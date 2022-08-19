@@ -1,6 +1,7 @@
 import { Application, Description, Example, FlatStage } from "r3f-stage"
 import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
+import { FireflyExample } from "./examples/FireflyExample"
 import { Fog } from "./examples/Fog"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import { Simple } from "./examples/Simple"
@@ -28,6 +29,10 @@ export default () => (
           Just a cute little particle effect that emits 100,000 new particles
           per second.
         </Description>
+      </Example>
+
+      <Example path="particles/firefly" title="Firefly Particles" makeDefault>
+        <FireflyExample />
       </Example>
 
       <Example path="particles/vanilla" title="Vanilla Particles">
