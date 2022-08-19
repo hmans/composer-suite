@@ -8,6 +8,8 @@ import {
   OneMinus,
   pipe,
   Pow,
+  Remap,
+  Smoothstep,
   Texture2D,
   Time,
   UniformUnit,
@@ -17,6 +19,7 @@ import {
   vec3,
   VertexPosition
 } from "shader-composer"
+import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 import { Color, MeshStandardMaterial } from "three"
 import { VFX, VFXMaterial } from "vfx-composer-r3f"
@@ -57,12 +60,25 @@ type LavaProps = {
   color?: (heat: Input<"float">) => Unit<"vec3">
 }
 
+const LavaColors = {
+  white: new Color("white"),
+  yellow: new Color("yellow"),
+  red: new Color("red"),
+  black: new Color("black")
+}
+
 const Lava: ModuleFactory<LavaProps> = ({
   offset = vec3(0, 0, 0),
   scale = 1,
   octaves = 5,
   power = 1,
-  color = (heat) => Lerp(new Color("black"), new Color("white"), heat)
+  color = (heat) =>
+    pipe(
+      Vec3(LavaColors.white),
+      (v) => Lerp(v, LavaColors.yellow, Smoothstep(0.4, 0.6, heat))
+      // (v) => Lerp(v, LavaColors.red, Smoothstep(0.3, 0.6, heat)),
+      // (v) => Lerp(v, LavaColors.black, Smoothstep(0.6, 1, heat))
+    )
 }) => (state) => ({
   ...state,
   color: pipe(
@@ -77,25 +93,29 @@ const Lava: ModuleFactory<LavaProps> = ({
   )
 })
 
+import textureUrl from "./textures/explosion.png"
+
 export default function FireballExample() {
+  const texture = useTexture(textureUrl)
+  const sampler = useUniformUnit("sampler2D", texture)
+
   return (
     <group position-y={1.5}>
+      <directionalLight intensity={1} position={[20, 10, 10]} />
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial}>
           <VFX.Module
-            module={DistortSurface({
-              amplitude: 0.1,
-              frequency: 0.7
-            })}
+            module={DistortSurface({ amplitude: 0.1, frequency: 0.7 })}
           />
 
           <VFX.Module
             module={Lava({
               offset: Mul(vec3(0.1, 0.2, 0.5), Time()),
               scale: 0.4,
-              octaves: 5
+              octaves: 5,
+              color: (heat) => Texture2D(sampler, vec2(0, heat)).color
             })}
           />
         </VFXMaterial>
