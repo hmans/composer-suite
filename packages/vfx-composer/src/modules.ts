@@ -171,7 +171,7 @@ export type LavaProps = {
 
 type ColorStop = [Input<"vec3">, Input<"float">]
 
-const Gradient = (stops: ColorStop[], f: Input<"float">) => {
+const Gradient = (f: Input<"float">, ...stops: ColorStop[]) => {
   let current = stops[0]
   let color = current[0]
 
@@ -188,16 +188,15 @@ export const Lava: ModuleFactory<LavaProps> = ({
   scale = 1,
   octaves = 5,
   power = 1,
+
   color = (heat) =>
     Gradient(
-      [
-        [new Color("black"), 0],
-        [new Color("black"), 0.2],
-        [new Color("red"), 0.6],
-        [new Color("yellow"), 0.7],
-        [new Color("white"), 1]
-      ],
-      heat
+      heat,
+      [new Color("black"), 0],
+      [new Color("black"), 0.2],
+      [new Color("red"), 0.6],
+      [new Color("yellow"), 0.7],
+      [new Color("white"), 1]
     )
 }) => (state) => ({
   ...state,
