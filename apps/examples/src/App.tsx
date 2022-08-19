@@ -5,6 +5,7 @@ import { Fog } from "./examples/Fog"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import { Simple } from "./examples/Simple"
 import { SoftParticlesExample } from "./examples/SoftParticlesExample"
+import { Stress } from "./examples/Stress"
 import { Vanilla } from "./examples/Vanilla"
 
 export default () => (
@@ -14,6 +15,19 @@ export default () => (
         <Simple />
 
         <Description>The Hello World of VFX Composer particles!</Description>
+      </Example>
+
+      <Example
+        path="particles/stress"
+        title="Particles Stress Test"
+        makeDefault
+      >
+        <Stress />
+
+        <Description>
+          Just a cute little particle effect that emits 100,000 new particles
+          per second.
+        </Description>
       </Example>
 
       <Example path="particles/vanilla" title="Vanilla Particles">

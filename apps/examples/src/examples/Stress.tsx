@@ -3,13 +3,13 @@ import { useState } from "react"
 import { OneMinus, Time } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Repeat } from "three-vfx"
-import { makeParticles, VFX, VFXMaterial } from "vfx-composer/fiber"
+import { makeParticles, VFX, VFXMaterial } from "vfx-composer-r3f"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 
 const Effect = makeParticles()
 
-const FREQ = 8
+const FREQ = 30
 
 export const Stress = () => {
   const [variables] = useState(() => ({
@@ -27,7 +27,7 @@ export const Stress = () => {
   return (
     <group>
       <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
-        <planeGeometry />
+        <planeGeometry args={[0.1, 0.1]} />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
           <VFX.Scale scale={OneMinus(ParticleProgress)} />
@@ -46,14 +46,14 @@ export const Stress = () => {
             const { lifetime, velocity, color } = variables
 
             /* Randomize the instance transform */
-            position.randomDirection().multiplyScalar(upTo(6))
+            position.randomDirection().multiplyScalar(upTo(1))
             rotation.random()
 
             /* Write values into the instanced attributes */
             const start = t + random() / FREQ
             lifetime.value.set(start, start + between(1, 3))
-            velocity.value.set(plusMinus(5), between(5, 18), plusMinus(5))
-            color.value.setRGB(Math.random(), Math.random(), Math.random())
+            velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
+            color.value.setScalar(Math.random() * 2)
           }}
         />
       </Repeat>
