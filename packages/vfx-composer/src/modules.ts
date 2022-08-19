@@ -2,28 +2,25 @@ import {
   $,
   Add,
   Div,
+  Gradient,
   Input,
   InstanceMatrix,
-  lerp,
-  Lerp,
   mat3,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
   Pow,
-  Smoothstep,
   SplitVector2,
   Sub,
-  Time,
   Unit,
   vec3,
   Vec3,
   VertexPosition
 } from "shader-composer"
+import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 import { Color } from "three"
 import { Billboard as BillboardUnit, SoftParticle } from "./units"
-import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -167,20 +164,6 @@ export type LavaProps = {
   octaves?: number
   power?: Input<"float">
   color?: (heat: Input<"float">) => Unit<"vec3">
-}
-
-type ColorStop = [Input<"vec3">, Input<"float">]
-
-const Gradient = (f: Input<"float">, ...stops: ColorStop[]) => {
-  let color = stops[0][0]
-
-  for (let i = 1; i < stops.length; i++) {
-    const stop = stops[i]
-    const previous = stops[i - 1]
-    color = Lerp(color, stop[0], Smoothstep(previous[1], stop[1], f))
-  }
-
-  return color
 }
 
 export const Lava: ModuleFactory<LavaProps> = ({

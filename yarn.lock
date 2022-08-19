@@ -6423,14 +6423,21 @@ shader-composer-r3f@0.2.0-next.0:
     shader-composer "^0.3.0-next.0"
     three-custom-shader-material "^4.0.0"
 
-shader-composer-toybox@0.1.0-next.0, shader-composer-toybox@^0.1.0-next.0:
+shader-composer-toybox@^0.1.0-next.0:
   version "0.1.0-next.0"
   resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0-next.0.tgz#5598741794e923de3a6c9c2b387bfe2df684e091"
   integrity sha512-Xw648Mwbql5U34LCiA+AVgYiz1HZP2lmxBbjIxrcN5u3t+68sb1/FAFmW/5rDD+XnMR9naI6wa6PfTYyWKRk3g==
   dependencies:
     shader-composer "^0.3.0-next.0"
 
-shader-composer@0.3.0-next.0, shader-composer@^0.3.0-next.0:
+shader-composer@0.3.0-next.1:
+  version "0.3.0-next.1"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-next.1.tgz#b0af51a57caea72e5dee32a181863810e1ec93d2"
+  integrity sha512-pY1vTY8YMz5oar+b5m+QEMOn0oyyvX0mP4ItQPK3yRMRi9nP9fpYMbFOYPyPMm81at0KVYAXJgUQSkibYhnKsw==
+  dependencies:
+    fp-ts "^2.12.1"
+
+shader-composer@^0.3.0-next.0:
   version "0.3.0-next.0"
   resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.0-next.0.tgz#7236115fa3b58ee20809e31a7796061b8b447c6f"
   integrity sha512-q13clS32yAzHvNxlcZBsfTGxbeK7ZLWy4I6MqMp3B+dZPUz6jvv+U1nyRb3QoNBbtfaCTeU0Qj9TeZSsUbZoKQ==
