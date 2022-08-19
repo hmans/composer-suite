@@ -4,6 +4,7 @@ import {
   Div,
   Input,
   InstanceMatrix,
+  lerp,
   Lerp,
   mat3,
   Mul,
@@ -168,11 +169,18 @@ export type LavaProps = {
   color?: (heat: Input<"float">) => Unit<"vec3">
 }
 
-const LavaColors = {
-  white: new Color("white"),
-  yellow: new Color("yellow"),
-  red: new Color("red"),
-  black: new Color("black")
+type ColorStop = [Input<"vec3">, Input<"float">]
+
+const Gradient = (stops: ColorStop[], f: Input<"float">) => {
+  let current = stops[0]
+  let color = current[0]
+
+  for (const stop of stops) {
+    color = Lerp(color, stop[0], Smoothstep(current[1], stop[1], f))
+    current = stop
+  }
+
+  return color
 }
 
 export const Lava: ModuleFactory<LavaProps> = ({
@@ -181,11 +189,15 @@ export const Lava: ModuleFactory<LavaProps> = ({
   octaves = 5,
   power = 1,
   color = (heat) =>
-    pipe(
-      Vec3(LavaColors.white),
-      (v) => Lerp(v, LavaColors.yellow, Smoothstep(0.4, 0.6, heat))
-      // (v) => Lerp(v, LavaColors.red, Smoothstep(0.3, 0.6, heat)),
-      // (v) => Lerp(v, LavaColors.black, Smoothstep(0.6, 1, heat))
+    Gradient(
+      [
+        [new Color("black"), 0],
+        [new Color("black"), 0.2],
+        [new Color("red"), 0.6],
+        [new Color("yellow"), 0.7],
+        [new Color("white"), 1]
+      ],
+      heat
     )
 }) => (state) => ({
   ...state,

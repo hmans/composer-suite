@@ -24,7 +24,7 @@ export default function FireballExample() {
             offset={Mul(vec3(0.1, 0.2, 0.5), time)}
             scale={0.4}
             octaves={5}
-            color={(heat) => Texture2D(sampler, vec2(0, heat)).color}
+            // color={(heat) => Texture2D(sampler, vec2(0, heat)).color}
           />
         </VFXMaterial>
       </mesh>
