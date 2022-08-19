@@ -1,6 +1,7 @@
 import { Application, Description, Example, FlatStage } from "r3f-stage"
 import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
+import { Fog } from "./examples/Fog"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import { Simple } from "./examples/Simple"
 import { SoftParticlesExample } from "./examples/SoftParticlesExample"
@@ -27,6 +28,10 @@ export default () => (
 
       <Example path="soft-particles" title="Soft Particles">
         <SoftParticlesExample />
+      </Example>
+
+      <Example path="fog" title="Fog">
+        <Fog />
       </Example>
 
       <Example path="fireball" title="Fireball">
