@@ -12,17 +12,21 @@
 
 ## Introduction 👋
 
-**VFX Composer is a visual effects library for [Three.js](https://threejs.org/) and [react-three-fiber](https://github.com/pmndrs/react-three-fiber)** (through the [vfx-composer-r3f](https://github.com/hmans/vfx-composer/tree/main/packages/vfx-composer-r3f) package.) It allows you to build complex visual effects in a declarative way, compiling them into shaders using the [Shader Composer](https://github.com/hmans/shader-composer) library. All your VFX execute on the GPU.
+**VFX Composer is a visual effects library for [Three.js](https://threejs.org/) and [@react-three/fiber]** (through the [vfx-composer-r3f](https://github.com/hmans/vfx-composer/tree/main/packages/vfx-composer-r3f) package.) It allows you to build complex visual effects in a declarative way, compiling them into shaders using the [Shader Composer] library. All your VFX execute on the GPU.
 
 VFX Composer's main exports are:
+
+#### Particles 🎆
+
+A highly optimized particle system engine based on THREE.InstancedMesh. It can use any geometry for its particles, and is typically coupled with a **VFXMaterial** instance that will animate them.
 
 #### VFXMaterial 🎨
 
 A custom material that can be used to render a visual effect. It accepts a list of **effect modules** which are compiled into a single shader. VFXMaterial happily extends Three's built-in materials, from THREE.ShaderMaterial to THREE.MeshPhysicalMaterial, and can even inject its shaders into materials loaded from eg. GLTF files.
 
-#### Particles 🎆
+#### A Library of Effect Modules 🎁
 
-A highly optimized particle system engine based on THREE.InstancedMesh. It can use any geometry for its particles, and is typically coupled with a **VFXMaterial** instance that will animate them.
+Effect modules are functions that transform positions, colors, opacity and other attributes. They can be chained toegther to create complex effects, and make use of [Shader Composer] to compile a complete effect into a single shader. VFX Composer provides a library of immediately usable effect modules, but you can also implement your own.
 
 ## Examples & Demos 🎓
 
@@ -78,3 +82,6 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
+[shader composer]: https://github.com/hmans/shader-composer
+[@react-three/fiber]: https://github.com/pmndrs/react-three-fiber
