@@ -4,16 +4,25 @@ import {
   Div,
   Input,
   InstanceMatrix,
+  Lerp,
   mat3,
   Mul,
+  NormalizePlusMinusOne,
+  OneMinus,
   pipe,
   Pow,
+  Smoothstep,
   SplitVector2,
   Sub,
+  Time,
   Unit,
-  Vec3
+  vec3,
+  Vec3,
+  VertexPosition
 } from "shader-composer"
+import { Color } from "three"
 import { Billboard as BillboardUnit, SoftParticle } from "./units"
+import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -150,3 +159,71 @@ export const SetAlpha = ({ alpha }: { alpha: Input<"float"> }): Module => (
 })
 
 export const Module = ({ module }: { module: Module }): Module => module
+
+export type LavaProps = {
+  offset?: Input<"vec3">
+  scale?: Input<"float">
+  octaves?: number
+  power?: Input<"float">
+  color?: (heat: Input<"float">) => Unit<"vec3">
+}
+
+const LavaColors = {
+  white: new Color("white"),
+  yellow: new Color("yellow"),
+  red: new Color("red"),
+  black: new Color("black")
+}
+
+export const Lava: ModuleFactory<LavaProps> = ({
+  offset = vec3(0, 0, 0),
+  scale = 1,
+  octaves = 5,
+  power = 1,
+  color = (heat) =>
+    pipe(
+      Vec3(LavaColors.white),
+      (v) => Lerp(v, LavaColors.yellow, Smoothstep(0.4, 0.6, heat))
+      // (v) => Lerp(v, LavaColors.red, Smoothstep(0.3, 0.6, heat)),
+      // (v) => Lerp(v, LavaColors.black, Smoothstep(0.6, 1, heat))
+    )
+}) => (state) => ({
+  ...state,
+  color: pipe(
+    VertexPosition,
+    (v) => Add(v, offset),
+    (v) => Mul(v, scale),
+    (v) => Turbulence3D(v, octaves),
+    (v) => NormalizePlusMinusOne(v),
+    (v) => OneMinus(v),
+    (v) => Pow(v, power),
+    (v) => color(v)
+  )
+})
+
+export type DistortSurfaceProps = {
+  time?: Input<"float">
+  frequency?: Input<"float">
+  amplitude?: Input<"float">
+}
+
+export const DistortSurface: ModuleFactory<DistortSurfaceProps> = ({
+  time = Time(),
+  frequency = 1,
+  amplitude = 1
+}) => (state) => {
+  const displacement = pipe(
+    state.position,
+    (v) => Add(v, Mul(time, frequency)),
+    (v) => PSRDNoise3D(v),
+    (v) => Mul(v, amplitude)
+  )
+
+  const position = pipe(
+    displacement,
+    (v) => Mul(state.normal, v),
+    (v) => Add(state.position, v)
+  )
+
+  return { ...state, position }
+}
