@@ -2,6 +2,8 @@ import {
   $,
   Add,
   Attribute,
+  Clamp,
+  Clamp01,
   Div,
   Float,
   glslType,
@@ -14,6 +16,7 @@ import {
   PerspectiveDepth,
   pipe,
   Pow,
+  Remap,
   Saturate,
   ScreenUV,
   Snippet,
@@ -157,7 +160,7 @@ export const Heat = (
     (v) => Add(v, offset),
     (v) => Mul(v, scale),
     (v) => Turbulence3D(v, octaves),
-    (v) => NormalizePlusMinusOne(v),
-    (v) => OneMinus(v),
+    (v) => Add(v, 0.5),
+    (v) => Clamp01(v),
     (v) => Pow(v, power)
   )

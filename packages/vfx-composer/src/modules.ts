@@ -8,6 +8,7 @@ import {
   mat3,
   Mix,
   Mul,
+  OneMinus,
   pipe,
   Pow,
   Smoothstep,
@@ -172,21 +173,23 @@ export const Lava: ModuleFactory<LavaProps> = ({
     Gradient(
       heat,
       [new Color("#03071E"), 0],
-      [new Color("#03071E"), 0.3],
+      [new Color("#03071E"), 0.1],
       [new Color("#DC2F02"), 0.5],
       [new Color("#E85D04"), 0.6],
-      [new Color("#FFBA08").multiplyScalar(2), 0.8],
-      [new Color("white").multiplyScalar(2), 0.9]
+      [new Color("#FFBA08").multiplyScalar(2), 0.65],
+      [new Color("white").multiplyScalar(2), 0.97],
+      [new Color("white").multiplyScalar(2), 0.99],
+      [new Color("white").multiplyScalar(2), 1]
     ),
   ...opts
-}) => (state) => ({
-  ...state,
-  color: pipe(
-    VertexPosition,
-    (v) => Heat(v, opts),
-    (v) => color(v)
-  )
-})
+}) => (state) => {
+  const heat = Heat(state.position, opts)
+
+  return {
+    ...state,
+    color: color(heat)
+  }
+}
 
 export type PlasmaProps = HeatOptions & {
   color?: (heat: Input<"float">) => Unit<"vec3">
@@ -196,17 +199,17 @@ export const Plasma: ModuleFactory<PlasmaProps> = ({
   color = (heat: Input<"float">) =>
     Gradient(
       heat,
-      [new Color("#457b9d"), 0.6],
-      [new Color("#a2d2ff"), 0.7],
-      [new Color("white").multiplyScalar(3), 0.81]
+      [new Color("#457b9d"), 0.85],
+      [new Color("#a2d2ff"), 0.95],
+      [new Color("white").multiplyScalar(3), 0.975]
     ),
   offset,
   scale = 0.5,
   octaves = 3,
   power = 1
 }) => (state) => {
-  const heat = Heat(state.position, { offset, scale, octaves, power })
-  const alpha = Smoothstep(0.6, 0.8, heat)
+  const heat = OneMinus(Heat(state.position, { offset, scale, octaves, power }))
+  const alpha = Smoothstep(0.7, 0.9, heat)
 
   return {
     ...state,

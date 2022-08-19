@@ -7,7 +7,7 @@ export default function FireballExample() {
 
   return (
     <group position-y={1.5}>
-      <directionalLight intensity={0.8} position={[20, 10, 10]} />
+      {/* <directionalLight intensity={0.8} position={[20, 10, 10]} /> */}
 
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
@@ -19,6 +19,7 @@ export default function FireballExample() {
             offset={Mul(vec3(0.1, 0.2, 0.5), time)}
             scale={0.3}
             octaves={5}
+            power={1}
           />
         </VFXMaterial>
       </mesh>
