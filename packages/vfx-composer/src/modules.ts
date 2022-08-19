@@ -30,9 +30,11 @@ export type Module = (state: ModuleState) => ModuleState
 /**
  * A Module Factory is a function that returns a Module.
  */
-export type ModuleFactory<P extends Record<string, any> = {}> = (
+export type ModuleFactory<P extends ModuleFactoryProps = {}> = (
   props: P
 ) => Module
+
+export type ModuleFactoryProps = Record<string, any>
 
 /**
  * A Module Pipe is an array of Modules.
