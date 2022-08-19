@@ -18,6 +18,7 @@ export default function FireballExample() {
 
         <VFXMaterial baseMaterial={MeshStandardMaterial}>
           <VFX.DistortSurface amplitude={0.1} frequency={0.7} />
+
           <VFX.Lava
             offset={Mul(vec3(0.1, 0.2, 0.5), Time())}
             scale={0.4}
