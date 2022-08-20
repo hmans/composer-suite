@@ -1,43 +1,66 @@
 import { MeshProps } from "@react-three/fiber"
-import { makeStore, useStore, State } from "statery"
+import { makeStore, useStore, State } from "./lib/statery"
 import { MeshPhysicalMaterial } from "three"
+import { VFXMaterial } from "vfx-composer"
 
 /* The library */
 const makeResourceStore = <S extends State>(initialState?: S) => {
   const store = makeStore<S>(initialState || ({} as S))
 
-  const captureResource = <K extends keyof S>(name: K) => (value: S[K]) =>
-    store.set({ [name]: value } as S)
+  const capture = new Proxy<
+    {
+      [K in keyof S]: (value: S[K]) => void
+    }
+  >(store.state, {
+    get: (target, name) => {
+      return (value: S[keyof S]) => {
+        console.log("Setting", name, value)
+        store.set({ [name]: value } as S)
+      }
+    }
+  })
 
-  const useResources = () => useStore(store)
+  const retrieve = new Proxy<
+    {
+      [K in keyof S]: S[K]
+    }
+  >(store.state, {
+    get: (target, name) => {
+      const value = useStore(store)[name]
+      console.log("Retrieving", name)
+      console.log("Value:", value)
+      return value
+    }
+  })
 
-  const useResource = <K extends keyof S>(name: K) => useStore(store)[name]
-
-  return { useResource, useResources, captureResource }
+  return { capture, retrieve }
 }
 
-/* The consumer */
-const { useResources, captureResource } = makeResourceStore<{
+const { capture, retrieve } = makeResourceStore<{
   expensiveMaterial: MeshPhysicalMaterial
+  reallyExpensiveMaterial: VFXMaterial
 }>()
 
 export default function Playground() {
   return (
     <group position-y={1.5}>
-      <meshPhysicalMaterial
-        ref={captureResource("expensiveMaterial")}
-        color="#dda15e"
-        metalness={0.8}
-        roughness={0.5}
-      />
-
+      <Materials />
       <Thingy />
     </group>
   )
 }
 
+const Materials = () => (
+  <meshPhysicalMaterial
+    ref={capture.expensiveMaterial}
+    color="#dda15e"
+    metalness={0.8}
+    roughness={0.5}
+  />
+)
+
 const Thingy = (props: MeshProps) => (
-  <mesh material={useResources().expensiveMaterial} {...props}>
+  <mesh material={retrieve.expensiveMaterial} {...props}>
     <icosahedronGeometry />
   </mesh>
 )
