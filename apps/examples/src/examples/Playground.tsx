@@ -1,35 +1,28 @@
 import { MeshProps } from "@react-three/fiber"
 import { makeStore, useStore, State } from "./lib/statery"
-import { MeshPhysicalMaterial } from "three"
+import { BufferGeometry, MeshPhysicalMaterial } from "three"
 import { VFXMaterial } from "vfx-composer"
 
 /* The library */
+
+type CaptureProxy<S extends State> = {
+  [K in keyof S]: (value: S[K]) => void
+}
+
 const makeResourceStore = <S extends State>(initialState?: S) => {
   const store = makeStore<S>(initialState || ({} as S))
 
-  const capture = new Proxy<
-    {
-      [K in keyof S]: (value: S[K]) => void
-    }
-  >(store.state, {
-    get: (target, name) => {
-      return (value: S[keyof S]) => {
-        console.log("Setting", name, value)
+  const capture = new Proxy<CaptureProxy<S>>(store.state, {
+    get: (_, name: string) => {
+      return (value: any) => {
         store.set({ [name]: value } as S)
       }
     }
   })
 
-  const retrieve = new Proxy<
-    {
-      [K in keyof S]: S[K]
-    }
-  >(store.state, {
-    get: (target, name) => {
-      const value = useStore(store)[name]
-      console.log("Retrieving", name)
-      console.log("Value:", value)
-      return value
+  const retrieve = new Proxy<S>(store.state, {
+    get: (_, name: string) => {
+      return useStore(store)[name]
     }
   })
 
@@ -38,6 +31,7 @@ const makeResourceStore = <S extends State>(initialState?: S) => {
 
 const { capture, retrieve } = makeResourceStore<{
   expensiveMaterial: MeshPhysicalMaterial
+  geometry: BufferGeometry
   reallyExpensiveMaterial: VFXMaterial
 }>()
 
