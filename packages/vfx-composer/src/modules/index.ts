@@ -23,7 +23,7 @@ import {
   Heat,
   HeatOptions,
   SoftParticle
-} from "./units"
+} from "../units"
 
 export type ModuleState = {
   position: Input<"vec3">

@@ -22,7 +22,7 @@
     "entrypoints": [
       "index.ts",
       "units.ts",
-      "modules.ts"
+      "modules/index.ts"
     ]
   },
   "license": "MIT",
