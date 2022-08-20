@@ -1,12 +1,15 @@
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import { useState } from "react"
-import { OneMinus, Time } from "shader-composer"
+import { useMemo, useState } from "react"
+import { Input, OneMinus, Time } from "shader-composer"
 import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
 import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
+
+const useParticleLifetime = (lifetime: Input<"vec2">, time: Input<"float">) =>
+  useMemo(() => Lifetime(lifetime, time), [lifetime, time])
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
@@ -17,10 +20,11 @@ export const Simple = () => {
     velocity: ParticleAttribute(new Vector3())
   }))
 
-  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
-    variables.lifetime,
-    variables.time
-  )
+  const {
+    ParticleProgress,
+    ParticleAge,
+    module: lifetimeModule
+  } = useParticleLifetime(variables.lifetime, variables.time)
 
   return (
     <group>
