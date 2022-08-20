@@ -1,5 +1,5 @@
 import { MeshProps } from "@react-three/fiber"
-import { makeStore, useStore, State } from "./lib/statery"
+import { makeStore, State, useStore } from "statery"
 import { BufferGeometry, MeshPhysicalMaterial } from "three"
 import { VFXMaterial } from "vfx-composer"
 
