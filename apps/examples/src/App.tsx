@@ -55,6 +55,12 @@ export default () => (
 
       <Example path="fog" title="Fog">
         <Fog />
+
+        <Description>
+          Particle-based fog. Particles use billboarded plane geometries with a
+          smoke texture and some very low alpha. They also use softness in order
+          to nicely blend into the scene's geometry.
+        </Description>
       </Example>
 
       <Heading>Effects</Heading>

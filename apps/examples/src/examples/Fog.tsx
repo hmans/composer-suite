@@ -23,9 +23,9 @@ export const Fog = () => {
 
   return (
     <group>
-      <mesh position-y={2.2}>
-        <torusKnotGeometry args={[1.2, 0.5, 100, 100]} />
-        <meshStandardMaterial color="gold" metalness={0.1} roughness={0.2} />
+      <mesh position-y={0.6}>
+        <torusKnotGeometry args={[2, 0.9, 96, 32]} />
+        <meshStandardMaterial color="black" metalness={0.5} roughness={0.6} />
       </mesh>
 
       <Particles layers-mask={Layers.TransparentFX}>
@@ -41,7 +41,7 @@ export const Fog = () => {
           <VFX.Scale scale={scale} />
           <VFX.Velocity velocity={velocity} time={time} />
           <VFX.Billboard />
-          <VFX.SoftParticles softness={2} depthTexture={depth} />
+          <VFX.SoftParticles softness={5} depthTexture={depth} />
         </VFXMaterial>
 
         <Emitter
