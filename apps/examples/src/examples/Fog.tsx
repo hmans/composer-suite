@@ -23,7 +23,7 @@ export const Fog = () => {
 
   return (
     <group>
-      <mesh position-y={0.6}>
+      <mesh position-y={0.6} castShadow>
         <torusKnotGeometry args={[2, 0.9, 96, 32]} />
         <meshStandardMaterial color="black" metalness={0.5} roughness={0.6} />
       </mesh>
