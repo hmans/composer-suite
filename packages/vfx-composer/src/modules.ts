@@ -6,7 +6,6 @@ import {
   Input,
   InstanceMatrix,
   mat3,
-  Mix,
   Mul,
   OneMinus,
   pipe,
@@ -15,9 +14,7 @@ import {
   SplitVector2,
   Sub,
   Unit,
-  vec3,
-  Vec3,
-  VertexPosition
+  Vec3
 } from "shader-composer"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
