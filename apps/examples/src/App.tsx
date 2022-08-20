@@ -10,6 +10,7 @@ import FireballExample from "./examples/Fireball"
 import { FireflyExample } from "./examples/FireflyExample"
 import { Fog } from "./examples/Fog"
 import PlasmaBallExample from "./examples/PlasmaBall"
+import Playground from "./examples/Playground"
 import { Simple } from "./examples/Simple"
 import { SoftParticlesExample } from "./examples/SoftParticlesExample"
 import { Stress } from "./examples/Stress"
@@ -76,6 +77,11 @@ export default () => (
 
       <Example path="plasmaball" title="Plasma Ball">
         <PlasmaBallExample />
+      </Example>
+
+      <Heading>Experiments</Heading>
+      <Example path="playground" title="Playground">
+        <Playground />
       </Example>
     </FlatStage>
   </Application>
