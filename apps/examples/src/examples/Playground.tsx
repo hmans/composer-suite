@@ -6,24 +6,26 @@ import { MeshPhysicalMaterial } from "three"
 const makeResourceStore = <S extends State>(initialState?: S) => {
   const store = makeStore<S>(initialState || ({} as S))
 
-  const capture = <K extends keyof S>(name: K) => (value: S[K]) =>
+  const captureResource = <K extends keyof S>(name: K) => (value: S[K]) =>
     store.set({ [name]: value } as S)
 
-  const useResourceStore = () => useStore(store)
+  const useResources = () => useStore(store)
 
-  return { useResourceStore, capture }
+  const useResource = <K extends keyof S>(name: K) => useStore(store)[name]
+
+  return { useResource, useResources, captureResource }
 }
 
 /* The consumer */
-const { useResourceStore: useResources, capture } = makeResourceStore<{
-  material: MeshPhysicalMaterial
+const { useResources, captureResource } = makeResourceStore<{
+  expensiveMaterial: MeshPhysicalMaterial
 }>()
 
 export default function Playground() {
   return (
     <group position-y={1.5}>
       <meshPhysicalMaterial
-        ref={capture("material")}
+        ref={captureResource("expensiveMaterial")}
         color="#dda15e"
         metalness={0.8}
         roughness={0.5}
@@ -34,12 +36,8 @@ export default function Playground() {
   )
 }
 
-const Thingy = (props: MeshProps) => {
-  const { material } = useResources()
-
-  return (
-    <mesh material={material} {...props}>
-      <icosahedronGeometry />
-    </mesh>
-  )
-}
+const Thingy = (props: MeshProps) => (
+  <mesh material={useResources().expensiveMaterial} {...props}>
+    <icosahedronGeometry />
+  </mesh>
+)
