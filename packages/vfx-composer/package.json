@@ -21,7 +21,7 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "units.ts",
+      "units/index.ts",
       "modules/index.ts"
     ]
   },

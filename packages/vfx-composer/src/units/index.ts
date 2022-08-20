@@ -25,8 +25,8 @@ import {
 } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
-import { Particles } from "./Particles"
-import { makeAttribute } from "./util/makeAttribute"
+import { Particles } from "../Particles"
+import { makeAttribute } from "../util/makeAttribute"
 
 /* TODO: promote this into Shader Composer */
 type GLSLTypeFor<J> = J extends number
