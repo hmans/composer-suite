@@ -26,7 +26,7 @@ export default () => (
         <Description>The Hello World of VFX Composer particles!</Description>
       </Example>
 
-      <Example path="particles/stress" title="Stress Test" makeDefault>
+      <Example path="particles/stress" title="Stress Test">
         <Stress />
 
         <Description>
@@ -35,7 +35,7 @@ export default () => (
         </Description>
       </Example>
 
-      <Example path="particles/firefly" title="Firefly" makeDefault>
+      <Example path="particles/firefly" title="Firefly">
         <FireflyExample />
       </Example>
 
