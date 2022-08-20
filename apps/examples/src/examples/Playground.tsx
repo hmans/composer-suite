@@ -9,13 +9,13 @@ const makeResourceStore = <S extends State>(initialState?: S) => {
   const capture = <K extends keyof S>(name: K) => (value: S[K]) =>
     store.set({ [name]: value } as S)
 
-  const useResources = () => useStore(store)
+  const useResourceStore = () => useStore(store)
 
-  return { useResources, capture }
+  return { useResourceStore, capture }
 }
 
 /* The consumer */
-const { useResources, capture } = makeResourceStore<{
+const { useResourceStore: useResources, capture } = makeResourceStore<{
   material: MeshPhysicalMaterial
 }>()
 
