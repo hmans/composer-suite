@@ -1,5 +1,4 @@
 import {
-  $,
   Add,
   Gradient,
   Input,
@@ -10,8 +9,7 @@ import {
   pipe,
   Pow,
   Smoothstep,
-  Unit,
-  Vec3
+  Unit
 } from "shader-composer"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
@@ -44,17 +42,7 @@ export type ModuleFactoryProps = Record<string, any>
 export type ModulePipe = Module[]
 
 export * from "./Billboard"
-
-export const Particles: ModuleFactory<{ Progress: Input<"float"> }> = ({
-  Progress
-}) => (state) => ({
-  ...state,
-  color: Vec3(state.color, {
-    fragment: {
-      body: $`if (${Progress} < 0.0 || ${Progress} > 1.0) discard;`
-    }
-  })
-})
+export * from "./Particles"
 
 type ScaleProps = {
   scale: Input<"float">
