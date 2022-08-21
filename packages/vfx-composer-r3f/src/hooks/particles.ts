@@ -1,10 +1,7 @@
-import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 import { useConst } from "@hmans/use-const"
 import { Time } from "shader-composer"
 import { Vector2 } from "three"
-
-const useParticleUnits = (...args: Parameters<typeof createParticleUnits>) =>
-  useConst(() => createParticleUnits(...args))
+import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 
 export const useParticles = () => {
   const variables = useConst(() => ({
@@ -12,7 +9,9 @@ export const useParticles = () => {
     lifetime: ParticleAttribute(new Vector2())
   }))
 
-  const particles = useParticleUnits(variables.lifetime, variables.time)
+  const particles = useConst(() =>
+    createParticleUnits(variables.lifetime, variables.time)
+  )
 
   const setLifetime = (duration: number, offset: number = 0) =>
     variables.lifetime.value.set(
