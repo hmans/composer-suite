@@ -4,22 +4,20 @@ import { makeStore, useStore } from "statery"
 import { BufferGeometry, Material, Mesh, MeshPhysicalMaterial } from "three"
 
 const sharedResource = <P extends any>(component: FC<P>) => {
-  const store = makeStore({
-    instance: undefined as any
-  })
-
-  const setInstance = (instance: any) => {
-    store.set({ instance })
-  }
+  const store = makeStore<{ instance?: any }>({})
 
   const Define = (props: P) =>
     cloneElement(component(props)!, {
-      ref: setInstance
+      ref: (instance: any) => store.set({ instance })
     })
 
   const Emit = () => {
     const { instance } = useStore(store)
 
+    /*
+    In a future R3F version, this will not be necessary.
+    https://github.com/pmndrs/react-three-fiber/pull/2449
+    */
     const attach =
       instance instanceof Material
         ? "material"
