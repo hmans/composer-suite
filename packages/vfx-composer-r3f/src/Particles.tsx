@@ -4,7 +4,6 @@ import React, {
   createContext,
   forwardRef,
   useContext,
-  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useRef
@@ -54,7 +53,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     Every time this component re-renders, see if it needs to set up its
     particle engine. This only happens when the material has changed.
      */
-    useEffect(() => {
+    useLayoutEffect(() => {
       particles.current.setupParticles()
     }, [particles, particles.current?.material])
 
