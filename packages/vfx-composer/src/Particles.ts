@@ -31,9 +31,6 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
 
   private attributeUnits: ParticleAttribute[] = []
 
-  /** The last material that was used for `setupParticles`.  */
-  private _previouslyInitializedMaterial: VFXMaterial | undefined
-
   private uploadableAttributes: (
     | BufferAttribute
     | InterleavedBufferAttribute
@@ -75,12 +72,6 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   }
 
   public setupParticles() {
-    /* Bail if we've already setup using the current material. */
-    if (this._previouslyInitializedMaterial === this.material) {
-      return false
-    }
-    this._previouslyInitializedMaterial = this.material
-
     /* Bail if the new material is undefined */
     if (!this.material) {
       return false
