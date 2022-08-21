@@ -1,6 +1,14 @@
 import { MeshProps } from "@react-three/fiber"
-import { useEffect, useRef } from "react"
-import { Mesh } from "three"
+import {
+  cloneElement,
+  FC,
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react"
+import { Mesh, MeshPhysicalMaterial } from "three"
 
 export default function Playground() {
   return (
@@ -22,6 +30,7 @@ const ReallyHeavyMaterial = () => {
       metalness={0.8}
       roughness={0.5}
       transmission={1}
+      attach="material"
     />
   )
 }
