@@ -1339,6 +1339,11 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.1.2.tgz#d2fb7b968141139e5c2419553e5295382c265e7d"
   integrity sha512-bbZIpW6fdyf7FMaeDmw3cBbkTqsecxEkwlVKgVfqqXWBPLH6azxhPA2V9F7OhoZSVrsnMYw7QuyK6qutXPjEew==
 
+"@hmans/use-const@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@hmans/use-const/-/use-const-0.0.1.tgz#5e1c798918d923bc27145d2073adbf2ce51ca409"
+  integrity sha512-qYWCVLc6NjVq7PcwoCZ/i70VvmBZ+Nni/ZC5qauzksZB1l8M6ltyTs5MEvDC+Z1O/eUKPkiEvCPwgAqiP619BQ==
+
 "@hmans/use-rerender@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@hmans/use-rerender/-/use-rerender-0.0.2.tgz#81dd0dba733cdb43816119ebb03e62026f0587ff"
