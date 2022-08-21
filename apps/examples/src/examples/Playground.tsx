@@ -35,16 +35,9 @@ const sharedResource = <P extends any>(component: FC<P>) => {
 
     const { instance } = useStore(store)
 
-    console.log("My ID is", id)
-    console.log("My instance is", instance)
-
     if (id > 1) {
-      console.log("Re-using existing instance as primitive...")
       return instance ? <primitive object={instance} attach="material" /> : null
     } else {
-      console.log(
-        "I'm the first component rendering the material, so let's render it!"
-      )
       return cloneElement(component(props)!, {
         ref: setInstance
       })
