@@ -1,73 +1,45 @@
-import { useRerender } from "@hmans/use-rerender"
-import { applyProps, MeshProps, Node } from "@react-three/fiber"
-import {
-  cloneElement,
-  createRef,
-  ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useRef
-} from "react"
+import { MeshProps, Node, useFrame } from "@react-three/fiber"
+import { FC, useRef } from "react"
 import { Mesh, MeshPhysicalMaterial } from "three"
 
 type Constructor = { new (...args: any[]): any }
 
 type Props<C extends Constructor> = Node<InstanceType<C>, C>
 
-const createSharedResource = () => {
-  const instance = {
-    current: undefined
-  }
-
-  const Root = ({ children }: { children: ReactNode }) => {
-    const modified = cloneElement(children, {
-      ref: (c) => {
-        console.log("setting instance", c)
-        instance.current = c
-      }
-    })
-
-    return <>{modified}</>
-  }
-
-  const Instance = () => {
-    const rerender = useRerender()
-
-    useLayoutEffect(() => {
-      rerender()
-    }, [])
-
-    return instance.current ? (
-      <primitive object={instance.current} attach="material" />
-    ) : null
-  }
-
-  return { Root, Instance }
-}
-
-const ThingyMaterial = createSharedResource()
+const sharedResource = <P extends any>(component: FC<P>) => (props: P) =>
+  component(props)
 
 export default function Playground() {
+  const ref = useRef<Mesh<any, MeshPhysicalMaterial>>(null!)
+
+  useFrame(({ clock }) => {
+    ref.current!.material.color.setScalar((Math.sin(clock.elapsedTime) + 1) / 2)
+  })
+
   return (
     <group position-y={1.5}>
-      <ThingyMaterial.Root>
-        <meshPhysicalMaterial name="ThingyMaterial" color="hotpink" />
-      </ThingyMaterial.Root>
+      <mesh position-x={-1.5}>
+        <sphereGeometry />
+        <ThingyMaterial />
+      </mesh>
 
-      {/* Render two thingies! */}
-      <Thingy position-x={-1} />
-      <Thingy position-x={1} />
+      <mesh position-x={+1.5} ref={ref}>
+        <dodecahedronGeometry />
+        <ThingyMaterial />
+      </mesh>
     </group>
   )
 }
 
-const Thingy = (props: MeshProps) => {
-  const mesh = useRef<Mesh>(null!)
+const ThingyMaterial = sharedResource(() => (
+  <meshPhysicalMaterial name="ThingyMaterial" color="hotpink" />
+))
 
+const ThingyThatMutatesTheMaterial = (props: MeshProps) => {
   return (
-    <mesh {...props} ref={mesh}>
+    <mesh {...props}>
       <icosahedronGeometry />
-      <ThingyMaterial.Instance />
+      <ThingyMaterial />
     </mesh>
   )
 }
