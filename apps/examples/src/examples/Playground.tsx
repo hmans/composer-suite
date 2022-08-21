@@ -1,4 +1,5 @@
-import { MeshProps } from "@react-three/fiber"
+import { applyProps, MeshProps, Node } from "@react-three/fiber"
+import { apply } from "fp-ts/lib/function"
 import {
   cloneElement,
   FC,
@@ -20,12 +21,25 @@ export default function Playground() {
   )
 }
 
+const SharedResource = <C extends { new (...args: any[]): any }>({
+  constructor,
+  args,
+  ...props
+}: { constructor: C } & Omit<Node<InstanceType<C>, C>, "constructor">) => {
+  const [instance, setInstance] = useState(() => {
+    return applyProps(new constructor(args), props)
+  })
+
+  return <primitive object={instance} attach="material" />
+}
+
 const ReallyHeavyMaterial = () => {
   /* INSERT MEMOIZATION HERE, but not of the component,
         but the actual material, aaaaaahahahahaha help */
 
   return (
-    <meshPhysicalMaterial
+    <SharedResource
+      constructor={MeshPhysicalMaterial}
       color="#dda15e"
       metalness={0.8}
       roughness={0.5}
