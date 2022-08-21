@@ -1,3 +1,4 @@
+import { ComposableMaterial } from "material-composer"
 import { collectFromTree } from "shader-composer"
 import {
   BufferAttribute,
@@ -9,7 +10,6 @@ import {
   Vector3
 } from "three"
 import { ParticleAttribute } from "./units"
-import { VFXMaterial } from "./VFXMaterial"
 
 export type InstanceSetupCallback = (config: {
   index: number
@@ -24,7 +24,10 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
-export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
+export class Particles extends InstancedMesh<
+  BufferGeometry,
+  ComposableMaterial
+> {
   public cursor: number = 0
   public maxParticles: number
   public safetyBuffer: number
@@ -40,7 +43,7 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
 
   constructor(
     geometry: BufferGeometry | undefined,
-    material: VFXMaterial | undefined,
+    material: ComposableMaterial | undefined,
     count: number,
     safetyBuffer: number = 100
   ) {
