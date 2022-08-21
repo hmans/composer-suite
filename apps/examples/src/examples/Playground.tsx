@@ -13,7 +13,9 @@ export default function Playground() {
   const ref = useRef<Mesh<any, MeshPhysicalMaterial>>(null!)
 
   useFrame(({ clock }) => {
-    ref.current!.material.color.setScalar((Math.sin(clock.elapsedTime) + 1) / 2)
+    ref.current!.material.color.setScalar(
+      (Math.sin(clock.elapsedTime * 3) + 1) / 2
+    )
   })
 
   return (
