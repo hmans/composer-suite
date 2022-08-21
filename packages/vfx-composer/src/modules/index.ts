@@ -1,7 +1,6 @@
 import {
   $,
   Add,
-  Div,
   Gradient,
   Input,
   InstanceMatrix,
@@ -11,8 +10,6 @@ import {
   pipe,
   Pow,
   Smoothstep,
-  SplitVector2,
-  Sub,
   Unit,
   Vec3
 } from "shader-composer"

@@ -150,6 +150,7 @@ export type HeatOptions = {
   octaves?: number
   power?: Input<"float">
 }
+
 export const Heat = (
   v: Input<"vec3">,
   { offset = vec3(0, 0, 0), scale = 1, octaves = 5, power = 1 }: HeatOptions
