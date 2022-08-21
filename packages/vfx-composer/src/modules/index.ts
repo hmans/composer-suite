@@ -2,8 +2,6 @@ import {
   Add,
   Gradient,
   Input,
-  InstanceMatrix,
-  mat3,
   Mul,
   OneMinus,
   pipe,
@@ -14,6 +12,7 @@ import {
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
 import { Heat, HeatOptions, SoftParticle } from "../units"
+import { Translate } from "./Translate"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -43,28 +42,8 @@ export type ModulePipe = Module[]
 
 export * from "./Billboard"
 export * from "./Particles"
-
-type ScaleProps = {
-  scale: Input<"float">
-}
-
-export const Scale: ModuleFactory<ScaleProps> = ({ scale = 1 }) => (state) => ({
-  ...state,
-  position: Mul(state.position, scale)
-})
-
-type TranslateProps = {
-  offset: Input<"vec3">
-}
-
-export const Translate = ({ offset }: TranslateProps): Module => (state) => ({
-  ...state,
-  position: pipe(
-    offset,
-    (v) => Mul(v, mat3(InstanceMatrix)),
-    (v) => Add(state.position, v)
-  )
-})
+export * from "./Scale"
+export * from "./Translate"
 
 type RotateProps = {
   rotation: Input<"mat3">
