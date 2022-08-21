@@ -5,14 +5,12 @@ import {
   Mul,
   OneMinus,
   pipe,
-  Pow,
   Smoothstep,
   Unit
 } from "shader-composer"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
-import { Heat, HeatOptions, SoftParticle } from "../units"
-import { Translate } from "./Translate"
+import { Heat, HeatOptions } from "../units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -40,49 +38,14 @@ export type ModuleFactoryProps = Record<string, any>
  */
 export type ModulePipe = Module[]
 
+export * from "./Acceleration"
 export * from "./Billboard"
 export * from "./Particles"
+export * from "./Rotate"
 export * from "./Scale"
+export * from "./SoftParticles"
 export * from "./Translate"
-
-type RotateProps = {
-  rotation: Input<"mat3">
-}
-
-export const Rotate = ({ rotation }: RotateProps): Module => (state) => ({
-  ...state,
-  position: Mul(state.position, rotation)
-})
-
-type VelocityProps = {
-  velocity: Input<"vec3">
-  time: Input<"float">
-}
-
-export const Velocity = ({ velocity, time }: VelocityProps) =>
-  Translate({ offset: Mul(velocity, time) })
-
-type AccelerationProps = {
-  force: Input<"vec3">
-  time: Input<"float">
-}
-
-export const Acceleration = ({ force, time }: AccelerationProps) =>
-  Translate({
-    offset: pipe(
-      force,
-      (v) => Mul(v, Pow(time, 2)),
-      (v) => Mul(v, 0.5)
-    )
-  })
-
-export const SoftParticles: ModuleFactory<{
-  softness: Input<"float">
-  depthTexture: Unit<"sampler2D">
-}> = ({ softness, depthTexture }) => (state) => ({
-  ...state,
-  alpha: Mul(state.alpha, SoftParticle(softness, state.position, depthTexture))
-})
+export * from "./Velocity"
 
 /* TODO: overriding color is very bad because it will override Lifetime's actions. Find a better solution! */
 export const SetColor = ({ color }: { color: Input<"vec3"> }): Module => (
