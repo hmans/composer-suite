@@ -2,25 +2,15 @@ import { useConst } from "@hmans/use-const"
 import { useFrame } from "@react-three/fiber"
 import { cloneElement, FC, useLayoutEffect, useRef } from "react"
 import { makeStore, useStore } from "statery"
-import { Mesh, MeshPhysicalMaterial } from "three"
+import { BufferGeometry, Material, Mesh, MeshPhysicalMaterial } from "three"
 
 const sharedResource = <P extends any>(component: FC<P>) => {
   const store = makeStore({
-    count: 0,
-    instance: null as any
+    instance: undefined as any
   })
 
   const setInstance = (instance: any) => {
-    console.log("setInstance", instance)
     store.set({ instance })
-  }
-
-  const increaseCount = () => {
-    store.set(({ count }) => ({ count: count + 1 }))
-  }
-
-  const decreaseCount = () => {
-    store.set(({ count }) => ({ count: count - 1 }))
   }
 
   const Define = (props: P) => {
@@ -31,27 +21,18 @@ const sharedResource = <P extends any>(component: FC<P>) => {
 
   const Emit = () => {
     const { instance } = useStore(store)
-    return instance ? <primitive object={instance} attach="material" /> : null
+
+    const attach =
+      instance instanceof Material
+        ? "material"
+        : instance instanceof BufferGeometry
+        ? "geometry"
+        : undefined
+
+    return instance ? <primitive object={instance} attach={attach} /> : null
   }
 
-  const Auto = () => {
-    const id = useConst(() => {
-      const id = store.state.count
-      increaseCount()
-      return id
-    })
-
-    useLayoutEffect(
-      () => () => {
-        decreaseCount()
-      },
-      []
-    )
-
-    return id === 0 ? Define({}) : Emit()
-  }
-
-  return { Define, Emit, Auto }
+  return { Define, Emit }
 }
 
 export default function Playground() {
@@ -68,14 +49,16 @@ export default function Playground() {
 
   return (
     <group position-y={1.5}>
+      <ThingyMaterial.Define />
+
       <mesh position-x={-1.5}>
         <sphereGeometry />
-        <ThingyMaterial.Auto />
+        <ThingyMaterial.Emit />
       </mesh>
 
       <mesh position-x={+1.5} ref={ref}>
         <dodecahedronGeometry />
-        <ThingyMaterial.Auto />
+        <ThingyMaterial.Emit />
       </mesh>
     </group>
   )
