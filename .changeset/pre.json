@@ -5,15 +5,20 @@
     "examples": "0.0.0",
     "r3f-stage": "0.1.2",
     "three-vfx": "0.2.1",
-    "vfx-composer": "0.1.0"
+    "vfx-composer": "0.1.0",
+    "vfx-composer-r3f": "0.2.0-next.2"
   },
   "changesets": [
     "forty-crabs-chew",
     "four-pumpkins-own",
     "good-dryers-brush",
     "hot-laws-scream",
+    "modern-badgers-dress",
     "plenty-countries-taste",
     "rude-papayas-shake",
-    "strong-bikes-bathe"
+    "strong-bikes-bathe",
+    "swift-wasps-fix",
+    "twenty-bees-jump",
+    "violet-moose-visit"
   ]
 }
