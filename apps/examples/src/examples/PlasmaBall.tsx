@@ -11,7 +11,6 @@ export default function PlasmaBallExample() {
 
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
-        {/* <torusKnotGeometry args={[1, 0.3]} /> */}
 
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
