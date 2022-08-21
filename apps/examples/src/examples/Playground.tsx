@@ -2,12 +2,11 @@ import { MeshProps, Node, useFrame } from "@react-three/fiber"
 import { FC, useRef } from "react"
 import { Mesh, MeshPhysicalMaterial } from "three"
 
-type Constructor = { new (...args: any[]): any }
-
-type Props<C extends Constructor> = Node<InstanceType<C>, C>
-
-const sharedResource = <P extends any>(component: FC<P>) => (props: P) =>
-  component(props)
+const sharedResource = <P extends any>(component: FC<P>) => {
+  return (props: P) => {
+    return component(props)
+  }
+}
 
 export default function Playground() {
   const ref = useRef<Mesh<any, MeshPhysicalMaterial>>(null!)
