@@ -1,6 +1,5 @@
-import { useConst } from "@hmans/use-const"
 import { useFrame } from "@react-three/fiber"
-import { cloneElement, FC, useLayoutEffect, useRef } from "react"
+import { cloneElement, FC, useRef } from "react"
 import { makeStore, useStore } from "statery"
 import { BufferGeometry, Material, Mesh, MeshPhysicalMaterial } from "three"
 
@@ -13,11 +12,10 @@ const sharedResource = <P extends any>(component: FC<P>) => {
     store.set({ instance })
   }
 
-  const Define = (props: P) => {
-    return cloneElement(component(props)!, {
+  const Define = (props: P) =>
+    cloneElement(component(props)!, {
       ref: setInstance
     })
-  }
 
   const Emit = () => {
     const { instance } = useStore(store)
@@ -38,9 +36,11 @@ const sharedResource = <P extends any>(component: FC<P>) => {
 export default function Playground() {
   const ref = useRef<Mesh<any, MeshPhysicalMaterial>>(null!)
 
-  /* For testing, we'll mutate one of the mesh's material's
-        color. If the resource sharing works, the colors of both
-        meshes will update. */
+  /*
+  For testing, we'll mutate one of the mesh's material's
+  color. If the resource sharing works, the colors of both
+  meshes will update.
+  */
   useFrame(({ clock }) => {
     ref.current!.material.color.setScalar(
       (Math.sin(clock.elapsedTime * 3) + 1) / 2
