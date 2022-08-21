@@ -1,11 +1,9 @@
 import {
   $,
   Add,
-  Attribute,
   Clamp01,
   Div,
   Float,
-  glslType,
   Input,
   InstanceMatrix,
   LocalToViewSpace,
@@ -24,14 +22,12 @@ import {
   ViewMatrix
 } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
-import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
-import { Particles } from "../Particles"
-import { makeAttribute } from "../util/makeAttribute"
+import { Color, Vector2, Vector3, Vector4 } from "three"
 
 export * from "./particles"
 
 /* TODO: promote this into Shader Composer */
-type GLSLTypeFor<J> = J extends number
+export type GLSLTypeFor<J> = J extends number
   ? "float"
   : J extends Vector2
   ? "vec2"
@@ -42,68 +38,6 @@ type GLSLTypeFor<J> = J extends number
   : J extends Color
   ? "vec3"
   : never
-
-let nextAttributeId = 1
-
-export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
-
-export const ParticleAttribute = <
-  J extends number | Vector2 | Vector3 | Color | Vector4,
-  T extends GLSLTypeFor<J>
->(
-  initialValue: J
-) => {
-  const name = `a_particle_${nextAttributeId++}`
-  let value = initialValue
-  const type = glslType(value as Input<T>)
-
-  return {
-    ...Attribute<T>(type, name),
-
-    name,
-
-    isParticleAttribute: true,
-
-    setupMesh: ({ geometry, count }: InstancedMesh) => {
-      const itemSize =
-        type === "float"
-          ? 1
-          : type === "vec2"
-          ? 2
-          : type === "vec3"
-          ? 3
-          : type === "vec4"
-          ? 4
-          : 4
-
-      geometry.setAttribute(name, makeAttribute(count, itemSize))
-    },
-
-    get value() {
-      return value
-    },
-
-    set value(v: J) {
-      value = v
-    },
-
-    setupParticle: ({ geometry, cursor }: Particles) => {
-      const attribute = geometry.attributes[name]
-
-      if (typeof value === "number") {
-        attribute.setX(cursor, value)
-      } else if (value instanceof Vector2) {
-        attribute.setXY(cursor, value.x, value.y)
-      } else if (value instanceof Vector3) {
-        attribute.setXYZ(cursor, value.x, value.y, value.z)
-      } else if (value instanceof Color) {
-        attribute.setXYZ(cursor, value.r, value.g, value.b)
-      } else if (value instanceof Vector4) {
-        attribute.setXYZW(cursor, value.x, value.y, value.z, value.w)
-      }
-    }
-  }
-}
 
 export const billboard = Snippet(
   (name) => $`
