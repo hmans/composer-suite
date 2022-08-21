@@ -14,6 +14,13 @@ import {
 } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
+export const FogExample = () => (
+  <group>
+    <Fog />
+    <Sculpture />
+  </group>
+)
+
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
 
@@ -26,11 +33,6 @@ export const Fog = () => {
 
   return (
     <group>
-      <mesh position-y={0.6} castShadow>
-        <torusKnotGeometry args={[2, 0.9, 96, 32]} />
-        <meshStandardMaterial color="black" metalness={0.5} roughness={0.6} />
-      </mesh>
-
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry />
         <VFXMaterial
@@ -60,3 +62,10 @@ export const Fog = () => {
     </group>
   )
 }
+
+const Sculpture = () => (
+  <mesh position-y={0.6} castShadow>
+    <torusKnotGeometry args={[2, 0.9, 96, 32]} />
+    <meshStandardMaterial color="black" metalness={0.5} roughness={0.6} />
+  </mesh>
+)
