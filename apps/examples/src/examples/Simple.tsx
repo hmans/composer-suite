@@ -57,16 +57,23 @@ export const useEasyParticles = () => {
 
   const particles = useParticles(variables.lifetime, variables.time)
 
+  const setLifetime = (duration: number, offset: number = 0) =>
+    variables.lifetime.value.set(
+      variables.time.value + offset,
+      variables.time.value + offset + duration
+    )
+
   return {
     ...variables,
-    ...particles
+    ...particles,
+    setLifetime
   }
 }
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
-  const velocity = useShaderVariable(() => ParticleAttribute(new Vector3()))
   const particles = useEasyParticles()
+  const velocity = useShaderVariable(() => ParticleAttribute(new Vector3()))
 
   return (
     <group>
@@ -75,7 +82,6 @@ export const Simple = () => {
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
-          transparent
           depthWrite={false}
           blending={AdditiveBlending}
         >
@@ -92,8 +98,7 @@ export const Simple = () => {
         <Emitter
           continuous
           setup={() => {
-            const t = particles.time.value
-            particles.lifetime.value.set(t, t + between(1, 3))
+            particles.setLifetime(between(1, 3))
             velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))
           }}
         />
