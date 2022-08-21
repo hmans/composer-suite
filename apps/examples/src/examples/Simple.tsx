@@ -2,17 +2,51 @@ import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { useMemo } from "react"
-import { Input, OneMinus, Time } from "shader-composer"
+import {
+  $,
+  Div,
+  Input,
+  OneMinus,
+  SplitVector2,
+  Sub,
+  Time,
+  Vec3
+} from "shader-composer"
 import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
-import { Lifetime } from "vfx-composer/modules"
+import { Lifetime, Module } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
 
-const useShaderVariables = (ctor: () => any) => useConst(ctor)
+const useShaderVariables = <T extends any>(ctor: () => T) => useConst(ctor)
 
-const useParticleLifetime = (lifetime: Input<"vec2">, time: Input<"float">) =>
-  useMemo(() => Lifetime(lifetime, time), [lifetime, time])
+const useParticles = (lifetime: Input<"vec2">, time: Input<"float">) =>
+  useConst(() => {
+    const [StartTime, EndTime] = SplitVector2(lifetime)
+
+    const MaxAge = Sub(EndTime, StartTime)
+    const Age = Sub(time, StartTime)
+    const Progress = Div(Age, MaxAge)
+
+    const module: Module = (state) => ({
+      ...state,
+      color: Vec3(state.color, {
+        fragment: {
+          body: $`if (${Progress} < 0.0 || ${Progress} > 1.0) discard;`
+        }
+      })
+    })
+
+    return {
+      module,
+      time,
+      Age,
+      MaxAge,
+      StartTime,
+      EndTime,
+      Progress
+    }
+  })
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
@@ -23,11 +57,7 @@ export const Simple = () => {
     velocity: ParticleAttribute(new Vector3())
   }))
 
-  const {
-    ParticleProgress,
-    ParticleAge,
-    module: lifetimeModule
-  } = useParticleLifetime(variables.lifetime, variables.time)
+  const particles = useParticles(variables.lifetime, variables.time)
 
   return (
     <group>
@@ -41,10 +71,13 @@ export const Simple = () => {
           blending={AdditiveBlending}
         >
           <VFX.Billboard />
-          <VFX.Scale scale={OneMinus(ParticleProgress)} />
-          <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
-          <VFX.Acceleration force={new Vector3(0, -2, 0)} time={ParticleAge} />
-          <VFX.Module module={lifetimeModule} />
+          <VFX.Scale scale={OneMinus(particles.Progress)} />
+          <VFX.Velocity velocity={variables.velocity} time={particles.Age} />
+          <VFX.Acceleration
+            force={new Vector3(0, -2, 0)}
+            time={particles.Age}
+          />
+          <VFX.Module module={particles.module} />
         </VFXMaterial>
 
         <Emitter
