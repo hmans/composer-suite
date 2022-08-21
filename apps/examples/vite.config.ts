@@ -5,6 +5,6 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ["vfx-composer"]
+    exclude: ["vfx-composer", "material-composer"]
   }
 })

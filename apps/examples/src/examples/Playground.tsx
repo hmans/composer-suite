@@ -1,3 +1,16 @@
+import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { Mul, Time } from "shader-composer"
+import { Color, MeshStandardMaterial } from "three"
+
 export default function Playground() {
-  return <group></group>
+  return (
+    <group>
+      <mesh>
+        <sphereGeometry />
+        <ComposableMaterial baseMaterial={MeshStandardMaterial}>
+          <Modules.SetColor color={Mul(new Color("hotpink"), Time())} />
+        </ComposableMaterial>
+      </mesh>
+    </group>
+  )
 }

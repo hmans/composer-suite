@@ -15,6 +15,8 @@
     "@react-three/drei": "^9.23.1",
     "@react-three/fiber": "^8.4.1",
     "leva": "^0.9.30",
+    "material-composer": "^0.0.1",
+    "material-composer-r3f": "^0.0.1",
     "r3f-perf": "^6.4.4",
     "r3f-stage": "^0.3.1",
     "react": "^18.1.0",
