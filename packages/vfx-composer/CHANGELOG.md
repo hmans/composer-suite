@@ -1,5 +1,16 @@
 # vfx-composer
 
+## 0.2.0-next.3
+
+### Minor Changes
+
+- c09304e: All the react-three-fiber specific bits that were formerly available at `vfx-composer/fiber` now live in a separate `vfx-composer-r3f` package.
+- a11c4b7: **Breaking Change:** The `Lifetime` module was replaced by the `Particles` module, which takes the object returned from `createParticleUnits` as props.
+
+### Patch Changes
+
+- a11c4b7: `vfx-composer/units` now exports `createParticleUnits`, a helper that creates the necessary Shader Composer units for managing particle lifetimes.
+
 ## 0.2.0-next.2
 
 ### Patch Changes
