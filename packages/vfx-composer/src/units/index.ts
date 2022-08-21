@@ -5,7 +5,6 @@ import {
   Div,
   Float,
   Input,
-  InstanceMatrix,
   LocalToViewSpace,
   Mul,
   PerspectiveDepth,
@@ -13,17 +12,15 @@ import {
   Pow,
   Saturate,
   ScreenUV,
-  Snippet,
   Sub,
   Unit,
   varying,
-  vec3,
-  Vec3,
-  ViewMatrix
+  vec3
 } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
 import { Color, Vector2, Vector3, Vector4 } from "three"
 
+export * from "./billboard"
 export * from "./particles"
 
 /* TODO: promote this into Shader Composer */
@@ -38,20 +35,6 @@ export type GLSLTypeFor<J> = J extends number
   : J extends Color
   ? "vec3"
   : never
-
-export const billboard = Snippet(
-  (name) => $`
-    vec3 ${name}(vec2 v, mat4 view){
-      vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
-      vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
-      vec3 p = right * v.x + up * v.y;
-      return p;
-    }
-  `
-)
-
-export const Billboard = (position: Input<"vec3">) =>
-  Vec3($`${billboard}(${position}.xy, ${ViewMatrix} * ${InstanceMatrix})`)
 
 export const Random = (n: Input<"float">) =>
   Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })
