@@ -45,10 +45,6 @@ export default function Playground() {
   )
 }
 
-const tmpVec3 = new Vector3()
-const UP = new Vector3(0, 1, 0)
-const gravity = new Vector3(0, -1, 0)
-
 const frequency = 5
 
 const SuckyParticles = () => {
@@ -57,8 +53,8 @@ const SuckyParticles = () => {
 
   return (
     <Particles
-      maxParticles={50000}
-      safetyBuffer={10000}
+      maxParticles={10000}
+      safetyBuffer={3000}
       layers-mask={Layers.TransparentFX}
     >
       <planeGeometry args={[0.05, 0.05]} />
@@ -79,7 +75,7 @@ const SuckyParticles = () => {
 
       <Repeat interval={1 / frequency}>
         <Emitter
-          count={3000 / frequency}
+          count={5000 / frequency}
           setup={({ position }) => {
             particles.setLifetime(2, random() / frequency)
 
@@ -114,7 +110,7 @@ const FloorEruption = () => {
       <VFXMaterial color="black" baseMaterial={MeshStandardMaterial}>
         <VFX.Scale scale={OneMinus(particles.Progress)} />
         <VFX.Velocity velocity={velocity} time={particles.Age} />
-        <VFX.Acceleration force={new Vector3(0, -1, 0)} time={particles.Age} />
+        <VFX.Acceleration force={new Vector3(0, 1, 0)} time={particles.Age} />
         <VFX.Rotate
           rotation={Rotation3DY(Mul(particles.Age, Sin(particles.StartTime)))}
         />
@@ -169,7 +165,7 @@ function PlasmaBall(props: GroupProps) {
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
 
-  const time = useConst(() => Time())
+  const particles = useParticles()
   const velocity = useParticleAttribute(() => new Vector3())
   const rotation = useParticleAttribute(() => 0 as number)
   const scale = useParticleAttribute(() => 1 as number)
@@ -187,22 +183,25 @@ export const Fog = () => {
           depthWrite={false}
         >
           <VFX.SetAlpha alpha={0.2} />
-          <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <VFX.Rotate rotation={Rotation3DZ(Mul(particles.Age, rotation))} />
           <VFX.Scale scale={scale} />
-          <VFX.Velocity velocity={velocity} time={time} />
+          <VFX.Velocity velocity={velocity} time={particles.Age} />
           <VFX.Billboard />
           <VFX.SoftParticles softness={5} depthTexture={depth} />
         </VFXMaterial>
 
-        <Emitter
-          count={50}
-          setup={({ position }) => {
-            position.set(plusMinus(3), between(-2, 4), plusMinus(3))
-            velocity.value.randomDirection().multiplyScalar(upTo(0.05))
-            rotation.value = plusMinus(0.2)
-            scale.value = between(1, 10)
-          }}
-        />
+        <Repeat interval={1 / frequency}>
+          <Emitter
+            count={50 / frequency}
+            setup={({ position }) => {
+              particles.setLifetime(10, random() / frequency)
+              position.set(-30, between(0, 1), plusMinus(10))
+              velocity.value.set(between(3, 10), 0, 0)
+              rotation.value = plusMinus(0.2)
+              scale.value = between(1, 10)
+            }}
+          />
+        </Repeat>
       </Particles>
     </group>
   )
