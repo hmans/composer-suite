@@ -8,7 +8,7 @@ import {
 import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
 import { FireflyExample } from "./examples/FireflyExample"
-import { Fog } from "./examples/Fog"
+import { FogExample } from "./examples/FogExample"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import Playground from "./examples/Playground"
 import { Simple } from "./examples/Simple"
@@ -55,7 +55,7 @@ export default () => (
       </Example>
 
       <Example path="fog" title="Fog">
-        <Fog />
+        <FogExample />
 
         <Description>
           Particle-based fog. Particles use billboarded plane geometries with a
