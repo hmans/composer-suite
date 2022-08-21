@@ -18,12 +18,12 @@ import {
 import { Particles, VFXMaterial } from "vfx-composer"
 import {
   Acceleration,
-  Lifetime,
+  Particles as ParticlesModule,
   Scale,
   SetColor,
   Velocity
 } from "vfx-composer/modules"
-import { ParticleAttribute } from "vfx-composer/units"
+import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (
@@ -41,7 +41,7 @@ const vanillaCode = (
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
+  const lifetime = createParticleUnits(variables.lifetime, time)
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -51,10 +51,10 @@ const vanillaCode = (
   */
   const modules = [
     SetColor({ color: variables.color }),
-    Scale({ scale: OneMinus(lifetime.ParticleProgress) }),
-    Velocity({ velocity: variables.velocity, time: lifetime.ParticleAge }),
-    Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.ParticleAge }),
-    lifetime.module
+    Scale({ scale: OneMinus(lifetime.Progress) }),
+    Velocity({ velocity: variables.velocity, time: lifetime.Age }),
+    Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.Age }),
+    ParticlesModule(lifetime)
   ]
 
   /*

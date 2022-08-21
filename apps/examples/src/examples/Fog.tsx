@@ -1,23 +1,26 @@
+import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
-import { useState } from "react"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { MeshStandardMaterial, Vector3 } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
-import { ParticleAttribute } from "vfx-composer/units"
+import {
+  Emitter,
+  Particles,
+  useParticleAttribute,
+  VFX,
+  VFXMaterial
+} from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
 export const Fog = () => {
   const texture = useTexture(smokeUrl)
 
-  const [{ time, velocity, rotation, scale }] = useState(() => ({
-    time: Time(),
-    velocity: ParticleAttribute(new Vector3()),
-    rotation: ParticleAttribute(0 as number),
-    scale: ParticleAttribute(1 as number)
-  }))
+  const time = useConst(() => Time())
+  const velocity = useParticleAttribute(() => new Vector3())
+  const rotation = useParticleAttribute(() => 0 as number)
+  const scale = useParticleAttribute(() => 1 as number)
 
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
