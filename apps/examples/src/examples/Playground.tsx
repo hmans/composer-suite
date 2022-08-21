@@ -21,19 +21,32 @@ export default function Playground() {
   )
 }
 
+type Constructor = { new (...args: any[]): any }
+
+type Props<C extends Constructor> = Node<InstanceType<C>, C>
+
 const resource = {
   instance: null
 }
 
-const SharedResource = <C extends { new (...args: any[]): any }>({
-  constructor,
-  args,
-  ...props
-}: { constructor: C } & Omit<Node<InstanceType<C>, C>, "constructor">) => {
+const useSharedResource = <C extends Constructor>(
+  constructor: C,
+  args: ConstructorParameters<C>,
+  props: Props<C>
+) => {
   if (!resource.instance)
     resource.instance = applyProps(new constructor(args), props as any)
 
-  return <primitive object={resource.instance} attach="material" />
+  return resource.instance
+}
+
+const SharedResource = <C extends Constructor>({
+  constructor,
+  args,
+  ...props
+}: { constructor: C } & Props<C>) => {
+  const resource = useSharedResource(constructor, args, props)
+  return <primitive object={resource} attach="material" />
 }
 
 const ThingyMaterial = () => (
