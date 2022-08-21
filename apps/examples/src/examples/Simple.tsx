@@ -1,40 +1,19 @@
 import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import {
-  $,
-  Div,
-  Input,
-  OneMinus,
-  SplitVector2,
-  Sub,
-  Time,
-  Vec3
-} from "shader-composer"
+import { Div, Input, OneMinus, SplitVector2, Sub, Time } from "shader-composer"
 import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
-import { Module } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
 
-const createParticles = (lifetime: Input<"vec2">, time: Input<"float">) => {
+const createParticleUnits = (lifetime: Input<"vec2">, time: Input<"float">) => {
   const [StartTime, EndTime] = SplitVector2(lifetime)
-
   const MaxAge = Sub(EndTime, StartTime)
   const Age = Sub(time, StartTime)
   const Progress = Div(Age, MaxAge)
 
-  const module: Module = (state) => ({
-    ...state,
-    color: Vec3(state.color, {
-      fragment: {
-        body: $`if (${Progress} < 0.0 || ${Progress} > 1.0) discard;`
-      }
-    })
-  })
-
   return {
-    module,
     Age,
     MaxAge,
     StartTime,
@@ -43,16 +22,16 @@ const createParticles = (lifetime: Input<"vec2">, time: Input<"float">) => {
   }
 }
 
-const useParticles = (...args: Parameters<typeof createParticles>) =>
-  useConst(() => createParticles(...args))
+const useParticleUnits = (...args: Parameters<typeof createParticleUnits>) =>
+  useConst(() => createParticleUnits(...args))
 
-export const useDefaultParticles = () => {
+export const useParticles = () => {
   const variables = useConst(() => ({
     time: Time(),
     lifetime: ParticleAttribute(new Vector2())
   }))
 
-  const particles = useParticles(variables.lifetime, variables.time)
+  const particles = useParticleUnits(variables.lifetime, variables.time)
 
   const setLifetime = (duration: number, offset: number = 0) =>
     variables.lifetime.value.set(
@@ -75,7 +54,7 @@ export const useParticleAttribute = <
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
-  const particles = useDefaultParticles()
+  const particles = useParticles()
   const velocity = useParticleAttribute(() => new Vector3())
 
   return (
@@ -101,7 +80,7 @@ export const Simple = () => {
             force={new Vector3(0, -2, 0)}
             time={particles.Age}
           />
-          <VFX.Module module={particles.module} />
+          <VFX.Particles {...particles} />
         </VFXMaterial>
 
         {/* The other important component here is the emitter, which will, as you
