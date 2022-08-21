@@ -21,30 +21,31 @@ export default function Playground() {
   )
 }
 
-let instance: any
+const resource = {
+  instance: null
+}
 
 const SharedResource = <C extends { new (...args: any[]): any }>({
   constructor,
   args,
   ...props
 }: { constructor: C } & Omit<Node<InstanceType<C>, C>, "constructor">) => {
-  if (!instance) instance = applyProps(new constructor(args), props as any)
+  if (!resource.instance)
+    resource.instance = applyProps(new constructor(args), props as any)
 
-  return <primitive object={instance} attach="material" />
+  return <primitive object={resource.instance} attach="material" />
 }
 
-const ReallyHeavyMaterial = () => {
-  return (
-    <SharedResource
-      constructor={MeshPhysicalMaterial}
-      color="#dda15e"
-      metalness={0.8}
-      roughness={0.5}
-      transmission={1}
-      attach="material"
-    />
-  )
-}
+const ThingyMaterial = () => (
+  <SharedResource
+    constructor={MeshPhysicalMaterial}
+    color="#dda15e"
+    metalness={0.8}
+    roughness={0.5}
+    transmission={1}
+    attach="material"
+  />
+)
 
 const Thingy = (props: MeshProps) => {
   const mesh = useRef<Mesh>(null!)
@@ -57,7 +58,7 @@ const Thingy = (props: MeshProps) => {
   return (
     <mesh {...props} ref={mesh}>
       <icosahedronGeometry />
-      <ReallyHeavyMaterial />
+      <ThingyMaterial />
     </mesh>
   )
 }
