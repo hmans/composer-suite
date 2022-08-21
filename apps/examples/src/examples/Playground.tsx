@@ -21,22 +21,19 @@ export default function Playground() {
   )
 }
 
+let instance: any
+
 const SharedResource = <C extends { new (...args: any[]): any }>({
   constructor,
   args,
   ...props
 }: { constructor: C } & Omit<Node<InstanceType<C>, C>, "constructor">) => {
-  const [instance, setInstance] = useState(() => {
-    return applyProps(new constructor(args), props)
-  })
+  if (!instance) instance = applyProps(new constructor(args), props as any)
 
   return <primitive object={instance} attach="material" />
 }
 
 const ReallyHeavyMaterial = () => {
-  /* INSERT MEMOIZATION HERE, but not of the component,
-        but the actual material, aaaaaahahahahaha help */
-
   return (
     <SharedResource
       constructor={MeshPhysicalMaterial}
