@@ -1,3 +1,4 @@
+import { useRerender } from "@hmans/use-rerender"
 import { extend, InstancedMeshProps } from "@react-three/fiber"
 import React, {
   createContext,
@@ -5,11 +6,13 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
-  useRef,
-  useState
+  useLayoutEffect,
+  useRef
 } from "react"
-import { Particles as ParticlesImpl } from "vfx-composer"
-import { VFXMaterial as VFXMaterialImpl } from "vfx-composer"
+import {
+  Particles as ParticlesImpl,
+  VFXMaterial as VFXMaterialImpl
+} from "vfx-composer"
 
 export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
   args?: ConstructorParameters<typeof ParticlesImpl>
@@ -44,16 +47,24 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     },
     ref
   ) => {
-    const [_, setReady] = useState(false)
+    const rerender = useRerender()
     const particles = useRef<ParticlesImpl>(null!)
 
     /*
-    We need to initialize the particles mesh in an effect, because in most cases,
-    the material driving it will only be created in its children.
-    */
+    Every time this component re-renders, see if it needs to set up its
+    particle engine. This only happens when the material has changed.
+     */
     useEffect(() => {
       particles.current.setupParticles()
-      setReady(true)
+    }, [particles, particles.current?.material])
+
+    /*
+    We need to re-render this beautiful component once, because it's highly
+    likely that the material driving the particle effect is only declared
+    within its children.
+    */
+    useLayoutEffect(() => {
+      rerender()
     }, [particles])
 
     useImperativeHandle(ref, () => particles.current)
