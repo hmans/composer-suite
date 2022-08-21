@@ -1,4 +1,6 @@
 import { MeshProps } from "@react-three/fiber"
+import { useEffect, useRef } from "react"
+import { Mesh } from "three"
 
 export default function Playground() {
   return (
@@ -12,7 +14,7 @@ export default function Playground() {
 
 const ReallyHeavyMaterial = () => {
   /* INSERT MEMOIZATION HERE, but not of the component,
-  but the actual material, aaaaaahahahahaha help */
+        but the actual material, aaaaaahahahahaha help */
 
   return (
     <meshPhysicalMaterial
@@ -24,9 +26,18 @@ const ReallyHeavyMaterial = () => {
   )
 }
 
-const Thingy = (props: MeshProps) => (
-  <mesh {...props}>
-    <icosahedronGeometry />
-    <ReallyHeavyMaterial />
-  </mesh>
-)
+const Thingy = (props: MeshProps) => {
+  const mesh = useRef<Mesh>(null!)
+
+  useEffect(() => {
+    // @ts-ignore
+    console.log(mesh.current.material.uuid)
+  })
+
+  return (
+    <mesh {...props} ref={mesh}>
+      <icosahedronGeometry />
+      <ReallyHeavyMaterial />
+    </mesh>
+  )
+}
