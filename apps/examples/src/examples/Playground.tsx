@@ -184,11 +184,11 @@ export const Fog = () => {
           transparent
           depthWrite={false}
         >
+          <VFX.Billboard />
           <VFX.SetAlpha alpha={0.2} />
           <VFX.Rotate rotation={Rotation3DZ(Mul(particles.Age, rotation))} />
           <VFX.Scale scale={scale} />
           <VFX.Velocity velocity={velocity} time={particles.Age} />
-          {/* <VFX.Billboard /> */}
           <VFX.SoftParticles softness={5} depthTexture={depth} />
         </VFXMaterial>
 
