@@ -1,14 +1,5 @@
 import { applyProps, MeshProps, Node } from "@react-three/fiber"
-import { apply } from "fp-ts/lib/function"
-import {
-  cloneElement,
-  FC,
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from "react"
+import { useEffect, useRef } from "react"
 import { Mesh, MeshPhysicalMaterial } from "three"
 
 export default function Playground() {
