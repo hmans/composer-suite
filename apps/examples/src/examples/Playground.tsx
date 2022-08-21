@@ -52,7 +52,7 @@ const SuckyParticles = () => {
 
   return (
     <Particles
-      maxParticles={10000}
+      maxParticles={100000}
       safetyBuffer={3000}
       layers-mask={Layers.TransparentFX}
     >
@@ -76,7 +76,7 @@ const SuckyParticles = () => {
         <Emitter
           count={5000 / frequency}
           setup={({ position }) => {
-            particles.setLifetime(2, random() / frequency)
+            particles.setLifetime(between(1, 2), random() / frequency)
 
             const direction = onCircle(between(4, 5))
 
