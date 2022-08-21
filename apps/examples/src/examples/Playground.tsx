@@ -1,4 +1,4 @@
-import { sharedResource } from "./lib/sharedResource"
+import { sharedResource } from "@hmans/r3f-shared-resource"
 
 const SharedMaterial = sharedResource(() => (
   <meshPhysicalMaterial name="ThingyMaterial" color="hotpink" />

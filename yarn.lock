@@ -1339,6 +1339,14 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.1.2.tgz#d2fb7b968141139e5c2419553e5295382c265e7d"
   integrity sha512-bbZIpW6fdyf7FMaeDmw3cBbkTqsecxEkwlVKgVfqqXWBPLH6azxhPA2V9F7OhoZSVrsnMYw7QuyK6qutXPjEew==
 
+"@hmans/r3f-shared-resource@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@hmans/r3f-shared-resource/-/r3f-shared-resource-0.0.1.tgz#11e7e0ac63b48d90bc36b74546b276cdd7a4559f"
+  integrity sha512-Orjvt+cNFEM6omjCZKmz4aKVqSUCzkh6gQXJqu6xtiGZ7HPGiMBqtfKyRJenXNmFQ54/3sYjbNoeEgycQwPlZw==
+  dependencies:
+    react-merge-refs "^2.0.1"
+    statery "^0.6.0-next.2"
+
 "@hmans/use-const@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@hmans/use-const/-/use-const-0.0.1.tgz#5e1c798918d923bc27145d2073adbf2ce51ca409"
