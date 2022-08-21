@@ -15,12 +15,7 @@ import {
 } from "shader-composer"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
-import {
-  Billboard as BillboardUnit,
-  Heat,
-  HeatOptions,
-  SoftParticle
-} from "../units"
+import { Heat, HeatOptions, SoftParticle } from "../units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -47,6 +42,8 @@ export type ModuleFactoryProps = Record<string, any>
  * A Module Pipe is an array of Modules.
  */
 export type ModulePipe = Module[]
+
+export * from "./Billboard"
 
 export const Particles: ModuleFactory<{ Progress: Input<"float"> }> = ({
   Progress
@@ -111,11 +108,6 @@ export const Acceleration = ({ force, time }: AccelerationProps) =>
       (v) => Mul(v, 0.5)
     )
   })
-
-export const Billboard: ModuleFactory = () => (state) => ({
-  ...state,
-  position: BillboardUnit(state.position)
-})
 
 export const SoftParticles: ModuleFactory<{
   softness: Input<"float">
