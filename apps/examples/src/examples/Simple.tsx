@@ -17,10 +17,6 @@ import { Module } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
 
-const useShaderVariables = <T extends any>(ctor: () => T) => useConst(ctor)
-
-const useShaderVariable = <T extends any>(ctor: () => T) => useConst(ctor)
-
 const createParticles = (lifetime: Input<"vec2">, time: Input<"float">) => {
   const [StartTime, EndTime] = SplitVector2(lifetime)
 
@@ -51,7 +47,7 @@ const useParticles = (...args: Parameters<typeof createParticles>) =>
   useConst(() => createParticles(...args))
 
 export const useDefaultParticles = () => {
-  const variables = useShaderVariables(() => ({
+  const variables = useConst(() => ({
     time: Time(),
     lifetime: ParticleAttribute(new Vector2())
   }))
@@ -75,7 +71,7 @@ export const useParticleAttribute = <
   T extends Parameters<typeof ParticleAttribute>[0]
 >(
   ctor: () => T
-) => useShaderVariable(() => ParticleAttribute(ctor()))
+) => useConst(() => ParticleAttribute(ctor()))
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
