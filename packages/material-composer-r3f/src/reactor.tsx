@@ -1,21 +1,19 @@
 import { FC, useEffect, useMemo } from "react"
-import * as VFXModules from "material-composer/modules"
+import * as Modules from "material-composer/modules"
 import { Module, ModuleFactory, ModuleFactoryProps } from "vfx-composer/modules"
-import { useVFXMaterialContext } from "./ComposableMaterial"
+import { useMaterialContext } from "./ComposableMaterial"
 
-type VFXModules = typeof VFXModules
+type Modules = typeof Modules
 
-const cache = new Map<string, VFXComponent<any>>()
+const cache = new Map<string, ModuleComponent<any>>()
 
-type VFXComponentProps<K extends keyof VFXModules> = Parameters<
-  VFXModules[K]
->[0]
+type ModuleComponentProps<K extends keyof Modules> = Parameters<Modules[K]>[0]
 
-type VFXComponent<K extends keyof VFXModules> = FC<VFXComponentProps<K>>
+type ModuleComponent<K extends keyof Modules> = FC<ModuleComponentProps<K>>
 
-type VFXProxy = {
-  [K in keyof VFXModules]: VFXModules[K] extends (...args: any[]) => Module
-    ? VFXComponent<K>
+type ModuleComponentProxy = {
+  [K in keyof Modules]: Modules[K] extends (...args: any[]) => Module
+    ? ModuleComponent<K>
     : never
 }
 
@@ -24,7 +22,7 @@ const makeModuleComponent = <P extends ModuleFactoryProps>(
 ) => (props: P) => {
   const module = useMemo(() => fac(props), [props])
 
-  const { addModule, removeModule } = useVFXMaterialContext()
+  const { addModule, removeModule } = useMaterialContext()
 
   useEffect(() => {
     addModule(module)
@@ -34,12 +32,15 @@ const makeModuleComponent = <P extends ModuleFactoryProps>(
   return null
 }
 
-export const VFXReactor = new Proxy<VFXProxy>({} as VFXProxy, {
-  get<N extends keyof VFXModules>(target: any, name: N) {
-    if (!cache.has(name)) {
-      // @ts-ignore
-      cache.set(name, makeModuleComponent(VFXModules[name]))
+export const ModuleReactor = new Proxy<ModuleComponentProxy>(
+  {} as ModuleComponentProxy,
+  {
+    get<N extends keyof Modules>(target: any, name: N) {
+      if (!cache.has(name)) {
+        // @ts-ignore
+        cache.set(name, makeModuleComponent(Modules[name]))
+      }
+      return cache.get(name)
     }
-    return cache.get(name)
   }
-})
+)

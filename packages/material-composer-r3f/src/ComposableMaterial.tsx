@@ -18,7 +18,7 @@ const Context = createContext<{
   removeModule: (module: Module) => void
 }>(null!)
 
-export const useVFXMaterialContext = () => useContext(Context)
+export const useMaterialContext = () => useContext(Context)
 
 export type ComposableMaterialProps = iCSMProps
 
