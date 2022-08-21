@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hmans/use-rerender": "^0.0.2",
+    "@hmans/use-version": "^0.0.2",
     "@react-three/drei": "^9.22.7",
     "@react-three/fiber": "^8.3.1",
     "leva": "^0.9.30",
