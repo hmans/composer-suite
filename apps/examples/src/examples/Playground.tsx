@@ -6,12 +6,12 @@ import { BufferGeometry, Material, Mesh, MeshPhysicalMaterial } from "three"
 const sharedResource = <P extends any>(component: FC<P>) => {
   const store = makeStore<{ instance?: any }>({})
 
-  const Define = (props: P) =>
+  const Create = (props: P) =>
     cloneElement(component(props)!, {
       ref: (instance: any) => store.set({ instance })
     })
 
-  const Emit = () => {
+  const Use = () => {
     const { instance } = useStore(store)
 
     /*
@@ -28,7 +28,7 @@ const sharedResource = <P extends any>(component: FC<P>) => {
     return instance ? <primitive object={instance} attach={attach} /> : null
   }
 
-  return { Define, Emit }
+  return { Create, Use }
 }
 
 export default function Playground() {
@@ -47,16 +47,16 @@ export default function Playground() {
 
   return (
     <group position-y={1.5}>
-      <ThingyMaterial.Define />
+      <ThingyMaterial.Create />
 
       <mesh position-x={-1.5}>
         <sphereGeometry />
-        <ThingyMaterial.Emit />
+        <ThingyMaterial.Use />
       </mesh>
 
       <mesh position-x={+1.5} ref={ref}>
         <dodecahedronGeometry />
-        <ThingyMaterial.Emit />
+        <ThingyMaterial.Use />
       </mesh>
     </group>
   )
