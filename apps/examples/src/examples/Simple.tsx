@@ -28,7 +28,7 @@ export const Simple = () => {
 
   return (
     <group>
-      <Particles maxParticles={1000} safetyBuffer={1_000}>
+      <Particles maxParticles={1_000} safetyBuffer={1_000}>
         <planeGeometry args={[0.2, 0.2]} />
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}
