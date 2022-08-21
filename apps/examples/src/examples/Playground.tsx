@@ -1,16 +1,15 @@
-import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { Layers, useRenderPipeline } from "r3f-stage"
-import { between, plusMinus, random, upTo } from "randomish"
+import { between, plusMinus, random } from "randomish"
 import {
-  Time,
-  Mul,
   Cos,
-  Rotation3DZ,
+  Mul,
+  OneMinus,
   Rotation3DY,
+  Rotation3DZ,
   Sin,
-  OneMinus
+  Time
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { Color, DoubleSide, MeshStandardMaterial, Vector3 } from "three"
@@ -38,7 +37,7 @@ export default function Playground() {
   return (
     <group>
       <SuckyParticles />
-      <PlasmaBall position-y={3.5} scale={2.7} />
+      <PlasmaBall position-y={0} scale={3} />
       <FloorEruption />
       <Fog />
     </group>
@@ -139,11 +138,13 @@ const FloorEruption = () => {
 function PlasmaBall(props: GroupProps) {
   const time = Time()
 
+  const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
+
   return (
     <group {...props}>
       <directionalLight intensity={0.8} position={[20, 10, 10]} />
 
-      <mesh>
+      <mesh layers-mask={Layers.TransparentFX}>
         <icosahedronGeometry args={[1, 8]} />
 
         <VFXMaterial
@@ -156,6 +157,7 @@ function PlasmaBall(props: GroupProps) {
             amplitude={Mul(Cos(time), 0.2)}
           />
           <VFX.Plasma offset={Mul(time, 0.3)} />
+          <VFX.SoftParticles softness={0.5} depthTexture={depth} />
         </VFXMaterial>
       </mesh>
     </group>
@@ -186,7 +188,7 @@ export const Fog = () => {
           <VFX.Rotate rotation={Rotation3DZ(Mul(particles.Age, rotation))} />
           <VFX.Scale scale={scale} />
           <VFX.Velocity velocity={velocity} time={particles.Age} />
-          <VFX.Billboard />
+          {/* <VFX.Billboard /> */}
           <VFX.SoftParticles softness={5} depthTexture={depth} />
         </VFXMaterial>
 
@@ -194,8 +196,8 @@ export const Fog = () => {
           <Emitter
             count={50 / frequency}
             setup={({ position }) => {
-              particles.setLifetime(10, random() / frequency)
-              position.set(-30, between(0, 1), plusMinus(10))
+              particles.setLifetime(6, random() / frequency)
+              position.set(-10, between(0, 1), plusMinus(10))
               velocity.value.set(between(3, 10), 0, 0)
               rotation.value = plusMinus(0.2)
               scale.value = between(1, 10)
