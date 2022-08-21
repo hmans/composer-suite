@@ -28,6 +28,8 @@ import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { Particles } from "../Particles"
 import { makeAttribute } from "../util/makeAttribute"
 
+export * from "./particles"
+
 /* TODO: promote this into Shader Composer */
 type GLSLTypeFor<J> = J extends number
   ? "float"

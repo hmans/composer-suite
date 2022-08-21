@@ -1,5 +1,5 @@
-import { Cos, Mul, Time, vec3 } from "shader-composer"
-import { MeshStandardMaterial, DoubleSide } from "three"
+import { Cos, Mul, Time } from "shader-composer"
+import { DoubleSide, MeshStandardMaterial } from "three"
 import { VFX, VFXMaterial } from "vfx-composer-r3f"
 
 export default function PlasmaBallExample() {
@@ -11,7 +11,6 @@ export default function PlasmaBallExample() {
 
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
-        {/* <torusKnotGeometry args={[1, 0.3]} /> */}
 
         <VFXMaterial
           baseMaterial={MeshStandardMaterial}

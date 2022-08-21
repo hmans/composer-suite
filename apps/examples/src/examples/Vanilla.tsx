@@ -16,14 +16,8 @@ import {
   WebGLRenderer
 } from "three"
 import { Particles, VFXMaterial } from "vfx-composer"
-import {
-  Acceleration,
-  Lifetime,
-  Scale,
-  SetColor,
-  Velocity
-} from "vfx-composer/modules"
-import { ParticleAttribute } from "vfx-composer/units"
+import * as Modules from "vfx-composer/modules"
+import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (
@@ -41,7 +35,7 @@ const vanillaCode = (
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = Lifetime(variables.lifetime, time)
+  const lifetime = createParticleUnits(variables.lifetime, time)
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -50,11 +44,11 @@ const vanillaCode = (
   preconfigured module pipelines, but you can of course just create your own.
   */
   const modules = [
-    SetColor({ color: variables.color }),
-    Scale({ scale: OneMinus(lifetime.ParticleProgress) }),
-    Velocity({ velocity: variables.velocity, time: lifetime.ParticleAge }),
-    Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.ParticleAge }),
-    lifetime.module
+    Modules.SetColor({ color: variables.color }),
+    Modules.Scale({ scale: OneMinus(lifetime.Progress) }),
+    Modules.Velocity({ velocity: variables.velocity, time: lifetime.Age }),
+    Modules.Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.Age }),
+    Modules.Particles(lifetime)
   ]
 
   /*

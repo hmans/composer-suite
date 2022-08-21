@@ -51,32 +51,16 @@ export type ModuleFactoryProps = Record<string, any>
  */
 export type ModulePipe = Module[]
 
-export const Lifetime = (lifetime: Input<"vec2">, time: Input<"float">) => {
-  const [ParticleStartTime, ParticleEndTime] = SplitVector2(lifetime)
-
-  const ParticleMaxAge = Sub(ParticleEndTime, ParticleStartTime)
-  const ParticleAge = Sub(time, ParticleStartTime)
-  const ParticleProgress = Div(ParticleAge, ParticleMaxAge)
-
-  const module: Module = (state) => ({
-    ...state,
-    color: Vec3(state.color, {
-      fragment: {
-        body: $`if (${ParticleProgress} < 0.0 || ${ParticleProgress} > 1.0) discard;`
-      }
-    })
+export const Particles: ModuleFactory<{ Progress: Input<"float"> }> = ({
+  Progress
+}) => (state) => ({
+  ...state,
+  color: Vec3(state.color, {
+    fragment: {
+      body: $`if (${Progress} < 0.0 || ${Progress} > 1.0) discard;`
+    }
   })
-
-  return {
-    module,
-    time,
-    ParticleAge,
-    ParticleMaxAge,
-    ParticleStartTime,
-    ParticleEndTime,
-    ParticleProgress
-  }
-}
+})
 
 type ScaleProps = {
   scale: Input<"float">

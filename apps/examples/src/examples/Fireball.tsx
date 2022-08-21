@@ -9,7 +9,7 @@ export default function FireballExample() {
     <group position-y={1.5}>
       {/* <directionalLight intensity={0.8} position={[20, 10, 10]} /> */}
 
-      <mesh>
+      <mesh castShadow>
         <icosahedronGeometry args={[1, 8]} />
 
         <VFXMaterial baseMaterial={MeshStandardMaterial}>

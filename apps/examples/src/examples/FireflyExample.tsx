@@ -1,35 +1,31 @@
 import { useFrame } from "@react-three/fiber"
 import { chance, upTo } from "randomish"
-import { useRef, useState } from "react"
-import { OneMinus, Time } from "shader-composer"
+import { useRef } from "react"
+import { OneMinus } from "shader-composer"
 import {
   Color,
   Mesh,
   MeshStandardMaterial,
   NormalBlending,
-  Vector2,
   Vector3
 } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
-import { Lifetime } from "vfx-composer/modules"
-import { ParticleAttribute } from "vfx-composer/units"
+import {
+  Emitter,
+  Particles,
+  useParticleAttribute,
+  useParticles,
+  VFX,
+  VFXMaterial
+} from "vfx-composer-r3f"
 
 const tmpVec3 = new Vector3()
 
 export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
 
-  const [variables] = useState(() => ({
-    time: Time(),
-    color: ParticleAttribute(new Color()),
-    lifetime: ParticleAttribute(new Vector2()),
-    velocity: ParticleAttribute(new Vector3())
-  }))
-
-  const { ParticleProgress, ParticleAge, module: lifetimeModule } = Lifetime(
-    variables.lifetime,
-    variables.time
-  )
+  const particles = useParticles()
+  const velocity = useParticleAttribute(() => new Vector3())
+  const color = useParticleAttribute(() => new Color())
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime
@@ -51,11 +47,11 @@ export const FireflyExample = () => {
         transparent
       >
         <VFX.Billboard />
-        <VFX.Velocity velocity={variables.velocity} time={ParticleAge} />
-        <VFX.Acceleration force={new Vector3(0, -10, 0)} time={ParticleAge} />
-        <VFX.SetAlpha alpha={OneMinus(ParticleProgress)} />
-        <VFX.SetColor color={variables.color} />
-        <VFX.Module module={lifetimeModule} />
+        <VFX.Velocity velocity={velocity} time={particles.Age} />
+        <VFX.Acceleration force={new Vector3(0, -10, 0)} time={particles.Age} />
+        <VFX.SetAlpha alpha={OneMinus(particles.Progress)} />
+        <VFX.SetColor color={color} />
+        <VFX.Particles {...particles} />
       </VFXMaterial>
 
       <mesh ref={mesh}>
@@ -73,12 +69,11 @@ export const FireflyExample = () => {
             position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.4)))
 
             chance(0.5)
-              ? variables.color.value.setRGB(3, 1, 3)
-              : variables.color.value.setRGB(1, 3, 3)
+              ? color.value.setRGB(3, 1, 3)
+              : color.value.setRGB(1, 3, 3)
 
-            const t = variables.time.value
-            variables.lifetime.value.set(t, t + 1)
-            variables.velocity.value.randomDirection().multiplyScalar(upTo(2))
+            particles.setLifetime(1)
+            velocity.value.randomDirection().multiplyScalar(upTo(2))
           }}
         />
       </mesh>

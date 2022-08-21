@@ -1339,6 +1339,26 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.1.2.tgz#d2fb7b968141139e5c2419553e5295382c265e7d"
   integrity sha512-bbZIpW6fdyf7FMaeDmw3cBbkTqsecxEkwlVKgVfqqXWBPLH6azxhPA2V9F7OhoZSVrsnMYw7QuyK6qutXPjEew==
 
+"@hmans/r3f-shared-resource@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@hmans/r3f-shared-resource/-/r3f-shared-resource-0.0.1.tgz#11e7e0ac63b48d90bc36b74546b276cdd7a4559f"
+  integrity sha512-Orjvt+cNFEM6omjCZKmz4aKVqSUCzkh6gQXJqu6xtiGZ7HPGiMBqtfKyRJenXNmFQ54/3sYjbNoeEgycQwPlZw==
+  dependencies:
+    react-merge-refs "^2.0.1"
+    statery "^0.6.0-next.2"
+
+"@hmans/use-const@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@hmans/use-const/-/use-const-0.0.1.tgz#5e1c798918d923bc27145d2073adbf2ce51ca409"
+  integrity sha512-qYWCVLc6NjVq7PcwoCZ/i70VvmBZ+Nni/ZC5qauzksZB1l8M6ltyTs5MEvDC+Z1O/eUKPkiEvCPwgAqiP619BQ==
+
+"@hmans/use-rerender@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@hmans/use-rerender/-/use-rerender-0.0.2.tgz#81dd0dba733cdb43816119ebb03e62026f0587ff"
+  integrity sha512-Z4So8S8Gg2Iudr1ldClZVhq2mO/sAbhzvlQ1RD9F5Ez4rJlx3CY7++XuMwemcz05DAyNBRUrYtl+eL+uiIzI7A==
+  dependencies:
+    "@hmans/use-version" "^0.0.2"
+
 "@hmans/use-version@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@hmans/use-version/-/use-version-0.0.2.tgz#3b61f7ad5c7042a11836b42ce53eba0b37746c80"
@@ -6068,6 +6088,11 @@ react-merge-refs@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
 
+react-merge-refs@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-2.0.1.tgz#a1f8c2dadefa635333e9b91ec59f30b65228b006"
+  integrity sha512-pywF6oouJWuqL26xV3OruRSIqai31R9SdJX/I3gP2q8jLxUnA1IwXcLW8werUHLZOrp4N7YOeQNZrh/BKrHI4A==
+
 react-reconciler@^0.27.0:
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.27.0.tgz#360124fdf2d76447c7491ee5f0e04503ed9acf5b"
@@ -6636,6 +6661,11 @@ stack-utils@^2.0.3:
   integrity sha512-xrQcmYhOsn/1kX+Vraq+7j4oE2j/6BFscZ0etmYg81xuM8Gq0022Pxb8+IqgOFUIaxHs0KaSb7T1+OegiNrNFA==
   dependencies:
     escape-string-regexp "^2.0.0"
+
+statery@^0.6.0-next.2:
+  version "0.6.0-next.2"
+  resolved "https://registry.yarnpkg.com/statery/-/statery-0.6.0-next.2.tgz#487460ae2fff44c3e4ab90d9e31a6ea375409097"
+  integrity sha512-R52hnY8TWIOh2EQf5/uXAUHHEXiK2JgFQQ0NCQZeyCscmkrwrqmVYpau62xd7ZOhsAlwNd7CTrUX6tKvi1tDgQ==
 
 static-extend@^0.1.1:
   version "0.1.2"

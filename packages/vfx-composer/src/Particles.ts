@@ -72,6 +72,12 @@ export class Particles extends InstancedMesh<BufferGeometry, VFXMaterial> {
   }
 
   public setupParticles() {
+    /* Bail if the new material is undefined */
+    if (!this.material) {
+      return false
+    }
+
+    /* Let's go! */
     this.uploadableAttributes = []
 
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */

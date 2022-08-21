@@ -1,5 +1,6 @@
 export * from "./Emitter"
+export * from "./hooks/particles"
 export * from "./makeParticles"
 export * from "./Particles"
-export * from "./VFXMaterial"
 export { VFXReactor as VFX } from "./reactor"
+export * from "./VFXMaterial"
