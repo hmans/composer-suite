@@ -1,7 +1,4 @@
 import { Color, Vector2, Vector3, Vector4 } from "three"
-
-export * from "./billboard"
-export * from "./experiments"
 export * from "./particles"
 
 /* TODO: promote this into Shader Composer */

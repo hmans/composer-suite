@@ -1,5 +1,5 @@
 import { Input, Mul, Unit } from "shader-composer"
-import { SoftParticle } from "../units"
+import { Softness } from "../units"
 import { ModuleFactory } from "./index"
 
 export const SoftParticles: ModuleFactory<{
@@ -7,5 +7,5 @@ export const SoftParticles: ModuleFactory<{
   depthTexture: Unit<"sampler2D">
 }> = ({ softness, depthTexture }) => (state) => ({
   ...state,
-  alpha: Mul(state.alpha, SoftParticle(softness, state.position, depthTexture))
+  alpha: Mul(state.alpha, Softness(softness, state.position, depthTexture))
 })

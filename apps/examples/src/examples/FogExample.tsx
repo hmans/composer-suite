@@ -1,17 +1,12 @@
 import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { MeshStandardMaterial, Vector3 } from "three"
-import {
-  Emitter,
-  Particles,
-  useParticleAttribute,
-  VFX,
-  VFXMaterial
-} from "vfx-composer-r3f"
+import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
 export const FogExample = () => (
@@ -35,19 +30,19 @@ export const Fog = () => {
     <group>
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry />
-        <VFXMaterial
+        <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           transparent
           depthWrite={false}
         >
-          <VFX.SetAlpha alpha={0.1} />
-          <VFX.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
-          <VFX.Scale scale={scale} />
-          <VFX.Velocity velocity={velocity} time={time} />
-          <VFX.Billboard />
-          <VFX.SoftParticles softness={5} depthTexture={depth} />
-        </VFXMaterial>
+          <Modules.SetAlpha alpha={0.1} />
+          <Modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <Modules.Scale scale={scale} />
+          <Modules.Velocity velocity={velocity} time={time} />
+          <Modules.Billboard />
+          <Modules.SoftParticles softness={5} depthTexture={depth} />
+        </ComposableMaterial>
 
         <Emitter
           count={50}

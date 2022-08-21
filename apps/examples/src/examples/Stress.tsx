@@ -1,13 +1,12 @@
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { between, plusMinus, random, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { Color, MeshStandardMaterial, Vector3 } from "three"
-import { Repeat } from "three-vfx"
+import { Repeat } from "timeline-composer"
 import {
   makeParticles,
   useParticleAttribute,
-  useParticles,
-  VFX,
-  VFXMaterial
+  useParticles
 } from "vfx-composer-r3f"
 
 const Effect = makeParticles()
@@ -24,19 +23,19 @@ export const Stress = () => {
       <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
-        <VFXMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
-          <VFX.Scale scale={OneMinus(particles.Progress)} />
-          <VFX.Velocity velocity={velocity} time={particles.Age} />
-          <VFX.Acceleration
+        <ComposableMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+          <Modules.Scale scale={OneMinus(particles.Progress)} />
+          <Modules.Velocity velocity={velocity} time={particles.Age} />
+          <Modules.Acceleration
             force={new Vector3(0, -10, 0)}
             time={particles.Age}
           />
-          <VFX.SetColor color={color} />
-          <VFX.Particles {...particles} />
-        </VFXMaterial>
+          <Modules.SetColor color={color} />
+          <Modules.Particles {...particles} />
+        </ComposableMaterial>
       </Effect.Root>
 
-      <Repeat interval={1 / FREQ}>
+      <Repeat seconds={1 / FREQ}>
         <Effect.Emitter
           count={100_000 / FREQ}
           setup={({ position, rotation }) => {

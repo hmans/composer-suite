@@ -2,7 +2,7 @@ import { Color, Vector2, Vector3, Vector4 } from "three"
 
 export * from "./billboard"
 export * from "./experiments"
-export * from "./particles"
+export * from "./softness"
 
 /* TODO: promote this into Shader Composer */
 export type GLSLTypeFor<J> = J extends number

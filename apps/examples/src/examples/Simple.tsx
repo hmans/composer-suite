@@ -1,4 +1,5 @@
 import { useTexture } from "@react-three/drei"
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
@@ -6,9 +7,7 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles,
-  VFX,
-  VFXMaterial
+  useParticles
 } from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
@@ -24,24 +23,21 @@ export const Simple = () => {
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 
-        {/* The main driver of everything VFX Composer does is VFXMaterial, which
-        will compile a list of animation modules into one big shader so things can
-        happily run on your GPU. Try commenting out some of these to see what happens! */}
-        <VFXMaterial
+        <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
         >
-          <VFX.Billboard />
-          <VFX.Scale scale={OneMinus(particles.Progress)} />
-          <VFX.Velocity velocity={velocity} time={particles.Age} />
-          <VFX.Acceleration
+          <Modules.Billboard />
+          <Modules.Scale scale={OneMinus(particles.Progress)} />
+          <Modules.Velocity velocity={velocity} time={particles.Age} />
+          <Modules.Acceleration
             force={new Vector3(0, -2, 0)}
             time={particles.Age}
           />
-          <VFX.Particles {...particles} />
-        </VFXMaterial>
+          <Modules.Particles {...particles} />
+        </ComposableMaterial>
 
         {/* The other important component here is the emitter, which will, as you
         might already have guessed, emit new particles. Emitters are full scene

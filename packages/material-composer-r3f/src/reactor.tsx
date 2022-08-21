@@ -1,6 +1,10 @@
 import { FC, useEffect, useMemo } from "react"
 import * as Modules from "material-composer/modules"
-import { Module, ModuleFactory, ModuleFactoryProps } from "vfx-composer/modules"
+import {
+  Module,
+  ModuleFactory,
+  ModuleFactoryProps
+} from "material-composer/modules"
 import { useMaterialContext } from "./ComposableMaterial"
 
 type Modules = typeof Modules

@@ -1,4 +1,5 @@
 import { useThree } from "@react-three/fiber"
+import { ComposableMaterial } from "material-composer"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
@@ -15,8 +16,8 @@ import {
   Vector3,
   WebGLRenderer
 } from "three"
-import { Particles, VFXMaterial } from "vfx-composer"
-import * as Modules from "vfx-composer/modules"
+import { Particles } from "vfx-composer"
+import * as Modules from "material-composer/modules"
 import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
@@ -55,7 +56,7 @@ const vanillaCode = (
   Create a particles material. These can patch themselves into existing
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
-  const material = new VFXMaterial({
+  const material = new ComposableMaterial({
     baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })

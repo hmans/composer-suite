@@ -1,4 +1,5 @@
 import { useFrame } from "@react-three/fiber"
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { chance, upTo } from "randomish"
 import { useRef } from "react"
 import { OneMinus } from "shader-composer"
@@ -13,9 +14,7 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles,
-  VFX,
-  VFXMaterial
+  useParticles
 } from "vfx-composer-r3f"
 
 const tmpVec3 = new Vector3()
@@ -40,19 +39,22 @@ export const FireflyExample = () => {
     <Particles>
       <planeGeometry args={[0.05, 0.05]} />
 
-      <VFXMaterial
+      <ComposableMaterial
         baseMaterial={MeshStandardMaterial}
         color={new Color(4, 1, 4)}
         blending={NormalBlending}
         transparent
       >
-        <VFX.Billboard />
-        <VFX.Velocity velocity={velocity} time={particles.Age} />
-        <VFX.Acceleration force={new Vector3(0, -10, 0)} time={particles.Age} />
-        <VFX.SetAlpha alpha={OneMinus(particles.Progress)} />
-        <VFX.SetColor color={color} />
-        <VFX.Particles {...particles} />
-      </VFXMaterial>
+        <Modules.Billboard />
+        <Modules.Velocity velocity={velocity} time={particles.Age} />
+        <Modules.Acceleration
+          force={new Vector3(0, -10, 0)}
+          time={particles.Age}
+        />
+        <Modules.SetAlpha alpha={OneMinus(particles.Progress)} />
+        <Modules.SetColor color={color} />
+        <Modules.Particles {...particles} />
+      </ComposableMaterial>
 
       <mesh ref={mesh}>
         <dodecahedronGeometry args={[0.2]} />
