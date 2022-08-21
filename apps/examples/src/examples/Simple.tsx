@@ -1,6 +1,7 @@
+import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { Input, OneMinus, Time } from "shader-composer"
 import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
 import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
@@ -8,13 +9,15 @@ import { Lifetime } from "vfx-composer/modules"
 import { ParticleAttribute } from "vfx-composer/units"
 import { particleUrl } from "./textures"
 
+const useShaderVariables = (ctor: () => any) => useConst(ctor)
+
 const useParticleLifetime = (lifetime: Input<"vec2">, time: Input<"float">) =>
   useMemo(() => Lifetime(lifetime, time), [lifetime, time])
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
 
-  const [variables] = useState(() => ({
+  const variables = useShaderVariables(() => ({
     time: Time(),
     lifetime: ParticleAttribute(new Vector2()),
     velocity: ParticleAttribute(new Vector3())
