@@ -2024,10 +2024,33 @@
     utility-types "^3.10.0"
     zustand "^3.5.13"
 
-"@react-three/fiber@^8.3.1":
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.3.1.tgz#83379ba5bf5d21a130023ed6de651b0bf467e14a"
-  integrity sha512-5I1fcnE/3Y89MBNtC58N4ZEm962NqlFwBChhS09AVBz9PmD51uwY0z4y6WPMoVVKhUG39CS6iSbTPQwZygkerA==
+"@react-three/drei@^9.23.1":
+  version "9.23.1"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.23.1.tgz#0610341ae45cc9a84317e2e30914c96e56940eb1"
+  integrity sha512-isSHkDGtOVXdfEm1wG7pMJIk33o2ZSWjikLNS1xX8XKWJEa9bpGjrCBy8ZI+Q/C7Fjk6Y70xrom0x8LidGEz5A==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@react-spring/three" "^9.3.1"
+    "@use-gesture/react" "^10.2.0"
+    detect-gpu "^4.0.19"
+    glsl-noise "^0.0.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    meshline "^2.0.4"
+    react-composer "^5.0.3"
+    react-merge-refs "^1.1.0"
+    stats.js "^0.17.0"
+    suspend-react "^0.0.8"
+    three-mesh-bvh "^0.5.10"
+    three-stdlib "^2.13.0"
+    troika-three-text "^0.46.4"
+    utility-types "^3.10.0"
+    zustand "^3.5.13"
+
+"@react-three/fiber@^8.4.1":
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.4.1.tgz#68ea620d90a45a789835daeabe4cff32a3c80fc1"
+  integrity sha512-08FjZLr2F5oDqaOvf/o8tl9OgPkxqpB/nbFQIpMUjAChyoHVcvJh7z2OmFDFXetNA/nS5Zw+7lEMVE9FvOoQmQ==
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@types/react-reconciler" "^0.26.7"
