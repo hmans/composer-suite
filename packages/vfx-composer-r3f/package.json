@@ -50,6 +50,7 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "shader-composer": "0.3.0",

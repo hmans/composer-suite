@@ -1,56 +1,16 @@
-import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import { Div, Input, OneMinus, SplitVector2, Sub, Time } from "shader-composer"
-import { AdditiveBlending, MeshStandardMaterial, Vector2, Vector3 } from "three"
-import { Emitter, Particles, VFX, VFXMaterial } from "vfx-composer-r3f"
-import { ParticleAttribute } from "vfx-composer/units"
+import { OneMinus } from "shader-composer"
+import { AdditiveBlending, MeshStandardMaterial, Vector3 } from "three"
+import {
+  Emitter,
+  Particles,
+  useParticleAttribute,
+  useParticles,
+  VFX,
+  VFXMaterial
+} from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
-
-const createParticleUnits = (lifetime: Input<"vec2">, time: Input<"float">) => {
-  const [StartTime, EndTime] = SplitVector2(lifetime)
-  const MaxAge = Sub(EndTime, StartTime)
-  const Age = Sub(time, StartTime)
-  const Progress = Div(Age, MaxAge)
-
-  return {
-    Age,
-    MaxAge,
-    StartTime,
-    EndTime,
-    Progress
-  }
-}
-
-const useParticleUnits = (...args: Parameters<typeof createParticleUnits>) =>
-  useConst(() => createParticleUnits(...args))
-
-export const useParticles = () => {
-  const variables = useConst(() => ({
-    time: Time(),
-    lifetime: ParticleAttribute(new Vector2())
-  }))
-
-  const particles = useParticleUnits(variables.lifetime, variables.time)
-
-  const setLifetime = (duration: number, offset: number = 0) =>
-    variables.lifetime.value.set(
-      variables.time.value + offset,
-      variables.time.value + offset + duration
-    )
-
-  return {
-    ...variables,
-    ...particles,
-    setLifetime
-  }
-}
-
-export const useParticleAttribute = <
-  T extends Parameters<typeof ParticleAttribute>[0]
->(
-  ctor: () => T
-) => useConst(() => ParticleAttribute(ctor()))
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
