@@ -23,34 +23,43 @@ const sharedResource = <P extends any>(component: FC<P>) => {
     store.set(({ count }) => ({ count: count - 1 }))
   }
 
-  return (props: P) => {
+  const Define = (props: P) => {
+    return cloneElement(component(props)!, {
+      ref: setInstance
+    })
+  }
+
+  const Emit = () => {
+    const { instance } = useStore(store)
+    return instance ? <primitive object={instance} attach="material" /> : null
+  }
+
+  const Auto = () => {
     const id = useConst(() => {
+      const id = store.state.count
       increaseCount()
-      return store.state.count
+      return id
     })
 
-    useLayoutEffect(() => {
-      return () => decreaseCount()
-    }, [])
+    useLayoutEffect(
+      () => () => {
+        decreaseCount()
+      },
+      []
+    )
 
-    const { instance } = useStore(store)
-
-    if (id > 1) {
-      return instance ? <primitive object={instance} attach="material" /> : null
-    } else {
-      return cloneElement(component(props)!, {
-        ref: setInstance
-      })
-    }
+    return id === 0 ? Define({}) : Emit()
   }
+
+  return { Define, Emit, Auto }
 }
 
 export default function Playground() {
   const ref = useRef<Mesh<any, MeshPhysicalMaterial>>(null!)
 
   /* For testing, we'll mutate one of the mesh's material's
-     color. If the resource sharing works, the colors of both
-     meshes will update. */
+        color. If the resource sharing works, the colors of both
+        meshes will update. */
   useFrame(({ clock }) => {
     ref.current!.material.color.setScalar(
       (Math.sin(clock.elapsedTime * 3) + 1) / 2
@@ -61,12 +70,12 @@ export default function Playground() {
     <group position-y={1.5}>
       <mesh position-x={-1.5}>
         <sphereGeometry />
-        <ThingyMaterial />
+        <ThingyMaterial.Auto />
       </mesh>
 
       <mesh position-x={+1.5} ref={ref}>
         <dodecahedronGeometry />
-        <ThingyMaterial />
+        <ThingyMaterial.Auto />
       </mesh>
     </group>
   )
