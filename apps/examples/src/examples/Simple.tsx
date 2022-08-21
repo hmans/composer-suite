@@ -20,6 +20,8 @@ import { particleUrl } from "./textures"
 
 const useShaderVariables = <T extends any>(ctor: () => T) => useConst(ctor)
 
+const useShaderVariable = <T extends any>(ctor: () => T) => useConst(ctor)
+
 const useParticles = (lifetime: Input<"vec2">, time: Input<"float">) =>
   useConst(() => {
     const [StartTime, EndTime] = SplitVector2(lifetime)
@@ -39,7 +41,6 @@ const useParticles = (lifetime: Input<"vec2">, time: Input<"float">) =>
 
     return {
       module,
-      time,
       Age,
       MaxAge,
       StartTime,
@@ -48,16 +49,24 @@ const useParticles = (lifetime: Input<"vec2">, time: Input<"float">) =>
     }
   })
 
-export const Simple = () => {
-  const texture = useTexture(particleUrl)
-
+export const useEasyParticles = () => {
   const variables = useShaderVariables(() => ({
     time: Time(),
-    lifetime: ParticleAttribute(new Vector2()),
-    velocity: ParticleAttribute(new Vector3())
+    lifetime: ParticleAttribute(new Vector2())
   }))
 
   const particles = useParticles(variables.lifetime, variables.time)
+
+  return {
+    ...variables,
+    ...particles
+  }
+}
+
+export const Simple = () => {
+  const texture = useTexture(particleUrl)
+  const velocity = useShaderVariable(() => ParticleAttribute(new Vector3()))
+  const particles = useEasyParticles()
 
   return (
     <group>
@@ -72,7 +81,7 @@ export const Simple = () => {
         >
           <VFX.Billboard />
           <VFX.Scale scale={OneMinus(particles.Progress)} />
-          <VFX.Velocity velocity={variables.velocity} time={particles.Age} />
+          <VFX.Velocity velocity={velocity} time={particles.Age} />
           <VFX.Acceleration
             force={new Vector3(0, -2, 0)}
             time={particles.Age}
@@ -83,13 +92,9 @@ export const Simple = () => {
         <Emitter
           continuous
           setup={() => {
-            const t = variables.time.value
-            variables.lifetime.value.set(t, t + between(1, 3))
-            variables.velocity.value.set(
-              plusMinus(1),
-              between(1, 3),
-              plusMinus(1)
-            )
+            const t = particles.time.value
+            particles.lifetime.value.set(t, t + between(1, 3))
+            velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))
           }}
         />
       </Particles>
