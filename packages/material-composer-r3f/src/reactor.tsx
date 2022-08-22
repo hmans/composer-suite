@@ -1,10 +1,6 @@
 import { FC, useEffect, useMemo } from "react"
-import * as Modules from "material-composer/modules"
-import {
-  Module,
-  ModuleFactory,
-  ModuleFactoryProps
-} from "material-composer/modules"
+import * as Modules from "@material-composer/modules"
+import { Module, ModuleFactory, ModuleFactoryProps } from "material-composer"
 import { useMaterialContext } from "./ComposableMaterial"
 
 type Modules = typeof Modules

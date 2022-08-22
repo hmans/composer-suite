@@ -1,16 +1,16 @@
 {
-  "name": "material-composer",
+  "name": "@material-composer/modules",
   "private": false,
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hendrik.mans.de"
   },
-  "description": "Composable, shader-driven Three.js materials!",
+  "description": "A collection of Material Composer modules.",
   "version": "0.0.1",
-  "main": "dist/material-composer.cjs.js",
-  "module": "dist/material-composer.esm.js",
-  "types": "dist/material-composer.cjs.d.ts",
+  "main": "dist/material-composer-modules.cjs.js",
+  "module": "dist/material-composer-modules.esm.js",
+  "types": "dist/material-composer-modules.cjs.d.ts",
   "files": [
     "dist/**",
     "LICENSE",
@@ -44,22 +44,18 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "rimraf": "^3.0.2",
+    "shader-composer": "0.3.0",
     "three": "^0.143.0",
     "ts-jest": "^28.0.8",
     "tslib": "^2.4.0",
     "typescript": "^4.7.3"
   },
   "dependencies": {
-    "shader-composer": "0.3.0",
-    "shader-composer-r3f": "0.2.0",
-    "shader-composer-toybox": "^0.1.1",
-    "three-custom-shader-material": "^4.0.0"
+    "material-composer": "^0.0.1"
   },
   "peerDependencies": {
-    "@react-three/fiber": ">=8.0.27",
-    "react": ">=18.1.0",
-    "react-dom": ">=18.1.0",
-    "three": ">=0.141.0"
+    "shader-composer": "^0.3.0",
+    "three": "^0.143.0"
   },
   "babel": {
     "presets": [

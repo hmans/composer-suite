@@ -8,7 +8,3 @@ type VelocityProps = {
 
 export const Velocity = ({ velocity, time }: VelocityProps) =>
   Translate({ offset: Mul(velocity, time) })
-export type AccelerationProps = {
-  force: Input<"vec3">
-  time: Input<"float">
-}

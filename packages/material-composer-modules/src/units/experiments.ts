@@ -1,14 +1,4 @@
-import {
-  Input,
-  Float,
-  vec3,
-  pipe,
-  Add,
-  Mul,
-  Clamp01,
-  Pow,
-  $
-} from "shader-composer"
+import { Add, Clamp01, Input, Mul, pipe, Pow, vec3 } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
 
 export type HeatOptions = {

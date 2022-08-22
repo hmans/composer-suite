@@ -1,5 +1,5 @@
+import { ModuleFactory } from "material-composer"
 import { Input, Mul } from "shader-composer"
-import { ModuleFactory } from "./index"
 
 type ScaleProps = {
   scale: Input<"float">

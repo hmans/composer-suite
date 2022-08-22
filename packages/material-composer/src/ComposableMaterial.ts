@@ -13,8 +13,7 @@ import { MeshStandardMaterial, Scene, WebGLRenderer } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
-import { ModulePipe, ModuleState } from "./modules"
-import { pipeModules } from "./util/pipeModules"
+import { ModulePipe, ModuleState, pipeModules } from "./modules"
 
 export type ComposableMaterialArgs = iCSMParams & {
   modules: ModulePipe
