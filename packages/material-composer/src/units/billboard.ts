@@ -7,8 +7,6 @@ import {
   $
 } from "shader-composer"
 
-/* TODO: move this into a shader-composer-* package! */
-
 export const billboard = Snippet(
   (name) => $`
     vec3 ${name}(vec2 v, mat4 view){
@@ -21,4 +19,9 @@ export const billboard = Snippet(
 )
 
 export const Billboard = (position: Input<"vec3">) =>
-  Vec3($`${billboard}(${position}.xy, ${ViewMatrix} * ${InstanceMatrix})`)
+  Vec3($`${billboard}(${position}.xy,
+    ${ViewMatrix}
+    #ifdef USE_INSTANCING
+    * ${InstanceMatrix}
+    #endif
+    )`)

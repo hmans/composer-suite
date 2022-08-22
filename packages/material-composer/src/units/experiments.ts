@@ -12,7 +12,7 @@ import {
 import { Turbulence3D } from "shader-composer-toybox"
 
 export const Random = (n: Input<"float">) =>
-  Float($`fract(sin(${n}) * 1e4)`, { name: "Random1" })
+  Float($`fract(sin(${n}) * 1e4)`, { name: "Random (Float)" })
 
 export type HeatOptions = {
   offset?: Input<"vec3" | "float">
