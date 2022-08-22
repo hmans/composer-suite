@@ -5383,15 +5383,15 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-material-composer-r3f@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/material-composer-r3f/-/material-composer-r3f-0.0.1.tgz#02c311e1c41e729856c6c4158aa418cb4e1cdf2d"
-  integrity sha512-jSUvp0RO+8xJvdnTSw4wmJW7dAAEQuEWwmVD+4VnuW2AcePJ6THeU8noGxBvfY1oH81eiUoh7ZXBxM3lw3uNOQ==
+material-composer-r3f@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/material-composer-r3f/-/material-composer-r3f-0.0.2.tgz#583d2e64c11e94b5cd0d650aff0900881fdf2b66"
+  integrity sha512-x1DGNmvbzr/ahlDCaawgZXz6FXiQmFbymi/W7wHGrCwtmkZ2zuCXRzOpqJbD9boub3W87j2qaIyTLxQ8xD5ZPA==
   dependencies:
     "@hmans/use-const" "^0.0.1"
     "@hmans/use-rerender" "^0.0.2"
     "@hmans/use-version" "^0.0.2"
-    material-composer "^0.0.1"
+    material-composer "^0.0.2"
     shader-composer "0.3.0"
     shader-composer-r3f "0.2.0"
     three-custom-shader-material "^4.0.0"
@@ -5404,6 +5404,15 @@ material-composer@^0.0.1:
     shader-composer "0.3.0"
     shader-composer-r3f "0.2.0"
     shader-composer-toybox "^0.1.0"
+    three-custom-shader-material "^4.0.0"
+
+material-composer@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/material-composer/-/material-composer-0.0.2.tgz#35137ac2ce5344fae74e28c7dbf63d89db74584d"
+  integrity sha512-yWkw1oGqAkPtUf3jQhfGtwOHI4s7jnjSBDOAnf/pjaQUdDduJVQg5Ty9lc+LShxsInuHUCdvhsR+TmzgElC+qA==
+  dependencies:
+    shader-composer "0.3.0"
+    shader-composer-toybox "^0.1.1"
     three-custom-shader-material "^4.0.0"
 
 meow@^6.0.0:
