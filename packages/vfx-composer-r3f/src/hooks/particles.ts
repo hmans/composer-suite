@@ -1,7 +1,7 @@
 import { useConst } from "@hmans/use-const"
 import { Time } from "shader-composer"
 import { Vector2 } from "three"
-import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
+import { createParticleUnits, ParticleAttribute } from "vfx-composer"
 
 export const useParticles = () => {
   const variables = useConst(() => ({

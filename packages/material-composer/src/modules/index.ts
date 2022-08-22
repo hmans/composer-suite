@@ -38,12 +38,15 @@ export type ModuleFactoryProps = Record<string, any>
  */
 export type ModulePipe = Module[]
 
+export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
+  pipe(initial, ...(modules as [Module]))
+
 export * from "./Acceleration"
 export * from "./Billboard"
-export * from "./Particles"
+export * from "./Lifetime"
 export * from "./Rotate"
 export * from "./Scale"
-export * from "./SoftParticles"
+export * from "./Softness"
 export * from "./Translate"
 export * from "./Velocity"
 
@@ -62,7 +65,7 @@ export const SetAlpha = ({ alpha }: { alpha: Input<"float"> }): Module => (
   alpha
 })
 
-export const Module = ({ module }: { module: Module }): Module => module
+export const CustomModule = ({ module }: { module: Module }): Module => module
 
 export type LavaProps = HeatOptions & {
   color?: (heat: Input<"float">) => Unit<"vec3">

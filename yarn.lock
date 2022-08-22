@@ -6471,10 +6471,10 @@ shader-composer-r3f@0.2.0:
     shader-composer "^0.3.0"
     three-custom-shader-material "^4.0.0"
 
-shader-composer-toybox@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0.tgz#c70a6e27b5edcea3ff605a9ad62a8adb6fa35e0e"
-  integrity sha512-XhqBxOoHjogDJqSAYAbptUpR5oTUoiZOQ3i6PxxiHCdC57OOHe8Og4iQSv715GfoAVb+b5zDQDKdtV8xUWbMVg==
+shader-composer-toybox@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.1.tgz#f4c965a1618914adf64c9d4942d4072483440404"
+  integrity sha512-SLLesCxQQhaDLvOM14GEFf8X5dSZRTdM8zWh3IyJje7mlPxLwesBvfaUutYe/3LcoMXsThrYoDKKFFbJ3uLTIA==
   dependencies:
     shader-composer "^0.3.0"
 
@@ -6870,16 +6870,6 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-three-custom-shader-material@^3.4.4:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-3.5.3.tgz#00b4bc0d5664560a6d3e409cbe24d033697b5952"
-  integrity sha512-AkCYGwmEhSLKR876m3xM8eZzwovQKOgIk79gG27tZevvC/d8sbeC1CbKxjWXEgZ+eLLdLrn4rnPAsLtaxSh08g==
-  dependencies:
-    glsl-token-functions "^1.0.1"
-    glsl-token-string "^1.0.1"
-    glsl-tokenizer "^2.1.5"
-    object-hash "^3.0.0"
-
 three-custom-shader-material@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-4.0.0.tgz#d4f1abab7199caf110c0a94aa0df8f3cccb8a1f5"
@@ -6910,14 +6900,6 @@ three-stdlib@^2.13.0:
     opentype.js "^1.3.3"
     potpack "^1.0.1"
     zstddec "^0.0.2"
-
-three-vfx@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/three-vfx/-/three-vfx-0.2.1.tgz#f26e1cc57797d44356c9e2695e6f2e8c1ecd9efb"
-  integrity sha512-MT+c8uFOYxfaOlJtX5yfGZv5WplDPWhDp748QjjnWtU6HcemDZdha/7kqCUtuRbbjtHi3OInJE7CKp0I4g7bDA==
-  dependencies:
-    react-merge-refs "^1.1.0"
-    three-custom-shader-material "^3.4.4"
 
 three@^0.143.0:
   version "0.143.0"

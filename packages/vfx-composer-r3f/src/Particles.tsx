@@ -1,5 +1,6 @@
 import { useRerender } from "@hmans/use-rerender"
 import { extend, InstancedMeshProps } from "@react-three/fiber"
+import { ComposableMaterial } from "material-composer"
 import React, {
   createContext,
   forwardRef,
@@ -8,14 +9,11 @@ import React, {
   useLayoutEffect,
   useRef
 } from "react"
-import {
-  Particles as ParticlesImpl,
-  VFXMaterial as VFXMaterialImpl
-} from "vfx-composer"
+import { Particles as ParticlesImpl } from "vfx-composer"
 
 export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
   args?: ConstructorParameters<typeof ParticlesImpl>
-  material?: VFXMaterialImpl
+  material?: ComposableMaterial
   maxParticles?: number
   safetyBuffer?: number
 }

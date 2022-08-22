@@ -1,4 +1,6 @@
 import { useThree } from "@react-three/fiber"
+import { ComposableMaterial } from "material-composer"
+import * as Modules from "material-composer/modules"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import { OneMinus, Time } from "shader-composer"
@@ -15,9 +17,7 @@ import {
   Vector3,
   WebGLRenderer
 } from "three"
-import { Particles, VFXMaterial } from "vfx-composer"
-import * as Modules from "vfx-composer/modules"
-import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
+import { createParticleUnits, ParticleAttribute, Particles } from "vfx-composer"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (
@@ -35,7 +35,7 @@ const vanillaCode = (
 
   /* Create a Lifetime module. */
   const time = Time()
-  const lifetime = createParticleUnits(variables.lifetime, time)
+  const particleUnits = createParticleUnits(variables.lifetime, time)
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -45,17 +45,20 @@ const vanillaCode = (
   */
   const modules = [
     Modules.SetColor({ color: variables.color }),
-    Modules.Scale({ scale: OneMinus(lifetime.Progress) }),
-    Modules.Velocity({ velocity: variables.velocity, time: lifetime.Age }),
-    Modules.Acceleration({ force: new Vector3(0, -10, 0), time: lifetime.Age }),
-    Modules.Particles(lifetime)
+    Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
+    Modules.Velocity({ velocity: variables.velocity, time: particleUnits.age }),
+    Modules.Acceleration({
+      force: new Vector3(0, -10, 0),
+      time: particleUnits.age
+    }),
+    Modules.Lifetime(particleUnits)
   ]
 
   /*
   Create a particles material. These can patch themselves into existing
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
-  const material = new VFXMaterial({
+  const material = new ComposableMaterial({
     baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })

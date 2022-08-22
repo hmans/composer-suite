@@ -1,5 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, random } from "randomish"
 import {
@@ -13,14 +14,12 @@ import {
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { Color, DoubleSide, MeshStandardMaterial, Vector3 } from "three"
-import { Repeat } from "three-vfx"
+import { Repeat } from "timeline-composer"
 import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles,
-  VFX,
-  VFXMaterial
+  useParticles
 } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
@@ -58,21 +57,24 @@ const SuckyParticles = () => {
     >
       <planeGeometry args={[0.05, 0.05]} />
 
-      <VFXMaterial
+      <ComposableMaterial
         color={new Color(1, 2, 3)}
         baseMaterial={MeshStandardMaterial}
       >
-        <VFX.Billboard />
-        <VFX.Scale scale={particles.Progress} />
-        <VFX.Velocity velocity={velocity} time={particles.Age} />
-        <VFX.Acceleration force={new Vector3(0, 5, 0)} time={particles.Age} />
-        <VFX.Rotate
-          rotation={Rotation3DY(Mul(particles.Age, Cos(particles.StartTime)))}
+        <Modules.Billboard />
+        <Modules.Scale scale={particles.progress} />
+        <Modules.Velocity velocity={velocity} time={particles.age} />
+        <Modules.Acceleration
+          force={new Vector3(0, 5, 0)}
+          time={particles.age}
         />
-        <VFX.Particles {...particles} />
-      </VFXMaterial>
+        <Modules.Rotate
+          rotation={Rotation3DY(Mul(particles.age, Cos(particles.startTime)))}
+        />
+        <Modules.Lifetime {...particles} />
+      </ComposableMaterial>
 
-      <Repeat interval={1 / frequency}>
+      <Repeat seconds={1 / frequency}>
         <Emitter
           count={5000 / frequency}
           setup={({ position }) => {
@@ -106,17 +108,20 @@ const FloorEruption = () => {
     >
       <boxGeometry args={[0.1, 0.1, 0.1]} />
 
-      <VFXMaterial color="black" baseMaterial={MeshStandardMaterial}>
-        <VFX.Scale scale={OneMinus(particles.Progress)} />
-        <VFX.Velocity velocity={velocity} time={particles.Age} />
-        <VFX.Acceleration force={new Vector3(0, 1, 0)} time={particles.Age} />
-        <VFX.Rotate
-          rotation={Rotation3DY(Mul(particles.Age, Sin(particles.StartTime)))}
+      <ComposableMaterial color="black" baseMaterial={MeshStandardMaterial}>
+        <Modules.Scale scale={OneMinus(particles.progress)} />
+        <Modules.Velocity velocity={velocity} time={particles.age} />
+        <Modules.Acceleration
+          force={new Vector3(0, 1, 0)}
+          time={particles.age}
         />
-        <VFX.Particles {...particles} />
-      </VFXMaterial>
+        <Modules.Rotate
+          rotation={Rotation3DY(Mul(particles.age, Sin(particles.startTime)))}
+        />
+        <Modules.Lifetime {...particles} />
+      </ComposableMaterial>
 
-      <Repeat interval={1 / frequency}>
+      <Repeat seconds={1 / frequency}>
         <Emitter
           count={200 / frequency}
           setup={({ position }) => {
@@ -147,18 +152,18 @@ function PlasmaBall(props: GroupProps) {
       <mesh layers-mask={Layers.TransparentFX}>
         <icosahedronGeometry args={[1, 8]} />
 
-        <VFXMaterial
+        <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           transparent
           side={DoubleSide}
         >
-          <VFX.DistortSurface
+          <Modules.DistortSurface
             offset={Mul(time, 0.5)}
             amplitude={Mul(Cos(time), 0.2)}
           />
-          <VFX.Plasma offset={Mul(time, 0.3)} />
-          <VFX.SoftParticles softness={0.5} depthTexture={depth} />
-        </VFXMaterial>
+          <Modules.Plasma offset={Mul(time, 0.3)} />
+          <Modules.Softness softness={0.5} depthTexture={depth} />
+        </ComposableMaterial>
       </mesh>
     </group>
   )
@@ -178,21 +183,23 @@ export const Fog = () => {
     <group>
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry />
-        <VFXMaterial
+        <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
           transparent
           depthWrite={false}
         >
-          <VFX.Billboard />
-          <VFX.SetAlpha alpha={0.2} />
-          <VFX.Rotate rotation={Rotation3DZ(Mul(particles.Age, rotation))} />
-          <VFX.Scale scale={scale} />
-          <VFX.Velocity velocity={velocity} time={particles.Age} />
-          <VFX.SoftParticles softness={5} depthTexture={depth} />
-        </VFXMaterial>
+          <Modules.Billboard />
+          <Modules.SetAlpha alpha={0.2} />
+          <Modules.Rotate
+            rotation={Rotation3DZ(Mul(particles.age, rotation))}
+          />
+          <Modules.Scale scale={scale} />
+          <Modules.Velocity velocity={velocity} time={particles.age} />
+          <Modules.Softness softness={5} depthTexture={depth} />
+        </ComposableMaterial>
 
-        <Repeat interval={1 / frequency}>
+        <Repeat seconds={1 / frequency}>
           <Emitter
             count={50 / frequency}
             setup={({ position }) => {

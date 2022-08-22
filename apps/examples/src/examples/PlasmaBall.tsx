@@ -1,6 +1,6 @@
+import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { Cos, Mul, Time } from "shader-composer"
 import { DoubleSide, MeshStandardMaterial } from "three"
-import { VFX, VFXMaterial } from "vfx-composer-r3f"
 
 export default function PlasmaBallExample() {
   const time = Time()
@@ -12,17 +12,17 @@ export default function PlasmaBallExample() {
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
 
-        <VFXMaterial
+        <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           transparent
           side={DoubleSide}
         >
-          <VFX.DistortSurface
+          <Modules.DistortSurface
             offset={Mul(time, 0.5)}
             amplitude={Mul(Cos(time), 0.2)}
           />
-          <VFX.Plasma offset={Mul(time, 0.3)} />
-        </VFXMaterial>
+          <Modules.Plasma offset={Mul(time, 0.3)} />
+        </ComposableMaterial>
       </mesh>
     </group>
   )

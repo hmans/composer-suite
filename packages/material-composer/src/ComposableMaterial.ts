@@ -13,14 +13,13 @@ import { MeshStandardMaterial, Scene, WebGLRenderer } from "three"
 import CustomShaderMaterial, {
   iCSMParams
 } from "three-custom-shader-material/vanilla"
-import { ModulePipe, ModuleState } from "./modules"
-import { pipeModules } from "./util/pipeModules"
+import { ModulePipe, ModuleState, pipeModules } from "./modules"
 
-export type VFXMaterialArgs = iCSMParams & {
+export type ComposableMaterialArgs = iCSMParams & {
   modules: ModulePipe
 }
 
-export class VFXMaterial extends CustomShaderMaterial {
+export class ComposableMaterial extends CustomShaderMaterial {
   private _modules: ModulePipe = []
 
   get modules() {
@@ -52,7 +51,7 @@ export class VFXMaterial extends CustomShaderMaterial {
    */
   public shaderRoot?: Unit
 
-  constructor(args: VFXMaterialArgs = {} as VFXMaterialArgs) {
+  constructor(args: ComposableMaterialArgs = {} as ComposableMaterialArgs) {
     super({ ...args, baseMaterial: MeshStandardMaterial })
     this.modules = args.modules || []
   }
