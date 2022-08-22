@@ -2001,30 +2001,7 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-three/drei@^9.22.7":
-  version "9.22.7"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.22.7.tgz#b283116a091286e3ee1dbebd40a93949767930af"
-  integrity sha512-LCjdSo7iaVcZcYuCQcUQxkbGMxO7o4Pnt+5q0sDGui9VYHjCR+33D29ZdAUf7zBsfu7lWMSk7+rPwhzC9cSeAQ==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@react-spring/three" "^9.3.1"
-    "@use-gesture/react" "^10.2.0"
-    detect-gpu "^4.0.19"
-    glsl-noise "^0.0.0"
-    lodash.omit "^4.5.0"
-    lodash.pick "^4.4.0"
-    meshline "^2.0.4"
-    react-composer "^5.0.3"
-    react-merge-refs "^1.1.0"
-    stats.js "^0.17.0"
-    suspend-react "^0.0.8"
-    three-mesh-bvh "^0.5.10"
-    three-stdlib "^2.13.0"
-    troika-three-text "^0.46.4"
-    utility-types "^3.10.0"
-    zustand "^3.5.13"
-
-"@react-three/drei@^9.23.1":
+"@react-three/drei@^9.22.7", "@react-three/drei@^9.23.1":
   version "9.23.1"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.23.1.tgz#0610341ae45cc9a84317e2e30914c96e56940eb1"
   integrity sha512-isSHkDGtOVXdfEm1wG7pMJIk33o2ZSWjikLNS1xX8XKWJEa9bpGjrCBy8ZI+Q/C7Fjk6Y70xrom0x8LidGEz5A==
@@ -6057,10 +6034,10 @@ r3f-perf@^6.4.4:
     "@stitches/react" "^1.2.6"
     zustand "^3.7.1"
 
-r3f-stage@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.1.tgz#ec41406cfd8cce038efebbb8118b758196762c44"
-  integrity sha512-wWUteRqcVDbu5kViLvfEYd6NnimdPxQE66MqgOOE6egzUybtMvSEX08jYXzwljZWeyxwRZnNZVGAsWQ/ngWnpg==
+r3f-stage@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/r3f-stage/-/r3f-stage-0.3.2.tgz#0fc5a694484d56cc41920486fc745b5e46340d76"
+  integrity sha512-TqpdrlAepEFV/IvZe83Pua/i7Mgfx2g4ICxG8S8Qzygyy+J5rcVK+uPUYvEuxp5MXJchnEsh6W6g7rSULB5p1Q==
   dependencies:
     "@react-three/drei" "^9.22.7"
     leva "^0.9.30"

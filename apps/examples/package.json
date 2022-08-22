@@ -18,7 +18,7 @@
     "material-composer": "^0.0.1",
     "material-composer-r3f": "^0.0.1",
     "r3f-perf": "^6.4.4",
-    "r3f-stage": "^0.3.1",
+    "r3f-stage": "^0.3.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-merge-refs": "^2.0.1",
