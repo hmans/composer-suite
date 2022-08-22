@@ -1,5 +1,9 @@
 import { useVersion } from "@hmans/use-version"
 import { extend, useFrame, useThree } from "@react-three/fiber"
+import {
+  ComposableMaterial as ComposableMaterialImpl,
+  Module
+} from "material-composer"
 import React, {
   createContext,
   forwardRef,
@@ -10,8 +14,6 @@ import React, {
   useRef
 } from "react"
 import { iCSMProps } from "three-custom-shader-material"
-import { ComposableMaterial as ComposableMaterialImpl } from "material-composer"
-import { Module } from "material-composer/modules"
 
 const Context = createContext<{
   addModule: (module: Module) => void
