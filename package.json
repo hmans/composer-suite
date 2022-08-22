@@ -1,5 +1,5 @@
 {
-  "name": "three-vfx-monorepo",
+  "name": "vfx-composer-monorepo",
   "private": true,
   "version": "1.0.0",
   "main": "index.js",
