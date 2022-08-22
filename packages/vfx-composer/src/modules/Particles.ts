@@ -1,5 +1,5 @@
 import { $, Input, Vec3 } from "shader-composer"
-import { ModuleFactory } from "."
+import { ModuleFactory } from "material-composer/src/modules"
 
 export const Particles: ModuleFactory<{ Progress: Input<"float"> }> = ({
   Progress
