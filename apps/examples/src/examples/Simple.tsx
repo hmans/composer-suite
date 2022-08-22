@@ -30,13 +30,13 @@ export const Simple = () => {
           blending={AdditiveBlending}
         >
           <Modules.Billboard />
-          <Modules.Scale scale={OneMinus(particles.Progress)} />
-          <Modules.Velocity velocity={velocity} time={particles.Age} />
+          <Modules.Scale scale={OneMinus(particles.progress)} />
+          <Modules.Velocity velocity={velocity} time={particles.age} />
           <Modules.Acceleration
             force={new Vector3(0, -2, 0)}
-            time={particles.Age}
+            time={particles.age}
           />
-          <Modules.Particles {...particles} />
+          <Modules.Lifetime {...particles} />
         </ComposableMaterial>
 
         {/* The other important component here is the emitter, which will, as you

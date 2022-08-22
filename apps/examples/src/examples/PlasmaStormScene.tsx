@@ -62,16 +62,16 @@ const SuckyParticles = () => {
         baseMaterial={MeshStandardMaterial}
       >
         <Modules.Billboard />
-        <Modules.Scale scale={particles.Progress} />
-        <Modules.Velocity velocity={velocity} time={particles.Age} />
+        <Modules.Scale scale={particles.progress} />
+        <Modules.Velocity velocity={velocity} time={particles.age} />
         <Modules.Acceleration
           force={new Vector3(0, 5, 0)}
-          time={particles.Age}
+          time={particles.age}
         />
         <Modules.Rotate
-          rotation={Rotation3DY(Mul(particles.Age, Cos(particles.StartTime)))}
+          rotation={Rotation3DY(Mul(particles.age, Cos(particles.startTime)))}
         />
-        <Modules.Particles {...particles} />
+        <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
       <Repeat seconds={1 / frequency}>
@@ -109,16 +109,16 @@ const FloorEruption = () => {
       <boxGeometry args={[0.1, 0.1, 0.1]} />
 
       <ComposableMaterial color="black" baseMaterial={MeshStandardMaterial}>
-        <Modules.Scale scale={OneMinus(particles.Progress)} />
-        <Modules.Velocity velocity={velocity} time={particles.Age} />
+        <Modules.Scale scale={OneMinus(particles.progress)} />
+        <Modules.Velocity velocity={velocity} time={particles.age} />
         <Modules.Acceleration
           force={new Vector3(0, 1, 0)}
-          time={particles.Age}
+          time={particles.age}
         />
         <Modules.Rotate
-          rotation={Rotation3DY(Mul(particles.Age, Sin(particles.StartTime)))}
+          rotation={Rotation3DY(Mul(particles.age, Sin(particles.startTime)))}
         />
-        <Modules.Particles {...particles} />
+        <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
       <Repeat seconds={1 / frequency}>
@@ -162,7 +162,7 @@ function PlasmaBall(props: GroupProps) {
             amplitude={Mul(Cos(time), 0.2)}
           />
           <Modules.Plasma offset={Mul(time, 0.3)} />
-          <Modules.SoftParticles softness={0.5} depthTexture={depth} />
+          <Modules.Softness softness={0.5} depthTexture={depth} />
         </ComposableMaterial>
       </mesh>
     </group>
@@ -192,11 +192,11 @@ export const Fog = () => {
           <Modules.Billboard />
           <Modules.SetAlpha alpha={0.2} />
           <Modules.Rotate
-            rotation={Rotation3DZ(Mul(particles.Age, rotation))}
+            rotation={Rotation3DZ(Mul(particles.age, rotation))}
           />
           <Modules.Scale scale={scale} />
-          <Modules.Velocity velocity={velocity} time={particles.Age} />
-          <Modules.SoftParticles softness={5} depthTexture={depth} />
+          <Modules.Velocity velocity={velocity} time={particles.age} />
+          <Modules.Softness softness={5} depthTexture={depth} />
         </ComposableMaterial>
 
         <Repeat seconds={1 / frequency}>

@@ -41,7 +41,7 @@ export const Fog = () => {
           <Modules.Scale scale={scale} />
           <Modules.Velocity velocity={velocity} time={time} />
           <Modules.Billboard />
-          <Modules.SoftParticles softness={5} depthTexture={depth} />
+          <Modules.Softness softness={5} depthTexture={depth} />
         </ComposableMaterial>
 
         <Emitter

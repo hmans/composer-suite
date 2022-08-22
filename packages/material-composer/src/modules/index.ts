@@ -1,4 +1,3 @@
-import { Heat, HeatOptions } from "../units"
 import {
   Add,
   Gradient,
@@ -11,6 +10,7 @@ import {
 } from "shader-composer"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
+import { Heat, HeatOptions } from "../units"
 
 export type ModuleState = {
   position: Input<"vec3">
@@ -43,6 +43,7 @@ export const pipeModules = (initial: ModuleState, ...modules: Module[]) =>
 
 export * from "./Acceleration"
 export * from "./Billboard"
+export * from "./Lifetime"
 export * from "./Rotate"
 export * from "./Scale"
 export * from "./Softness"

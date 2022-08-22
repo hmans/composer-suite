@@ -1,38 +1,22 @@
-import {
-  Attribute,
-  Div,
-  glslType,
-  Input,
-  SplitVector2,
-  Sub
-} from "shader-composer"
+import { Attribute, glslType, Input } from "shader-composer"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
-import { GLSLTypeFor } from "."
-import { Particles } from "../Particles"
-import { makeAttribute } from "../util/makeAttribute"
+import { Particles } from "./Particles"
+import { makeAttribute } from "./util/makeAttribute"
 
-export type ParticleUnits = ReturnType<typeof createParticleUnits>
-
-export const createParticleUnits = (
-  lifetime: Input<"vec2">,
-  time: Input<"float">
-) => {
-  const [StartTime, EndTime] = SplitVector2(lifetime)
-  const MaxAge = Sub(EndTime, StartTime)
-  const Age = Sub(time, StartTime)
-  const Progress = Div(Age, MaxAge)
-
-  return {
-    Age,
-    MaxAge,
-    StartTime,
-    EndTime,
-    Progress
-  }
-}
+/* TODO: promote this into Shader Composer */
+export type GLSLTypeFor<J> = J extends number
+  ? "float"
+  : J extends Vector2
+  ? "vec2"
+  : J extends Vector3
+  ? "vec3"
+  : J extends Vector4
+  ? "vec4"
+  : J extends Color
+  ? "vec3"
+  : never
 
 export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
-
 let nextAttributeId = 1
 
 export const ParticleAttribute = <

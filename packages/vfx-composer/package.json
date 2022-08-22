@@ -12,19 +12,10 @@
   "module": "dist/vfx-composer.esm.js",
   "types": "dist/vfx-composer.cjs.d.ts",
   "files": [
-    "units/**",
-    "modules/**",
     "dist/**",
     "LICENSE",
     "README.md"
   ],
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts",
-      "units/index.ts",
-      "modules/index.ts"
-    ]
-  },
   "license": "MIT",
   "sideEffects": false,
   "scripts": {

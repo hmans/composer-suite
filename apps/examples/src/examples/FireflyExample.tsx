@@ -46,14 +46,14 @@ export const FireflyExample = () => {
         transparent
       >
         <Modules.Billboard />
-        <Modules.Velocity velocity={velocity} time={particles.Age} />
+        <Modules.Velocity velocity={velocity} time={particles.age} />
         <Modules.Acceleration
           force={new Vector3(0, -10, 0)}
-          time={particles.Age}
+          time={particles.age}
         />
-        <Modules.SetAlpha alpha={OneMinus(particles.Progress)} />
+        <Modules.SetAlpha alpha={OneMinus(particles.progress)} />
         <Modules.SetColor color={color} />
-        <Modules.Particles {...particles} />
+        <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
       <mesh ref={mesh}>

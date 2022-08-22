@@ -18,7 +18,7 @@ export const SoftParticlesExample = () => {
         depthWrite={false}
       >
         <Modules.Billboard />
-        <Modules.SoftParticles softness={2} depthTexture={depthTexture} />
+        <Modules.Softness softness={2} depthTexture={depthTexture} />
       </ComposableMaterial>
 
       <Emitter />
