@@ -17,7 +17,7 @@ import {
   WebGLRenderer
 } from "three"
 import { Particles } from "vfx-composer"
-import * as Modules from "material-composer/modules"
+import * as Modules from "@material-composer/modules"
 import { createParticleUnits, ParticleAttribute } from "vfx-composer/units"
 import { loop } from "./lib/loop"
 
