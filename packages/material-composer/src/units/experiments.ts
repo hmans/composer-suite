@@ -11,9 +11,6 @@ import {
 } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
 
-export const Random = (n: Input<"float">) =>
-  Float($`fract(sin(${n}) * 1e4)`, { name: "Random (Float)" })
-
 export type HeatOptions = {
   offset?: Input<"vec3" | "float">
   scale?: Input<"float">

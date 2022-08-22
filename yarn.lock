@@ -6471,10 +6471,10 @@ shader-composer-r3f@0.2.0:
     shader-composer "^0.3.0"
     three-custom-shader-material "^4.0.0"
 
-shader-composer-toybox@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.0.tgz#c70a6e27b5edcea3ff605a9ad62a8adb6fa35e0e"
-  integrity sha512-XhqBxOoHjogDJqSAYAbptUpR5oTUoiZOQ3i6PxxiHCdC57OOHe8Og4iQSv715GfoAVb+b5zDQDKdtV8xUWbMVg==
+shader-composer-toybox@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.1.tgz#f4c965a1618914adf64c9d4942d4072483440404"
+  integrity sha512-SLLesCxQQhaDLvOM14GEFf8X5dSZRTdM8zWh3IyJje7mlPxLwesBvfaUutYe/3LcoMXsThrYoDKKFFbJ3uLTIA==
   dependencies:
     shader-composer "^0.3.0"
 

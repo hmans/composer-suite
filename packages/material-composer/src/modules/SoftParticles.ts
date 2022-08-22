@@ -1,5 +1,5 @@
 import { Input, Mul, Unit } from "shader-composer"
-import { Softness } from "../units"
+import { Softness } from "shader-composer-toybox"
 import { ModuleFactory } from "./index"
 
 export const SoftParticles: ModuleFactory<{

@@ -61,7 +61,7 @@
   "dependencies": {
     "shader-composer": "0.3.0",
     "shader-composer-r3f": "0.2.0",
-    "shader-composer-toybox": "^0.1.0",
+    "shader-composer-toybox": "^0.1.1",
     "three-custom-shader-material": "^4.0.0"
   },
   "peerDependencies": {

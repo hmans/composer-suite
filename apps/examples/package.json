@@ -24,7 +24,7 @@
     "react-merge-refs": "^2.0.1",
     "shader-composer": "0.3.0",
     "shader-composer-r3f": "0.2.0",
-    "shader-composer-toybox": "^0.1.0",
+    "shader-composer-toybox": "^0.1.1",
     "statery": "^0.6.0-next.2",
     "three": "^0.143.0",
     "three-custom-shader-material": "^4.0.0",
