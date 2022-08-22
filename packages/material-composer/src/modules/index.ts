@@ -45,7 +45,7 @@ export * from "./Acceleration"
 export * from "./Billboard"
 export * from "./Rotate"
 export * from "./Scale"
-export * from "./SoftParticles"
+export * from "./Softness"
 export * from "./Translate"
 export * from "./Velocity"
 
