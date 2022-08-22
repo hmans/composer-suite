@@ -1,18 +1,10 @@
 import {
   Attribute,
   Div,
-  Float,
   glslType,
   Input,
-  LocalToViewSpace,
-  PerspectiveDepth,
-  pipe,
-  Saturate,
-  ScreenUV,
   SplitVector2,
-  Sub,
-  Unit,
-  varying
+  Sub
 } from "shader-composer"
 import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
 import { GLSLTypeFor } from "."
