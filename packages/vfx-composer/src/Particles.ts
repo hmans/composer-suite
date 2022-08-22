@@ -9,7 +9,7 @@ import {
   Quaternion,
   Vector3
 } from "three"
-import { ParticleAttribute } from "./units"
+import { ParticleAttribute } from "./ParticleAttribute"
 
 export type InstanceSetupCallback = (config: {
   index: number
