@@ -1,4 +1,4 @@
-import { ModuleFactory } from "material-composer"
+import { ModuleFactory } from "."
 import { Add, Input, InstanceMatrix, mat3, Mul, pipe } from "shader-composer"
 
 type TranslateProps = {

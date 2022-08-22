@@ -1664,6 +1664,14 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
+"@material-composer/modules@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@material-composer/modules/-/modules-0.0.1.tgz#9f4478210f8e73e94611906e2634f61ae802b9f8"
+  integrity sha512-xib+ucOGpNyNGUD3J9nUS3k/Bf1eFJpTd7E+oO1GqgN74sIIcp332L6WShWf9Z3Jdl2epbsPPzhPfielPRtbQA==
+  dependencies:
+    material-composer "^0.0.1"
+    shader-composer-toybox "^0.1.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

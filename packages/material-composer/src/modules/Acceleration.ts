@@ -1,5 +1,5 @@
-import { ModuleFactory } from "material-composer"
 import { Input, Mul, pipe, Pow } from "shader-composer"
+import { ModuleFactory } from "."
 import { Translate } from "./Translate"
 
 export type AccelerationProps = {

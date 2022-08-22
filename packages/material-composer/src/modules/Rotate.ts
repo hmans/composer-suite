@@ -1,4 +1,4 @@
-import { ModuleFactory } from "material-composer"
+import { ModuleFactory } from "."
 import { Input, Mul } from "shader-composer"
 
 type RotateProps = {

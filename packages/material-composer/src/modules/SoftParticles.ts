@@ -1,4 +1,4 @@
-import { ModuleFactory } from "material-composer"
+import { ModuleFactory } from "."
 import { Input, Mul, Unit } from "shader-composer"
 import { Softness } from "shader-composer-toybox"
 
