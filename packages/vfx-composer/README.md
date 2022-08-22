@@ -30,9 +30,7 @@ Effect modules are functions that transform positions, colors, opacity and other
 
 ## Examples & Demos 🎓
 
-- **[Official Examples Suite](https://three-vfx-examples.vercel.app/)**
-- **[Official Starter Sandbox](https://codesandbox.io/s/github/hmans/three-vfx-starter?file=/src/Effect.js)** (fork it!)
-- [Space Nebulae](https://codesandbox.io/s/vfx-space-just-the-nebulae-xv9bqm?file=/src/App.js)
+- **[Official Examples Suite](https://vfx-composer-examples.vercel.app/)**
 
 ## How this Library Works 🥳
 
@@ -44,7 +42,7 @@ Clone this repository and run:
 yarn && yarn examples
 ```
 
-Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/three-vfx), or just [view them on Vercel](https://vfx-examples.vercel.app/).
+Alternatively, you can [launch the examples app on StackBlitz](https://stackblitz.com/github/hmans/vfx-composer), or just [view them on Vercel](https://vfx-composer-examples.vercel.app/).
 
 ## Resources
 
