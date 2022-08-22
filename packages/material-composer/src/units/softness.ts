@@ -16,8 +16,8 @@ export const Softness = (
   softness: Input<"float">,
   position: Input<"vec3">,
   depthTexture: Unit<"sampler2D">
-) => {
-  return Float(
+) =>
+  Float(
     pipe(
       position,
       /* Convert position to view space and grab depth */
@@ -32,4 +32,3 @@ export const Softness = (
 
     { name: "Soft Particle" }
   )
-}
