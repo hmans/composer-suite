@@ -1,12 +1,13 @@
 import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
-import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { ComposableMaterial, Layer, Modules } from "material-composer-r3f"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { MeshStandardMaterial, Vector3 } from "three"
 import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
+import { WorldToInstanceSpace } from "./lib/WorldToInstanceSpace"
 import { smokeUrl } from "./textures"
 
 export const FogExample = () => (
@@ -33,13 +34,16 @@ export const Fog = () => {
         <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
+          opacity={0.1}
           transparent
           depthWrite={false}
         >
-          <Modules.Alpha alpha={0.1} />
           <Modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <Modules.Scale scale={scale} />
-          <Modules.Velocity velocity={velocity} time={time} />
+          <Modules.Velocity
+            velocity={WorldToInstanceSpace(velocity)}
+            time={time}
+          />
           <Modules.Billboard />
           <Modules.Softness softness={5} depthTexture={depth} />
         </ComposableMaterial>
@@ -60,7 +64,7 @@ export const Fog = () => {
 
 const Sculpture = () => (
   <mesh position-y={0.6} castShadow>
-    <torusKnotGeometry args={[2, 0.9, 96, 32]} />
+    <torusKnotGeometry args={[2, 0.9, 128, 32]} />
     <meshStandardMaterial color="black" metalness={0.5} roughness={0.6} />
   </mesh>
 )
