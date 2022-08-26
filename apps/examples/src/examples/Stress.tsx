@@ -1,7 +1,7 @@
 import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { between, plusMinus, random, upTo } from "randomish"
-import { OneMinus } from "shader-composer"
-import { Color, MeshStandardMaterial, Vector3 } from "three"
+import { $, Input, OneMinus, Vec3 } from "shader-composer"
+import { Color, Vector3 } from "three"
 import { Repeat } from "timeline-composer"
 import {
   makeParticles,
@@ -13,6 +13,10 @@ const Effect = makeParticles()
 
 const FREQ = 30
 
+/* TODO: is this correct?! */
+const WorldToInstanceSpace = (v: Input<"vec3">) =>
+  Vec3($`vec3(vec4(${v}, 1.0) * instanceMatrix)`)
+
 export const Stress = () => {
   const particles = useParticles()
   const velocity = useParticleAttribute(() => new Vector3())
@@ -23,13 +27,19 @@ export const Stress = () => {
       <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
-        <ComposableMaterial baseMaterial={MeshStandardMaterial} color="hotpink">
+        <ComposableMaterial>
           <Modules.Scale scale={OneMinus(particles.progress)} />
-          <Modules.Velocity velocity={velocity} time={particles.age} />
-          <Modules.Acceleration
-            force={new Vector3(0, -10, 0)}
+
+          <Modules.Velocity
+            velocity={WorldToInstanceSpace(velocity)}
             time={particles.age}
           />
+
+          <Modules.Acceleration
+            force={WorldToInstanceSpace(new Vector3(0, -10, 0))}
+            time={particles.age}
+          />
+
           <Modules.Color color={color} />
           <Modules.Lifetime {...particles} />
         </ComposableMaterial>
