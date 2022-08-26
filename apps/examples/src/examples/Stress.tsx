@@ -8,7 +8,6 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
-import { WorldToInstanceSpace } from "./lib/WorldToInstanceSpace"
 
 const Effect = makeParticles()
 
@@ -27,13 +26,10 @@ export const Stress = () => {
         <ComposableMaterial>
           <Modules.Scale scale={OneMinus(particles.progress)} />
 
-          <Modules.Velocity
-            velocity={WorldToInstanceSpace(velocity)}
-            time={particles.age}
-          />
+          <Modules.Velocity velocity={velocity} time={particles.age} />
 
           <Modules.Acceleration
-            force={WorldToInstanceSpace(new Vector3(0, -10, 0))}
+            force={new Vector3(0, -10, 0)}
             time={particles.age}
           />
 
