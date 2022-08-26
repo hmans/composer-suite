@@ -63,7 +63,7 @@ export const FireflyExample = () => {
         <Emitter
           continuous
           count={10}
-          setup={({ position }) => {
+          setup={({ position, rotation }) => {
             /*
             The position automatically inherits the emitter's position, but let's
             add a little random offset to spice things up!

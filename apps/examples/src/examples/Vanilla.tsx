@@ -19,6 +19,7 @@ import {
 } from "three"
 import { createParticleUnits, ParticleAttribute, Particles } from "vfx-composer"
 import { loop } from "./lib/loop"
+import { WorldToInstanceSpace } from "./lib/WorldToInstanceSpace"
 
 const vanillaCode = (
   parent: Object3D,
@@ -46,9 +47,12 @@ const vanillaCode = (
   const modules = [
     Modules.Color({ color: variables.color }),
     Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
-    Modules.Velocity({ velocity: variables.velocity, time: particleUnits.age }),
+    Modules.Velocity({
+      velocity: WorldToInstanceSpace(variables.velocity),
+      time: particleUnits.age
+    }),
     Modules.Acceleration({
-      force: new Vector3(0, -10, 0),
+      force: WorldToInstanceSpace(new Vector3(0, -10, 0)),
       time: particleUnits.age
     }),
     Modules.Lifetime(particleUnits)
