@@ -30,7 +30,7 @@ export const Stress = () => {
             force={new Vector3(0, -10, 0)}
             time={particles.age}
           />
-          <Modules.SetColor color={color} />
+          <Modules.Color color={color} />
           <Modules.Lifetime {...particles} />
         </ComposableMaterial>
       </Effect.Root>

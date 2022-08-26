@@ -190,7 +190,7 @@ export const Fog = () => {
           depthWrite={false}
         >
           <Modules.Billboard />
-          <Modules.SetAlpha alpha={0.2} />
+          <Modules.Alpha alpha={0.2} />
           <Modules.Rotate
             rotation={Rotation3DZ(Mul(particles.age, rotation))}
           />

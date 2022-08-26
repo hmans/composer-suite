@@ -36,7 +36,7 @@ export const Fog = () => {
           transparent
           depthWrite={false}
         >
-          <Modules.SetAlpha alpha={0.1} />
+          <Modules.Alpha alpha={0.1} />
           <Modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <Modules.Scale scale={scale} />
           <Modules.Velocity velocity={velocity} time={time} />

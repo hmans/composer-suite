@@ -44,7 +44,7 @@ const vanillaCode = (
   preconfigured module pipelines, but you can of course just create your own.
   */
   const modules = [
-    Modules.SetColor({ color: variables.color }),
+    Modules.Color({ color: variables.color }),
     Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
     Modules.Velocity({ velocity: variables.velocity, time: particleUnits.age }),
     Modules.Acceleration({
@@ -62,7 +62,6 @@ const vanillaCode = (
     baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
     modules
   })
-  material.compileModules()
 
   /* Create mesh and add it to the scene. */
   const particles = new Particles(

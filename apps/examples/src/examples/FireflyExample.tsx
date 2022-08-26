@@ -51,8 +51,8 @@ export const FireflyExample = () => {
           force={new Vector3(0, -10, 0)}
           time={particles.age}
         />
-        <Modules.SetAlpha alpha={OneMinus(particles.progress)} />
-        <Modules.SetColor color={color} />
+        <Modules.Alpha alpha={OneMinus(particles.progress)} />
+        <Modules.Color color={color} />
         <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
