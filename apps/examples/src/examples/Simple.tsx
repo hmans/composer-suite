@@ -24,7 +24,6 @@ export const Simple = () => {
         <planeGeometry args={[0.2, 0.2]} />
 
         <ComposableMaterial
-          baseMaterial={MeshStandardMaterial}
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
