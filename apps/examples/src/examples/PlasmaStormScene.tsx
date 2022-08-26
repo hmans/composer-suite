@@ -21,6 +21,7 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
+import { WorldToInstanceSpace } from "./lib/WorldToInstanceSpace"
 import { smokeUrl } from "./textures"
 
 /* TODO: extract into randomish */
@@ -186,16 +187,19 @@ export const Fog = () => {
         <ComposableMaterial
           baseMaterial={MeshStandardMaterial}
           map={texture}
+          opacity={0.1}
           transparent
           depthWrite={false}
         >
           <Modules.Billboard />
-          <Modules.Alpha alpha={0.2} />
           <Modules.Rotate
             rotation={Rotation3DZ(Mul(particles.age, rotation))}
           />
           <Modules.Scale scale={scale} />
-          <Modules.Velocity velocity={velocity} time={particles.age} />
+          <Modules.Velocity
+            velocity={WorldToInstanceSpace(velocity)}
+            time={particles.age}
+          />
           <Modules.Softness softness={5} depthTexture={depth} />
         </ComposableMaterial>
 
