@@ -1,6 +1,6 @@
 import { ComposableMaterial, Modules } from "material-composer-r3f"
 import { between, plusMinus, random, upTo } from "randomish"
-import { $, Input, OneMinus, Vec3 } from "shader-composer"
+import { OneMinus } from "shader-composer"
 import { Color, Vector3 } from "three"
 import { Repeat } from "timeline-composer"
 import {
@@ -8,14 +8,11 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
+import { WorldToInstanceSpace } from "./lib/WorldToInstanceSpace"
 
 const Effect = makeParticles()
 
 const FREQ = 30
-
-/* TODO: is this correct?! */
-const WorldToInstanceSpace = (v: Input<"vec3">) =>
-  Vec3($`vec3(vec4(${v}, 1.0) * instanceMatrix)`)
 
 export const Stress = () => {
   const particles = useParticles()
