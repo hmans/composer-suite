@@ -9,6 +9,7 @@ import "r3f-stage/styles.css"
 import FireballExample from "./examples/Fireball"
 import { FireflyExample } from "./examples/FireflyExample"
 import { FogExample } from "./examples/FogExample"
+import MagicWellExample from "./examples/MagicWellExample"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import PlasmaStormScene from "./examples/PlasmaStormScene"
 import Playground from "./examples/Playground"
@@ -39,6 +40,10 @@ export default () => (
 
       <Example path="particles/firefly" title="Firefly">
         <FireflyExample />
+      </Example>
+
+      <Example path="particles/magic-well" title="Magic Well">
+        <MagicWellExample />
       </Example>
 
       <Example path="particles/vanilla" title="Vanilla Three.js">
