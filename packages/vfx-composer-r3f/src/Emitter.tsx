@@ -19,7 +19,6 @@ export type EmitterProps = Object3DProps & {
 }
 
 const tmpMatrix = new Matrix4()
-const particlesMatrix = new Matrix4()
 
 export const Emitter = forwardRef<Object3D, EmitterProps>(
   (
@@ -30,6 +29,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     const particlesFromContext = useParticlesContext()
     const queuedParticles = useRef(0)
     const remainingParticles = useRef(limit)
+    const particlesMatrix = useRef(new Matrix4())
 
     if (rate === Infinity && limit === Infinity) {
       throw new Error(
@@ -39,11 +39,14 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     const emitterSetup = useCallback<InstanceSetupCallback>(
       (props) => {
-        tmpMatrix
-          .copy(origin.current.matrixWorld)
-          .premultiply(particlesMatrix)
-          .decompose(props.position, props.rotation, props.scale)
+        /* Grab the emitter's world matrix */
+        tmpMatrix.copy(origin.current.matrixWorld)
+        /* Apply the inverted particle mesh's matrix */
+        tmpMatrix.premultiply(particlesMatrix.current)
+        /* Decompose the components into the props object */
+        tmpMatrix.decompose(props.position, props.rotation, props.scale)
 
+        /* Invoke the user's setup callback, if one was given */
         setup?.(props)
       },
       [setup]
@@ -74,7 +77,8 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
           )
 
           /* Emit! */
-          particlesMatrix.copy(particles.matrixWorld).invert()
+          particles.updateMatrixWorld()
+          particlesMatrix.current.copy(particles.matrixWorld).invert()
           particles.emit(amount, emitterSetup)
 
           /* Update the remaining number of particles, and the accumulator. */
@@ -82,7 +86,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
           remainingParticles.current -= amount
         }
       },
-      [particlesProp, particlesFromContext, emitterSetup]
+      [particlesProp, particlesFromContext, emitterSetup, rate, limit]
     )
 
     useFrame((_, dt) => {
