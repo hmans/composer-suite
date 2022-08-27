@@ -5,6 +5,7 @@ import React, {
   RefObject,
   useCallback,
   useImperativeHandle,
+  useLayoutEffect,
   useRef
 } from "react"
 import { Matrix4, Object3D } from "three"
@@ -52,6 +53,12 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
       [setup]
     )
 
+    /* When the props change, reinitialize the emitter */
+    useLayoutEffect(() => {
+      queuedParticles.current = rate === Infinity ? Infinity : 0
+      remainingParticles.current = limit
+    }, [rate, limit])
+
     const emit = useCallback(
       (dt: number) => {
         if (remainingParticles.current <= 0) return
@@ -61,14 +68,12 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
         if (!particles) return
 
         /* Increase the accumulated number of particles we're supposed to emit. */
-        if (rate === Infinity) {
-          queuedParticles.current = Infinity
-        } else {
+        if (rate !== Infinity) {
           queuedParticles.current += dt * rate
         }
 
         /* Is it time to emit? */
-        if (queuedParticles.current >= 1 || rate === Infinity) {
+        if (queuedParticles.current >= 1) {
           /* Determine the amount of particles to emit. Don't go over the number of
           remaining particles. */
           const amount = Math.min(
