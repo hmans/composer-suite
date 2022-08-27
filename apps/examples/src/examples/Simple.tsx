@@ -45,7 +45,7 @@ export const Simple = () => {
         every new particle spawned, which gives us an opportunity to further
         customize each particle's behavior as needed. */}
         <Emitter
-          continuous
+          rate={100}
           setup={() => {
             /* Set a particle lifetime: */
             particles.setLifetime(between(1, 3))
