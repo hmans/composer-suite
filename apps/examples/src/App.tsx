@@ -13,6 +13,7 @@ import MagicWellExample from "./examples/MagicWellExample"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import PlasmaStormScene from "./examples/PlasmaStormScene"
 import Playground from "./examples/Playground"
+import SharedResourceExample from "./examples/SharedResourceExample"
 import { Simple } from "./examples/Simple"
 import { SoftParticlesExample } from "./examples/SoftParticlesExample"
 import { Stress } from "./examples/Stress"
@@ -56,10 +57,6 @@ export default () => (
         </Description>
       </Example>
 
-      <Example path="soft-particles" title="Soft Particles">
-        <SoftParticlesExample />
-      </Example>
-
       <Example path="fog" title="Fog">
         <FogExample />
 
@@ -68,6 +65,16 @@ export default () => (
           smoke texture and some very low alpha. They also use softness in order
           to nicely blend into the scene's geometry.
         </Description>
+      </Example>
+
+      <Heading>Techniques</Heading>
+
+      <Example path="shared-resources" title="Shared Resources">
+        <SharedResourceExample />
+      </Example>
+
+      <Example path="soft-particles" title="Soft Particles">
+        <SoftParticlesExample />
       </Example>
 
       <Heading>Effects</Heading>
