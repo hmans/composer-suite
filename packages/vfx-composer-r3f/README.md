@@ -38,6 +38,18 @@ You can set `rate` to `Infinity` to immediately emit all particles at once:
 >
 > You can not set both `limit` and `rate` to `Infinity`. This will result in an error.
 
+### Pairing Emitters with Timeline Composer
+
+You can use the very useful timeline animation components from [Timeline Composer] to give emitters a lifetime, delay the start of emission, or even configure repeated bursts:
+
+```jsx
+<Repeat seconds={2} times={5}>
+  <Lifetime seconds={1}>
+    <Emitter rate={50} />
+  </Lifetime>
+</Repeat>
+```
+
 ### Configuring Particles
 
 _TODO_
@@ -61,3 +73,5 @@ By default, `<Emitter>` will use React Context to find the nearest `<Particles>`
 ```
 
 Now the emitter may live outside of the Particles mesh it is connected to, and will still emit particles from it.
+
+[timeline composer]: https://github.com/hmans/timeline-composer
