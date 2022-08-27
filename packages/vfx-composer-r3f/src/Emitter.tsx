@@ -15,7 +15,6 @@ export type EmitterProps = Object3DProps & {
   particles?: MutableRefObject<Particles> | RefObject<Particles>
   limit?: number
   rate?: number
-  duration?: number
   setup?: InstanceSetupCallback
 }
 
