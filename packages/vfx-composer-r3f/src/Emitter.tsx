@@ -28,8 +28,8 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
   ) => {
     const origin = useRef<Object3D>(null!)
     const particlesFromContext = useParticlesContext()
-    const acc = useRef(0)
-    const remaining = useRef(limit)
+    const queuedParticles = useRef(0)
+    const remainingParticles = useRef(limit)
 
     if (rate === Infinity && limit === Infinity) {
       throw new Error(
@@ -51,7 +51,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     const emit = useCallback(
       (dt: number) => {
-        if (remaining.current <= 0) return
+        if (remainingParticles.current <= 0) return
 
         /* Grab a reference to the particles mesh */
         const particles = particlesProp?.current || particlesFromContext
@@ -59,24 +59,27 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
         /* Increase the accumulated number of particles we're supposed to emit. */
         if (rate === Infinity) {
-          acc.current = Infinity
+          queuedParticles.current = Infinity
         } else {
-          acc.current += dt * rate
+          queuedParticles.current += dt * rate
         }
 
         /* Is it time to emit? */
-        if (acc.current >= 1 || rate === Infinity) {
+        if (queuedParticles.current >= 1 || rate === Infinity) {
           /* Determine the amount of particles to emit. Don't go over the number of
           remaining particles. */
-          const amount = Math.min(Math.trunc(acc.current), remaining.current)
+          const amount = Math.min(
+            Math.trunc(queuedParticles.current),
+            remainingParticles.current
+          )
 
           /* Emit! */
           particlesMatrix.copy(particles.matrixWorld).invert()
           particles.emit(amount, emitterSetup)
 
           /* Update the remaining number of particles, and the accumulator. */
-          acc.current -= amount
-          remaining.current -= amount
+          queuedParticles.current -= amount
+          remainingParticles.current -= amount
         }
       },
       [particlesProp, particlesFromContext, emitterSetup]
