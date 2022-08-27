@@ -1,57 +1,39 @@
-import { useTexture } from "@react-three/drei"
 import { ComposableMaterial, Modules } from "material-composer-r3f"
-import { between, plusMinus } from "randomish"
-import { OneMinus } from "shader-composer"
-import { AdditiveBlending, Vector3 } from "three"
-import {
-  Emitter,
-  Particles,
-  useParticleAttribute,
-  useParticles
-} from "vfx-composer-r3f"
-import { particleUrl } from "./textures"
+import { between, insideSphere } from "randomish"
+import { Add, Mul, Sin, Time } from "shader-composer"
+import { Vector3 } from "three"
+import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
+
+const tmpVec3 = new Vector3()
 
 export default function SharedResourceExample() {
-  const texture = useTexture(particleUrl)
   const particles = useParticles()
-  const velocity = useParticleAttribute(() => new Vector3())
 
   return (
     <group>
-      {/* All particle effects are driven my instances of <Particles>. */}
-      <Particles maxParticles={1_000} safetyBuffer={1_000}>
-        {/* Any geometry can be used, but here, we'll go with something simple. */}
-        <planeGeometry args={[0.2, 0.2]} />
+      <Particles
+        maxParticles={1_000}
+        safetyBuffer={2_000}
+        castShadow
+        receiveShadow
+      >
+        <icosahedronGeometry args={[0.08, 3]} />
 
-        <ComposableMaterial
-          map={texture}
-          depthWrite={false}
-          blending={AdditiveBlending}
-        >
-          <Modules.Billboard />
-          <Modules.Scale scale={OneMinus(particles.progress)} />
-          <Modules.Velocity velocity={velocity} time={particles.age} />
-          <Modules.Acceleration
-            force={new Vector3(0, -2, 0)}
-            time={particles.age}
-          />
-          <Modules.Lifetime {...particles} />
+        <ComposableMaterial color="#e63946" metalness={0.3} roughness={0.5}>
+          <Modules.Scale scale={Add(1, Mul(Sin(Time()), 0.2))} />
         </ComposableMaterial>
 
-        {/* The other important component here is the emitter, which will, as you
-        might already have guessed, emit new particles. Emitters are full scene
-        objects, and the particles they spawn will inherit their transforms, but more
-        importantly, we can define a callback function that will be invoked once for
-        every new particle spawned, which gives us an opportunity to further
-        customize each particle's behavior as needed. */}
         <Emitter
-          rate={100}
-          setup={() => {
-            /* Set a particle lifetime: */
+          position-y={1.5}
+          rate={Infinity}
+          limit={500}
+          setup={({ position, scale }) => {
+            const pos = insideSphere()
+            tmpVec3.copy(pos as Vector3)
+            position.add(tmpVec3)
             particles.setLifetime(between(1, 3))
 
-            /* Let's configure a per-particle velocity! */
-            velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))
+            scale.multiplyScalar(between(0.5, 1.5))
           }}
         />
       </Particles>
