@@ -58,10 +58,14 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
         if (!particles) return
 
         /* Increase the accumulated number of particles we're supposed to emit. */
-        acc.current += dt * rate
+        if (rate === Infinity) {
+          acc.current = Infinity
+        } else {
+          acc.current += dt * rate
+        }
 
         /* Is it time to emit? */
-        if (acc.current >= 1) {
+        if (acc.current >= 1 || rate === Infinity) {
           /* Determine the amount of particles to emit. Don't go over the number of
           remaining particles. */
           const amount = Math.min(Math.trunc(acc.current), remaining.current)

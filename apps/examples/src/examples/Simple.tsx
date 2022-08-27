@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { ComposableMaterial, Modules } from "material-composer-r3f"
-import { between, plusMinus } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
 import {
