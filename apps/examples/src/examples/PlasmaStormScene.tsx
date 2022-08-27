@@ -76,9 +76,9 @@ const SuckyParticles = () => {
 
       <Repeat seconds={1 / frequency}>
         <Emitter
-          count={5000 / frequency}
+          rate={5000}
           setup={({ position }) => {
-            particles.setLifetime(between(1, 2), random() / frequency)
+            particles.setLifetime(between(1, 2), Math.random())
 
             const direction = onCircle(between(4, 5))
 
@@ -123,11 +123,11 @@ const FloorEruption = () => {
 
       <Repeat seconds={1 / frequency}>
         <Emitter
-          count={200 / frequency}
+          rate={200}
           setup={({ position }) => {
             const s = onCircle(between(3, 3.2))
             position.set(s.x, 0, s.y)
-            particles.setLifetime(4, random() / frequency)
+            particles.setLifetime(4)
 
             velocity.value
               .set(position.x, 5, position.z)
@@ -201,9 +201,9 @@ export const Fog = () => {
 
         <Repeat seconds={1 / frequency}>
           <Emitter
-            count={50 / frequency}
+            rate={50}
             setup={({ position }) => {
-              particles.setLifetime(6, random() / frequency)
+              particles.setLifetime(6)
               position.set(-10, between(0, 1), plusMinus(10))
               velocity.value.set(between(3, 10), 0, 0)
               rotation.value = plusMinus(0.2)

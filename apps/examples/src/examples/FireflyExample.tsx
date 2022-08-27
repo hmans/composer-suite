@@ -56,14 +56,13 @@ export const FireflyExample = () => {
         <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
-      <mesh ref={mesh}>
+      <mesh ref={mesh} castShadow>
         <dodecahedronGeometry args={[0.2]} />
         <meshStandardMaterial color="hotpink" />
 
         <Emitter
-          continuous
-          count={10}
-          setup={({ position, rotation }) => {
+          rate={700}
+          setup={({ position }) => {
             /*
             The position automatically inherits the emitter's position, but let's
             add a little random offset to spice things up!

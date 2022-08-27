@@ -45,7 +45,8 @@ export const Fog = () => {
         </ComposableMaterial>
 
         <Emitter
-          count={50}
+          limit={50}
+          rate={Infinity}
           setup={({ position }) => {
             position.set(plusMinus(3), between(-2, 4), plusMinus(3))
             velocity.value.randomDirection().multiplyScalar(upTo(0.05))

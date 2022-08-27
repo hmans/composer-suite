@@ -1,8 +1,7 @@
 import { ComposableMaterial, Modules } from "material-composer-r3f"
-import { between, plusMinus, random, upTo } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { Color, Vector3 } from "three"
-import { Repeat } from "timeline-composer"
 import {
   makeParticles,
   useParticleAttribute,
@@ -10,8 +9,6 @@ import {
 } from "vfx-composer-r3f"
 
 const Effect = makeParticles()
-
-const FREQ = 30
 
 export const Stress = () => {
   const particles = useParticles()
@@ -38,24 +35,21 @@ export const Stress = () => {
         </ComposableMaterial>
       </Effect.Root>
 
-      <Repeat seconds={1 / FREQ}>
-        <Effect.Emitter
-          count={100_000 / FREQ}
-          setup={({ position, rotation }) => {
-            const t = particles.time.value
+      <Effect.Emitter
+        rate={100_000}
+        setup={({ position, rotation }) => {
+          const t = particles.time.value
 
-            /* Randomize the instance transform */
-            position.randomDirection().multiplyScalar(upTo(1))
-            rotation.random()
+          /* Randomize the instance transform */
+          position.randomDirection().multiplyScalar(upTo(1))
+          rotation.random()
 
-            /* Write values into the instanced attributes */
-            const start = t + random() / FREQ
-            particles.setLifetime(between(1, 3))
-            velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
-            color.value.setScalar(Math.random() * 2)
-          }}
-        />
-      </Repeat>
+          /* Write values into the instanced attributes */
+          particles.setLifetime(between(1, 3))
+          velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
+          color.value.setScalar(Math.random() * 2)
+        }}
+      />
     </group>
   )
 }

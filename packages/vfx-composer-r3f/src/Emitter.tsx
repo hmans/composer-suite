@@ -4,7 +4,6 @@ import React, {
   MutableRefObject,
   RefObject,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef
 } from "react"
@@ -14,8 +13,8 @@ import { useParticlesContext } from "./Particles"
 
 export type EmitterProps = Object3DProps & {
   particles?: MutableRefObject<Particles> | RefObject<Particles>
-  count?: number
-  continuous?: boolean
+  limit?: number
+  rate?: number
   setup?: InstanceSetupCallback
 }
 
@@ -24,22 +23,24 @@ const particlesMatrix = new Matrix4()
 
 export const Emitter = forwardRef<Object3D, EmitterProps>(
   (
-    {
-      particles: particlesProp,
-      count = 1,
-      continuous = false,
-      setup,
-      ...props
-    },
+    { particles: particlesProp, limit = Infinity, rate = 10, setup, ...props },
     ref
   ) => {
-    const object = useRef<Object3D>(null!)
+    const origin = useRef<Object3D>(null!)
     const particlesFromContext = useParticlesContext()
+    const queuedParticles = useRef(0)
+    const remainingParticles = useRef(limit)
+
+    if (rate === Infinity && limit === Infinity) {
+      throw new Error(
+        "Emitter: rate and limit cannot both be Infinity. Please set one of them to a finite value."
+      )
+    }
 
     const emitterSetup = useCallback<InstanceSetupCallback>(
       (props) => {
         tmpMatrix
-          .copy(object.current.matrixWorld)
+          .copy(origin.current.matrixWorld)
           .premultiply(particlesMatrix)
           .decompose(props.position, props.rotation, props.scale)
 
@@ -48,27 +49,49 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
       [setup]
     )
 
-    useEffect(() => {
-      const particles = particlesProp?.current || particlesFromContext
+    const emit = useCallback(
+      (dt: number) => {
+        if (remainingParticles.current <= 0) return
 
-      if (!particles) return
-      if (continuous) return
+        /* Grab a reference to the particles mesh */
+        const particles = particlesProp?.current || particlesFromContext
+        if (!particles) return
 
-      particlesMatrix.copy(particles!.matrixWorld).invert()
-      particles.emit(count, emitterSetup)
-    }, [particlesFromContext])
+        /* Increase the accumulated number of particles we're supposed to emit. */
+        if (rate === Infinity) {
+          queuedParticles.current = Infinity
+        } else {
+          queuedParticles.current += dt * rate
+        }
 
-    useFrame(() => {
-      const particles = particlesProp?.current || particlesFromContext
+        /* Is it time to emit? */
+        if (queuedParticles.current >= 1 || rate === Infinity) {
+          /* Determine the amount of particles to emit. Don't go over the number of
+          remaining particles. */
+          const amount = Math.min(
+            Math.trunc(queuedParticles.current),
+            remainingParticles.current
+          )
 
-      if (!particles) return
-      if (!continuous) return
-      particlesMatrix.copy(particles!.matrixWorld).invert()
-      particles.emit(count, emitterSetup)
+          /* Emit! */
+          particlesMatrix.copy(particles.matrixWorld).invert()
+          particles.emit(amount, emitterSetup)
+
+          /* Update the remaining number of particles, and the accumulator. */
+          queuedParticles.current -= amount
+          remainingParticles.current -= amount
+        }
+      },
+      [particlesProp, particlesFromContext, emitterSetup]
+    )
+
+    useFrame((_, dt) => {
+      if (!rate) return
+      emit(dt)
     })
 
-    useImperativeHandle(ref, () => object.current)
+    useImperativeHandle(ref, () => origin.current)
 
-    return <object3D {...props} ref={object} />
+    return <object3D {...props} ref={origin} />
   }
 )

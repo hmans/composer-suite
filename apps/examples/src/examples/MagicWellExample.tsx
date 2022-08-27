@@ -35,13 +35,12 @@ export default function MagicWellExample() {
         </ComposableMaterial>
 
         <Emitter
-          continuous
-          count={2}
+          rate={250}
           setup={({ position, rotation }) => {
             const theta = plusMinus(Math.PI)
             const power = Math.pow(Math.random(), 3)
             const r = power * 1.2
-            position.set(Math.cos(theta) * r, -2, Math.sin(theta) * r)
+            position.set(Math.cos(theta) * r, -1, Math.sin(theta) * r)
 
             rotation.setFromEuler(new Euler(0, plusMinus(Math.PI), 0))
 
