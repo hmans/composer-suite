@@ -38,6 +38,10 @@ You can set `rate` to `Infinity` to immediately emit all particles at once:
 >
 > You can not set both `limit` and `rate` to `Infinity`. This will result in an error.
 
+### Configuring Particles
+
+_TODO_
+
 ### Emitters are Scene Objects!
 
 Emitters created through `<Emitter>` are actual scene objects in your Three.js scene, meaning that you can animate them just like you would animate any other scene object, or parent them to other objects, and so on. Newly spawned particles will inherit the emitter's position, rotation, and scale.
