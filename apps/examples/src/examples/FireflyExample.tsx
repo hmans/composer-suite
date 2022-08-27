@@ -56,7 +56,7 @@ export const FireflyExample = () => {
         <Modules.Lifetime {...particles} />
       </ComposableMaterial>
 
-      <mesh ref={mesh}>
+      <mesh ref={mesh} castShadow>
         <dodecahedronGeometry args={[0.2]} />
         <meshStandardMaterial color="hotpink" />
 
