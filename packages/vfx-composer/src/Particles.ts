@@ -72,32 +72,26 @@ export class Particles extends InstancedMesh<BufferGeometry> {
   }
 
   public setupParticles(shaderRoot: Unit) {
-    /* Bail if the new material is undefined */
-    if (!this.material) {
-      return false
-    }
-
     /* Let's go! */
     this.uploadableAttributes = []
 
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
-    if (shaderRoot) {
-      this.attributeUnits = collectFromTree(
-        shaderRoot,
-        "any",
-        (item) => item.setupMesh
-      )
+    this.attributeUnits = collectFromTree(
+      shaderRoot,
+      "any",
+      (item) => item.setupMesh
+    )
 
-      for (const unit of this.attributeUnits) {
-        unit.setupMesh(this)
-      }
-
-      /* Build a list of attributes we will upload every frame. */
-      const userAttributes = this.attributeUnits.map(
-        (unit) => this.geometry.attributes[unit.name]
-      )
-      this.uploadableAttributes = [this.instanceMatrix, ...userAttributes]
+    for (const unit of this.attributeUnits) {
+      unit.setupMesh(this)
     }
+
+    /* Build a list of attributes we will upload every frame. */
+    const userAttributes = this.attributeUnits.map(
+      (unit) => this.geometry.attributes[unit.name]
+    )
+
+    this.uploadableAttributes = [this.instanceMatrix, ...userAttributes]
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {

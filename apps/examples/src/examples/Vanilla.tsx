@@ -58,8 +58,7 @@ const vanillaCode = (
   ]
 
   /*
-  Create a particles material. These can patch themselves into existing
-  material, like MeshStandardMaterial or MeshPhysicalMaterial!
+  TODO: add some better structure. Maybe the patching can happen from within `Particles`?
   */
   const material = new MeshStandardMaterial({ color: "hotpink" })
   const root = compileModules(modules)
