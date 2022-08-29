@@ -1,10 +1,10 @@
-import { ComposableMaterial } from "material-composer"
-import { collectFromTree } from "shader-composer"
+import { collectFromTree, Unit } from "shader-composer"
 import {
   BufferAttribute,
   BufferGeometry,
   InstancedMesh,
   InterleavedBufferAttribute,
+  Material,
   Matrix4,
   Quaternion,
   Vector3
@@ -24,10 +24,7 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
-export class Particles extends InstancedMesh<
-  BufferGeometry,
-  ComposableMaterial
-> {
+export class Particles extends InstancedMesh<BufferGeometry> {
   public cursor: number = 0
   public maxParticles: number
   public safetyBuffer: number
@@ -43,7 +40,7 @@ export class Particles extends InstancedMesh<
 
   constructor(
     geometry: BufferGeometry | undefined,
-    material: ComposableMaterial | undefined,
+    material: Material | undefined,
     count: number,
     safetyBuffer: number = 100
   ) {
@@ -74,7 +71,7 @@ export class Particles extends InstancedMesh<
     }
   }
 
-  public setupParticles() {
+  public setupParticles(shaderRoot: Unit) {
     /* Bail if the new material is undefined */
     if (!this.material) {
       return false
@@ -84,9 +81,9 @@ export class Particles extends InstancedMesh<
     this.uploadableAttributes = []
 
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
-    if (this.material.shaderRoot) {
+    if (shaderRoot) {
       this.attributeUnits = collectFromTree(
-        this.material.shaderRoot,
+        shaderRoot,
         "any",
         (item) => item.setupMesh
       )

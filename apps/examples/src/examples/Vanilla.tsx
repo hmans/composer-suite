@@ -62,7 +62,8 @@ const vanillaCode = (
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
   const material = new MeshStandardMaterial({ color: "hotpink" })
-  const [shader, shaderMeta] = compileShader(compileModules(modules))
+  const root = compileModules(modules)
+  const [shader, shaderMeta] = compileShader(root)
   patchMaterial(material, shader)
 
   /* Create mesh and add it to the scene. */
@@ -73,12 +74,12 @@ const vanillaCode = (
   )
   particles.position.set(2, 0, 0)
   parent.add(particles)
-  particles.setupParticles()
+  particles.setupParticles(root)
 
   const particles2 = new Particles(new SphereGeometry(0.2), material, 1000)
   particles2.position.set(-2, 0, 0)
   parent.add(particles2)
-  particles2.setupParticles()
+  particles2.setupParticles(root)
 
   const stopLoop = loop((dt) => {
     shaderMeta.update(dt, camera, scene, renderer)
