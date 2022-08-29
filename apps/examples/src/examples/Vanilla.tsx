@@ -1,9 +1,9 @@
 import { useThree } from "@react-three/fiber"
-import { ComposableMaterial } from "material-composer"
+import { compileModules, patchMaterial } from "material-composer"
 import * as Modules from "material-composer/modules"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { OneMinus, Time } from "shader-composer"
+import { compileShader, OneMinus, Time } from "shader-composer"
 import {
   BoxGeometry,
   Color,
@@ -61,10 +61,9 @@ const vanillaCode = (
   Create a particles material. These can patch themselves into existing
   material, like MeshStandardMaterial or MeshPhysicalMaterial!
   */
-  const material = new ComposableMaterial({
-    baseMaterial: new MeshStandardMaterial({ color: "hotpink" }),
-    modules
-  })
+  const material = new MeshStandardMaterial({ color: "hotpink" })
+  const [shader, shaderMeta] = compileShader(compileModules(modules))
+  patchMaterial(material, shader)
 
   /* Create mesh and add it to the scene. */
   const particles = new Particles(
@@ -82,7 +81,7 @@ const vanillaCode = (
   particles2.setupParticles()
 
   const stopLoop = loop((dt) => {
-    material.tick(dt, camera, scene, renderer)
+    shaderMeta.update(dt, camera, scene, renderer)
 
     const { lifetime, velocity, color } = variables
     const t = time.value
@@ -126,6 +125,7 @@ const vanillaCode = (
     particles2.dispose()
 
     material.dispose()
+    shaderMeta.dispose()
   }
 }
 

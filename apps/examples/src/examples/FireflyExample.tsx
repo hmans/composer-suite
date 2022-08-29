@@ -1,15 +1,9 @@
 import { useFrame } from "@react-three/fiber"
-import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { composable, modules } from "material-composer-r3f"
 import { chance, upTo } from "randomish"
 import { useRef } from "react"
 import { OneMinus } from "shader-composer"
-import {
-  Color,
-  Mesh,
-  MeshStandardMaterial,
-  NormalBlending,
-  Vector3
-} from "three"
+import { Color, Mesh, NormalBlending, Vector3 } from "three"
 import {
   Emitter,
   Particles,
@@ -39,22 +33,21 @@ export const FireflyExample = () => {
     <Particles>
       <planeGeometry args={[0.05, 0.05]} />
 
-      <ComposableMaterial
-        baseMaterial={MeshStandardMaterial}
+      <composable.MeshStandardMaterial
         color={new Color(4, 1, 4)}
         blending={NormalBlending}
         transparent
       >
-        <Modules.Billboard />
-        <Modules.Velocity velocity={velocity} time={particles.age} />
-        <Modules.Acceleration
+        <modules.Billboard />
+        <modules.Velocity velocity={velocity} time={particles.age} />
+        <modules.Acceleration
           force={new Vector3(0, -10, 0)}
           time={particles.age}
         />
-        <Modules.Alpha alpha={OneMinus(particles.progress)} />
-        <Modules.Color color={color} />
-        <Modules.Lifetime {...particles} />
-      </ComposableMaterial>
+        <modules.Alpha alpha={OneMinus(particles.progress)} />
+        <modules.Color color={color} />
+        <modules.Lifetime {...particles} />
+      </composable.MeshStandardMaterial>
 
       <mesh ref={mesh} castShadow>
         <dodecahedronGeometry args={[0.2]} />

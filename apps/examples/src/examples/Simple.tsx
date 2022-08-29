@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei"
-import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
@@ -23,20 +23,20 @@ export const Simple = () => {
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 
-        <ComposableMaterial
+        <composable.MeshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
         >
-          <Modules.Billboard />
-          <Modules.Scale scale={OneMinus(particles.progress)} />
-          <Modules.Velocity velocity={velocity} time={particles.age} />
-          <Modules.Acceleration
+          <modules.Billboard />
+          <modules.Scale scale={OneMinus(particles.progress)} />
+          <modules.Velocity velocity={velocity} time={particles.age} />
+          <modules.Acceleration
             force={new Vector3(0, -2, 0)}
             time={particles.age}
           />
-          <Modules.Lifetime {...particles} />
-        </ComposableMaterial>
+          <modules.Lifetime {...particles} />
+        </composable.MeshStandardMaterial>
 
         {/* The other important component here is the emitter, which will, as you
         might already have guessed, emit new particles. Emitters are full scene
