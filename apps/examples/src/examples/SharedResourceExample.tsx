@@ -1,4 +1,3 @@
-import { useFrame } from "@react-three/fiber"
 import { useControls } from "leva"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
@@ -43,6 +42,7 @@ const Blobs = (props: ParticlesProps) => (
   <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
     <sphereGeometry args={[0.08, 16, 16]} />
     <SharedBlobMaterial.Use />
+    {/* <BlobMaterial /> */}
     <Emitter
       rate={Infinity}
       limit={1000}
@@ -57,8 +57,7 @@ const Blobs = (props: ParticlesProps) => (
 const BlobMaterial = () => {
   const controls = useControls({ t: { value: 0, min: 0, max: 100 } })
 
-  // const time = useMemo(() => Time(), [])
-  const time = useUniformUnit("float", controls.t)
+  const time = useMemo(() => Time(), [])
 
   return (
     <composable.MeshStandardMaterial

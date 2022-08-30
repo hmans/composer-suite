@@ -1,4 +1,4 @@
-import { cloneElement, FC } from "react"
+import { cloneElement, FC, useLayoutEffect, useRef } from "react"
 import { mergeRefs } from "react-merge-refs"
 import { makeStore, useStore } from "statery"
 
@@ -29,9 +29,22 @@ export const sharedResource = <P extends any>(component: FC<P>) => {
     /* Fetch the instance from the store, reactively */
     const { instance } = useStore(store)
 
-    /* If we already have an instance, return it as a primitive. Otherwise,
-    render nothing for the moment. */
-    return instance ? <primitive object={instance} /> : null
+    const group = useRef<any>(null!)
+
+    useLayoutEffect(() => {
+      if (!instance) return
+
+      const { parent } = group.current.__r3f
+      if (!parent) return
+
+      parent.material = instance
+    }, [instance])
+
+    /* We're going to add a group to the scene so we can figure out
+    the parent of the material. This is a bit hacky, but it works.
+    With a bit of luck, we'll be able to tune this with a future
+    version of R3F. */
+    return <group ref={group} />
   }
 
   return { Mount, Use }
