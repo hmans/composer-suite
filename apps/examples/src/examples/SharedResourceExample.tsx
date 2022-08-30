@@ -26,7 +26,7 @@ const InstanceID = Int($`gl_InstanceID`, { only: "vertex" })
 export default function SharedResourceExample() {
   return (
     <group position-y={1.5}>
-      <SharedBlobMaterial.Resource />
+      <SharedBlobMaterial.Mount />
 
       <Blobs position={[1, 0, 0]} />
       {/* <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} /> */}
@@ -38,7 +38,7 @@ export default function SharedResourceExample() {
 const Blobs = (props: ParticlesProps) => (
   <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
     <sphereGeometry args={[0.08, 16, 16]} />
-    <SharedBlobMaterial />
+    <SharedBlobMaterial.Use />
     <Emitter
       rate={Infinity}
       limit={1000}
