@@ -1,12 +1,13 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, MeshProps } from "@react-three/fiber"
 import { composable, Layer, modules } from "material-composer-r3f"
 import { memo } from "react"
 import {
   Abs,
   Add,
   GLSLType,
+  GradientStops,
   Input,
   Mul,
   NormalizePlusMinusOne,
@@ -31,6 +32,8 @@ import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color, DoubleSide, RepeatWrapping } from "three"
 import streamTextureUrl from "./textures/stream.png"
 
+const time = Time()
+
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
   Unit(type(v), Mul(v, -1), { name: "Inverted Value" })
 
@@ -46,30 +49,48 @@ export default function CometExample() {
   )
 }
 
-const TestAura = () => {
+const TestAura = () => (
+  <Aura
+    scale-y={1.5}
+    castShadow
+    gradient={[
+      [new Color("#d62828").multiplyScalar(1.5), 0],
+      [new Color("#fb8b24").multiplyScalar(2), 0.5],
+      [new Color("#fb8b24").multiplyScalar(2), 0.9],
+      [new Color("#f8f9fa").multiplyScalar(8), 1]
+    ]}
+    tiling={vec2(3, 1)}
+    offset={vec2(0, Inverted(Add(time, UV.x)))}
+  />
+)
+
+const Aura = ({
+  gradient,
+  tiling = vec2(3, 1),
+  offset = vec2(0, 0),
+  ...props
+}: {
+  gradient: GradientStops<"vec3">
+  tiling?: Input<"vec2">
+  offset?: Input<"vec2">
+} & MeshProps) => {
+  /* Load texture */
   const streamTexture = useTexture(streamTextureUrl)
   streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
 
-  const time = Time()
+  /* Create sampler2D uniform */
   const streamSampler = useUniformUnit("sampler2D", streamTexture)
 
-  const heat = Texture2D(
-    streamSampler,
-    TilingUV(UV, vec2(3, 1), vec2(0, Inverted(Add(time, UV.x))))
-  )
+  /* Sample texture */
+  const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
 
   return (
-    <mesh scale-y={1.5} castShadow>
+    <mesh {...props}>
       <sphereGeometry args={[1, 32, 16]} />
 
       <composable.MeshBasicMaterial transparent side={DoubleSide}>
         <modules.Gradient
-          stops={[
-            [new Color("#d62828").multiplyScalar(1.5), 0],
-            [new Color("#fb8b24").multiplyScalar(2), 0.5],
-            [new Color("#fb8b24").multiplyScalar(2), 0.9],
-            [new Color("#f8f9fa").multiplyScalar(8), 1]
-          ]}
+          stops={gradient}
           start={0}
           stop={1}
           position={heat.alpha}
