@@ -58,8 +58,12 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     particle engine. This only happens when the material has changed.
      */
     useLayoutEffect(() => {
+      if (!particles.current) return
+      if (!particles.current.material) return
+
       const material = particles.current.material as Material
-      particles.current.setupParticles(getShaderRootForMaterial(material)!)
+      const root = getShaderRootForMaterial(material)
+      if (root) particles.current.setupParticles(root)
     }, [particles, particles.current?.material])
 
     /*

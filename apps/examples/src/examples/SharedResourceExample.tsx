@@ -1,4 +1,3 @@
-import { sharedResource } from "./lib/sharedResource"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
 import {
@@ -15,39 +14,41 @@ import {
 } from "shader-composer"
 import { Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
+import { sharedResource } from "./lib/sharedResource"
 
+// TODO: extract to Shader Composer
 export const float = (v: Input<"float" | "bool" | "int">) =>
   Float($`float(${v})`)
 
+// TODO: extract to Shader Composer
 const InstanceID = Int($`gl_InstanceID`, { only: "vertex" })
 
 export default function SharedResourceExample() {
   return (
     <group position-y={1.5}>
       <SharedBlobMaterial.Resource />
+
       <Blobs position={[1, 0, 0]} />
-      <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
-      <Blobs position={[0, 2, -40]} scale={10} />
+      {/* <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} /> */}
+      {/* <Blobs position={[0, 2, -40]} scale={10} /> */}
     </group>
   )
 }
 
-const Blobs = (props: ParticlesProps) => {
-  return (
-    <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
-      <sphereGeometry args={[0.08, 16, 16]} />
-      <BlobMaterial />
-      <Emitter
-        rate={Infinity}
-        limit={1000}
-        setup={({ position, scale }) => {
-          position.add(insideSphere() as Vector3)
-          scale.multiplyScalar(between(0.5, 1.5))
-        }}
-      />
-    </Particles>
-  )
-}
+const Blobs = (props: ParticlesProps) => (
+  <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
+    <sphereGeometry args={[0.08, 16, 16]} />
+    <SharedBlobMaterial />
+    <Emitter
+      rate={Infinity}
+      limit={1000}
+      setup={({ position, scale }) => {
+        position.add(insideSphere() as Vector3)
+        scale.multiplyScalar(between(0.5, 1.5))
+      }}
+    />
+  </Particles>
+)
 
 const BlobMaterial = () => (
   <composable.MeshStandardMaterial
