@@ -1,4 +1,4 @@
-import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { Color, Vector3 } from "three"
@@ -20,19 +20,19 @@ export const Stress = () => {
       <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
-        <ComposableMaterial>
-          <Modules.Scale scale={OneMinus(particles.progress)} />
+        <composable.MeshStandardMaterial>
+          <modules.Scale scale={OneMinus(particles.progress)} />
 
-          <Modules.Velocity velocity={velocity} time={particles.age} />
+          <modules.Velocity velocity={velocity} time={particles.age} />
 
-          <Modules.Acceleration
+          <modules.Acceleration
             force={new Vector3(0, -10, 0)}
             time={particles.age}
           />
 
-          <Modules.Color color={color} />
-          <Modules.Lifetime {...particles} />
-        </ComposableMaterial>
+          <modules.Color color={color} />
+          <modules.Lifetime {...particles} />
+        </composable.MeshStandardMaterial>
       </Effect.Root>
 
       <Effect.Emitter

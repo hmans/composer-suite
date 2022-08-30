@@ -6,13 +6,11 @@ import {
   Heading
 } from "r3f-stage"
 import "r3f-stage/styles.css"
-import FireballExample from "./examples/Fireball"
 import { FireflyExample } from "./examples/FireflyExample"
 import { FogExample } from "./examples/FogExample"
 import MagicWellExample from "./examples/MagicWellExample"
-import PlasmaBallExample from "./examples/PlasmaBall"
-import PlasmaStormScene from "./examples/PlasmaStormScene"
 import Playground from "./examples/Playground"
+import SharedResourceExample from "./examples/SharedResourceExample"
 import { Simple } from "./examples/Simple"
 import { SoftParticlesExample } from "./examples/SoftParticlesExample"
 import { Stress } from "./examples/Stress"
@@ -56,10 +54,6 @@ export default () => (
         </Description>
       </Example>
 
-      <Example path="soft-particles" title="Soft Particles">
-        <SoftParticlesExample />
-      </Example>
-
       <Example path="fog" title="Fog">
         <FogExample />
 
@@ -70,25 +64,17 @@ export default () => (
         </Description>
       </Example>
 
+      <Heading>Techniques</Heading>
+
+      <Example path="shared-resources" title="Shared Resources">
+        <SharedResourceExample />
+      </Example>
+
+      <Example path="soft-particles" title="Soft Particles">
+        <SoftParticlesExample />
+      </Example>
+
       <Heading>Effects</Heading>
-
-      <Example path="fireball" title="Fireball">
-        <FireballExample />
-
-        <Description>
-          An animated fireball! This example uses a normal mesh together with
-          VFXMaterial.
-        </Description>
-      </Example>
-
-      <Example path="plasmaball" title="Plasma Ball">
-        <PlasmaBallExample />
-      </Example>
-
-      <Heading>Scenes</Heading>
-      <Example path="scenes/plasmastorm" title="Plasma Storm">
-        <PlasmaStormScene />
-      </Example>
 
       <Heading>Experiments</Heading>
       <Example path="playground" title="Playground">

@@ -1,5 +1,5 @@
 import { useTexture } from "@react-three/drei"
-import { ComposableMaterial, Modules } from "material-composer-r3f"
+import { composable, modules } from "material-composer-r3f"
 import { useRenderPipeline } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
@@ -18,21 +18,21 @@ export default function MagicWellExample() {
       <Particles maxParticles={5_000}>
         <planeGeometry args={[0.15, 2]} />
 
-        <ComposableMaterial
+        <composable.MeshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
           side={DoubleSide}
           color={new Color(0, 3, 2)}
         >
-          <Modules.Scale scale={OneMinus(particles.progress)} />
-          <Modules.Acceleration
+          <modules.Scale scale={OneMinus(particles.progress)} />
+          <modules.Acceleration
             force={new Vector3(0, 1.2, 0)}
             time={particles.age}
           />
-          <Modules.Lifetime {...particles} />
-          <Modules.Softness softness={5} depthTexture={depth} />
-        </ComposableMaterial>
+          <modules.Lifetime {...particles} />
+          <modules.Softness softness={5} depthTexture={depth} />
+        </composable.MeshStandardMaterial>
 
         <Emitter
           rate={250}

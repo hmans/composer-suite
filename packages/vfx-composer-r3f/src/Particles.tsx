@@ -1,19 +1,25 @@
 import { useRerender } from "@hmans/use-rerender"
 import { extend, InstancedMeshProps } from "@react-three/fiber"
-import { ComposableMaterial } from "material-composer"
+import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
   forwardRef,
+  Ref,
   useContext,
   useImperativeHandle,
   useLayoutEffect,
   useRef
 } from "react"
+import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 
-export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
+export type ParticlesProps = Omit<
+  InstancedMeshProps,
+  "material" | "args" | "ref"
+> & {
+  ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
-  material?: ComposableMaterial
+  material?: Material
   maxParticles?: number
   safetyBuffer?: number
 }
@@ -52,7 +58,12 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     particle engine. This only happens when the material has changed.
      */
     useLayoutEffect(() => {
-      particles.current.setupParticles()
+      if (!particles.current) return
+      if (!particles.current.material) return
+
+      const material = particles.current.material as Material
+      const root = getShaderRootForMaterial(material)
+      if (root) particles.current.setupParticles(root)
     }, [particles, particles.current?.material])
 
     /*
