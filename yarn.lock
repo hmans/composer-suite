@@ -1411,22 +1411,22 @@
   resolved "https://registry.yarnpkg.com/@hmans/r3f-lifecycle/-/r3f-lifecycle-0.0.4.tgz#8d02d98dad9d15500a8369c6f9fae97fb42f11b4"
   integrity sha512-q019sVRtjBrEVJeZaP2Jc0AG/yXae5B06xSHVZ8I2l1ujC7Cv7apbG2cM7hZig8EfObHR+lkkxz293PdgWJnlw==
 
-"@hmans/r3f-shared-resource@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@hmans/r3f-shared-resource/-/r3f-shared-resource-0.0.1.tgz#11e7e0ac63b48d90bc36b74546b276cdd7a4559f"
-  integrity sha512-Orjvt+cNFEM6omjCZKmz4aKVqSUCzkh6gQXJqu6xtiGZ7HPGiMBqtfKyRJenXNmFQ54/3sYjbNoeEgycQwPlZw==
+"@hmans/r3f-shared-resource@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@hmans/r3f-shared-resource/-/r3f-shared-resource-0.1.0.tgz#2ae8b2eaf6136295bf170b23a36d32700385a239"
+  integrity sha512-T1yrpJOZpbWVwOnu6ClaYLdJWWZhiEfk+YSv9lYSJrVhmQdj0p89fEy4c4gvVL0fykG5vzRFDZRvUrvIuNDmOg==
   dependencies:
     react-merge-refs "^2.0.1"
     statery "^0.6.0-next.2"
 
-"@hmans/things@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@hmans/things/-/things-0.0.3.tgz#f615ffabc94a278c40a316119cb15c9d38b179d7"
-  integrity sha512-jkJSLQ8KX9CAMn9rqmrd9ipxsVTNf3grgrtnZXEeJN9KSsJu2L60pNyBkUJqFNCsC4QAXyiWUer5wZsDb9vJMg==
+"@hmans/things@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@hmans/things/-/things-0.0.4.tgz#ae540ad0a5758fe013f266341f719fe31687fe3e"
+  integrity sha512-lru0ugkiPTDQA6BNnOZD54SkaRj5ynWPDE7oTfwc6z4PbCmQzYQxFpExRhUtKyRcTxYEbCKAhT/bfzQl5d8gyA==
   dependencies:
     "@hmans/r3f-animate" "^0.0.4"
     "@hmans/r3f-lifecycle" "^0.0.4"
-    "@hmans/r3f-shared-resource" "^0.0.1"
+    "@hmans/r3f-shared-resource" "^0.1.0"
     "@hmans/types" "^0.0.3"
     "@hmans/use-const" "^0.0.1"
     "@hmans/use-list" "^0.0.1"

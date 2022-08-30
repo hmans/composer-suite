@@ -14,7 +14,7 @@ import {
 } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
-import { sharedResource } from "./lib/sharedResource"
+import { sharedResource } from "@hmans/things"
 
 // TODO: extract to Shader Composer
 export const float = (v: Input<"float" | "bool" | "int">) =>

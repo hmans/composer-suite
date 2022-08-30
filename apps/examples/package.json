@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hmans/r3f-shared-resource": "^0.0.1",
-    "@hmans/things": "^0.0.3",
+    "@hmans/r3f-shared-resource": "^0.1.0",
+    "@hmans/things": "^0.0.4",
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
