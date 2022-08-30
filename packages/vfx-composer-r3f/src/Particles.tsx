@@ -5,6 +5,8 @@ import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
   forwardRef,
+  PropsWithRef,
+  Ref,
   useContext,
   useImperativeHandle,
   useLayoutEffect,
@@ -13,7 +15,11 @@ import React, {
 import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 
-export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args"> & {
+export type ParticlesProps = Omit<
+  InstancedMeshProps,
+  "material" | "args" | "ref"
+> & {
+  ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: ComposableMaterial
   maxParticles?: number

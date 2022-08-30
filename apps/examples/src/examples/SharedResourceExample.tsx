@@ -1,6 +1,5 @@
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
-import { useMemo } from "react"
 import {
   $,
   Add,
@@ -11,12 +10,10 @@ import {
   pipe,
   Sin,
   Time,
-  vec2,
   vec3
 } from "shader-composer"
 import { Vector3 } from "three"
-import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
-import { PSRDNoise2D } from "shader-composer-toybox"
+import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
 const tmpVec3 = new Vector3()
 
 export const float = (v: Input<"float" | "bool" | "int">) =>
@@ -25,50 +22,46 @@ export const float = (v: Input<"float" | "bool" | "int">) =>
 const InstanceID = Int($`gl_InstanceID`, { only: "vertex" })
 
 export default function SharedResourceExample() {
-  const particles = useParticles()
-
-  const time = useMemo(() => Time(), [])
-
-  const offset = vec3(1, 0, 0)
-
   return (
-    <group>
-      <Particles
-        maxParticles={1_000}
-        safetyBuffer={2_000}
-        castShadow
-        receiveShadow
-      >
-        <sphereGeometry args={[0.08, 16, 16]} />
-
-        <composable.MeshStandardMaterial
-          color="#e63946"
-          metalness={0.5}
-          roughness={0.6}
-          autoShadow
-        >
-          <modules.Translate offset={vec3(1, 0, 0)} />
-          <modules.Scale
-            scale={pipe(
-              float(InstanceID),
-              (v) => Add(Time(), v),
-              (v) => Sin(v),
-              (v) => Mul(v, 0.2),
-              (v) => Add(v, 1)
-            )}
-          />
-        </composable.MeshStandardMaterial>
-
-        <Emitter
-          position-y={1.5}
-          rate={Infinity}
-          limit={1000}
-          setup={({ position, scale }) => {
-            position.add(insideSphere() as Vector3)
-            scale.multiplyScalar(between(0.5, 1.5))
-          }}
-        />
-      </Particles>
+    <group position-y={1.5}>
+      <Blobs position={[1, 0, 0]} />
+      <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
+      <Blobs position={[0, 2, -40]} scale={10} />
     </group>
+  )
+}
+
+export const Blobs = (props: ParticlesProps) => {
+  return (
+    <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
+      <sphereGeometry args={[0.08, 16, 16]} />
+
+      <composable.MeshStandardMaterial
+        color="#e63946"
+        metalness={0.5}
+        roughness={0.6}
+        autoShadow
+      >
+        <modules.Translate offset={vec3(1, 0, 0)} space="local" />
+        <modules.Scale
+          scale={pipe(
+            float(InstanceID),
+            (v) => Add(Time(), v),
+            (v) => Sin(v),
+            (v) => Mul(v, 0.2),
+            (v) => Add(v, 1)
+          )}
+        />
+      </composable.MeshStandardMaterial>
+
+      <Emitter
+        rate={Infinity}
+        limit={1000}
+        setup={({ position, scale }) => {
+          position.add(insideSphere() as Vector3)
+          scale.multiplyScalar(between(0.5, 1.5))
+        }}
+      />
+    </Particles>
   )
 }
