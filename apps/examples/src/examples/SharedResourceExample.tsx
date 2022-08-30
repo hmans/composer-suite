@@ -1,7 +1,5 @@
-import { useControls } from "leva"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
-import { useMemo } from "react"
 import {
   $,
   Add,
@@ -14,8 +12,7 @@ import {
   Time,
   vec3
 } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
-import { Vector3 } from "three"
+import { RGBADepthPacking, Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
 import { sharedResource } from "./lib/sharedResource"
 
@@ -30,6 +27,7 @@ export default function SharedResourceExample() {
   return (
     <group position-y={1.5}>
       <SharedBlobMaterial.Mount />
+      <SharedBlobDepthMaterial.Mount />
 
       <Blobs position={[1, 0, 0]} />
       <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
@@ -42,7 +40,7 @@ const Blobs = (props: ParticlesProps) => (
   <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
     <sphereGeometry args={[0.08, 16, 16]} />
     <SharedBlobMaterial.Use />
-    {/* <BlobMaterial /> */}
+    <SharedBlobDepthMaterial.Use attach="customDepthMaterial" />
     <Emitter
       rate={Infinity}
       limit={1000}
@@ -55,16 +53,13 @@ const Blobs = (props: ParticlesProps) => (
 )
 
 const BlobMaterial = () => {
-  const controls = useControls({ t: { value: 0, min: 0, max: 100 } })
-
-  const time = useMemo(() => Time(), [])
+  const time = Time()
 
   return (
     <composable.MeshStandardMaterial
       color="#e63946"
       metalness={0.5}
       roughness={0.6}
-      autoShadow
     >
       <modules.Translate offset={vec3(1, 0, 0)} space="local" />
       <modules.Scale
@@ -80,4 +75,24 @@ const BlobMaterial = () => {
   )
 }
 
+const BlobDepthMaterial = () => {
+  const time = Time()
+
+  return (
+    <composable.MeshDepthMaterial depthPacking={RGBADepthPacking}>
+      <modules.Translate offset={vec3(1, 0, 0)} space="local" />
+      <modules.Scale
+        scale={pipe(
+          float(InstanceID),
+          (v) => Add(time, v),
+          (v) => Sin(v),
+          (v) => Mul(v, 0.2),
+          (v) => Add(v, 1)
+        )}
+      />
+    </composable.MeshDepthMaterial>
+  )
+}
+
 const SharedBlobMaterial = sharedResource(BlobMaterial)
+const SharedBlobDepthMaterial = sharedResource(BlobDepthMaterial)

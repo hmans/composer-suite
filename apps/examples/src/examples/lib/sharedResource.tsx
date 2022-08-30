@@ -25,7 +25,7 @@ export const sharedResource = <P extends any>(component: FC<P>) => {
    * Use the shared resource. This requires the resource to be mounted
    * through the `Mount` component.
    */
-  const Use = () => {
+  const Use = ({ attach = "material" }: { attach?: string }) => {
     /* Fetch the instance from the store, reactively */
     const { instance } = useStore(store)
 
@@ -37,7 +37,7 @@ export const sharedResource = <P extends any>(component: FC<P>) => {
       const { parent } = group.current.__r3f
       if (!parent) return
 
-      parent.material = instance
+      parent[attach] = instance
     }, [instance])
 
     /* We're going to add a group to the scene so we can figure out
