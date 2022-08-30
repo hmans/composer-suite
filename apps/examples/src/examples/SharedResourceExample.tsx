@@ -14,7 +14,7 @@ import {
 } from "shader-composer"
 import { Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
-const tmpVec3 = new Vector3()
+import { sharedResource } from "@hmans/things"
 
 export const float = (v: Input<"float" | "bool" | "int">) =>
   Float($`float(${v})`)
@@ -31,29 +31,11 @@ export default function SharedResourceExample() {
   )
 }
 
-export const Blobs = (props: ParticlesProps) => {
+const Blobs = (props: ParticlesProps) => {
   return (
     <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
       <sphereGeometry args={[0.08, 16, 16]} />
-
-      <composable.MeshStandardMaterial
-        color="#e63946"
-        metalness={0.5}
-        roughness={0.6}
-        autoShadow
-      >
-        <modules.Translate offset={vec3(1, 0, 0)} space="local" />
-        <modules.Scale
-          scale={pipe(
-            float(InstanceID),
-            (v) => Add(Time(), v),
-            (v) => Sin(v),
-            (v) => Mul(v, 0.2),
-            (v) => Add(v, 1)
-          )}
-        />
-      </composable.MeshStandardMaterial>
-
+      <BlobMaterial />
       <Emitter
         rate={Infinity}
         limit={1000}
@@ -65,3 +47,25 @@ export const Blobs = (props: ParticlesProps) => {
     </Particles>
   )
 }
+
+const BlobMaterial = () => (
+  <composable.MeshStandardMaterial
+    color="#e63946"
+    metalness={0.5}
+    roughness={0.6}
+    autoShadow
+  >
+    <modules.Translate offset={vec3(1, 0, 0)} space="local" />
+    <modules.Scale
+      scale={pipe(
+        float(InstanceID),
+        (v) => Add(Time(), v),
+        (v) => Sin(v),
+        (v) => Mul(v, 0.2),
+        (v) => Add(v, 1)
+      )}
+    />
+  </composable.MeshStandardMaterial>
+)
+
+const SharedBlobMaterial = sharedResource(BlobMaterial)

@@ -1399,6 +1399,18 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.3.0.tgz#a5c02c388207d032b563bfc3f051fec646192920"
   integrity sha512-KCpFcX+kNyKlVZQW60ZUGRW5Nsg5u0F2CIgHiDQyg282ouHS9xap2ZEKqhwGE/0nYP46nAPnGPdb/IYh7ZHOsA==
 
+"@hmans/r3f-animate@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@hmans/r3f-animate/-/r3f-animate-0.0.4.tgz#7da2171400bf71a9e2ac8d211dc3e103b3cdd3c6"
+  integrity sha512-qD/q31EaohTqH7+kpXORyYBPxV8bopNr5otpDAnKvjpcxobQFMT5lbSJeyzRxAeJgekxkMarGs90GBT4T5wTmw==
+  dependencies:
+    "@hmans/r3f-lifecycle" "^0.0.4"
+
+"@hmans/r3f-lifecycle@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@hmans/r3f-lifecycle/-/r3f-lifecycle-0.0.4.tgz#8d02d98dad9d15500a8369c6f9fae97fb42f11b4"
+  integrity sha512-q019sVRtjBrEVJeZaP2Jc0AG/yXae5B06xSHVZ8I2l1ujC7Cv7apbG2cM7hZig8EfObHR+lkkxz293PdgWJnlw==
+
 "@hmans/r3f-shared-resource@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@hmans/r3f-shared-resource/-/r3f-shared-resource-0.0.1.tgz#11e7e0ac63b48d90bc36b74546b276cdd7a4559f"
@@ -1406,6 +1418,20 @@
   dependencies:
     react-merge-refs "^2.0.1"
     statery "^0.6.0-next.2"
+
+"@hmans/things@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@hmans/things/-/things-0.0.3.tgz#f615ffabc94a278c40a316119cb15c9d38b179d7"
+  integrity sha512-jkJSLQ8KX9CAMn9rqmrd9ipxsVTNf3grgrtnZXEeJN9KSsJu2L60pNyBkUJqFNCsC4QAXyiWUer5wZsDb9vJMg==
+  dependencies:
+    "@hmans/r3f-animate" "^0.0.4"
+    "@hmans/r3f-lifecycle" "^0.0.4"
+    "@hmans/r3f-shared-resource" "^0.0.1"
+    "@hmans/types" "^0.0.3"
+    "@hmans/use-const" "^0.0.1"
+    "@hmans/use-list" "^0.0.1"
+    "@hmans/use-rerender" "^0.0.2"
+    "@hmans/use-version" "^0.0.2"
 
 "@hmans/types@^0.0.3":
   version "0.0.3"
