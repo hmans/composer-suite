@@ -1768,10 +1768,10 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
-"@material-composer/patch-material@^0.1.1-next.0":
-  version "0.1.1-next.0"
-  resolved "https://registry.yarnpkg.com/@material-composer/patch-material/-/patch-material-0.1.1-next.0.tgz#4437e0a61228951d4a3db42d0c028e6bca6d5252"
-  integrity sha512-IDRqZeyKn9gacnaZKWiY189rdJ1RXHHtHgeNIit+LN2hIsNaNdgfJPDvEloWuhszPwOwA6GNX00Cj4rYtYQ75A==
+"@material-composer/patch-material@^0.1.1-next.0", "@material-composer/patch-material@^0.1.1-next.1":
+  version "0.1.1-next.1"
+  resolved "https://registry.yarnpkg.com/@material-composer/patch-material/-/patch-material-0.1.1-next.1.tgz#758e9047166c3616012cd710d68fa1f68c5fddba"
+  integrity sha512-x2YZIEnPA5DKQkIBGr3f/bL+wal0CqrsY3LBtM7mMAKlxITmHB9RssEqhaKJYjpTL8LzL6h40fB2XkeEJcKMAQ==
   dependencies:
     "@hmans/types" "^0.0.3"
     fp-ts "^2.12.2"
@@ -5592,11 +5592,11 @@ material-composer-r3f@^0.1.0-next.1:
     shader-composer-r3f "^0.2.0"
 
 material-composer@^0.1.0-next.2:
-  version "0.1.0-next.2"
-  resolved "https://registry.yarnpkg.com/material-composer/-/material-composer-0.1.0-next.2.tgz#6f12b2b8a49d4b0c2aa4a3770d69a3c3b8717e96"
-  integrity sha512-mt7BbxepYYoNvAi0qG5vlyRjta0BLDmsBn2Aoob+duUDZffGs40WPOzfCpUmGfJCoR0zPCXMCt1pWMsWewXpZg==
+  version "0.1.0-next.3"
+  resolved "https://registry.yarnpkg.com/material-composer/-/material-composer-0.1.0-next.3.tgz#a9dfb0f15f344fc588e5ffc9befb65071c284355"
+  integrity sha512-XNvppb4POiKAHRxfNlIBT188p34gimAc98n19IRurd/O600m2fSA6DERYlTVYVLyeenyhkDePbrQnqQpldwsyw==
   dependencies:
-    "@material-composer/patch-material" "^0.1.1-next.0"
+    "@material-composer/patch-material" "^0.1.1-next.1"
     fp-ts "^2.12.2"
     shader-composer "0.3.1"
     shader-composer-toybox "^0.1.1"
