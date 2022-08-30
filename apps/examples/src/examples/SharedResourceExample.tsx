@@ -1,11 +1,10 @@
+import { sharedResource } from "@hmans/things"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
 import {
-  $,
   Add,
-  Float,
-  Input,
-  Int,
+  float,
+  InstanceID,
   Mul,
   pipe,
   Sin,
@@ -14,14 +13,6 @@ import {
 } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
-import { sharedResource } from "@hmans/things"
-
-// TODO: extract to Shader Composer
-export const float = (v: Input<"float" | "bool" | "int">) =>
-  Float($`float(${v})`)
-
-// TODO: extract to Shader Composer
-const InstanceID = Int($`gl_InstanceID`, { only: "vertex" })
 
 export default function SharedResourceExample() {
   return (

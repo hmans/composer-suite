@@ -23,7 +23,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-merge-refs": "^2.0.1",
-    "shader-composer": "0.3.1",
+    "shader-composer": "0.3.2",
     "shader-composer-r3f": "0.2.0",
     "shader-composer-toybox": "^0.1.1",
     "statery": "^0.6.0-next.2",

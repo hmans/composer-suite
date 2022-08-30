@@ -6740,6 +6740,13 @@ shader-composer@0.3.1, shader-composer@^0.3.0:
   dependencies:
     fp-ts "^2.12.1"
 
+shader-composer@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/shader-composer/-/shader-composer-0.3.2.tgz#7d043231bc3b3f939abeed5730d1bfd7c294c763"
+  integrity sha512-l06/hNLGEdVW1PlFUatk1axdeOvY3Se1zBulHVxBbucXwtWgX13Hx5SuHeYOe9ahk7+S2fzK71QlRjUDhfAEsQ==
+  dependencies:
+    fp-ts "^2.12.1"
+
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
