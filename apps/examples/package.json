@@ -13,7 +13,7 @@
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
-    "@react-three/drei": "^9.23.8",
+    "@react-three/drei": "^9.25.1",
     "@react-three/fiber": "^8.6.0",
     "leva": "^0.9.30",
     "material-composer": "^0.1.0-next.2",

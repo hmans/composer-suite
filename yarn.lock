@@ -2148,33 +2148,10 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz#cce1b03afbafb23edfb9cd8c517cc7462abffb65"
   integrity sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==
 
-"@react-three/drei@^9.23.5":
-  version "9.23.8"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.23.8.tgz#3c5db65c18bf90a789fa60098977736f8ac1080d"
-  integrity sha512-KHnerAS4P8FffbwZdXWZIgLImAB/OHWE9XaqBZUbkgxbzEZM3Iu7M6BB5V0yil0WRKcL0WRXzD9ToA4jk6TKAg==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@react-spring/three" "^9.3.1"
-    "@use-gesture/react" "^10.2.0"
-    detect-gpu "^4.0.36"
-    glsl-noise "^0.0.0"
-    lodash.omit "^4.5.0"
-    lodash.pick "^4.4.0"
-    meshline "^2.0.4"
-    react-composer "^5.0.3"
-    react-merge-refs "^1.1.0"
-    stats.js "^0.17.0"
-    suspend-react "^0.0.8"
-    three-mesh-bvh "^0.5.15"
-    three-stdlib "^2.14.3"
-    troika-three-text "^0.46.4"
-    utility-types "^3.10.0"
-    zustand "^3.5.13"
-
-"@react-three/drei@^9.23.8":
-  version "9.24.4"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.24.4.tgz#8d0de5b7fca72907f46896ef024c55e0bd5f72f5"
-  integrity sha512-f4v3PxPZf3pKd2nCJjFlM3JNvPqdQ2mML3s6yMk7eCwBGRVO/AuITSa7LxIAyCH+NEfmvrWRPZRPpGcD4km5vw==
+"@react-three/drei@^9.23.5", "@react-three/drei@^9.25.1":
+  version "9.25.1"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.25.1.tgz#b932870aea0f9bf8c919f7b3e015297f251c4fff"
+  integrity sha512-GdKq+spr7vHsIADVcGNaJ+6lsiTc1HBnpd2soli9WM6y/zCY/gipLXlzLBZeL+GVb+t7R/WS69ToUeWam9PGrA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -2579,29 +2556,17 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@use-gesture/core@10.2.17":
-  version "10.2.17"
-  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.17.tgz#dc78913cd5d105217c3f1d1c16a32ad6426a00ba"
-  integrity sha512-62hCybe4x6oGZ1/JA9gSYIdghV1FqxCdvYWt9SqCEAAikwT1OmVl2Q/Uu8CP636L57D+DfXtw6PWM+fdhr4oJQ==
-
 "@use-gesture/core@10.2.18":
   version "10.2.18"
   resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.18.tgz#fa022a6383ee11d7170953681e50e16cd63b3f81"
   integrity sha512-O+qxBlKxPtYM/LyRnK/U5MhVA9kKHj4C2yHsUurDxNO0a8D1PHLz9YmMPh2UXGQE4wtSke03GsLqRsHbUvN9nw==
 
-"@use-gesture/react@^10.2.0":
+"@use-gesture/react@^10.2.0", "@use-gesture/react@^10.2.5":
   version "10.2.18"
   resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.18.tgz#859e2174e2c20cf0d9f0e9e499b69d662f071ddc"
   integrity sha512-MJQ5q/huXIER3st3bsmuWA7lxcdwZd28KJoBPFPNxKFenjF47smaiCCf+dLjUBiTV0DiIYAN4pXK19KxwfnUgg==
   dependencies:
     "@use-gesture/core" "10.2.18"
-
-"@use-gesture/react@^10.2.5":
-  version "10.2.17"
-  resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.17.tgz#00bc413da42a358dd3f9173c0631b54522e76614"
-  integrity sha512-Vfrp1KgdYn/kOEUAYNXtGBCl2dr38s3G6rru1TOPs+cVUjfNyNxvJK56grUyJ336N3rQLK8F9G7+FfrHuc3g/Q==
-  dependencies:
-    "@use-gesture/core" "10.2.17"
 
 "@vitejs/plugin-react@^2.0.1":
   version "2.0.1"
