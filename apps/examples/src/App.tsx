@@ -6,6 +6,7 @@ import {
   Heading
 } from "r3f-stage"
 import "r3f-stage/styles.css"
+import CometExample from "./examples/Comet"
 import { FireflyExample } from "./examples/FireflyExample"
 import { FogExample } from "./examples/FogExample"
 import MagicWellExample from "./examples/MagicWellExample"
@@ -74,7 +75,10 @@ export default () => (
         <SoftParticlesExample />
       </Example>
 
-      <Heading>Effects</Heading>
+      <Heading>Scenes</Heading>
+      <Example path="scenes/comet" title="Comet">
+        <CometExample />
+      </Example>
 
       <Heading>Experiments</Heading>
       <Example path="playground" title="Playground">
