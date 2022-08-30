@@ -1,3 +1,4 @@
+import { sharedResource } from "@hmans/things"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
 import {
@@ -14,7 +15,6 @@ import {
 } from "shader-composer"
 import { Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
-import { sharedResource } from "@hmans/things"
 
 export const float = (v: Input<"float" | "bool" | "int">) =>
   Float($`float(${v})`)
