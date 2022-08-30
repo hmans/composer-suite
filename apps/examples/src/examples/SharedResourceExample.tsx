@@ -1,5 +1,8 @@
+import { useFrame } from "@react-three/fiber"
+import { useControls } from "leva"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
+import { useMemo } from "react"
 import {
   $,
   Add,
@@ -12,6 +15,7 @@ import {
   Time,
   vec3
 } from "shader-composer"
+import { useUniformUnit } from "shader-composer-r3f"
 import { Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
 import { sharedResource } from "./lib/sharedResource"
@@ -29,8 +33,8 @@ export default function SharedResourceExample() {
       <SharedBlobMaterial.Mount />
 
       <Blobs position={[1, 0, 0]} />
-      {/* <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} /> */}
-      {/* <Blobs position={[0, 2, -40]} scale={10} /> */}
+      <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
+      <Blobs position={[0, 2, -40]} scale={10} />
     </group>
   )
 }
@@ -50,24 +54,31 @@ const Blobs = (props: ParticlesProps) => (
   </Particles>
 )
 
-const BlobMaterial = () => (
-  <composable.MeshStandardMaterial
-    color="#e63946"
-    metalness={0.5}
-    roughness={0.6}
-    autoShadow
-  >
-    <modules.Translate offset={vec3(1, 0, 0)} space="local" />
-    <modules.Scale
-      scale={pipe(
-        float(InstanceID),
-        (v) => Add(Time(), v),
-        (v) => Sin(v),
-        (v) => Mul(v, 0.2),
-        (v) => Add(v, 1)
-      )}
-    />
-  </composable.MeshStandardMaterial>
-)
+const BlobMaterial = () => {
+  const controls = useControls({ t: { value: 0, min: 0, max: 100 } })
+
+  // const time = useMemo(() => Time(), [])
+  const time = useUniformUnit("float", controls.t)
+
+  return (
+    <composable.MeshStandardMaterial
+      color="#e63946"
+      metalness={0.5}
+      roughness={0.6}
+      autoShadow
+    >
+      <modules.Translate offset={vec3(1, 0, 0)} space="local" />
+      <modules.Scale
+        scale={pipe(
+          float(InstanceID),
+          (v) => Add(time, v),
+          (v) => Sin(v),
+          (v) => Mul(v, 0.2),
+          (v) => Add(v, 1)
+        )}
+      />
+    </composable.MeshStandardMaterial>
+  )
+}
 
 const SharedBlobMaterial = sharedResource(BlobMaterial)
