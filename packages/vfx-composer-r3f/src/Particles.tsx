@@ -1,11 +1,9 @@
 import { useRerender } from "@hmans/use-rerender"
 import { extend, InstancedMeshProps } from "@react-three/fiber"
-import { ComposableMaterial } from "material-composer"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
   forwardRef,
-  PropsWithRef,
   Ref,
   useContext,
   useImperativeHandle,
@@ -21,7 +19,7 @@ export type ParticlesProps = Omit<
 > & {
   ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
-  material?: ComposableMaterial
+  material?: Material
   maxParticles?: number
   safetyBuffer?: number
 }

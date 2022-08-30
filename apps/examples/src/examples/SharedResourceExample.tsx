@@ -1,4 +1,4 @@
-import { sharedResource } from "@hmans/things"
+import { sharedResource } from "./lib/sharedResource"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere } from "randomish"
 import {
@@ -24,6 +24,7 @@ const InstanceID = Int($`gl_InstanceID`, { only: "vertex" })
 export default function SharedResourceExample() {
   return (
     <group position-y={1.5}>
+      <SharedBlobMaterial.Resource />
       <Blobs position={[1, 0, 0]} />
       <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
       <Blobs position={[0, 2, -40]} scale={10} />
