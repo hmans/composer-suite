@@ -1,5 +1,5 @@
 import { composable, modules } from "material-composer-r3f"
-import { between, insideSphere } from "randomish"
+import { between, insideSphere, plusMinus, upTo } from "randomish"
 import {
   $,
   Add,
@@ -29,16 +29,28 @@ export default function SharedResourceExample() {
       <SharedBlobMaterial.Mount />
       <SharedBlobDepthMaterial.Mount />
 
-      <Blobs position={[1, 0, 0]} />
-      <Blobs position={[-1, 3, -10]} rotation-z={Math.PI} scale={4} />
-      <Blobs position={[0, 2, -40]} scale={10} />
+      {/* Create a whole bunch of objects, all using the same materials */}
+      {Array.from(Array(30)).map((_, i) => (
+        <Blobs
+          position={[plusMinus(10), upTo(4), between(-10, 0)]}
+          rotation-z={plusMinus(Math.PI)}
+          scale={upTo(4)}
+          key={i}
+        />
+      ))}
     </group>
   )
 }
 
 const Blobs = (props: ParticlesProps) => (
-  <Particles maxParticles={1_000} castShadow receiveShadow {...props}>
-    <sphereGeometry args={[0.08, 16, 16]} />
+  <Particles
+    maxParticles={1_000}
+    safetyBuffer={0}
+    castShadow
+    receiveShadow
+    {...props}
+  >
+    <sphereGeometry args={[0.08, 8, 4]} />
     <SharedBlobMaterial.Use />
     <SharedBlobDepthMaterial.Use attach="customDepthMaterial" />
     <Emitter
