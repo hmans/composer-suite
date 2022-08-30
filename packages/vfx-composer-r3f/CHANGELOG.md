@@ -1,5 +1,19 @@
 # vfx-composer-r3f
 
+## 0.2.0-next.4
+
+### Minor Changes
+
+- 85f851f: **Breaking Change:** `<Emitter>` received a big overhaul and now supports `rate` and `limit` props, next to the `setup` callback prop that was already there. Together with the helper components from Timeline Composer, this should now allow for all typical particle emission workloads.
+- ea13985: Upgrade to the latest Shader Composer and Material Composer. Lots of new APIs!
+- dc04f03: `VFXMaterial` and the animation modules have been extracted into a new package, **Material Composer**, that this library now uses as a dependency.
+
+### Patch Changes
+
+- Updated dependencies [ea13985]
+- Updated dependencies [dc04f03]
+  - vfx-composer@0.2.0-next.4
+
 ## 0.2.0-next.3
 
 ### Minor Changes
