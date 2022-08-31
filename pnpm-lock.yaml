@@ -46,6 +46,67 @@ importers:
       tslib: 2.4.0
       typescript: 4.8.2
 
+  apps/material-composer-examples:
+    specifiers:
+      '@hmans/r3f-shared-resource': ^0.1.0
+      '@hmans/use-const': ^0.0.1
+      '@hmans/use-rerender': ^0.0.2
+      '@hmans/use-version': ^0.0.2
+      '@material-composer/patch-material': ^0.1.1
+      '@react-three/drei': ^9.25.2
+      '@react-three/fiber': ^8.6.0
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.143.1
+      '@vitejs/plugin-react': ^2.0.1
+      leva: ^0.9.30
+      material-composer: ^0.1.1
+      material-composer-r3f: ^0.1.1
+      r3f-perf: ^6.4.4
+      r3f-stage: ^0.3.3
+      randomish: ^0.1.4
+      react: ^18.1.0
+      react-dom: ^18.1.0
+      react-merge-refs: ^2.0.1
+      shader-composer: 0.3.3
+      shader-composer-r3f: ^0.2.0
+      shader-composer-toybox: ^0.1.2
+      three: ^0.143.0
+      timeline-composer: ^0.1.5
+      typescript: ^4.8.2
+      vite: ^3.0.9
+      wouter: ^2.8.0-alpha.2
+    dependencies:
+      '@hmans/r3f-shared-resource': 0.1.0_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      '@hmans/use-rerender': 0.0.2_react@18.2.0
+      '@hmans/use-version': 0.0.2_react@18.2.0
+      '@material-composer/patch-material': link:../../packages/material-copmoser-patch-material
+      '@react-three/drei': 9.25.2_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
+      material-composer: link:../../packages/material-composer
+      material-composer-r3f: link:../../packages/material-composer-r3f
+      r3f-perf: 6.4.4_3e4bvlmm43mb33nkjwlckzy5ui
+      r3f-stage: link:../../packages/r3f-stage
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-merge-refs: 2.0.1
+      shader-composer: link:../../packages/shader-composer
+      shader-composer-r3f: link:../../packages/shader-composer-r3f
+      shader-composer-toybox: link:../../packages/shader-composer-toybox
+      three: 0.143.0
+      timeline-composer: 0.1.5_biqbaboplfbrettd7655fr4n2y
+      wouter: 2.8.0-alpha.2_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.143.2
+      '@vitejs/plugin-react': 2.0.1_vite@3.0.9
+      randomish: 0.1.4
+      typescript: 4.8.2
+      vite: 3.0.9
+
   apps/r3f-stage-examples:
     specifiers:
       '@react-three/drei': ^9.25.2
@@ -96,6 +157,47 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       render-composer: link:../../packages/render-composer
       three: 0.143.0
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.143.2
+      '@vitejs/plugin-react': 2.0.1_vite@3.0.9
+      typescript: 4.8.2
+      vite: 3.0.9
+
+  apps/shader-composer-examples:
+    specifiers:
+      '@hmans/r3f-animate': ^0.0.4
+      '@react-three/drei': ^9.25.2
+      '@react-three/fiber': ^8.6.0
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.143.1
+      '@vitejs/plugin-react': ^2.0.1
+      fp-ts: ^2.12.2
+      r3f-stage: ^0.3.3
+      react: ^18.1.0
+      react-dom: ^18.1.0
+      shader-composer: ^0.3.0
+      shader-composer-r3f: ^0.2.0
+      shader-composer-toybox: ^0.1.0
+      three: ^0.143.0
+      three-custom-shader-material: ^4.0.0
+      typescript: ^4.8.2
+      vite: ^3.0.9
+    dependencies:
+      '@hmans/r3f-animate': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
+      '@react-three/drei': 9.25.2_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      fp-ts: 2.12.3
+      r3f-stage: link:../../packages/r3f-stage
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      shader-composer: link:../../packages/shader-composer
+      shader-composer-r3f: link:../../packages/shader-composer-r3f
+      shader-composer-toybox: link:../../packages/shader-composer-toybox
+      three: 0.143.0
+      three-custom-shader-material: 4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq
     devDependencies:
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
