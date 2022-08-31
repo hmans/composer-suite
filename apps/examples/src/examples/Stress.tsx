@@ -20,7 +20,7 @@ export const Stress = () => {
       <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
-        <composable.MeshStandardMaterial>
+        <composable.meshStandardMaterial>
           <modules.Scale scale={OneMinus(particles.progress)} />
 
           <modules.Velocity velocity={velocity} time={particles.age} />
@@ -32,7 +32,7 @@ export const Stress = () => {
 
           <modules.Color color={color} />
           <modules.Lifetime {...particles} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
       </Effect.Root>
 
       <Effect.Emitter

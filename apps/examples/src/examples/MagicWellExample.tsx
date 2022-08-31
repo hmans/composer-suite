@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
-import { useRenderPipeline } from "r3f-stage"
+import { FlatStage, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
@@ -14,11 +14,11 @@ export default function MagicWellExample() {
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
-    <group>
+    <FlatStage>
       <Particles maxParticles={5_000}>
         <planeGeometry args={[0.15, 2]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
@@ -32,7 +32,7 @@ export default function MagicWellExample() {
           />
           <modules.Lifetime {...particles} />
           <modules.Softness softness={5} depthTexture={depth} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         <Emitter
           rate={250}
@@ -48,6 +48,6 @@ export default function MagicWellExample() {
           }}
         />
       </Particles>
-    </group>
+    </FlatStage>
   )
 }

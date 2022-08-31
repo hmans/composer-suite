@@ -1,5 +1,6 @@
 import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
+import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
@@ -17,13 +18,13 @@ export const Simple = () => {
   const velocity = useParticleAttribute(() => new Vector3())
 
   return (
-    <group>
+    <FlatStage>
       {/* All particle effects are driven my instances of <Particles>. */}
       <Particles maxParticles={1_000} safetyBuffer={1_000}>
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
@@ -36,7 +37,7 @@ export const Simple = () => {
             time={particles.age}
           />
           <modules.Lifetime {...particles} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         {/* The other important component here is the emitter, which will, as you
         might already have guessed, emit new particles. Emitters are full scene
@@ -55,6 +56,6 @@ export const Simple = () => {
           }}
         />
       </Particles>
-    </group>
+    </FlatStage>
   )
 }

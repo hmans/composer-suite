@@ -7,9 +7,9 @@ export default function Playground() {
     <group>
       <mesh>
         <sphereGeometry />
-        <composable.MeshStandardMaterial>
+        <composable.meshStandardMaterial>
           <modules.Color color={Mul(new Color("hotpink"), Time())} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
       </mesh>
     </group>
   )

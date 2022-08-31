@@ -1,6 +1,7 @@
 import { useThree } from "@react-three/fiber"
 import { compileModules, patchMaterial } from "material-composer"
 import * as Modules from "material-composer/modules"
+import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
 import { compileShader, OneMinus, Time } from "shader-composer"
@@ -136,5 +137,9 @@ export const Vanilla = () => {
     () => vanillaCode(group.current, camera as PerspectiveCamera, scene, gl),
     []
   )
-  return <group ref={group}></group>
+  return (
+    <FlatStage>
+      <group ref={group}></group>
+    </FlatStage>
+  )
 }

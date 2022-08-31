@@ -23,7 +23,7 @@ export default function SharedResourceExample() {
       {/* Create a whole bunch of objects, all using the same materials */}
       {Array.from(Array(30)).map((_, i) => (
         <Blobs
-          position={[plusMinus(10), upTo(4), between(-10, 0)]}
+          position={[plusMinus(10), plusMinus(4), between(-10, 0)]}
           rotation-z={plusMinus(Math.PI)}
           scale={upTo(4)}
           key={i}
@@ -59,7 +59,7 @@ const BlobMaterial = () => {
   const time = Time()
 
   return (
-    <composable.MeshStandardMaterial
+    <composable.meshStandardMaterial
       color="#e63946"
       metalness={0.5}
       roughness={0.6}
@@ -74,7 +74,7 @@ const BlobMaterial = () => {
           (v) => Add(v, 1)
         )}
       />
-    </composable.MeshStandardMaterial>
+    </composable.meshStandardMaterial>
   )
 }
 
@@ -82,7 +82,7 @@ const BlobDepthMaterial = () => {
   const time = Time()
 
   return (
-    <composable.MeshDepthMaterial depthPacking={RGBADepthPacking}>
+    <composable.meshDepthMaterial depthPacking={RGBADepthPacking}>
       <modules.Translate offset={vec3(1, 0, 0)} space="local" />
       <modules.Scale
         scale={pipe(
@@ -93,7 +93,7 @@ const BlobDepthMaterial = () => {
           (v) => Add(v, 1)
         )}
       />
-    </composable.MeshDepthMaterial>
+    </composable.meshDepthMaterial>
   )
 }
 
