@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.18",
-    "@types/react-dom": "^18.0.5",
+    "@types/react-dom": "^18.0.6",
     "@types/three": "^0.143.1",
     "@vitejs/plugin-react": "^2.0.1",
     "randomish": "^0.1.4",
