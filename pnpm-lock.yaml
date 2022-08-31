@@ -175,6 +175,7 @@ importers:
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
       fp-ts: ^2.12.2
+      leva: ^0.9.30
       r3f-stage: ^0.3.3
       react: ^18.1.0
       react-dom: ^18.1.0
@@ -190,6 +191,7 @@ importers:
       '@react-three/drei': 9.25.2_o6o4yvbil3h6n6ahlnvnzgggwq
       '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
+      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -6591,7 +6593,7 @@ packages:
     dev: false
 
   /object-assign/4.1.1:
-    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -7076,7 +7078,7 @@ packages:
     dev: false
 
   /react-is/16.13.1:
-    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz}
     dev: false
 
   /react-is/17.0.2:
@@ -7266,7 +7268,7 @@ packages:
     dev: false
 
   /require-from-string/2.0.2:
-    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -8244,7 +8246,7 @@ packages:
     dev: false
 
   /webgl-constants/1.1.1:
-    resolution: {integrity: sha512-LkBXKjU5r9vAW7Gcu3T5u+5cvSvh5WwINdr0C+9jpzVB41cjQAP5ePArDtk/WHYdVj0GefCgM73BA7FlIiNtdg==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-LkBXKjU5r9vAW7Gcu3T5u+5cvSvh5WwINdr0C+9jpzVB41cjQAP5ePArDtk/WHYdVj0GefCgM73BA7FlIiNtdg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/webgl-constants/-/webgl-constants-1.1.1.tgz}
     dev: false
 
   /webgl-sdf-generator/1.1.1:
