@@ -1,6 +1,5 @@
 {
   "name": "@material-composer/patched",
-  "private": false,
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -10,7 +9,6 @@
   "version": "0.1.1",
   "main": "dist/material-composer-patched.cjs.js",
   "module": "dist/material-composer-patched.esm.js",
-  "types": "dist/material-composer-patched.cjs.d.ts",
   "files": [
     "dist/**",
     "LICENSE",
