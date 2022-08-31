@@ -197,7 +197,7 @@ const Debris = () => {
 
   return (
     <Particles>
-      <boxGeometry args={[0.1, 0.1, 0.1]} />
+      <planeGeometry args={[0.2, 0.2]} />
       <composable.meshBasicMaterial side={DoubleSide} transparent>
         <modules.Alpha alpha={Sub(1, particles.progress)} />
 
@@ -218,7 +218,7 @@ const Debris = () => {
         <modules.Translate
           offset={vec3(Mul(getNoise(99), 5), getNoise(67), getNoise(567))}
         />
-        <modules.Rotate rotation={Rotation3DY(Mul(particles.age, 4))} />
+        <modules.Billboard />
 
         <modules.Acceleration
           force={Add(
@@ -233,10 +233,10 @@ const Debris = () => {
       </composable.meshBasicMaterial>
 
       <Emitter
-        rate={12}
+        rate={80}
         setup={({ position }) => {
           const theta = plusMinus(Math.PI)
-          position.set(Math.cos(theta), 0, Math.sin(theta))
+          position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
           particles.setLifetime(between(1, 2))
         }}
       />

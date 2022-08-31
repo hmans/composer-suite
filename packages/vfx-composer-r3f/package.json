@@ -53,7 +53,7 @@
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
-    "material-composer-r3f": "^0.1.0",
+    "material-composer-r3f": "^0.1.1",
     "shader-composer": "0.3.3",
     "shader-composer-r3f": "0.2.0",
     "vfx-composer": "^0.2.0-next.4"

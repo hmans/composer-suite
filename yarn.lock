@@ -5553,10 +5553,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-material-composer-r3f@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/material-composer-r3f/-/material-composer-r3f-0.1.0.tgz#5666d44441c4c0649c683299fffeb11539ed1cdf"
-  integrity sha512-RpDgJUSuX6C+Pbh8x33irzRdtx98UjBYHPrwf/x4Q5cKCPXXbOwzuOVdVmcRhL14G6XhVz3UW8KhMb2gjl2SRw==
+material-composer-r3f@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/material-composer-r3f/-/material-composer-r3f-0.1.1.tgz#5eb2c3d76470c17841971704cb0de2edc6ec2140"
+  integrity sha512-1Gx7PGUVmTc6FNXJ1kIALeMR3qWk7huwVEyGhYdH/V6j3RUdmAoNygPNgvM86SmvE9upCIDJGO1XVfnZG249pw==
   dependencies:
     "@hmans/use-const" "^0.0.1"
     "@hmans/use-list" "^0.0.1"
@@ -5564,19 +5564,18 @@ material-composer-r3f@^0.1.0:
     "@hmans/use-version" "^0.0.2"
     "@material-composer/patch-material" "^0.1.1"
     "@material-composer/patched" "^0.1.1"
-    material-composer "^0.1.0"
     shader-composer "0.3.3"
     shader-composer-r3f "^0.2.0"
 
-material-composer@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/material-composer/-/material-composer-0.1.0.tgz#b624405935e576c8bc688c0d3e72691121a777e7"
-  integrity sha512-XbYx1JKs6Rc6rcaTTRH5UDYW8MCjBbfaeve/JSpUmSo7XWU3q027t2Oz0ay9ue9t53yvrKzLuilWh047u075iA==
+material-composer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/material-composer/-/material-composer-0.1.1.tgz#a7016d8dfc4246f4f85c0ad7267543eda8c0cadc"
+  integrity sha512-ikJcy0tHwTs8xgdtHbl5m7BeQoAvMtUuPl2O7Zy0a4d3OCxQk9t+U4s2Fj1eOtdIEMdAgeC6dKsW25AGQQfpnw==
   dependencies:
     "@material-composer/patch-material" "^0.1.1"
     fp-ts "^2.12.2"
     shader-composer "0.3.3"
-    shader-composer-toybox "^0.1.1"
+    shader-composer-toybox "^0.1.2"
 
 meow@^6.0.0:
   version "6.1.1"
@@ -6666,13 +6665,6 @@ shader-composer-r3f@0.2.0, shader-composer-r3f@^0.2.0:
   dependencies:
     shader-composer "^0.3.0"
     three-custom-shader-material "^4.0.0"
-
-shader-composer-toybox@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/shader-composer-toybox/-/shader-composer-toybox-0.1.1.tgz#f4c965a1618914adf64c9d4942d4072483440404"
-  integrity sha512-SLLesCxQQhaDLvOM14GEFf8X5dSZRTdM8zWh3IyJje7mlPxLwesBvfaUutYe/3LcoMXsThrYoDKKFFbJ3uLTIA==
-  dependencies:
-    shader-composer "^0.3.0"
 
 shader-composer-toybox@^0.1.2:
   version "0.1.2"
