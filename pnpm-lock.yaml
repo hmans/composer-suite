@@ -203,6 +203,20 @@ importers:
       three: 0.143.0
       typescript: 4.8.2
 
+  packages/render-composer:
+    specifiers:
+      '@react-three/fiber': ^8.6.0
+      postprocessing: ^6.28.5
+      react: ^18.1.0
+      react-dom: ^18.1.0
+      three: ^0.143.0
+    devDependencies:
+      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      postprocessing: 6.28.6_three@0.143.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.143.0
+
   packages/shader-composer:
     specifiers:
       fp-ts: ^2.12.2
@@ -2970,7 +2984,7 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
   /@types/react-dom/18.0.6:
-    resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.6.tgz}
     dependencies:
       '@types/react': 18.0.18
 
@@ -4112,6 +4126,15 @@ packages:
     dev: true
     optional: true
 
+  /esbuild-linux-64/0.14.54:
+    resolution: {integrity: sha512-EgjAgH5HwTbtNsTqQOXWApBaPVdDn7XcK+/PtJwZLT1UmpLoznPd8c5CxqsH2dQK3j05YsB3L17T8vE7cp4cCg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /esbuild-linux-arm/0.14.54:
     resolution: {integrity: sha512-qqz/SjemQhVMTnvcLGoLOdFpCYbz4v4fUo+TfsWG+1aOu70/80RV6bgNpR2JCrppV2moUQkww+6bWxXRL9YMGw==}
     engines: {node: '>=12'}
@@ -4234,7 +4257,7 @@ packages:
       esbuild-freebsd-64: 0.14.54
       esbuild-freebsd-arm64: 0.14.54
       esbuild-linux-32: 0.14.54
-      esbuild-linux-64: registry.npmjs.org/esbuild-linux-64/0.14.54
+      esbuild-linux-64: 0.14.54
       esbuild-linux-arm: 0.14.54
       esbuild-linux-arm64: 0.14.54
       esbuild-linux-mips64le: 0.14.54
@@ -4272,7 +4295,7 @@ packages:
       esutils: 2.0.3
       optionator: 0.8.3
     optionalDependencies:
-      source-map: registry.npmjs.org/source-map/0.6.1
+      source-map: 0.6.1
     dev: false
 
   /esprima/4.0.1:
@@ -5900,7 +5923,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
+      graceful-fs: 4.2.10
     dev: false
 
   /jsonfile/6.1.0:
@@ -5908,7 +5931,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
+      graceful-fs: 4.2.10
     dev: false
 
   /keyv/3.1.0:
@@ -6657,7 +6680,6 @@ packages:
       three: '>= 0.107.0 < 0.144.0'
     dependencies:
       three: 0.143.0
-    dev: false
 
   /potpack/1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
@@ -8271,31 +8293,3 @@ packages:
         optional: true
     dependencies:
       react: 18.2.0
-
-  registry.npmjs.org/esbuild-linux-64/0.14.54:
-    resolution: {integrity: sha512-EgjAgH5HwTbtNsTqQOXWApBaPVdDn7XcK+/PtJwZLT1UmpLoznPd8c5CxqsH2dQK3j05YsB3L17T8vE7cp4cCg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.14.54.tgz}
-    name: esbuild-linux-64
-    version: 0.14.54
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  registry.npmjs.org/graceful-fs/4.2.10:
-    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz}
-    name: graceful-fs
-    version: 4.2.10
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/source-map/0.6.1:
-    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz}
-    name: source-map
-    version: 0.6.1
-    engines: {node: '>=0.10.0'}
-    requiresBuild: true
-    dev: false
-    optional: true
