@@ -1,5 +1,21 @@
 # vfx-composer
 
+## 0.2.0
+
+### Minor Changes
+
+- c4ef849: **Added:** Partial attribute buffer uploads! Now only the parts of the buffers that have been used for newly spawned particles are actually uploaded to the GPU.
+- ea13985: **Breaking Change:** Upgrade to the latest Shader Composer and Material Composer. Lots of new APIs! Aaaah! Please refer to the examples for guidance.
+- cd19781: **Changed:** `<Emitter>` now applies its world transform to spawned particles, meaning you can parent it to other scene objects for easy-peasy particle trails.
+- f8b4c05: **Changed:** A complete refactoring around a new imperative/vanilla core. Enjoy!
+- dc04f03: `VFXMaterial` and the animation modules have been extracted into a new package, **Material Composer**, that this library now uses as a dependency.
+- c09304e: All the react-three-fiber specific bits that were formerly available at `vfx-composer/fiber` now live in a separate `vfx-composer-r3f` package.
+
+### Patch Changes
+
+- 2d867ec: **Added:** `<Emitter>` will now retrieve the parent `<Particles>` via context if none is specified explicitly.
+- bfd1588: **Fixed:** `<Emitter>` could no longer work with `<Particles>` refs passed into its `particles` prop. Woops!
+
 ## 0.2.0-next.4
 
 ### Minor Changes

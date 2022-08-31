@@ -30,8 +30,8 @@
     "three": "^0.143.0",
     "three-stdlib": "^2.14.3",
     "timeline-composer": "^0.1.5",
-    "vfx-composer": "^0.2.0-next.4",
-    "vfx-composer-r3f": "^0.2.0-next.4",
+    "vfx-composer": "^0.2.0",
+    "vfx-composer-r3f": "^0.2.0",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
