@@ -6887,6 +6887,11 @@ stack-utils@^2.0.3:
   dependencies:
     escape-string-regexp "^2.0.0"
 
+statery@^0.6.0-0:
+  version "0.6.0-0"
+  resolved "https://registry.yarnpkg.com/statery/-/statery-0.6.0-0.tgz#3fc37819977a8bf1cc2f607af5c897eee7d3e11e"
+  integrity sha512-AVtl86PdI2tOq64Ea6CNy2YmyTHqGyMXotePhkJDlhZzLf8mT7tEsUd2HndhpH1Xkk1JYxvsWDL0qC2iQkScaQ==
+
 statery@^0.6.0-next.2:
   version "0.6.0-next.2"
   resolved "https://registry.yarnpkg.com/statery/-/statery-0.6.0-next.2.tgz#487460ae2fff44c3e4ab90d9e31a6ea375409097"

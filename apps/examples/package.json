@@ -26,7 +26,7 @@
     "shader-composer": "0.3.3",
     "shader-composer-r3f": "0.2.0",
     "shader-composer-toybox": "^0.1.2",
-    "statery": "^0.6.0-next.2",
+    "statery": "^0.6.0-0",
     "three": "^0.143.0",
     "timeline-composer": "^0.1.5",
     "vfx-composer": "^0.2.0-next.4",
