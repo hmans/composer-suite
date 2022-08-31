@@ -75,7 +75,7 @@ export default () => (
     </Example>
 
     <Heading>Scenes</Heading>
-    <Example path="scenes/comet" title="Comet">
+    <Example path="scenes/comet" title="Comet (WIP)">
       <CometExample />
     </Example>
 
