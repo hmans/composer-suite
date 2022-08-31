@@ -1,0 +1,41 @@
+{
+  "name": "r3f-stage",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "A simple stage for r3f examples and sandboxes.",
+  "version": "0.3.3",
+  "main": "dist/r3f-stage.cjs.js",
+  "module": "dist/r3f-stage.esm.js",
+  "files": [
+    "styles.css",
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "@react-three/fiber": "^8.6.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "three": "^0.143.0"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.25.2",
+    "leva": "^0.9.30",
+    "postprocessing": "^6.28.5",
+    "r3f-perf": "^6.4.4",
+    "render-composer": "^0.1.5",
+    "wouter": "^2.8.0-alpha.2",
+    "zustand": "^3.6.9"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.3.1",
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0",
+    "three": ">=0.143.0"
+  }
+}
