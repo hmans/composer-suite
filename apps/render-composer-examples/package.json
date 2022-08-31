@@ -12,8 +12,8 @@
     "@hmans/r3f-animate": "^0.0.4",
     "@react-three/drei": "^9.25.2",
     "@react-three/fiber": "^8.6.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "render-composer": "^0.1.5",
     "three": "^0.143.0"
   },
