@@ -1,22 +1,22 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, MeshProps } from "@react-three/fiber"
-import { composable, Layer, modules } from "material-composer-r3f"
-import { memo } from "react"
+import { composable, modules } from "material-composer-r3f"
+import { between, plusMinus } from "randomish"
 import {
-  Abs,
   Add,
   Div,
+  float,
   GLSLType,
   GradientStops,
   Input,
-  Min,
+  InstanceID,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
+  Rotation3DY,
   Saturate,
-  Sin,
   Smoothstep,
   Sub,
   Texture2D,
@@ -26,12 +26,12 @@ import {
   Unit,
   UV,
   vec2,
-  vec3,
-  VertexPosition
+  vec3
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
-import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-toybox"
+import { PSRDNoise2D } from "shader-composer-toybox"
 import { Color, DoubleSide, RepeatWrapping } from "three"
+import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
 import streamTextureUrl from "./textures/stream.png"
 
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
@@ -51,7 +51,7 @@ export default function CometExample() {
 
 const NoiseMask = (
   threshold: Input<"float"> = 0.5,
-  fringe: Input<"float"> = 0.2
+  fringe: Input<"float"> = 0.5
 ) => {
   const noise = NormalizePlusMinusOne(
     PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Inverted(Time()))))
@@ -125,13 +125,13 @@ const Aura = ({
 
 const Comet = (props: GroupProps) => (
   <group {...props}>
-    <group rotation-z={-Math.PI / 3}>
-      <Float>
+    <group rotation-z={-Math.PI / 3} rotation-y={Math.PI / 4}>
+      <Float speed={14}>
         <Rock />
 
         <Aura
-          scale={[1.2, 2, 1.2]}
-          position-y={0.8}
+          scale={[1.5, 2.5, 1.5]}
+          position-y={1.2}
           gradient={[
             [new Color("#d62828").multiplyScalar(1.5), 0],
             [new Color("#fb8b24").multiplyScalar(2), 0.5],
@@ -143,7 +143,7 @@ const Comet = (props: GroupProps) => (
         />
 
         <Aura
-          scale={[1.4, 2, 1.4]}
+          scale={[1.5, 2, 1.5]}
           position-y={0.8}
           fullness={0.7}
           gradient={[
@@ -157,19 +157,20 @@ const Comet = (props: GroupProps) => (
         />
 
         <Aura
-          scale={[1.6, 1.8, 1.6]}
-          position-y={0.5}
+          scale={[1.8, 1.8, 1.8]}
+          position-y={0.4}
           fullness={0.6}
           gradient={[
-            [new Color("#7209b7").multiplyScalar(1.5), 0],
-            [new Color("#b5179e").multiplyScalar(2), 0.5],
-            [new Color("#b5179e").multiplyScalar(2), 0.9],
-            [new Color("#f72585").multiplyScalar(8), 1]
+            [new Color("#9e0059").multiplyScalar(1.5), 0],
+            [new Color("#ff0054").multiplyScalar(2), 0.5],
+            [new Color("#ff0054").multiplyScalar(2), 0.9],
+            [new Color("#ffbd00").multiplyScalar(8), 1]
           ]}
           tiling={vec2(3, 0.5)}
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
         />
       </Float>
+      <Debris />
     </group>
   </group>
 )
@@ -182,3 +183,58 @@ const Rock = () => (
     </mesh>
   </Animate>
 )
+
+const Debris = () => {
+  const particles = useParticles()
+
+  const id = float(InstanceID, { varying: true })
+
+  return (
+    <Particles>
+      <boxGeometry args={[0.1, 0.1, 0.1]} />
+      <composable.MeshBasicMaterial side={DoubleSide} transparent>
+        <modules.Alpha alpha={Sub(1, particles.progress)} />
+        <modules.Color
+          color={Mul(
+            new Color("#fb8b24"),
+            Mul(NormalizePlusMinusOne(PSRDNoise2D(vec2(-20, id))), 10)
+          )}
+        />
+        <modules.Lifetime {...particles} />
+
+        <modules.Translate
+          offset={vec3(
+            Mul(PSRDNoise2D(vec2(99, id)), 5),
+            PSRDNoise2D(vec2(199, id)),
+            PSRDNoise2D(vec2(199, id))
+          )}
+        />
+        <modules.Rotate rotation={Rotation3DY(Mul(particles.age, 4))} />
+
+        <modules.Acceleration
+          force={Add(
+            vec3(0, 10, 0),
+            vec3(
+              PSRDNoise2D(vec2(0, id)),
+              PSRDNoise2D(vec2(10, id)),
+              PSRDNoise2D(vec2(80, id))
+            )
+          )}
+          space="local"
+          time={particles.age}
+        />
+
+        <modules.Scale scale={particles.age} />
+      </composable.MeshBasicMaterial>
+
+      <Emitter
+        rate={12}
+        setup={({ position }) => {
+          const theta = plusMinus(Math.PI)
+          position.set(Math.cos(theta), 0, Math.sin(theta))
+          particles.setLifetime(between(1, 2))
+        }}
+      />
+    </Particles>
+  )
+}
