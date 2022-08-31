@@ -30,7 +30,7 @@ export const Fog = () => {
     <group>
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry />
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           map={texture}
           opacity={0.1}
           transparent
@@ -41,7 +41,7 @@ export const Fog = () => {
           <modules.Velocity velocity={velocity} time={time} />
           <modules.Billboard />
           <modules.Softness softness={5} depthTexture={depth} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         <Emitter
           limit={50}

@@ -24,7 +24,7 @@ export const Simple = () => {
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
@@ -37,7 +37,7 @@ export const Simple = () => {
             time={particles.age}
           />
           <modules.Lifetime {...particles} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         {/* The other important component here is the emitter, which will, as you
         might already have guessed, emit new particles. Emitters are full scene

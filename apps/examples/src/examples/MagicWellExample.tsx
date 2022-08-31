@@ -18,7 +18,7 @@ export default function MagicWellExample() {
       <Particles maxParticles={5_000}>
         <planeGeometry args={[0.15, 2]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           map={texture}
           depthWrite={false}
           blending={AdditiveBlending}
@@ -32,7 +32,7 @@ export default function MagicWellExample() {
           />
           <modules.Lifetime {...particles} />
           <modules.Softness softness={5} depthTexture={depth} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         <Emitter
           rate={250}

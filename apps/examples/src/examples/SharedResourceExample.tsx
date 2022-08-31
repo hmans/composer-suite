@@ -59,7 +59,7 @@ const BlobMaterial = () => {
   const time = Time()
 
   return (
-    <composable.MeshStandardMaterial
+    <composable.meshStandardMaterial
       color="#e63946"
       metalness={0.5}
       roughness={0.6}
@@ -74,7 +74,7 @@ const BlobMaterial = () => {
           (v) => Add(v, 1)
         )}
       />
-    </composable.MeshStandardMaterial>
+    </composable.meshStandardMaterial>
   )
 }
 
@@ -82,7 +82,7 @@ const BlobDepthMaterial = () => {
   const time = Time()
 
   return (
-    <composable.MeshDepthMaterial depthPacking={RGBADepthPacking}>
+    <composable.meshDepthMaterial depthPacking={RGBADepthPacking}>
       <modules.Translate offset={vec3(1, 0, 0)} space="local" />
       <modules.Scale
         scale={pipe(
@@ -93,7 +93,7 @@ const BlobDepthMaterial = () => {
           (v) => Add(v, 1)
         )}
       />
-    </composable.MeshDepthMaterial>
+    </composable.meshDepthMaterial>
   )
 }
 

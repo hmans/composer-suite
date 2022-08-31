@@ -35,7 +35,7 @@ export const FireflyExample = () => {
       <Particles>
         <planeGeometry args={[0.05, 0.05]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           color={new Color(4, 1, 4)}
           blending={NormalBlending}
           transparent
@@ -49,7 +49,7 @@ export const FireflyExample = () => {
           <modules.Alpha alpha={OneMinus(particles.progress)} />
           <modules.Color color={color} />
           <modules.Lifetime {...particles} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         <mesh ref={mesh} castShadow>
           <dodecahedronGeometry args={[0.2]} />

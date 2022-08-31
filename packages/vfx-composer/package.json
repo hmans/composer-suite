@@ -44,7 +44,7 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
-    "material-composer": "^0.1.0-next.2",
+    "material-composer": "^0.1.0",
     "shader-composer": "0.3.3"
   },
   "peerDependencies": {

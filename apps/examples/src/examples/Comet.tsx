@@ -72,10 +72,10 @@ const TestAura = () => {
   return (
     <mesh>
       <planeGeometry />
-      <composable.MeshBasicMaterial transparent>
+      <composable.meshBasicMaterial transparent>
         <modules.Color color="white" />
         <modules.Alpha alpha={NoiseMask()} />
-      </composable.MeshBasicMaterial>
+      </composable.meshBasicMaterial>
     </mesh>
   )
 }
@@ -106,7 +106,7 @@ const Aura = ({
     <mesh {...props}>
       <sphereGeometry args={[1, 32, 16]} />
 
-      <composable.MeshBasicMaterial
+      <composable.meshBasicMaterial
         transparent
         side={DoubleSide}
         depthWrite={false}
@@ -118,7 +118,7 @@ const Aura = ({
           position={heat.alpha}
         />
         <modules.Alpha alpha={Mul(heat.alpha, NoiseMask(fullness))} />
-      </composable.MeshBasicMaterial>
+      </composable.meshBasicMaterial>
     </mesh>
   )
 }
@@ -183,7 +183,7 @@ const Rock = () => (
   <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 2 * dt)}>
     <mesh>
       <icosahedronGeometry args={[1, 0]} />
-      <composable.MeshStandardMaterial color="#222" />
+      <composable.meshStandardMaterial color="#222" />
     </mesh>
   </Animate>
 )
@@ -198,7 +198,7 @@ const Debris = () => {
   return (
     <Particles>
       <boxGeometry args={[0.1, 0.1, 0.1]} />
-      <composable.MeshBasicMaterial side={DoubleSide} transparent>
+      <composable.meshBasicMaterial side={DoubleSide} transparent>
         <modules.Alpha alpha={Sub(1, particles.progress)} />
 
         <modules.Color
@@ -230,7 +230,7 @@ const Debris = () => {
         />
 
         <modules.Scale scale={particles.age} />
-      </composable.MeshBasicMaterial>
+      </composable.meshBasicMaterial>
 
       <Emitter
         rate={12}

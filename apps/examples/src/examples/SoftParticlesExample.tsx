@@ -11,14 +11,14 @@ export const SoftParticlesExample = () => {
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry args={[5, 5]} />
 
-        <composable.MeshStandardMaterial
+        <composable.meshStandardMaterial
           color="hotpink"
           transparent
           depthWrite={false}
         >
           <modules.Billboard />
           <modules.Softness softness={2} depthTexture={depthTexture} />
-        </composable.MeshStandardMaterial>
+        </composable.meshStandardMaterial>
 
         <Emitter limit={1} rate={Infinity} />
       </Particles>
