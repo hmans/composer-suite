@@ -193,36 +193,37 @@ const Debris = () => {
 
   const id = float(InstanceID, { varying: true })
 
+  const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
+
   return (
     <Particles>
       <boxGeometry args={[0.1, 0.1, 0.1]} />
       <composable.MeshBasicMaterial side={DoubleSide} transparent>
         <modules.Alpha alpha={Sub(1, particles.progress)} />
+
         <modules.Color
-          color={Mul(
-            new Color("#fb8b24"),
-            Mul(NormalizePlusMinusOne(PSRDNoise2D(vec2(-20, id))), 10)
+          color={pipe(
+            id,
+            (v) => getNoise(20),
+            (v) => NormalizePlusMinusOne(v),
+            (v) => Mul(v, 10),
+            (v) => Mul(new Color("#fb8b24"), v)
           )}
         />
+
         <modules.Lifetime {...particles} />
 
+        <modules.Scale scale={Add(2, getNoise(123))} />
+
         <modules.Translate
-          offset={vec3(
-            Mul(PSRDNoise2D(vec2(99, id)), 5),
-            PSRDNoise2D(vec2(199, id)),
-            PSRDNoise2D(vec2(199, id))
-          )}
+          offset={vec3(Mul(getNoise(99), 5), getNoise(67), getNoise(567))}
         />
         <modules.Rotate rotation={Rotation3DY(Mul(particles.age, 4))} />
 
         <modules.Acceleration
           force={Add(
             vec3(0, 10, 0),
-            vec3(
-              PSRDNoise2D(vec2(0, id)),
-              PSRDNoise2D(vec2(10, id)),
-              PSRDNoise2D(vec2(80, id))
-            )
+            vec3(getNoise(0), getNoise(10), getNoise(80))
           )}
           space="local"
           time={particles.age}
