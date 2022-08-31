@@ -5,12 +5,6 @@
   "main": "index.js",
   "author": "Hendrik Mans <hendrik@mans.de>",
   "license": "MIT",
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "apps/*"
-    ]
-  },
   "preconstruct": {
     "packages": [
       "packages/*"
@@ -28,19 +22,20 @@
   "scripts": {
     "build": "preconstruct build",
     "clean:vite": "rimraf **/node_modules/.vite",
-    "dev": "yarn examples",
-    "examples": "yarn clean:vite && preconstruct dev && cd apps/examples/ && yarn dev",
-    "postinstall": "preconstruct dev && manypkg check && yarn clean:vite",
+    "dev": "pnpm examples",
+    "examples": "pnpm clean:vite && preconstruct dev && cd apps/examples/ && yarn dev",
+    "postinstall": "preconstruct dev && manypkg check && pnpm clean:vite",
     "test": "jest --passWithNoTests",
-    "ci": "preconstruct validate && manypkg check && yarn build && yarn test",
-    "release": "yarn ci && yarn changeset publish"
+    "ci": "preconstruct validate && manypkg check && pnpm build && pnpm test",
+    "release": "pnpm ci && pnpm changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.24.4",
     "@manypkg/cli": "^0.19.1",
-    "@preconstruct/cli": "^2.1.5"
+    "@preconstruct/cli": "^2.1.5",
+    "rimraf": "^3.0.2"
   },
   "stackblitz": {
-    "startCommand": "cd apps/examples && yarn dev"
+    "startCommand": "cd apps/examples && pnpm dev"
   }
 }
