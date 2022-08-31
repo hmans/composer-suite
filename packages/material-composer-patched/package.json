@@ -32,6 +32,7 @@
   "dependencies": {
     "@hmans/types": "^0.0.3",
     "@material-composer/patch-material": "^0.1.1",
-    "fp-ts": "^2.12.2"
+    "fp-ts": "^2.12.2",
+    "react-dom": "^18.1.0"
   }
 }

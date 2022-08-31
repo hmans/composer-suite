@@ -73,6 +73,7 @@ importers:
       shader-composer-toybox: ^0.1.2
       statery: ^0.6.0-next.2
       three: ^0.143.0
+      three-stdlib: ^2.14.3
       timeline-composer: ^0.1.5
       typescript: ^4.8.2
       vfx-composer: ^0.2.0-next.4
@@ -90,8 +91,8 @@ importers:
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      r3f-perf: 6.4.4_3e4bvlmm43mb33nkjwlckzy5ui
-      r3f-stage: 0.3.3_o6o4yvbil3h6n6ahlnvnzgggwq
+      r3f-perf: 6.4.4_2hduaato5t7yuuy4xw7z4el4xi
+      r3f-stage: 0.3.3_fggg2orfn5753o2jobhufyj364
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-merge-refs: 2.0.1
@@ -100,6 +101,7 @@ importers:
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       statery: 0.6.0-next.2_react@18.2.0
       three: 0.143.0
+      three-stdlib: 2.14.3_three@0.143.0
       timeline-composer: 0.1.5_biqbaboplfbrettd7655fr4n2y
       vfx-composer: link:../../packages/vfx-composer
       vfx-composer-r3f: link:../../packages/vfx-composer-r3f
@@ -137,14 +139,16 @@ importers:
       '@types/three': ^0.143.1
       fp-ts: ^2.12.2
       react: ^18.1.0
+      react-dom: ^18.1.0
       three: ^0.143.0
       typescript: ^4.8.2
     dependencies:
       '@hmans/types': 0.0.3
       '@material-composer/patch-material': link:../material-copmoser-patch-material
       fp-ts: 2.12.3
+      react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.6.0_react@18.2.0+three@0.143.0
+      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
       '@types/react': 18.0.18
       '@types/three': 0.143.2
       react: 18.2.0
@@ -185,7 +189,6 @@ importers:
   packages/material-copmoser-patch-material:
     specifiers:
       '@hmans/types': ^0.0.3
-      '@react-three/fiber': ^8.6.0
       '@types/three': ^0.143.1
       fp-ts: ^2.12.2
       shader-composer: 0.3.3
@@ -195,7 +198,6 @@ importers:
       '@hmans/types': 0.0.3
       fp-ts: 2.12.3
     devDependencies:
-      '@react-three/fiber': 8.6.0_three@0.143.0
       '@types/three': 0.143.2
       shader-composer: link:../shader-composer
       three: 0.143.0
@@ -2686,71 +2688,6 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.143.0
       zustand: 3.7.2_react@18.2.0
-
-  /@react-three/fiber/8.6.0_react@18.2.0+three@0.143.0:
-    resolution: {integrity: sha512-bdSrjPkcoGYqLsKL5pZHR3SrkzUyxP+VA7wKWhMQPZR+zUYhvw1IpUT+v/d/jlk7sKHlQS8KmGVvM91Ug1QJhA==}
-    peerDependencies:
-      expo: '>=43.0'
-      expo-asset: '>=8.4'
-      expo-gl: '>=11.0'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      react-native: '>=0.64'
-      three: '>=0.133'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      expo-asset:
-        optional: true
-      expo-gl:
-        optional: true
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.9
-      '@types/react-reconciler': 0.26.7
-      react: 18.2.0
-      react-reconciler: 0.27.0_react@18.2.0
-      react-use-measure: 2.1.1_react@18.2.0
-      scheduler: 0.21.0
-      suspend-react: 0.0.8_react@18.2.0
-      three: 0.143.0
-      zustand: 3.7.2_react@18.2.0
-    dev: true
-
-  /@react-three/fiber/8.6.0_three@0.143.0:
-    resolution: {integrity: sha512-bdSrjPkcoGYqLsKL5pZHR3SrkzUyxP+VA7wKWhMQPZR+zUYhvw1IpUT+v/d/jlk7sKHlQS8KmGVvM91Ug1QJhA==}
-    peerDependencies:
-      expo: '>=43.0'
-      expo-asset: '>=8.4'
-      expo-gl: '>=11.0'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      react-native: '>=0.64'
-      three: '>=0.133'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      expo-asset:
-        optional: true
-      expo-gl:
-        optional: true
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.18.9
-      '@types/react-reconciler': 0.26.7
-      react-reconciler: 0.27.0
-      react-use-measure: 2.1.1
-      scheduler: 0.21.0
-      suspend-react: 0.0.8
-      three: 0.143.0
-      zustand: 3.7.2
-    dev: true
 
   /@rollup/plugin-alias/3.1.9_rollup@2.79.0:
     resolution: {integrity: sha512-QI5fsEvm9bDzt32k39wpOwZhVzRcL5ydcffUHMyLVaVaLeC70I8TJZ17F1z1eMoLu4E/UOcH9BWVkKpIKdrfiw==}
@@ -6843,7 +6780,7 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /r3f-perf/6.4.4_3e4bvlmm43mb33nkjwlckzy5ui:
+  /r3f-perf/6.4.4_2hduaato5t7yuuy4xw7z4el4xi:
     resolution: {integrity: sha512-/z/8pJr3+oUM3+pjybcFJfiNIdFr9yLr0RB3zKVInGDmcJ+yO7jgqOAFlWufJxkZaxUCZK48BbzZ73f+2C+l6w==}
     peerDependencies:
       '@react-three/drei': '*'
@@ -6860,10 +6797,11 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
+      three-stdlib: 2.14.3_three@0.143.0
       zustand: 3.7.2_react@18.2.0
     dev: false
 
-  /r3f-stage/0.3.3_o6o4yvbil3h6n6ahlnvnzgggwq:
+  /r3f-stage/0.3.3_fggg2orfn5753o2jobhufyj364:
     resolution: {integrity: sha512-/oHPehuhmzBzZ8ZK+2i/EhyM1IiVEmdAT5TsMPM+8wiRH7CPiJlEFWty+bzyHimr1MtFxKMizSqYXPyhCmX/cQ==}
     peerDependencies:
       '@react-three/fiber': '>=8.3.1'
@@ -6875,7 +6813,7 @@ packages:
       '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       postprocessing: 6.28.6_three@0.143.0
-      r3f-perf: 6.4.4_3e4bvlmm43mb33nkjwlckzy5ui
+      r3f-perf: 6.4.4_2hduaato5t7yuuy4xw7z4el4xi
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       render-composer: 0.1.5_kc6ekrpwaoy6v3jfm4hh5edcse
@@ -6960,16 +6898,6 @@ packages:
     resolution: {integrity: sha512-pywF6oouJWuqL26xV3OruRSIqai31R9SdJX/I3gP2q8jLxUnA1IwXcLW8werUHLZOrp4N7YOeQNZrh/BKrHI4A==}
     dev: false
 
-  /react-reconciler/0.27.0:
-    resolution: {integrity: sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==}
-    engines: {node: '>=0.10.0'}
-    peerDependencies:
-      react: ^18.0.0
-    dependencies:
-      loose-envify: 1.4.0
-      scheduler: 0.21.0
-    dev: true
-
   /react-reconciler/0.27.0_react@18.2.0:
     resolution: {integrity: sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==}
     engines: {node: '>=0.10.0'}
@@ -6985,15 +6913,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-use-measure/2.1.1:
-    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
-    peerDependencies:
-      react: '>=16.13'
-      react-dom: '>=16.13'
-    dependencies:
-      debounce: 1.2.1
-    dev: true
-
   /react-use-measure/2.1.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
     peerDependencies:
@@ -7003,16 +6922,6 @@ packages:
       debounce: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-
-  /react-use-measure/2.1.1_react@18.2.0:
-    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
-    peerDependencies:
-      react: '>=16.13'
-      react-dom: '>=16.13'
-    dependencies:
-      debounce: 1.2.1
-      react: 18.2.0
-    dev: true
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
@@ -7663,12 +7572,6 @@ packages:
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-
-  /suspend-react/0.0.8:
-    resolution: {integrity: sha512-ZC3r8Hu1y0dIThzsGw0RLZplnX9yXwfItcvaIzJc2VQVi8TGyGDlu92syMB5ulybfvGLHAI5Ghzlk23UBPF8xg==}
-    peerDependencies:
-      react: '>=17.0'
-    dev: true
 
   /suspend-react/0.0.8_react@18.2.0:
     resolution: {integrity: sha512-ZC3r8Hu1y0dIThzsGw0RLZplnX9yXwfItcvaIzJc2VQVi8TGyGDlu92syMB5ulybfvGLHAI5Ghzlk23UBPF8xg==}
@@ -8366,16 +8269,6 @@ packages:
   /zstddec/0.0.2:
     resolution: {integrity: sha512-DCo0oxvcvOTGP/f5FA6tz2Z6wF+FIcEApSTu0zV5sQgn9hoT5lZ9YRAKUraxt9oP7l4e8TnNdi8IZTCX6WCkwA==}
     dev: false
-
-  /zustand/3.7.2:
-    resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      react: '>=16.8'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dev: true
 
   /zustand/3.7.2_react@18.2.0:
     resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
