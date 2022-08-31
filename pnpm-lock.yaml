@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.13
       '@babel/preset-env': ^7.18.10
-      '@babel/preset-react': ^7.17.12
+      '@babel/preset-react': ^7.18.6
       '@babel/preset-typescript': ^7.17.12
       '@changesets/cli': ^2.24.4
       '@manypkg/cli': ^0.19.1
@@ -95,9 +95,9 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-merge-refs: 2.0.1
-      shader-composer: 0.3.3_three@0.143.0
-      shader-composer-r3f: 0.2.0_o6o4yvbil3h6n6ahlnvnzgggwq
-      shader-composer-toybox: 0.1.2_three@0.143.0
+      shader-composer: link:../../packages/shader-composer
+      shader-composer-r3f: link:../../packages/shader-composer-r3f
+      shader-composer-toybox: link:../../packages/shader-composer-toybox
       statery: 0.6.0-next.2_react@18.2.0
       three: 0.143.0
       timeline-composer: 0.1.5_biqbaboplfbrettd7655fr4n2y
@@ -135,8 +135,8 @@ importers:
     dependencies:
       '@material-composer/patch-material': link:../material-copmoser-patch-material
       fp-ts: 2.12.3
-      shader-composer: 0.3.3_three@0.143.0
-      shader-composer-toybox: 0.1.2_three@0.143.0
+      shader-composer: link:../shader-composer
+      shader-composer-toybox: link:../shader-composer-toybox
     devDependencies:
       '@babel/core': 7.18.13
       '@babel/preset-env': 7.18.10_@babel+core@7.18.13
@@ -179,7 +179,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.13
       '@babel/preset-env': ^7.18.10
-      '@babel/preset-react': ^7.17.12
+      '@babel/preset-react': ^7.18.6
       '@babel/preset-typescript': ^7.17.12
       '@hmans/use-const': ^0.0.1
       '@hmans/use-list': ^0.0.1
@@ -213,8 +213,8 @@ importers:
       '@hmans/use-version': 0.0.2_react@18.2.0
       '@material-composer/patch-material': link:../material-copmoser-patch-material
       '@material-composer/patched': link:../material-composer-patched
-      shader-composer: 0.3.3_three@0.143.0
-      shader-composer-r3f: 0.2.0_o6o4yvbil3h6n6ahlnvnzgggwq
+      shader-composer: link:../shader-composer
+      shader-composer-r3f: link:../shader-composer-r3f
     devDependencies:
       '@babel/core': 7.18.13
       '@babel/preset-env': 7.18.10_@babel+core@7.18.13
@@ -253,8 +253,129 @@ importers:
     devDependencies:
       '@react-three/fiber': 8.6.0_three@0.143.0
       '@types/three': 0.143.2
-      shader-composer: 0.3.3_three@0.143.0
+      shader-composer: link:../shader-composer
       three: 0.143.0
+      typescript: 4.8.2
+
+  packages/shader-composer:
+    specifiers:
+      '@babel/core': ^7.18.13
+      '@babel/preset-env': ^7.18.10
+      '@babel/preset-react': ^7.18.6
+      '@babel/preset-typescript': ^7.17.12
+      '@testing-library/jest-dom': ^5.16.5
+      '@types/jest': ^29.0.0
+      '@types/three': ^0.143.1
+      fp-ts: ^2.12.2
+      jest: ^29.0.1
+      jest-environment-jsdom: ^29.0.1
+      rimraf: ^3.0.2
+      three: ^0.143.0
+      ts-jest: ^28.0.8
+      tslib: ^2.4.0
+      typedoc-plugin-markdown: ^3.13.5
+      typescript: ^4.8.2
+    dependencies:
+      fp-ts: 2.12.3
+    devDependencies:
+      '@babel/core': 7.18.13
+      '@babel/preset-env': 7.18.10_@babel+core@7.18.13
+      '@babel/preset-react': 7.18.6_@babel+core@7.18.13
+      '@babel/preset-typescript': 7.18.6_@babel+core@7.18.13
+      '@testing-library/jest-dom': 5.16.5
+      '@types/jest': 29.0.0
+      '@types/three': 0.143.2
+      jest: 29.0.1
+      jest-environment-jsdom: 29.0.1
+      rimraf: 3.0.2
+      three: 0.143.0
+      ts-jest: 28.0.8_aqclllrwqhdrf37c5pjob7flby
+      tslib: 2.4.0
+      typedoc-plugin-markdown: 3.13.5
+      typescript: 4.8.2
+
+  packages/shader-composer-r3f:
+    specifiers:
+      '@babel/core': ^7.18.13
+      '@babel/preset-env': ^7.18.10
+      '@babel/preset-react': ^7.18.6
+      '@babel/preset-typescript': ^7.17.12
+      '@react-three/fiber': ^8.6.0
+      '@testing-library/jest-dom': ^5.16.5
+      '@types/jest': ^29.0.0
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.5
+      '@types/three': ^0.143.1
+      jest: ^29.0.1
+      jest-environment-jsdom: ^29.0.1
+      react: ^18.1.0
+      react-dom: ^18.1.0
+      rimraf: ^3.0.2
+      shader-composer: ^0.3.0
+      three: ^0.143.0
+      three-custom-shader-material: ^4.0.0
+      ts-jest: ^28.0.8
+      tslib: ^2.4.0
+      typescript: ^4.8.2
+    dependencies:
+      shader-composer: link:../shader-composer
+      three-custom-shader-material: 4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq
+    devDependencies:
+      '@babel/core': 7.18.13
+      '@babel/preset-env': 7.18.10_@babel+core@7.18.13
+      '@babel/preset-react': 7.18.6_@babel+core@7.18.13
+      '@babel/preset-typescript': 7.18.6_@babel+core@7.18.13
+      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@testing-library/jest-dom': 5.16.5
+      '@types/jest': 29.0.0
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.143.2
+      jest: 29.0.1
+      jest-environment-jsdom: 29.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      rimraf: 3.0.2
+      three: 0.143.0
+      ts-jest: 28.0.8_aqclllrwqhdrf37c5pjob7flby
+      tslib: 2.4.0
+      typescript: 4.8.2
+
+  packages/shader-composer-toybox:
+    specifiers:
+      '@babel/core': ^7.18.13
+      '@babel/preset-env': ^7.18.10
+      '@babel/preset-react': ^7.18.6
+      '@babel/preset-typescript': ^7.17.12
+      '@testing-library/jest-dom': ^5.16.5
+      '@types/crypto-js': ^4.1.1
+      '@types/jest': ^29.0.0
+      '@types/three': ^0.143.1
+      jest: ^29.0.1
+      jest-environment-jsdom: ^29.0.1
+      rimraf: ^3.0.2
+      shader-composer: ^0.3.0
+      three: ^0.143.0
+      ts-jest: ^28.0.8
+      tslib: ^2.4.0
+      typescript: ^4.8.2
+    dependencies:
+      shader-composer: link:../shader-composer
+    devDependencies:
+      '@babel/core': 7.18.13
+      '@babel/preset-env': 7.18.10_@babel+core@7.18.13
+      '@babel/preset-react': 7.18.6_@babel+core@7.18.13
+      '@babel/preset-typescript': 7.18.6_@babel+core@7.18.13
+      '@testing-library/jest-dom': 5.16.5
+      '@types/crypto-js': 4.1.1
+      '@types/jest': 29.0.0
+      '@types/three': 0.143.2
+      jest: 29.0.1
+      jest-environment-jsdom: 29.0.1
+      rimraf: 3.0.2
+      three: 0.143.0
+      ts-jest: 28.0.8_aqclllrwqhdrf37c5pjob7flby
+      tslib: 2.4.0
       typescript: 4.8.2
 
   packages/vfx-composer:
@@ -264,7 +385,7 @@ importers:
       three: ^0.143.0
     dependencies:
       material-composer: link:../material-composer
-      shader-composer: 0.3.3_three@0.143.0
+      shader-composer: link:../shader-composer
     devDependencies:
       three: 0.143.0
 
@@ -286,8 +407,8 @@ importers:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       material-composer-r3f: link:../material-composer-r3f
-      shader-composer: 0.3.3_three@0.143.0
-      shader-composer-r3f: 0.2.0_o6o4yvbil3h6n6ahlnvnzgggwq
+      shader-composer: link:../shader-composer
+      shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
     devDependencies:
       '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
@@ -2816,6 +2937,10 @@ packages:
     dependencies:
       '@babel/types': 7.18.13
 
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
+    dev: true
+
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: false
@@ -4353,6 +4478,7 @@ packages:
 
   /fp-ts/2.12.3:
     resolution: {integrity: sha512-8m0XvW8kZbfnJOA4NvSVXu95mLbPf4LQGwQyqVukIYS4KzSNJiyKSmuZUmbVHteUi6MGkAJGPb0goPZqI+Tsqg==}
+    dev: false
 
   /fragment-cache/0.2.1:
     resolution: {integrity: sha512-GMBAbW9antB8iZRHLoGw0b3HANt57diZYFO/HL1JGIC1MjKrdmhxvrJbupnVvpys0zsz7yBApXdQyfepKly2kA==}
@@ -4594,6 +4720,19 @@ packages:
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: false
+
+  /handlebars/4.7.7:
+    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
+    engines: {node: '>=0.4.7'}
+    hasBin: true
+    dependencies:
+      minimist: 1.2.6
+      neo-async: 2.6.2
+      source-map: 0.6.1
+      wordwrap: 1.0.0
+    optionalDependencies:
+      uglify-js: 3.17.0
+    dev: true
 
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
@@ -5966,7 +6105,6 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
-    dev: false
 
   /mixin-deep/1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
@@ -6023,6 +6161,10 @@ packages:
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+
+  /neo-async/2.6.2:
+    resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+    dev: true
 
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -6909,39 +7051,6 @@ packages:
       split-string: 3.1.0
     dev: false
 
-  /shader-composer-r3f/0.2.0_o6o4yvbil3h6n6ahlnvnzgggwq:
-    resolution: {integrity: sha512-cXiERfUGKaFf4kfEApT7bPqA/IqB1SlCL1sQydnZguUg8klnWegYAef//KY2VALfEGxl3uiYwaEWHTFQtopyHQ==}
-    peerDependencies:
-      '@react-three/fiber': ^8.2.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      three: '>=0.143.0'
-    dependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      shader-composer: 0.3.3_three@0.143.0
-      three: 0.143.0
-      three-custom-shader-material: 4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq
-    dev: false
-
-  /shader-composer-toybox/0.1.2_three@0.143.0:
-    resolution: {integrity: sha512-R3aw2DFZfvcoCKp0dWsDdNUs/fzBIsLh1E6LP/qkyPiYd9ObLN8i53huu24iKA0k6roNP3aXfzEkE6Ox/lInng==}
-    peerDependencies:
-      three: '>=0.141.0'
-    dependencies:
-      shader-composer: 0.3.3_three@0.143.0
-      three: 0.143.0
-    dev: false
-
-  /shader-composer/0.3.3_three@0.143.0:
-    resolution: {integrity: sha512-+1c0vK5qiuyX6cj9yKyBNRd7+G7gguTKvFbyC4qwA/9IYim9rnol0yEpkIWG8bT3XlozL2fk45+fe9KV0PpLng==}
-    peerDependencies:
-      three: '>=0.141.0'
-    dependencies:
-      fp-ts: 2.12.3
-      three: 0.143.0
-
   /shebang-command/1.2.0:
     resolution: {integrity: sha512-EV3L1+UQWGor21OmnvojK36mhg+TyIKDh3iFBKBohr5xeXIhNBcx8oWdgkTEEQ+BEFFYdLRuqMfd5L84N1V5Vg==}
     engines: {node: '>=0.10.0'}
@@ -7542,10 +7651,26 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /typedoc-plugin-markdown/3.13.5:
+    resolution: {integrity: sha512-E6bSn96MtiWTU4fr9wddD7d2T91XTtONj4Jdx2TZsjdAg/ig4ft2ECet/rNbBOiyw9MC0VO9toC/yvI8ZcY2PQ==}
+    peerDependencies:
+      typedoc: '>=0.23.0'
+    dependencies:
+      handlebars: 4.7.7
+    dev: true
+
   /typescript/4.8.2:
     resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+
+  /uglify-js/3.17.0:
+    resolution: {integrity: sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: true
+    optional: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -7791,6 +7916,10 @@ packages:
   /word-wrap/1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
+
+  /wordwrap/1.0.0:
+    resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
+    dev: true
 
   /wouter/2.8.0-alpha.2_react@18.2.0:
     resolution: {integrity: sha512-aPsL5m5rW9RiceClOmGj6t5gn9Ut2TJVr98UDi1u9MIRNYiYVflg6vFIjdDYJ4IAyH0JdnkSgGwfo0LQS3k2zg==}

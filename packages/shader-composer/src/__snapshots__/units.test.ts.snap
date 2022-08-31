@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unit supports a 'varying' flag that will automatically make it pass its data as a varying 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+/*** UNIT: A variable with a varying ***/
+varying float v_A_variable_with_a_varying_1;
+
+
+void main()
+{
+  /*** UNIT: A variable with a varying ***/
+  float A_variable_with_a_varying_1 = 1.0 + 2.0 + onlyAvailableInVertex.x;
+  {
+    float value = A_variable_with_a_varying_1;
+    value += 3.0;
+    A_variable_with_a_varying_1 = value;
+  }
+  v_A_variable_with_a_varying_1 = A_variable_with_a_varying_1;
+  
+  
+}"
+`;
+
+exports[`Unit supports a 'varying' flag that will automatically make it pass its data as a varying 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+/*** UNIT: A variable with a varying ***/
+varying float v_A_variable_with_a_varying_1;
+
+
+void main()
+{
+  /*** UNIT: A variable with a varying ***/
+  float A_variable_with_a_varying_1 = v_A_variable_with_a_varying_1;
+  
+  
+}"
+`;

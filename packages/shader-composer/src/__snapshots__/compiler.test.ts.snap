@@ -1,0 +1,364 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compileShader allows resolves dependencies unique to specific programs 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Position (Vertex Only) ***/
+  float Position_Vertex_Only_1 = 1.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_3 = true;
+  {
+    bool value = Anonymous_3;
+    gl_Position = Position_Vertex_Only_1;
+    Anonymous_3 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader allows resolves dependencies unique to specific programs 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Color (Fragment Only) ***/
+  float Color_Fragment_Only_2 = 2.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_3 = true;
+  {
+    bool value = Anonymous_3;
+    gl_FragColor = Color_Fragment_Only_2;
+    Anonymous_3 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader compiles shader programs from the given unit 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_1 = true;
+  
+  
+}"
+`;
+
+exports[`compileShader compiles shader programs from the given unit 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_1 = true;
+  
+  
+}"
+`;
+
+exports[`compileShader embeds body chunks in scoped blocks, with a local \`value\` variable 1`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_1 = true;
+  {
+    bool value = Anonymous_1;
+    gl_FragColor.rgb = vec3(1.0, 0.0, 0.0);
+    Anonymous_1 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader only includes the units needed in individual programs 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: A ***/
+  float A_1 = 1.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_3 = true;
+  {
+    bool value = Anonymous_3;
+    foo = A_1;
+    Anonymous_3 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader only includes the units needed in individual programs 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: B ***/
+  float B_2 = 2.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  bool Anonymous_3 = true;
+  {
+    bool value = Anonymous_3;
+    bar = B_2
+    Anonymous_3 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to expressions 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0 + 4.0;
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to expressions 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0 + 4.0;
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to other units 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = Anonymous_1;
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to other units 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = Anonymous_1;
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to other units from within expressions 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = Anonymous_1 * 2.0;
+  
+  
+}"
+`;
+
+exports[`compileShader resolves dependencies to other units from within expressions 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_1 = 123.0;
+  
+  
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = Anonymous_1 * 2.0;
+  
+  
+}"
+`;
+
+exports[`compileShader supports snippets 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+
+			float snippet_1(in float a) {
+				return a * 2.0;
+			}
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = snippet_1(1.0);
+  
+  
+}"
+`;
+
+exports[`compileShader supports snippets 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+
+			float snippet_1(in float a) {
+				return a * 2.0;
+			}
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  float Anonymous_2 = snippet_1(1.0);
+  
+  
+}"
+`;
+
+exports[`compileShader when encountering a varying unit, its value dependencies should only be resolved in the vertex program 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+/*** UNIT: B ***/
+varying float v_B_2;
+
+
+void main()
+{
+  /*** UNIT: A ***/
+  float A_1 = onlyInVertexProgramForSomeReason;
+  
+  
+  /*** UNIT: B ***/
+  float B_2 = A_1 + 1.0;
+  v_B_2 = B_2;
+  
+  
+  /*** UNIT: Master ***/
+  bool Master_3 = true;
+  
+  
+}"
+`;
+
+exports[`compileShader when encountering a varying unit, its value dependencies should only be resolved in the vertex program 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+/*** UNIT: B ***/
+varying float v_B_2;
+
+
+void main()
+{
+  /*** UNIT: B ***/
+  float B_2 = v_B_2;
+  
+  
+  /*** UNIT: Master ***/
+  bool Master_3 = true;
+  {
+    bool value = Master_3;
+    value = B_2
+    Master_3 = value;
+  }
+  
+  
+}"
+`;
+
+exports[`compileShader when rendering units with registered uniforms adds uniform declarations to the program headers 1`] = `
+"/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+/*** UNIT: Anonymous ***/
+uniform float u_Anonymous_1;
+
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  
+  
+}"
+`;
+
+exports[`compileShader when rendering units with registered uniforms adds uniform declarations to the program headers 2`] = `
+"/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+/*** UNIT: Anonymous ***/
+uniform float u_Anonymous_1;
+
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  
+  
+}"
+`;
