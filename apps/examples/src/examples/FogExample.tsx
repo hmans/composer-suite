@@ -1,19 +1,19 @@
 import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
-import { Layers, useRenderPipeline } from "r3f-stage"
+import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
-import { MeshStandardMaterial, Vector3 } from "three"
+import { Vector3 } from "three"
 import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
 export const FogExample = () => (
-  <group>
+  <FlatStage>
     <Fog />
     <Sculpture />
-  </group>
+  </FlatStage>
 )
 
 export const Fog = () => {

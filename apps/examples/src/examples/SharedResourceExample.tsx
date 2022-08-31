@@ -23,7 +23,7 @@ export default function SharedResourceExample() {
       {/* Create a whole bunch of objects, all using the same materials */}
       {Array.from(Array(30)).map((_, i) => (
         <Blobs
-          position={[plusMinus(10), upTo(4), between(-10, 0)]}
+          position={[plusMinus(10), plusMinus(4), between(-10, 0)]}
           rotation-z={plusMinus(Math.PI)}
           scale={upTo(4)}
           key={i}

@@ -44,7 +44,7 @@ export default function CometExample() {
         <TestAura />
       </group> */}
       <CameraShake />
-      <Comet position={[-2, 1, 0]} scale={0.5} />
+      <Comet scale={0.5} />
     </group>
   )
 }
@@ -125,7 +125,11 @@ const Aura = ({
 
 const Comet = (props: GroupProps) => (
   <group {...props}>
-    <group rotation-z={-Math.PI / 3} rotation-y={Math.PI / 4}>
+    <group
+      rotation-z={-Math.PI / 3}
+      rotation-y={Math.PI / 3}
+      position={[-2, -1, 0]}
+    >
       <Float speed={14}>
         <Rock />
 
