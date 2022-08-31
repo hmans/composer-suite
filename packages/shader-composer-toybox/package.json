@@ -1,0 +1,28 @@
+{
+  "name": "shader-composer-toybox",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Assorted effects and units for shader-composer.",
+  "version": "0.1.2",
+  "main": "dist/shader-composer-toybox.cjs.js",
+  "module": "dist/shader-composer-toybox.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "three": "^0.143.0"
+  },
+  "dependencies": {
+    "shader-composer": "^0.3.0"
+  },
+  "peerDependencies": {
+    "three": ">=0.141.0"
+  }
+}

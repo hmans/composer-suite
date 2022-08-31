@@ -1,0 +1,40 @@
+{
+  "name": "material-composer",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "Composable, shader-driven Three.js materials!",
+  "version": "0.1.1",
+  "main": "dist/material-composer.cjs.js",
+  "module": "dist/material-composer.esm.js",
+  "files": [
+    "units/**",
+    "modules/**",
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "units/index.ts",
+      "modules/index.ts"
+    ]
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "three": "^0.143.0"
+  },
+  "dependencies": {
+    "@material-composer/patch-material": "^0.1.1",
+    "fp-ts": "^2.12.2",
+    "shader-composer": "0.3.3",
+    "shader-composer-toybox": "^0.1.2"
+  },
+  "peerDependencies": {
+    "three": ">=0.141.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@material-composer/patch-material",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "",
+  "version": "0.1.1",
+  "main": "dist/material-composer-patch-material.cjs.js",
+  "module": "dist/material-composer-patch-material.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/three": "^0.143.1",
+    "shader-composer": "0.3.3",
+    "three": "^0.143.0",
+    "typescript": "^4.8.2"
+  },
+  "peerDependencies": {
+    "shader-composer": "^0.3.1",
+    "three": ">=0.141.0"
+  },
+  "dependencies": {
+    "@hmans/types": "^0.0.3",
+    "fp-ts": "^2.12.2"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "material-composer-r3f",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hendrik.mans.de"
+  },
+  "description": "React-Three-Fiber bindings for Material Composer.",
+  "version": "0.1.1",
+  "main": "dist/material-composer-r3f.cjs.js",
+  "module": "dist/material-composer-r3f.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "@react-three/fiber": "^8.6.0",
+    "material-composer": "*",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "three": "^0.143.0"
+  },
+  "dependencies": {
+    "@hmans/use-const": "^0.0.1",
+    "@hmans/use-list": "^0.0.1",
+    "@hmans/use-rerender": "^0.0.2",
+    "@hmans/use-version": "^0.0.2",
+    "@material-composer/patch-material": "^0.1.1",
+    "@material-composer/patched": "^0.1.1",
+    "shader-composer": "0.3.3",
+    "shader-composer-r3f": "0.2.0"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.0.27",
+    "material-composer": ">=0.1.1",
+    "react": ">=18.1.0",
+    "react-dom": ">=18.1.0",
+    "three": ">=0.141.0"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "main": "dist/material-composer-modules.cjs.js",
+  "module": "dist/material-composer-modules.esm.js"
+}

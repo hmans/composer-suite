@@ -1,0 +1,35 @@
+{
+  "name": "shader-composer-r3f",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "react-three-fiber glue for shader-composer.",
+  "version": "0.2.0",
+  "main": "dist/shader-composer-r3f.cjs.js",
+  "module": "dist/shader-composer-r3f.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "@react-three/fiber": "^8.6.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "three": "^0.143.0"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": "^8.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": ">=0.143.0"
+  },
+  "dependencies": {
+    "shader-composer": "^0.3.0",
+    "three-custom-shader-material": "^4.0.0"
+  }
+}
