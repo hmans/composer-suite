@@ -38,7 +38,7 @@ const ShaderComposerExample = () => {
 
 ### Material Composer
 
-![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+![vanilla](https://img.shields.io/badge/-vanilla-yellow?style=for-the-badge) ![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
 
 **[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
 
@@ -62,19 +62,21 @@ const MaterialComposerExample = () => (
 
 ### VFX Composer
 
-![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+![vanilla](https://img.shields.io/badge/-vanilla-yellow?style=for-the-badge) ![react](https://img.shields.io/badge/-react-blue?style=for-the-badge) ![three]
+
+[three]: https://img.shields.io/badge/-three-brightgreen?style=for-the-badge
 
 _TODO_
 
 ### Timeline Composer
 
-![react](https://img.shields.io/badge/-react-blue)
+![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
 
 _TODO_
 
 ### Render Composer
 
-![react](https://img.shields.io/badge/-react-blue)
+![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
 
 _TODO_
 
