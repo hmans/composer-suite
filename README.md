@@ -115,6 +115,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [react-three-fiber]: https://github.com/pmndrs/react-three-fiber
 [shader composer]: https://github.com/hmans/composer-suite/tree/main/packages/shader-composer
+[timeline composer]: https://github.com/hmans/composer-suite/tree/main/packages/timeline-composer
 [vfx composer]: https://github.com/hmans/composer-suite/tree/main/packages/vfx-composer
 [material composer]: https://github.com/hmans/composer-suite/tree/main/packages/material-composer
 [react]: https://img.shields.io/badge/-react-blue?style=for-the-badge
