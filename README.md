@@ -40,7 +40,7 @@ const ShaderComposerExample = () => {
 
 ![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
 
-**[Material Composer]** provides a mechanism to describe Three.js materials as a series of modules that get applied in sequence. Modules are higher-level implementations of Shader-based functionality, and built using [Shader Composer]. Material Composer provides a library of ready-to-use material modules that are easy to extend and customize, and you can, of course, add your own.
+**[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
 
 ```tsx
 const MaterialComposerExample = () => (
