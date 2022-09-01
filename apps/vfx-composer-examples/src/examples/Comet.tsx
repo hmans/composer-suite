@@ -1,7 +1,11 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, MeshProps } from "@react-three/fiber"
+import { ModuleFactory } from "material-composer"
 import { composable, modules } from "material-composer-r3f"
+import { moduleComponent } from "material-composer-r3f/src/reactor"
+import { Heat, HeatOptions } from "material-composer/units"
+import { Layers } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import {
   Abs,
@@ -17,7 +21,6 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
-  Rotation3D,
   Saturate,
   Smoothstep,
   Sub,
@@ -39,8 +42,8 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
+import { smokeUrl } from "./textures"
 import streamTextureUrl from "./textures/stream.png"
-import { Heat, HeatOptions } from "material-composer/units"
 
 const time = Time()
 
@@ -330,17 +333,11 @@ const RockSplitters = () => {
   )
 }
 
-import { Layers, useRenderPipeline } from "r3f-stage"
-import { smokeUrl } from "./textures"
-import { ModuleFactory } from "material-composer"
-import { moduleComponent } from "material-composer-r3f/src/reactor"
-
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
 
   const particles = useParticles()
   const color = useParticleAttribute(() => new Color())
-  const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
     <group>
@@ -364,7 +361,6 @@ const SmokeTrail = () => {
             time={particles.age}
             space="local"
           />
-          <modules.Softness softness={5} depthTexture={depth} />
           <modules.Lifetime {...particles} />
         </composable.meshStandardMaterial>
 
@@ -386,7 +382,6 @@ const Clouds = () => {
   const texture = useTexture(smokeUrl)
 
   const particles = useParticles()
-  const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
     <group>
@@ -409,7 +404,6 @@ const Clouds = () => {
             time={particles.age}
             space="local"
           />
-          <modules.Softness softness={5} depthTexture={depth} />
           <modules.Lifetime {...particles} />
         </composable.meshStandardMaterial>
 
