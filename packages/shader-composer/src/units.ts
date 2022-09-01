@@ -120,6 +120,10 @@ export type UnitConfig<T extends GLSLType> = {
   }
 }
 
+export type UnitState<T extends GLSLType> = {
+  lastUpdateAt: number | undefined
+}
+
 export type UnitAPI<T extends GLSLType> = T extends "vec2"
   ? {
       readonly x: Unit<"float">
@@ -189,6 +193,7 @@ const unitAPI = <T extends GLSLType>(unit: IUnit<T>): UnitAPI<T> => {
 export interface IUnit<T extends GLSLType = GLSLType> {
   _: "Unit"
   _unitConfig: UnitConfig<T>
+  _unitState: UnitState<T>
 }
 
 export type Unit<T extends GLSLType = GLSLType> = IUnit<T> & UnitAPI<T>
@@ -207,9 +212,14 @@ export const Unit = <T extends GLSLType>(
     ..._config
   }
 
+  const state: UnitState<T> = {
+    lastUpdateAt: undefined
+  }
+
   const unit: IUnit<T> = {
     _: "Unit",
-    _unitConfig: config
+    _unitConfig: config,
+    _unitState: state
   }
 
   return injectAPI(unit, unitAPI)
@@ -219,7 +229,10 @@ export function isUnit(value: any): value is Unit {
   return value && value._ === "Unit"
 }
 
-function isUnitOfType<T extends GLSLType>(value: any, type: T): value is Unit<T> {
+function isUnitOfType<T extends GLSLType>(
+  value: any,
+  type: T
+): value is Unit<T> {
   return isUnit(value) && value._unitConfig.type === type
 }
 
@@ -242,5 +255,8 @@ export const injectAPI = <U extends IUnit, A extends API>(
   factory: APIFactory<U, A>
 ) => {
   const api = factory(unit)
-  return Object.defineProperties(unit, Object.getOwnPropertyDescriptors(api)) as U & A
+  return Object.defineProperties(
+    unit,
+    Object.getOwnPropertyDescriptors(api)
+  ) as U & A
 }

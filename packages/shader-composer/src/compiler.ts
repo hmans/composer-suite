@@ -32,7 +32,11 @@ const compileItem = (
   else if (isSnippet(item)) compileSnippet(item, program, state)
 }
 
-const compileSnippet = (snippet: Snippet, program: Program, state: CompilerState) => {
+const compileSnippet = (
+  snippet: Snippet,
+  program: Program,
+  state: CompilerState
+) => {
   /* Add snippet to header */
   state.header.push(snippet.expression)
 }
@@ -53,7 +57,9 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
 
   /* Declare varying if this unit has varying mode */
   if (unit._unitConfig.varying) {
-    header.push(`varying ${unit._unitConfig.type} v_${unit._unitConfig.variableName};`)
+    header.push(
+      `varying ${unit._unitConfig.type} v_${unit._unitConfig.variableName};`
+    )
   }
 
   /* Declare uniform, if one is configured. */
@@ -67,7 +73,8 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
     header.push(unit._unitConfig[program]?.header)
   }
 
-  if (header.length) state.header.push(beginUnit(unit), ...header, endUnit(unit))
+  if (header.length)
+    state.header.push(beginUnit(unit), ...header, endUnit(unit))
 
   /* BODY */
 
@@ -85,7 +92,12 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
 	*/
   if (!unit._unitConfig.uniform) {
     state.body.push(
-      statement(unit._unitConfig.type, unit._unitConfig.variableName, "=", value)
+      statement(
+        unit._unitConfig.type,
+        unit._unitConfig.variableName,
+        "=",
+        value
+      )
     )
   }
 
@@ -98,22 +110,35 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
       block(
         /* Declare local value variable */
         !unit._unitConfig.uniform &&
-          statement(unit._unitConfig.type, "value", "=", unit._unitConfig.variableName),
+          statement(
+            unit._unitConfig.type,
+            "value",
+            "=",
+            unit._unitConfig.variableName
+          ),
 
         /* Include body chunk */
         unit._unitConfig[program]?.body,
 
         /* Re-assign local value variable to global variable */
-        !unit._unitConfig.uniform && assignment(unit._unitConfig.variableName, "value")
+        !unit._unitConfig.uniform &&
+          assignment(unit._unitConfig.variableName, "value")
       )
     )
 
   /*
 	If we're in varying mode and vertex, write value to the varying, too.
 	*/
-  if (!unit._unitConfig.uniform && unit._unitConfig.varying && program === "vertex") {
+  if (
+    !unit._unitConfig.uniform &&
+    unit._unitConfig.varying &&
+    program === "vertex"
+  ) {
     state.body.push(
-      assignment(`v_${unit._unitConfig.variableName}`, unit._unitConfig.variableName)
+      assignment(
+        `v_${unit._unitConfig.variableName}`,
+        unit._unitConfig.variableName
+      )
     )
   }
 
@@ -127,7 +152,10 @@ const prepareItem = (
   /* Prepare this unit */
   if (isUnit(item)) {
     /* Assign a variable name */
-    item._unitConfig.variableName = identifier(sluggify(item._unitConfig.name), nextId())
+    item._unitConfig.variableName = identifier(
+      sluggify(item._unitConfig.name),
+      nextId()
+    )
     return
   }
 
@@ -138,7 +166,11 @@ const prepareItem = (
   }
 }
 
-const compileProgram = (unit: Unit, program: Program, state: CompilerState): string => {
+const compileProgram = (
+  unit: Unit,
+  program: Program,
+  state: CompilerState
+): string => {
   walkTree(unit, program, (item) => compileItem(item, program, state))
 
   return concatenate(
@@ -174,7 +206,9 @@ export const compileShader = (root: Unit) => {
   /* Explicitly add all units with varyings. */
   fragmentState.seen.forEach((item) => {
     if (isUnit(item) && item._unitConfig.varying) {
-      walkTree(item, "vertex", (item) => compileItem(item, "vertex", vertexState))
+      walkTree(item, "vertex", (item) =>
+        compileItem(item, "vertex", vertexState)
+      )
     }
   })
 
@@ -206,9 +240,22 @@ export const compileShader = (root: Unit) => {
   /*
 	STEP 6: Build per-frame update function.
 	*/
-  const update = (dt: number, camera: Camera, scene: Scene, gl: WebGLRenderer) => {
+  const update = (
+    dt: number,
+    camera: Camera,
+    scene: Scene,
+    gl: WebGLRenderer
+  ) => {
+    const now = performance.now()
+
     for (const unit of unitsWithUpdates) {
-      unit._unitConfig.update(dt, camera, scene, gl)
+      const state = unit._unitState
+
+      /* Only invoke the update callback once per frame. */
+      if (state.lastUpdateAt === undefined || state.lastUpdateAt < now) {
+        unit._unitConfig.update(dt, camera, scene, gl)
+        state.lastUpdateAt = now
+      }
     }
   }
 
