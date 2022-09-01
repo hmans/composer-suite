@@ -16,7 +16,7 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
 
 ```tsx
-function HelloWorld() {
+const ShaderComposerExample = () => {
   const shader = useShader(() =>
     ShaderMaterialMaster({
       color: pipe(
@@ -41,6 +41,24 @@ function HelloWorld() {
 ![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
 
 **[Material Composer]** provides a mechanism to describe Three.js materials as a series of modules that get applied in sequence. Modules are higher-level implementations of Shader-based functionality, and built using [Shader Composer]. Material Composer provides a library of ready-to-use material modules that are easy to extend and customize, and you can, of course, add your own.
+
+```tsx
+const MaterialComposerExample = () => (
+  <mesh position-y={1.5} castShadow>
+    <sphereGeometry />
+
+    <composable.meshStandardMaterial>
+      <modules.Color color="#d62828" />
+
+      <Layer opacity={NormalizePlusMinusOne(Sin(Time()))}>
+        <modules.Color color="#003049" />
+      </Layer>
+
+      <modules.Fresnel intensity={0.2} />
+    </composable.meshStandardMaterial>
+  </mesh>
+)
+```
 
 ### VFX Composer
 
