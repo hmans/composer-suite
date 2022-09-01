@@ -184,6 +184,7 @@ const Comet = (props: GroupProps) => (
 
       <SmokeTrail />
       <Clouds />
+      <CloudDebris />
     </group>
   </group>
 )
@@ -337,6 +338,35 @@ const Clouds = () => {
         <Emitter
           rate={10}
           setup={({ position, scale }) => {
+            particles.setLifetime(10)
+            position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
+            scale.setScalar(between(5, 20))
+          }}
+        />
+      </Particles>
+    </group>
+  )
+}
+
+const CloudDebris = () => {
+  const particles = useParticles()
+
+  return (
+    <group>
+      <Particles layers-mask={Layers.TransparentFX}>
+        <planeGeometry args={[0.2, 0.2]} />
+        <composable.meshStandardMaterial color="hotpink" side={DoubleSide}>
+          <modules.Velocity
+            velocity={vec3(0, 10, 0)}
+            time={particles.age}
+            space="local"
+          />
+          <modules.Lifetime {...particles} />
+        </composable.meshStandardMaterial>
+
+        <Emitter
+          rate={10}
+          setup={({ position, rotation, scale }) => {
             particles.setLifetime(10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(5, 20))
