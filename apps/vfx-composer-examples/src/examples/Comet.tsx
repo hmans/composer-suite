@@ -1,9 +1,10 @@
-import { Animate, useConst } from "@hmans/things"
+import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, MeshProps } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
-import { between, plusMinus, upTo } from "randomish"
+import { between, plusMinus } from "randomish"
 import {
+  Abs,
   Add,
   Div,
   float,
@@ -15,7 +16,6 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
-  Rotation3DZ,
   Saturate,
   Smoothstep,
   Sub,
@@ -30,7 +30,7 @@ import {
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
-import { Color, DoubleSide, RepeatWrapping, Vector3 } from "three"
+import { Color, DoubleSide, RepeatWrapping } from "three"
 import {
   Emitter,
   Particles,
@@ -45,10 +45,7 @@ const Inverted = <T extends GLSLType>(v: Input<T>) =>
 export default function CometExample() {
   return (
     <group>
-      {/* <group position-y={1.5}>
-        <TestAura />
-      </group> */}
-      <CameraShake />
+      <CameraShake intensity={1.5} />
       <Comet scale={0.5} />
     </group>
   )
@@ -135,7 +132,7 @@ const Comet = (props: GroupProps) => (
       rotation-y={Math.PI / 3}
       position={[-2, -1, 0]}
     >
-      <Float speed={14}>
+      <Float speed={340} rotationIntensity={0} floatIntensity={0.3}>
         <Rock />
 
         <Aura
@@ -191,9 +188,9 @@ const Comet = (props: GroupProps) => (
 
 const Rock = () => (
   <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 2 * dt)}>
-    <mesh>
+    <mesh scale={1.2}>
       <icosahedronGeometry args={[1, 0]} />
-      <composable.meshStandardMaterial color="#222" />
+      <composable.meshStandardMaterial color="#732" />
     </mesh>
   </Animate>
 )
@@ -230,10 +227,11 @@ const Debris = () => {
         />
         <modules.Billboard />
 
-        <modules.Acceleration
-          force={Add(
-            vec3(0, 10, 0),
-            vec3(getNoise(0), getNoise(10), getNoise(80))
+        <modules.Velocity
+          velocity={vec3(
+            Mul(getNoise(87843), 2),
+            Mul(Add(Abs(getNoise(123)), 1), 20),
+            Mul(getNoise(278499), 2)
           )}
           space="local"
           time={particles.age}
@@ -243,11 +241,11 @@ const Debris = () => {
       </composable.meshBasicMaterial>
 
       <Emitter
-        rate={80}
+        rate={180}
         setup={({ position }) => {
+          particles.setLifetime(between(0.2, 2))
           const theta = plusMinus(Math.PI)
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
-          particles.setLifetime(between(1, 2))
         }}
       />
     </Particles>
