@@ -1,8 +1,8 @@
-import { Animate } from "@hmans/things"
+import { Animate, useConst } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, MeshProps } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
-import { between, plusMinus } from "randomish"
+import { between, plusMinus, upTo } from "randomish"
 import {
   Add,
   Div,
@@ -16,6 +16,7 @@ import {
   OneMinus,
   pipe,
   Rotation3DY,
+  Rotation3DZ,
   Saturate,
   Smoothstep,
   Sub,
@@ -30,8 +31,8 @@ import {
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
-import { Color, DoubleSide, RepeatWrapping } from "three"
-import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
+import { Color, DoubleSide, RepeatWrapping, Vector3 } from "three"
+import { Emitter, Particles, useParticleAttribute, useParticles } from "vfx-composer-r3f"
 import streamTextureUrl from "./textures/stream.png"
 
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
@@ -49,10 +50,7 @@ export default function CometExample() {
   )
 }
 
-const NoiseMask = (
-  threshold: Input<"float"> = 0.5,
-  fringe: Input<"float"> = 0.5
-) => {
+const NoiseMask = (threshold: Input<"float"> = 0.5, fringe: Input<"float"> = 0.5) => {
   const noise = NormalizePlusMinusOne(
     PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Inverted(Time()))))
   )
@@ -106,17 +104,8 @@ const Aura = ({
     <mesh {...props}>
       <sphereGeometry args={[1, 32, 16]} />
 
-      <composable.meshBasicMaterial
-        transparent
-        side={DoubleSide}
-        depthWrite={false}
-      >
-        <modules.Gradient
-          stops={gradient}
-          start={0}
-          stop={1}
-          position={heat.alpha}
-        />
+      <composable.meshBasicMaterial transparent side={DoubleSide} depthWrite={false}>
+        <modules.Gradient stops={gradient} start={0} stop={1} position={heat.alpha} />
         <modules.Alpha alpha={Mul(heat.alpha, NoiseMask(fullness))} />
       </composable.meshBasicMaterial>
     </mesh>
@@ -125,11 +114,7 @@ const Aura = ({
 
 const Comet = (props: GroupProps) => (
   <group {...props}>
-    <group
-      rotation-z={-Math.PI / 3}
-      rotation-y={Math.PI / 3}
-      position={[-2, -1, 0]}
-    >
+    <group rotation-z={-Math.PI / 3} rotation-y={Math.PI / 3} position={[-2, -1, 0]}>
       <Float speed={14}>
         <Rock />
 
@@ -174,7 +159,10 @@ const Comet = (props: GroupProps) => (
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
         />
       </Float>
+
       <Debris />
+
+      <SmokeTrail />
     </group>
   </group>
 )
@@ -221,10 +209,7 @@ const Debris = () => {
         <modules.Billboard />
 
         <modules.Acceleration
-          force={Add(
-            vec3(0, 10, 0),
-            vec3(getNoise(0), getNoise(10), getNoise(80))
-          )}
+          force={Add(vec3(0, 10, 0), vec3(getNoise(0), getNoise(10), getNoise(80)))}
           space="local"
           time={particles.age}
         />
@@ -241,5 +226,50 @@ const Debris = () => {
         }}
       />
     </Particles>
+  )
+}
+
+import { smokeUrl } from "./textures"
+import { Layers, useRenderPipeline } from "r3f-stage"
+
+const SmokeTrail = () => {
+  const texture = useTexture(smokeUrl)
+
+  const time = useConst(() => Time())
+  const velocity = useParticleAttribute(() => new Vector3())
+  const rotation = useParticleAttribute(() => 0 as number)
+  const scale = useParticleAttribute(() => 1 as number)
+
+  const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
+
+  return (
+    <group>
+      <Particles layers-mask={Layers.TransparentFX}>
+        <planeGeometry />
+        <composable.meshStandardMaterial
+          map={texture}
+          opacity={0.1}
+          transparent
+          depthWrite={false}
+        >
+          <modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <modules.Scale scale={scale} />
+          <modules.Velocity velocity={velocity} time={time} />
+          <modules.Billboard />
+          <modules.Softness softness={5} depthTexture={depth} />
+        </composable.meshStandardMaterial>
+
+        <Emitter
+          limit={50}
+          rate={Infinity}
+          setup={({ position }) => {
+            position.set(plusMinus(3), between(-2, 4), plusMinus(3))
+            velocity.value.randomDirection().multiplyScalar(upTo(0.05))
+            rotation.value = plusMinus(0.2)
+            scale.value = between(1, 10)
+          }}
+        />
+      </Particles>
+    </group>
   )
 }
