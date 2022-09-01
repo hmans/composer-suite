@@ -15,7 +15,6 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
-  Rotation3DY,
   Rotation3DZ,
   Saturate,
   Smoothstep,
@@ -32,7 +31,12 @@ import {
 import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
 import { Color, DoubleSide, RepeatWrapping, Vector3 } from "three"
-import { Emitter, Particles, useParticleAttribute, useParticles } from "vfx-composer-r3f"
+import {
+  Emitter,
+  Particles,
+  useParticleAttribute,
+  useParticles
+} from "vfx-composer-r3f"
 import streamTextureUrl from "./textures/stream.png"
 
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
@@ -50,7 +54,10 @@ export default function CometExample() {
   )
 }
 
-const NoiseMask = (threshold: Input<"float"> = 0.5, fringe: Input<"float"> = 0.5) => {
+const NoiseMask = (
+  threshold: Input<"float"> = 0.5,
+  fringe: Input<"float"> = 0.5
+) => {
   const noise = NormalizePlusMinusOne(
     PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Inverted(Time()))))
   )
@@ -104,8 +111,17 @@ const Aura = ({
     <mesh {...props}>
       <sphereGeometry args={[1, 32, 16]} />
 
-      <composable.meshBasicMaterial transparent side={DoubleSide} depthWrite={false}>
-        <modules.Gradient stops={gradient} start={0} stop={1} position={heat.alpha} />
+      <composable.meshBasicMaterial
+        transparent
+        side={DoubleSide}
+        depthWrite={false}
+      >
+        <modules.Gradient
+          stops={gradient}
+          start={0}
+          stop={1}
+          position={heat.alpha}
+        />
         <modules.Alpha alpha={Mul(heat.alpha, NoiseMask(fullness))} />
       </composable.meshBasicMaterial>
     </mesh>
@@ -114,7 +130,11 @@ const Aura = ({
 
 const Comet = (props: GroupProps) => (
   <group {...props}>
-    <group rotation-z={-Math.PI / 3} rotation-y={Math.PI / 3} position={[-2, -1, 0]}>
+    <group
+      rotation-z={-Math.PI / 3}
+      rotation-y={Math.PI / 3}
+      position={[-2, -1, 0]}
+    >
       <Float speed={14}>
         <Rock />
 
@@ -209,7 +229,10 @@ const Debris = () => {
         <modules.Billboard />
 
         <modules.Acceleration
-          force={Add(vec3(0, 10, 0), vec3(getNoise(0), getNoise(10), getNoise(80)))}
+          force={Add(
+            vec3(0, 10, 0),
+            vec3(getNoise(0), getNoise(10), getNoise(80))
+          )}
           space="local"
           time={particles.age}
         />
@@ -229,8 +252,8 @@ const Debris = () => {
   )
 }
 
-import { smokeUrl } from "./textures"
 import { Layers, useRenderPipeline } from "r3f-stage"
+import { smokeUrl } from "./textures"
 
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
