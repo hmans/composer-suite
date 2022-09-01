@@ -427,14 +427,16 @@ importers:
       react-dom: ^18.2.0
       render-composer: ^0.1.5
       three: ^0.143.0
+      three-stdlib: ^2.14.3
       wouter: ^2.8.0-alpha.2
       zustand: ^3.6.9
     dependencies:
       '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       postprocessing: 6.28.7_three@0.143.0
-      r3f-perf: 6.4.4_xpp3dri4oxduujsnf2oz2glohy
+      r3f-perf: 6.4.4_a2pvtpwch27blgnbnursmsu5gy
       render-composer: link:../render-composer
+      three-stdlib: 2.14.3_three@0.143.0
       wouter: 2.8.0-alpha.2_react@18.2.0
       zustand: 3.7.2_react@18.2.0
     devDependencies:
