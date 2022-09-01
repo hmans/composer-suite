@@ -177,7 +177,7 @@ const Comet = (props: GroupProps) => (
         />
       </Float>
 
-      <Debris />
+      <Sparks />
 
       <SmokeTrail />
       <Clouds />
@@ -195,7 +195,7 @@ const Rock = () => (
   </Animate>
 )
 
-const Debris = () => {
+const Sparks = () => {
   const particles = useParticles()
 
   const id = float(InstanceID, { varying: true })
@@ -230,7 +230,7 @@ const Debris = () => {
         <modules.Velocity
           velocity={vec3(
             Mul(getNoise(87843), 2),
-            Mul(Add(Abs(getNoise(123)), 1), 20),
+            Mul(Add(Abs(getNoise(123)), 1.3), 20),
             Mul(getNoise(278499), 2)
           )}
           space="local"
