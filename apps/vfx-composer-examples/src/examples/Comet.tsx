@@ -1,10 +1,7 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, MeshProps } from "@react-three/fiber"
-import { ModuleFactory } from "material-composer"
 import { composable, modules } from "material-composer-r3f"
-import { moduleComponent } from "material-composer-r3f/src/reactor"
-import { Heat, HeatOptions } from "material-composer/units"
 import { Layers } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import {
@@ -13,7 +10,6 @@ import {
   Div,
   float,
   GLSLType,
-  Gradient,
   GradientStops,
   Input,
   InstanceID,
@@ -42,6 +38,7 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
+import { Lava } from "./modules/Lava"
 import { smokeUrl } from "./textures"
 import streamTextureUrl from "./textures/stream.png"
 
@@ -49,24 +46,6 @@ const time = Time()
 
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
   Unit(type(v), Mul(v, -1), { name: "Inverted Value" })
-
-export type LavaProps = HeatOptions
-
-export const LavaModule: ModuleFactory<LavaProps> = (props) => (state) => ({
-  ...state,
-  color: Gradient(
-    Heat(state.position, props),
-    [new Color("#03071E"), 0],
-    [new Color("#03071E"), 0.1],
-    [new Color("#DC2F02"), 0.5],
-    [new Color("#E85D04"), 0.6],
-    [new Color("#FFBA08").multiplyScalar(20), 0.65],
-    [new Color("white").multiplyScalar(20), 0.99],
-    [new Color("white").multiplyScalar(20), 1]
-  )
-})
-
-export const Lava = moduleComponent(LavaModule)
 
 export default function CometExample() {
   return (
