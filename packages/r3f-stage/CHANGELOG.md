@@ -1,5 +1,11 @@
 # r3f-stage
 
+## 0.3.4
+
+### Patch Changes
+
+- 004bd19: Add `three-stdlib` to silence the peer dependency warnings triggered by `r3f-perf`.
+
 ## 0.3.3
 
 ### Patch Changes
