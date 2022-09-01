@@ -16,6 +16,7 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   pipe,
+  Rotation3D,
   Saturate,
   Smoothstep,
   Sub,
@@ -178,7 +179,7 @@ const Comet = (props: GroupProps) => (
       </Float>
 
       <Sparks />
-
+      <RockSplitters />
       <SmokeTrail />
       <Clouds />
       <CloudDebris />
@@ -188,7 +189,7 @@ const Comet = (props: GroupProps) => (
 
 const Rock = () => (
   <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 2 * dt)}>
-    <mesh scale={1.2}>
+    <mesh>
       <icosahedronGeometry args={[1, 0]} />
       <composable.meshStandardMaterial color="#732" />
     </mesh>
@@ -197,9 +198,7 @@ const Rock = () => (
 
 const Sparks = () => {
   const particles = useParticles()
-
   const id = float(InstanceID, { varying: true })
-
   const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
 
   return (
@@ -246,6 +245,53 @@ const Sparks = () => {
           particles.setLifetime(between(0.2, 2))
           const theta = plusMinus(Math.PI)
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
+        }}
+      />
+    </Particles>
+  )
+}
+
+const RockSplitters = () => {
+  const particles = useParticles()
+  const id = float(InstanceID, { varying: true })
+  const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
+
+  return (
+    <Particles>
+      <icosahedronGeometry />
+
+      <composable.meshStandardMaterial color="#222">
+        <modules.Lifetime {...particles} />
+
+        <modules.Translate
+          offset={vec3(Mul(getNoise(99), 5), getNoise(67), getNoise(567))}
+        />
+
+        <modules.Velocity
+          velocity={vec3(
+            Mul(getNoise(87843), 2),
+            Mul(Add(Abs(getNoise(123)), 1.3), 40),
+            Mul(getNoise(278499), 2)
+          )}
+          space="local"
+          time={particles.age}
+        />
+
+        <modules.Velocity
+          velocity={vec3(0, -40, 0)}
+          space="world"
+          time={particles.age}
+        />
+
+        <modules.Scale scale={Add(2, getNoise(123))} />
+      </composable.meshStandardMaterial>
+
+      <Emitter
+        rate={40}
+        setup={({ position, scale }) => {
+          particles.setLifetime(10)
+          position.setScalar(plusMinus(0.5))
+          scale.setScalar(between(0.2, 0.5))
         }}
       />
     </Particles>
