@@ -96,18 +96,6 @@ const NoiseMask = (
   )
 }
 
-const TestAura = () => {
-  return (
-    <mesh>
-      <planeGeometry />
-      <composable.meshBasicMaterial transparent>
-        <modules.Color color="white" />
-        <modules.Alpha alpha={NoiseMask()} />
-      </composable.meshBasicMaterial>
-    </mesh>
-  )
-}
-
 const Aura = ({
   gradient,
   tiling = vec2(3, 1),
