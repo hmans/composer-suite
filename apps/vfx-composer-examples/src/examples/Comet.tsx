@@ -259,10 +259,8 @@ const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
 
   const time = useConst(() => Time())
-  const velocity = useParticleAttribute(() => new Vector3())
-  const rotation = useParticleAttribute(() => 0 as number)
-  const scale = useParticleAttribute(() => 1 as number)
-
+  const particles = useParticles()
+  const color = useParticleAttribute(() => new Color())
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
@@ -271,25 +269,33 @@ const SmokeTrail = () => {
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
-          opacity={0.1}
+          opacity={0.5}
           transparent
           depthWrite={false}
+          color="#123"
         >
-          <modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
-          <modules.Scale scale={scale} />
-          <modules.Velocity velocity={velocity} time={time} />
+          <modules.Color color={color} />
           <modules.Billboard />
+          <modules.Scale scale={Add(Mul(particles.progress, 3), 0.5)} />
+          <modules.Scale scale={Smoothstep(-0.5, 0.1, particles.progress)} />
+          <modules.Scale scale={Smoothstep(1, 0.5, particles.progress)} />
+
+          <modules.Velocity
+            velocity={vec3(0, 10, 0)}
+            time={particles.age}
+            space="local"
+          />
           <modules.Softness softness={5} depthTexture={depth} />
+          <modules.Lifetime {...particles} />
         </composable.meshStandardMaterial>
 
         <Emitter
-          limit={50}
-          rate={Infinity}
-          setup={({ position }) => {
-            position.set(plusMinus(3), between(-2, 4), plusMinus(3))
-            velocity.value.randomDirection().multiplyScalar(upTo(0.05))
-            rotation.value = plusMinus(0.2)
-            scale.value = between(1, 10)
+          rate={100}
+          setup={({ position, scale }) => {
+            particles.setLifetime(between(1, 2))
+            position.set(plusMinus(1), 3 + plusMinus(1), plusMinus(1))
+            scale.setScalar(between(1, 3))
+            color.value.set("#666").multiplyScalar(Math.random())
           }}
         />
       </Particles>
