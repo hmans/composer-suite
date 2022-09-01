@@ -17,7 +17,7 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
-    "@react-three/fiber": "^8.6.0",
+    "@react-three/fiber": "^8.6.2",
     "@types/react": "^18.0.18",
     "@types/three": "^0.143.1",
     "react": "^18.2.0",

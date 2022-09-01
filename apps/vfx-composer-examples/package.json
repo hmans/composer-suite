@@ -14,7 +14,7 @@
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "@react-three/drei": "^9.25.3",
-    "@react-three/fiber": "^8.6.0",
+    "@react-three/fiber": "^8.6.2",
     "leva": "^0.9.30",
     "material-composer": "^0.1.1",
     "material-composer-r3f": "^0.1.1",

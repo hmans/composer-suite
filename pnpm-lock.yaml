@@ -54,7 +54,7 @@ importers:
       '@hmans/use-version': ^0.0.2
       '@material-composer/patch-material': ^0.1.1
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
@@ -77,17 +77,17 @@ importers:
       vite: ^3.0.9
       wouter: ^2.8.0-alpha.2
     dependencies:
-      '@hmans/r3f-shared-resource': 0.1.0_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@hmans/r3f-shared-resource': 0.1.0_kr35nn26kgyu6kavah7kd3pzxa
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       '@material-composer/patch-material': link:../../packages/material-composer-patch-material
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      r3f-perf: 6.4.4_lbb3q7zwghfj7zh2pf472t7oge
+      r3f-perf: 6.4.4_xpp3dri4oxduujsnf2oz2glohy
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -110,7 +110,7 @@ importers:
   apps/r3f-stage-examples:
     specifiers:
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.0.1
@@ -121,8 +121,8 @@ importers:
       typescript: ^4.8.2
       vite: ^3.0.9
     dependencies:
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -138,7 +138,7 @@ importers:
     specifiers:
       '@hmans/r3f-animate': ^0.0.4
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
@@ -150,9 +150,9 @@ importers:
       typescript: ^4.8.2
       vite: ^3.0.9
     dependencies:
-      '@hmans/r3f-animate': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@hmans/r3f-animate': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       render-composer: link:../../packages/render-composer
@@ -169,7 +169,7 @@ importers:
     specifiers:
       '@hmans/r3f-animate': ^0.0.4
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
@@ -187,9 +187,9 @@ importers:
       typescript: ^4.8.2
       vite: ^3.0.9
     dependencies:
-      '@hmans/r3f-animate': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@hmans/r3f-animate': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       r3f-stage: link:../../packages/r3f-stage
@@ -199,7 +199,7 @@ importers:
       shader-composer-r3f: link:../../packages/shader-composer-r3f
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       three: 0.143.0
-      three-custom-shader-material: 4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq
+      three-custom-shader-material: 4.0.0_zvfcrx6qs7myq74qxffhadzqgy
     devDependencies:
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
@@ -216,7 +216,7 @@ importers:
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
@@ -243,17 +243,17 @@ importers:
       vite: ^3.0.9
       wouter: ^2.8.0-alpha.2
     dependencies:
-      '@hmans/r3f-shared-resource': 0.1.0_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@hmans/things': 0.0.4_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@hmans/r3f-shared-resource': 0.1.0_kr35nn26kgyu6kavah7kd3pzxa
+      '@hmans/things': 0.0.4_kr35nn26kgyu6kavah7kd3pzxa
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      r3f-perf: 6.4.4_gik22646ql6gktmotgbq2np3ce
+      r3f-perf: 6.4.4_a2pvtpwch27blgnbnursmsu5gy
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -313,7 +313,7 @@ importers:
     specifiers:
       '@hmans/types': ^0.0.3
       '@material-composer/patch-material': ^0.1.1
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
       '@types/three': ^0.143.1
       fp-ts: ^2.12.2
@@ -327,7 +327,7 @@ importers:
       fp-ts: 2.12.3
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       '@types/react': 18.0.18
       '@types/three': 0.143.2
       react: 18.2.0
@@ -342,7 +342,7 @@ importers:
       '@hmans/use-version': ^0.0.2
       '@material-composer/patch-material': ^0.1.1
       '@material-composer/patched': ^0.1.1
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       material-composer: '*'
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -359,7 +359,7 @@ importers:
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       material-composer: link:../material-composer
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -368,9 +368,9 @@ importers:
   packages/r3f-stage:
     specifiers:
       '@react-three/drei': ^9.25.3
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       leva: ^0.9.30
-      postprocessing: ^6.28.5
+      postprocessing: ^6.28.7
       r3f-perf: ^6.4.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -379,29 +379,29 @@ importers:
       wouter: ^2.8.0-alpha.2
       zustand: ^3.6.9
     dependencies:
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
       leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
-      postprocessing: 6.28.6_three@0.143.0
-      r3f-perf: 6.4.4_lbb3q7zwghfj7zh2pf472t7oge
+      postprocessing: 6.28.7_three@0.143.0
+      r3f-perf: 6.4.4_xpp3dri4oxduujsnf2oz2glohy
       render-composer: link:../render-composer
       wouter: 2.8.0-alpha.2_react@18.2.0
       zustand: 3.7.2_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
 
   packages/render-composer:
     specifiers:
-      '@react-three/fiber': ^8.6.0
-      postprocessing: ^6.28.5
+      '@react-three/fiber': ^8.6.2
+      postprocessing: ^6.28.7
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.143.0
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
-      postprocessing: 6.28.6_three@0.143.0
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
+      postprocessing: 6.28.7_three@0.143.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
@@ -417,7 +417,7 @@ importers:
 
   packages/shader-composer-r3f:
     specifiers:
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.3.0
@@ -425,9 +425,9 @@ importers:
       three-custom-shader-material: ^4.0.0
     dependencies:
       shader-composer: link:../shader-composer
-      three-custom-shader-material: 4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq
+      three-custom-shader-material: 4.0.0_zvfcrx6qs7myq74qxffhadzqgy
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
@@ -465,7 +465,7 @@ importers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
-      '@react-three/fiber': ^8.6.0
+      '@react-three/fiber': ^8.6.2
       material-composer-r3f: ^0.1.1
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -482,7 +482,7 @@ importers:
       shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
     devDependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
@@ -1981,32 +1981,32 @@ packages:
     dev: true
     optional: true
 
-  /@hmans/r3f-animate/0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq:
+  /@hmans/r3f-animate/0.0.4_zvfcrx6qs7myq74qxffhadzqgy:
     resolution: {integrity: sha512-qD/q31EaohTqH7+kpXORyYBPxV8bopNr5otpDAnKvjpcxobQFMT5lbSJeyzRxAeJgekxkMarGs90GBT4T5wTmw==}
     peerDependencies:
       '@react-three/fiber': '>=8.0.27'
       react: '>=18.1.0'
       three: '>=0.141.0'
     dependencies:
-      '@hmans/r3f-lifecycle': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@hmans/r3f-lifecycle': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       three: 0.143.0
     dev: false
 
-  /@hmans/r3f-lifecycle/0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq:
+  /@hmans/r3f-lifecycle/0.0.4_zvfcrx6qs7myq74qxffhadzqgy:
     resolution: {integrity: sha512-q019sVRtjBrEVJeZaP2Jc0AG/yXae5B06xSHVZ8I2l1ujC7Cv7apbG2cM7hZig8EfObHR+lkkxz293PdgWJnlw==}
     peerDependencies:
       '@react-three/fiber': '>=8.0.27'
       react: '>=18.1.0'
       three: '>=0.141.0'
     dependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       three: 0.143.0
     dev: false
 
-  /@hmans/r3f-shared-resource/0.1.0_o6o4yvbil3h6n6ahlnvnzgggwq:
+  /@hmans/r3f-shared-resource/0.1.0_kr35nn26kgyu6kavah7kd3pzxa:
     resolution: {integrity: sha512-T1yrpJOZpbWVwOnu6ClaYLdJWWZhiEfk+YSv9lYSJrVhmQdj0p89fEy4c4gvVL0fykG5vzRFDZRvUrvIuNDmOg==}
     peerDependencies:
       '@react-three/fiber': '>=8.0.27'
@@ -2014,7 +2014,7 @@ packages:
       react-dom: '>=18.1.0'
       three: '>=0.141.0'
     dependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-merge-refs: 2.0.1
@@ -2022,12 +2022,12 @@ packages:
       three: 0.143.0
     dev: false
 
-  /@hmans/things/0.0.4_o6o4yvbil3h6n6ahlnvnzgggwq:
+  /@hmans/things/0.0.4_kr35nn26kgyu6kavah7kd3pzxa:
     resolution: {integrity: sha512-lru0ugkiPTDQA6BNnOZD54SkaRj5ynWPDE7oTfwc6z4PbCmQzYQxFpExRhUtKyRcTxYEbCKAhT/bfzQl5d8gyA==}
     dependencies:
-      '@hmans/r3f-animate': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@hmans/r3f-lifecycle': 0.0.4_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@hmans/r3f-shared-resource': 0.1.0_o6o4yvbil3h6n6ahlnvnzgggwq
+      '@hmans/r3f-animate': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@hmans/r3f-lifecycle': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@hmans/r3f-shared-resource': 0.1.0_kr35nn26kgyu6kavah7kd3pzxa
       '@hmans/types': 0.0.3
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@hmans/use-list': 0.0.1_react@18.2.0
@@ -2813,7 +2813,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@react-spring/three/9.5.2_6ovrzwfaplyi3f62bs3r7o7kyq:
+  /@react-spring/three/9.5.2_zvfcrx6qs7myq74qxffhadzqgy:
     resolution: {integrity: sha512-3H7Lv8BJZ3dajh0yJA3m9rEbqz5ZNrTCAkhVOeLqgvBlcWU5qVs4luYA1Z7H4vZnLqVtzv+kHAyg3XIpuTOXhQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@react-spring/three/-/three-9.5.2.tgz}
     peerDependencies:
       '@react-three/fiber': '>=6.0'
@@ -2824,7 +2824,7 @@ packages:
       '@react-spring/core': 9.5.2_react@18.2.0
       '@react-spring/shared': 9.5.2_react@18.2.0
       '@react-spring/types': 9.5.2
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
       three: 0.143.0
     dev: false
@@ -2833,7 +2833,7 @@ packages:
     resolution: {integrity: sha512-n/wBRSHPqTmEd4BFWY6TeR1o/UY+3ujoqMxLjqy90CcY/ozJzDRuREL3c+pxMeTF2+B7dX33dTPCtFMX51nbxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.2.tgz}
     dev: false
 
-  /@react-three/drei/9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq:
+  /@react-three/drei/9.25.3_kr35nn26kgyu6kavah7kd3pzxa:
     resolution: {integrity: sha512-0fxe5jfi5aCyvI/ejnHR9OPlzCB/KTxPGBcxKbfuH7hR0bRJGCGb9Io068zFUQk17p2sTV6eSx+Mdwk0Fp/L7A==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
@@ -2845,8 +2845,8 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.18.9
-      '@react-spring/three': 9.5.2_6ovrzwfaplyi3f62bs3r7o7kyq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-spring/three': 9.5.2_zvfcrx6qs7myq74qxffhadzqgy
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       '@use-gesture/react': 10.2.19_react@18.2.0
       detect-gpu: 4.0.37
       glsl-noise: 0.0.0
@@ -2867,8 +2867,8 @@ packages:
       zustand: 3.7.2_react@18.2.0
     dev: false
 
-  /@react-three/fiber/8.6.0_f72olm6mn3unzgg4exeiaoxanm:
-    resolution: {integrity: sha512-bdSrjPkcoGYqLsKL5pZHR3SrkzUyxP+VA7wKWhMQPZR+zUYhvw1IpUT+v/d/jlk7sKHlQS8KmGVvM91Ug1QJhA==}
+  /@react-three/fiber/8.6.2_f72olm6mn3unzgg4exeiaoxanm:
+    resolution: {integrity: sha512-M9Ghgg+YBrHHPqPqCHvehzIyI8TM3uLcQ9AOpFr0x5S9k13qw+aoIkd0gLyU3d5JDh/UWdx7tdP+ZiZNL3kTyA==}
     peerDependencies:
       expo: '>=43.0'
       expo-asset: '>=8.4'
@@ -6870,11 +6870,11 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /postprocessing/6.28.6_three@0.143.0:
-    resolution: {integrity: sha512-fCLpfja2RB25jBTRgGvGoEz1MO94KzYyefwa67ny9kX/p9lZndxmEIueVbCwMDIZ/z9purkHoTZQBPNMq7Uryw==}
+  /postprocessing/6.28.7_three@0.143.0:
+    resolution: {integrity: sha512-norsBlNIhDoNG2R0nki9C0bNEARIunE/s5W/4qH/Ozlg3m0dOOmBoY8JZhnmPild/+Jvq/UFEeHQRBvTc11WUg==}
     engines: {node: '>= 0.13.2'}
     peerDependencies:
-      three: '>= 0.107.0 < 0.144.0'
+      three: '>= 0.125.0 < 0.145.0'
     dependencies:
       three: 0.143.0
 
@@ -6990,7 +6990,7 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /r3f-perf/6.4.4_gik22646ql6gktmotgbq2np3ce:
+  /r3f-perf/6.4.4_a2pvtpwch27blgnbnursmsu5gy:
     resolution: {integrity: sha512-/z/8pJr3+oUM3+pjybcFJfiNIdFr9yLr0RB3zKVInGDmcJ+yO7jgqOAFlWufJxkZaxUCZK48BbzZ73f+2C+l6w==}
     peerDependencies:
       '@react-three/drei': '*'
@@ -7001,8 +7001,8 @@ packages:
       three-stdlib: '*'
     dependencies:
       '@radix-ui/react-icons': 1.1.1_react@18.2.0
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       '@stitches/react': 1.2.8_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -7011,7 +7011,7 @@ packages:
       zustand: 3.7.2_react@18.2.0
     dev: false
 
-  /r3f-perf/6.4.4_lbb3q7zwghfj7zh2pf472t7oge:
+  /r3f-perf/6.4.4_xpp3dri4oxduujsnf2oz2glohy:
     resolution: {integrity: sha512-/z/8pJr3+oUM3+pjybcFJfiNIdFr9yLr0RB3zKVInGDmcJ+yO7jgqOAFlWufJxkZaxUCZK48BbzZ73f+2C+l6w==}
     peerDependencies:
       '@react-three/drei': '*'
@@ -7022,8 +7022,8 @@ packages:
       three-stdlib: '*'
     dependencies:
       '@radix-ui/react-icons': 1.1.1_react@18.2.0
-      '@react-three/drei': 9.25.3_o6o4yvbil3h6n6ahlnvnzgggwq
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       '@stitches/react': 1.2.8_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -7809,7 +7809,7 @@ packages:
       minimatch: 3.1.2
     dev: false
 
-  /three-custom-shader-material/4.0.0_6ovrzwfaplyi3f62bs3r7o7kyq:
+  /three-custom-shader-material/4.0.0_zvfcrx6qs7myq74qxffhadzqgy:
     resolution: {integrity: sha512-oMlHSANeKJdpXiLnQTQILF0tY6p2q6tgzQiR5UzMtC9oCa+EQgMXh28dvzsnqtWVnnv6FGwXRfNFgqcv+mHW7Q==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
@@ -7821,7 +7821,7 @@ packages:
       react:
         optional: true
     dependencies:
-      '@react-three/fiber': 8.6.0_f72olm6mn3unzgg4exeiaoxanm
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       glsl-token-functions: 1.0.1
       glsl-token-string: 1.0.1
       glsl-tokenizer: 2.1.5
