@@ -4,6 +4,41 @@
 
 You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Material Composer], [VFX Composer] and more! Please things a little time to settle, and stay tuned!
 
+> **Note**  
+> This suite of libraries is primarily targeted at building games with React and React-Three-Fiber. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but you will find most example code to be written in React.
+
+## Packages
+
+### Shader Composer
+
+![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+
+**[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
+
+### Material Composer
+
+![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+
+**[Material Composer]** provides a mechanism to describe Three.js materials as a series of modules that get applied in sequence. Modules are higher-level implementations of Shader-based functionality, and built using [Shader Composer]. Material Composer provides a library of ready-to-use material modules that are easy to extend and customize, and you can, of course, add your own.
+
+### VFX Composer
+
+![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+
+_TODO_
+
+### Timeline Composer
+
+![react](https://img.shields.io/badge/-react-blue)
+
+_TODO_
+
+### Render Composer
+
+![react](https://img.shields.io/badge/-react-blue)
+
+_TODO_
+
 ## License
 
 ```
@@ -29,6 +64,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-[shader composer]: https://github.com/hmans/vfx-composer/tree/main/packages/shader-composer
-[vfx composer]: https://github.com/hmans/vfx-composer/tree/main/packages/vfx-composer
-[material composer]: https://github.com/hmans/vfx-composer/tree/main/packages/material-composer
+[shader composer]: https://github.com/hmans/composer-suite/tree/main/packages/shader-composer
+[vfx composer]: https://github.com/hmans/composer-suite/tree/main/packages/vfx-composer
+[material composer]: https://github.com/hmans/composer-suite/tree/main/packages/material-composer
