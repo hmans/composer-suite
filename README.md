@@ -10,8 +10,7 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 
 ## Packages
 
-### ![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)
-
+![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)  
 ![react] ![vanilla] ![three]
 
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
@@ -61,14 +60,12 @@ const MaterialComposerExample = () => (
 )
 ```
 
-### ![VFX Composer](https://user-images.githubusercontent.com/1061/187867928-5cac4fa9-908c-4c78-93de-2a9ac3998dbd.jpg)
-
+![VFX Composer](https://user-images.githubusercontent.com/1061/187867928-5cac4fa9-908c-4c78-93de-2a9ac3998dbd.jpg)  
 ![react] ![vanilla] ![three]
 
 _TODO_
 
-### ![timeline-composer-thin](https://user-images.githubusercontent.com/1061/187868484-5cd3ebd6-7961-4fd3-aef0-eca22f79417a.jpg)
-
+![timeline-composer-thin](https://user-images.githubusercontent.com/1061/187868484-5cd3ebd6-7961-4fd3-aef0-eca22f79417a.jpg)  
 ![react]
 
 _TODO_
