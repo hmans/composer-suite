@@ -342,7 +342,11 @@ const SmokeTrail = () => {
           <modules.Billboard />
           <modules.Scale scale={Add(Mul(particles.progress, 3), 0.5)} />
           <modules.Scale scale={Smoothstep(-0.5, 0.1, particles.progress)} />
-          <modules.Scale scale={Smoothstep(1, 0.5, particles.progress)} />
+          <modules.Alpha
+            alpha={(alpha) =>
+              Mul(alpha, Smoothstep(1, 0.8, particles.progress))
+            }
+          />
 
           <modules.Velocity
             velocity={vec3(0, 10, 0)}
@@ -383,9 +387,6 @@ const Clouds = () => {
           color="#fff"
         >
           <modules.Billboard />
-          <modules.Scale scale={Add(Mul(particles.progress, 3), 0.5)} />
-          <modules.Scale scale={Smoothstep(-0.5, 0.1, particles.progress)} />
-          <modules.Scale scale={Smoothstep(1, 0.5, particles.progress)} />
 
           <modules.Velocity
             velocity={vec3(0, 10, 0)}
@@ -415,6 +416,7 @@ const CloudDebris = () => {
     <group>
       <Particles layers-mask={Layers.TransparentFX}>
         <planeGeometry args={[0.1, 3.2]} />
+
         <composable.meshStandardMaterial color="#555" side={DoubleSide}>
           <modules.Velocity
             velocity={vec3(0, 100, 0)}
@@ -426,7 +428,7 @@ const CloudDebris = () => {
 
         <Emitter
           rate={30}
-          setup={({ position, rotation, scale }) => {
+          setup={({ position, scale }) => {
             particles.setLifetime(10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(1, 2))
