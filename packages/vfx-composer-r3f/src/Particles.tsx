@@ -12,11 +12,9 @@ import React, {
 } from "react"
 import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
+import { useFrameEffect } from "./lib/useFrameEffect"
 
-export type ParticlesProps = Omit<
-  InstancedMeshProps,
-  "material" | "args" | "ref"
-> & {
+export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args" | "ref"> & {
   ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: Material
@@ -40,31 +38,30 @@ export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    {
-      children,
-      maxParticles = 1000,
-      safetyBuffer = 100,
-      geometry,
-      material,
-      ...props
-    },
+    { children, maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
     ref
   ) => {
     const rerender = useRerender()
     const particles = useRef<ParticlesImpl>(null!)
 
     /*
-    Every time this component re-renders, see if it needs to set up its
-    particle engine. This only happens when the material has changed.
-     */
-    useLayoutEffect(() => {
-      if (!particles.current) return
-      if (!particles.current.material) return
+    We need to be able to react to the particle mesh's material changing. Currently,
+    the best way of doing this is to use a custom per-frame callback that will monitor
+    the material for changes, and re-initialize the particles mesh when it does.
+    We will find a cleaner way of doing this some time in the future.
+    */
 
-      const material = particles.current.material as Material
-      const root = getShaderRootForMaterial(material)
-      if (root) particles.current.setupParticles(root)
-    }, [particles, particles.current?.material])
+    useFrameEffect(
+      /* The "dependency" callback. */
+      () => particles.current.material as Material,
+
+      /* The callback that will be invoked when the first callback's return value changes. */
+      (material) => {
+        if (!material) return
+        const root = getShaderRootForMaterial(material)
+        if (root) particles.current.setupParticles(root)
+      }
+    )
 
     /*
     We need to re-render this beautiful component once, because it's highly
@@ -83,9 +80,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
         ref={particles}
         {...props}
       >
-        <Context.Provider value={particles.current}>
-          {children}
-        </Context.Provider>
+        <Context.Provider value={particles.current}>{children}</Context.Provider>
       </vfxComposerParticles>
     )
   }
