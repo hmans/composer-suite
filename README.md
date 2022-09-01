@@ -9,7 +9,7 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 
 ## Packages
 
-### Shader Composer
+### ![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)
 
 ![react] ![vanilla] ![three]
 
