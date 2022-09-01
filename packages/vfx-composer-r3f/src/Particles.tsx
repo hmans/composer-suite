@@ -1,5 +1,5 @@
 import { useRerender } from "@hmans/use-rerender"
-import { extend, InstancedMeshProps, useFrame } from "@react-three/fiber"
+import { extend, InstancedMeshProps } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
@@ -12,7 +12,7 @@ import React, {
 } from "react"
 import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
-import { useFauxEffect } from "./lib/useFauxEffect"
+import { useFrameEffect } from "./lib/useFrameEffect"
 
 export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args" | "ref"> & {
   ref?: Ref<ParticlesImpl>
@@ -51,7 +51,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     We will find a cleaner way of doing this some time in the future.
     */
 
-    useFauxEffect(
+    useFrameEffect(
       /* The "dependency" callback. */
       () => particles.current.material as Material,
 

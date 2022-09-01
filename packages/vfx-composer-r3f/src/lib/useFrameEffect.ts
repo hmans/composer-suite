@@ -3,7 +3,7 @@ import { useRef } from "react"
 
 /* TODO: Extract this into hmans/things or similar */
 
-export function useFauxEffect<T>(
+export function useFrameEffect<T>(
   dependencyCallback: () => T,
   callback: (args: T) => void,
   renderPriority = 0
