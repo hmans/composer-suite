@@ -183,6 +183,7 @@ const Comet = (props: GroupProps) => (
       <Debris />
 
       <SmokeTrail />
+      <Clouds />
     </group>
   </group>
 )
@@ -258,7 +259,6 @@ import { smokeUrl } from "./textures"
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
 
-  const time = useConst(() => Time())
   const particles = useParticles()
   const color = useParticleAttribute(() => new Color())
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
@@ -296,6 +296,50 @@ const SmokeTrail = () => {
             position.set(plusMinus(1), 3 + plusMinus(1), plusMinus(1))
             scale.setScalar(between(1, 3))
             color.value.set("#666").multiplyScalar(Math.random())
+          }}
+        />
+      </Particles>
+    </group>
+  )
+}
+
+const Clouds = () => {
+  const texture = useTexture(smokeUrl)
+
+  const particles = useParticles()
+  const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
+
+  return (
+    <group>
+      <Particles layers-mask={Layers.TransparentFX}>
+        <planeGeometry />
+        <composable.meshStandardMaterial
+          map={texture}
+          opacity={0.05}
+          transparent
+          depthWrite={false}
+          color="#fff"
+        >
+          <modules.Billboard />
+          <modules.Scale scale={Add(Mul(particles.progress, 3), 0.5)} />
+          <modules.Scale scale={Smoothstep(-0.5, 0.1, particles.progress)} />
+          <modules.Scale scale={Smoothstep(1, 0.5, particles.progress)} />
+
+          <modules.Velocity
+            velocity={vec3(0, 10, 0)}
+            time={particles.age}
+            space="local"
+          />
+          <modules.Softness softness={5} depthTexture={depth} />
+          <modules.Lifetime {...particles} />
+        </composable.meshStandardMaterial>
+
+        <Emitter
+          rate={10}
+          setup={({ position, scale }) => {
+            particles.setLifetime(10)
+            position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
+            scale.setScalar(between(5, 20))
           }}
         />
       </Particles>
