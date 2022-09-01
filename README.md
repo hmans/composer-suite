@@ -5,7 +5,7 @@
 You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Material Composer], [VFX Composer] and more! Please things a little time to settle, and stay tuned!
 
 > **Note**  
-> This suite of libraries is primarily targeted at building games with React and React-Three-Fiber. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but you will find most example code to be written in React.
+> This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but you will find most example code to be written in React.
 
 ## Packages
 
@@ -37,7 +37,6 @@ const ShaderComposerExample = () => {
 ```
 
 ### Material Composer
-
 
 ![react] ![vanilla] ![three]
 
@@ -104,6 +103,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+[react-three-fiber]: https://github.com/pmndrs/react-three-fiber
 [shader composer]: https://github.com/hmans/composer-suite/tree/main/packages/shader-composer
 [vfx composer]: https://github.com/hmans/composer-suite/tree/main/packages/vfx-composer
 [material composer]: https://github.com/hmans/composer-suite/tree/main/packages/material-composer
