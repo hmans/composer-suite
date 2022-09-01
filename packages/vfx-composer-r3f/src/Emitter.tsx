@@ -10,6 +10,7 @@ import React, {
 } from "react"
 import { Matrix4, Object3D } from "three"
 import { InstanceSetupCallback, Particles } from "vfx-composer"
+import { useFrameEffect } from "./lib/useFrameEffect"
 import { useParticlesContext } from "./Particles"
 
 export type EmitterProps = Object3DProps & {
@@ -51,6 +52,17 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
         setup?.(props)
       },
       [setup]
+    )
+
+    /* When the particle material has changed, reset this emitter. (HMR) */
+    useFrameEffect(
+      () => {
+        const particles = particlesProp?.current || particlesFromContext
+        return particles?.material
+      },
+      () => {
+        remainingParticles.current = limit
+      }
     )
 
     /* When the props change, reinitialize the emitter */
