@@ -2,7 +2,6 @@ import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
-import { Layers } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import {
   Abs,
