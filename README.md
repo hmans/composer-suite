@@ -38,6 +38,7 @@ const ShaderComposerExample = () => {
 
 ### Material Composer
 
+
 ![react] ![vanilla] ![three]
 
 **[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
@@ -60,7 +61,7 @@ const MaterialComposerExample = () => (
 )
 ```
 
-### VFX Composer
+### ![VFX Composer](https://user-images.githubusercontent.com/1061/187867928-5cac4fa9-908c-4c78-93de-2a9ac3998dbd.jpg)
 
 ![react] ![vanilla] ![three]
 
