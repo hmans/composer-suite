@@ -237,7 +237,7 @@ const SmokeTrail = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -285,7 +285,7 @@ const Clouds = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -322,7 +322,7 @@ const CloudDebris = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles>
         <planeGeometry args={[0.1, 3.2]} />
 
         <composable.meshStandardMaterial color="#555" side={DoubleSide}>
