@@ -354,10 +354,10 @@ const CloudDebris = () => {
   return (
     <group>
       <Particles layers-mask={Layers.TransparentFX}>
-        <planeGeometry args={[0.2, 0.2]} />
-        <composable.meshStandardMaterial color="hotpink" side={DoubleSide}>
+        <planeGeometry args={[0.1, 3.2]} />
+        <composable.meshStandardMaterial color="#555" side={DoubleSide}>
           <modules.Velocity
-            velocity={vec3(0, 10, 0)}
+            velocity={vec3(0, 100, 0)}
             time={particles.age}
             space="local"
           />
@@ -365,11 +365,11 @@ const CloudDebris = () => {
         </composable.meshStandardMaterial>
 
         <Emitter
-          rate={10}
+          rate={30}
           setup={({ position, rotation, scale }) => {
             particles.setLifetime(10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
-            scale.setScalar(between(5, 20))
+            scale.setScalar(between(1, 2))
           }}
         />
       </Particles>
