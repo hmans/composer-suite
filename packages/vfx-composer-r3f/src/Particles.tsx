@@ -12,11 +12,9 @@ import React, {
 } from "react"
 import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
+import { useFauxEffect } from "./lib/useFauxEffect"
 
-export type ParticlesProps = Omit<
-  InstancedMeshProps,
-  "material" | "args" | "ref"
-> & {
+export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args" | "ref"> & {
   ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: Material
@@ -40,14 +38,7 @@ export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    {
-      children,
-      maxParticles = 1000,
-      safetyBuffer = 100,
-      geometry,
-      material,
-      ...props
-    },
+    { children, maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
     ref
   ) => {
     const rerender = useRerender()
@@ -59,18 +50,18 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     the material for changes, and re-initialize the particles mesh when it does.
     We will find a cleaner way of doing this some time in the future.
     */
-    const currentMaterial = useRef<Material>(null!)
-    useFrame(() => {
-      if (!particles.current) return
-      if (!particles.current.material) return
 
-      const material = particles.current.material as Material
-      if (material !== currentMaterial.current) {
+    useFauxEffect(
+      /* The "dependency" callback. */
+      () => particles.current.material as Material,
+
+      /* The callback that will be invoked when the first callback's return value changes. */
+      (material) => {
+        if (!material) return
         const root = getShaderRootForMaterial(material)
         if (root) particles.current.setupParticles(root)
-        currentMaterial.current = material
       }
-    })
+    )
 
     /*
     We need to re-render this beautiful component once, because it's highly
@@ -89,9 +80,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
         ref={particles}
         {...props}
       >
-        <Context.Provider value={particles.current}>
-          {children}
-        </Context.Provider>
+        <Context.Provider value={particles.current}>{children}</Context.Provider>
       </vfxComposerParticles>
     )
   }
