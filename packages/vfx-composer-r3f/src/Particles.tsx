@@ -14,7 +14,10 @@ import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
 
-export type ParticlesProps = Omit<InstancedMeshProps, "material" | "args" | "ref"> & {
+export type ParticlesProps = Omit<
+  InstancedMeshProps,
+  "material" | "args" | "ref"
+> & {
   ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: Material
@@ -38,7 +41,14 @@ export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    { children, maxParticles = 1000, safetyBuffer = 100, geometry, material, ...props },
+    {
+      children,
+      maxParticles = 1000,
+      safetyBuffer = 100,
+      geometry,
+      material,
+      ...props
+    },
     ref
   ) => {
     const rerender = useRerender()
@@ -52,15 +62,13 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     */
 
     useFrameEffect(
-      /* The "dependency" callback. */
       () => particles.current.material as Material,
-
-      /* The callback that will be invoked when the first callback's return value changes. */
       (material) => {
         if (!material) return
         const root = getShaderRootForMaterial(material)
         if (root) particles.current.setupParticles(root)
-      }
+      },
+      -100
     )
 
     /*
@@ -80,7 +88,9 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
         ref={particles}
         {...props}
       >
-        <Context.Provider value={particles.current}>{children}</Context.Provider>
+        <Context.Provider value={particles.current}>
+          {children}
+        </Context.Provider>
       </vfxComposerParticles>
     )
   }
