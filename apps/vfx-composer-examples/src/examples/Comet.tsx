@@ -101,12 +101,14 @@ const Aura = ({
   tiling = vec2(3, 1),
   offset = vec2(0, 0),
   fullness = 0.5,
+  wobble = 0,
   ...props
 }: {
   gradient: GradientStops<"vec3">
   tiling?: Input<"vec2">
   offset?: Input<"vec2">
   fullness?: Input<"float">
+  wobble?: Input<"float">
 } & MeshProps) => {
   /* Load texture */
   const streamTexture = useTexture(streamTextureUrl)
@@ -127,6 +129,7 @@ const Aura = ({
         side={DoubleSide}
         depthWrite={false}
       >
+        {wobble && <modules.SurfaceWobble offset={time} amplitude={wobble} />}
         <modules.Gradient
           stops={gradient}
           start={0}
@@ -160,6 +163,7 @@ const Comet = (props: GroupProps) => (
           ]}
           tiling={vec2(3, 0.5)}
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          wobble={0.04}
         />
 
         <Aura
@@ -174,6 +178,7 @@ const Comet = (props: GroupProps) => (
           ]}
           tiling={vec2(3, 0.5)}
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          wobble={0.04}
         />
 
         <Aura
@@ -188,6 +193,7 @@ const Comet = (props: GroupProps) => (
           ]}
           tiling={vec2(3, 0.5)}
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          wobble={0.02}
         />
       </Float>
 
