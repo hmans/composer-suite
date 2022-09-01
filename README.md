@@ -11,7 +11,7 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 
 ### Shader Composer
 
-![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
+![three] ![react] ![vanilla]
 
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
 
@@ -38,7 +38,7 @@ const ShaderComposerExample = () => {
 
 ### Material Composer
 
-![vanilla](https://img.shields.io/badge/-vanilla-yellow?style=for-the-badge) ![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
+![three] ![react] ![vanilla]
 
 **[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
 
@@ -62,21 +62,19 @@ const MaterialComposerExample = () => (
 
 ### VFX Composer
 
-![vanilla](https://img.shields.io/badge/-vanilla-yellow?style=for-the-badge) ![react](https://img.shields.io/badge/-react-blue?style=for-the-badge) ![three]
-
-[three]: https://img.shields.io/badge/-three-brightgreen?style=for-the-badge
+![three] ![react] ![vanilla]
 
 _TODO_
 
 ### Timeline Composer
 
-![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
+![react]
 
 _TODO_
 
 ### Render Composer
 
-![react](https://img.shields.io/badge/-react-blue?style=for-the-badge)
+![three] ![react]
 
 _TODO_
 
@@ -108,3 +106,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [shader composer]: https://github.com/hmans/composer-suite/tree/main/packages/shader-composer
 [vfx composer]: https://github.com/hmans/composer-suite/tree/main/packages/vfx-composer
 [material composer]: https://github.com/hmans/composer-suite/tree/main/packages/material-composer
+[react]: https://img.shields.io/badge/-react-blue?style=for-the-badge
+[vanilla]: https://img.shields.io/badge/-vanilla-yellow?style=for-the-badge
+[three]: https://img.shields.io/badge/-three-brightgreen?style=for-the-badge
