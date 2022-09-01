@@ -51,7 +51,7 @@ export default function HelloWorld() {
       <sphereGeometry />
 
       {/* We can just splat the complete shader object into shaderMaterial: */}
-      <shaderMaterial {...shader} />
+      <shaderMaterial {...shader} key={Math.random()} />
     </mesh>
   )
 }
