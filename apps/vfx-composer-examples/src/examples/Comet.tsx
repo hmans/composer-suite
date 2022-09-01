@@ -53,6 +53,7 @@ const Comet = (props: GroupProps) => (
       <Float speed={340} rotationIntensity={0} floatIntensity={0.3}>
         <Rock />
 
+        {/* Inner Aura */}
         <Aura
           scale={[1.5, 3, 1.5]}
           position-y={1.8}
@@ -67,6 +68,7 @@ const Comet = (props: GroupProps) => (
           wobble={0.04}
         />
 
+        {/* Middle Aura */}
         <Aura
           scale={[1.6, 2, 1.6]}
           position-y={0.8}
@@ -82,6 +84,7 @@ const Comet = (props: GroupProps) => (
           wobble={0.04}
         />
 
+        {/* Outer Aura */}
         <Aura
           scale={[1.8, 1.5, 1.8]}
           position-y={0.4}
@@ -291,8 +294,9 @@ const Clouds = () => {
           opacity={0.02}
           transparent
           depthWrite={false}
-          color="#fff"
         >
+          <modules.Lifetime {...particles} />
+
           <modules.Billboard />
 
           <modules.Velocity
@@ -300,7 +304,6 @@ const Clouds = () => {
             time={particles.age}
             space="local"
           />
-          <modules.Lifetime {...particles} />
         </composable.meshStandardMaterial>
 
         <Emitter
