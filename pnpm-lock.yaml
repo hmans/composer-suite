@@ -96,7 +96,7 @@ importers:
       shader-composer-r3f: link:../../packages/shader-composer-r3f
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       three: 0.143.0
-      timeline-composer: 0.1.5_biqbaboplfbrettd7655fr4n2y
+      timeline-composer: link:../../packages/timeline-composer
       wouter: 2.8.0-alpha.2_react@18.2.0
     devDependencies:
       '@types/react': 18.0.18
@@ -264,7 +264,7 @@ importers:
       statery: 0.6.0-next.2_react@18.2.0
       three: 0.143.0
       three-stdlib: 2.14.3_three@0.143.0
-      timeline-composer: 0.1.5_biqbaboplfbrettd7655fr4n2y
+      timeline-composer: link:../../packages/timeline-composer
       vfx-composer: link:../../packages/vfx-composer
       vfx-composer-r3f: link:../../packages/vfx-composer-r3f
       wouter: 2.8.0-alpha.2_react@18.2.0
@@ -440,6 +440,14 @@ importers:
       shader-composer: link:../shader-composer
     devDependencies:
       three: 0.143.0
+
+  packages/timeline-composer:
+    specifiers:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    devDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   packages/vfx-composer:
     specifiers:
@@ -7856,16 +7864,6 @@ packages:
     dependencies:
       readable-stream: 1.0.34
       xtend: 4.0.2
-    dev: false
-
-  /timeline-composer/0.1.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-FQ1CHUbfv/lxAVrfS9+AE0nXUlW4wPaRXN2MBb3i5wKiHSbTxFJz5MsVScxcUiehcbb5X9XEAq+EAupHOuYYAQ==}
-    peerDependencies:
-      react: ^18.2.0
-      react-dom: ^18.2.0
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /tiny-inflate/1.0.3:
