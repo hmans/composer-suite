@@ -61,7 +61,7 @@ const NoiseMask = (
   fringe: Input<"float"> = 0.5
 ) => {
   const noise = NormalizePlusMinusOne(
-    PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Inverted(Time()))))
+    PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Inverted(time))))
   )
 
   return pipe(
@@ -141,7 +141,7 @@ const Comet = (props: GroupProps) => (
             [new Color("#f8f9fa").multiplyScalar(8), 1]
           ]}
           tiling={vec2(3, 0.5)}
-          offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          offset={vec2(0, Inverted(Add(time, UV.x)))}
           wobble={0.04}
         />
 
@@ -156,7 +156,7 @@ const Comet = (props: GroupProps) => (
             [new Color("#f8f9fa").multiplyScalar(8), 1]
           ]}
           tiling={vec2(3, 0.5)}
-          offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          offset={vec2(0, Inverted(Add(time, UV.x)))}
           wobble={0.04}
         />
 
@@ -171,7 +171,7 @@ const Comet = (props: GroupProps) => (
             [new Color("#ff006e").multiplyScalar(10), 1]
           ]}
           tiling={vec2(3, 0.5)}
-          offset={vec2(0, Inverted(Add(Time(), UV.x)))}
+          offset={vec2(0, Inverted(Add(time, UV.x)))}
           wobble={0.02}
         />
       </Float>
