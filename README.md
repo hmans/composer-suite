@@ -11,7 +11,7 @@
 
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
 
-```tsx
+```jsx
 const ShaderComposerExample = () => {
   const shader = useShader(() =>
     ShaderMaterialMaster({
@@ -37,7 +37,7 @@ const ShaderComposerExample = () => {
 
 **[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
 
-```tsx
+```jsx
 const MaterialComposerExample = () => (
   <mesh position-y={1.5} castShadow>
     <sphereGeometry />
@@ -63,7 +63,24 @@ _TODO_
 [![timeline-composer-thin](https://user-images.githubusercontent.com/1061/187868484-5cd3ebd6-7961-4fd3-aef0-eca22f79417a.jpg)](https://github.com/hmans/composer-suite/tree/main/packages/timeline-composer)  
 ![react]
 
-_TODO_
+**[Timeline Composer]** provides a small, but powerful collection of React components that can be used to orchestrate an animation sequence:
+
+```jsx
+<Lifetime seconds={5}>
+  <SmokeRing />
+  <Fireball />
+
+  <Delay seconds={0.3}>
+    <CameraShake decay />
+    <Fireball />
+
+    <Delay seconds={0.2}>
+      <Rocks />
+      <SmokeCloud />
+    </Delay>
+  </Delay>
+</Lifetime>
+```
 
 ### Render Composer
 
