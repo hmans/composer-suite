@@ -67,7 +67,7 @@ const MaterialComposerExample = () => (
 
 _TODO_
 
-### Timeline Composer
+### ![timeline-composer-thin](https://user-images.githubusercontent.com/1061/187868484-5cd3ebd6-7961-4fd3-aef0-eca22f79417a.jpg)
 
 ![react]
 
