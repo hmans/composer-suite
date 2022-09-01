@@ -119,7 +119,7 @@ const Aura = ({
           stop={1}
           position={heat.alpha}
         />
-        <modules.Alpha alpha={Mul(heat.alpha, NoiseMask(fullness))} />
+        <modules.Alpha alpha={Mul(0.5, Mul(heat.alpha, NoiseMask(fullness)))} />
       </composable.meshBasicMaterial>
     </mesh>
   )
@@ -136,8 +136,8 @@ const Comet = (props: GroupProps) => (
         <Rock />
 
         <Aura
-          scale={[1.5, 2.5, 1.5]}
-          position-y={1.2}
+          scale={[1.5, 3, 1.5]}
+          position-y={1.8}
           gradient={[
             [new Color("#d62828").multiplyScalar(1.5), 0],
             [new Color("#fb8b24").multiplyScalar(2), 0.5],
@@ -149,7 +149,7 @@ const Comet = (props: GroupProps) => (
         />
 
         <Aura
-          scale={[1.5, 2, 1.5]}
+          scale={[1.6, 2, 1.6]}
           position-y={0.8}
           fullness={0.7}
           gradient={[
@@ -163,14 +163,14 @@ const Comet = (props: GroupProps) => (
         />
 
         <Aura
-          scale={[1.8, 1.8, 1.8]}
+          scale={[1.8, 1.5, 1.8]}
           position-y={0.4}
           fullness={0.6}
           gradient={[
-            [new Color("#9e0059").multiplyScalar(1.5), 0],
-            [new Color("#ff0054").multiplyScalar(2), 0.5],
-            [new Color("#ff0054").multiplyScalar(2), 0.9],
-            [new Color("#ffbd00").multiplyScalar(8), 1]
+            [new Color("#3a86ff").multiplyScalar(1.5), 0],
+            [new Color("#8338ec").multiplyScalar(2), 0.5],
+            [new Color("#8338ec").multiplyScalar(2), 0.9],
+            [new Color("#ff006e").multiplyScalar(10), 1]
           ]}
           tiling={vec2(3, 0.5)}
           offset={vec2(0, Inverted(Add(Time(), UV.x)))}
