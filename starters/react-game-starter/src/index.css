@@ -1,0 +1,29 @@
+html,
+body {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	user-select: none;
+	background-color: black;
+	color: #ccc;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	font: 18px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #f2f2f2;
+}
+
+div#root {
+	height: 100vh;
+}
+
+canvas {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+}

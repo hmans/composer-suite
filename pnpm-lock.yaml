@@ -487,6 +487,57 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
 
+  starters/react-game-starter:
+    specifiers:
+      '@hmans/controlfreak': ^0.2.0
+      '@react-three/drei': ^9.25.3
+      '@react-three/fiber': ^8.6.2
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.143.1
+      '@vitejs/plugin-react': ^2.0.1
+      gsap: ^3.10.4
+      postprocessing: ^6.28.7
+      r3f-perf: ^6.4.4
+      randomish: ^0.1.4
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      shader-composer: ^0.3.3
+      shader-composer-r3f: ^0.2.0
+      shader-composer-toybox: ^0.1.2
+      statery: ^0.6.0-next.2
+      three: ^0.143.0
+      three-custom-shader-material: ^4.0.0
+      timeline-composer: ^0.1.3
+      typescript: ^4.8.2
+      vfx-composer: ^0.2.0-next.2
+      vite: ^3.0.9
+    dependencies:
+      '@hmans/controlfreak': 0.2.0
+      '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
+      '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
+      gsap: 3.11.0
+      postprocessing: 6.28.7_three@0.143.0
+      r3f-perf: 6.4.4_xpp3dri4oxduujsnf2oz2glohy
+      randomish: 0.1.4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      shader-composer: link:../../packages/shader-composer
+      shader-composer-r3f: link:../../packages/shader-composer-r3f
+      shader-composer-toybox: link:../../packages/shader-composer-toybox
+      statery: 0.6.0-next.2_react@18.2.0
+      three: 0.143.0
+      three-custom-shader-material: 4.0.0_zvfcrx6qs7myq74qxffhadzqgy
+      timeline-composer: link:../../packages/timeline-composer
+      vfx-composer: link:../../packages/vfx-composer
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.143.2
+      '@vitejs/plugin-react': 2.0.1_vite@3.0.9
+      typescript: 4.8.2
+      vite: 3.0.9
+
 packages:
 
   /@adobe/css-tools/4.0.1:
@@ -1981,6 +2032,12 @@ packages:
     dev: true
     optional: true
 
+  /@hmans/controlfreak/0.2.0:
+    resolution: {integrity: sha512-+Hk1rZZTiAXkL49goKLaDjX77ZHwACjeZTHny3bSvo+4ooj1XBMijb/kdr+UeToZ7DTr3yj/F+wXipdpduNdNw==}
+    dependencies:
+      '@hmans/signal': 0.1.8
+    dev: false
+
   /@hmans/r3f-animate/0.0.4_zvfcrx6qs7myq74qxffhadzqgy:
     resolution: {integrity: sha512-qD/q31EaohTqH7+kpXORyYBPxV8bopNr5otpDAnKvjpcxobQFMT5lbSJeyzRxAeJgekxkMarGs90GBT4T5wTmw==}
     peerDependencies:
@@ -2020,6 +2077,10 @@ packages:
       react-merge-refs: 2.0.1
       statery: 0.6.0-next.2_react@18.2.0
       three: 0.143.0
+    dev: false
+
+  /@hmans/signal/0.1.8:
+    resolution: {integrity: sha512-jhTe89A0Fzp0aRcQdB1F9Z1gDqFNFS5kZohbk/EiQqvcVJqfJ5XG0IsSEZiyAT7RuiLXupwbAn7MxXVL+iZZIA==}
     dev: false
 
   /@hmans/things/0.0.4_kr35nn26kgyu6kavah7kd3pzxa:
@@ -4986,6 +5047,10 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: false
 
+  /gsap/3.11.0:
+    resolution: {integrity: sha512-TV5aFGqXht+0o/CelnhCikSe3QGeG+q1XA/fyFFsMzesILHgWgFWIz0NuXIgcMaL5h7MG2l+j0BTupS5YyYkrw==}
+    dev: false
+
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
     engines: {node: '>=6'}
@@ -7033,7 +7098,6 @@ packages:
 
   /randomish/0.1.4:
     resolution: {integrity: sha512-Apk+kYQjTJPuvg2MvxhmUcdxPjkzUl02LjxOn8UjERW338PQKsn2lFVf/mjSd1UMcRea4eHWrnVzoCBo0wEfrw==}
-    dev: true
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
