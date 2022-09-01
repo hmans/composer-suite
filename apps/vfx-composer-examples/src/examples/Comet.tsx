@@ -1,46 +1,39 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
-import { GroupProps, MeshProps } from "@react-three/fiber"
+import { GroupProps } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
 import { Layers } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import {
   Abs,
   Add,
-  Div,
   float,
-  GradientStops,
   Input,
   InstanceID,
   Mul,
   Negate,
   NormalizePlusMinusOne,
-  OneMinus,
   pipe,
-  Saturate,
   Smoothstep,
   Sub,
-  Texture2D,
-  TilingUV,
   Time,
   UV,
   vec2,
   vec3
 } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
-import { Color, DoubleSide, RepeatWrapping } from "three"
+import { Color, DoubleSide } from "three"
 import {
   Emitter,
   Particles,
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
+import { Aura } from "./effects/Aura"
 import { Lava } from "./modules/Lava"
 import { smokeUrl } from "./textures"
-import streamTextureUrl from "./textures/stream.png"
 
-const time = Time()
+export const time = Time()
 
 export default function CometExample() {
   return (
@@ -48,71 +41,6 @@ export default function CometExample() {
       <CameraShake intensity={1.5} />
       <Comet scale={0.5} />
     </group>
-  )
-}
-
-const NoiseMask = (
-  threshold: Input<"float"> = 0.5,
-  fringe: Input<"float"> = 0.5
-) => {
-  const noise = NormalizePlusMinusOne(
-    PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Negate(time))))
-  )
-
-  return pipe(
-    Smoothstep(
-      Sub(threshold, Div(fringe, 2)),
-      Add(threshold, Div(fringe, 2)),
-      OneMinus(UV.y)
-    ),
-    (v) => Sub(v, Mul(noise, threshold)),
-    Saturate
-  )
-}
-
-const Aura = ({
-  gradient,
-  tiling = vec2(3, 1),
-  offset = vec2(0, 0),
-  fullness = 0.5,
-  wobble = 0,
-  ...props
-}: {
-  gradient: GradientStops<"vec3">
-  tiling?: Input<"vec2">
-  offset?: Input<"vec2">
-  fullness?: Input<"float">
-  wobble?: Input<"float">
-} & MeshProps) => {
-  /* Load texture */
-  const streamTexture = useTexture(streamTextureUrl)
-  streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
-
-  /* Create sampler2D uniform */
-  const streamSampler = useUniformUnit("sampler2D", streamTexture)
-
-  /* Sample texture */
-  const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
-
-  return (
-    <mesh {...props}>
-      <sphereGeometry args={[1, 32, 16]} />
-
-      <composable.meshBasicMaterial
-        transparent
-        side={DoubleSide}
-        depthWrite={false}
-      >
-        {wobble && <modules.SurfaceWobble offset={time} amplitude={wobble} />}
-        <modules.Gradient
-          stops={gradient}
-          start={0}
-          stop={1}
-          position={heat.alpha}
-        />
-        <modules.Alpha alpha={Mul(0.5, Mul(heat.alpha, NoiseMask(fullness)))} />
-      </composable.meshBasicMaterial>
-    </mesh>
   )
 }
 
