@@ -15,6 +15,27 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
 
+```tsx
+function HelloWorld() {
+  const shader = useShader(() =>
+    ShaderMaterialMaster({
+      color: pipe(
+        Vec3(new Color("red")),
+        (v) => Mix(v, new Color("white"), NormalizePlusMinusOne(Sin(Time()))),
+        (v) => Add(v, Fresnel())
+      )
+    })
+  )
+
+  return (
+    <mesh>
+      <sphereGeometry />
+      <shaderMaterial {...shader} />
+    </mesh>
+  )
+}
+```
+
 ### Material Composer
 
 ![vanilla](https://img.shields.io/badge/-vanilla-yellow) ![react](https://img.shields.io/badge/-react-blue)
