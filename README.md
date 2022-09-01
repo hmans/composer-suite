@@ -11,7 +11,7 @@ You've reacheded the **Composer Suite Monorepo**, home of [Shader Composer], [Ma
 
 ### Shader Composer
 
-![three] ![react] ![vanilla]
+![react] ![vanilla] ![three]
 
 **[Shader Composer]** takes a graph of nodes (here called "units") and compiles it to a working GLSL shader. It provides a library of ready-to-use shader units, but you can, of course, add your own. Parameterized sub-graphs of your shaders can be implemented as plain JavaScript functions.
 
@@ -38,7 +38,7 @@ const ShaderComposerExample = () => {
 
 ### Material Composer
 
-![three] ![react] ![vanilla]
+![react] ![vanilla] ![three]
 
 **[Material Composer]** provides a mechanism to hook into Three.js materials and customize their behavior using a sequence of material modules. Modules are higher-level implementations of Shader-based functionality, and implemented using [Shader Composer]. Material Composer provides a library of these material modules that are easy to extend and customize; but, as always, you can add your own.
 
@@ -62,7 +62,7 @@ const MaterialComposerExample = () => (
 
 ### VFX Composer
 
-![three] ![react] ![vanilla]
+![react] ![vanilla] ![three]
 
 _TODO_
 
@@ -74,7 +74,7 @@ _TODO_
 
 ### Render Composer
 
-![three] ![react]
+![react] ![three]
 
 _TODO_
 
