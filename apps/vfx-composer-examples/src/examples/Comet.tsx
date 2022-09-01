@@ -9,6 +9,7 @@ import {
   Div,
   float,
   GLSLType,
+  Gradient,
   GradientStops,
   Input,
   InstanceID,
@@ -39,9 +40,30 @@ import {
   useParticles
 } from "vfx-composer-r3f"
 import streamTextureUrl from "./textures/stream.png"
+import { Heat, HeatOptions } from "material-composer/units"
+
+const time = Time()
 
 const Inverted = <T extends GLSLType>(v: Input<T>) =>
   Unit(type(v), Mul(v, -1), { name: "Inverted Value" })
+
+export type LavaProps = HeatOptions
+
+export const LavaModule: ModuleFactory<LavaProps> = (props) => (state) => ({
+  ...state,
+  color: Gradient(
+    Heat(state.position, props),
+    [new Color("#03071E"), 0],
+    [new Color("#03071E"), 0.1],
+    [new Color("#DC2F02"), 0.5],
+    [new Color("#E85D04"), 0.6],
+    [new Color("#FFBA08").multiplyScalar(20), 0.65],
+    [new Color("white").multiplyScalar(20), 0.99],
+    [new Color("white").multiplyScalar(20), 1]
+  )
+})
+
+export const Lava = moduleComponent(LavaModule)
 
 export default function CometExample() {
   return (
@@ -188,10 +210,20 @@ const Comet = (props: GroupProps) => (
 )
 
 const Rock = () => (
-  <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 2 * dt)}>
+  <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 0.4 * dt)}>
     <mesh>
-      <icosahedronGeometry args={[1, 0]} />
-      <composable.meshStandardMaterial color="#732" />
+      <icosahedronGeometry args={[1, 3]} />
+
+      <composable.meshStandardMaterial>
+        <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
+
+        <Lava
+          offset={Mul(vec3(0.4, 0.8, 0.5), time)}
+          scale={0.3}
+          octaves={5}
+          power={1}
+        />
+      </composable.meshStandardMaterial>
     </mesh>
   </Animate>
 )
@@ -277,8 +309,8 @@ const RockSplitters = () => {
           time={particles.age}
         />
 
-        <modules.Velocity
-          velocity={vec3(0, -40, 0)}
+        <modules.Acceleration
+          force={vec3(0, -60, 0)}
           space="world"
           time={particles.age}
         />
@@ -287,11 +319,11 @@ const RockSplitters = () => {
       </composable.meshStandardMaterial>
 
       <Emitter
-        rate={40}
+        rate={10}
         setup={({ position, scale }) => {
           particles.setLifetime(10)
           position.setScalar(plusMinus(0.5))
-          scale.setScalar(between(0.2, 0.5))
+          scale.setScalar(between(0.1, 0.2))
         }}
       />
     </Particles>
@@ -300,6 +332,8 @@ const RockSplitters = () => {
 
 import { Layers, useRenderPipeline } from "r3f-stage"
 import { smokeUrl } from "./textures"
+import { ModuleFactory } from "material-composer"
+import { moduleComponent } from "material-composer-r3f/src/reactor"
 
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
@@ -360,7 +394,7 @@ const Clouds = () => {
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
-          opacity={0.05}
+          opacity={0.02}
           transparent
           depthWrite={false}
           color="#fff"
