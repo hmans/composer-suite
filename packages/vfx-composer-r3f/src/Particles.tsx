@@ -1,5 +1,5 @@
 import { useRerender } from "@hmans/use-rerender"
-import { extend, InstancedMeshProps } from "@react-three/fiber"
+import { extend, InstancedMeshProps, useFrame } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
@@ -54,17 +54,23 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     const particles = useRef<ParticlesImpl>(null!)
 
     /*
-    Every time this component re-renders, see if it needs to set up its
-    particle engine. This only happens when the material has changed.
-     */
-    useLayoutEffect(() => {
+    We need to be able to react to the particle mesh's material changing. Currently,
+    the best way of doing this is to use a custom per-frame callback that will monitor
+    the material for changes, and re-initialize the particles mesh when it does.
+    We will find a cleaner way of doing this some time in the future.
+    */
+    const currentMaterial = useRef<Material>(null!)
+    useFrame(() => {
       if (!particles.current) return
       if (!particles.current.material) return
 
       const material = particles.current.material as Material
-      const root = getShaderRootForMaterial(material)
-      if (root) particles.current.setupParticles(root)
-    }, [particles, particles.current?.material])
+      if (material !== currentMaterial.current) {
+        const root = getShaderRootForMaterial(material)
+        if (root) particles.current.setupParticles(root)
+        currentMaterial.current = material
+      }
+    })
 
     /*
     We need to re-render this beautiful component once, because it's highly
