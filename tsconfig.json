@@ -26,6 +26,7 @@
       "packages/shader-composer-r3f"
     ],
     "entryPointStrategy": "packages",
+    "customCss": "./docs.css",
     "out": "docs"
   }
 }

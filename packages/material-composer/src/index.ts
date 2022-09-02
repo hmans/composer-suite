@@ -27,9 +27,6 @@ export type ModuleState = {
  */
 export type Module = (state: ModuleState) => ModuleState
 
-/**
- * A Module Factory is a function that returns a Module.
- */
 export type ModuleFactory<P extends ModuleFactoryProps = {}> = (
   props: P
 ) => Module
