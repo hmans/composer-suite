@@ -135,11 +135,9 @@ const Sparks = () => {
   const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
 
   return (
-    <Particles>
+    <Particles maxParticles={200}>
       <planeGeometry args={[0.2, 0.2]} />
-      <composable.meshBasicMaterial side={DoubleSide} transparent>
-        <modules.Alpha alpha={Sub(1, particles.progress)} />
-
+      <composable.meshBasicMaterial side={DoubleSide}>
         <modules.Color
           color={pipe(
             id,
@@ -154,10 +152,11 @@ const Sparks = () => {
 
         <modules.Scale scale={Add(2, getNoise(123))} />
 
+        <modules.SurfaceWobble offset={vec3(time, id, 0)} amplitude={0.5} />
+
         <modules.Translate
           offset={vec3(Mul(getNoise(99), 5), getNoise(67), getNoise(567))}
         />
-        <modules.Billboard />
 
         <modules.Velocity
           velocity={vec3(
@@ -173,9 +172,9 @@ const Sparks = () => {
       </composable.meshBasicMaterial>
 
       <Emitter
-        rate={180}
+        rate={50}
         setup={({ position }) => {
-          particles.setLifetime(between(0.2, 2))
+          particles.setLifetime(4)
           const theta = plusMinus(Math.PI)
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
         }}
@@ -190,7 +189,7 @@ const RockSplitters = () => {
   const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
 
   return (
-    <Particles>
+    <Particles maxParticles={100} safetyBuffer={10}>
       <icosahedronGeometry />
 
       <composable.meshStandardMaterial color="#222">
@@ -239,7 +238,7 @@ const SmokeTrail = () => {
 
   return (
     <group>
-      <Particles>
+      <Particles maxParticles={150} safetyBuffer={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -287,7 +286,7 @@ const Clouds = () => {
 
   return (
     <group>
-      <Particles>
+      <Particles maxParticles={100} safetyBuffer={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
