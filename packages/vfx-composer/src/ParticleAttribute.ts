@@ -36,7 +36,7 @@ export const ParticleAttribute = <
 
     isParticleAttribute: true,
 
-    setupMesh: ({ geometry, count }: InstancedMesh) => {
+    setupMesh: ({ geometry, capacity, safetyCapacity }: Particles) => {
       const itemSize =
         type === "float"
           ? 1
@@ -48,7 +48,10 @@ export const ParticleAttribute = <
           ? 4
           : 4
 
-      geometry.setAttribute(name, makeAttribute(count, itemSize))
+      geometry.setAttribute(
+        name,
+        makeAttribute(capacity + safetyCapacity, itemSize)
+      )
     },
 
     get value() {
