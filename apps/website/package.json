@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "clean:typedoc": "rimraf docs/reference/",
+    "start": "pnpm clean:typedoc && docusaurus start",
+    "build": "pnpm clean:typedoc && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
