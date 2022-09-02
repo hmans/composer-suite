@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[fun.ts:10](https://github.com/hmans/composer-suite/blob/bea366aa/packages/shader-composer/src/fun.ts#L10)
+[fun.ts:10](https://github.com/hmans/composer-suite/blob/19ecb7d3/packages/shader-composer/src/fun.ts#L10)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[fun.ts:25](https://github.com/hmans/composer-suite/blob/bea366aa/packages/shader-composer/src/fun.ts#L25)
+[fun.ts:25](https://github.com/hmans/composer-suite/blob/19ecb7d3/packages/shader-composer/src/fun.ts#L25)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 #### Defined in
 
-[fun.ts:5](https://github.com/hmans/composer-suite/blob/bea366aa/packages/shader-composer/src/fun.ts#L5)
+[fun.ts:5](https://github.com/hmans/composer-suite/blob/19ecb7d3/packages/shader-composer/src/fun.ts#L5)
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-[fun.ts:20](https://github.com/hmans/composer-suite/blob/bea366aa/packages/shader-composer/src/fun.ts#L20)
+[fun.ts:20](https://github.com/hmans/composer-suite/blob/19ecb7d3/packages/shader-composer/src/fun.ts#L20)
 
 ___
 
@@ -225,4 +225,4 @@ ___
 
 #### Defined in
 
-[fun.ts:15](https://github.com/hmans/composer-suite/blob/bea366aa/packages/shader-composer/src/fun.ts#L15)
+[fun.ts:15](https://github.com/hmans/composer-suite/blob/19ecb7d3/packages/shader-composer/src/fun.ts#L15)
