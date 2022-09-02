@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
 import { Layer, LayerArgs } from "material-composer"
-import { composable, LayerProps, moduleComponent } from "material-composer-r3f"
+import { composable, moduleComponent } from "material-composer-r3f"
 import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
   Add,
