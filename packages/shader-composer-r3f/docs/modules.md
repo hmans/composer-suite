@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[shader-composer-r3f/src/hooks.ts:12](https://github.com/hmans/composer-suite/blob/cba622ee/packages/shader-composer-r3f/src/hooks.ts#L12)
+[shader-composer-r3f/src/hooks.ts:12](https://github.com/hmans/composer-suite/blob/be64faec/packages/shader-composer-r3f/src/hooks.ts#L12)
 
 ___
 
@@ -62,4 +62,4 @@ ___
 
 #### Defined in
 
-[shader-composer-r3f/src/hooks.ts:26](https://github.com/hmans/composer-suite/blob/cba622ee/packages/shader-composer-r3f/src/hooks.ts#L26)
+[shader-composer-r3f/src/hooks.ts:26](https://github.com/hmans/composer-suite/blob/be64faec/packages/shader-composer-r3f/src/hooks.ts#L26)
