@@ -131,14 +131,12 @@ const config = {
   plugins: [
     [
       "docusaurus-plugin-typedoc",
+
+      // Plugin / TypeDoc options
       {
-        name: "Composer Suite",
-        entryPoints: [
-          "../../packages/shader-composer",
-          "../../packages/material-composer",
-          "../../packages/vfx-composer"
-        ],
-        entryPointStrategy: "packages"
+        // entryPoints: ["../../shader-composer/src/index.ts"],
+        // tsconfig: "../../tsconfig.json"
+        sidebar: { fullNames: true }
       }
     ]
   ]

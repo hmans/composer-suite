@@ -11,4 +11,3 @@ custom_edit_url: null
 
 - [Material Composer](modules/Material_Composer.md)
 - [Shader Composer](modules/Shader_Composer.md)
-- [VFX Composer](modules/VFX_Composer.md)

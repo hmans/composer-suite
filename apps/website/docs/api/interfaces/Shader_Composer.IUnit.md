@@ -21,7 +21,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/shader-composer/src/units.ts:194](https://github.com/hmans/composer-suite/blob/3226b513/packages/shader-composer/src/units.ts#L194)
+[shader-composer/src/units.ts:194](https://github.com/hmans/composer-suite/blob/c98d7ee3/packages/shader-composer/src/units.ts#L194)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[packages/shader-composer/src/units.ts:195](https://github.com/hmans/composer-suite/blob/3226b513/packages/shader-composer/src/units.ts#L195)
+[shader-composer/src/units.ts:195](https://github.com/hmans/composer-suite/blob/c98d7ee3/packages/shader-composer/src/units.ts#L195)
 
 ___
 
@@ -41,4 +41,4 @@ ___
 
 #### Defined in
 
-[packages/shader-composer/src/units.ts:196](https://github.com/hmans/composer-suite/blob/3226b513/packages/shader-composer/src/units.ts#L196)
+[shader-composer/src/units.ts:196](https://github.com/hmans/composer-suite/blob/c98d7ee3/packages/shader-composer/src/units.ts#L196)
