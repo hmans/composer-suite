@@ -1,5 +1,13 @@
 # shader-composer
 
+## 0.3.4
+
+### Patch Changes
+
+- 8ca879b: New unit: `Negate(v)`. Returns the negated value of `v`. Equivalent to `v * -1`.
+- 8ca879b: Added the `GlobalTime` unit, which is a library-provided instance of `Time()` that can be used anywhere where a time value is needed, but the absolute value of the time is not important. Useful for synchronizing effects, and as a fallback default value for your own unit implementations that allow the user to pass in a time value.
+- 82ad766: When reusing a unit across multiple shaders/materials, it was possible to unintentionally call the unit's `update` callback more than once per frame (a clasically horrible thing for any `Time` uniform units re-used across multiple materials, ouch!). This is now fixed; we now make sure that a unit's `update` callback is only ever called once per frame, not matter how often the unit is used. (Fixes [#220](https://github.com/hmans/composer-suite/issues/220))
+
 ## 0.3.3
 
 ### Patch Changes
