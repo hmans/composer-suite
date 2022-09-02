@@ -40,17 +40,7 @@ const Context = createContext<ParticlesImpl | null>(null)
 export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
-  (
-    {
-      children,
-      capacity = 1000,
-      safetyBuffer = 100,
-      geometry,
-      material,
-      ...props
-    },
-    ref
-  ) => {
+  ({ children, capacity, safetyBuffer, geometry, material, ...props }, ref) => {
     const rerender = useRerender()
     const particles = useRef<ParticlesImpl>(null!)
 
