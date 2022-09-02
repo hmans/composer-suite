@@ -1,5 +1,13 @@
 # vfx-composer
 
+## 0.2.2
+
+### Patch Changes
+
+- 6fbe89d: **Breaking Change:** The `maxParticles` prop of `Particles` and `<Particles>` has been renamed to `capacity`. Also, `safetyBuffer` has been renamed to `safetyCapacity`, and will now default to 10% of the capacity unless specified otherwise. (Fixes #172)
+- Updated dependencies [ca3867d]
+  - material-composer@0.1.3
+
 ## 0.2.1
 
 ### Patch Changes

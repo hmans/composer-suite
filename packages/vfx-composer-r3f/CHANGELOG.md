@@ -1,5 +1,26 @@
 # vfx-composer-r3f
 
+## 0.2.2
+
+### Patch Changes
+
+- 6fbe89d: **Breaking Change:** The `maxParticles` prop of `Particles` and `<Particles>` has been renamed to `capacity`. Also, `safetyBuffer` has been renamed to `safetyCapacity`, and will now default to 10% of the capacity unless specified otherwise. (Fixes #172)
+- 020971e: The `rate` prop of `<Emitter>` can now be set to a function that returns a rate. Useful for changing the rate based on time (or other outside factors.)
+
+  ```jsx
+  const clock = useThree((s) => s.clock)
+
+  <Emitter
+    rate={() => 50 + Math.sin(clock.elapsedTime * 2) * 30}
+    setup={({ position }) => {
+      /* ... */
+    }}
+  />
+  ```
+
+- Updated dependencies [6fbe89d]
+  - vfx-composer@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
