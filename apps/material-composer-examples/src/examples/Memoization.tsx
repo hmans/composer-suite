@@ -29,7 +29,7 @@ export default function MemoizationExample() {
 
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
-        <MyMaterial mix={mix} />
+        <MyMemoizedMaterial mix={mix} />
       </mesh>
 
       <Description>
@@ -42,7 +42,7 @@ export default function MemoizationExample() {
   )
 }
 
-const MyMaterial = memo(({ mix }: { mix: Input<"float"> }) => {
+const MyMaterial = ({ mix }: { mix: Input<"float"> }) => {
   const time = useMemo(() => Time(), [])
 
   return (
@@ -58,4 +58,6 @@ const MyMaterial = memo(({ mix }: { mix: Input<"float"> }) => {
       </Layer>
     </composable.meshStandardMaterial>
   )
-})
+}
+
+const MyMemoizedMaterial = memo(MyMaterial)
