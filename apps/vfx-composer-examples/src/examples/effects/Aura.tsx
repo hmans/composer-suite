@@ -28,48 +28,9 @@ import { PSRDNoise2D } from "shader-composer-toybox"
 import { DoubleSide, RepeatWrapping } from "three"
 import streamTextureUrl from "../textures/stream.png"
 
-export const Aura = ({
-  gradient,
-  tiling = vec2(3, 1),
-  offset = vec2(0, 0),
-  fullness = 0.5,
-  wobble = 0,
-  time = GlobalTime,
-  ...props
-}: AuraArgs & MeshProps) => {
-  /* Load texture */
-  const streamTexture = useTexture(streamTextureUrl)
-  streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
-
-  /* Create a uniform that holds the texture */
-  const streamSampler = useUniformUnit("sampler2D", streamTexture)
-
-  return (
-    <mesh {...props}>
-      <sphereGeometry args={[1, 32, 16]} />
-
-      <composable.meshBasicMaterial
-        transparent
-        side={DoubleSide}
-        depthWrite={false}
-      >
-        <AuraLayer
-          streamSampler={streamSampler}
-          gradient={gradient}
-          wobble={wobble}
-          time={time}
-          tiling={tiling}
-          offset={offset}
-          fullness={fullness}
-        />
-      </composable.meshBasicMaterial>
-    </mesh>
-  )
-}
-
-type AuraArgs = {
+export type AuraArgs = {
   gradient: GradientStops<"vec3">
-  streamSampler: Unit<"sampler2D">
+  texture: Unit<"sampler2D">
   tiling?: Input<"vec2">
   offset?: Input<"vec2">
   fullness?: Input<"float">
@@ -77,9 +38,9 @@ type AuraArgs = {
   time?: Input<"float">
 } & LayerArgs
 
-const AuraLayerModule = ({
+export const AuraLayerModule = ({
   gradient,
-  streamSampler,
+  texture,
   wobble = 0,
   fullness = 0.5,
   tiling = vec2(3, 1),
@@ -87,7 +48,7 @@ const AuraLayerModule = ({
   time = GlobalTime,
   ...layerArgs
 }: AuraArgs) => {
-  const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
+  const heat = Texture2D(texture, TilingUV(UV, tiling, offset))
 
   return Layer({
     ...layerArgs,
@@ -106,7 +67,30 @@ const AuraLayerModule = ({
   })
 }
 
-const AuraLayer = moduleComponent(AuraLayerModule)
+export const AuraLayer = moduleComponent(AuraLayerModule)
+
+export const Aura = ({ ...props }: AuraArgs & MeshProps) => {
+  /* Load texture */
+  const streamTexture = useTexture(streamTextureUrl)
+  streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
+
+  /* Create a uniform that holds the texture */
+  const textureUniform = useUniformUnit("sampler2D", streamTexture)
+
+  return (
+    <mesh {...props}>
+      <sphereGeometry args={[1, 32, 16]} />
+
+      <composable.meshBasicMaterial
+        transparent
+        side={DoubleSide}
+        depthWrite={false}
+      >
+        <AuraLayer {...props} texture={textureUniform} />
+      </composable.meshBasicMaterial>
+    </mesh>
+  )
+}
 
 export const NoiseMask = (
   threshold: Input<"float"> = 0.5,
