@@ -17,18 +17,5 @@
     "**/node_modules/**/*",
     "**/*.spec.ts",
     "**/*.test.ts"
-  ],
-  "typedocOptions": {
-    "name": "Composer Suite",
-    "entryPoints": [
-      "packages/shader-composer/src/index.ts",
-      "packages/material-composer/src/index.ts",
-      "packages/material-composer/src/modules/",
-      "packages/material-composer/src/units/",
-      "packages/shader-composer-r3f/src/index.ts"
-    ],
-    "entryPointStrategy": "resolve",
-    "customCss": "./docs.css",
-    "out": "docs"
-  }
+  ]
 }
