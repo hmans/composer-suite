@@ -5,6 +5,7 @@ import { Description } from "r3f-stage"
 import { useEffect, useRef } from "react"
 import {
   compileShader,
+  GlobalTime,
   Mul,
   NormalizePlusMinusOne,
   Sin,
@@ -31,7 +32,7 @@ const vanillaCode = (
   scene: Scene,
   renderer: WebGLRenderer
 ) => {
-  const time = Time()
+  const time = GlobalTime
 
   /* Create a material instance */
   const material = new MeshStandardMaterial({

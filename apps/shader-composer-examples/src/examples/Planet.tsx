@@ -4,6 +4,7 @@ import {
   CustomShaderMaterialMaster,
   Float,
   Fresnel,
+  GlobalTime,
   Input,
   Mix,
   Mul,
@@ -54,8 +55,9 @@ function Planet() {
       (v) => Add(v, 0.02)
     )
 
-    const applyColor = (color: Color, height: Input<"float">) => (v: Input<"vec3">) =>
-      Mix(v, color, Step(height, totalHeight))
+    const applyColor =
+      (color: Color, height: Input<"float">) => (v: Input<"vec3">) =>
+        Mix(v, color, Step(height, totalHeight))
 
     return CustomShaderMaterialMaster({
       position: pipe(
@@ -86,7 +88,7 @@ function Planet() {
 
 function Atmosphere() {
   const shader = useShader(() => {
-    const time = Time()
+    const time = GlobalTime
 
     const cloudSpeed = 0.02
     const cloudThreshold = 0.5
@@ -123,7 +125,7 @@ function Atmosphere() {
   )
 }
 
-export default function() {
+export default function () {
   return (
     <>
       <Planet />

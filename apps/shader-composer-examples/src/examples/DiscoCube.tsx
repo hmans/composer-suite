@@ -7,6 +7,7 @@ import {
   Div,
   Floor,
   Fract,
+  GlobalTime,
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
@@ -23,7 +24,7 @@ export default function DiscoCube() {
   const mesh = useRef<Mesh>(null!)
 
   const shader = useShader(() => {
-    const time = Time()
+    const time = GlobalTime
     const resolution = 0.25
 
     const noise = pipe(

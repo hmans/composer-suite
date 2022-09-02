@@ -7,6 +7,7 @@ import {
   Add,
   Clamp,
   CustomShaderMaterialMaster,
+  GlobalTime,
   Input,
   Mix,
   Mul,
@@ -19,7 +20,6 @@ import {
   Smoothstep,
   Step,
   Sub,
-  Time,
   vec2,
   VertexNormal,
   VertexPosition
@@ -70,7 +70,7 @@ const Water = (props: MeshProps) => {
 
   const shader = useShader(() => {
     /* Get a time uniform, always useful for time-based effects! */
-    const time = Time()
+    const time = GlobalTime
 
     /* Calculate some overlapping noise. We're going to use this
     to change the geometry original normals and scene color UVs to
@@ -137,7 +137,11 @@ const Water = (props: MeshProps) => {
     return CustomShaderMaterialMaster({
       /* Lerp between the new and the original position based on
       the value in the calmness variable. */
-      position: Mix(Waves(VertexPosition, VertexNormal, time), VertexPosition, calmness),
+      position: Mix(
+        Waves(VertexPosition, VertexNormal, time),
+        VertexPosition,
+        calmness
+      ),
 
       diffuseColor: pipe(
         /* Start with the "shallow water" color. */
@@ -160,9 +164,17 @@ const Water = (props: MeshProps) => {
   }, [])
 
   return (
-    <mesh {...props} layers-mask={Layers.TransparentFX} rotation-x={-Math.PI / 2}>
+    <mesh
+      {...props}
+      layers-mask={Layers.TransparentFX}
+      rotation-x={-Math.PI / 2}
+    >
       <planeGeometry args={[100, 100, 137, 137]} />
-      <Custom.MeshStandardMaterial metalness={0.5} roughness={0.1} {...shader} />
+      <Custom.MeshStandardMaterial
+        metalness={0.5}
+        roughness={0.1}
+        {...shader}
+      />
     </mesh>
   )
 }

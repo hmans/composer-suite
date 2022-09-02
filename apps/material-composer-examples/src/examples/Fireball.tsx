@@ -2,7 +2,7 @@ import { ModuleFactory } from "material-composer"
 import { composable, moduleComponent, modules } from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import { Description } from "r3f-stage"
-import { Gradient, Mul, Time, vec3 } from "shader-composer"
+import { GlobalTime, Gradient, Mul, Time, vec3 } from "shader-composer"
 import * as THREE from "three"
 
 export type LavaProps = HeatOptions
@@ -25,7 +25,7 @@ export const LavaModule: ModuleFactory<LavaProps> = (props) => (state) => ({
 export const Lava = moduleComponent(LavaModule)
 
 export default function FireballExample() {
-  const time = Time()
+  const time = GlobalTime
 
   return (
     <group position-y={1.5}>

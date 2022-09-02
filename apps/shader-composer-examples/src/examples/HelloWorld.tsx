@@ -3,6 +3,7 @@ import {
   $,
   Add,
   Fresnel,
+  GlobalTime,
   Mix,
   NormalizePlusMinusOne,
   pipe,
@@ -29,7 +30,7 @@ export default function HelloWorld() {
   /* Let's create the shader itself! */
   const shader = useShader(() => {
     /* Create a time unit, always useful! */
-    const time = Time()
+    const time = GlobalTime
 
     return ShaderMaterialMaster({
       /* Set the color as a time-based mix between the two colors. */

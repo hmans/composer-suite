@@ -4,11 +4,11 @@ import { between, insideSphere, plusMinus, upTo } from "randomish"
 import {
   Add,
   float,
+  GlobalTime,
   InstanceID,
   Mul,
   pipe,
   Sin,
-  Time,
   vec3
 } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
@@ -56,7 +56,7 @@ const Blobs = (props: ParticlesProps) => (
 )
 
 const BlobMaterial = () => {
-  const time = Time()
+  const time = GlobalTime
 
   return (
     <composable.meshStandardMaterial
@@ -79,7 +79,7 @@ const BlobMaterial = () => {
 }
 
 const BlobDepthMaterial = () => {
-  const time = Time()
+  const time = GlobalTime
 
   return (
     <composable.meshDepthMaterial depthPacking={RGBADepthPacking}>

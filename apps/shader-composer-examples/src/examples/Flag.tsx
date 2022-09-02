@@ -2,6 +2,7 @@ import { useTexture } from "@react-three/drei"
 import {
   Add,
   CustomShaderMaterialMaster,
+  GlobalTime,
   Mul,
   Sin,
   Time,
@@ -18,7 +19,7 @@ export default function Flag() {
   const texture = useTexture(textureUrl)
 
   const shader = useShader(() => {
-    const time = Time()
+    const time = GlobalTime
 
     return CustomShaderMaterialMaster({
       position: vec3(
@@ -32,7 +33,11 @@ export default function Flag() {
   return (
     <mesh>
       <planeGeometry args={[4, 2, 40, 20]} />
-      <Custom.MeshStandardMaterial map={texture} side={DoubleSide} {...shader} />
+      <Custom.MeshStandardMaterial
+        map={texture}
+        side={DoubleSide}
+        {...shader}
+      />
     </mesh>
   )
 }

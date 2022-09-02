@@ -2,13 +2,13 @@ import { Environment } from "@react-three/drei"
 import {
   add,
   CustomShaderMaterialMaster,
+  GlobalTime,
   Input,
   Int,
   Mul,
   pipe,
   Remap,
   SplitVector3,
-  Time,
   vec2
 } from "shader-composer"
 import { Custom, useShader } from "shader-composer-r3f"
@@ -20,7 +20,7 @@ const NormalizeNoise = (v: Input<"float">) => Remap(v, -1, 1, 0, 1)
 function Water() {
   const shader = useShader(() => {
     const diffuseColor = new Color("#acd")
-    const time = Time()
+    const time = GlobalTime
 
     const { position, normal } = Displacement((v) => {
       const [x, y, z] = SplitVector3(v)

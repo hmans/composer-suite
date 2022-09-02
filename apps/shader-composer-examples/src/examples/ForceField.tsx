@@ -6,6 +6,7 @@ import {
   Add,
   CustomShaderMaterialMaster,
   Fresnel,
+  GlobalTime,
   Mul,
   OneMinus,
   PerspectiveDepth,
@@ -48,9 +49,12 @@ export default function ForceField() {
   /* Define our shader */
   const shader = useShader(() => {
     /* Define a time-based texture offset, and sample the force field texture. */
-    const time = Time()
+    const time = GlobalTime
     const textureOffset = vec2(Mul(time, 0.05), Mul(time, 0.03))
-    const texture = Texture2D(sampler2D, TilingUV(UV, vec2(4, 2), textureOffset))
+    const texture = Texture2D(
+      sampler2D,
+      TilingUV(UV, vec2(4, 2), textureOffset)
+    )
 
     /* Get the depth of the current fragment. */
     const sceneDepth = PerspectiveDepth(ScreenUV, depthSampler)
@@ -81,7 +85,11 @@ export default function ForceField() {
       <Float floatIntensity={1} speed={2}>
         <mesh layers-mask={Layers.TransparentFX}>
           <icosahedronGeometry args={[1.3, 8]} />
-          <Custom.MeshStandardMaterial transparent depthWrite={false} {...shader} />
+          <Custom.MeshStandardMaterial
+            transparent
+            depthWrite={false}
+            {...shader}
+          />
         </mesh>
 
         <pointLight

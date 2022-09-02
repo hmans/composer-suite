@@ -4,7 +4,7 @@ import * as Modules from "material-composer/modules"
 import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { compileShader, OneMinus, Time } from "shader-composer"
+import { compileShader, GlobalTime, OneMinus } from "shader-composer"
 import {
   BoxGeometry,
   Color,
@@ -35,7 +35,7 @@ const vanillaCode = (
   }
 
   /* Create a Lifetime module. */
-  const time = Time()
+  const time = GlobalTime
   const particleUnits = createParticleUnits(variables.lifetime, time)
 
   /*

@@ -3,6 +3,7 @@ import { useControls } from "leva"
 import {
   Add,
   CustomShaderMaterialMaster,
+  GlobalTime,
   Mul,
   NormalizePlusMinusOne,
   pipe,
@@ -33,7 +34,7 @@ export default function Fireball() {
   /* Create our shader. */
   const shader = useShader(() => {
     /* Create a time unit. Always useful! */
-    const time = Time()
+    const time = GlobalTime
 
     /* Create a unit with a displacement factor calculated from 3D noise. */
     const displacement = pipe(
