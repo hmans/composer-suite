@@ -14,6 +14,11 @@
     "LICENSE",
     "README.md"
   ],
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "VFX Composer"
+  },
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
