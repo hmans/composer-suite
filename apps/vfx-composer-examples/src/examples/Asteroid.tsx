@@ -1,6 +1,6 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, useThree } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus } from "randomish"
 import {
@@ -133,6 +133,7 @@ const Sparks = () => {
   const particles = useParticles()
   const id = float(InstanceID, { varying: true })
   const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
+  const clock = useThree((s) => s.clock)
 
   return (
     <Particles capacity={200}>
@@ -172,7 +173,7 @@ const Sparks = () => {
       </composable.meshBasicMaterial>
 
       <Emitter
-        rate={50}
+        rate={() => 50 + Math.sin(clock.elapsedTime * 2) * 30}
         setup={({ position }) => {
           particles.setLifetime(4)
           const theta = plusMinus(Math.PI)
