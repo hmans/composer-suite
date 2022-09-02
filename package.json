@@ -1,5 +1,5 @@
 {
-  "name": "vfx-composer-monorepo",
+  "name": "composer-suite-monorepo",
   "private": true,
   "version": "1.0.0",
   "main": "index.js",

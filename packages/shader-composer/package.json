@@ -9,6 +9,11 @@
   "version": "0.3.4",
   "main": "dist/shader-composer.cjs.js",
   "module": "dist/shader-composer.esm.js",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Shader Composer"
+  },
   "preconstruct": {
     "entrypoints": [
       "index.ts",

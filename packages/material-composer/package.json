@@ -23,6 +23,11 @@
       "modules/index.ts"
     ]
   },
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Material Composer"
+  },
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {

@@ -12,7 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated documentation
 /packages/**/docs/
+/docs
 
 # Editor directories and files
 .vscode/*
