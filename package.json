@@ -27,8 +27,7 @@
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:release": "pnpm ci && pnpm changeset publish",
-    "typedoc": "pnpm -r typedoc"
+    "ci:release": "pnpm ci && pnpm changeset publish"
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
@@ -51,7 +50,6 @@
     "ts-jest": "^28.0.8",
     "tslib": "^2.4.0",
     "typedoc": "^0.23.13",
-    "typedoc-plugin-markdown": "^3.13.5",
     "typescript": "^4.8.2"
   },
   "stackblitz": {

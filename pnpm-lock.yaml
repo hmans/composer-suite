@@ -24,7 +24,6 @@ importers:
       ts-jest: ^28.0.8
       tslib: ^2.4.0
       typedoc: ^0.23.13
-      typedoc-plugin-markdown: ^3.13.5
       typescript: ^4.8.2
     dependencies:
       '@babel/core': 7.18.13
@@ -47,7 +46,6 @@ importers:
       ts-jest: 28.0.8_pbchm4a4dosw4zu4viyh3ll6ca
       tslib: 2.4.0
       typedoc: 0.23.13_typescript@4.8.2
-      typedoc-plugin-markdown: 3.13.5_typedoc@0.23.13
       typescript: 4.8.2
 
   apps/material-composer-examples:
@@ -5069,19 +5067,6 @@ packages:
     resolution: {integrity: sha512-TV5aFGqXht+0o/CelnhCikSe3QGeG+q1XA/fyFFsMzesILHgWgFWIz0NuXIgcMaL5h7MG2l+j0BTupS5YyYkrw==}
     dev: false
 
-  /handlebars/4.7.7:
-    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
-    engines: {node: '>=0.4.7'}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.6
-      neo-async: 2.6.2
-      source-map: 0.6.1
-      wordwrap: 1.0.0
-    optionalDependencies:
-      uglify-js: 3.17.0
-    dev: false
-
   /hard-rejection/2.1.0:
     resolution: {integrity: sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==}
     engines: {node: '>=6'}
@@ -6659,10 +6644,6 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: false
 
-  /neo-async/2.6.2:
-    resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
-    dev: false
-
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: false
@@ -8180,15 +8161,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /typedoc-plugin-markdown/3.13.5_typedoc@0.23.13:
-    resolution: {integrity: sha512-E6bSn96MtiWTU4fr9wddD7d2T91XTtONj4Jdx2TZsjdAg/ig4ft2ECet/rNbBOiyw9MC0VO9toC/yvI8ZcY2PQ==}
-    peerDependencies:
-      typedoc: '>=0.23.0'
-    dependencies:
-      handlebars: 4.7.7
-      typedoc: 0.23.13_typescript@4.8.2
-    dev: false
-
   /typedoc/0.23.13_typescript@4.8.2:
     resolution: {integrity: sha512-47VgWyZ5Q8g5dtJxjIHvFqX7ZD+YQRLAFRhLjt6v9KW0//feHtLUrbukHkKcvQuua1xQtdvkQ17fCjmF7qLXlg==}
     engines: {node: '>= 14.14'}
@@ -8207,14 +8179,6 @@ packages:
     resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-
-  /uglify-js/3.17.0:
-    resolution: {integrity: sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -8483,10 +8447,6 @@ packages:
   /word-wrap/1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
-    dev: false
-
-  /wordwrap/1.0.0:
-    resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
     dev: false
 
   /wouter/2.8.0-alpha.2_react@18.2.0:

@@ -27,9 +27,6 @@
   ],
   "license": "MIT",
   "sideEffects": false,
-  "scripts": {
-    "typedoc": "typedoc --name 'Shader Composer' --out docs src/index.ts src/fun.ts"
-  },
   "devDependencies": {
     "three": "^0.143.0"
   },
