@@ -21,7 +21,7 @@ export type ParticlesProps = Omit<
   ref?: Ref<ParticlesImpl>
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: Material
-  maxParticles?: number
+  capacity?: number
   safetyBuffer?: number
 }
 
@@ -43,7 +43,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
     {
       children,
-      maxParticles = 1000,
+      capacity = 1000,
       safetyBuffer = 100,
       geometry,
       material,
@@ -84,7 +84,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     return (
       <vfxComposerParticles
-        args={[geometry, material, maxParticles, safetyBuffer]}
+        args={[geometry, material, capacity, safetyBuffer]}
         ref={particles}
         {...props}
       >

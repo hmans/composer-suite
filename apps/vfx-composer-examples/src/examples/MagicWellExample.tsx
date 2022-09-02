@@ -15,7 +15,7 @@ export default function MagicWellExample() {
 
   return (
     <FlatStage>
-      <Particles maxParticles={5_000}>
+      <Particles capacity={5_000}>
         <planeGeometry args={[0.15, 2]} />
 
         <composable.meshStandardMaterial
