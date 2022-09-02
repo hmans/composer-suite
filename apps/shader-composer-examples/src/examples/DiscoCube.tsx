@@ -1,10 +1,11 @@
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
+import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/function"
 import { useRef } from "react"
 import {
   Add,
-  CustomShaderMaterialMaster,
   Div,
   Floor,
   Fract,
@@ -13,10 +14,9 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   Sub,
-  Time,
   VertexPosition
 } from "shader-composer"
-import { Custom, useShader } from "shader-composer-r3f"
+import { useShader } from "shader-composer-r3f"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color, Mesh } from "three"
 
@@ -39,8 +39,8 @@ export default function DiscoCube() {
       (v) => Fract(v)
     )
 
-    return CustomShaderMaterialMaster({
-      diffuseColor: Mul(new Color("#abf"), noise),
+    return PatchedMaterialMaster({
+      color: Mul(new Color("#abf"), noise),
       metalness: noise,
       roughness: OneMinus(noise)
     })
@@ -57,7 +57,7 @@ export default function DiscoCube() {
       <Environment preset="city" />
       <mesh ref={mesh}>
         <boxGeometry args={[1.5, 1.5, 1.5]} />
-        <Custom.MeshPhysicalMaterial clearcoat={0.2} {...shader} />
+        <patched.meshPhysicalMaterial clearcoat={0.2} {...shader} />
       </mesh>
     </>
   )

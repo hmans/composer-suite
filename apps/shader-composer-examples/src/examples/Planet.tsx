@@ -1,8 +1,9 @@
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
+import { patched } from "@material-composer/patched"
 import { pipe } from "fp-ts/function"
 import {
   Add,
   Clamp,
-  CustomShaderMaterialMaster,
   Float,
   Fresnel,
   GlobalTime,
@@ -17,7 +18,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Custom, useShader } from "shader-composer-r3f"
+import { useShader } from "shader-composer-r3f"
 import { Simplex3DNoise } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -59,14 +60,14 @@ function Planet() {
       (color: Color, height: Input<"float">) => (v: Input<"vec3">) =>
         Mix(v, color, Step(height, totalHeight))
 
-    return CustomShaderMaterialMaster({
+    return PatchedMaterialMaster({
       position: pipe(
         totalHeight,
         (v) => Add(1.0, v),
         (v) => Mul(VertexPosition, v)
       ),
 
-      diffuseColor: pipe(
+      color: pipe(
         Vec3(new Color("#336")),
         applyColor(new Color("yellow"), water),
         applyColor(new Color("#484"), 0.04),
@@ -81,7 +82,7 @@ function Planet() {
   return (
     <mesh>
       <icosahedronGeometry args={[1, 12]} />
-      <Custom.MeshStandardMaterial {...shader} />
+      <patched.meshStandardMaterial {...shader} />
     </mesh>
   )
 }
@@ -108,7 +109,7 @@ function Atmosphere() {
 
     const fresnel = Mul(Fresnel(), 0.3)
 
-    return CustomShaderMaterialMaster({
+    return PatchedMaterialMaster({
       alpha: pipe(
         Float(atmosphereDensity),
         (v) => Add(v, clouds),
@@ -120,7 +121,7 @@ function Atmosphere() {
   return (
     <mesh>
       <icosahedronGeometry args={[1.15, 12]} />
-      <Custom.MeshStandardMaterial color="white" {...shader} transparent />
+      <patched.meshStandardMaterial color="white" {...shader} transparent />
     </mesh>
   )
 }

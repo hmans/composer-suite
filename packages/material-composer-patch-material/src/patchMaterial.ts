@@ -1,5 +1,10 @@
 import { flow, identity } from "fp-ts/function"
-import { IUniform, Material } from "three"
+import {
+  IUniform,
+  Material,
+  MeshPhysicalMaterial,
+  MeshStandardMaterial
+} from "three"
 
 export type PatchedMaterialOptions = {
   vertexShader?: string
@@ -11,6 +16,10 @@ export const patchMaterial = <M extends Material>(
   material: M,
   { vertexShader, fragmentShader, uniforms = {} }: PatchedMaterialOptions = {}
 ) => {
+  const standardOrPhysical =
+    material instanceof MeshStandardMaterial ||
+    material instanceof MeshPhysicalMaterial
+
   const transformVertexShader = flow(
     injectGlobalDefines(material),
     vertexShader ? injectProgram(vertexShader) : identity,
@@ -21,7 +30,8 @@ export const patchMaterial = <M extends Material>(
   const transformFragmentShader = flow(
     injectGlobalDefines(material),
     fragmentShader ? injectProgram(fragmentShader) : identity,
-    injectRoughnessAndMetalness,
+    standardOrPhysical ? injectRoughnessAndMetalness : identity,
+    standardOrPhysical ? injectEmissive : identity,
     injectColorAndAlpha
   )
 
@@ -114,15 +124,19 @@ const injectColorAndAlpha = flow(
   )
 )
 
+const injectEmissive = flow(
+  extend("void main() {").with(`
+    vec3 patched_Emissive = emissive;
+  `),
+  replace("vec3 totalEmissiveRadiance = emissive;").with(
+    "vec3 totalEmissiveRadiance = patched_Emissive;"
+  )
+)
+
 const injectRoughnessAndMetalness = flow(
   extend("void main() {").with(`
-    #if defined IS_MESHSTANDARDMATERIAL || defined IS_MESHPHYSICALMATERIAL
     float patched_Roughness = roughness;
     float patched_Metalness = metalness;
-    #else
-    float patched_Roughness = 0.0;
-    float patched_Metalness = 0.0;
-    #endif
   `),
   extend("#include <roughnessmap_fragment>").with(
     "roughnessFactor = patched_Roughness;"

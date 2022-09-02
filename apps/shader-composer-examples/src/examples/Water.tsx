@@ -1,3 +1,4 @@
+import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import {
@@ -10,7 +11,7 @@ import {
   SplitVector3,
   vec2
 } from "shader-composer"
-import { Custom, useShader } from "shader-composer-r3f"
+import { useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { add } from "shader-composer/fun"
 import { Color, DoubleSide } from "three"
@@ -65,7 +66,7 @@ function Water() {
   return (
     <mesh position-y={-12}>
       <boxGeometry args={[70, 16, 70, 120, 1, 120]} />
-      <Custom.MeshPhysicalMaterial
+      <patched.meshPhysicalMaterial
         {...shader}
         roughness={0.1}
         metalness={0.5}

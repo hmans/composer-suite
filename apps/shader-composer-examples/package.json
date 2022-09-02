@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hmans/r3f-animate": "^0.0.4",
+    "@material-composer/patch-material": "workspace:^0.1.1",
+    "@material-composer/patched": "workspace:^0.1.1",
     "@react-three/drei": "^9.25.3",
     "@react-three/fiber": "^8.6.2",
     "fp-ts": "^2.12.3",

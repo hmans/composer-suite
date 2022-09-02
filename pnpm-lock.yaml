@@ -221,6 +221,8 @@ importers:
   apps/shader-composer-examples:
     specifiers:
       '@hmans/r3f-animate': ^0.0.4
+      '@material-composer/patch-material': workspace:^0.1.1
+      '@material-composer/patched': workspace:^0.1.1
       '@react-three/drei': ^9.25.3
       '@react-three/fiber': ^8.6.2
       '@types/react': ^18.0.18
@@ -241,6 +243,8 @@ importers:
       vite: ^3.0.9
     dependencies:
       '@hmans/r3f-animate': 0.0.4_zvfcrx6qs7myq74qxffhadzqgy
+      '@material-composer/patch-material': link:../../packages/material-composer-patch-material
+      '@material-composer/patched': link:../../packages/material-composer-patched
       '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
       '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
