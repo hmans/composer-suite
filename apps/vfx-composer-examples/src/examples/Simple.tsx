@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
 import { FlatStage } from "r3f-stage"
-import { between, plusMinus, upTo } from "randomish"
+import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
 import {
@@ -19,8 +19,8 @@ export const Simple = () => {
 
   return (
     <FlatStage>
-      {/* All particle effects are driven my instances of <Particles>. */}
-      <Particles capacity={1_000} safetyBuffer={1_000}>
+      {/* All particle effects are driven by instances of <Particles>. */}
+      <Particles>
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 

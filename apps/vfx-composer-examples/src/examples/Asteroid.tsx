@@ -189,7 +189,7 @@ const RockSplitters = () => {
   const getNoise = (offset: Input<"float">) => PSRDNoise2D(vec2(offset, id))
 
   return (
-    <Particles capacity={100} safetyBuffer={10}>
+    <Particles capacity={100} safetyCapacity={10}>
       <icosahedronGeometry />
 
       <composable.meshStandardMaterial color="#222">
@@ -238,7 +238,7 @@ const SmokeTrail = () => {
 
   return (
     <group>
-      <Particles capacity={150} safetyBuffer={10}>
+      <Particles capacity={150} safetyCapacity={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -286,7 +286,7 @@ const Clouds = () => {
 
   return (
     <group>
-      <Particles capacity={100} safetyBuffer={10}>
+      <Particles capacity={100} safetyCapacity={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}

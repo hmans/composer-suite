@@ -27,7 +27,7 @@ const tmpMatrix = new Matrix4()
 export class Particles extends InstancedMesh<BufferGeometry> {
   public cursor: number = 0
   public capacity: number
-  public safetyBuffer: number
+  public safetyCapacity: number
 
   private attributeUnits: ParticleAttribute[] = []
 
@@ -42,11 +42,11 @@ export class Particles extends InstancedMesh<BufferGeometry> {
     geometry: BufferGeometry | undefined,
     material: Material | undefined,
     capacity: number = 1000,
-    safetyBuffer: number = capacity / 10
+    safetyCapacity: number = capacity / 10
   ) {
-    super(geometry, material, capacity + safetyBuffer)
+    super(geometry, material, capacity + safetyCapacity)
     this.capacity = capacity
-    this.safetyBuffer = safetyBuffer
+    this.safetyCapacity = safetyCapacity
 
     this.onBeforeRender = () => {
       const emitted = this.cursor - this.lastCursor

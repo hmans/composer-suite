@@ -22,7 +22,7 @@ export type ParticlesProps = Omit<
   args?: ConstructorParameters<typeof ParticlesImpl>
   material?: Material
   capacity?: number
-  safetyBuffer?: number
+  safetyCapacity?: number
 }
 
 extend({ VfxComposerParticles: ParticlesImpl })
@@ -40,7 +40,10 @@ const Context = createContext<ParticlesImpl | null>(null)
 export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
-  ({ children, capacity, safetyBuffer, geometry, material, ...props }, ref) => {
+  (
+    { children, capacity, safetyCapacity, geometry, material, ...props },
+    ref
+  ) => {
     const rerender = useRerender()
     const particles = useRef<ParticlesImpl>(null!)
 
@@ -74,7 +77,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     return (
       <vfxComposerParticles
-        args={[geometry, material, capacity, safetyBuffer]}
+        args={[geometry, material, capacity, safetyCapacity]}
         ref={particles}
         {...props}
       >
