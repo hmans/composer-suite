@@ -1,5 +1,11 @@
 # material-composer
 
+## 0.1.3
+
+### Patch Changes
+
+- ca3867d: **Breaking Change:** The `velocity` and `force` props of `Velocity` and `Acceleration` have both been renamed to `direction`. (Closes #219.)
+
 ## 0.1.2
 
 ### Patch Changes
