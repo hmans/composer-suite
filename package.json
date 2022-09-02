@@ -27,8 +27,7 @@
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:release": "pnpm ci && pnpm changeset publish",
-    "typedoc": "pnpm typedoc:shader-composer && pnpm typedoc:material-composer"
+    "ci:release": "pnpm ci && pnpm changeset publish"
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
