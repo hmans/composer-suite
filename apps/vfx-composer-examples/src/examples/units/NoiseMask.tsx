@@ -17,6 +17,8 @@ import {
 } from "shader-composer"
 import { PSRDNoise2D } from "shader-composer-toybox"
 
+/* TODO: extract this into SC or SC-toybox or similar? */
+
 export const NoiseMask = (
   threshold: Input<"float"> = 0.5,
   fringe: Input<"float"> = 0.5,
