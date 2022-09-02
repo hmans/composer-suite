@@ -120,7 +120,7 @@ const Rock = () => (
     <mesh>
       <icosahedronGeometry args={[1, 3]} />
 
-      <composable.meshStandardMaterial>
+      <composable.meshBasicMaterial>
         <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
 
         <Lava
@@ -129,7 +129,7 @@ const Rock = () => (
           octaves={5}
           power={1}
         />
-      </composable.meshStandardMaterial>
+      </composable.meshBasicMaterial>
     </mesh>
   </Animate>
 )
@@ -332,14 +332,14 @@ const WindLines = () => {
       <Particles>
         <planeGeometry args={[0.1, 3.2]} />
 
-        <composable.meshStandardMaterial color="#555" side={DoubleSide}>
+        <composable.meshBasicMaterial color="#555" side={DoubleSide}>
           <modules.Velocity
             velocity={vec3(0, 100, 0)}
             time={particles.age}
             space="local"
           />
           <modules.Lifetime {...particles} />
-        </composable.meshStandardMaterial>
+        </composable.meshBasicMaterial>
 
         <Emitter
           rate={30}
