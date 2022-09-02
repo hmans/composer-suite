@@ -29,7 +29,6 @@
     "three": ">=0.143.0"
   },
   "dependencies": {
-    "shader-composer": "^0.3.0",
-    "three-custom-shader-material": "^4.0.0"
+    "shader-composer": "^0.3.0"
   }
 }

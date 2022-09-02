@@ -238,7 +238,6 @@ importers:
       shader-composer-r3f: ^0.2.0
       shader-composer-toybox: ^0.1.0
       three: ^0.143.0
-      three-custom-shader-material: ^4.0.0
       typescript: ^4.8.2
       vite: ^3.0.9
     dependencies:
@@ -256,7 +255,6 @@ importers:
       shader-composer-r3f: link:../../packages/shader-composer-r3f
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       three: 0.143.0
-      three-custom-shader-material: 4.0.0_zvfcrx6qs7myq74qxffhadzqgy
     devDependencies:
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
@@ -483,10 +481,8 @@ importers:
       react-dom: ^18.2.0
       shader-composer: ^0.3.0
       three: ^0.143.0
-      three-custom-shader-material: ^4.0.0
     dependencies:
       shader-composer: link:../shader-composer
-      three-custom-shader-material: 4.0.0_zvfcrx6qs7myq74qxffhadzqgy
     devDependencies:
       '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       react: 18.2.0
