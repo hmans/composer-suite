@@ -20,6 +20,7 @@
   ],
   "typedocOptions": {
     "name": "Composer Suite",
+    "plugin": "typedoc-plugin-markdown",
     "entryPoints": ["packages/shader-composer", "packages/material-composer"],
     "entryPointStrategy": "packages",
     "excludeExternals": true,
