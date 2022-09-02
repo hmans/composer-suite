@@ -35,8 +35,8 @@ export default function SharedResourceExample() {
 
 const Blobs = (props: ParticlesProps) => (
   <Particles
-    maxParticles={1_000}
-    safetyBuffer={0}
+    capacity={1_000}
+    safetyCapacity={0}
     castShadow
     receiveShadow
     {...props}

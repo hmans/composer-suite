@@ -17,7 +17,7 @@ export const Stress = () => {
 
   return (
     <group>
-      <Effect.Root maxParticles={1_000_000} safetyBuffer={1_000}>
+      <Effect.Root capacity={1_000_000} safetyCapacity={1_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
         <composable.meshStandardMaterial>

@@ -26,8 +26,8 @@ const tmpMatrix = new Matrix4()
 
 export class Particles extends InstancedMesh<BufferGeometry> {
   public cursor: number = 0
-  public maxParticles: number
-  public safetyBuffer: number
+  public capacity: number
+  public safetyCapacity: number
 
   private attributeUnits: ParticleAttribute[] = []
 
@@ -41,12 +41,12 @@ export class Particles extends InstancedMesh<BufferGeometry> {
   constructor(
     geometry: BufferGeometry | undefined,
     material: Material | undefined,
-    count: number,
-    safetyBuffer: number = 100
+    capacity: number = 1000,
+    safetyCapacity: number = capacity / 10
   ) {
-    super(geometry, material, count + safetyBuffer)
-    this.maxParticles = count
-    this.safetyBuffer = safetyBuffer
+    super(geometry, material, capacity + safetyCapacity)
+    this.capacity = capacity
+    this.safetyCapacity = safetyCapacity
 
     this.onBeforeRender = () => {
       const emitted = this.cursor - this.lastCursor
@@ -62,7 +62,7 @@ export class Particles extends InstancedMesh<BufferGeometry> {
         })
 
         /* If we've gone past the safe limit, go back to the beginning. */
-        if (this.cursor >= this.maxParticles) {
+        if (this.cursor >= this.capacity) {
           this.cursor = 0
         }
       }
