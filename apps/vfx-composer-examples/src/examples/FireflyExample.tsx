@@ -41,9 +41,9 @@ export const FireflyExample = () => {
           transparent
         >
           <modules.Billboard />
-          <modules.Velocity velocity={velocity} time={particles.age} />
+          <modules.Velocity direction={velocity} time={particles.age} />
           <modules.Acceleration
-            force={new Vector3(0, -10, 0)}
+            direction={new Vector3(0, -10, 0)}
             time={particles.age}
           />
           <modules.Alpha alpha={OneMinus(particles.progress)} />

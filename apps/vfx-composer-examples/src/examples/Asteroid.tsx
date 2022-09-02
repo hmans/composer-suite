@@ -165,7 +165,7 @@ const Sparks = () => {
         />
 
         <modules.Velocity
-          velocity={vec3(
+          direction={vec3(
             Mul(getNoise(87843), 2),
             Mul(Add(Abs(getNoise(123)), 1.3), 20),
             Mul(getNoise(278499), 2)
@@ -206,7 +206,7 @@ const RockSplitters = () => {
         />
 
         <modules.Velocity
-          velocity={vec3(
+          direction={vec3(
             Mul(getNoise(87843), 2),
             Mul(Add(Abs(getNoise(123)), 1.3), 40),
             Mul(getNoise(278499), 2)
@@ -216,7 +216,7 @@ const RockSplitters = () => {
         />
 
         <modules.Acceleration
-          force={vec3(0, -60, 0)}
+          direction={vec3(0, -60, 0)}
           space="world"
           time={particles.age}
         />
@@ -264,7 +264,7 @@ const SmokeTrail = () => {
           />
 
           <modules.Velocity
-            velocity={vec3(0, 10, 0)}
+            direction={vec3(0, 10, 0)}
             time={particles.age}
             space="local"
           />
@@ -305,7 +305,7 @@ const Clouds = () => {
           <modules.Billboard />
 
           <modules.Velocity
-            velocity={vec3(0, 10, 0)}
+            direction={vec3(0, 10, 0)}
             time={particles.age}
             space="local"
           />
@@ -334,7 +334,7 @@ const WindLines = () => {
 
         <composable.meshBasicMaterial color="#555" side={DoubleSide}>
           <modules.Velocity
-            velocity={vec3(0, 100, 0)}
+            direction={vec3(0, 100, 0)}
             time={particles.age}
             space="local"
           />

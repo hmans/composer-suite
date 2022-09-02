@@ -27,7 +27,7 @@ export default function MagicWellExample() {
         >
           <modules.Scale scale={OneMinus(particles.progress)} />
           <modules.Acceleration
-            force={new Vector3(0, 1.2, 0)}
+            direction={new Vector3(0, 1.2, 0)}
             time={particles.age}
           />
           <modules.Lifetime {...particles} />

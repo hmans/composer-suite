@@ -38,7 +38,7 @@ export const Fog = () => {
         >
           <modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <modules.Scale scale={scale} />
-          <modules.Velocity velocity={velocity} time={time} />
+          <modules.Velocity direction={velocity} time={time} />
           <modules.Billboard />
           <modules.Softness softness={5} depthTexture={depth} />
         </composable.meshStandardMaterial>

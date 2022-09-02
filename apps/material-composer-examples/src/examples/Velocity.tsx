@@ -13,7 +13,7 @@ export default function Velocity() {
         <sphereGeometry />
 
         <composable.meshStandardMaterial autoShadow>
-          <modules.Velocity velocity={new Vector3(0.15, 0, 0)} time={time} />
+          <modules.Velocity direction={new Vector3(0.15, 0, 0)} time={time} />
         </composable.meshStandardMaterial>
       </mesh>
 
