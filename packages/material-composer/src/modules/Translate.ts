@@ -1,4 +1,5 @@
-import { $, Add, Input, pipe, Vec3 } from "shader-composer"
+import { pipe } from "fp-ts/function"
+import { $, Add, Input, Vec3 } from "shader-composer"
 import { ModuleFactory } from ".."
 
 export type Space = "world" | "local" | "view"
@@ -31,14 +32,13 @@ const convertToLocal = (v: Input<"vec3">, space: Space) =>
  * Applies an offset to the vertex position. The user is expected to provide
  * the offset in the intended space; no further transformation is performed.
  */
-export const Translate: ModuleFactory<TranslateProps> = ({
-  offset,
-  space = "world"
-}) => (state) => ({
-  ...state,
-  position: pipe(
-    offset,
-    (v) => convertToLocal(v, space),
-    (v) => Add(state.position, v)
-  )
-})
+export const Translate: ModuleFactory<TranslateProps> =
+  ({ offset, space = "world" }) =>
+  (state) => ({
+    ...state,
+    position: pipe(
+      offset,
+      (v) => convertToLocal(v, space),
+      (v) => Add(state.position, v)
+    )
+  })

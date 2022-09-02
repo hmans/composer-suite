@@ -1,0 +1,4 @@
+{
+  "main": "dist/shader-composer-fun.cjs.js",
+  "module": "dist/shader-composer-fun.esm.js"
+}

@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/function"
 import {
   Add,
   Div,
@@ -7,7 +8,6 @@ import {
   Negate,
   NormalizePlusMinusOne,
   OneMinus,
-  pipe,
   Saturate,
   Smoothstep,
   Sub,

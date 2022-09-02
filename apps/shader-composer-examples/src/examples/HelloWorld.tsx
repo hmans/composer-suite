@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
 import {
   $,
@@ -6,10 +7,8 @@ import {
   GlobalTime,
   Mix,
   NormalizePlusMinusOne,
-  pipe,
   ShaderMaterialMaster,
   Sin,
-  Time,
   VertexPosition
 } from "shader-composer"
 import { useShader, useUniformUnit } from "shader-composer-r3f"

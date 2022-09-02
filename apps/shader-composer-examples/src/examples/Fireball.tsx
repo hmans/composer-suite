@@ -1,4 +1,5 @@
 import { useTexture } from "@react-three/drei"
+import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
 import {
   Add,
@@ -6,10 +7,8 @@ import {
   GlobalTime,
   Mul,
   NormalizePlusMinusOne,
-  pipe,
   Pow,
   Texture2D,
-  Time,
   vec2,
   vec3,
   VertexNormal,

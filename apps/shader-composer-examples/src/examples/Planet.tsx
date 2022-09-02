@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/function"
 import {
   Add,
   Clamp,
@@ -8,7 +9,6 @@ import {
   Input,
   Mix,
   Mul,
-  pipe,
   Sin,
   Smoothstep,
   SplitVector3,

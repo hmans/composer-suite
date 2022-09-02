@@ -1,5 +1,5 @@
+import { pipe } from "fp-ts/function"
 import { $ } from "../expressions"
-import { pipe } from "../pipes"
 import { Input, Unit } from "../units"
 import { Texture2D } from "./textures"
 import { CameraFar, CameraNear } from "./uniforms"
@@ -16,7 +16,9 @@ export const SceneColor = (uv: Input<"vec2">, texture: Unit<"sampler2D">) =>
  * @returns Float unit containing the depth as stored in the texture
  */
 export const RawDepth = (uv: Input<"vec2">, depthTexture: Unit<"sampler2D">) =>
-  Float(Texture2D(depthTexture, uv).x, { name: "Read Depth from Depth Texture (Raw)" })
+  Float(Texture2D(depthTexture, uv).x, {
+    name: "Read Depth from Depth Texture (Raw)"
+  })
 
 /**
  * Sample a depth texture and return the depth value in eye space units.

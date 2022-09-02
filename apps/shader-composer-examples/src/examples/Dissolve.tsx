@@ -1,5 +1,6 @@
+import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
-import { CustomShaderMaterialMaster, Mix, pipe } from "shader-composer"
+import { CustomShaderMaterialMaster, Mix } from "shader-composer"
 import { Custom, useShader, useUniformUnit } from "shader-composer-r3f"
 import { Dissolve } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
@@ -21,16 +22,27 @@ export default function DissolveExample() {
   const dissolveScale = useUniformUnit("float", dissolveOpts.scale)
   const dissolveEdgeColor = useUniformUnit(
     "vec3",
-    new Color(dissolveOpts.edgeColor).multiplyScalar(dissolveOpts.edgeColorIntensity)
+    new Color(dissolveOpts.edgeColor).multiplyScalar(
+      dissolveOpts.edgeColorIntensity
+    )
   )
-  const dissolveEdgeThickness = useUniformUnit("float", dissolveOpts.edgeThickness)
+  const dissolveEdgeThickness = useUniformUnit(
+    "float",
+    dissolveOpts.edgeThickness
+  )
 
   /* Shader */
   const shader = useShader(() => {
-    const dissolve = Dissolve(dissolveVisibility, dissolveScale, dissolveEdgeThickness)
+    const dissolve = Dissolve(
+      dissolveVisibility,
+      dissolveScale,
+      dissolveEdgeThickness
+    )
 
     return CustomShaderMaterialMaster({
-      diffuseColor: pipe(sphereColor, (v) => Mix(v, dissolveEdgeColor, dissolve.edge)),
+      diffuseColor: pipe(sphereColor, (v) =>
+        Mix(v, dissolveEdgeColor, dissolve.edge)
+      ),
       alpha: dissolve.alpha
     })
   }, [])

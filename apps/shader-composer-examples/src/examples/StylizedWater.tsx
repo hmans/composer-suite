@@ -1,6 +1,7 @@
 import { Animate, float, rotate } from "@hmans/r3f-animate"
 import { Environment } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
+import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import {
@@ -14,7 +15,6 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   PerspectiveDepth,
-  pipe,
   SceneColor,
   ScreenUV,
   Smoothstep,

@@ -1,4 +1,5 @@
-import { Input, Mul, pipe, Pow } from "shader-composer"
+import { pipe } from "fp-ts/function"
+import { Input, Mul, Pow } from "shader-composer"
 import { ModuleFactory } from ".."
 import { Space, Translate } from "./Translate"
 

@@ -1,5 +1,6 @@
 import { Environment } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
+import { pipe } from "fp-ts/function"
 import { useRef } from "react"
 import {
   Add,
@@ -11,7 +12,6 @@ import {
   Mul,
   NormalizePlusMinusOne,
   OneMinus,
-  pipe,
   Sub,
   Time,
   VertexPosition

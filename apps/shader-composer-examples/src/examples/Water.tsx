@@ -1,18 +1,18 @@
 import { Environment } from "@react-three/drei"
+import { pipe } from "fp-ts/function"
 import {
-  add,
   CustomShaderMaterialMaster,
   GlobalTime,
   Input,
   Int,
   Mul,
-  pipe,
   Remap,
   SplitVector3,
   vec2
 } from "shader-composer"
 import { Custom, useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
+import { add } from "shader-composer/fun"
 import { Color, DoubleSide } from "three"
 
 const NormalizeNoise = (v: Input<"float">) => Remap(v, -1, 1, 0, 1)
