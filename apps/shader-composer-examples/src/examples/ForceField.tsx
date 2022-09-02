@@ -7,7 +7,6 @@ import { useControls } from "leva"
 import { Layers, useRenderPipeline } from "r3f-stage"
 import {
   Add,
-  CustomShaderMaterialMaster,
   Fresnel,
   GlobalTime,
   Mul,
