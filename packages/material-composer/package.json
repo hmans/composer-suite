@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "Composable, shader-driven Three.js materials!",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/material-composer.cjs.js",
   "module": "dist/material-composer.esm.js",
   "files": [
@@ -31,7 +31,7 @@
   "dependencies": {
     "@material-composer/patch-material": "^0.1.1",
     "fp-ts": "^2.12.2",
-    "shader-composer": "0.3.3",
+    "shader-composer": "0.3.4",
     "shader-composer-toybox": "^0.1.2"
   },
   "peerDependencies": {

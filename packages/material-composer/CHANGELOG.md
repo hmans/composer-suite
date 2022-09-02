@@ -1,5 +1,16 @@
 # material-composer
 
+## 0.1.2
+
+### Patch Changes
+
+- 03215af: Upgraded `Color` module with documentation and the ability to take a function as its `color` argument.
+- 8ca879b: `Alpha` has always accepted `Input<"float">` values for its `alpha` prop, and now it also alternatively accepts a function that gets the current alpha passed into it as its only argument. This allows you to modify the existing alpha value with this module, instead of simply overwriting it.
+- Updated dependencies [8ca879b]
+- Updated dependencies [8ca879b]
+- Updated dependencies [82ad766]
+  - shader-composer@0.3.4
+
 ## 0.1.1
 
 ### Patch Changes

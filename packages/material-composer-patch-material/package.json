@@ -18,12 +18,12 @@
   "sideEffects": false,
   "devDependencies": {
     "@types/three": "^0.143.1",
-    "shader-composer": "0.3.3",
+    "shader-composer": "0.3.4",
     "three": "^0.143.0",
     "typescript": "^4.8.2"
   },
   "peerDependencies": {
-    "shader-composer": "^0.3.1",
+    "shader-composer": "^0.3.4",
     "three": ">=0.141.0"
   },
   "dependencies": {
