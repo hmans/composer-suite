@@ -1,4 +1,4 @@
-import { pipe } from "../pipes"
+import { pipe } from "fp-ts/function"
 import { GLSLType, Input, Unit } from "../units"
 import { VertexNormal, ViewDirection } from "./geometry"
 import { Abs, Add, Lerp, Mul, Pow, Saturate, Smoothstep } from "./math"
@@ -37,7 +37,10 @@ export const Fresnel = ({
 
 export type GradientStops<T extends GLSLType = "vec3"> = GradientStop<T>[]
 
-export type GradientStop<T extends GLSLType = "vec3"> = [Input<T>, Input<"float">]
+export type GradientStop<T extends GLSLType = "vec3"> = [
+  Input<T>,
+  Input<"float">
+]
 
 export const Gradient = <T extends GLSLType = "vec3">(
   f: Input<"float">,
