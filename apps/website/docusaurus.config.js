@@ -138,7 +138,7 @@ const config = {
         name: "Shader Composer",
         sidebar: {
           fullNames: true,
-          categoryLabel: "Shader Composer"
+          categoryLabel: "shader-composer"
         }
       }
     ],
@@ -152,7 +152,21 @@ const config = {
         name: "Material Composer",
         sidebar: {
           fullNames: true,
-          categoryLabel: "Material Composer"
+          categoryLabel: "material-composer"
+        }
+      }
+    ],
+    [
+      "docusaurus-plugin-typedoc",
+      {
+        id: "material-composer-modules",
+        entryPoints: ["../../packages/material-composer/src/modules/"],
+        tsconfig: "../../tsconfig.json",
+        out: "reference/material-composer-modules",
+        name: "Material Composer Modules",
+        sidebar: {
+          fullNames: true,
+          categoryLabel: "material-composer/modules"
         }
       }
     ]
