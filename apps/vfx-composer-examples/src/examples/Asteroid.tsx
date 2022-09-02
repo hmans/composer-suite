@@ -34,16 +34,16 @@ import { smokeUrl } from "./textures"
 
 export const time = Time()
 
-export default function CometExample() {
+export default function AsteroidExample() {
   return (
     <group>
       <CameraShake intensity={1.5} />
-      <Comet scale={0.5} />
+      <Asteroid scale={0.5} />
     </group>
   )
 }
 
-const Comet = (props: GroupProps) => (
+const Asteroid = (props: GroupProps) => (
   <group {...props}>
     <group
       rotation-z={-Math.PI / 3}

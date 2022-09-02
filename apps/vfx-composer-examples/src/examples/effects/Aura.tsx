@@ -23,7 +23,6 @@ import {
 import { useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
 import { DoubleSide, RepeatWrapping } from "three"
-import { time } from "../Comet"
 import streamTextureUrl from "../textures/stream.png"
 
 export const Aura = ({
@@ -68,7 +67,9 @@ export const Aura = ({
           stop={1}
           position={heat.alpha}
         />
-        <modules.Alpha alpha={Mul(0.5, Mul(heat.alpha, NoiseMask(fullness)))} />
+        <modules.Alpha
+          alpha={Mul(0.5, Mul(heat.alpha, NoiseMask(fullness, 0.5, time)))}
+        />
       </composable.meshBasicMaterial>
     </mesh>
   )
@@ -76,7 +77,8 @@ export const Aura = ({
 
 export const NoiseMask = (
   threshold: Input<"float"> = 0.5,
-  fringe: Input<"float"> = 0.5
+  fringe: Input<"float"> = 0.5,
+  time: Input<"float"> = Time()
 ) => {
   const noise = NormalizePlusMinusOne(
     PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Negate(time))))
