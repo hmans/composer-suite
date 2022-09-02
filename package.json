@@ -27,7 +27,8 @@
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:release": "pnpm ci && pnpm changeset publish"
+    "ci:release": "pnpm ci && pnpm changeset publish",
+    "typedoc": "pnpm -r typedoc"
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
