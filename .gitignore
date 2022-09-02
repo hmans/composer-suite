@@ -14,7 +14,6 @@ dist-ssr
 
 # Generated documentation
 /packages/**/docs/
-/docs
 
 # Editor directories and files
 .vscode/*
