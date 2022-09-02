@@ -105,7 +105,7 @@ const Asteroid = (props: GroupProps) => (
       <RockSplitters />
       <SmokeTrail />
       <Clouds />
-      <CloudDebris />
+      <WindLines />
     </group>
   </group>
 )
@@ -319,7 +319,7 @@ const Clouds = () => {
   )
 }
 
-const CloudDebris = () => {
+const WindLines = () => {
   const particles = useParticles()
 
   return (
