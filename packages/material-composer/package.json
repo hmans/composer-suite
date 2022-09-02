@@ -25,8 +25,7 @@
   },
   "typedoc": {
     "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md",
-    "displayName": "Material Composer"
+    "readmeFile": "./README.md"
   },
   "license": "MIT",
   "sideEffects": false,

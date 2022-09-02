@@ -11,8 +11,7 @@
   "module": "dist/shader-composer.esm.js",
   "typedoc": {
     "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md",
-    "displayName": "Shader Composer"
+    "readmeFile": "./README.md"
   },
   "preconstruct": {
     "entrypoints": [
