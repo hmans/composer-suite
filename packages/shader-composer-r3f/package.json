@@ -16,6 +16,9 @@
   ],
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "typedoc": "typedoc --name 'Shader Composer (R3F)' --out docs src/index.ts"
+  },
   "devDependencies": {
     "@react-three/fiber": "^8.6.2",
     "react": "^18.2.0",

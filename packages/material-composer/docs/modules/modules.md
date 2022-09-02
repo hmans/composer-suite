@@ -49,7 +49,7 @@
 
 #### Defined in
 
-[material-composer/src/modules/Acceleration.ts:6](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Acceleration.ts#L6)
+[material-composer/src/modules/Acceleration.ts:6](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Acceleration.ts#L6)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Alpha.ts:4](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Alpha.ts#L4)
+[material-composer/src/modules/Alpha.ts:4](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Alpha.ts#L4)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Color.ts:5](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Color.ts#L5)
+[material-composer/src/modules/Color.ts:5](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Color.ts#L5)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Fresnel.ts:6](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Fresnel.ts#L6)
+[material-composer/src/modules/Fresnel.ts:6](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Fresnel.ts#L6)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Gradient.ts:14](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Gradient.ts#L14)
+[material-composer/src/modules/Gradient.ts:14](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Gradient.ts#L14)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Translate.ts:5](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Translate.ts#L5)
+[material-composer/src/modules/Translate.ts:5](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Translate.ts#L5)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/SurfaceWobble.ts:6](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/SurfaceWobble.ts#L6)
+[material-composer/src/modules/SurfaceWobble.ts:6](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/SurfaceWobble.ts#L6)
 
 ___
 
@@ -155,7 +155,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Texture.ts:5](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Texture.ts#L5)
+[material-composer/src/modules/Texture.ts:5](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Texture.ts#L5)
 
 ## Functions
 
@@ -177,7 +177,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -220,7 +220,7 @@ Alpha({ alpha: (alpha) => Mul(alpha, 0.5) })
 
 #### Defined in
 
-[material-composer/src/modules/Alpha.ts:35](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Alpha.ts#L35)
+[material-composer/src/modules/Alpha.ts:35](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Alpha.ts#L35)
 
 ___
 
@@ -242,7 +242,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -264,7 +264,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -285,7 +285,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/index.ts:18](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/index.ts#L18)
+[material-composer/src/modules/index.ts:18](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/index.ts#L18)
 
 ___
 
@@ -307,7 +307,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -329,7 +329,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -352,7 +352,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -374,7 +374,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -396,7 +396,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -420,7 +420,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -442,7 +442,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -464,7 +464,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -486,7 +486,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -506,4 +506,4 @@ ___
 
 #### Defined in
 
-[material-composer/src/modules/Velocity.ts:10](https://github.com/hmans/composer-suite/blob/44dfd6b4/packages/material-composer/src/modules/Velocity.ts#L10)
+[material-composer/src/modules/Velocity.ts:10](https://github.com/hmans/composer-suite/blob/cba622ee/packages/material-composer/src/modules/Velocity.ts#L10)
