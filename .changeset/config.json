@@ -3,12 +3,13 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["vfx-composer", "vfx-composer-r3f"]],
+  "linked": [
+    ["vfx-composer", "vfx-composer-r3f"],
+    ["shader-composer", "shader-composer-r3f"],
+    ["material-composer", "material-composer-r3f"]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["vfx-composer-examples", "render-composer-examples"],
-  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
-    "onlyUpdatePeerDependentsWhenOutOfRange": true
-  }
+  "ignore": ["vfx-composer-examples", "render-composer-examples"]
 }
