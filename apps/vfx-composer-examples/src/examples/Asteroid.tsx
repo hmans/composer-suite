@@ -42,6 +42,48 @@ export default function AsteroidExample() {
   )
 }
 
+const Asteroid = (props: GroupProps) => (
+  <group {...props}>
+    <group
+      rotation-z={-Math.PI / 3}
+      rotation-y={Math.PI / 3}
+      position={[-2, -1, 0]}
+    >
+      <Float speed={340} rotationIntensity={0} floatIntensity={0.3}>
+        <Rock />
+        <InnerAura />
+        <MiddleAura />
+        <OuterAura />
+      </Float>
+
+      <Sparks />
+      <RockSplitters />
+      <SmokeTrail />
+      <Clouds />
+      <WindLines />
+    </group>
+  </group>
+)
+
+const Rock = () => (
+  <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 0.4 * dt)}>
+    <mesh>
+      <icosahedronGeometry args={[1, 3]} />
+
+      <composable.meshBasicMaterial>
+        <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
+
+        <Lava
+          offset={Mul(vec3(0.4, 0.8, 0.5), time)}
+          scale={0.3}
+          octaves={5}
+          power={1}
+        />
+      </composable.meshBasicMaterial>
+    </mesh>
+  </Animate>
+)
+
 const InnerAura = () => (
   <SphericalAura
     scale={[1.5, 3, 1.5]}
@@ -92,48 +134,6 @@ const OuterAura = () => (
   />
 )
 
-const Asteroid = (props: GroupProps) => (
-  <group {...props}>
-    <group
-      rotation-z={-Math.PI / 3}
-      rotation-y={Math.PI / 3}
-      position={[-2, -1, 0]}
-    >
-      <Float speed={340} rotationIntensity={0} floatIntensity={0.3}>
-        <Rock />
-        <InnerAura />
-        <MiddleAura />
-        <OuterAura />
-      </Float>
-
-      <Sparks />
-      <RockSplitters />
-      <SmokeTrail />
-      <Clouds />
-      <WindLines />
-    </group>
-  </group>
-)
-
-const Rock = () => (
-  <Animate fun={(g, dt) => (g.rotation.x = g.rotation.y += 0.4 * dt)}>
-    <mesh>
-      <icosahedronGeometry args={[1, 3]} />
-
-      <composable.meshBasicMaterial>
-        <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
-
-        <Lava
-          offset={Mul(vec3(0.4, 0.8, 0.5), time)}
-          scale={0.3}
-          octaves={5}
-          power={1}
-        />
-      </composable.meshBasicMaterial>
-    </mesh>
-  </Animate>
-)
-
 const Sparks = () => {
   const particles = useParticles()
   const id = float(InstanceID, { varying: true })
@@ -178,7 +178,7 @@ const Sparks = () => {
       </composable.meshBasicMaterial>
 
       <Emitter
-        rate={() => 50 + Math.sin(clock.elapsedTime * 2) * 30}
+        rate={() => 80 + Math.sin(clock.elapsedTime * 2) * 40}
         setup={({ position }) => {
           particles.setLifetime(4)
           const theta = plusMinus(Math.PI)
