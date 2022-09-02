@@ -33,7 +33,7 @@ const convertToLocal = (v: Input<"vec3">, space: Space) =>
  * the offset in the intended space; no further transformation is performed.
  */
 export const Translate: ModuleFactory<TranslateProps> =
-  ({ offset, space = "world" }) =>
+  ({ offset, space = "local" }) =>
   (state) => ({
     ...state,
     position: pipe(
