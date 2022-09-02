@@ -25,6 +25,9 @@
   },
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "typedoc": "typedoc --name 'Material Composer' src/index.ts src/modules/index.ts"
+  },
   "devDependencies": {
     "three": "^0.143.0"
   },

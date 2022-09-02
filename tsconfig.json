@@ -8,8 +8,14 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
-  "include": ["packages/**/src/**/*", "packages/**/test/**/*"],
-  "exclude": ["**/node_modules/**/*", "**/dist"]
+  "include": ["packages/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/**/*",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }
