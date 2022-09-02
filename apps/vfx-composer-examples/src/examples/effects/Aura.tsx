@@ -4,6 +4,7 @@ import { composable, modules } from "material-composer-r3f"
 import {
   Add,
   Div,
+  GlobalTime,
   GradientStops,
   Input,
   Mul,
@@ -16,7 +17,6 @@ import {
   Sub,
   Texture2D,
   TilingUV,
-  Time,
   UV,
   vec2
 } from "shader-composer"
@@ -31,7 +31,7 @@ export const Aura = ({
   offset = vec2(0, 0),
   fullness = 0.5,
   wobble = 0,
-  time = Time(),
+  time = GlobalTime,
   ...props
 }: {
   gradient: GradientStops<"vec3">
@@ -78,7 +78,7 @@ export const Aura = ({
 export const NoiseMask = (
   threshold: Input<"float"> = 0.5,
   fringe: Input<"float"> = 0.5,
-  time: Input<"float"> = Time()
+  time: Input<"float"> = GlobalTime
 ) => {
   const noise = NormalizePlusMinusOne(
     PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Negate(time))))

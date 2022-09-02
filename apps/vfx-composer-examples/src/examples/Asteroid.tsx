@@ -7,6 +7,7 @@ import {
   Abs,
   Add,
   float,
+  GlobalTime,
   Input,
   InstanceID,
   Mul,
@@ -15,7 +16,6 @@ import {
   pipe,
   Smoothstep,
   Sub,
-  Time,
   UV,
   vec2,
   vec3
@@ -32,7 +32,7 @@ import { Aura } from "./effects/Aura"
 import { Lava } from "./modules/Lava"
 import { smokeUrl } from "./textures"
 
-export const time = Time()
+export const time = GlobalTime
 
 export default function AsteroidExample() {
   return (
