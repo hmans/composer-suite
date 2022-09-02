@@ -47,9 +47,13 @@ export class Particles extends InstancedMesh<BufferGeometry> {
     super(geometry, material, capacity + safetyCapacity)
     this.capacity = capacity
     this.safetyCapacity = safetyCapacity
+    this.count = 0
 
     this.onBeforeRender = () => {
       const emitted = this.cursor - this.lastCursor
+
+      /* Increase total count of particles if we haven't done so before. */
+      this.count = Math.max(this.count, this.cursor)
 
       if (emitted > 0) {
         this.uploadableAttributes.forEach((attribute) => {
