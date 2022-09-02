@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[material-composer/src/Layer.ts:6](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/Layer.ts#L6)
+[material-composer/src/Layer.ts:6](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/Layer.ts#L6)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/Layer.ts:29](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/Layer.ts#L29)
+[material-composer/src/Layer.ts:29](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/Layer.ts#L29)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/Layer.ts:4](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/Layer.ts#L4)
+[material-composer/src/Layer.ts:4](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/Layer.ts#L4)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/Layer.ts:31](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/Layer.ts#L31)
+[material-composer/src/Layer.ts:31](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/Layer.ts#L31)
 
 ___
 
@@ -128,7 +128,7 @@ A Module is a function that accepts a module state as its input and returns a ne
 
 #### Defined in
 
-[material-composer/src/index.ts:28](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L28)
+[material-composer/src/index.ts:28](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L28)
 
 ___
 
@@ -160,7 +160,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/index.ts:37](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L37)
+[material-composer/src/index.ts:37](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L37)
 
 ___
 
@@ -182,7 +182,7 @@ A Module Pipe is an array of Modules.
 
 #### Defined in
 
-[material-composer/src/index.ts:42](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L42)
+[material-composer/src/index.ts:42](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L42)
 
 ___
 
@@ -207,7 +207,7 @@ also just pass through others without changing them.
 
 #### Defined in
 
-[material-composer/src/index.ts:16](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L16)
+[material-composer/src/index.ts:16](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L16)
 
 ___
 
@@ -229,7 +229,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/master.ts:3](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/master.ts#L3)
+[material-composer-patch-material/src/master.ts:3](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/master.ts#L3)
 
 ___
 
@@ -247,7 +247,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/patchMaterial.ts:4](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/patchMaterial.ts#L4)
+[material-composer-patch-material/src/patchMaterial.ts:4](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/patchMaterial.ts#L4)
 
 ## Variables
 
@@ -265,7 +265,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/Layer.ts:17](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/Layer.ts#L17)
+[material-composer/src/Layer.ts:17](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/Layer.ts#L17)
 
 ## Functions
 
@@ -287,7 +287,7 @@ A Module Factory is a function that returns a Module.
 
 #### Defined in
 
-[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L33)
+[material-composer/src/index.ts:33](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L33)
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/master.ts:13](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/master.ts#L13)
+[material-composer-patch-material/src/master.ts:13](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/master.ts#L13)
 
 ___
 
@@ -332,7 +332,7 @@ A shader master node that can be passed to `compileShader`
 
 #### Defined in
 
-[material-composer/src/compileModules.ts:11](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/compileModules.ts#L11)
+[material-composer/src/compileModules.ts:11](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/compileModules.ts#L11)
 
 ___
 
@@ -356,7 +356,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/patchMaterial.ts:54](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/patchMaterial.ts#L54)
+[material-composer-patch-material/src/patchMaterial.ts:54](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/patchMaterial.ts#L54)
 
 ___
 
@@ -370,7 +370,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/index.ts:47](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L47)
+[material-composer/src/index.ts:47](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L47)
 
 ___
 
@@ -397,7 +397,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/patchMaterial.ts:10](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/patchMaterial.ts#L10)
+[material-composer-patch-material/src/patchMaterial.ts:10](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/patchMaterial.ts#L10)
 
 ___
 
@@ -418,7 +418,7 @@ ___
 
 #### Defined in
 
-[material-composer/src/index.ts:44](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer/src/index.ts#L44)
+[material-composer/src/index.ts:44](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer/src/index.ts#L44)
 
 ___
 
@@ -442,7 +442,7 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/patchMaterial.ts:59](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/patchMaterial.ts#L59)
+[material-composer-patch-material/src/patchMaterial.ts:59](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/patchMaterial.ts#L59)
 
 ___
 
@@ -466,4 +466,4 @@ ___
 
 #### Defined in
 
-[material-composer-patch-material/src/patchMaterial.ts:64](https://github.com/hmans/composer-suite/blob/714fcce4/packages/material-composer-patch-material/src/patchMaterial.ts#L64)
+[material-composer-patch-material/src/patchMaterial.ts:64](https://github.com/hmans/composer-suite/blob/bf745ddc/packages/material-composer-patch-material/src/patchMaterial.ts#L64)
