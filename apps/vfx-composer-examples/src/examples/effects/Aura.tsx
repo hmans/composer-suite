@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
-import { Layer } from "material-composer"
-import { composable, moduleComponent } from "material-composer-r3f"
+import { Layer, LayerArgs } from "material-composer"
+import { composable, LayerProps, moduleComponent } from "material-composer-r3f"
 import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
   Add,
@@ -36,7 +36,7 @@ export const Aura = ({
   wobble = 0,
   time = GlobalTime,
   ...props
-}: AuraProps & MeshProps) => {
+}: AuraArgs & MeshProps) => {
   /* Load texture */
   const streamTexture = useTexture(streamTextureUrl)
   streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
@@ -67,8 +67,7 @@ export const Aura = ({
   )
 }
 
-/* TODO: support LayerArgs/LayerProps */
-type AuraProps = {
+type AuraArgs = {
   gradient: GradientStops<"vec3">
   streamSampler: Unit<"sampler2D">
   tiling?: Input<"vec2">
@@ -76,7 +75,7 @@ type AuraProps = {
   fullness?: Input<"float">
   wobble?: Input<"float">
   time?: Input<"float">
-}
+} & LayerArgs
 
 const AuraLayerModule = ({
   gradient,
@@ -85,11 +84,13 @@ const AuraLayerModule = ({
   fullness = 0.5,
   tiling = vec2(3, 1),
   offset = vec2(0, 0),
-  time = GlobalTime
-}: AuraProps) => {
+  time = GlobalTime,
+  ...layerArgs
+}: AuraArgs) => {
   const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
 
   return Layer({
+    ...layerArgs,
     modules: [
       SurfaceWobble({ offset: time, amplitude: wobble }),
       Gradient({
