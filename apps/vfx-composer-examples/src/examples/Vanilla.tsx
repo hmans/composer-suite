@@ -48,11 +48,11 @@ const vanillaCode = (
     Modules.Color({ color: variables.color }),
     Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
     Modules.Velocity({
-      velocity: variables.velocity,
+      direction: variables.velocity,
       time: particleUnits.age
     }),
     Modules.Acceleration({
-      force: new Vector3(0, -10, 0),
+      direction: new Vector3(0, -10, 0),
       time: particleUnits.age
     }),
     Modules.Lifetime(particleUnits)

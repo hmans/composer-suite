@@ -31,9 +31,9 @@ export const Simple = () => {
         >
           <modules.Billboard />
           <modules.Scale scale={OneMinus(particles.progress)} />
-          <modules.Velocity velocity={velocity} time={particles.age} />
+          <modules.Velocity direction={velocity} time={particles.age} />
           <modules.Acceleration
-            force={new Vector3(0, -2, 0)}
+            direction={new Vector3(0, -2, 0)}
             time={particles.age}
           />
           <modules.Lifetime {...particles} />
