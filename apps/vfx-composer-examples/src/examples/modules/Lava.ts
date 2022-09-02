@@ -1,5 +1,5 @@
 import { ModuleFactory } from "material-composer"
-import { moduleComponent } from "material-composer-r3f/src/reactor"
+import { moduleComponent } from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import { Gradient } from "shader-composer"
 import { Color } from "three"

@@ -1,6 +1,8 @@
 import { useTexture } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
-import { composable, modules } from "material-composer-r3f"
+import { Layer } from "material-composer"
+import { composable, moduleComponent } from "material-composer-r3f"
+import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
   Add,
   Div,
@@ -17,6 +19,7 @@ import {
   Sub,
   Texture2D,
   TilingUV,
+  Unit,
   UV,
   vec2
 } from "shader-composer"
@@ -33,23 +36,13 @@ export const Aura = ({
   wobble = 0,
   time = GlobalTime,
   ...props
-}: {
-  gradient: GradientStops<"vec3">
-  tiling?: Input<"vec2">
-  offset?: Input<"vec2">
-  fullness?: Input<"float">
-  wobble?: Input<"float">
-  time?: Input<"float">
-} & MeshProps) => {
+}: AuraProps & MeshProps) => {
   /* Load texture */
   const streamTexture = useTexture(streamTextureUrl)
   streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping
 
-  /* Create sampler2D uniform */
+  /* Create a uniform that holds the texture */
   const streamSampler = useUniformUnit("sampler2D", streamTexture)
-
-  /* Sample texture */
-  const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
 
   return (
     <mesh {...props}>
@@ -60,20 +53,59 @@ export const Aura = ({
         side={DoubleSide}
         depthWrite={false}
       >
-        {wobble && <modules.SurfaceWobble offset={time} amplitude={wobble} />}
-        <modules.Gradient
-          stops={gradient}
-          start={0}
-          stop={1}
-          position={heat.alpha}
-        />
-        <modules.Alpha
-          alpha={Mul(0.5, Mul(heat.alpha, NoiseMask(fullness, 0.5, time)))}
+        <AuraLayer
+          streamSampler={streamSampler}
+          gradient={gradient}
+          wobble={wobble}
+          time={time}
+          tiling={tiling}
+          offset={offset}
+          fullness={fullness}
         />
       </composable.meshBasicMaterial>
     </mesh>
   )
 }
+
+/* TODO: support LayerArgs/LayerProps */
+type AuraProps = {
+  gradient: GradientStops<"vec3">
+  streamSampler: Unit<"sampler2D">
+  tiling?: Input<"vec2">
+  offset?: Input<"vec2">
+  fullness?: Input<"float">
+  wobble?: Input<"float">
+  time?: Input<"float">
+}
+
+const AuraLayerModule = ({
+  gradient,
+  streamSampler,
+  wobble = 0,
+  fullness = 0.5,
+  tiling = vec2(3, 1),
+  offset = vec2(0, 0),
+  time = GlobalTime
+}: AuraProps) => {
+  const heat = Texture2D(streamSampler, TilingUV(UV, tiling, offset))
+
+  return Layer({
+    modules: [
+      SurfaceWobble({ offset: time, amplitude: wobble }),
+      Gradient({
+        stops: gradient,
+        start: 0,
+        stop: 1,
+        position: heat.alpha
+      }),
+      Alpha({
+        alpha: Mul(0.5, Mul(heat.alpha, NoiseMask(fullness, 0.5, time)))
+      })
+    ]
+  })
+}
+
+const AuraLayer = moduleComponent(AuraLayerModule)
 
 export const NoiseMask = (
   threshold: Input<"float"> = 0.5,
