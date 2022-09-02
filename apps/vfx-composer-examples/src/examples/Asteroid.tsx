@@ -15,7 +15,6 @@ import {
   NormalizePlusMinusOne,
   pipe,
   Smoothstep,
-  Sub,
   UV,
   vec2,
   vec3
@@ -43,6 +42,56 @@ export default function AsteroidExample() {
   )
 }
 
+const InnerAura = () => (
+  <SphericalAura
+    scale={[1.5, 3, 1.5]}
+    position-y={1.8}
+    gradient={[
+      [new Color("#d62828").multiplyScalar(1.5), 0],
+      [new Color("#fb8b24").multiplyScalar(2), 0.5],
+      [new Color("#fb8b24").multiplyScalar(2), 0.9],
+      [new Color("#f8f9fa").multiplyScalar(8), 1]
+    ]}
+    tiling={vec2(3, 0.5)}
+    offset={vec2(0, Negate(Add(time, UV.x)))}
+    wobble={0.04}
+  />
+)
+
+const MiddleAura = () => (
+  <SphericalAura
+    scale={[1.6, 2, 1.6]}
+    position-y={0.8}
+    fullness={0.7}
+    gradient={[
+      [new Color("#d62828").multiplyScalar(1.5), 0],
+      [new Color("#fb8b24").multiplyScalar(2), 0.5],
+      [new Color("#fb8b24").multiplyScalar(2), 0.9],
+      [new Color("#f8f9fa").multiplyScalar(8), 1]
+    ]}
+    tiling={vec2(3, 0.5)}
+    offset={vec2(0, Negate(Add(time, UV.x)))}
+    wobble={0.04}
+  />
+)
+
+const OuterAura = () => (
+  <SphericalAura
+    scale={[1.8, 1.5, 1.8]}
+    position-y={0.4}
+    fullness={0.6}
+    gradient={[
+      [new Color("#3a86ff").multiplyScalar(1.5), 0],
+      [new Color("#8338ec").multiplyScalar(2), 0.5],
+      [new Color("#8338ec").multiplyScalar(2), 0.9],
+      [new Color("#ff006e").multiplyScalar(10), 1]
+    ]}
+    tiling={vec2(3, 0.5)}
+    offset={vec2(0, Negate(Add(time, UV.x)))}
+    wobble={0.02}
+  />
+)
+
 const Asteroid = (props: GroupProps) => (
   <group {...props}>
     <group
@@ -52,53 +101,9 @@ const Asteroid = (props: GroupProps) => (
     >
       <Float speed={340} rotationIntensity={0} floatIntensity={0.3}>
         <Rock />
-
-        {/* Inner Aura */}
-        <SphericalAura
-          scale={[1.5, 3, 1.5]}
-          position-y={1.8}
-          gradient={[
-            [new Color("#d62828").multiplyScalar(1.5), 0],
-            [new Color("#fb8b24").multiplyScalar(2), 0.5],
-            [new Color("#fb8b24").multiplyScalar(2), 0.9],
-            [new Color("#f8f9fa").multiplyScalar(8), 1]
-          ]}
-          tiling={vec2(3, 0.5)}
-          offset={vec2(0, Negate(Add(time, UV.x)))}
-          wobble={0.04}
-        />
-
-        {/* Middle Aura */}
-        <SphericalAura
-          scale={[1.6, 2, 1.6]}
-          position-y={0.8}
-          fullness={0.7}
-          gradient={[
-            [new Color("#d62828").multiplyScalar(1.5), 0],
-            [new Color("#fb8b24").multiplyScalar(2), 0.5],
-            [new Color("#fb8b24").multiplyScalar(2), 0.9],
-            [new Color("#f8f9fa").multiplyScalar(8), 1]
-          ]}
-          tiling={vec2(3, 0.5)}
-          offset={vec2(0, Negate(Add(time, UV.x)))}
-          wobble={0.04}
-        />
-
-        {/* Outer Aura */}
-        <SphericalAura
-          scale={[1.8, 1.5, 1.8]}
-          position-y={0.4}
-          fullness={0.6}
-          gradient={[
-            [new Color("#3a86ff").multiplyScalar(1.5), 0],
-            [new Color("#8338ec").multiplyScalar(2), 0.5],
-            [new Color("#8338ec").multiplyScalar(2), 0.9],
-            [new Color("#ff006e").multiplyScalar(10), 1]
-          ]}
-          tiling={vec2(3, 0.5)}
-          offset={vec2(0, Negate(Add(time, UV.x)))}
-          wobble={0.02}
-        />
+        <InnerAura />
+        <MiddleAura />
+        <OuterAura />
       </Float>
 
       <Sparks />
