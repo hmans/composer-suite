@@ -27,7 +27,10 @@
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:release": "pnpm ci && pnpm changeset publish"
+    "ci:release": "pnpm ci && pnpm changeset publish",
+    "typedoc:shader-composer": "typedoc --name 'Shader Composer' --out docs/shader-composer/ packages/shader-composer/src/index.ts packages/shader-composer/src/fun.ts",
+    "typedoc:material-composer": "typedoc --name 'Shader Composer' --out docs/material-composer/ packages/material-composer/src/index.ts packages/material-composer/src/modules/index.ts",
+    "typedoc": "pnpm typedoc:shader-composer && pnpm typedoc:material-composer"
   },
   "dependencies": {
     "@babel/core": "^7.18.13",
