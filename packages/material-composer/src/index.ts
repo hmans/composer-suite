@@ -1,8 +1,8 @@
+import { pipe } from "fp-ts/function"
 import {
   $,
   Float,
   Input,
-  pipe,
   Vec3,
   VertexNormal,
   VertexPosition

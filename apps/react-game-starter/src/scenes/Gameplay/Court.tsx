@@ -1,9 +1,9 @@
 import { GroupProps, MeshProps } from "@react-three/fiber"
+import { pipe } from "fp-ts/function"
 import { forwardRef } from "react"
 import {
   Add,
   Mul,
-  pipe,
   ShaderMaterialMaster,
   SplitVector3,
   Time,

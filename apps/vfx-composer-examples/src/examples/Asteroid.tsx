@@ -1,6 +1,7 @@
 import { Animate } from "@hmans/things"
 import { CameraShake, Float, useTexture } from "@react-three/drei"
 import { GroupProps, useThree } from "@react-three/fiber"
+import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus } from "randomish"
 import {
@@ -13,7 +14,6 @@ import {
   Mul,
   Negate,
   NormalizePlusMinusOne,
-  pipe,
   Smoothstep,
   UV,
   vec2,

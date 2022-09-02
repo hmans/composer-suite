@@ -1,15 +1,15 @@
+import { pipe } from "fp-ts/function"
 import {
-  Input,
-  Unit,
-  Float,
-  pipe,
-  varying,
-  LocalToViewSpace,
-  Sub,
-  PerspectiveDepth,
-  ScreenUV,
   Div,
-  Saturate
+  Float,
+  Input,
+  LocalToViewSpace,
+  PerspectiveDepth,
+  Saturate,
+  ScreenUV,
+  Sub,
+  Unit,
+  varying
 } from "shader-composer"
 
 export const Softness = (

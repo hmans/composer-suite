@@ -1,4 +1,5 @@
 import { Environment, Float as Floating } from "@react-three/drei"
+import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
 import { FlatStage } from "r3f-stage"
 import {
@@ -12,7 +13,6 @@ import {
   Mix,
   Mul,
   NormalizePlusMinusOne,
-  pipe,
   Pow,
   Smoothstep,
   Step,

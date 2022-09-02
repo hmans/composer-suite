@@ -10,7 +10,6 @@ import {
   Mul,
   OneMinus,
   PerspectiveDepth,
-  pipe,
   Saturate,
   ScreenUV,
   Smoothstep,
@@ -22,6 +21,7 @@ import {
   vec2,
   VertexPosition
 } from "shader-composer"
+import { pipe } from "fp-ts/function"
 import { Custom, useShader, useUniformUnit } from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"

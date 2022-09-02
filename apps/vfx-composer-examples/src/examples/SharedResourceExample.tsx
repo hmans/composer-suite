@@ -1,4 +1,5 @@
 import { sharedResource } from "@hmans/things"
+import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
 import {
@@ -7,7 +8,6 @@ import {
   GlobalTime,
   InstanceID,
   Mul,
-  pipe,
   Sin,
   vec3
 } from "shader-composer"

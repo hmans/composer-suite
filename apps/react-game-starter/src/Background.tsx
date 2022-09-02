@@ -1,7 +1,7 @@
+import { pipe } from "fp-ts/function"
 import {
   Add,
   Mul,
-  pipe,
   Round,
   ShaderMaterialMaster,
   Time,

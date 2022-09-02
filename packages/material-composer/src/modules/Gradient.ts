@@ -1,9 +1,9 @@
+import { pipe } from "fp-ts/function"
 import {
   Gradient as GradientUnit,
   GradientStop,
   Input,
   Mul,
-  pipe,
   Smoothstep,
   VertexPosition
 } from "shader-composer"
@@ -28,18 +28,20 @@ export type GradientArgs = {
   stop?: Input<"float">
 }
 
-export const Gradient: ModuleFactory<GradientArgs> = ({
-  stops,
-  contrast = 1,
-  start = 1,
-  stop = -1,
-  position = VertexPosition.y
-}) => (state) => ({
-  ...state,
-  color: pipe(
-    position,
-    (v) => Mul(v, contrast),
-    (v) => Smoothstep(start, stop, v),
-    (v) => GradientUnit(v, ...stops)
-  )
-})
+export const Gradient: ModuleFactory<GradientArgs> =
+  ({
+    stops,
+    contrast = 1,
+    start = 1,
+    stop = -1,
+    position = VertexPosition.y
+  }) =>
+  (state) => ({
+    ...state,
+    color: pipe(
+      position,
+      (v) => Mul(v, contrast),
+      (v) => Smoothstep(start, stop, v),
+      (v) => GradientUnit(v, ...stops)
+    )
+  })
