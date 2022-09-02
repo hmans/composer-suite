@@ -134,8 +134,9 @@ const config = {
 
       // Plugin / TypeDoc options
       {
-        entryPoints: ["../../shader-composer/src/index.ts"],
-        tsconfig: "../../tsconfig.json"
+        // entryPoints: ["../../shader-composer/src/index.ts"],
+        // tsconfig: "../../tsconfig.json"
+        sidebar: { fullNames: true }
       }
     ]
   ]
