@@ -16,7 +16,7 @@ import { useParticlesContext } from "./Particles"
 export type EmitterProps = Object3DProps & {
   particles?: MutableRefObject<Particles> | RefObject<Particles>
   limit?: number
-  rate?: number
+  rate?: number | (() => number)
   setup?: InstanceSetupCallback
 }
 
@@ -81,7 +81,8 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
         /* Increase the accumulated number of particles we're supposed to emit. */
         if (rate !== Infinity) {
-          queuedParticles.current += dt * rate
+          const currentRate = typeof rate === "function" ? rate() : rate
+          queuedParticles.current += dt * currentRate
         }
 
         /* Is it time to emit? */
