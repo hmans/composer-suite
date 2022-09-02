@@ -11,7 +11,7 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "include": ["packages/**/src/**/*", "packages/**/test/**/*"],
+  "include": ["packages/**/*"],
   "exclude": [
     "node_modules",
     "**/node_modules/**/*",
@@ -23,8 +23,6 @@
     "plugin": "typedoc-plugin-markdown",
     "entryPoints": ["packages/shader-composer", "packages/material-composer"],
     "entryPointStrategy": "packages",
-    "excludeExternals": true,
-    "externalPattern": "**/node_modules/**/*",
     "out": "docs"
   }
 }
