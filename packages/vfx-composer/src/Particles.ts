@@ -41,11 +41,11 @@ export class Particles extends InstancedMesh<BufferGeometry> {
   constructor(
     geometry: BufferGeometry | undefined,
     material: Material | undefined,
-    count: number,
-    safetyBuffer: number = 100
+    capacity: number,
+    safetyBuffer: number = capacity / 10
   ) {
-    super(geometry, material, count + safetyBuffer)
-    this.capacity = count
+    super(geometry, material, capacity + safetyBuffer)
+    this.capacity = capacity
     this.safetyBuffer = safetyBuffer
 
     this.onBeforeRender = () => {
