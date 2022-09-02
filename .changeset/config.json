@@ -10,10 +10,5 @@
   ],
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": [
-    "vfx-composer-examples",
-    "render-composer-examples",
-    "material-composer-examples"
-  ]
+  "updateInternalDependencies": "patch"
 }
