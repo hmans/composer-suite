@@ -1,7 +1,9 @@
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
+import { patched } from "@material-composer/patched"
 import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
-import { CustomShaderMaterialMaster, Mix } from "shader-composer"
-import { Custom, useShader, useUniformUnit } from "shader-composer-r3f"
+import { Mix } from "shader-composer"
+import { useShader, useUniformUnit } from "shader-composer-r3f"
 import { Dissolve } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 
@@ -39,10 +41,8 @@ export default function DissolveExample() {
       dissolveEdgeThickness
     )
 
-    return CustomShaderMaterialMaster({
-      diffuseColor: pipe(sphereColor, (v) =>
-        Mix(v, dissolveEdgeColor, dissolve.edge)
-      ),
+    return PatchedMaterialMaster({
+      color: pipe(sphereColor, (v) => Mix(v, dissolveEdgeColor, dissolve.edge)),
       alpha: dissolve.alpha
     })
   }, [])
@@ -51,7 +51,7 @@ export default function DissolveExample() {
   return (
     <mesh>
       <icosahedronGeometry args={[1, 10]} />
-      <Custom.MeshPhysicalMaterial
+      <patched.meshPhysicalMaterial
         {...shader}
         transparent
         side={DoubleSide}

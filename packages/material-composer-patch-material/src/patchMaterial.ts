@@ -22,7 +22,8 @@ export const patchMaterial = <M extends Material>(
     injectGlobalDefines(material),
     fragmentShader ? injectProgram(fragmentShader) : identity,
     injectRoughnessAndMetalness,
-    injectColorAndAlpha
+    injectColorAndAlpha,
+    injectEmissive
   )
 
   material.onBeforeCompile = (shader) => {
@@ -111,6 +112,19 @@ const injectColorAndAlpha = flow(
   `),
   extend("#include <color_fragment>").with(
     "diffuseColor = vec4(patched_Color, patched_Alpha);"
+  )
+)
+
+const injectEmissive = flow(
+  extend("void main() {").with(`
+    #if defined IS_MESHSTANDARDMATERIAL || defined IS_MESHPHYSICALMATERIAL
+    vec3 patched_Emissive = emissive;
+    #else
+    vec3 patched_Emissive = vec3(1.0, 1.0, 1.0);
+    #endif
+  `),
+  replace("vec3 totalEmissiveRadiance = emissive;").with(
+    "vec3 totalEmissiveRadiance = patched_Emissive;"
   )
 )
 

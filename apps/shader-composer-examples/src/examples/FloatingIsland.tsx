@@ -1,10 +1,11 @@
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
+import { patched } from "@material-composer/patched"
 import { Environment, Float as Floating } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
 import { FlatStage } from "r3f-stage"
 import {
   Add,
-  CustomShaderMaterialMaster,
   Float,
   GreaterOrEqual,
   If,
@@ -23,9 +24,9 @@ import {
   Vec3,
   vec3
 } from "shader-composer"
-import { Custom, useShader, useUniformUnit } from "shader-composer-r3f"
+import { useShader, useUniformUnit } from "shader-composer-r3f"
 import { Displacement, PSRDNoise2D } from "shader-composer-toybox"
-import { Color, Vector2 } from "three"
+import { Color, RGBADepthPacking, Vector2 } from "three"
 
 export default function FloatingIslandExample() {
   return (
@@ -100,10 +101,10 @@ const FloatingIsland = () => {
     recalculating the position for every fragment. */
     const position = varying(Displacement(displace).position)
 
-    return CustomShaderMaterialMaster({
+    return PatchedMaterialMaster({
       position,
 
-      diffuseColor: pipe(Vec3(new Color("#1982c4")), (v) =>
+      color: pipe(Vec3(new Color("#1982c4")), (v) =>
         pipe(
           v,
           (v) => Mix(new Color("#252422"), v, Step(-0.2, position.y)),
@@ -120,7 +121,7 @@ const FloatingIsland = () => {
     <mesh castShadow receiveShadow>
       <dodecahedronGeometry args={[2, 5]} />
 
-      <Custom.MeshStandardMaterial
+      <patched.meshStandardMaterial
         {...shader}
         flatShading
         metalness={0.5}
@@ -128,9 +129,11 @@ const FloatingIsland = () => {
       />
 
       {/* We don't need the fragment shader in the depth material. */}
-      <Custom.MeshDepthMaterial
+      <patched.meshDepthMaterial
         vertexShader={shader.vertexShader}
         uniforms={shader.uniforms}
+        attach="customDepthMaterial"
+        depthPacking={RGBADepthPacking}
       />
     </mesh>
   )

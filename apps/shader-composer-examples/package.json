@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hmans/r3f-animate": "^0.0.4",
+    "@material-composer/patch-material": "workspace:^0.1.1",
+    "@material-composer/patched": "workspace:^0.1.1",
     "@react-three/drei": "^9.25.3",
     "@react-three/fiber": "^8.6.2",
     "fp-ts": "^2.12.3",
@@ -20,8 +22,7 @@
     "shader-composer": "^0.3.0",
     "shader-composer-r3f": "^0.2.0",
     "shader-composer-toybox": "^0.1.0",
-    "three": "^0.143.0",
-    "three-custom-shader-material": "^4.0.0"
+    "three": "^0.143.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.18",
