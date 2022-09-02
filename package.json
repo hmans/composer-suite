@@ -16,8 +16,7 @@
     "useTabs": false,
     "semi": false,
     "singleQuote": false,
-    "arrowParens": "always",
-    "printWidth": 90
+    "arrowParens": "always"
   },
   "scripts": {
     "build": "preconstruct build",

@@ -6,27 +6,23 @@ import { Float } from "./values"
 /**
  * @internal
  */
-export const Operator = (name: string, operator: "+" | "-" | "*" | "/") => <
-  A extends GLSLType,
-  B extends GLSLType
->(
-  a: Input<A>,
-  b: Input<B>
-) =>
-  Unit(type(a), $`${a} ${operator} ${b}`, {
-    name: `${name} (${type(a)})`
-  })
+export const Operator =
+  (name: string, operator: "+" | "-" | "*" | "/") =>
+  <A extends GLSLType, B extends GLSLType>(a: Input<A>, b: Input<B>) =>
+    Unit(type(a), $`${a} ${operator} ${b}`, {
+      name: `${name} (${type(a)})`
+    })
 
 /**
  * @internal
  */
-export const SingleArgumentFunction = <
-  TA extends GLSLType = "float" | "vec2" | "vec3" | "vec4"
->(
-  name: string,
-  functionName: string
-) => <A extends TA>(a: Input<A>) =>
-  Unit(type(a), $`${functionName}(${a})`, { name: `${name} (${type(a)})` })
+export const SingleArgumentFunction =
+  <TA extends GLSLType = "float" | "vec2" | "vec3" | "vec4">(
+    name: string,
+    functionName: string
+  ) =>
+  <A extends TA>(a: Input<A>) =>
+    Unit(type(a), $`${functionName}(${a})`, { name: `${name} (${type(a)})` })
 
 /**
  * A Shader Unit that adds two values and returns the result.
@@ -127,14 +123,27 @@ export const Modulo = <
   b: Input<B>
 ) => Unit(type(a), $`mod(${a}, ${b})`)
 
-export const Clamp = <T extends GLSLType>(x: Input<T>, min: Input<T>, max: Input<T>) =>
-  Unit(type(x), $`clamp(${x}, ${min}, ${max})`, { name: "Clamp" })
+export const Clamp = <T extends GLSLType>(
+  x: Input<T>,
+  min: Input<T>,
+  max: Input<T>
+) => Unit(type(x), $`clamp(${x}, ${min}, ${max})`, { name: "Clamp" })
 
 export const Clamp01 = (x: Input<"float">) => Clamp(x, 0, 1)
 
 export const Saturate = Clamp01
 
-export const OneMinus = (v: Input<"float">) => Float(Sub(1, v), { name: "OneMinus" })
+export const OneMinus = (v: Input<"float">) =>
+  Float(Sub(1, v), { name: "OneMinus" })
+
+/**
+ * Negates the value (equivalent to multiplying it with -1.)
+ *
+ * @param v Value to negate.
+ * @returns A shader unit holding the negated value.
+ */
+export const Negate = <T extends GLSLType>(v: Input<T>) =>
+  Unit(type(v), Mul(v, -1), { name: "Negate" })
 
 /**
  * Lerpy fun!
@@ -167,8 +176,11 @@ export const Lerp = <T extends GLSLType>(
   ratio: Input<"float">
 ) => Unit(type(a), lerp(a, b, ratio), { name: "Mix" })
 
-export const inverseLerp = <T extends GLSLType>(a: Input<T>, b: Input<T>, c: Input<T>) =>
-  $`(${c} - ${a}) / (${b} - ${a})`
+export const inverseLerp = <T extends GLSLType>(
+  a: Input<T>,
+  b: Input<T>,
+  c: Input<T>
+) => $`(${c} - ${a}) / (${b} - ${a})`
 
 /**
  * Performs inverse linear interpolation between two values, and returns the result.
@@ -179,8 +191,11 @@ export const inverseLerp = <T extends GLSLType>(a: Input<T>, b: Input<T>, c: Inp
  * @param c The value to find the interpolation ratio of.
  * @returns The interpolation ratio of `c` between `a` and `b`.
  */
-export const InverseLerp = <T extends GLSLType>(a: Input<T>, b: Input<T>, c: Input<T>) =>
-  Unit(type(a), inverseLerp(a, b, c), { name: "Inverse Lerp" })
+export const InverseLerp = <T extends GLSLType>(
+  a: Input<T>,
+  b: Input<T>,
+  c: Input<T>
+) => Unit(type(a), inverseLerp(a, b, c), { name: "Inverse Lerp" })
 
 export const Mix = Lerp
 
@@ -207,8 +222,11 @@ export const Step = (edge: Input<"float">, v: Input<"float">) =>
  * @param v The source value for the interpolation.
  * @returns The result of the Hermite interpolation.
  */
-export const Smoothstep = (min: Input<"float">, max: Input<"float">, v: Input<"float">) =>
-  Float($`smoothstep(${min}, ${max}, ${v})`, { name: "Smoothstep" })
+export const Smoothstep = (
+  min: Input<"float">,
+  max: Input<"float">,
+  v: Input<"float">
+) => Float($`smoothstep(${min}, ${max}, ${v})`, { name: "Smoothstep" })
 
 export const remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   value: Input<T>,
@@ -226,7 +244,8 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   outMax: Input<T>
 ) => Unit(type(value), remap(value, inMin, inMax, outMin, outMax))
 
-export const NormalizePlusMinusOne = (f: Input<"float">) => Remap(f, -1, 1, 0, 1)
+export const NormalizePlusMinusOne = (f: Input<"float">) =>
+  Remap(f, -1, 1, 0, 1)
 
 export const Min = <T extends "float" | "vec2" | "vec3" | "vec4">(
   a: Input<T>,

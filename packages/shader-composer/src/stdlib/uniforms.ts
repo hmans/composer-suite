@@ -1,12 +1,20 @@
 import { PerspectiveCamera, Vector2 } from "three"
 import { $ } from "../expressions"
-import { GLSLType, injectAPI, JSTypes, uniformName, Unit, UnitConfig } from "../units"
+import {
+  GLSLType,
+  injectAPI,
+  JSTypes,
+  uniformName,
+  Unit,
+  UnitConfig
+} from "../units"
 import { FragmentCoordinate } from "./globals"
 import { Vec2 } from "./values"
 
-export type UniformUnit<T extends GLSLType, J extends JSTypes[T] = JSTypes[T]> = Unit<
-  T
-> & {
+export type UniformUnit<
+  T extends GLSLType,
+  J extends JSTypes[T] = JSTypes[T]
+> = Unit<T> & {
   value: J
 }
 
@@ -36,6 +44,14 @@ export const UniformUnit = <T extends GLSLType, J extends JSTypes[T]>(
   }))
 }
 
+/**
+ * Provides a uniform unit holding a representation of time. The time value
+ * stored is not an absolute time, so multiple instances of this unit will not
+ * be synchronized. If you require synchronization, please either reuse the
+ * same instance of this unit, or use `GlobalTime` instead.
+ *
+ * @param initial The initial time value to start with. (Default: 0)
+ */
 export const Time = (initial: number = 0) => {
   const uniform = UniformUnit("float", initial, {
     name: "Time Uniform",
@@ -47,6 +63,15 @@ export const Time = (initial: number = 0) => {
 
   return uniform
 }
+
+/**
+ * A global time uniform unit that can be safely used across multiple shaders,
+ * wherever synchronization is required,
+ * and as a default value for `time` inputs of other unit implementations, to prevent
+ * shaders from being spammed by multiple uniforms all holding different
+ * representations of time.
+ */
+export const GlobalTime = Time()
 
 export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
   name: "Current Render Resolution",
