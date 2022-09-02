@@ -69,7 +69,7 @@ export const AuraLayerModule = ({
 
 export const AuraLayer = moduleComponent(AuraLayerModule)
 
-export const Aura = ({ ...props }: AuraArgs & MeshProps) => {
+export const SphericalAura = ({ ...props }: AuraArgs & MeshProps) => {
   /* Load texture */
   const streamTexture = useTexture(streamTextureUrl)
   streamTexture.wrapS = streamTexture.wrapT = RepeatWrapping

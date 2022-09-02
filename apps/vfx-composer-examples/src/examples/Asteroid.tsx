@@ -28,7 +28,7 @@ import {
   useParticleAttribute,
   useParticles
 } from "vfx-composer-r3f"
-import { Aura } from "./effects/Aura"
+import { SphericalAura } from "./effects/Aura"
 import { Lava } from "./modules/Lava"
 import { smokeUrl } from "./textures"
 
@@ -54,7 +54,7 @@ const Asteroid = (props: GroupProps) => (
         <Rock />
 
         {/* Inner Aura */}
-        <Aura
+        <SphericalAura
           scale={[1.5, 3, 1.5]}
           position-y={1.8}
           gradient={[
@@ -69,7 +69,7 @@ const Asteroid = (props: GroupProps) => (
         />
 
         {/* Middle Aura */}
-        <Aura
+        <SphericalAura
           scale={[1.6, 2, 1.6]}
           position-y={0.8}
           fullness={0.7}
@@ -85,7 +85,7 @@ const Asteroid = (props: GroupProps) => (
         />
 
         {/* Outer Aura */}
-        <Aura
+        <SphericalAura
           scale={[1.8, 1.5, 1.8]}
           position-y={0.4}
           fullness={0.6}
