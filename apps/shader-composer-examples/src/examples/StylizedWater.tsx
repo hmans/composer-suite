@@ -1,4 +1,5 @@
 import { Animate, float, rotate } from "@hmans/r3f-animate"
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
@@ -8,7 +9,6 @@ import { Layers, useRenderPipeline } from "r3f-stage"
 import {
   Add,
   Clamp,
-  CustomShaderMaterialMaster,
   GlobalTime,
   Input,
   Mix,
@@ -135,7 +135,7 @@ const Water = (props: MeshProps) => {
       return Add(position, Mul(normal, scaledNoise))
     }
 
-    return CustomShaderMaterialMaster({
+    return PatchedMaterialMaster({
       /* Lerp between the new and the original position based on
       the value in the calmness variable. */
       position: Mix(
@@ -144,7 +144,7 @@ const Water = (props: MeshProps) => {
         calmness
       ),
 
-      diffuseColor: pipe(
+      color: pipe(
         /* Start with the "shallow water" color. */
         colors.shallow,
         /* Mix in the original scene color! */

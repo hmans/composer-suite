@@ -1,8 +1,8 @@
+import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import {
-  CustomShaderMaterialMaster,
   GlobalTime,
   Input,
   Int,
@@ -20,7 +20,7 @@ const NormalizeNoise = (v: Input<"float">) => Remap(v, -1, 1, 0, 1)
 
 function Water() {
   const shader = useShader(() => {
-    const diffuseColor = new Color("#acd")
+    const color = new Color("#acd")
     const time = GlobalTime
 
     const { position, normal } = Displacement((v) => {
@@ -56,10 +56,10 @@ function Water() {
       )
     })
 
-    return CustomShaderMaterialMaster({
+    return PatchedMaterialMaster({
       position,
       normal,
-      diffuseColor
+      color
     })
   })
 
