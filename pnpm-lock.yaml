@@ -113,6 +113,7 @@ importers:
     specifiers:
       '@astrojs/mdx': ^0.11.0
       '@astrojs/react': ^1.1.1
+      '@microsoft/tsdoc': ^0.14.1
       '@ts-morph/bootstrap': ^0.16.0
       astro: ^1.1.3
       micromark: ^3.0.10
@@ -127,6 +128,7 @@ importers:
     devDependencies:
       '@astrojs/mdx': 0.11.0_rollup@2.79.0
       '@astrojs/react': 1.1.1_biqbaboplfbrettd7655fr4n2y
+      '@microsoft/tsdoc': 0.14.1
       '@ts-morph/bootstrap': 0.16.0
       micromark: 3.0.10
       react: 18.2.0
@@ -4003,6 +4005,10 @@ packages:
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
     dev: false
+
+  /@microsoft/tsdoc/0.14.1:
+    resolution: {integrity: sha512-6Wci+Tp3CgPt/B9B0a3J4s3yMgLNSku6w5TV6mN+61C71UqsRBv2FUibBf3tPGlNxebgPHMEUzKpb1ggE8KCKw==}
+    dev: true
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}

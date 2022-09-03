@@ -8,6 +8,7 @@ import {
 export type SymbolDescription = {
   name: string
   description?: string
+  fullDoc?: string
   tags?: TagDescription[]
 }
 
@@ -60,6 +61,7 @@ const processVariableDeclaration = (
   return {
     name,
     description: jsDoc?.getDescription(),
+    fullDoc: jsDoc?.getFullText(),
     tags: tags ? processTags(tags) : undefined
   }
 }

@@ -1,33 +1,53 @@
 ---
+import {
+  DocComment,
+  DocExcerpt,
+  DocNode,
+  ParserContext,
+  TSDocParser
+} from "@microsoft/tsdoc"
 import Markdown from "./Markdown.astro"
 import type { SymbolDescription } from "./morphy"
 
+/**
+ * This is a simplistic solution until we implement proper DocNode rendering APIs.
+ */
+export class Formatter {
+  public static renderDocNode(docNode: DocNode): string {
+    let result: string = ""
+    if (docNode) {
+      if (docNode instanceof DocExcerpt) {
+        result += docNode.content.toString()
+      }
+      for (const childNode of docNode.getChildNodes()) {
+        result += Formatter.renderDocNode(childNode)
+      }
+    }
+    return result
+  }
+
+  public static renderDocNodes(docNodes: ReadonlyArray<DocNode>): string {
+    let result: string = ""
+    for (const docNode of docNodes) {
+      result += Formatter.renderDocNode(docNode)
+    }
+    return result
+  }
+}
 export interface Props extends SymbolDescription {}
 
-const { name, description, tags } = Astro.props
+const { name, description, fullDoc } = Astro.props
+
+if (fullDoc) {
+  const tsdocParser: TSDocParser = new TSDocParser()
+  const parserContext: ParserContext = tsdocParser.parseString(fullDoc)
+  const docComment: DocComment = parserContext.docComment
+}
 ---
 
 <div class="symbol">
   <h3>{name}</h3>
   {description && <Markdown body={description} />}
-
-  {
-    tags && tags.length > 0 && (
-      <table>
-        {tags.map((tag) => {
-          const structure = tag.original.getStructure()
-          return (
-            <tr>
-              <td>{structure.tagName}</td>
-              <td>
-                <Markdown body={String(structure.text)} />
-              </td>
-            </tr>
-          )
-        })}
-      </table>
-    )
-  }
 </div>
 
 <style>
