@@ -1,6 +1,11 @@
-import { globalCss, styled } from "@stitches/react"
+import { globalCss, css, styled } from "@stitches/react"
 
 /* Palette: https://coolors.co/palette/22223b-4a4e69-9a8c98-c9ada7-f2e9e4 */
+
+const collapseChildren = css({
+  "*:first-child": { marginTop: 0 },
+  "*:last-child": { marginBottom: 0 }
+})
 
 const globalStyles = globalCss({
   body: {
@@ -26,29 +31,28 @@ const UIRoot = styled("div", {
   display: "flex"
 })
 
-const Panel = styled("div", {
+const Panel = styled("div", collapseChildren, {
   backgroundColor: "#333",
   color: "#dcc",
-  textShadow: "rgba(0, 0, 0, 0.2) 0px 1px 1px",
-  padding: "0.8rem",
-  "*:first-child": { marginTop: 0 },
-  "*:last-child": { marginBottom: 0 }
+  textShadow: "rgba(0, 0, 0, 0.5) 1px 2px 1px",
+  padding: "0.8rem"
 })
 
-const Text = styled("div", {
-  margin: "0.5rem 0"
+const Text = styled("p", {
+  margin: "0.75rem 0"
 })
 
 const Heading = styled("h3", {
   font: "inherit",
   fontWeight: "bold",
+  textShadow: "rgba(0, 0, 0, 0.5) 2px 2px 1px",
   color: "#F2E9E4",
   margin: "1.5rem 0 0.5rem 0"
 })
 
 const App = () => (
   <UIRoot>
-    <Panel>
+    <Panel css={{ width: 360 }}>
       <Heading>Welcome!</Heading>
       <Text>
         This is a panel. It displays things. Amazing! Many curious, interesting
