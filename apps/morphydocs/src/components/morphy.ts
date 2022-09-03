@@ -4,12 +4,20 @@ import {
   Project,
   VariableDeclaration
 } from "ts-morph"
+import {
+  DocComment,
+  DocExcerpt,
+  DocNode,
+  ParserContext,
+  TSDocParser
+} from "@microsoft/tsdoc"
 
 export type SymbolDescription = {
   name: string
-  description?: string
   fullDoc?: string
-  tags?: TagDescription[]
+  doc?: {
+    description: string
+  }
 }
 
 export type TagDescription = {
@@ -58,11 +66,22 @@ const processVariableDeclaration = (
   const jsDoc = statement.getJsDocs()[0]
   const tags = jsDoc?.getTags()
 
+  const fullDoc = jsDoc?.getFullText()
+
   return {
     name,
-    description: jsDoc?.getDescription(),
-    fullDoc: jsDoc?.getFullText(),
-    tags: tags ? processTags(tags) : undefined
+    fullDoc,
+    doc: jsDoc ? processDocComment(fullDoc) : undefined
+  }
+}
+
+const processDocComment = (comment: string) => {
+  const tsdocParser: TSDocParser = new TSDocParser()
+  const parserContext: ParserContext = tsdocParser.parseString(comment)
+  const docComment: DocComment = parserContext.docComment
+
+  return {
+    description: renderDocNodes(docComment.summarySection.getChildNodes())
   }
 }
 
@@ -74,6 +93,30 @@ const processTag = (tag: JSDocTag): TagDescription => {
     name: tag.getTagName(),
     description: tag.getCommentText()
   }
+}
+
+const renderDocNode = (docNode: DocNode): string => {
+  let result: string = ""
+
+  if (docNode) {
+    if (docNode instanceof DocExcerpt) {
+      result += docNode.content.toString()
+    }
+
+    for (const childNode of docNode.getChildNodes()) {
+      result += renderDocNode(childNode)
+    }
+  }
+
+  return result
+}
+
+const renderDocNodes = (docNodes: ReadonlyArray<DocNode>): string => {
+  let result: string = ""
+  for (const docNode of docNodes) {
+    result += renderDocNode(docNode)
+  }
+  return result
 }
 
 export default morphy
