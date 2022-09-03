@@ -8,7 +8,7 @@ const module = morphy(
   "../../packages/shader-composer/src/index.ts"
 )
 
-const symbols = module.symbols
+const symbols = module.symbols.sort((a, b) => a.name.localeCompare(b.name))
 ---
 
 <Layout title="Welcome to Astro.">
