@@ -42,7 +42,8 @@ const UIRoot = styled("div", {
   backgroundColor: "#111",
   width: "100%",
   height: "100%",
-  display: "flex"
+  display: "flex",
+  userSelect: "none"
 })
 
 const Panel = styled("div", collapseChildren, {
