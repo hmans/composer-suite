@@ -52,10 +52,6 @@ const Panel = styled("div", collapseChildren, {
   padding: "0.8rem"
 })
 
-const Text = styled("p", {
-  margin: "0.75rem 0"
-})
-
 const Heading = styled("h3", {
   font: "inherit",
   fontWeight: "bold",
@@ -133,16 +129,20 @@ const App = () => (
       </RenderCanvas>
       <Panel css={{ width: 400 }}>
         <Heading>Welcome!</Heading>
-        <Text>
+        <p>
           This is a panel. It displays things. Amazing! Many curious,
           interesting things, that hopefully will make building editor UIs
           really useful. (This is just a slightly longer paragraph to see how it
           renders.)
-        </Text>
-        <Text>Like text.</Text>
-        <Text>Or even more text.</Text>
-        <Heading>Inputs!</Heading>
-        <Text>We should try some inputs. Inputs are really cool.</Text>
+        </p>
+        <p>Like text.</p>
+        <p>Or even more text.</p>
+
+        <Heading>Buttons</Heading>
+        <p>Buttonnnnssss, they're amazing!</p>
+
+        <Heading>Inputs</Heading>
+        <p>We should try some inputs. Inputs are really cool.</p>
 
         <ControlGroup>
           <ControlRow>
