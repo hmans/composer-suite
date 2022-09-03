@@ -12,6 +12,7 @@ export type SymbolDescription = {
 }
 
 export type TagDescription = {
+  original: JSDocTag
   name: string
   description?: string
 }
@@ -66,7 +67,11 @@ const processVariableDeclaration = (
 const processTags = (tags: JSDocTag[]) => tags.map(processTag)
 
 const processTag = (tag: JSDocTag): TagDescription => {
-  return { name: tag.getTagName(), description: tag.getCommentText() }
+  return {
+    original: tag,
+    name: tag.getTagName(),
+    description: tag.getCommentText()
+  }
 }
 
 export default morphy

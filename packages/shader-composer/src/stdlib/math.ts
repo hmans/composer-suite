@@ -185,6 +185,7 @@ export const inverseLerp = <T extends GLSLType>(
 /**
  * Performs inverse linear interpolation between two values, and returns the result.
  * Given three values `a`, `b`, and `c`, the result is the ratio of `c` between `a` and `b`.
+ * Also see {@link Lerp}.
  *
  * @param a The starting value of the interpolation.
  * @param b The ending value of the interpolation.
@@ -204,6 +205,13 @@ export const Mix = Lerp
  * edge, and 1 if the value is greater than or equal to the edge.
  *
  * Wraps the GLSL `step` function.
+ *
+ * @example
+ * Moooooooo
+ *
+ * ```jsx
+ * Step(0.5, 0.25, f)
+ * ```
  *
  * @param edge The edge value.
  * @param v The value to test.

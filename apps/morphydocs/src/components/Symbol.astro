@@ -13,11 +13,19 @@ const { name, description, tags } = Astro.props
 
   {
     tags && tags.length > 0 && (
-      <ul>
-        {tags.map((tag) => (
-          <li>{tag.description}</li>
-        ))}
-      </ul>
+      <table>
+        {tags.map((tag) => {
+          const structure = tag.original.getStructure()
+          return (
+            <tr>
+              <td>{structure.tagName}</td>
+              <td>
+                <Markdown body={String(structure.text)} />
+              </td>
+            </tr>
+          )
+        })}
+      </table>
     )
   }
 </div>
