@@ -8,6 +8,9 @@ const collapseChildren = css({
 })
 
 const globalStyles = globalCss({
+  "*": {
+    boxSizing: "border-box"
+  },
   body: {
     margin: 0,
     padding: 0,
@@ -50,6 +53,25 @@ const Heading = styled("h3", {
   margin: "1.5rem 0 0.5rem 0"
 })
 
+const Input = styled("input", {
+  font: "inherit",
+  color: "inherit",
+  backgroundColor: "inherit",
+  border: "0",
+  background: "#222",
+  padding: "5px 8px",
+  width: "100%",
+  outline: "none",
+  caretColor: "hotpink",
+  borderRadius: "5px",
+  boxShadow:
+    "inset 1px 1px 2px 0 rgba(0, 0, 0, 0.5), inset -1px -1px 2px 0 rgba(255, 255, 255, 0.2)",
+  "&::selection": {
+    backgroundColor: "hotpink",
+    color: "white"
+  }
+})
+
 const App = () => (
   <UIRoot>
     <Panel css={{ width: 360 }}>
@@ -63,6 +85,7 @@ const App = () => (
       <Text>Or even more text.</Text>
       <Heading>Inputs!</Heading>
       <Text>We should try an input. Inputs are really cool.</Text>
+      <Input type="text" spellCheck="false" />
     </Panel>
   </UIRoot>
 )
