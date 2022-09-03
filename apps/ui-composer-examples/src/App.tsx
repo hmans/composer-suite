@@ -49,7 +49,7 @@ const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
   color: "$panelText",
   textShadow: "rgba(0, 0, 0, 0.2) 1px 2px 1px",
-  padding: "0.8rem"
+  padding: "1rem"
 })
 
 const Heading = styled("h3", {
@@ -77,6 +77,26 @@ const Input = styled("input", {
     color: "white"
   },
   width: "100%"
+})
+
+const Button = styled("button", {
+  font: "inherit",
+  border: "0",
+  backgroundColor: "$panelText",
+  color: "$panelBackground",
+  padding: "0.3rem 0.75rem",
+  borderRadius: "5px",
+  boxShadow:
+    "2px 2px 2px 0 rgba(0, 0, 0, 0.5), inset 2px 2px 10px 0 rgba(255, 255, 255, 0.8)",
+  outline: "none",
+  cursor: "pointer",
+  width: "100%",
+
+  transition: "background-color 0.1s ease-out",
+
+  "&:hover": {
+    backgroundColor: "#ddd"
+  }
 })
 
 const HorizontalGroup = styled("div", {
@@ -140,6 +160,16 @@ const App = () => (
 
         <Heading>Buttons</Heading>
         <p>Buttonnnnssss, they're amazing!</p>
+
+        <VerticalGroup>
+          <Button>Click me</Button>
+          <Button>Or click this one</Button>
+          <Button>How about this one?</Button>
+          <HorizontalGroup>
+            <Button>Left</Button>
+            <Button>Right</Button>
+          </HorizontalGroup>
+        </VerticalGroup>
 
         <Heading>Inputs</Heading>
         <p>We should try some inputs. Inputs are really cool.</p>
