@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@hmans/types": "^0.0.3",
-    "fp-ts": "^2.12.2"
+    "fp-ts": "^2.12.3"
   }
 }

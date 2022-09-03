@@ -1,0 +1,23 @@
+{
+  "name": "ts-module-docs",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "",
+  "version": "0.0.1",
+  "main": "dist/ts-module-docs.cjs.js",
+  "module": "dist/ts-module-docs.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "@microsoft/tsdoc": "^0.14.1",
+    "ts-morph": "^15.1.0"
+  }
+}

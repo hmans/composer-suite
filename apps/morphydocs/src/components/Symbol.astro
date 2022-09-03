@@ -1,0 +1,26 @@
+---
+import Markdown from "./Markdown.astro"
+import { renderDocNodes, SymbolDescription } from "ts-module-docs"
+
+export interface Props extends SymbolDescription {}
+
+const { name, doc } = Astro.props
+---
+
+<div class="symbol">
+  <h3>{name}</h3>
+  {
+    doc && (
+      <>
+        <Markdown body={doc.description} />
+        {renderDocNodes(doc.params)}
+      </>
+    )
+  }
+</div>
+
+<style>
+  div.symbol {
+    margin: 2em 0;
+  }
+</style>
