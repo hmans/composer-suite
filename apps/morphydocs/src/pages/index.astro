@@ -3,13 +3,15 @@ import morphy from "../components/morphy"
 import Symbol from "../components/Symbol.astro"
 import Layout from "../layouts/Layout.astro"
 
-const stuff = morphy(
+const module = morphy(
   "../../tsconfig.json",
   "../../packages/shader-composer/src/index.ts"
 )
+
+const symbols = module.symbols
 ---
 
 <Layout title="Welcome to Astro.">
   <h1>Shader Composer</h1>
-  {stuff.symbols.map((symbol) => <Symbol {...symbol} />)}
+  {symbols.map((symbol) => <Symbol {...symbol} />)}
 </Layout>
