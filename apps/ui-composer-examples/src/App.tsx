@@ -1,7 +1,9 @@
-import { useState } from "react"
+function UIRoot({ children }: { children?: React.ReactNode }) {
+  return <div>{children}</div>
+}
 
 function App() {
-  return <div className="App">Yoooo</div>
+  return <UIRoot>Yooo</UIRoot>
 }
 
 export default App
