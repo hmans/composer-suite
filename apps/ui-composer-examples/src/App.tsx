@@ -8,7 +8,8 @@ const globalStyles = globalCss({
     padding: 0,
     height: "100%",
     width: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
+    font: "15px/1.3 Inter, sans-serif"
   },
   "div#root": {
     width: "100vw",
@@ -18,26 +19,30 @@ const globalStyles = globalCss({
 
 globalStyles()
 
-const Box = styled("div", {
-  backgroundColor: "gainsboro",
-  borderRadius: "9999px",
-  fontSize: "13px",
-  padding: "10px 15px",
-
-  "&:hover": {
-    backgroundColor: "lightgray"
-  }
+const UIRoot = styled("div", {
+  backgroundColor: "#111",
+  width: "100%",
+  height: "100%",
+  display: "flex"
 })
 
-const UIRoot = styled("div", {
-  backgroundColor: "#22223B",
-  width: "100%",
-  height: "100%"
+const Panel = styled("div", {
+  backgroundColor: "#333",
+  color: "#F2E9E4",
+  textShadow: "rgba(0, 0, 0, 0.2) 0px 1px 1px",
+  padding: "0.8rem"
+})
+
+const Text = styled("div", {
+  margin: "0.5rem 0"
 })
 
 const App = () => (
   <UIRoot>
-    <Box>Yooo</Box>
+    <Panel>
+      <Text>This is a panel. It displays things. Amazing!</Text>
+      <Text>Like text.</Text>
+    </Panel>
   </UIRoot>
 )
 
