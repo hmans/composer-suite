@@ -1,4 +1,9 @@
-import { JSDocTag, Project, VariableDeclaration } from "ts-morph"
+import {
+  ExportedDeclarations,
+  JSDocTag,
+  Project,
+  VariableDeclaration
+} from "ts-morph"
 
 export type SymbolDescription = {
   name: string
@@ -8,20 +13,6 @@ export type SymbolDescription = {
 
 export type ModuleDescription = {
   symbols: SymbolDescription[]
-}
-
-const processVariableDeclaration = (
-  name: string,
-  declaration: VariableDeclaration
-): SymbolDescription => {
-  const statement = declaration.getVariableStatementOrThrow()
-  const jsDoc = statement.getJsDocs()[0]
-
-  return {
-    name,
-    description: jsDoc?.getDescription(),
-    tags: jsDoc?.getTags()
-  }
 }
 
 function morphy(tsconfig: string, mainFile: string): ModuleDescription {
@@ -38,15 +29,31 @@ function morphy(tsconfig: string, mainFile: string): ModuleDescription {
 
   for (const [name, declarations] of exportedDeclarations) {
     const declaration = declarations[0]
-    if (VariableDeclaration.isVariableDeclaration(declaration)) {
-      symbols.push(
-        processVariableDeclaration(name, declaration as VariableDeclaration)
-      )
-    }
+    const processed = processDeclaration(name, declaration)
+    if (processed) symbols.push(processed)
   }
 
   return {
     symbols
+  }
+}
+
+const processDeclaration = (name: string, declaration: ExportedDeclarations) =>
+  VariableDeclaration.isVariableDeclaration(declaration)
+    ? processVariableDeclaration(name, declaration)
+    : undefined
+
+const processVariableDeclaration = (
+  name: string,
+  declaration: VariableDeclaration
+): SymbolDescription => {
+  const statement = declaration.getVariableStatementOrThrow()
+  const jsDoc = statement.getJsDocs()[0]
+
+  return {
+    name,
+    description: jsDoc?.getDescription(),
+    tags: jsDoc?.getTags()
   }
 }
 
