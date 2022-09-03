@@ -8,6 +8,7 @@ const collapseChildren = css({
 })
 
 const globalStyles = globalCss({
+  "@import": ["https://rsms.me/inter/inter.css"],
   "*": {
     boxSizing: "border-box"
   },
