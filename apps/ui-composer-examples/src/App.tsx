@@ -86,8 +86,21 @@ const Input = styled("input", {
 const HorizontalGroup = styled("div", {
   display: "flex",
   flexDirection: "row",
-  alignItems: "center",
   justifyContent: "space-between",
+  gap: "0.25rem",
+
+  variants: {
+    align: {
+      start: { alignItems: "flex-start" },
+      center: { alignItems: "center" },
+      end: { alignItems: "flex-end" }
+    }
+  }
+})
+
+const VerticalGroup = styled("div", {
+  display: "flex",
+  flexDirection: "column",
   gap: "0.25rem"
 })
 
@@ -101,48 +114,51 @@ const Control = styled("td")
 
 const App = () => (
   <UIRoot>
-    <Panel css={{ width: 360 }}>
-      <Heading>Welcome!</Heading>
-      <Text>
-        This is a panel. It displays things. Amazing! Many curious, interesting
-        things, that hopefully will make building editor UIs really useful.
-        (This is just a slightly longer paragraph to see how it renders.)
-      </Text>
-      <Text>Like text.</Text>
-      <Text>Or even more text.</Text>
-      <Heading>Inputs!</Heading>
-      <Text>We should try some inputs. Inputs are really cool.</Text>
+    <HorizontalGroup>
+      <Panel css={{ width: 360 }}>
+        <Heading>Welcome!</Heading>
+        <Text>
+          This is a panel. It displays things. Amazing! Many curious,
+          interesting things, that hopefully will make building editor UIs
+          really useful. (This is just a slightly longer paragraph to see how it
+          renders.)
+        </Text>
+        <Text>Like text.</Text>
+        <Text>Or even more text.</Text>
+        <Heading>Inputs!</Heading>
+        <Text>We should try some inputs. Inputs are really cool.</Text>
 
-      <ControlGroup>
-        <ControlRow>
-          <ControlLabel>Text:</ControlLabel>
-          <Control>
-            <Input type="text" spellCheck="false" />
-          </Control>
-        </ControlRow>
+        <ControlGroup>
+          <ControlRow>
+            <ControlLabel>Text:</ControlLabel>
+            <Control>
+              <Input type="text" spellCheck="false" />
+            </Control>
+          </ControlRow>
 
-        <ControlRow>
-          <ControlLabel>Number:</ControlLabel>
-          <Control>
-            <Input type="number" />
-          </Control>
-        </ControlRow>
+          <ControlRow>
+            <ControlLabel>Number:</ControlLabel>
+            <Control>
+              <Input type="number" />
+            </Control>
+          </ControlRow>
 
-        <ControlRow>
-          <ControlLabel>Vector:</ControlLabel>
-          <Control>
-            <HorizontalGroup>
-              X
-              <Input type="number" />
-              Y
-              <Input type="number" />
-              Z
-              <Input type="number" />
-            </HorizontalGroup>
-          </Control>
-        </ControlRow>
-      </ControlGroup>
-    </Panel>
+          <ControlRow>
+            <ControlLabel>Vector:</ControlLabel>
+            <Control>
+              <HorizontalGroup align={"center"}>
+                X
+                <Input type="number" />
+                Y
+                <Input type="number" />
+                Z
+                <Input type="number" />
+              </HorizontalGroup>
+            </Control>
+          </ControlRow>
+        </ControlGroup>
+      </Panel>
+    </HorizontalGroup>
   </UIRoot>
 )
 
