@@ -191,6 +191,13 @@ const App = () => (
           </ControlRow>
 
           <ControlRow>
+            <ControlLabel>Range:</ControlLabel>
+            <Control>
+              <Input type="range" />
+            </Control>
+          </ControlRow>
+
+          <ControlRow>
             <ControlLabel>Vector:</ControlLabel>
             <Control>
               <HorizontalGroup align={"center"}>
