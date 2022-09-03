@@ -1,19 +1,24 @@
-import { Project, VariableDeclaration, VariableStatement } from "ts-morph"
+import ReactMarkdown from "react-markdown"
+import { JSDocTag, Project, VariableDeclaration } from "ts-morph"
 
 type SymbolEntry = {
   description?: string
+  tags?: JSDocTag[]
 }
 
 const processVariableDeclaration = (
-  statement: VariableDeclaration
-): SymbolEntry => ({
-  description: statement
-    .getVariableStatement()
-    ?.getJsDocs()[0]
-    ?.getCommentText()
-})
+  declaration: VariableDeclaration
+): SymbolEntry => {
+  const statement = declaration.getVariableStatementOrThrow()
+  const jsDoc = statement.getJsDocs()[0]
 
-async function ingestModule(tsconfig: string, mainFile: string) {
+  return {
+    description: jsDoc?.getDescription(),
+    tags: jsDoc?.getTags()
+  }
+}
+
+function ingestModule(tsconfig: string, mainFile: string) {
   const project = new Project({
     tsConfigFilePath: tsconfig
   })
@@ -37,27 +42,36 @@ async function ingestModule(tsconfig: string, mainFile: string) {
   return symbols
 }
 
-const symbols = await ingestModule(
-  "../../tsconfig.json",
-  "../../packages/shader-composer/src/index.ts"
-)
+const Tags = ({ tags }: { tags: any }) => {
+  console.log(tags)
+  return null
+}
 
-console.log(symbols)
-
-const Symbol = (props: SymbolEntry & { name: string }) => {
+const Symbol = ({
+  name,
+  description,
+  tags
+}: SymbolEntry & { name: string }) => {
   return (
-    <p>
-      <strong>{props.name}:</strong> {props.description}
-    </p>
+    <div className="symbol">
+      <h3>{name}</h3>
+      {description && <ReactMarkdown>{description}</ReactMarkdown>}
+      {tags && <Tags tags={tags} />}
+    </div>
   )
 }
 
 const Morphy = () => {
+  const symbols = ingestModule(
+    "../../tsconfig.json",
+    "../../packages/shader-composer/src/index.ts"
+  )
+
   return (
     <div>
-      <h1>Morphy!</h1>
-      {Object.entries(symbols).map(([name, symbol]) => (
-        <p>{name}</p>
+      <h1>shader-composer</h1>
+      {[...symbols.keys()].map((name) => (
+        <Symbol name={name} {...symbols.get(name)!} />
       ))}
     </div>
   )
