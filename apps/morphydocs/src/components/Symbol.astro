@@ -1,0 +1,19 @@
+---
+import Markdown from "./Markdown.astro"
+import type { SymbolDescription } from "./morphy"
+
+export interface Props extends SymbolDescription {}
+
+const { name, description } = Astro.props
+---
+
+<div class="symbol">
+  <h3>{name}</h3>
+  {description && <Markdown body={description} />}
+</div>
+
+<style>
+  div.symbol {
+    margin: 2em 0;
+  }
+</style>

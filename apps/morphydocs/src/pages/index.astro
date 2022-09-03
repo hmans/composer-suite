@@ -1,6 +1,6 @@
 ---
-import Markdown from "../components/Markdown.astro"
 import morphy from "../components/morphy"
+import Symbol from "../components/Symbol.astro"
 import Layout from "../layouts/Layout.astro"
 
 const stuff = morphy(
@@ -11,18 +11,5 @@ const stuff = morphy(
 
 <Layout title="Welcome to Astro.">
   <h1>Shader Composer</h1>
-  {
-    stuff.symbols.map((symbol) => (
-      <div class="symbol">
-        <h3>{symbol.name}</h3>
-        {symbol.description && <Markdown body={symbol.description} />}
-      </div>
-    ))
-  }
+  {stuff.symbols.map((symbol) => <Symbol {...symbol} />)}
 </Layout>
-
-<style>
-  div.symbol {
-    margin: 2em 0;
-  }
-</style>
