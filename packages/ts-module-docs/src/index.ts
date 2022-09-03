@@ -2,16 +2,10 @@ import {
   DocComment,
   DocExcerpt,
   DocNode,
-  DocParamBlock,
   ParserContext,
   TSDocParser
 } from "@microsoft/tsdoc"
-import {
-  ExportedDeclarations,
-  JSDocTag,
-  Project,
-  VariableDeclaration
-} from "ts-morph"
+import { ExportedDeclarations, Project, VariableDeclaration } from "ts-morph"
 
 export type ModuleDescription = {
   symbols: SymbolDescription[]
