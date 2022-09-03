@@ -28,7 +28,7 @@ const globalStyles = globalCss({
     height: "100%",
     width: "100%",
     overflow: "hidden",
-    font: "15px/1.5 Inter, sans-serif"
+    font: "14px/1.5 Inter, sans-serif"
   },
   "div#root": {
     width: "100vw",
