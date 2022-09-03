@@ -25,12 +25,13 @@ const processVariableDeclaration = (
 }
 
 function morphy(tsconfig: string, mainFile: string): ModuleDescription {
-  const project = new Project({
-    tsConfigFilePath: tsconfig
-  })
+  /* Create a project */
+  const project = new Project({ tsConfigFilePath: tsconfig })
 
+  /* Add the main file */
   const main = project.getSourceFileOrThrow(mainFile)
 
+  /* Rertrieve all declarations exported by the main file */
   const exportedDeclarations = main.getExportedDeclarations()
 
   const symbols = new Array<SymbolDescription>()
