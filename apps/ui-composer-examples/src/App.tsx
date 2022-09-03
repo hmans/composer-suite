@@ -1,4 +1,4 @@
-import { styled, globalCss, css } from "@stitches/react"
+import { globalCss, styled } from "@stitches/react"
 
 /* Palette: https://coolors.co/palette/22223b-4a4e69-9a8c98-c9ada7-f2e9e4 */
 
@@ -35,12 +35,10 @@ const UIRoot = styled("div", {
   height: "100%"
 })
 
-function App() {
-  return (
-    <UIRoot>
-      <Box>Yooo</Box>
-    </UIRoot>
-  )
-}
+const App = () => (
+  <UIRoot>
+    <Box>Yooo</Box>
+  </UIRoot>
+)
 
 export default App
