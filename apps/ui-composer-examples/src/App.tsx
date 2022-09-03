@@ -111,7 +111,7 @@ const App = () => (
       <Text>Like text.</Text>
       <Text>Or even more text.</Text>
       <Heading>Inputs!</Heading>
-      <Text>We should try an input. Inputs are really cool.</Text>
+      <Text>We should try some inputs. Inputs are really cool.</Text>
 
       <ControlGroup>
         <ControlRow>
