@@ -4,12 +4,22 @@ import type { SymbolDescription } from "./morphy"
 
 export interface Props extends SymbolDescription {}
 
-const { name, description } = Astro.props
+const { name, description, tags } = Astro.props
 ---
 
 <div class="symbol">
   <h3>{name}</h3>
   {description && <Markdown body={description} />}
+
+  {
+    tags && tags.length > 0 && (
+      <ul>
+        {tags.map((tag) => (
+          <li>{tag.description}</li>
+        ))}
+      </ul>
+    )
+  }
 </div>
 
 <style>

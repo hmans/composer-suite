@@ -8,7 +8,12 @@ import {
 export type SymbolDescription = {
   name: string
   description?: string
-  tags?: JSDocTag[]
+  tags?: TagDescription[]
+}
+
+export type TagDescription = {
+  name: string
+  description?: string
 }
 
 export type ModuleDescription = {
@@ -49,12 +54,19 @@ const processVariableDeclaration = (
 ): SymbolDescription => {
   const statement = declaration.getVariableStatementOrThrow()
   const jsDoc = statement.getJsDocs()[0]
+  const tags = jsDoc?.getTags()
 
   return {
     name,
     description: jsDoc?.getDescription(),
-    tags: jsDoc?.getTags()
+    tags: tags ? processTags(tags) : undefined
   }
+}
+
+const processTags = (tags: JSDocTag[]) => tags.map(processTag)
+
+const processTag = (tag: JSDocTag): TagDescription => {
+  return { name: tag.getTagName(), description: tag.getCommentText() }
 }
 
 export default morphy
