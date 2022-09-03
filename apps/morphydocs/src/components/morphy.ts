@@ -1,8 +1,13 @@
 import { JSDocTag, Project, VariableDeclaration } from "ts-morph"
 
-type SymbolEntry = {
+export type SymbolEntry = {
   description?: string
   tags?: JSDocTag[]
+}
+
+export type ModuleDescription = {
+  symbols: string[]
+  symbolDescriptions: Map<string, SymbolEntry>
 }
 
 const processVariableDeclaration = (
@@ -17,7 +22,7 @@ const processVariableDeclaration = (
   }
 }
 
-function morphy(tsconfig: string, mainFile: string) {
+function morphy(tsconfig: string, mainFile: string): ModuleDescription {
   const project = new Project({
     tsConfigFilePath: tsconfig
   })
@@ -38,7 +43,10 @@ function morphy(tsconfig: string, mainFile: string) {
     }
   }
 
-  return symbols
+  return {
+    symbols: Array.from(symbols.keys()),
+    symbolDescriptions: symbols
+  }
 }
 
 export default morphy

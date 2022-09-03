@@ -1,10 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro"
-import Morphy from "../components/Morphy"
+import morphy from "../components/morphy"
+
+const stuff = morphy(
+  "../../tsconfig.json",
+  "../../packages/shader-composer/src/index.ts"
+)
+
+console.log(stuff)
 ---
 
 <Layout title="Welcome to Astro.">
-  <Morphy />
+  <h1>Shader Composer</h1>
+  {stuff.symbols.map((symbol) => <p>{symbol}</p>)}
 </Layout>
 
 <style>
