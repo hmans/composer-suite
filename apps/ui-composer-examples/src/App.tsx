@@ -72,6 +72,14 @@ const Input = styled("input", {
   }
 })
 
+const ControlGroup = styled("table", { borderSpacing: 0, width: "100%" })
+
+const ControlRow = styled("tr")
+
+const ControlLabel = styled("td", { paddingRight: "1rem" })
+
+const Control = styled("td")
+
 const App = () => (
   <UIRoot>
     <Panel css={{ width: 360 }}>
@@ -85,7 +93,31 @@ const App = () => (
       <Text>Or even more text.</Text>
       <Heading>Inputs!</Heading>
       <Text>We should try an input. Inputs are really cool.</Text>
-      <Input type="text" spellCheck="false" />
+
+      <ControlGroup>
+        <ControlRow>
+          <ControlLabel>Text:</ControlLabel>
+          <Control>
+            <Input type="text" spellCheck="false" value="Hello, world!" />
+          </Control>
+        </ControlRow>
+
+        <ControlRow>
+          <ControlLabel>Number:</ControlLabel>
+          <Control>
+            <Input type="number" value="0.65" />
+          </Control>
+        </ControlRow>
+
+        <ControlRow>
+          <ControlLabel>Vector:</ControlLabel>
+          <Control>
+            <Input type="number" />
+            <Input type="number" />
+            <Input type="number" />
+          </Control>
+        </ControlRow>
+      </ControlGroup>
     </Panel>
   </UIRoot>
 )
