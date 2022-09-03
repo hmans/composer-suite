@@ -1,10 +1,4 @@
 import {
-  ExportedDeclarations,
-  JSDocTag,
-  Project,
-  VariableDeclaration
-} from "ts-morph"
-import {
   DocComment,
   DocExcerpt,
   DocNode,
@@ -12,6 +6,12 @@ import {
   ParserContext,
   TSDocParser
 } from "@microsoft/tsdoc"
+import {
+  ExportedDeclarations,
+  JSDocTag,
+  Project,
+  VariableDeclaration
+} from "ts-morph"
 
 export type SymbolDescription = {
   name: string
@@ -31,7 +31,10 @@ export type ModuleDescription = {
   symbols: SymbolDescription[]
 }
 
-function morphy(tsconfig: string, mainFile: string): ModuleDescription {
+export const extractModuleDocumentation = (
+  tsconfig: string,
+  mainFile: string
+): ModuleDescription => {
   /* Create a project */
   const project = new Project({ tsConfigFilePath: tsconfig })
 
@@ -109,5 +112,3 @@ export const renderDocNodes = (docNodes: ReadonlyArray<DocNode>): string => {
   }
   return result
 }
-
-export default morphy
