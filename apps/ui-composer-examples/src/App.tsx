@@ -88,6 +88,7 @@ const HorizontalGroup = styled("div", {
   flexDirection: "row",
   justifyContent: "space-between",
   gap: "0.25rem",
+  width: "100%",
 
   variants: {
     align: {
@@ -112,10 +113,25 @@ const ControlLabel = styled("td", { paddingRight: "1rem" })
 
 const Control = styled("td")
 
+import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Sky, Environment, OrbitControls } from "@react-three/drei"
+
 const App = () => (
   <UIRoot>
     <HorizontalGroup>
-      <Panel css={{ width: 360 }}>
+      <RenderCanvas>
+        <RenderPipeline bloom antiAliasing vignette>
+          <Environment preset="sunset" />
+          <Sky />
+          {/* <directionalLight position={[40, 10, 0]} intensity={1.8} /> */}
+          <mesh>
+            <dodecahedronGeometry />
+            <meshStandardMaterial color="hotpink" />
+          </mesh>
+          <OrbitControls />
+        </RenderPipeline>
+      </RenderCanvas>
+      <Panel css={{ width: 400 }}>
         <Heading>Welcome!</Heading>
         <Text>
           This is a panel. It displays things. Amazing! Many curious,
