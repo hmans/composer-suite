@@ -71,7 +71,6 @@ const Input = styled("input", {
   border: "0",
   background: "#222",
   padding: "5px 8px",
-  width: "100%",
   outline: "none",
   caretColor: "hotpink",
   borderRadius: "5px",
@@ -80,7 +79,16 @@ const Input = styled("input", {
   "&::selection": {
     backgroundColor: "hotpink",
     color: "white"
-  }
+  },
+  width: "100%"
+})
+
+const HorizontalGroup = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "0.25rem"
 })
 
 const ControlGroup = styled("table", { borderSpacing: 0, width: "100%" })
@@ -123,9 +131,14 @@ const App = () => (
         <ControlRow>
           <ControlLabel>Vector:</ControlLabel>
           <Control>
-            <Input type="number" />
-            <Input type="number" />
-            <Input type="number" />
+            <HorizontalGroup>
+              X:
+              <Input type="number" />
+              Y:
+              <Input type="number" />
+              Z:
+              <Input type="number" />
+            </HorizontalGroup>
           </Control>
         </ControlRow>
       </ControlGroup>
