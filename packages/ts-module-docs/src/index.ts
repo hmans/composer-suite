@@ -13,22 +13,17 @@ import {
   VariableDeclaration
 } from "ts-morph"
 
-export type SymbolDescription = {
-  name: string
-  doc?: {
-    description: string
-    params: ReadonlyArray<DocParamBlock>
-  }
-}
-
-export type TagDescription = {
-  original: JSDocTag
-  name: string
-  description?: string
-}
-
 export type ModuleDescription = {
   symbols: SymbolDescription[]
+}
+
+export type SymbolDescription = {
+  name: string
+  description?: string
+  params?: any
+  // params
+  // return
+  // examples
 }
 
 export const extractModuleDocumentation = (
@@ -68,13 +63,12 @@ const processVariableDeclaration = (
 ): SymbolDescription => {
   const statement = declaration.getVariableStatementOrThrow()
   const jsDoc = statement.getJsDocs()[0]
-  const tags = jsDoc?.getTags()
 
   const fullDoc = jsDoc?.getFullText()
 
   return {
     name,
-    doc: jsDoc ? processDocComment(fullDoc) : undefined
+    ...(fullDoc ? processDocComment(fullDoc) : {})
   }
 }
 
