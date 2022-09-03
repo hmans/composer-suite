@@ -1,0 +1,11 @@
+---
+import { micromark } from "micromark"
+
+export interface Props {
+  body: string
+}
+
+const { body } = Astro.props
+---
+
+<Fragment set:html={micromark(body)} />

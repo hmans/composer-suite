@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Markdown from "../components/Markdown.astro"
 import morphy from "../components/morphy"
-import { micromark } from "micromark"
+import Layout from "../layouts/Layout.astro"
 
 const stuff = morphy(
   "../../tsconfig.json",
@@ -15,9 +15,7 @@ const stuff = morphy(
     stuff.symbols.map((symbol) => (
       <div class="symbol">
         <h3>{symbol.name}</h3>
-        {symbol.description && (
-          <Fragment set:html={micromark(symbol.description)} />
-        )}
+        {symbol.description && <Markdown body={symbol.description} />}
       </div>
     ))
   }
