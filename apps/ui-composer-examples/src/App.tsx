@@ -48,7 +48,7 @@ const UIRoot = styled("div", {
 const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
   color: "$panelText",
-  textShadow: "rgba(0, 0, 0, 0.5) 1px 2px 1px",
+  textShadow: "rgba(0, 0, 0, 0.2) 1px 2px 1px",
   padding: "0.8rem"
 })
 
@@ -117,14 +117,14 @@ const App = () => (
         <ControlRow>
           <ControlLabel>Text:</ControlLabel>
           <Control>
-            <Input type="text" spellCheck="false" value="Hello, world!" />
+            <Input type="text" spellCheck="false" />
           </Control>
         </ControlRow>
 
         <ControlRow>
           <ControlLabel>Number:</ControlLabel>
           <Control>
-            <Input type="number" value="0.65" />
+            <Input type="number" />
           </Control>
         </ControlRow>
 
@@ -132,11 +132,11 @@ const App = () => (
           <ControlLabel>Vector:</ControlLabel>
           <Control>
             <HorizontalGroup>
-              X:
+              X
               <Input type="number" />
-              Y:
+              Y
               <Input type="number" />
-              Z:
+              Z
               <Input type="number" />
             </HorizontalGroup>
           </Control>
