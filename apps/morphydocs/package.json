@@ -23,6 +23,7 @@
     "react-markdown": "^8.0.3",
     "remark": "^14.0.2",
     "rollup": "^2.79.0",
+    "ts-module-docs": "workspace:^0.0.1",
     "ts-morph": "^15.1.0"
   }
 }

@@ -122,9 +122,11 @@ importers:
       react-markdown: ^8.0.3
       remark: ^14.0.2
       rollup: ^2.79.0
+      ts-module-docs: workspace:^0.0.1
       ts-morph: ^15.1.0
     dependencies:
       astro: 1.1.3
+      ts-module-docs: link:../../packages/ts-module-docs
     devDependencies:
       '@astrojs/mdx': 0.11.0_rollup@2.79.0
       '@astrojs/react': 1.1.1_biqbaboplfbrettd7655fr4n2y
@@ -594,6 +596,14 @@ importers:
     devDependencies:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+
+  packages/ts-module-docs:
+    specifiers:
+      '@microsoft/tsdoc': ^0.14.1
+      ts-morph: ^15.1.0
+    dependencies:
+      '@microsoft/tsdoc': 0.14.1
+      ts-morph: 15.1.0
 
   packages/vfx-composer:
     specifiers:
@@ -4008,7 +4018,6 @@ packages:
 
   /@microsoft/tsdoc/0.14.1:
     resolution: {integrity: sha512-6Wci+Tp3CgPt/B9B0a3J4s3yMgLNSku6w5TV6mN+61C71UqsRBv2FUibBf3tPGlNxebgPHMEUzKpb1ggE8KCKw==}
-    dev: true
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
