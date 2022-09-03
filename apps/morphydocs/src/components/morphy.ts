@@ -8,15 +8,16 @@ import {
   DocComment,
   DocExcerpt,
   DocNode,
+  DocParamBlock,
   ParserContext,
   TSDocParser
 } from "@microsoft/tsdoc"
 
 export type SymbolDescription = {
   name: string
-  fullDoc?: string
   doc?: {
     description: string
+    params: ReadonlyArray<DocParamBlock>
   }
 }
 
@@ -70,7 +71,6 @@ const processVariableDeclaration = (
 
   return {
     name,
-    fullDoc,
     doc: jsDoc ? processDocComment(fullDoc) : undefined
   }
 }
@@ -81,21 +81,12 @@ const processDocComment = (comment: string) => {
   const docComment: DocComment = parserContext.docComment
 
   return {
-    description: renderDocNodes(docComment.summarySection.getChildNodes())
+    description: renderDocNodes(docComment.summarySection.getChildNodes()),
+    params: docComment.params.blocks
   }
 }
 
-const processTags = (tags: JSDocTag[]) => tags.map(processTag)
-
-const processTag = (tag: JSDocTag): TagDescription => {
-  return {
-    original: tag,
-    name: tag.getTagName(),
-    description: tag.getCommentText()
-  }
-}
-
-const renderDocNode = (docNode: DocNode): string => {
+export const renderDocNode = (docNode: DocNode): string => {
   let result: string = ""
 
   if (docNode) {
@@ -111,7 +102,7 @@ const renderDocNode = (docNode: DocNode): string => {
   return result
 }
 
-const renderDocNodes = (docNodes: ReadonlyArray<DocNode>): string => {
+export const renderDocNodes = (docNodes: ReadonlyArray<DocNode>): string => {
   let result: string = ""
   for (const docNode of docNodes) {
     result += renderDocNode(docNode)
