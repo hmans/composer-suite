@@ -16,8 +16,8 @@
     "@astrojs/mdx": "^0.11.0",
     "@astrojs/react": "^1.1.1",
     "@ts-morph/bootstrap": "^0.16.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rollup": "^2.79.0",
     "ts-morph": "^15.1.0"
   }
