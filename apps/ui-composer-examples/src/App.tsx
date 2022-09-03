@@ -42,6 +42,7 @@ const App = () => (
     <Panel>
       <Text>This is a panel. It displays things. Amazing!</Text>
       <Text>Like text.</Text>
+      <Text>Or even more text.</Text>
     </Panel>
   </UIRoot>
 )
