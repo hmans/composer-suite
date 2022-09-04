@@ -1,7 +1,7 @@
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { HorizontalGroup } from "./HorizontalGroup"
-import { collapseChildren, styled } from "./styled"
+import { collapseChildren, styled } from "./styles"
 import { VerticalGroup } from "./VerticalGroup"
 
 const UIRoot = styled("div", {

@@ -1,4 +1,4 @@
-import { styled } from "./styled"
+import { styled } from "./styles"
 
 export const HorizontalGroup = styled("div", {
   display: "flex",
