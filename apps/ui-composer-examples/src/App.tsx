@@ -1,5 +1,6 @@
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
 import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Heading } from "./Heading"
 import { HorizontalGroup } from "./HorizontalGroup"
 import { Input } from "./Input"
 import { Root } from "./Root"
@@ -11,14 +12,6 @@ const Panel = styled("div", collapseChildren, {
   color: "$panelText",
   textShadow: "rgba(0, 0, 0, 0.2) 1px 2px 1px",
   padding: "1rem"
-})
-
-const Heading = styled("h3", {
-  font: "inherit",
-  fontWeight: "bold",
-  textShadow: "rgba(0, 0, 0, 0.5) 2px 2px 1px",
-  color: "$headings",
-  margin: "1.5rem 0 0.5rem 0"
 })
 
 const Button = styled("button", {
