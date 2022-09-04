@@ -21,7 +21,8 @@ export const Panel = styled("div", collapseChildren, {
 export const Control = styled("div", {
   display: "flex",
   alignItems: "center",
-  height: "2rem"
+  minHeight: "2rem",
+  margin: "0.25rem 0"
 })
 
 export const Label = styled("div", {
