@@ -302,6 +302,7 @@ importers:
 
   apps/ui-composer-examples:
     specifiers:
+      '@hmans/things': ^0.0.4
       '@react-three/drei': ^9.25.3
       '@react-three/fiber': ^8.6.2
       '@stitches/react': ^1.2.8
@@ -316,6 +317,7 @@ importers:
       typescript: ^4.6.4
       vite: ^3.0.7
     dependencies:
+      '@hmans/things': 0.0.4_kr35nn26kgyu6kavah7kd3pzxa
       '@react-three/drei': 9.25.3_kr35nn26kgyu6kavah7kd3pzxa
       '@react-three/fiber': 8.6.2_f72olm6mn3unzgg4exeiaoxanm
       '@stitches/react': 1.2.8_react@18.2.0

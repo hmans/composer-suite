@@ -10,6 +10,7 @@ import { Input } from "./Input"
 import { Root } from "./Root"
 import { collapseChildren, styled } from "./styles"
 import { VerticalGroup } from "./VerticalGroup"
+import { Animate } from "@hmans/things"
 
 const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
@@ -36,19 +37,27 @@ const App = () => {
           <RenderPipeline bloom antiAliasing vignette>
             <Environment preset="sunset" />
             <Sky />
-            {/* <directionalLight position={[40, 10, 0]} intensity={1.8} /> */}
             <OrbitControls />
 
-            <mesh ref={mesh}>
-              <dodecahedronGeometry />
-              <meshStandardMaterial color="hotpink" />
-            </mesh>
+            <Animate
+              fun={(mesh, dt) => (mesh.rotation.x = mesh.rotation.y += 2 * dt)}
+            >
+              <mesh ref={mesh}>
+                <dodecahedronGeometry />
+                <meshStandardMaterial color="hotpink" />
+              </mesh>
+            </Animate>
           </RenderPipeline>
         </RenderCanvas>
 
         <HorizontalResizer />
 
         <VerticalGroup css={{ width: 400 }}>
+          <Panel>
+            <Heading>Mesh Playground</Heading>
+            <p>Just playing around with some two-way binding stuff.</p>
+          </Panel>
+
           <Panel>
             <Heading>Welcome!</Heading>
             <p>
