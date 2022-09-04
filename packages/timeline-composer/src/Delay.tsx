@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useRef, useState } from "react"
-import { useAnimationFrame } from "./util/useAnimationFrame"
+import { useAnimationFrame } from "@hmans/use-animation-frame"
 
 type DelayProps = {
   children?: ReactNode
