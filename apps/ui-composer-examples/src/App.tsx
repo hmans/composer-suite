@@ -19,13 +19,14 @@ const Panel = styled("div", collapseChildren, {
   padding: "1rem"
 })
 
-const ControlGroup = styled("table", { borderSpacing: 0, width: "100%" })
+const Control = styled("div", {
+  display: "flex",
+  alignItems: "center"
+})
 
-const ControlRow = styled("tr")
-
-const ControlLabel = styled("td", { paddingRight: "1rem" })
-
-const Control = styled("td")
+const Label = styled("div", {
+  flex: "0 0 30%"
+})
 
 const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
   const rotX = useRef<HTMLInputElement>(null!)
@@ -45,21 +46,17 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
       <Heading>Mesh Playground</Heading>
       <p>Just playing around with some two-way binding stuff.</p>
 
-      <ControlGroup>
-        <ControlRow>
-          <ControlLabel>Rotation:</ControlLabel>
-          <Control>
-            <HorizontalGroup align={"center"} gap>
-              X
-              <Input ref={rotX} type="number" />
-              Y
-              <Input ref={rotY} type="number" />
-              Z
-              <Input ref={rotZ} type="number" />
-            </HorizontalGroup>
-          </Control>
-        </ControlRow>
-      </ControlGroup>
+      <Control>
+        <Label>Rotation</Label>
+        <HorizontalGroup align={"center"} gap>
+          X
+          <Input ref={rotX} type="number" />
+          Y
+          <Input ref={rotY} type="number" />
+          Z
+          <Input ref={rotZ} type="number" />
+        </HorizontalGroup>
+      </Control>
     </Panel>
   )
 }
@@ -126,42 +123,33 @@ const App = () => {
             <Heading>Inputs</Heading>
             <p>We should try some inputs. Inputs are really cool.</p>
 
-            <ControlGroup>
-              <ControlRow>
-                <ControlLabel>Text:</ControlLabel>
-                <Control>
-                  <Input type="text" spellCheck="false" />
-                </Control>
-              </ControlRow>
+            <Control>
+              <Label>Text</Label>
+              <Input type="text" spellCheck="false" />
+            </Control>
 
-              <ControlRow>
-                <ControlLabel>Number:</ControlLabel>
-                <Control>
-                  <Input type="number" />
-                </Control>
-              </ControlRow>
+            <Control>
+              <Label>Number</Label>
+              <Input type="number" />
+            </Control>
 
-              <ControlRow>
-                <ControlLabel>Range:</ControlLabel>
-                <Control>
-                  <Input type="range" />
-                </Control>
-              </ControlRow>
+            <Control>
+              <Label>Range</Label>
+              <Input type="range" />
+            </Control>
 
-              <ControlRow>
-                <ControlLabel>Vector:</ControlLabel>
-                <Control>
-                  <HorizontalGroup align={"center"} gap>
-                    X
-                    <Input type="number" />
-                    Y
-                    <Input type="number" />
-                    Z
-                    <Input type="number" />
-                  </HorizontalGroup>
-                </Control>
-              </ControlRow>
-            </ControlGroup>
+            <Control>
+              <Label>Vector</Label>
+
+              <HorizontalGroup align={"center"} gap>
+                X
+                <Input type="number" />
+                Y
+                <Input type="number" />
+                Z
+                <Input type="number" />
+              </HorizontalGroup>
+            </Control>
           </Panel>
         </VerticalGroup>
       </HorizontalGroup>
