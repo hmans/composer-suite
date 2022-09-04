@@ -300,6 +300,27 @@ importers:
       typescript: 4.8.2
       vite: 3.0.9
 
+  apps/timeline-composer-examples:
+    specifiers:
+      '@types/react': ^18.0.15
+      '@types/react-dom': ^18.0.6
+      '@vitejs/plugin-react': ^2.0.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      timeline-composer: ^0.1.0
+      typescript: ^4.7.3
+      vite: ^3.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      timeline-composer: link:../../packages/timeline-composer
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@vitejs/plugin-react': 2.0.1_vite@3.0.9
+      typescript: 4.8.2
+      vite: 3.0.9
+
   apps/vfx-composer-examples:
     specifiers:
       '@hmans/r3f-shared-resource': ^0.1.0
@@ -539,8 +560,11 @@ importers:
 
   packages/timeline-composer:
     specifiers:
+      '@hmans/use-animation-frame': ^0.0.2
       react: ^18.2.0
       react-dom: ^18.2.0
+    dependencies:
+      '@hmans/use-animation-frame': 0.0.2_react@18.2.0
     devDependencies:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -552,6 +576,14 @@ importers:
     dependencies:
       '@microsoft/tsdoc': 0.14.1
       ts-morph: 15.1.0
+
+  packages/ui-composer:
+    specifiers:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    devDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   packages/vfx-composer:
     specifiers:
@@ -2302,6 +2334,14 @@ packages:
 
   /@hmans/types/0.0.3:
     resolution: {integrity: sha512-oRQnsCCz0OovTTn7Kya9KcdpAsHwBqwzGI9XA/9i/9f1EMP/QPQ8YYy5JbnIsOfs4ZFlPBb1fBw409E0V42pZw==}
+    dev: false
+
+  /@hmans/use-animation-frame/0.0.2_react@18.2.0:
+    resolution: {integrity: sha512-2490t71vjTBvgqT/NEzJNlE63I4vtUEQN2o+++qtt4elxB2LderUVVhgWwMEDvKpHoj2rg0YZ3F9Vc+t8tLP1Q==}
+    peerDependencies:
+      react: '>=18.1.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@hmans/use-const/0.0.1_react@18.2.0:

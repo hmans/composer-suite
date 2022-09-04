@@ -23,5 +23,8 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@hmans/use-animation-frame": "^0.0.2"
   }
 }
