@@ -1,5 +1,4 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
-import { useControls } from "leva"
 import { Perf } from "r3f-perf"
 import React, { FC, ReactNode } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
@@ -28,25 +27,9 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
   dpr = 1,
   lights = true
 }) => {
-  /* Let the user control some aspects of the application. */
-  const controls = useControls(
-    "Presentation Options",
-    {
-      dpr: { value: dpr, min: 0.125, max: 2 },
-      effects,
-      performance,
-      autoRotate: { value: 0, min: -10, max: 10 }
-    },
-    { collapsed: true }
-  )
-
   return (
-    <RenderCanvas dpr={controls.dpr}>
-      <RenderPipeline
-        bloom={controls.effects}
-        vignette={controls.effects}
-        antiAliasing={controls.effects}
-      >
+    <RenderCanvas dpr={[1, 1]}>
+      <RenderPipeline bloom={true} vignette={true} antiAliasing={true}>
         {/* Background color */}
         <color args={["#222"]} attach="background" />
 
@@ -87,14 +70,14 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
           minPolarAngle={0}
           maxPolarAngle={Math.PI * 0.48}
           autoRotate
-          autoRotateSpeed={controls.autoRotate}
+          autoRotateSpeed={0}
         />
 
         {/* Examples */}
         {children}
 
         {/* Performance Monitor */}
-        {controls.performance && <Perf position="bottom-right" />}
+        {/* {controls.performance && <Perf position="bottom-right" />} */}
       </RenderPipeline>
     </RenderCanvas>
   )
