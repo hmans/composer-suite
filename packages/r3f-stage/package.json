@@ -29,6 +29,7 @@
     "r3f-perf": "^6.4.4",
     "render-composer": "^0.1.5",
     "three-stdlib": "^2.14.3",
+    "ui-composer": "workspace:^0.0.1",
     "wouter": "^2.8.0-alpha.2",
     "zustand": "^3.6.9"
   },
