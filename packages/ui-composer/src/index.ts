@@ -1,1 +1,1 @@
-export const ui = "cool"
+export * from "./components"

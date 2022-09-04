@@ -1,4 +1,4 @@
-import { styled } from "./styles"
+import { styled } from "../styles"
 
 export const VerticalGroup = styled("div", {
   display: "flex",

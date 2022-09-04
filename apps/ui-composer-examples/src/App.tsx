@@ -3,30 +3,7 @@ import { Environment, OrbitControls, Sky } from "@react-three/drei"
 import { MutableRefObject, useRef } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { Group } from "three"
-import { Button } from "./Button"
-import { Heading } from "./Heading"
-import { HorizontalGroup } from "./HorizontalGroup"
-import { HorizontalResizer } from "./HorizontalResizer"
-import { Input } from "./Input"
-import { Root } from "./Root"
-import { collapseChildren, styled } from "./styles"
-import { VerticalGroup } from "./VerticalGroup"
-
-const Panel = styled("div", collapseChildren, {
-  backgroundColor: "$panelBackground",
-  color: "$panelText",
-  textShadow: "rgba(0, 0, 0, 0.2) 1px 2px 1px",
-  padding: "1rem"
-})
-
-const Control = styled("div", {
-  display: "flex",
-  alignItems: "center"
-})
-
-const Label = styled("div", {
-  flex: "0 0 30%"
-})
+import * as UI from "ui-composer"
 
 const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
   const rotX = useRef<HTMLInputElement>(null!)
@@ -42,22 +19,22 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
   })
 
   return (
-    <Panel>
-      <Heading>Mesh Playground</Heading>
+    <UI.Panel>
+      <UI.Heading>Mesh Playground</UI.Heading>
       <p>Just playing around with some two-way binding stuff.</p>
 
-      <Control>
-        <Label>Rotation</Label>
-        <HorizontalGroup align={"center"} gap>
+      <UI.Control>
+        <UI.Label>Rotation</UI.Label>
+        <UI.HorizontalGroup align={"center"} gap>
           X
-          <Input ref={rotX} type="number" />
+          <UI.Input ref={rotX} type="number" />
           Y
-          <Input ref={rotY} type="number" />
+          <UI.Input ref={rotY} type="number" />
           Z
-          <Input ref={rotZ} type="number" />
-        </HorizontalGroup>
-      </Control>
-    </Panel>
+          <UI.Input ref={rotZ} type="number" />
+        </UI.HorizontalGroup>
+      </UI.Control>
+    </UI.Panel>
   )
 }
 
@@ -65,8 +42,8 @@ const App = () => {
   const mesh = useRef<Group>(null!)
 
   return (
-    <Root>
-      <HorizontalGroup>
+    <UI.Root>
+      <UI.HorizontalGroup>
         <div style={{ flex: 2 }}>
           <RenderCanvas>
             <RenderPipeline bloom antiAliasing vignette>
@@ -89,12 +66,12 @@ const App = () => {
           </RenderCanvas>
         </div>
 
-        <HorizontalResizer />
+        <UI.HorizontalResizer />
 
-        <VerticalGroup css={{ flex: 1 }}>
+        <UI.VerticalGroup css={{ flex: 1 }}>
           <MeshPanel mesh={mesh} />
-          <Panel>
-            <Heading>Welcome!</Heading>
+          <UI.Panel>
+            <UI.Heading>Welcome!</UI.Heading>
             <p>
               This is a panel. It displays things. Amazing! Many curious,
               interesting things, that hopefully will make building editor UIs
@@ -103,57 +80,57 @@ const App = () => {
             </p>
             <p>Like text.</p>
             <p>Or even more text.</p>
-          </Panel>
+          </UI.Panel>
 
-          <Panel>
-            <Heading>Buttons</Heading>
+          <UI.Panel>
+            <UI.Heading>Buttons</UI.Heading>
             <p>Buttonnnnssss, they're amazing!</p>
 
-            <VerticalGroup>
-              <Button>Click me</Button>
-              <Button>Or click this one</Button>
-              <HorizontalGroup gap>
-                <Button>Left</Button>
-                <Button>Right</Button>
-              </HorizontalGroup>
-            </VerticalGroup>
-          </Panel>
+            <UI.VerticalGroup>
+              <UI.Button>Click me</UI.Button>
+              <UI.Button>Or click this one</UI.Button>
+              <UI.HorizontalGroup gap>
+                <UI.Button>Left</UI.Button>
+                <UI.Button>Right</UI.Button>
+              </UI.HorizontalGroup>
+            </UI.VerticalGroup>
+          </UI.Panel>
 
-          <Panel>
-            <Heading>Inputs</Heading>
+          <UI.Panel>
+            <UI.Heading>Inputs</UI.Heading>
             <p>We should try some inputs. Inputs are really cool.</p>
 
-            <Control>
-              <Label>Text</Label>
-              <Input type="text" spellCheck="false" />
-            </Control>
+            <UI.Control>
+              <UI.Label>Text</UI.Label>
+              <UI.Input type="text" spellCheck="false" />
+            </UI.Control>
 
-            <Control>
-              <Label>Number</Label>
-              <Input type="number" />
-            </Control>
+            <UI.Control>
+              <UI.Label>Number</UI.Label>
+              <UI.Input type="number" />
+            </UI.Control>
 
-            <Control>
-              <Label>Range</Label>
-              <Input type="range" />
-            </Control>
+            <UI.Control>
+              <UI.Label>Range</UI.Label>
+              <UI.Input type="range" />
+            </UI.Control>
 
-            <Control>
-              <Label>Vector</Label>
+            <UI.Control>
+              <UI.Label>Vector</UI.Label>
 
-              <HorizontalGroup align={"center"} gap>
+              <UI.HorizontalGroup align={"center"} gap>
                 X
-                <Input type="number" />
+                <UI.Input type="number" />
                 Y
-                <Input type="number" />
+                <UI.Input type="number" />
                 Z
-                <Input type="number" />
-              </HorizontalGroup>
-            </Control>
-          </Panel>
-        </VerticalGroup>
-      </HorizontalGroup>
-    </Root>
+                <UI.Input type="number" />
+              </UI.HorizontalGroup>
+            </UI.Control>
+          </UI.Panel>
+        </UI.VerticalGroup>
+      </UI.HorizontalGroup>
+    </UI.Root>
   )
 }
 

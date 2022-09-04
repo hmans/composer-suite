@@ -1,4 +1,5 @@
-import { styled } from "./styles"
+import { styled } from "../styles"
+import React from "react"
 
 export const HorizontalResizer = () => {
   return <HorizontalResizerDiv />
