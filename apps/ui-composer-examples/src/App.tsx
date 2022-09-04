@@ -38,6 +38,7 @@ const App = () => (
           <OrbitControls />
         </RenderPipeline>
       </RenderCanvas>
+
       <Panel css={{ width: 400 }}>
         <Heading>Welcome!</Heading>
         <p>
@@ -56,7 +57,7 @@ const App = () => (
           <Button>Click me</Button>
           <Button>Or click this one</Button>
           <Button>How about this one?</Button>
-          <HorizontalGroup>
+          <HorizontalGroup gap>
             <Button>Left</Button>
             <Button>Right</Button>
           </HorizontalGroup>
@@ -90,7 +91,7 @@ const App = () => (
           <ControlRow>
             <ControlLabel>Vector:</ControlLabel>
             <Control>
-              <HorizontalGroup align={"center"}>
+              <HorizontalGroup align={"center"} gap>
                 X
                 <Input type="number" />
                 Y
