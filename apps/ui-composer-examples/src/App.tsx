@@ -59,7 +59,6 @@ const App = () => (
         <VerticalGroup>
           <Button>Click me</Button>
           <Button>Or click this one</Button>
-          <Button>How about this one?</Button>
           <HorizontalGroup gap>
             <Button>Left</Button>
             <Button>Right</Button>
