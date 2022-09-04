@@ -3,6 +3,7 @@ import { RenderCanvas, RenderPipeline } from "render-composer"
 import { Button } from "./Button"
 import { Heading } from "./Heading"
 import { HorizontalGroup } from "./HorizontalGroup"
+import { HorizontalResizer } from "./HorizontalResizer"
 import { Input } from "./Input"
 import { Root } from "./Root"
 import { collapseChildren, styled } from "./styles"
@@ -38,6 +39,8 @@ const App = () => (
           <OrbitControls />
         </RenderPipeline>
       </RenderCanvas>
+
+      <HorizontalResizer />
 
       <Panel css={{ width: 400 }}>
         <Heading>Welcome!</Heading>
