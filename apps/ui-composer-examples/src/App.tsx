@@ -6,12 +6,20 @@ import { Group } from "three"
 import * as UI from "ui-composer"
 
 const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
+  const posX = useRef<HTMLInputElement>(null!)
+  const posY = useRef<HTMLInputElement>(null!)
+  const posZ = useRef<HTMLInputElement>(null!)
+
   const rotX = useRef<HTMLInputElement>(null!)
   const rotY = useRef<HTMLInputElement>(null!)
   const rotZ = useRef<HTMLInputElement>(null!)
 
   useAnimationFrame(() => {
     if (!mesh.current) return
+
+    posX.current.value = mesh.current.position.x.toFixed(3)
+    posY.current.value = mesh.current.position.y.toFixed(3)
+    posZ.current.value = mesh.current.position.z.toFixed(3)
 
     rotX.current.value = mesh.current.rotation.x.toFixed(3)
     rotY.current.value = mesh.current.rotation.y.toFixed(3)
@@ -22,6 +30,18 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
     <UI.Panel>
       <UI.Heading>Mesh Playground</UI.Heading>
       <p>Just playing around with some two-way binding stuff.</p>
+
+      <UI.Control>
+        <UI.Label>Position</UI.Label>
+        <UI.HorizontalGroup align={"center"} gap>
+          X
+          <UI.Input ref={posX} type="number" />
+          Y
+          <UI.Input ref={posY} type="number" />
+          Z
+          <UI.Input ref={posZ} type="number" />
+        </UI.HorizontalGroup>
+      </UI.Control>
 
       <UI.Control>
         <UI.Label>Rotation</UI.Label>
