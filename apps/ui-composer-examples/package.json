@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hmans/things": "^0.0.4",
+    "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.25.3",
     "@react-three/fiber": "^8.6.2",
     "@stitches/react": "^1.2.8",

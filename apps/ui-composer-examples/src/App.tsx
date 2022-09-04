@@ -1,13 +1,8 @@
+import { Animate, useAnimationFrame } from "@hmans/things"
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
-import {
-  MutableRefObject,
-  Ref,
-  useEffect,
-  useLayoutEffect,
-  useRef
-} from "react"
+import { MutableRefObject, useRef } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Mesh } from "three"
+import { Group } from "three"
 import { Button } from "./Button"
 import { Heading } from "./Heading"
 import { HorizontalGroup } from "./HorizontalGroup"
@@ -16,8 +11,6 @@ import { Input } from "./Input"
 import { Root } from "./Root"
 import { collapseChildren, styled } from "./styles"
 import { VerticalGroup } from "./VerticalGroup"
-import { Animate } from "@hmans/things"
-import { useFrame } from "@react-three/fiber"
 
 const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
@@ -34,22 +27,43 @@ const ControlLabel = styled("td", { paddingRight: "1rem" })
 
 const Control = styled("td")
 
-const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Mesh> }) => {
-  useFrame(() => {
-    console.log(mesh.current)
+const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
+  const rotX = useRef<HTMLInputElement>(null!)
+  const rotY = useRef<HTMLInputElement>(null!)
+  const rotZ = useRef<HTMLInputElement>(null!)
+
+  useAnimationFrame(() => {
+    rotX.current.value = mesh.current.rotation.x.toFixed(3)
+    rotY.current.value = mesh.current.rotation.y.toFixed(3)
+    rotZ.current.value = mesh.current.rotation.z.toFixed(3)
   })
 
   return (
     <Panel>
       <Heading>Mesh Playground</Heading>
       <p>Just playing around with some two-way binding stuff.</p>
-      <Input type="number" disabled />
+
+      <ControlGroup>
+        <ControlRow>
+          <ControlLabel>Rotation:</ControlLabel>
+          <Control>
+            <HorizontalGroup align={"center"} gap>
+              X
+              <Input ref={rotX} type="number" />
+              Y
+              <Input ref={rotY} type="number" />
+              Z
+              <Input ref={rotZ} type="number" />
+            </HorizontalGroup>
+          </Control>
+        </ControlRow>
+      </ControlGroup>
     </Panel>
   )
 }
 
 const App = () => {
-  const mesh = useRef<Mesh>(null!)
+  const mesh = useRef<Group>(null!)
 
   return (
     <Root>
@@ -61,9 +75,10 @@ const App = () => {
             <OrbitControls />
 
             <Animate
+              ref={mesh}
               fun={(mesh, dt) => (mesh.rotation.x = mesh.rotation.y += 2 * dt)}
             >
-              <mesh ref={mesh}>
+              <mesh>
                 <dodecahedronGeometry />
                 <meshStandardMaterial color="hotpink" />
               </mesh>
@@ -73,7 +88,7 @@ const App = () => {
 
         <HorizontalResizer />
 
-        <VerticalGroup css={{ width: 400 }}>
+        <VerticalGroup css={{ width: 600 }}>
           <MeshPanel mesh={mesh} />
           <Panel>
             <Heading>Welcome!</Heading>
