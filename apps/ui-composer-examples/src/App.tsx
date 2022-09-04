@@ -1,42 +1,8 @@
-import { createStitches } from "@stitches/react"
-
-/* Palette: https://coolors.co/palette/22223b-4a4e69-9a8c98-c9ada7-f2e9e4 */
-
-const { styled, css, globalCss } = createStitches({
-  theme: {
-    colors: {
-      panelBackground: "#333",
-      panelText: "#dcc",
-      headings: "#F2E9E4"
-    }
-  }
-})
-
-const collapseChildren = css({
-  "*:first-child": { marginTop: 0 },
-  "*:last-child": { marginBottom: 0 }
-})
-
-const globalStyles = globalCss({
-  "@import": ["https://rsms.me/inter/inter.css"],
-  "*": {
-    boxSizing: "border-box"
-  },
-  body: {
-    margin: 0,
-    padding: 0,
-    height: "100%",
-    width: "100%",
-    overflow: "hidden",
-    font: "14px/1.5 Inter, sans-serif"
-  },
-  "div#root": {
-    width: "100vw",
-    height: "100vh"
-  }
-})
-
-globalStyles()
+import { Environment, OrbitControls, Sky } from "@react-three/drei"
+import { RenderCanvas, RenderPipeline } from "render-composer"
+import { HorizontalGroup } from "./HorizontalGroup"
+import { collapseChildren, styled } from "./styled"
+import { VerticalGroup } from "./VerticalGroup"
 
 const UIRoot = styled("div", {
   backgroundColor: "#111",
@@ -100,28 +66,6 @@ const Button = styled("button", {
   }
 })
 
-const HorizontalGroup = styled("div", {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  gap: "0.25rem",
-  width: "100%",
-
-  variants: {
-    align: {
-      start: { alignItems: "flex-start" },
-      center: { alignItems: "center" },
-      end: { alignItems: "flex-end" }
-    }
-  }
-})
-
-const VerticalGroup = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.25rem"
-})
-
 const ControlGroup = styled("table", { borderSpacing: 0, width: "100%" })
 
 const ControlRow = styled("tr")
@@ -129,9 +73,6 @@ const ControlRow = styled("tr")
 const ControlLabel = styled("td", { paddingRight: "1rem" })
 
 const Control = styled("td")
-
-import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Sky, Environment, OrbitControls } from "@react-three/drei"
 
 const App = () => (
   <UIRoot>
