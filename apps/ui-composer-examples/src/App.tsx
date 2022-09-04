@@ -33,6 +33,8 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
   const rotZ = useRef<HTMLInputElement>(null!)
 
   useAnimationFrame(() => {
+    if (!mesh.current) return
+
     rotX.current.value = mesh.current.rotation.x.toFixed(3)
     rotY.current.value = mesh.current.rotation.y.toFixed(3)
     rotZ.current.value = mesh.current.rotation.z.toFixed(3)
