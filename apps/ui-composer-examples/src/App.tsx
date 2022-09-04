@@ -1,16 +1,9 @@
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { HorizontalGroup } from "./HorizontalGroup"
+import { Root } from "./Root"
 import { collapseChildren, styled } from "./styles"
 import { VerticalGroup } from "./VerticalGroup"
-
-const UIRoot = styled("div", {
-  backgroundColor: "#111",
-  width: "100%",
-  height: "100%",
-  display: "flex",
-  userSelect: "none"
-})
 
 const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
@@ -75,7 +68,7 @@ const ControlLabel = styled("td", { paddingRight: "1rem" })
 const Control = styled("td")
 
 const App = () => (
-  <UIRoot>
+  <Root>
     <HorizontalGroup>
       <RenderCanvas>
         <RenderPipeline bloom antiAliasing vignette>
@@ -154,7 +147,7 @@ const App = () => (
         </ControlGroup>
       </Panel>
     </HorizontalGroup>
-  </UIRoot>
+  </Root>
 )
 
 export default App
