@@ -70,27 +70,31 @@ const App = () => {
   return (
     <Root>
       <HorizontalGroup>
-        <RenderCanvas>
-          <RenderPipeline bloom antiAliasing vignette>
-            <Environment preset="sunset" />
-            <Sky />
-            <OrbitControls />
+        <div style={{ flex: 2 }}>
+          <RenderCanvas>
+            <RenderPipeline bloom antiAliasing vignette>
+              <Environment preset="sunset" />
+              <Sky />
+              <OrbitControls />
 
-            <Animate
-              ref={mesh}
-              fun={(mesh, dt) => (mesh.rotation.x = mesh.rotation.y += 2 * dt)}
-            >
-              <mesh>
-                <dodecahedronGeometry />
-                <meshStandardMaterial color="hotpink" />
-              </mesh>
-            </Animate>
-          </RenderPipeline>
-        </RenderCanvas>
+              <Animate
+                ref={mesh}
+                fun={(mesh, dt) =>
+                  (mesh.rotation.x = mesh.rotation.y += 2 * dt)
+                }
+              >
+                <mesh>
+                  <dodecahedronGeometry />
+                  <meshStandardMaterial color="hotpink" />
+                </mesh>
+              </Animate>
+            </RenderPipeline>
+          </RenderCanvas>
+        </div>
 
         <HorizontalResizer />
 
-        <VerticalGroup css={{ width: 600 }}>
+        <VerticalGroup css={{ flex: 1 }}>
           <MeshPanel mesh={mesh} />
           <Panel>
             <Heading>Welcome!</Heading>
