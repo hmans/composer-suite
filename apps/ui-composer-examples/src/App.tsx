@@ -136,6 +136,11 @@ const App = () => {
             </UI.Control>
 
             <UI.Control>
+              <UI.Label>Boolean</UI.Label>
+              <UI.BooleanControl description="This is a test. Yo." />
+            </UI.Control>
+
+            <UI.Control>
               <UI.Label>Vector</UI.Label>
 
               <UI.HorizontalGroup align={"center"} gap>

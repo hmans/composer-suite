@@ -1,5 +1,6 @@
 import { collapseChildren, styled } from "../styles"
 
+export * from "./BooleanControl"
 export * from "./Button"
 export * from "./Heading"
 export * from "./HorizontalGroup"
@@ -19,7 +20,8 @@ export const Panel = styled("div", collapseChildren, {
 
 export const Control = styled("div", {
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
+  height: "2rem"
 })
 
 export const Label = styled("div", {
