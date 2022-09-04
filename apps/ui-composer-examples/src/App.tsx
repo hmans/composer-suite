@@ -1,5 +1,7 @@
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
+import { useRef } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Mesh } from "three"
 import { Button } from "./Button"
 import { Heading } from "./Heading"
 import { HorizontalGroup } from "./HorizontalGroup"
@@ -24,89 +26,94 @@ const ControlLabel = styled("td", { paddingRight: "1rem" })
 
 const Control = styled("td")
 
-const App = () => (
-  <Root>
-    <HorizontalGroup>
-      <RenderCanvas>
-        <RenderPipeline bloom antiAliasing vignette>
-          <Environment preset="sunset" />
-          <Sky />
-          {/* <directionalLight position={[40, 10, 0]} intensity={1.8} /> */}
-          <mesh>
-            <dodecahedronGeometry />
-            <meshStandardMaterial color="hotpink" />
-          </mesh>
-          <OrbitControls />
-        </RenderPipeline>
-      </RenderCanvas>
+const App = () => {
+  const mesh = useRef<Mesh>(null!)
 
-      <HorizontalResizer />
+  return (
+    <Root>
+      <HorizontalGroup>
+        <RenderCanvas>
+          <RenderPipeline bloom antiAliasing vignette>
+            <Environment preset="sunset" />
+            <Sky />
+            {/* <directionalLight position={[40, 10, 0]} intensity={1.8} /> */}
+            <OrbitControls />
 
-      <Panel css={{ width: 400 }}>
-        <Heading>Welcome!</Heading>
-        <p>
-          This is a panel. It displays things. Amazing! Many curious,
-          interesting things, that hopefully will make building editor UIs
-          really useful. (This is just a slightly longer paragraph to see how it
-          renders.)
-        </p>
-        <p>Like text.</p>
-        <p>Or even more text.</p>
+            <mesh ref={mesh}>
+              <dodecahedronGeometry />
+              <meshStandardMaterial color="hotpink" />
+            </mesh>
+          </RenderPipeline>
+        </RenderCanvas>
 
-        <Heading>Buttons</Heading>
-        <p>Buttonnnnssss, they're amazing!</p>
+        <HorizontalResizer />
 
-        <VerticalGroup>
-          <Button>Click me</Button>
-          <Button>Or click this one</Button>
-          <HorizontalGroup gap>
-            <Button>Left</Button>
-            <Button>Right</Button>
-          </HorizontalGroup>
-        </VerticalGroup>
+        <Panel css={{ width: 400 }}>
+          <Heading>Welcome!</Heading>
+          <p>
+            This is a panel. It displays things. Amazing! Many curious,
+            interesting things, that hopefully will make building editor UIs
+            really useful. (This is just a slightly longer paragraph to see how
+            it renders.)
+          </p>
+          <p>Like text.</p>
+          <p>Or even more text.</p>
 
-        <Heading>Inputs</Heading>
-        <p>We should try some inputs. Inputs are really cool.</p>
+          <Heading>Buttons</Heading>
+          <p>Buttonnnnssss, they're amazing!</p>
 
-        <ControlGroup>
-          <ControlRow>
-            <ControlLabel>Text:</ControlLabel>
-            <Control>
-              <Input type="text" spellCheck="false" />
-            </Control>
-          </ControlRow>
+          <VerticalGroup>
+            <Button>Click me</Button>
+            <Button>Or click this one</Button>
+            <HorizontalGroup gap>
+              <Button>Left</Button>
+              <Button>Right</Button>
+            </HorizontalGroup>
+          </VerticalGroup>
 
-          <ControlRow>
-            <ControlLabel>Number:</ControlLabel>
-            <Control>
-              <Input type="number" />
-            </Control>
-          </ControlRow>
+          <Heading>Inputs</Heading>
+          <p>We should try some inputs. Inputs are really cool.</p>
 
-          <ControlRow>
-            <ControlLabel>Range:</ControlLabel>
-            <Control>
-              <Input type="range" />
-            </Control>
-          </ControlRow>
+          <ControlGroup>
+            <ControlRow>
+              <ControlLabel>Text:</ControlLabel>
+              <Control>
+                <Input type="text" spellCheck="false" />
+              </Control>
+            </ControlRow>
 
-          <ControlRow>
-            <ControlLabel>Vector:</ControlLabel>
-            <Control>
-              <HorizontalGroup align={"center"} gap>
-                X
+            <ControlRow>
+              <ControlLabel>Number:</ControlLabel>
+              <Control>
                 <Input type="number" />
-                Y
-                <Input type="number" />
-                Z
-                <Input type="number" />
-              </HorizontalGroup>
-            </Control>
-          </ControlRow>
-        </ControlGroup>
-      </Panel>
-    </HorizontalGroup>
-  </Root>
-)
+              </Control>
+            </ControlRow>
+
+            <ControlRow>
+              <ControlLabel>Range:</ControlLabel>
+              <Control>
+                <Input type="range" />
+              </Control>
+            </ControlRow>
+
+            <ControlRow>
+              <ControlLabel>Vector:</ControlLabel>
+              <Control>
+                <HorizontalGroup align={"center"} gap>
+                  X
+                  <Input type="number" />
+                  Y
+                  <Input type="number" />
+                  Z
+                  <Input type="number" />
+                </HorizontalGroup>
+              </Control>
+            </ControlRow>
+          </ControlGroup>
+        </Panel>
+      </HorizontalGroup>
+    </Root>
+  )
+}
 
 export default App
