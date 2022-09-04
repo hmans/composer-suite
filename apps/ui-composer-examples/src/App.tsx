@@ -1,5 +1,11 @@
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
-import { useRef } from "react"
+import {
+  MutableRefObject,
+  Ref,
+  useEffect,
+  useLayoutEffect,
+  useRef
+} from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { Mesh } from "three"
 import { Button } from "./Button"
@@ -11,6 +17,7 @@ import { Root } from "./Root"
 import { collapseChildren, styled } from "./styles"
 import { VerticalGroup } from "./VerticalGroup"
 import { Animate } from "@hmans/things"
+import { useFrame } from "@react-three/fiber"
 
 const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
@@ -26,6 +33,20 @@ const ControlRow = styled("tr")
 const ControlLabel = styled("td", { paddingRight: "1rem" })
 
 const Control = styled("td")
+
+const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Mesh> }) => {
+  useFrame(() => {
+    console.log(mesh.current)
+  })
+
+  return (
+    <Panel>
+      <Heading>Mesh Playground</Heading>
+      <p>Just playing around with some two-way binding stuff.</p>
+      <Input type="number" disabled />
+    </Panel>
+  )
+}
 
 const App = () => {
   const mesh = useRef<Mesh>(null!)
@@ -53,11 +74,7 @@ const App = () => {
         <HorizontalResizer />
 
         <VerticalGroup css={{ width: 400 }}>
-          <Panel>
-            <Heading>Mesh Playground</Heading>
-            <p>Just playing around with some two-way binding stuff.</p>
-          </Panel>
-
+          <MeshPanel mesh={mesh} />
           <Panel>
             <Heading>Welcome!</Heading>
             <p>
