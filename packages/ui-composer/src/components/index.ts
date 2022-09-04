@@ -10,6 +10,8 @@ export * from "./VerticalGroup"
 
 export const Panel = styled("div", collapseChildren, {
   backgroundColor: "$panelBackground",
+  borderRadius: 5,
+
   color: "$panelText",
   textShadow: "rgba(0, 0, 0, 0.2) 1px 2px 1px",
   padding: "1rem"
