@@ -48,69 +48,75 @@ const App = () => {
 
         <HorizontalResizer />
 
-        <Panel css={{ width: 400 }}>
-          <Heading>Welcome!</Heading>
-          <p>
-            This is a panel. It displays things. Amazing! Many curious,
-            interesting things, that hopefully will make building editor UIs
-            really useful. (This is just a slightly longer paragraph to see how
-            it renders.)
-          </p>
-          <p>Like text.</p>
-          <p>Or even more text.</p>
+        <VerticalGroup css={{ width: 400 }}>
+          <Panel>
+            <Heading>Welcome!</Heading>
+            <p>
+              This is a panel. It displays things. Amazing! Many curious,
+              interesting things, that hopefully will make building editor UIs
+              really useful. (This is just a slightly longer paragraph to see
+              how it renders.)
+            </p>
+            <p>Like text.</p>
+            <p>Or even more text.</p>
+          </Panel>
 
-          <Heading>Buttons</Heading>
-          <p>Buttonnnnssss, they're amazing!</p>
+          <Panel>
+            <Heading>Buttons</Heading>
+            <p>Buttonnnnssss, they're amazing!</p>
 
-          <VerticalGroup>
-            <Button>Click me</Button>
-            <Button>Or click this one</Button>
-            <HorizontalGroup gap>
-              <Button>Left</Button>
-              <Button>Right</Button>
-            </HorizontalGroup>
-          </VerticalGroup>
+            <VerticalGroup>
+              <Button>Click me</Button>
+              <Button>Or click this one</Button>
+              <HorizontalGroup gap>
+                <Button>Left</Button>
+                <Button>Right</Button>
+              </HorizontalGroup>
+            </VerticalGroup>
+          </Panel>
 
-          <Heading>Inputs</Heading>
-          <p>We should try some inputs. Inputs are really cool.</p>
+          <Panel>
+            <Heading>Inputs</Heading>
+            <p>We should try some inputs. Inputs are really cool.</p>
 
-          <ControlGroup>
-            <ControlRow>
-              <ControlLabel>Text:</ControlLabel>
-              <Control>
-                <Input type="text" spellCheck="false" />
-              </Control>
-            </ControlRow>
+            <ControlGroup>
+              <ControlRow>
+                <ControlLabel>Text:</ControlLabel>
+                <Control>
+                  <Input type="text" spellCheck="false" />
+                </Control>
+              </ControlRow>
 
-            <ControlRow>
-              <ControlLabel>Number:</ControlLabel>
-              <Control>
-                <Input type="number" />
-              </Control>
-            </ControlRow>
-
-            <ControlRow>
-              <ControlLabel>Range:</ControlLabel>
-              <Control>
-                <Input type="range" />
-              </Control>
-            </ControlRow>
-
-            <ControlRow>
-              <ControlLabel>Vector:</ControlLabel>
-              <Control>
-                <HorizontalGroup align={"center"} gap>
-                  X
+              <ControlRow>
+                <ControlLabel>Number:</ControlLabel>
+                <Control>
                   <Input type="number" />
-                  Y
-                  <Input type="number" />
-                  Z
-                  <Input type="number" />
-                </HorizontalGroup>
-              </Control>
-            </ControlRow>
-          </ControlGroup>
-        </Panel>
+                </Control>
+              </ControlRow>
+
+              <ControlRow>
+                <ControlLabel>Range:</ControlLabel>
+                <Control>
+                  <Input type="range" />
+                </Control>
+              </ControlRow>
+
+              <ControlRow>
+                <ControlLabel>Vector:</ControlLabel>
+                <Control>
+                  <HorizontalGroup align={"center"} gap>
+                    X
+                    <Input type="number" />
+                    Y
+                    <Input type="number" />
+                    Z
+                    <Input type="number" />
+                  </HorizontalGroup>
+                </Control>
+              </ControlRow>
+            </ControlGroup>
+          </Panel>
+        </VerticalGroup>
       </HorizontalGroup>
     </Root>
   )
