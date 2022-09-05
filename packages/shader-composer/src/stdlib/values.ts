@@ -4,21 +4,11 @@ import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
 
 /* See: https://www.khronos.org/opengl/wiki/Data_Type_(GLSL) */
 
-export type CastableInput<T extends GLSLType> = T extends "float"
-  ? Input<T | "int">
-  : T extends "vec2"
-  ? Input<T | "float" | "int">
-  : T extends "vec3"
-  ? Input<T | "float" | "int" | "vec2">
-  : T extends "vec4"
-  ? Input<T | "float" | "int" | "vec2" | "vec3">
-  : T extends "mat2"
-  ? Input<T | "float" | "int" | "vec2" | "vec3" | "vec4">
-  : T extends "mat3"
-  ? Input<T | "float" | "int" | "vec2" | "vec3" | "vec4" | "mat2">
-  : T extends "mat4"
-  ? Input<T | "float" | "int" | "vec2" | "vec3" | "vec4" | "mat2" | "mat3">
-  : Input<T>
+/**
+ * We're allowing any type to be castable. For now. (If you're casting something weird,
+ * the shader compilation will crash. Let's go!)
+ */
+export type CastableInput<T extends GLSLType> = Input<GLSLType>
 
 export type CastFunction<T extends GLSLType> = (
   ...values: CastableInput<T>[]
