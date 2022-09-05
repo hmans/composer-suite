@@ -85,6 +85,7 @@ export const Bool = makeUnitFactory("bool")
 export const Vec2 = makeCastableUnitFactory("vec2", $vec2)
 export const Vec3 = makeCastableUnitFactory("vec3", $vec3)
 export const Vec4 = makeCastableUnitFactory("vec4", $vec4)
+export const Mat2 = makeCastableUnitFactory("mat2", $mat2)
 export const Mat3 = makeCastableUnitFactory("mat3", $mat3)
 export const Mat4 = makeCastableUnitFactory("mat4", $mat4)
 
