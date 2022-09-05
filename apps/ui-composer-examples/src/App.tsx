@@ -1,27 +1,60 @@
 import { Animate, useAnimationFrame } from "@hmans/things"
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
-import { MutableRefObject, useRef } from "react"
+import {
+  HTMLProps,
+  MutableRefObject,
+  PropsWithChildren,
+  PropsWithoutRef,
+  useRef,
+  useState
+} from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { Group } from "three"
 import * as UI from "ui-composer"
 
-const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
-  const posX = useRef<HTMLInputElement>(null!)
-  const posY = useRef<HTMLInputElement>(null!)
-  const posZ = useRef<HTMLInputElement>(null!)
+/* TODO: Extract this into hmans/things or similar */
 
-  const rotX = useRef<HTMLInputElement>(null!)
+export function useAnimationFrameEffect<T>(
+  dependencyCallback: () => T,
+  callback: (args: T) => void
+) {
+  const value = useRef<T>(null!)
+
+  useAnimationFrame(() => {
+    const newValue = dependencyCallback()
+
+    if (value.current !== newValue) {
+      value.current = newValue
+      callback(newValue)
+    }
+  })
+}
+
+const BoundInput = <T extends number>({
+  getter,
+  value: initialValue,
+  ...props
+}: Parameters<typeof UI.Input>[0] & { getter: () => T }) => {
+  const [value, setValue] = useState<T>(() => initialValue as T)
+
+  useAnimationFrameEffect(getter, setValue)
+
+  return (
+    <UI.Input
+      {...props}
+      onChange={() => console.log("changed?!")}
+      value={value?.toFixed(2)}
+    ></UI.Input>
+  )
+}
+
+const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
   const rotY = useRef<HTMLInputElement>(null!)
   const rotZ = useRef<HTMLInputElement>(null!)
 
   useAnimationFrame(() => {
     if (!mesh.current) return
 
-    posX.current.value = mesh.current.position.x.toFixed(3)
-    posY.current.value = mesh.current.position.y.toFixed(3)
-    posZ.current.value = mesh.current.position.z.toFixed(3)
-
-    rotX.current.value = mesh.current.rotation.x.toFixed(3)
     rotY.current.value = mesh.current.rotation.y.toFixed(3)
     rotZ.current.value = mesh.current.rotation.z.toFixed(3)
   })
@@ -32,26 +65,23 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
       <p>Just playing around with some two-way binding stuff.</p>
 
       <UI.Control>
-        <UI.Label>Position</UI.Label>
-        <UI.HorizontalGroup align={"center"} gap>
-          X
-          <UI.Input ref={posX} type="number" />
-          Y
-          <UI.Input ref={posY} type="number" />
-          Z
-          <UI.Input ref={posZ} type="number" />
-        </UI.HorizontalGroup>
-      </UI.Control>
-
-      <UI.Control>
         <UI.Label>Rotation</UI.Label>
         <UI.HorizontalGroup align={"center"} gap>
           X
-          <UI.Input ref={rotX} type="number" />
+          <BoundInput
+            type="number"
+            getter={() => mesh.current && mesh.current.rotation.x}
+          />
           Y
-          <UI.Input ref={rotY} type="number" />
+          <BoundInput
+            type="number"
+            getter={() => mesh.current && mesh.current.rotation.y}
+          />
           Z
-          <UI.Input ref={rotZ} type="number" />
+          <BoundInput
+            type="number"
+            getter={() => mesh.current && mesh.current.rotation.z}
+          />
         </UI.HorizontalGroup>
       </UI.Control>
     </UI.Panel>
