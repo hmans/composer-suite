@@ -1,13 +1,12 @@
 import { $ } from "../expressions"
 import { type } from "../glslType"
 import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
-import { Float, Mat3, Mat4, Vec2, Vec3, Vec4 } from "./values"
 
 /* See: https://www.khronos.org/opengl/wiki/Data_Type_(GLSL) */
 
-export const float = (v: Input<"int" | "float">) => $`float(${v})`
-
-export type CastableInput<T extends GLSLType> = T extends "vec2"
+export type CastableInput<T extends GLSLType> = T extends "float"
+  ? Input<"int" | "float">
+  : T extends "vec2"
   ? Input<"float" | "int" | "vec2">
   : T extends "vec3"
   ? Input<"float" | "int" | "vec2" | "vec3">
@@ -15,40 +14,15 @@ export type CastableInput<T extends GLSLType> = T extends "vec2"
   ? Input<"float" | "int" | "vec2" | "vec3" | "vec4">
   : Input<T>
 
-export const vec2 = (...values: CastableInput<"vec2">[]) =>
-  $`vec2(${values.map((v) => $`${v}`).join(", ")})`
+const createCastFunction =
+  <T extends GLSLType>(type: T) =>
+  (...values: CastableInput<T>[]) =>
+    $`${type}(${values.map((v) => $`${v}`).join(", ")})`
 
-export const vec3 = (...values: CastableInput<"vec3">[]) =>
-  $`vec3(${values.map((v) => $`${v}`).join(", ")})`
-
-export const vec4 = (...values: CastableInput<"vec4">[]) =>
-  $`vec4(${values.map((v) => $`${v}`).join(", ")})`
-
-// export const float = (
-//   v: Input<"float" | "bool" | "int"> = 0,
-//   extras?: Partial<UnitConfig<"float">>
-// ) => Float($`float(${v})`, extras)
-
-// export const vec2 = (
-//   x: Input<"float"> = 0,
-//   y: Input<"float"> = 0,
-//   extras?: Partial<UnitConfig<"vec2">>
-// ) => Vec2($`vec2(${x}, ${y})`, extras)
-
-// export const vec3 = (
-//   x: Input<"float"> = 0,
-//   y: Input<"float"> = 0,
-//   z: Input<"float"> = 0,
-//   extras?: Partial<UnitConfig<"vec3">>
-// ) => Vec3($`vec3(${x}, ${y}, ${z})`, extras)
-
-// export const vec4 = (
-//   x: Input<"float"> = 0,
-//   y: Input<"float"> = 0,
-//   z: Input<"float"> = 0,
-//   w: Input<"float"> = 0,
-//   extras?: Partial<UnitConfig<"vec4">>
-// ) => Vec4($`vec4(${x}, ${y}, ${z}, ${w})`, extras)
+export const float = createCastFunction("float")
+export const vec2 = createCastFunction("vec2")
+export const vec3 = createCastFunction("vec3")
+export const vec4 = createCastFunction("vec4")
 
 // /** Cast the given value to a mat3. */
 // export const mat3 = (i: Input<"mat3" | "mat4">) => Mat3($`mat3(${i})`)
