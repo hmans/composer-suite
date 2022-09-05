@@ -16,14 +16,7 @@ describe("walkTree", () => {
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual(["float", 1, floatExpr, a, snippet, expr, root])
-
-    expect(seen.filter((i) => isUnit(i) || isExpression(i))).toEqual([
-      floatExpr,
-      a,
-      expr,
-      root
-    ])
+    expect(seen).toEqual([1, floatExpr, a, snippet, expr, root])
   })
 
   it("includes constant values", () => {

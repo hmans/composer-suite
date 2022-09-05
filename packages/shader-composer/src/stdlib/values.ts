@@ -20,45 +20,41 @@ export type CastFunction<T extends GLSLType> = (
   ...values: CastableInput<T>[]
 ) => Expression
 
-const createCastFunction =
-  <T extends GLSLType>(type: T): CastFunction<T> =>
-  (...values: CastableInput<T>[]) =>
-    $`${type}(${values})`
-
 /**
  * Returns an expression that casts the given values to a `float`.
  */
-export const float = createCastFunction("float")
+export const float = (...values: CastableInput<"float">[]) =>
+  $`float(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec2`.
  */
-export const vec2 = createCastFunction("vec2")
+export const vec2 = (...values: CastableInput<"vec2">[]) => $`vec2(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec3`.
  */
-export const vec3 = createCastFunction("vec3")
+export const vec3 = (...values: CastableInput<"vec3">[]) => $`vec3(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec4`.
  */
-export const vec4 = createCastFunction("vec4")
+export const vec4 = (...values: CastableInput<"vec4">[]) => $`vec4(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat2`.
  */
-export const mat2 = createCastFunction("mat2")
+export const mat2 = (...values: CastableInput<"mat2">[]) => $`mat2(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat3`.
  */
-export const mat3 = createCastFunction("mat3")
+export const mat3 = (...values: CastableInput<"mat3">[]) => $`mat3(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat4`.
  */
-export const mat4 = createCastFunction("mat4")
+export const mat4 = (...values: CastableInput<"mat4">[]) => $`mat4(${values})`
 
 export const unit = <T extends GLSLType>(
   i: Input<T>,
