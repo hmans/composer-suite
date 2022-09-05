@@ -1,5 +1,5 @@
 import { GLSLType, Input, Unit, UnitConfig } from "../units"
-import { CastableInput, vec3 } from "./casts"
+import { CastableInput, CastFunction, vec3 } from "./casts"
 
 const makeUnitFactory =
   <T extends GLSLType>(type: T) =>
@@ -18,7 +18,14 @@ export const Mat4 = makeUnitFactory("mat4")
 export const Master = (extras?: Partial<UnitConfig<"bool">>) =>
   Bool(true, extras)
 
-export const NewVec3 = (
-  value: CastableInput<"vec3"> | CastableInput<"vec3">[],
-  extras?: Partial<UnitConfig<"vec3">>
-) => Unit("vec3", vec3(...Array(value).flat()), extras)
+const makeNewUnitFactory =
+  <T extends GLSLType>(type: T, castFunction: CastFunction<T>) =>
+  (v: CastableInput<T> | CastableInput<T>[], extras?: Partial<UnitConfig<T>>) =>
+    Unit(type, castFunction(...(Array.isArray(v) ? v : [v])), extras) as Unit<T>
+
+export const NewVec3 = makeNewUnitFactory("vec3", vec3)
+
+// export const NewVec3 = (
+//   value: CastableInput<"vec3"> | CastableInput<"vec3">[],
+//   extras?: Partial<UnitConfig<"vec3">>
+// ) => Unit("vec3", vec3(...Array(value).flat()), extras)
