@@ -25,6 +25,7 @@ export type GLSLType =
   | "vec2"
   | "vec3"
   | "vec4"
+  | "mat2"
   | "mat3"
   | "mat4"
   | "sampler2D"
@@ -36,6 +37,7 @@ export type JSTypes = {
   vec2: Vector2
   vec3: Vector3 | Color
   vec4: Vector4
+  mat2: [number, number, number, number]
   mat3: Matrix3
   mat4: Matrix4
   sampler2D: Texture

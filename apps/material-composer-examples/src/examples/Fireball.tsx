@@ -2,7 +2,7 @@ import { ModuleFactory } from "material-composer"
 import { composable, moduleComponent, modules } from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import { Description } from "r3f-stage"
-import { GlobalTime, Gradient, Mul, Time, vec3 } from "shader-composer"
+import { GlobalTime, Gradient, Mul, Vec3 } from "shader-composer"
 import * as THREE from "three"
 
 export type LavaProps = HeatOptions
@@ -38,7 +38,7 @@ export default function FireballExample() {
           <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
 
           <Lava
-            offset={Mul(vec3(0.1, 0.2, 0.5), time)}
+            offset={Mul(Vec3([0.1, 0.2, 0.5]), time)}
             scale={0.3}
             octaves={5}
             power={1}

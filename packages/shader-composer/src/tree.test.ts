@@ -8,13 +8,22 @@ import { isUnit } from "./units"
 describe("walkTree", () => {
   it("walks a given node tree", () => {
     const a = Float(1)
+
     const snippet = Snippet(() => $`${a}`)
     const expr = $`${snippet}`
     const root = Float(expr)
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual([1, a, snippet, expr, root])
+    expect(seen).toEqual([
+      1,
+      a._unitConfig.value,
+      a,
+      snippet,
+      expr,
+      root._unitConfig.value,
+      root
+    ])
   })
 
   it("includes constant values", () => {
@@ -23,7 +32,7 @@ describe("walkTree", () => {
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual([color, root])
+    expect(seen).toEqual([color, root._unitConfig.value, root])
   })
 
   describe("when a program is specified", () => {

@@ -13,7 +13,7 @@ import {
   Sub,
   TilingUV,
   UV,
-  vec2
+  $vec2
 } from "shader-composer"
 import { PSRDNoise2D } from "shader-composer-toybox"
 
@@ -25,7 +25,7 @@ export const NoiseMask = (
   time: Input<"float"> = GlobalTime
 ) => {
   const noise = NormalizePlusMinusOne(
-    PSRDNoise2D(TilingUV(UV, vec2(8, 8), vec2(0, Negate(time))))
+    PSRDNoise2D(TilingUV(UV, $vec2(8, 8), $vec2(0, Negate(time))))
   )
 
   return pipe(

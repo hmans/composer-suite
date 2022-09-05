@@ -9,7 +9,7 @@ import {
   Mul,
   Remap,
   SplitVector3,
-  vec2
+  Vec2
 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
@@ -25,7 +25,7 @@ function Water() {
 
     const { position, normal } = Displacement((v) => {
       const [x, y, z] = SplitVector3(v)
-      const xy = vec2(x, z)
+      const xy = Vec2([x, z])
 
       /*
 			The FBM noise layer is currently disabled because it doesn't work on
@@ -34,7 +34,7 @@ function Water() {
 			https://github.com/hmans/shader-composer/issues/29
 			*/
       const fbm = NormalizeNoise(
-        FBMNoise(vec2(x, z), {
+        FBMNoise(Vec2([x, z]), {
           seed: Math.random(),
           persistance: 0.4,
           lacunarity: 2.3,
@@ -48,10 +48,10 @@ function Water() {
 
       return pipe(
         v,
-        add(Mul(GerstnerWave(xy, vec2(1, 1), 0.5, 20.0, time), 0.8)),
-        add(Mul(GerstnerWave(xy, vec2(0.2, 1), 0.2, 10, time), 0.8)),
-        add(Mul(GerstnerWave(xy, vec2(0, -1), 0.2, 5, time), 0.5)),
-        add(Mul(GerstnerWave(xy, vec2(1, 1), 0.2, 8, time), 0.3))
+        add(Mul(GerstnerWave(xy, Vec2([1, 1]), 0.5, 20.0, time), 0.8)),
+        add(Mul(GerstnerWave(xy, Vec2([0.2, 1]), 0.2, 10, time), 0.8)),
+        add(Mul(GerstnerWave(xy, Vec2([0, -1]), 0.2, 5, time), 0.5)),
+        add(Mul(GerstnerWave(xy, Vec2([1, 1]), 0.2, 8, time), 0.3))
         // add(Mul(vec3(0, 0.005, 0), fbm))
       )
     })
