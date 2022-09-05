@@ -1,7 +1,7 @@
 import { Color } from "three"
-import { $, isExpression } from "./expressions"
+import { $ } from "./expressions"
 import { Snippet } from "./snippets"
-import { float, Float, Master, NewFloat, Vec3 } from "./stdlib"
+import { Float, Master, Vec3 } from "./stdlib"
 import { collectFromTree, Item, walkTree } from "./tree"
 import { isUnit } from "./units"
 
@@ -32,7 +32,7 @@ describe("walkTree", () => {
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual([color, root])
+    expect(seen).toEqual([color, root._unitConfig.value, root])
   })
 
   describe("when a program is specified", () => {

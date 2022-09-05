@@ -1,6 +1,6 @@
 import { Color, Vector2, Vector3 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { float, Int, mat2, NewVec3, vec2, vec3, Vec3, vec4 } from "./values"
+import { float, Int, mat2, vec2, Vec3, vec3, vec4 } from "./values"
 
 describe("float", () => {
   it("returns an expression that casts the given value to a float", () => {
@@ -58,10 +58,10 @@ describe("mat2", () => {
   })
 })
 
-describe("NewVec3", () => {
+describe("Vec3", () => {
   it("value is a unit", () => {
     const unit = Vec3(new Vector3(1, 2, 3))
-    const v = NewVec3(unit)
+    const v = Vec3(unit)
     expect(glslRepresentation(v._unitConfig.value)).toEqual(
       `vec3(${glslRepresentation(unit)})`
     )
@@ -69,7 +69,7 @@ describe("NewVec3", () => {
 
   it("value is a JS value with its own GLSL representation", () => {
     const value = new Vector3(1, 2, 3)
-    const v = NewVec3(value)
+    const v = Vec3(value)
     expect(glslRepresentation(v._unitConfig.value)).toEqual(
       `vec3(vec3(1.0, 2.0, 3.0))`
     )
@@ -77,21 +77,21 @@ describe("NewVec3", () => {
 
   it("value is an array of components", () => {
     const value = [1, 2, 3]
-    const v = NewVec3(value)
+    const v = Vec3(value)
     expect(glslRepresentation(v._unitConfig.value)).toEqual(
       `vec3(1.0, 2.0, 3.0)`
     )
   })
 
   it("value is a 'nested' array. Well, kinda.", () => {
-    const v = NewVec3([1, ...[2, 3]])
+    const v = Vec3([1, ...[2, 3]])
     expect(glslRepresentation(v._unitConfig.value)).toEqual(
       `vec3(1.0, 2.0, 3.0)`
     )
   })
 
   it("provides .x, .y, and .z accessors", () => {
-    const v = NewVec3(new Vector3(), { variableName: "foo" })
+    const v = Vec3(new Vector3(), { variableName: "foo" })
     expect(glslRepresentation(v.x._unitConfig.value)).toBe("foo.x")
     expect(glslRepresentation(v.y._unitConfig.value)).toBe("foo.y")
     expect(glslRepresentation(v.z._unitConfig.value)).toBe("foo.z")
