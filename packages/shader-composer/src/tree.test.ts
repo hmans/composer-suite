@@ -1,14 +1,13 @@
 import { Color } from "three"
 import { $, isExpression } from "./expressions"
 import { Snippet } from "./snippets"
-import { float, Float, Master, Vec3 } from "./stdlib"
+import { float, Float, Master, NewFloat, Vec3 } from "./stdlib"
 import { collectFromTree, Item, walkTree } from "./tree"
 import { isUnit } from "./units"
 
 describe("walkTree", () => {
   it("walks a given node tree", () => {
-    const floatExpr = float(1)
-    const a = Float(floatExpr)
+    const a = NewFloat(1)
 
     const snippet = Snippet(() => $`${a}`)
     const expr = $`${snippet}`
@@ -16,7 +15,7 @@ describe("walkTree", () => {
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual([1, floatExpr, a, snippet, expr, root])
+    expect(seen).toEqual([1, a._unitConfig.value, a, snippet, expr, root])
   })
 
   it("includes constant values", () => {
