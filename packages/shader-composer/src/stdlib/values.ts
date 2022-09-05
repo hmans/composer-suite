@@ -99,7 +99,7 @@ const makeNewUnitFactory =
   (v: CastableInput<T> | CastableInput<T>[], extras?: Partial<UnitConfig<T>>) =>
     Unit(type, castFunction(...(Array.isArray(v) ? v : [v])), extras) as Unit<T>
 
-export const NewFloat = makeNewUnitFactory("float", float)
+export const NewFloat = (value: CastableInput<"float">) => $`float(${value})`
 
 export const NewVec3 = makeNewUnitFactory("vec3", vec3)
 
