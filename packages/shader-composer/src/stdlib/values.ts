@@ -78,26 +78,19 @@ const makeUnitFactory =
   (v: Input<T>, extras?: Partial<UnitConfig<T>>) =>
     Unit(type, v, extras) as Unit<T>
 
-const makeNewUnitFactory =
+const makeCastableUnitFactory =
   <T extends GLSLType>(type: T, castFunction: CastFunction<T>) =>
   (v: CastableInput<T> | CastableInput<T>[], extras?: Partial<UnitConfig<T>>) =>
     Unit(type, castFunction(...(Array.isArray(v) ? v : [v])), extras) as Unit<T>
 
-export const Float = makeNewUnitFactory("float", float)
+export const Float = makeCastableUnitFactory("float", float)
 export const Int = makeUnitFactory("int")
 export const Bool = makeUnitFactory("bool")
-export const Vec2 = makeUnitFactory("vec2")
-export const Vec3 = makeNewUnitFactory("vec3", vec3)
-export const Vec4 = makeUnitFactory("vec4")
-export const Mat3 = makeUnitFactory("mat3")
-export const Mat4 = makeUnitFactory("mat4")
+export const Vec2 = makeCastableUnitFactory("vec2", vec2)
+export const Vec3 = makeCastableUnitFactory("vec3", vec3)
+export const Vec4 = makeCastableUnitFactory("vec4", vec4)
+export const Mat3 = makeCastableUnitFactory("mat3", mat3)
+export const Mat4 = makeCastableUnitFactory("mat4", mat4)
 
 export const Master = (extras?: Partial<UnitConfig<"bool">>) =>
   Bool(true, extras)
-
-// export const Vec3 = makeNewUnitFactory("vec3", vec3)
-// export const Vec2 = makeNewUnitFactory("vec2", vec2)
-// export const Vec3 = (
-//   value: CastableInput<"vec3"> | CastableInput<"vec3">[],
-//   extras?: Partial<UnitConfig<"vec3">>
-// ) => Unit("vec3", vec3(...Array(value).flat()), extras)

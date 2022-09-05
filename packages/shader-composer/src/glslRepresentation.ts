@@ -10,7 +10,7 @@ export const glslRepresentation = (
   if (value === undefined) return ""
 
   if (Array.isArray(value)) {
-    return value.map((v) => glslRepresentation(v, typeHint)).join(", ")
+    return value.map((v) => glslRepresentation(v)).join(", ")
   }
 
   if (isUnit(value))
@@ -55,7 +55,7 @@ export const glslRepresentation = (
       .join(", ")})`
 
   /* Fail */
-  throw new Error(`Could not render value to GLSL: ${value}`)
+  throw new Error(`Could not render value to GLSL: ${JSON.stringify(value)}`)
 }
 
 const g = glslRepresentation

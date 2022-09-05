@@ -88,6 +88,6 @@ describe("Unit", () => {
 describe("Vec2", () => {
   it("accepts a THREE.Vector2 as value", () => {
     const vec2 = Vec2(new Vector2(1, 2))
-    expect(glsl(vec2._unitConfig.value)).toBe("vec2(1.0, 2.0)")
+    expect(glsl(vec2._unitConfig.value)).toBe("vec2(vec2(1.0, 2.0))")
   })
 })
