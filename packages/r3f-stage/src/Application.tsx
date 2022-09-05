@@ -25,8 +25,15 @@ export const Application: FC<ApplicationProps> = ({ ...props }) => {
           <Floater css={{ width: 400 }}>
             <UI.VerticalGroup css={{ flex: 1 }}>
               <UI.Panel>
-                <UI.Heading>Hi from UI Composer!</UI.Heading>
-                <p>Hello</p>
+                <UI.Heading>Settings</UI.Heading>
+
+                <UI.Control>
+                  <UI.BooleanControl description="Enable Postprocessing" />
+                </UI.Control>
+
+                <UI.Control>
+                  <UI.BooleanControl description="Enable Performance Monitor" />
+                </UI.Control>
               </UI.Panel>
             </UI.VerticalGroup>
           </Floater>
