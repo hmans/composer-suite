@@ -5,7 +5,8 @@ import { Float, Mat3, Mat4, Vec2, Vec3, Vec4 } from "./values"
 
 export const float = (v: Input<"int" | "float">) => $`float(${v})`
 
-export const vec3 = (v: Input<"vec3">) => $`vec3(${v})`
+export const vec3 = (...values: any[]) =>
+  $`vec3(${values.map((v) => $`${v}`).join(", ")})`
 
 // export const float = (
 //   v: Input<"float" | "bool" | "int"> = 0,
