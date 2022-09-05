@@ -57,7 +57,10 @@ export const collectFromTree = (
  * @param item
  * @returns
  */
-export const getDependencies = (item: Item, program: Program | "any"): Item[] => {
+export const getDependencies = (
+  item: Item,
+  program: Program | "any"
+): Item[] => {
   const dependencies = isUnit(item)
     ? getUnitDependencies(item, program)
     : isExpression(item)
@@ -66,20 +69,31 @@ export const getDependencies = (item: Item, program: Program | "any"): Item[] =>
     ? item.expression.values
     : []
 
-  return dependencies.flat().filter((i) => !!i)
+  return dependencies.flat(Infinity).filter(dependencyFilter)
 }
 
-const getUnitDependencies = ({ _unitConfig: config }: Unit, program: Program | "any") => {
+const getUnitDependencies = (
+  { _unitConfig: config }: Unit,
+  program: Program | "any"
+) => {
   const dependencies = new Array<Item>()
 
   if (!config.varying || program === "any" || program === "vertex")
     dependencies.push(config.value)
 
   if (program === "any" || program === "vertex")
-    dependencies.push(config.vertex?.header?.values, config.vertex?.body?.values)
+    dependencies.push(
+      config.vertex?.header?.values,
+      config.vertex?.body?.values
+    )
 
   if (program === "any" || program === "fragment")
-    dependencies.push(config.fragment?.header?.values, config.fragment?.body?.values)
+    dependencies.push(
+      config.fragment?.header?.values,
+      config.fragment?.body?.values
+    )
 
-  return dependencies.filter((i) => !!i)
+  return dependencies.filter(dependencyFilter)
 }
+
+const dependencyFilter = (item: any) => !!item

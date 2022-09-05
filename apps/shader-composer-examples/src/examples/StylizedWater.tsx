@@ -21,7 +21,7 @@ import {
   Smoothstep,
   Step,
   Sub,
-  vec2,
+  Vec2,
   VertexNormal,
   VertexPosition
 } from "shader-composer"
@@ -76,7 +76,7 @@ const Water = (props: MeshProps) => {
     /* Calculate some overlapping noise. We're going to use this
     to change the geometry original normals and scene color UVs to
     create the water surface effect. */
-    const positionXY = vec2(VertexPosition.x, VertexPosition.y)
+    const positionXY = Vec2([VertexPosition.x, VertexPosition.y])
     const waveNoise = Add(
       PSRDNoise2D(Add(positionXY, time)),
       PSRDNoise2D(Sub(positionXY, time))

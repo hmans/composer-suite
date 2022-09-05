@@ -31,8 +31,10 @@ describe("Unit", () => {
   it("allows nodes to directly reference other nodes", () => {
     const source = Float(1)
     const v = Float(source)
-    expect(v._unitConfig.value).toBe(source)
-    expect(glsl(v._unitConfig.value)).toBe(source._unitConfig.variableName)
+    // expect(glsl(v._unitConfig.value).toBe(source)
+    expect(glsl(v._unitConfig.value)).toBe(
+      `float(${source._unitConfig.variableName})`
+    )
   })
 
   it("supports a 'varying' flag that will automatically make it pass its data as a varying", () => {
@@ -55,33 +57,37 @@ describe("Unit", () => {
   it("supports constructing nodes through constructor functions", () => {
     const Double = (f: Input<"float">) => Float($`(${f}) * 2.0`)
     const v = Double(1)
-    expect(glsl(v._unitConfig.value)).toBe("(1.0) * 2.0")
+    expect(glsl(v._unitConfig.value)).toBe("float((1.0) * 2.0)")
   })
 
   it("constructor functions can pass string values as expressions", () => {
     const Double = (f: Input<"float">) => Float($`(${f}) * 2.0`)
     const v = Double($`5.0`)
-    expect(glsl(v._unitConfig.value)).toBe(`(5.0) * 2.0`)
+    expect(glsl(v._unitConfig.value)).toBe(`float((5.0) * 2.0)`)
   })
 
   it("constructor functions can pass references to other nodes", () => {
     const Double = (f: Input<"float">) => Float($`(${f}) * 2.0`)
     const a = Float(1)
     const v = Double(a)
-    expect(glsl(v._unitConfig.value)).toBe(`(${a._unitConfig.variableName}) * 2.0`)
+    expect(glsl(v._unitConfig.value)).toBe(
+      `float((${a._unitConfig.variableName}) * 2.0)`
+    )
   })
 
   it("constructor functions can pass expression values to other nodes", () => {
     const Double = (f: Input<"float">) => Float($`(${f}) * 2.0`)
     const a = Float(5)
     const v = Double($`${a} + 5.0`)
-    expect(glsl(v._unitConfig.value)).toBe(`(${a._unitConfig.variableName} + 5.0) * 2.0`)
+    expect(glsl(v._unitConfig.value)).toBe(
+      `float((${a._unitConfig.variableName} + 5.0) * 2.0)`
+    )
   })
 })
 
 describe("Vec2", () => {
   it("accepts a THREE.Vector2 as value", () => {
     const vec2 = Vec2(new Vector2(1, 2))
-    expect(glsl(vec2._unitConfig.value)).toBe("vec2(1.0, 2.0)")
+    expect(glsl(vec2._unitConfig.value)).toBe("vec2(vec2(1.0, 2.0))")
   })
 })

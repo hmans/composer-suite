@@ -7,7 +7,7 @@ import {
   Mul,
   Sin,
   UV,
-  vec3,
+  Vec3,
   VertexPosition
 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
@@ -21,11 +21,11 @@ export default function Flag() {
     const time = GlobalTime
 
     return PatchedMaterialMaster({
-      position: vec3(
+      position: Vec3([
         VertexPosition.x,
         VertexPosition.y,
         Mul(Sin(Add(Mul(time, 2), Add(Mul(UV.y, 8), Mul(UV.x, 14)))), 0.2)
-      )
+      ])
     })
   }, [])
 

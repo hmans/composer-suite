@@ -10,7 +10,7 @@ import {
   Time,
   UniformUnit,
   UV,
-  vec2
+  $vec2
 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import { Color } from "three"
@@ -20,13 +20,13 @@ export default function Textures() {
   const texture = useRepeatingTexture("/textures/hexgrid.jpg")
 
   const shader = useShader(() => {
-    const offset = vec2(Mul(Time(), 0.05), 0)
+    const offset = $vec2(Mul(Time(), 0.05), 0)
 
     /* Create a texture sampler */
     const sampler2D = UniformUnit("sampler2D", texture)
 
     /* Get the texture information for the current fragment */
-    const tex2d = Texture2D(sampler2D, TilingUV(UV, vec2(2, 1), offset))
+    const tex2d = Texture2D(sampler2D, TilingUV(UV, $vec2(2, 1), offset))
 
     /* Define a color to tint the texture with */
     const color = new Color("hotpink")

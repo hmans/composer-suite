@@ -20,9 +20,8 @@ import {
   Sub,
   Unit,
   varying,
-  vec2,
-  Vec3,
-  vec3
+  Vec2,
+  Vec3
 } from "shader-composer"
 import { useShader, useUniformUnit } from "shader-composer-r3f"
 import { Displacement, PSRDNoise2D } from "shader-composer-toybox"
@@ -76,7 +75,7 @@ const FloatingIsland = () => {
     /* Set up a displacement function. It takes the existing position of a vertex and
     modifies it according to our rules. */
     const displace = (v: Unit<"vec3">) => {
-      const xz = vec2(v.x, v.z)
+      const xz = Vec2([v.x, v.z])
 
       const height = pipe(
         Float(0.2),
@@ -87,10 +86,10 @@ const FloatingIsland = () => {
       )
 
       /* Displacement for the upper half of the island. */
-      const displaceUpper = vec3(v.x, height, v.z)
+      const displaceUpper = Vec3([v.x, height, v.z])
 
       /* Displacement for the lower half of the island. */
-      const displaceLower = vec3(v.x, Mul(v.y, 0.7), v.z)
+      const displaceLower = Vec3([v.x, Mul(v.y, 0.7), v.z])
 
       /* Displacement for the entire island. */
       return If(GreaterOrEqual(v.y, 0), displaceUpper, displaceLower)

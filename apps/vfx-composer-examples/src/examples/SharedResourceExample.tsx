@@ -4,12 +4,12 @@ import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
 import {
   Add,
-  float,
+  $float,
   GlobalTime,
   InstanceID,
   Mul,
   Sin,
-  vec3
+  $vec3
 } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
 import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
@@ -64,10 +64,10 @@ const BlobMaterial = () => {
       metalness={0.5}
       roughness={0.6}
     >
-      <modules.Translate offset={vec3(1, 0, 0)} />
+      <modules.Translate offset={$vec3(1, 0, 0)} />
       <modules.Scale
         scale={pipe(
-          float(InstanceID),
+          $float(InstanceID),
           (v) => Add(time, v),
           (v) => Sin(v),
           (v) => Mul(v, 0.2),
@@ -83,10 +83,10 @@ const BlobDepthMaterial = () => {
 
   return (
     <composable.meshDepthMaterial depthPacking={RGBADepthPacking}>
-      <modules.Translate offset={vec3(1, 0, 0)} />
+      <modules.Translate offset={$vec3(1, 0, 0)} />
       <modules.Scale
         scale={pipe(
-          float(InstanceID),
+          $float(InstanceID),
           (v) => Add(time, v),
           (v) => Sin(v),
           (v) => Mul(v, 0.2),

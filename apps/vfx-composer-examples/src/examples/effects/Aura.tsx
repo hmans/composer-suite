@@ -12,7 +12,7 @@ import {
   TilingUV,
   Unit,
   UV,
-  vec2
+  $vec2
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { DoubleSide, RepeatWrapping } from "three"
@@ -34,8 +34,8 @@ export const AuraLayerModule = ({
   texture,
   wobble = 0,
   fullness = 0.5,
-  tiling = vec2(3, 1),
-  offset = vec2(0, 0),
+  tiling = $vec2(3, 1),
+  offset = $vec2(0, 0),
   time = GlobalTime,
   ...layerArgs
 }: AuraArgs) => {

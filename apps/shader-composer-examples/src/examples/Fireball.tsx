@@ -10,8 +10,8 @@ import {
   NormalizePlusMinusOne,
   Pow,
   Texture2D,
-  vec2,
-  vec3,
+  Vec2,
+  Vec3,
   VertexNormal,
   VertexPosition
 } from "shader-composer"
@@ -49,7 +49,7 @@ export default function Fireball() {
     const color = pipe(
       time,
       /* Modify the original vertex position using offset based on time. */
-      (v) => vec3(Mul(v, 0.1), Mul(v, 0.3), Mul(v, 0.5)),
+      (v) => Vec3([Mul(v, 0.1), Mul(v, 0.3), Mul(v, 0.5)]),
       (v) => Add(VertexPosition, v),
 
       /* Apply the user-provided turbulence scale. */
@@ -61,7 +61,7 @@ export default function Fireball() {
       (v) => Pow(v, 0.5),
 
       /* Source the color from the provided texture. */
-      (v) => Texture2D(sampler2D, vec2(0, v)).color
+      (v) => Texture2D(sampler2D, Vec2([0, v])).color
     )
 
     return PatchedMaterialMaster({
