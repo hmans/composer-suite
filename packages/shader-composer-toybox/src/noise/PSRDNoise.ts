@@ -9,7 +9,18 @@ Original license notices are included with the functions.
 
 */
 
-import { $, Float, glsl, Input, Snippet, Time, vec2, vec3 } from "shader-composer"
+import {
+  $,
+  Float,
+  glsl,
+  Input,
+  Snippet,
+  Time,
+  Vec2,
+  vec2,
+  Vec3,
+  vec3
+} from "shader-composer"
 
 export const psrdnoise2 = Snippet(
   (psrdnoise2) => glsl`
@@ -83,7 +94,7 @@ export const psrdnoise2 = Snippet(
     float ${psrdnoise2}(vec2 x, vec2 period, float alpha, out vec2 gradient) {
       // Transform to simplex space (axis-aligned hexagonal grid)
       vec2 uv = vec2(x.x + x.y*0.5, x.y);
-    
+
       // Determine which simplex we're in, with i0 being the "base"
       vec2 i0 = floor(uv);
       vec2 f0 = fract(uv);
@@ -91,24 +102,24 @@ export const psrdnoise2 = Snippet(
       // o1 is the offset in simplex space to the second corner
       float cmp = step(f0.y, f0.x);
       vec2 o1 = vec2(cmp, 1.0-cmp);
-    
+
       // Enumerate the remaining simplex corners
       vec2 i1 = i0 + o1;
       vec2 i2 = i0 + vec2(1.0, 1.0);
-    
+
       // Transform corners back to texture space
       vec2 _v0 = vec2(i0.x - i0.y * 0.5, i0.y);
       vec2 _v1 = vec2(_v0.x + o1.x - o1.y * 0.5, _v0.y + o1.y);
       vec2 _v2 = vec2(_v0.x + 0.5, _v0.y + 1.0);
-    
+
       // Compute vectors from v to each of the simplex corners
       vec2 x0 = x - _v0;
       vec2 x1 = x - _v1;
       vec2 x2 = x - _v2;
-    
+
       vec3 iu, iv;
       vec3 xw, yw;
-    
+
       // Wrap to periods, if desired
       if(any(greaterThan(period, vec2(0.0)))) {
         xw = vec3(_v0.x, _v1.x, _v2.x);
@@ -128,34 +139,34 @@ export const psrdnoise2 = Snippet(
         iu = vec3(i0.x, i1.x, i2.x);
         iv = vec3(i0.y, i1.y, i2.y);
       }
-    
+
       // Compute one pseudo-random hash value for each corner
       vec3 hash = mod(iu, 289.0);
       hash = mod((hash*51.0 + 2.0)*hash + iv, 289.0);
       hash = mod((hash*34.0 + 10.0)*hash, 289.0);
-    
+
       // Pick a pseudo-random angle and add the desired rotation
       vec3 psi = hash * 0.07482 + alpha;
       vec3 gx = cos(psi);
       vec3 gy = sin(psi);
-    
+
       // Reorganize for dot products below
       vec2 g0 = vec2(gx.x,gy.x);
       vec2 g1 = vec2(gx.y,gy.y);
       vec2 g2 = vec2(gx.z,gy.z);
-    
+
       // Radial decay with distance from each simplex corner
       vec3 w = 0.8 - vec3(dot(x0, x0), dot(x1, x1), dot(x2, x2));
       w = max(w, 0.0);
       vec3 w2 = w * w;
       vec3 w4 = w2 * w2;
-    
+
       // The value of the linear ramp from each of the corners
       vec3 gdotx = vec3(dot(g0, x0), dot(g1, x1), dot(g2, x2));
-    
+
       // Multiply by the radial decay and sum up the noise value
       float n = dot(w4, gdotx);
-    
+
       // Compute the first order partial derivatives
       vec3 w3 = w2 * w;
       vec3 dw = -8.0 * w3 * gdotx;
@@ -163,7 +174,7 @@ export const psrdnoise2 = Snippet(
       vec2 dn1 = w4.y * g1 + dw.y * x1;
       vec2 dn2 = w4.z * g2 + dw.z * x2;
       gradient = 10.9 * (dn0 + dn1 + dn2);
-    
+
       // Scale the return value to fit nicely into the range [-1,1]
       return 10.9 * n;
     }
@@ -175,7 +186,7 @@ export const PSRDNoise2D = (
   period: Input<"vec2"> = vec2(0, 0),
   alpha: Input<"float"> = 0
 ) => {
-  const gradient = vec2(0, 0, {
+  const gradient = Vec2([0, 0], {
     name: "PSRDNoise2D Gradient"
   })
 
@@ -233,7 +244,7 @@ export const psrdnoise3 = Snippet(
     // the generating gradient at each lattice point around a pseudo-random axis.
     // The rotating gradients give the appearance of a swirling motion, and
     // can serve a similar purpose for animation as motion along the fourth
-    // dimension in 4-D noise. 
+    // dimension in 4-D noise.
     //
     // The rotating gradients in conjunction with the built-in ability to
     // compute exact analytic derivatives allow for "flow noise" effects
@@ -358,7 +369,7 @@ export const psrdnoise3 = Snippet(
         vec4 vx = vec4(_v0.x, _v1.x, _v2.x, v3.x);
         vec4 vy = vec4(_v0.y, _v1.y, _v2.y, v3.y);
         vec4 vz = vec4(_v0.z, _v1.z, _v2.z, v3.z);
-        
+
         // Wrap to periods where specified
         if (period.x > 0.0) vx = mod(vx, period.x);
         if (period.y > 0.0) vy = mod(vy, period.y);
@@ -390,7 +401,7 @@ export const psrdnoise3 = Snippet(
       }
 
       // Compute one pseudo-random hash value for each corner
-      vec4 hash = ${psrdnoise3}_permute( ${psrdnoise3}_permute( ${psrdnoise3}_permute( 
+      vec4 hash = ${psrdnoise3}_permute( ${psrdnoise3}_permute( ${psrdnoise3}_permute(
                 vec4(i0.z, i1.z, i2.z, i3.z ))
               + vec4(i0.y, i1.y, i2.y, i3.y ))
               + vec4(i0.x, i1.x, i2.x, i3.x ));
@@ -410,7 +421,7 @@ export const psrdnoise3 = Snippet(
       #ifdef FASTROTATION
         // Fast algorithm, but without dynamic shortcut for alpha = 0
         vec4 qx = St;         // q' = norm ( cross(s, n) )  on the equator
-        vec4 qy = -Ct; 
+        vec4 qy = -Ct;
         vec4 qz = vec4(0.0);
 
         vec4 px =  sz * qy;   // p' = cross(q, s)
@@ -449,7 +460,7 @@ export const psrdnoise3 = Snippet(
         } else {
           gx = Ct * sz_prime;  // alpha = 0, use s directly as gradient
           gy = St * sz_prime;
-          gz = sz;  
+          gz = sz;
         }
       #endif
 
@@ -481,7 +492,7 @@ export const psrdnoise3 = Snippet(
 
       // Scale the return value to fit nicely into the range [-1,1]
       return 39.5 * n;
-    }	
+    }
   `
 )
 
@@ -490,7 +501,7 @@ export const PSRDNoise3D = (
   period: Input<"vec3"> = vec3(0, 0, 0),
   alpha: Input<"float"> = 0
 ) => {
-  const gradient = vec3(0, 0, 0, {
+  const gradient = Vec3([0, 0, 0], {
     name: "PSRDNoise3D Gradient"
   })
 
