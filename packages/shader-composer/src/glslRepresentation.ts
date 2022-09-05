@@ -9,8 +9,14 @@ export const glslRepresentation = (
 ): string => {
   if (value === undefined) return ""
 
+  if (Array.isArray(value)) {
+    return value.map((v) => glslRepresentation(v, typeHint)).join(", ")
+  }
+
   if (isUnit(value))
-    return value._unitConfig.uniform ? uniformName(value) : value._unitConfig.variableName
+    return value._unitConfig.uniform
+      ? uniformName(value)
+      : value._unitConfig.variableName
 
   if (isExpression(value)) return value.render()
 
@@ -25,11 +31,13 @@ export const glslRepresentation = (
     return typeHint === "int" ? s : s.match(/[.e]/) ? s : `${s}.0`
   }
 
-  if (value instanceof Color) return `vec3(${g(value.r)}, ${g(value.g)}, ${g(value.b)})`
+  if (value instanceof Color)
+    return `vec3(${g(value.r)}, ${g(value.g)}, ${g(value.b)})`
 
   if (value instanceof Vector2) return `vec2(${g(value.x)}, ${g(value.y)})`
 
-  if (value instanceof Vector3) return `vec3(${g(value.x)}, ${g(value.y)}, ${g(value.z)})`
+  if (value instanceof Vector3)
+    return `vec3(${g(value.x)}, ${g(value.y)}, ${g(value.z)})`
 
   if (value instanceof Vector4)
     return `vec4(${g(value.x)}, ${g(value.y)}, ${g(value.z)}, ${g(value.w)})`
