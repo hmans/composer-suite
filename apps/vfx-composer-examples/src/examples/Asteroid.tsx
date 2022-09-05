@@ -11,7 +11,7 @@ import { between, plusMinus } from "randomish"
 import {
   Abs,
   Add,
-  float,
+  Float,
   GlobalTime,
   Input,
   InstanceID,
@@ -21,8 +21,7 @@ import {
   Smoothstep,
   UV,
   Vec2,
-  Vec3,
-  Float
+  Vec3
 } from "shader-composer"
 import { PSRDNoise2D } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
