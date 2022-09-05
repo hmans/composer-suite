@@ -7,15 +7,22 @@ import { Float, Mat3, Mat4, Vec2, Vec3, Vec4 } from "./values"
 
 export const float = (v: Input<"int" | "float">) => $`float(${v})`
 
-export const vec2 = (...values: Input<"float" | "int" | "vec2">[]) =>
+export type CastableInput<T extends GLSLType> = T extends "vec2"
+  ? Input<"float" | "int" | "vec2">
+  : T extends "vec3"
+  ? Input<"float" | "int" | "vec2" | "vec3">
+  : T extends "vec4"
+  ? Input<"float" | "int" | "vec2" | "vec3" | "vec4">
+  : Input<T>
+
+export const vec2 = (...values: CastableInput<"vec2">[]) =>
   $`vec2(${values.map((v) => $`${v}`).join(", ")})`
 
-export const vec3 = (...values: Input<"float" | "int" | "vec2" | "vec3">[]) =>
+export const vec3 = (...values: CastableInput<"vec3">[]) =>
   $`vec3(${values.map((v) => $`${v}`).join(", ")})`
 
-export const vec4 = (
-  ...values: Input<"float" | "int" | "vec2" | "vec3" | "vec4">[]
-) => $`vec4(${values.map((v) => $`${v}`).join(", ")})`
+export const vec4 = (...values: CastableInput<"vec4">[]) =>
+  $`vec4(${values.map((v) => $`${v}`).join(", ")})`
 
 // export const float = (
 //   v: Input<"float" | "bool" | "int"> = 0,
