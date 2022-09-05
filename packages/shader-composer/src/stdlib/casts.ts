@@ -3,6 +3,8 @@ import { type } from "../glslType"
 import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
 import { Float, Mat3, Mat4, Vec2, Vec3, Vec4 } from "./values"
 
+/* See: https://www.khronos.org/opengl/wiki/Data_Type_(GLSL) */
+
 export const float = (v: Input<"int" | "float">) => $`float(${v})`
 
 export const vec2 = (...values: Input<"float" | "int" | "vec2">[]) =>
