@@ -1,6 +1,6 @@
 import { Color, Vector2, Vector3 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { float, vec3, vec4 } from "./casts"
+import { float, mat2, mat3, vec2, vec3, vec4 } from "./casts"
 import { Int } from "./values"
 
 describe("float", () => {
@@ -41,6 +41,20 @@ describe("vec3", () => {
     const cast = vec4(new Vector2(1, 2), new Vector2(3, 4))
     expect(glslRepresentation(cast)).toEqual(
       `vec4(vec2(1.0, 2.0), vec2(3.0, 4.0))`
+    )
+  })
+})
+
+describe("mat2", () => {
+  it("casts float components to a mat2", () => {
+    const cast = mat2(1, 2, 3, 4)
+    expect(glslRepresentation(cast)).toEqual(`mat2(1.0, 2.0, 3.0, 4.0)`)
+  })
+
+  it("casts vector components to a mat2", () => {
+    const cast = mat2(new Vector2(1, 2), vec2(3, 4))
+    expect(glslRepresentation(cast)).toEqual(
+      `mat2(vec2(1.0, 2.0), vec2(3.0, 4.0))`
     )
   })
 })
