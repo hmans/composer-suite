@@ -5,8 +5,15 @@ import { Float, Mat3, Mat4, Vec2, Vec3, Vec4 } from "./values"
 
 export const float = (v: Input<"int" | "float">) => $`float(${v})`
 
-export const vec3 = (...values: any[]) =>
+export const vec2 = (...values: Input<"float" | "int" | "vec2">[]) =>
+  $`vec2(${values.map((v) => $`${v}`).join(", ")})`
+
+export const vec3 = (...values: Input<"float" | "int" | "vec2" | "vec3">[]) =>
   $`vec3(${values.map((v) => $`${v}`).join(", ")})`
+
+export const vec4 = (
+  ...values: Input<"float" | "int" | "vec2" | "vec3" | "vec4">[]
+) => $`vec4(${values.map((v) => $`${v}`).join(", ")})`
 
 // export const float = (
 //   v: Input<"float" | "bool" | "int"> = 0,
