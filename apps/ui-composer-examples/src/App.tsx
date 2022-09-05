@@ -79,12 +79,13 @@ const MeshPanel = ({ sceneObject }: { sceneObject: Object3D }) => {
   )
 }
 
-const useWire = <T extends any>(
+/* TODO: extract into @hmans/things? */
+const useRefState = <T extends any>(
   initialState: T | null | (() => T | null) = null
 ) => useState<T | null>(initialState)
 
 const App = () => {
-  const [sceneObject, setSceneObject] = useWire<Object3D>()
+  const [sceneObject, setSceneObject] = useRefState<Object3D>()
 
   return (
     <UI.Root>
