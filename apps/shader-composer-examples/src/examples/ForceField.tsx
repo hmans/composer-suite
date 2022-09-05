@@ -19,7 +19,7 @@ import {
   Texture2D,
   TilingUV,
   UV,
-  vec2,
+  Vec2,
   VertexPosition
 } from "shader-composer"
 import { useShader, useUniformUnit } from "shader-composer-r3f"
@@ -50,10 +50,10 @@ export default function ForceField() {
   const shader = useShader(() => {
     /* Define a time-based texture offset, and sample the force field texture. */
     const time = GlobalTime
-    const textureOffset = vec2(Mul(time, 0.05), Mul(time, 0.03))
+    const textureOffset = Vec2([Mul(time, 0.05), Mul(time, 0.03)])
     const texture = Texture2D(
       sampler2D,
-      TilingUV(UV, vec2(4, 2), textureOffset)
+      TilingUV(UV, Vec2([4, 2]), textureOffset)
     )
 
     /* Get the depth of the current fragment. */

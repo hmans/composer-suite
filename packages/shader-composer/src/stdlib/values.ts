@@ -23,38 +23,38 @@ export type CastFunction<T extends GLSLType> = (
 /**
  * Returns an expression that casts the given values to a `float`.
  */
-export const float = (...values: CastableInput<"float">[]) =>
+export const $float = (...values: CastableInput<"float">[]) =>
   $`float(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec2`.
  */
-export const vec2 = (...values: CastableInput<"vec2">[]) => $`vec2(${values})`
+export const $vec2 = (...values: CastableInput<"vec2">[]) => $`vec2(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec3`.
  */
-export const vec3 = (...values: CastableInput<"vec3">[]) => $`vec3(${values})`
+export const $vec3 = (...values: CastableInput<"vec3">[]) => $`vec3(${values})`
 
 /**
  * Returns an expression that casts the given values to a `vec4`.
  */
-export const vec4 = (...values: CastableInput<"vec4">[]) => $`vec4(${values})`
+export const $vec4 = (...values: CastableInput<"vec4">[]) => $`vec4(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat2`.
  */
-export const mat2 = (...values: CastableInput<"mat2">[]) => $`mat2(${values})`
+export const $mat2 = (...values: CastableInput<"mat2">[]) => $`mat2(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat3`.
  */
-export const mat3 = (...values: CastableInput<"mat3">[]) => $`mat3(${values})`
+export const $mat3 = (...values: CastableInput<"mat3">[]) => $`mat3(${values})`
 
 /**
  * Returns an expression that casts the given values to a `mat4`.
  */
-export const mat4 = (...values: CastableInput<"mat4">[]) => $`mat4(${values})`
+export const $mat4 = (...values: CastableInput<"mat4">[]) => $`mat4(${values})`
 
 export const unit = <T extends GLSLType>(
   i: Input<T>,
@@ -83,14 +83,14 @@ const makeCastableUnitFactory =
   (v: CastableInput<T> | CastableInput<T>[], extras?: Partial<UnitConfig<T>>) =>
     Unit(type, castFunction(...(Array.isArray(v) ? v : [v])), extras) as Unit<T>
 
-export const Float = makeCastableUnitFactory("float", float)
+export const Float = makeCastableUnitFactory("float", $float)
 export const Int = makeUnitFactory("int")
 export const Bool = makeUnitFactory("bool")
-export const Vec2 = makeCastableUnitFactory("vec2", vec2)
-export const Vec3 = makeCastableUnitFactory("vec3", vec3)
-export const Vec4 = makeCastableUnitFactory("vec4", vec4)
-export const Mat3 = makeCastableUnitFactory("mat3", mat3)
-export const Mat4 = makeCastableUnitFactory("mat4", mat4)
+export const Vec2 = makeCastableUnitFactory("vec2", $vec2)
+export const Vec3 = makeCastableUnitFactory("vec3", $vec3)
+export const Vec4 = makeCastableUnitFactory("vec4", $vec4)
+export const Mat3 = makeCastableUnitFactory("mat3", $mat3)
+export const Mat4 = makeCastableUnitFactory("mat4", $mat4)
 
 export const Master = (extras?: Partial<UnitConfig<"bool">>) =>
   Bool(true, extras)

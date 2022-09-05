@@ -7,7 +7,7 @@ import {
   rotation3dZ
 } from "../vendor/glsl-rotate"
 import { Mul } from "./math"
-import { mat3, Mat3, Mat4 } from "./values"
+import { $mat3, Mat3, Mat4 } from "./values"
 
 /**
  * Generates a Shader Unit of type `mat4` representing a rotation around a specified
@@ -42,7 +42,7 @@ export const Rotate3D = (
   position: Input<"vec3">,
   axis: Input<"vec3">,
   angle: Input<"float">
-) => Mul(position, mat3(Rotation3D(axis, angle)))
+) => Mul(position, $mat3(Rotation3D(axis, angle)))
 
 export const RotateX = (position: Input<"vec3">, angle: Input<"float">) =>
   Mul(position, Rotation3DX(angle))
