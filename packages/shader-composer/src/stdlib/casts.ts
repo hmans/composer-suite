@@ -1,4 +1,4 @@
-import { $ } from "../expressions"
+import { $, Expression } from "../expressions"
 import { type } from "../glslType"
 import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
 
@@ -16,8 +16,12 @@ export type CastableInput<T extends GLSLType> = T extends "float"
   ? Input<"float" | "int" | "vec2" | "vec3" | "vec4">
   : Input<T>
 
+export type CastFunction<T extends GLSLType> = (
+  ...values: CastableInput<T>[]
+) => Expression
+
 const createCastFunction =
-  <T extends GLSLType>(type: T) =>
+  <T extends GLSLType>(type: T): CastFunction<T> =>
   (...values: CastableInput<T>[]) =>
     $`${type}(${values.map((v) => $`${v}`).join(", ")})`
 
