@@ -1,7 +1,7 @@
-import { Int, Vec2, Vec3 } from "./values"
-import { float, vec3 } from "./casts"
-import { glslRepresentation } from "../glslRepresentation"
 import { Color, Vector2, Vector3 } from "three"
+import { glslRepresentation } from "../glslRepresentation"
+import { float, vec3 } from "./casts"
+import { Int } from "./values"
 
 describe("float", () => {
   it("returns an expression that casts the given value to a float", () => {
