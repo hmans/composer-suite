@@ -8,7 +8,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Position (Vertex Only) ***/
-  float Position_Vertex_Only_1 = 1.0;
+  float Position_Vertex_Only_1 = float(1.0);
   
   
   /*** UNIT: Anonymous ***/
@@ -31,7 +31,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Color (Fragment Only) ***/
-  float Color_Fragment_Only_2 = 2.0;
+  float Color_Fragment_Only_2 = float(2.0);
   
   
   /*** UNIT: Anonymous ***/
@@ -101,7 +101,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: A ***/
-  float A_1 = 1.0;
+  float A_1 = float(1.0);
   
   
   /*** UNIT: Anonymous ***/
@@ -124,7 +124,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: B ***/
-  float B_2 = 2.0;
+  float B_2 = float(2.0);
   
   
   /*** UNIT: Anonymous ***/
@@ -147,7 +147,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0 + 4.0;
+  float Anonymous_1 = float(123.0 + 4.0);
   
   
 }"
@@ -161,7 +161,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0 + 4.0;
+  float Anonymous_1 = float(123.0 + 4.0);
   
   
 }"
@@ -175,11 +175,11 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0;
+  float Anonymous_1 = float(123.0);
   
   
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = Anonymous_1;
+  float Anonymous_2 = float(Anonymous_1);
   
   
 }"
@@ -193,11 +193,11 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0;
+  float Anonymous_1 = float(123.0);
   
   
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = Anonymous_1;
+  float Anonymous_2 = float(Anonymous_1);
   
   
 }"
@@ -211,11 +211,11 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0;
+  float Anonymous_1 = float(123.0);
   
   
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = Anonymous_1 * 2.0;
+  float Anonymous_2 = float(Anonymous_1 * 2.0);
   
   
 }"
@@ -229,11 +229,11 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_1 = 123.0;
+  float Anonymous_1 = float(123.0);
   
   
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = Anonymous_1 * 2.0;
+  float Anonymous_2 = float(Anonymous_1 * 2.0);
   
   
 }"
@@ -251,7 +251,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = snippet_1(1.0);
+  float Anonymous_2 = float(snippet_1(1.0));
   
   
 }"
@@ -269,7 +269,7 @@ precision highp float;
 void main()
 {
   /*** UNIT: Anonymous ***/
-  float Anonymous_2 = snippet_1(1.0);
+  float Anonymous_2 = float(snippet_1(1.0));
   
   
 }"
@@ -287,11 +287,11 @@ varying float v_B_2;
 void main()
 {
   /*** UNIT: A ***/
-  float A_1 = onlyInVertexProgramForSomeReason;
+  float A_1 = float(onlyInVertexProgramForSomeReason);
   
   
   /*** UNIT: B ***/
-  float B_2 = A_1 + 1.0;
+  float B_2 = float(A_1 + 1.0);
   v_B_2 = B_2;
   
   
