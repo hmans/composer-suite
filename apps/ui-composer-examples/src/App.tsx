@@ -9,7 +9,7 @@ import {
   useState
 } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Group } from "three"
+import { Group, Vector3 } from "three"
 import * as UI from "ui-composer"
 
 /* TODO: Extract this into hmans/things or similar */
@@ -48,17 +48,24 @@ const BoundInput = <T extends number>({
   )
 }
 
+const VectorInputs = ({
+  vector
+}: {
+  vector: { x: number; y: number; z: number }
+}) => {
+  return (
+    <UI.HorizontalGroup align={"center"} gap>
+      X
+      <BoundInput type="number" getter={() => vector.x} />
+      Y
+      <BoundInput type="number" getter={() => vector.y} />
+      Z
+      <BoundInput type="number" getter={() => vector.z} />
+    </UI.HorizontalGroup>
+  )
+}
+
 const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
-  const rotY = useRef<HTMLInputElement>(null!)
-  const rotZ = useRef<HTMLInputElement>(null!)
-
-  useAnimationFrame(() => {
-    if (!mesh.current) return
-
-    rotY.current.value = mesh.current.rotation.y.toFixed(3)
-    rotZ.current.value = mesh.current.rotation.z.toFixed(3)
-  })
-
   return (
     <UI.Panel>
       <UI.Heading>Mesh Playground</UI.Heading>
@@ -66,23 +73,7 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
 
       <UI.Control>
         <UI.Label>Rotation</UI.Label>
-        <UI.HorizontalGroup align={"center"} gap>
-          X
-          <BoundInput
-            type="number"
-            getter={() => mesh.current && mesh.current.rotation.x}
-          />
-          Y
-          <BoundInput
-            type="number"
-            getter={() => mesh.current && mesh.current.rotation.y}
-          />
-          Z
-          <BoundInput
-            type="number"
-            getter={() => mesh.current && mesh.current.rotation.z}
-          />
-        </UI.HorizontalGroup>
+        {/* <VectorInputs vector={mesh.current!.rotation} /> */}
       </UI.Control>
     </UI.Panel>
   )
