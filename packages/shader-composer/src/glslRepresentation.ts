@@ -9,9 +9,8 @@ export const glslRepresentation = (
 ): string => {
   if (value === undefined) return ""
 
-  if (Array.isArray(value)) {
+  if (Array.isArray(value))
     return value.map((v) => glslRepresentation(v)).join(", ")
-  }
 
   if (isUnit(value))
     return value._unitConfig.uniform
