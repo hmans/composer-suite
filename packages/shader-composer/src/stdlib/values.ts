@@ -5,8 +5,10 @@ import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
 /* See: https://www.khronos.org/opengl/wiki/Data_Type_(GLSL) */
 
 /**
- * We're allowing any type to be castable. For now. (If you're casting something weird,
- * the shader compilation will crash. Let's go!)
+ * The `CastableInput<T>` type describes the inputs that can be cast to a
+ * `Unit<T>`. This type is used by the `Vec2`, `Vec3`, `Float` etc. unit
+ * constructors, who will automatically cast the given values to the correct
+ * type.
  */
 export type CastableInput<T extends GLSLType> = Input<GLSLType>
 
