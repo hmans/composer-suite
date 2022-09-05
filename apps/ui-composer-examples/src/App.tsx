@@ -9,7 +9,7 @@ import {
   useState
 } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Group, Vector3 } from "three"
+import { Group, Mesh, Object3D, Vector3 } from "three"
 import * as UI from "ui-composer"
 
 /* TODO: Extract this into hmans/things or similar */
@@ -30,20 +30,20 @@ export function useAnimationFrameEffect<T>(
   })
 }
 
-const BoundInput = <T extends number>({
+const BoundInput = ({
   getter,
   value: initialValue,
   ...props
-}: Parameters<typeof UI.Input>[0] & { getter: () => T }) => {
-  const [value, setValue] = useState<T>(() => initialValue as T)
+}: Parameters<typeof UI.Input>[0] & { getter: () => number }) => {
+  const [value, setValue] = useState(0)
 
   useAnimationFrameEffect(getter, setValue)
 
   return (
     <UI.Input
       {...props}
-      onChange={() => console.log("changed?!")}
-      value={value?.toFixed(2)}
+      onChange={(e) => setValue(Number(e.target.value))}
+      value={value.toFixed(2)}
     ></UI.Input>
   )
 }
@@ -54,7 +54,7 @@ const VectorInputs = ({
   vector: { x: number; y: number; z: number }
 }) => {
   return (
-    <UI.HorizontalGroup align={"center"} gap>
+    <UI.HorizontalGroup align="center" gap>
       X
       <BoundInput type="number" getter={() => vector.x} />
       Y
@@ -65,7 +65,7 @@ const VectorInputs = ({
   )
 }
 
-const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
+const MeshPanel = ({ sceneObject }: { sceneObject: Object3D }) => {
   return (
     <UI.Panel>
       <UI.Heading>Mesh Playground</UI.Heading>
@@ -73,14 +73,18 @@ const MeshPanel = ({ mesh }: { mesh: MutableRefObject<Group> }) => {
 
       <UI.Control>
         <UI.Label>Rotation</UI.Label>
-        {/* <VectorInputs vector={mesh.current!.rotation} /> */}
+        <VectorInputs vector={sceneObject.rotation} />
       </UI.Control>
     </UI.Panel>
   )
 }
 
+const useWire = <T extends any>(
+  initialState: T | null | (() => T | null) = null
+) => useState<T | null>(initialState)
+
 const App = () => {
-  const mesh = useRef<Group>(null!)
+  const [sceneObject, setSceneObject] = useWire<Object3D>()
 
   return (
     <UI.Root>
@@ -93,7 +97,7 @@ const App = () => {
               <OrbitControls />
 
               <Animate
-                ref={mesh}
+                ref={setSceneObject}
                 fun={(mesh, dt) =>
                   (mesh.rotation.x = mesh.rotation.y += 2 * dt)
                 }
@@ -110,7 +114,7 @@ const App = () => {
         <UI.HorizontalResizer />
 
         <UI.VerticalGroup css={{ flex: 1 }}>
-          <MeshPanel mesh={mesh} />
+          {sceneObject && <MeshPanel sceneObject={sceneObject} />}
           <UI.Panel>
             <UI.Heading>Welcome!</UI.Heading>
             <p>
