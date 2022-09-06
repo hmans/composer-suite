@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Assorted effects and units for shader-composer.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/shader-composer-toybox.cjs.js",
   "module": "dist/shader-composer-toybox.esm.js",
   "files": [
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "fp-ts": "^2.12.3",
-    "shader-composer": "^0.3.0"
+    "shader-composer": "^0.4.0"
   },
   "peerDependencies": {
     "three": ">=0.141.0"
