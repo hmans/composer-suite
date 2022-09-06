@@ -34,22 +34,22 @@ const makeController = () => {
   const moveVector = { x: 0, y: 0 }
   const tmpVec3 = new Vector3()
 
-  return {
-    move: () => {
-      return pipe(
-        moveVector,
-        resetVector,
-        activeScheme === controlSchemes.keyboard
-          ? getKeyboardVector(controlSchemes.keyboard.keyboard)
-          : identity,
-        activeScheme === controlSchemes.gamepad
-          ? getGamepadVector(controlSchemes.gamepad.gamepad!)
-          : identity,
-        clampVector,
-        (v) => tmpVec3.set(v.x, 0, -v.y)
-      )
-    }
+  const move = () => {
+    return pipe(
+      moveVector,
+      resetVector,
+      activeScheme === controlSchemes.keyboard
+        ? getKeyboardVector(controlSchemes.keyboard.keyboard)
+        : identity,
+      activeScheme === controlSchemes.gamepad
+        ? getGamepadVector(controlSchemes.gamepad.gamepad!)
+        : identity,
+      clampVector,
+      (v) => tmpVec3.set(v.x, 0, -v.y)
+    )
   }
+
+  return { move }
 }
 
 export default function Example({ playerSpeed = 3 }) {
