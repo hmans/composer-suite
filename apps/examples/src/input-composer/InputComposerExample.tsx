@@ -1,5 +1,5 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { identity, pipe } from "fp-ts/lib/function"
+import { flow, identity, pipe } from "fp-ts/lib/function"
 import {
   clampVector,
   getKeyboardVector,
@@ -37,8 +37,13 @@ export default function Example({ playerSpeed = 3 }) {
       if (activeGamepad) return
 
       activeGamepad = g
-      activeDevice = activeGamepad
+      switchActiveDevice(g)
     })
+
+    const switchActiveDevice = (device: any) => {
+      console.log("Switching active device to:", device)
+      activeDevice = device
+    }
 
     const moveVector = { x: 0, y: 0 }
     const tmpVec3 = new Vector3()
@@ -60,7 +65,6 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     const move = moveControl()
-    console.log(move)
     player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
