@@ -1,12 +1,15 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe } from "fp-ts/lib/function"
-import { clampVector, getKeyboardVector, resetVector } from "input-composer"
+import { clampVector, resetVector } from "input-composer"
 import {
   GamepadDevice,
   getGamepadVector,
   onGamepadConnected
 } from "input-composer/drivers/gamepad"
-import { getKeyboardDevice } from "input-composer/drivers/keyboard"
+import {
+  getKeyboardDevice,
+  getKeyboardVector
+} from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
@@ -34,8 +37,8 @@ const makeController = () => {
   const moveVector = { x: 0, y: 0 }
   const tmpVec3 = new Vector3()
 
-  const move = () => {
-    return pipe(
+  const move = () =>
+    pipe(
       moveVector,
       resetVector,
       activeScheme === controlSchemes.keyboard
@@ -47,7 +50,6 @@ const makeController = () => {
       clampVector,
       (v) => tmpVec3.set(v.x, 0, -v.y)
     )
-  }
 
   return { move }
 }

@@ -1,3 +1,5 @@
+import { IVector } from "../types"
+
 const keys: Record<string, boolean> = {}
 
 const onKeyDown = (e: KeyboardEvent) => {
@@ -14,14 +16,14 @@ const isReleased = (key: string) => (keys[key] ? 0 : 1)
 
 let started = false
 
-const start = () => {
+export const start = () => {
   if (started) return
   started = true
   window.addEventListener("keydown", onKeyDown)
   window.addEventListener("keyup", onKeyUp)
 }
 
-const stop = () => {
+export const stop = () => {
   if (!started) return
   started = false
   window.removeEventListener("keydown", onKeyDown)
@@ -31,7 +33,7 @@ const stop = () => {
 const getAxis = (negative: string, positive: string) =>
   isPressed(positive) - isPressed(negative)
 
-const getKeyboardDevice = () => {
+export const getKeyboardDevice = () => {
   if (!started) start()
 
   return {
@@ -43,4 +45,8 @@ const getKeyboardDevice = () => {
 
 export type Keyboard = ReturnType<typeof getKeyboardDevice>
 
-export { getKeyboardDevice, start, stop }
+export const getKeyboardVector = (keyboard: Keyboard) => (v: IVector) => {
+  v.x = keyboard.getAxis("a", "d")
+  v.y = keyboard.getAxis("s", "w")
+  return v
+}

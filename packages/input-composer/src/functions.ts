@@ -29,9 +29,3 @@ export const clampVector = (v: IVector) => {
 
   return v
 }
-
-export const getKeyboardVector = (keyboard: Keyboard) => (v: IVector) => {
-  v.x = keyboard.getAxis("a", "d")
-  v.y = keyboard.getAxis("s", "w")
-  return v
-}
