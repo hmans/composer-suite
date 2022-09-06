@@ -41,8 +41,8 @@ const makeController = () => {
   const moveVector = { x: 0, y: 0 }
   const tmpVec3 = new Vector3()
 
-  const move = () =>
-    pipe(
+  const move = () => {
+    return pipe(
       moveVector,
       resetVector,
 
@@ -62,7 +62,7 @@ const makeController = () => {
       clampVector,
       (v) => tmpVec3.set(v.x, 0, -v.y)
     )
-
+  }
   return { move }
 }
 
