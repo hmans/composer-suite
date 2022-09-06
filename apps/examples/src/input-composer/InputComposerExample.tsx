@@ -3,7 +3,6 @@ import { identity, pipe } from "fp-ts/lib/function"
 import { clampVector, resetVector } from "input-composer"
 import {
   GamepadDevice,
-  getGamepadVector,
   onGamepadConnected
 } from "input-composer/drivers/gamepad"
 import { getKeyboardDevice } from "input-composer/drivers/keyboard"
@@ -42,7 +41,7 @@ const makeController = () => {
         ? activeScheme.keyboard.getVector()
         : identity,
       activeScheme === controlSchemes.gamepad
-        ? getGamepadVector(controlSchemes.gamepad.gamepad!)
+        ? activeScheme.gamepad!.getVector(0, 1)
         : identity,
       clampVector,
       (v) => tmpVec3.set(v.x, 0, -v.y)

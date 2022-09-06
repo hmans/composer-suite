@@ -10,10 +10,21 @@ export type GamepadDevice = ReturnType<typeof GamepadDevice>
  * @returns A gamepad device.
  */
 const GamepadDevice = (index: number) => {
+  const getVector =
+    (horizontalAxis = 0, verticalAxis = 1) =>
+    (v: IVector) => {
+      const gamepad = getGamepad(index)!
+      v.x = gamepad.axes[horizontalAxis]
+      v.y = -gamepad.axes[verticalAxis]
+      return v
+    }
+
   return {
     get state() {
       return getGamepad(index)!
-    }
+    },
+
+    getVector
   }
 }
 
@@ -23,13 +34,7 @@ const GamepadDevice = (index: number) => {
  */
 export const onGamepadConnected = createEvent<GamepadDevice>()
 
-/**
- * Retrieve the gamepad state for a given gamepad index.
- *
- * @param index The index of the gamepad to retrieve.
- * @returns The gamepad state, or undefined if the gamepad is not connected.
- */
-export const getGamepad = (index: number) => navigator.getGamepads()[index]
+const getGamepad = (index: number) => navigator.getGamepads()[index]
 
 const handleGamepadConnected = (e: GamepadEvent) => {
   console.debug("New gamepad connected:", e.gamepad.id)
@@ -57,13 +62,5 @@ export const stop = () => {
   window.removeEventListener("gamepadconnected", handleGamepadConnected)
   window.removeEventListener("gamepaddisconnected", handleGamepadDisconnected)
 }
-
-export const getGamepadVector =
-  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
-  (v: IVector) => {
-    v.x = gamepad.state.axes[horizontalAxis]
-    v.y = -gamepad.state.axes[verticalAxis]
-    return v
-  }
 
 start()
