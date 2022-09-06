@@ -3,8 +3,7 @@ import { forwardRef, useMemo, useRef } from "react"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
 import { Group, Vector3 } from "three"
-
-type Vector = { x: number; y: number }
+import { Vector } from "input-composer"
 
 const tmpVec3 = new Vector3()
 

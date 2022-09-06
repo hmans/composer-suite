@@ -1,1 +1,1 @@
-export const input = "is cool"
+export * from "./types"
