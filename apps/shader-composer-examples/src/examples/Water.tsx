@@ -2,15 +2,7 @@ import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
-import {
-  GlobalTime,
-  Input,
-  Int,
-  Mul,
-  Remap,
-  SplitVector3,
-  Vec2
-} from "shader-composer"
+import { GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { add } from "shader-composer/fun"
@@ -24,7 +16,7 @@ function Water() {
     const time = GlobalTime
 
     const { position, normal } = Displacement((v) => {
-      const [x, y, z] = SplitVector3(v)
+      const { x, y, z } = v
       const xy = Vec2([x, z])
 
       /*
