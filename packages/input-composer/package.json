@@ -1,0 +1,19 @@
+{
+  "name": "input-composer",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Composable multi-device player input for games.",
+  "version": "0.0.1",
+  "main": "dist/input-composer.cjs.js",
+  "module": "dist/input-composer.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false
+}
