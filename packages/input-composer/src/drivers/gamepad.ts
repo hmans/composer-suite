@@ -1,4 +1,5 @@
 import { createEvent } from "../lib/event"
+import { IVector } from "../types"
 
 export type GamepadDevice = ReturnType<typeof GamepadDevice>
 
@@ -56,5 +57,13 @@ export const stop = () => {
   window.removeEventListener("gamepadconnected", handleGamepadConnected)
   window.removeEventListener("gamepaddisconnected", handleGamepadDisconnected)
 }
+
+export const getGamepadVector =
+  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
+  (v: IVector) => {
+    v.x = gamepad.state.axes[horizontalAxis]
+    v.y = -gamepad.state.axes[verticalAxis]
+    return v
+  }
 
 start()

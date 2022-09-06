@@ -1,13 +1,9 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { flow, identity, pipe } from "fp-ts/lib/function"
-import {
-  clampVector,
-  getKeyboardVector,
-  IVector,
-  resetVector
-} from "input-composer"
+import { identity, pipe } from "fp-ts/lib/function"
+import { clampVector, getKeyboardVector, resetVector } from "input-composer"
 import {
   GamepadDevice,
+  getGamepadVector,
   onGamepadConnected
 } from "input-composer/drivers/gamepad"
 import { getKeyboardDevice } from "input-composer/drivers/keyboard"
@@ -15,41 +11,31 @@ import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
-const getGamepadVector =
-  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
-  (v: IVector) => {
-    v.x = gamepad.state.axes[horizontalAxis]
-    v.y = -gamepad.state.axes[verticalAxis]
-    return v
+const makeController = () => {
+  const controlSchemes = {
+    keyboard: { keyboard: getKeyboardDevice() },
+    gamepad: { gamepad: undefined as GamepadDevice | undefined }
   }
 
-export default function Example({ playerSpeed = 3 }) {
-  const player = useRef<Group>(null!)
+  type ControlScheme = typeof controlSchemes[keyof typeof controlSchemes]
 
-  const moveControl = useMemo(() => {
-    const controlSchemes = {
-      keyboard: { keyboard: getKeyboardDevice() },
-      gamepad: { gamepad: undefined as GamepadDevice | undefined }
-    }
+  let activeScheme: ControlScheme = controlSchemes.keyboard
 
-    type ControlScheme = typeof controlSchemes[keyof typeof controlSchemes]
+  onGamepadConnected((g) => {
+    controlSchemes.gamepad.gamepad = g
+    switchScheme(controlSchemes.gamepad)
+  })
 
-    let activeScheme: ControlScheme = controlSchemes.keyboard
+  const switchScheme = (scheme: ControlScheme) => {
+    console.log("Switching active control scheme to:", scheme)
+    activeScheme = scheme
+  }
 
-    onGamepadConnected((g) => {
-      controlSchemes.gamepad.gamepad = g
-      switchScheme(controlSchemes.gamepad)
-    })
+  const moveVector = { x: 0, y: 0 }
+  const tmpVec3 = new Vector3()
 
-    const switchScheme = (scheme: ControlScheme) => {
-      console.log("Switching active control scheme to:", scheme)
-      activeScheme = scheme
-    }
-
-    const moveVector = { x: 0, y: 0 }
-    const tmpVec3 = new Vector3()
-
-    return () => {
+  return {
+    move: () => {
       return pipe(
         moveVector,
         resetVector,
@@ -63,10 +49,16 @@ export default function Example({ playerSpeed = 3 }) {
         (v) => tmpVec3.set(v.x, 0, -v.y)
       )
     }
-  }, [])
+  }
+}
+
+export default function Example({ playerSpeed = 3 }) {
+  const player = useRef<Group>(null!)
+
+  const controller = useMemo(() => makeController(), [])
 
   useFrame((_, dt) => {
-    const move = moveControl()
+    const move = controller.move()
     player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
