@@ -12,13 +12,49 @@ const resetVector = (v: Vector) => {
   return v
 }
 
+const keyboardDevice = () => {
+  const keys: Record<string, boolean> = {}
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    keys[e.key] = true
+  }
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    keys[e.key] = false
+  }
+
+  const isPressed = (key: string) => (keys[key] ? 1 : 0)
+
+  const isReleased = (key: string) => (keys[key] ? 0 : 1)
+
+  const start = () => {
+    window.addEventListener("keydown", onKeyDown)
+    window.addEventListener("keyup", onKeyUp)
+  }
+
+  const stop = () => {
+    window.removeEventListener("keydown", onKeyDown)
+    window.removeEventListener("keyup", onKeyUp)
+  }
+
+  return { isPressed, isReleased, start, stop }
+}
+
+const getKeyboardVector =
+  (keyboard: ReturnType<typeof keyboardDevice>) => (v: Vector) => {
+    v.x = -1 * keyboard.isPressed("a") + 1 * keyboard.isPressed("d")
+    v.y = -1 * keyboard.isPressed("s") + 1 * keyboard.isPressed("w")
+    return v
+  }
+
 export default function Example() {
   const moveControl = useMemo(() => {
-    console.log("This is a good place to put your setup code.")
+    const keyboard = keyboardDevice()
+    keyboard.start()
 
     const moveVector = { x: 0, y: 0 }
 
-    return () => pipe(moveVector, resetVector)
+    return () => pipe(moveVector, resetVector, getKeyboardVector(keyboard))
   }, [])
 
   useFrame(() => {
