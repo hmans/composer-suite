@@ -3,7 +3,6 @@
  */
 
 export * from "./artistic"
-export * from "./attributes"
 export * from "./logic"
 export * from "./masters"
 export * from "./math"
