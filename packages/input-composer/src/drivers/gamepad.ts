@@ -13,7 +13,7 @@ const GamepadDevice = (index: number) => {
   const getVector =
     (horizontalAxis = 0, verticalAxis = 1) =>
     (v: IVector) => {
-      const gamepad = getGamepad(index)!
+      const gamepad = getGamepadState(index)!
       v.x = gamepad.axes[horizontalAxis]
       v.y = -gamepad.axes[verticalAxis]
       return v
@@ -21,7 +21,7 @@ const GamepadDevice = (index: number) => {
 
   return {
     get state() {
-      return getGamepad(index)!
+      return getGamepadState(index)!
     },
 
     getVector
@@ -34,7 +34,11 @@ const GamepadDevice = (index: number) => {
  */
 export const onGamepadConnected = createEvent<GamepadDevice>()
 
-const getGamepad = (index: number) => navigator.getGamepads()[index]
+/**
+ * Retrieves the state of the specified gamepad. This is necessary in Chrome because
+ * the objects returned by navigator.getGamepads() are never mutated.
+ */
+const getGamepadState = (index: number) => navigator.getGamepads()[index]
 
 const handleGamepadConnected = (e: GamepadEvent) => {
   console.debug("New gamepad connected:", e.gamepad.id)
