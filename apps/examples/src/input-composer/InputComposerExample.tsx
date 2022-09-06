@@ -39,7 +39,12 @@ const makeController = () => {
       resetVector,
 
       activeScheme === controlSchemes.keyboard
-        ? activeScheme.keyboard.getVector()
+        ? activeScheme.keyboard.getVector({
+            up: "w",
+            down: "s",
+            left: "a",
+            right: "d"
+          })
         : identity,
 
       activeScheme === controlSchemes.gamepad

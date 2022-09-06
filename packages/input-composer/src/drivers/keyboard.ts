@@ -33,11 +33,23 @@ export const stop = () => {
 const getAxis = (negative: string, positive: string) =>
   isPressed(positive) - isPressed(negative)
 
-const getVector = () => (v: IVector) => {
-  v.x = getAxis("a", "d")
-  v.y = getAxis("s", "w")
-  return v
-}
+const getVector =
+  ({
+    up,
+    down,
+    left,
+    right
+  }: {
+    up: string
+    down: string
+    left: string
+    right: string
+  }) =>
+  (v: IVector) => {
+    v.x = getAxis(left, right)
+    v.y = getAxis(down, up)
+    return v
+  }
 
 export const getKeyboardDevice = () => {
   if (!started) start()
