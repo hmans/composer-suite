@@ -26,6 +26,8 @@ const makeController = () => {
   })
 
   const switchScheme = (scheme: ControlScheme) => {
+    if (activeScheme === scheme) return
+
     console.log("Switching active control scheme to:", scheme)
     activeScheme = scheme
   }
