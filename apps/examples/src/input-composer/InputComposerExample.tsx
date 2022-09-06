@@ -1,6 +1,11 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe } from "fp-ts/lib/function"
-import { getKeyboardVector, IVector, resetVector } from "input-composer"
+import {
+  clampVector,
+  getKeyboardVector,
+  IVector,
+  resetVector
+} from "input-composer"
 import {
   GamepadDevice,
   onGamepadConnected
@@ -43,7 +48,7 @@ export default function Example({ playerSpeed = 3 }) {
         resetVector,
         activeDevice === keyboard ? getKeyboardVector(keyboard) : identity,
         activeDevice === gamepad ? getGamepadVector(gamepad) : identity,
-        // normalizeVector,
+        clampVector,
         (v) => tmpVec3.set(v.x, 0, -v.y)
       )
     }
@@ -51,6 +56,7 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     const move = moveControl()
+    console.log(move)
     player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 

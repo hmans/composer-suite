@@ -19,6 +19,17 @@ export const normalizeVector = (v: IVector) => {
   return v
 }
 
+export const clampVector = (v: IVector) => {
+  const length = Math.sqrt(v.x * v.x + v.y * v.y)
+
+  if (length > 1) {
+    v.x /= length
+    v.y /= length
+  }
+
+  return v
+}
+
 export const getKeyboardVector = (keyboard: Keyboard) => (v: IVector) => {
   v.x = keyboard.getAxis("a", "d")
   v.y = keyboard.getAxis("s", "w")
