@@ -1,9 +1,12 @@
 import { FlatStage } from "r3f-stage"
-import { useMemo } from "react"
-import { useFrame } from "@react-three/fiber"
+import { forwardRef, useMemo, useRef } from "react"
+import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
+import { Group, Vector3 } from "three"
 
 type Vector = { x: number; y: number }
+
+const tmpVec3 = new Vector3()
 
 const resetVector = (v: Vector) => {
   v.x = 0
@@ -58,7 +61,9 @@ const getKeyboardVector =
     return v
   }
 
-export default function Example() {
+export default function Example({ playerSpeed = 3 }) {
+  const player = useRef<Group>(null!)
+
   const moveControl = useMemo(() => {
     const keyboard = keyboardDevice()
     keyboard.start()
@@ -74,23 +79,27 @@ export default function Example() {
       )
   }, [])
 
-  useFrame(() => {
+  useFrame((_, dt) => {
     const move = moveControl()
     console.log(move)
+
+    player.current.position.add(
+      tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
+    )
   })
 
   return (
     <FlatStage>
-      <Player />
+      <Player ref={player} />
     </FlatStage>
   )
 }
 
-const Player = () => {
-  return (
+const Player = forwardRef<Group, GroupProps>((props, ref) => (
+  <group ref={ref} {...props}>
     <mesh position-y={0.5} castShadow>
       <capsuleGeometry args={[0.25, 0.5, 16, 16]} />
       <meshStandardMaterial color="hotpink" />
     </mesh>
-  )
-}
+  </group>
+))
