@@ -53,18 +53,15 @@ const keyboardDevice = () => {
     window.removeEventListener("keyup", onKeyUp)
   }
 
-  return { isPressed, isReleased, start, stop }
+  const getAxis = (negative: string, positive: string) =>
+    isPressed(positive) - isPressed(negative)
+
+  return { isPressed, isReleased, getAxis, start, stop }
 }
 
-const getKeyboardAxis = (
-  keyboard: KeyboardDevice,
-  negative: string,
-  positive: string
-) => keyboard.isPressed(positive) - keyboard.isPressed(negative)
-
 const getKeyboardVector = (keyboard: KeyboardDevice) => (v: Vector) => {
-  v.x = getKeyboardAxis(keyboard, "a", "d")
-  v.y = getKeyboardAxis(keyboard, "s", "w")
+  v.x = keyboard.getAxis("a", "d")
+  v.y = keyboard.getAxis("s", "w")
   return v
 }
 
