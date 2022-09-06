@@ -6,10 +6,7 @@ import {
   getGamepadVector,
   onGamepadConnected
 } from "input-composer/drivers/gamepad"
-import {
-  getKeyboardDevice,
-  getKeyboardVector
-} from "input-composer/drivers/keyboard"
+import { getKeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
@@ -42,7 +39,7 @@ const makeController = () => {
       moveVector,
       resetVector,
       activeScheme === controlSchemes.keyboard
-        ? getKeyboardVector(controlSchemes.keyboard.keyboard)
+        ? activeScheme.keyboard.getVector()
         : identity,
       activeScheme === controlSchemes.gamepad
         ? getGamepadVector(controlSchemes.gamepad.gamepad!)
