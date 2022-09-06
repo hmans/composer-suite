@@ -41,8 +41,8 @@ export default function Example({ playerSpeed = 3 }) {
       return pipe(
         moveVector,
         resetVector,
-        (v) => (activeDevice === keyboard ? getKeyboardVector(keyboard)(v) : v),
-        (v) => (activeDevice === gamepad ? getGamepadVector(gamepad)(v) : v),
+        activeDevice === keyboard ? getKeyboardVector(keyboard) : identity,
+        activeDevice === gamepad ? getGamepadVector(gamepad) : identity,
         // normalizeVector,
         (v) => tmpVec3.set(v.x, 0, -v.y)
       )
