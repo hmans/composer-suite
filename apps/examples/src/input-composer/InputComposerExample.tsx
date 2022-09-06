@@ -27,35 +27,35 @@ export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
   const moveControl = useMemo(() => {
-    /* Get a reference to a/the keyboard device */
-    const keyboard = getKeyboardDevice()
+    const controlSchemes = {
+      keyboard: { keyboard: getKeyboardDevice() },
+      gamepad: { gamepad: undefined as GamepadDevice | undefined }
+    }
 
-    /* Store a reference to the player's gamepad */
-    let activeGamepad: GamepadDevice
+    let activeScheme: keyof typeof controlSchemes = "keyboard"
 
     onGamepadConnected((g) => {
-      if (activeGamepad) return
-
-      activeGamepad = g
-      switchActiveDevice(g)
+      controlSchemes.gamepad.gamepad = g
+      switchScheme("gamepad")
     })
 
-    const switchActiveDevice = (device: any) => {
-      console.log("Switching active device to:", device)
-      activeDevice = device
+    const switchScheme = (scheme: keyof typeof controlSchemes) => {
+      console.log("Switching active control scheme to:", scheme)
+      activeScheme = scheme
     }
 
     const moveVector = { x: 0, y: 0 }
     const tmpVec3 = new Vector3()
-    let activeDevice: any = keyboard
 
     return () => {
       return pipe(
         moveVector,
         resetVector,
-        activeDevice === keyboard ? getKeyboardVector(keyboard) : identity,
-        activeDevice === activeGamepad
-          ? getGamepadVector(activeGamepad)
+        activeScheme === "keyboard"
+          ? getKeyboardVector(controlSchemes.keyboard.keyboard)
+          : identity,
+        activeScheme === "gamepad"
+          ? getGamepadVector(controlSchemes.gamepad.gamepad!)
           : identity,
         clampVector,
         (v) => tmpVec3.set(v.x, 0, -v.y)
