@@ -270,8 +270,8 @@ export const Max = <T extends "float" | "vec2" | "vec3" | "vec4">(
  * Applies scaling (multiplication) and offset (addition) to a given value.
  *
  * @param v The value to scale and offset.
- * @param scale The scale to apply.
- * @param offset The offset to apply.
+ * @param scale The scale to apply. (Default: 1)
+ * @param offset The offset to apply. (Default: 0)
  * @returns A unit holding the scaled and offset value.
  */
 export const ScaleAndOffset = <T extends GLSLType>(
