@@ -4,6 +4,7 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
 import { Group, Vector3 } from "three"
 import { IVector } from "input-composer"
+import { getKeyboardDevice, Keyboard } from "input-composer/drivers/keyboard"
 
 const resetVector = (v: IVector) => {
   v.x = 0
@@ -23,48 +24,7 @@ const normalizeVector = (v: IVector) => {
   return v
 }
 
-type KeyboardDriver = ReturnType<typeof KeyboardDriver>
-
-type KeyboardDevice = ReturnType<KeyboardDriver["getDevice"]>
-
-const KeyboardDriver = () => {
-  const keys: Record<string, boolean> = {}
-
-  const onKeyDown = (e: KeyboardEvent) => {
-    keys[e.key] = true
-  }
-
-  const onKeyUp = (e: KeyboardEvent) => {
-    keys[e.key] = false
-  }
-
-  const isPressed = (key: string) => (keys[key] ? 1 : 0)
-
-  const isReleased = (key: string) => (keys[key] ? 0 : 1)
-
-  const start = () => {
-    window.addEventListener("keydown", onKeyDown)
-    window.addEventListener("keyup", onKeyUp)
-  }
-
-  const stop = () => {
-    window.removeEventListener("keydown", onKeyDown)
-    window.removeEventListener("keyup", onKeyUp)
-  }
-
-  const getAxis = (negative: string, positive: string) =>
-    isPressed(positive) - isPressed(negative)
-
-  const getDevice = () => ({
-    isPressed,
-    isReleased,
-    getAxis
-  })
-
-  return { getDevice, start, stop }
-}
-
-const getKeyboardVector = (keyboard: KeyboardDevice) => (v: IVector) => {
+const getKeyboardVector = (keyboard: Keyboard) => (v: IVector) => {
   v.x = keyboard.getAxis("a", "d")
   v.y = keyboard.getAxis("s", "w")
   return v
@@ -74,9 +34,7 @@ export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
   const moveControl = useMemo(() => {
-    const keyboardDriver = KeyboardDriver()
-    keyboardDriver.start()
-    const keyboard = keyboardDriver.getDevice()
+    const keyboard = getKeyboardDevice()
 
     /* Define some objects here so we don't create new ones every frame */
     const moveVector = { x: 0, y: 0 }

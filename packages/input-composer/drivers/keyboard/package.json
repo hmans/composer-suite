@@ -1,0 +1,4 @@
+{
+  "main": "dist/input-composer-drivers-keyboard.cjs.js",
+  "module": "dist/input-composer-drivers-keyboard.esm.js"
+}
