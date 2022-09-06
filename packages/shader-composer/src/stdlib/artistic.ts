@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/function"
 import { GLSLType, Input, Unit } from "../units"
-import { VertexNormal, ViewDirection } from "./geometry"
+import { VertexNormal, ViewDirection } from "./variables"
 import { Abs, Add, Lerp, Mul, Pow, Saturate, Smoothstep } from "./math"
 import { Float } from "./values"
 import { Dot } from "./vectors"

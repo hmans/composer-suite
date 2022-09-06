@@ -13,7 +13,10 @@ describe("Uniform", () => {
   })
 
   it("allows the user to set a uniform name explicitly", () => {
-    const uniform = UniformUnit("float", 0, { variableName: "foo", uniformName: "u_bar" })
+    const uniform = UniformUnit("float", 0, {
+      variableName: "foo",
+      uniformName: "u_bar"
+    })
     expect(glslRepresentation(uniform)).toBe("u_bar")
   })
 })
