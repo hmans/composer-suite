@@ -1,6 +1,6 @@
 import { FlatStage } from "r3f-stage"
 
-export default function () {
+export default function Example() {
   return (
     <FlatStage>
       <Player />
