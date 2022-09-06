@@ -16,22 +16,10 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "fun.ts",
-      "stdlib/artistic.ts",
-      "stdlib/logic.ts",
-      "stdlib/masters.ts",
-      "stdlib/math.ts",
-      "stdlib/rotation.ts",
-      "stdlib/scene.ts",
-      "stdlib/spaces.ts",
-      "stdlib/textures.ts",
-      "stdlib/values.ts",
-      "stdlib/variables.ts",
-      "stdlib/vectors.ts"
+      "fun.ts"
     ]
   },
   "files": [
-    "stdlib/**",
     "fun/**",
     "dist/**",
     "LICENSE",
