@@ -114,12 +114,6 @@ export const ViewDirection = Vec3(
 
 export const IsFrontFacing = Bool($`gl_FrontFacing`, { only: "fragment" })
 
-export const TilingUV = (
-  uv: Input<"vec2"> = UV,
-  tiling: Input<"vec2"> = new Vector2(1, 1),
-  offset: Input<"vec2"> = new Vector2(0, 0)
-) => ScaleAndOffset(uv, tiling, offset)
-
 export const Attribute = <T extends GLSLType>(type: T, name: string) =>
   Unit(type, $`${name}`, {
     name: `Attribute: ${name}`,

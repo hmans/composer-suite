@@ -1,5 +1,6 @@
 import { pipe } from "fp-ts/function"
 import {
+  $vec2,
   Add,
   Div,
   GlobalTime,
@@ -9,11 +10,10 @@ import {
   NormalizePlusMinusOne,
   OneMinus,
   Saturate,
+  ScaleAndOffset,
   Smoothstep,
   Sub,
-  TilingUV,
-  UV,
-  $vec2
+  UV
 } from "shader-composer"
 import { PSRDNoise2D } from "shader-composer-toybox"
 
@@ -25,7 +25,7 @@ export const NoiseMask = (
   time: Input<"float"> = GlobalTime
 ) => {
   const noise = NormalizePlusMinusOne(
-    PSRDNoise2D(TilingUV(UV, $vec2(8, 8), $vec2(0, Negate(time))))
+    PSRDNoise2D(ScaleAndOffset(UV, $vec2(8, 8), $vec2(0, Negate(time))))
   )
 
   return pipe(
