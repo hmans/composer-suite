@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/function"
 import { GLSLType, Input, Unit } from "../units"
-import { VertexNormal, ViewDirection } from "./geometry"
+import { VertexNormal, ViewDirection } from "./variables"
 import { Abs, Add, Lerp, Mul, Pow, Saturate, Smoothstep } from "./math"
 import { Float } from "./values"
 import { Dot } from "./vectors"
@@ -14,6 +14,16 @@ export type FresnelProps = {
   factor?: Input<"float">
 }
 
+/**
+ * A Shader Unit that calculates the fresnel effect.
+ *
+ * @param param0.normal The normal of the surface. Defaults to {@link VertexNormal}.
+ * @param param0.alpha The alpha value of the fresnel effect. Defaults to 1.
+ * @param param0.bias The bias of the fresnel effect. Defaults to 0.
+ * @param param0.intensity The intensity of the fresnel effect. Defaults to 1.
+ * @param param0.power The power of the fresnel effect. Defaults to 1.
+ * @returns A shader unit holding the fresnel value.
+ */
 export const Fresnel = ({
   normal = VertexNormal.world,
   bias = 0,
@@ -42,6 +52,13 @@ export type GradientStop<T extends GLSLType = "vec3"> = [
   Input<"float">
 ]
 
+/**
+ * A Shader Unit that returns the value of a gradient at a specified position.
+ *
+ * @param f The position within the gradient.
+ * @param stops A configuration of value stops making up the gradient. See {@link GradientStops}.
+ * @returns A shader unit holding the gradient value at the specified position.
+ */
 export const Gradient = <T extends GLSLType = "vec3">(
   f: Input<"float">,
   ...stops: GradientStops<T>

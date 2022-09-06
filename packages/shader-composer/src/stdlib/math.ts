@@ -154,7 +154,7 @@ export const Negate = <T extends GLSLType>(v: Input<T>) =>
  * @param ratio
  * @returns
  */
-export const lerp = <T extends GLSLType>(
+export const $lerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   ratio: Input<"float">
@@ -174,9 +174,9 @@ export const Lerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   ratio: Input<"float">
-) => Unit(type(a), lerp(a, b, ratio), { name: "Mix" })
+) => Unit(type(a), $lerp(a, b, ratio), { name: "Mix" })
 
-export const inverseLerp = <T extends GLSLType>(
+export const $inverseLerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   c: Input<T>
@@ -196,7 +196,7 @@ export const InverseLerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   c: Input<T>
-) => Unit(type(a), inverseLerp(a, b, c), { name: "Inverse Lerp" })
+) => Unit(type(a), $inverseLerp(a, b, c), { name: "Inverse Lerp" })
 
 export const Mix = Lerp
 
@@ -236,13 +236,13 @@ export const Smoothstep = (
   v: Input<"float">
 ) => Float($`smoothstep(${min}, ${max}, ${v})`, { name: "Smoothstep" })
 
-export const remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
+export const $remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   value: Input<T>,
   inMin: Input<T>,
   inMax: Input<T>,
   outMin: Input<T>,
   outMax: Input<T>
-) => $`mix(${outMin}, ${outMax}, ${inverseLerp(inMin, inMax, value)})`
+) => $`mix(${outMin}, ${outMax}, ${$inverseLerp(inMin, inMax, value)})`
 
 export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   value: Input<T>,
@@ -250,7 +250,7 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   inMax: Input<T>,
   outMin: Input<T>,
   outMax: Input<T>
-) => Unit(type(value), remap(value, inMin, inMax, outMin, outMax))
+) => Unit(type(value), $remap(value, inMin, inMax, outMin, outMax))
 
 export const NormalizePlusMinusOne = (f: Input<"float">) =>
   Remap(f, -1, 1, 0, 1)

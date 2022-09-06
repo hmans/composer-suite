@@ -2,7 +2,7 @@ import { pipe } from "fp-ts/function"
 import { $ } from "../expressions"
 import { Input, Unit } from "../units"
 import { Texture2D } from "./textures"
-import { CameraFar, CameraNear } from "./uniforms"
+import { CameraFar, CameraNear } from "./variables"
 import { Float } from "./values"
 
 export const SceneColor = (uv: Input<"vec2">, texture: Unit<"sampler2D">) =>
