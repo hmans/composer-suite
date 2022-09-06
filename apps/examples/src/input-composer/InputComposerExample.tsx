@@ -1,4 +1,4 @@
-import { FlatStage } from "r3f-stage"
+import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
@@ -104,6 +104,10 @@ export default function Example({ playerSpeed = 3 }) {
   return (
     <FlatStage>
       <Player ref={player} />
+      <Description>
+        A playground for prototyping <strong>Input Composer</strong>, the
+        successor to <strong>Controlfreak</strong>.
+      </Description>
     </FlatStage>
   )
 }
