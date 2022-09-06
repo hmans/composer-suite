@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/function"
 import { $ } from "../expressions"
 import { type } from "../glslType"
 import { GLSLType, Input, Unit } from "../units"
@@ -264,3 +265,26 @@ export const Max = <T extends "float" | "vec2" | "vec3" | "vec4">(
   a: Input<T>,
   b: Input<T>
 ) => Unit(type(a), $`max(${a}, ${b})`)
+
+/**
+ * Applies scaling (multiplication) and offset (addition) to a given value.
+ *
+ * @param v The value to scale and offset.
+ * @param scale The scale to apply.
+ * @param offset The offset to apply.
+ * @returns A unit holding the scaled and offset value.
+ */
+export const ScaleAndOffset = <T extends GLSLType>(
+  v: Input<T>,
+  scale: Input = 1,
+  offset: Input = 0
+) =>
+  Unit(
+    type(v),
+    pipe(
+      v,
+      (v) => Mul(v, scale),
+      (v) => Add(v, offset)
+    ),
+    { name: "Scale and Offset" }
+  )
