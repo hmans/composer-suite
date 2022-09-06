@@ -37,12 +37,15 @@ const makeController = () => {
     pipe(
       moveVector,
       resetVector,
+
       activeScheme === controlSchemes.keyboard
         ? activeScheme.keyboard.getVector()
         : identity,
+
       activeScheme === controlSchemes.gamepad
         ? activeScheme.gamepad!.getVector(0, 1)
         : identity,
+
       clampVector,
       (v) => tmpVec3.set(v.x, 0, -v.y)
     )
