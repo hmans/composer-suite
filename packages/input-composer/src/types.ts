@@ -1,1 +1,4 @@
-export type Vector = { x: number; y: number }
+export interface IVector {
+  x: number
+  y: number
+}

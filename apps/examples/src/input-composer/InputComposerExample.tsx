@@ -3,16 +3,16 @@ import { forwardRef, useMemo, useRef } from "react"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
 import { Group, Vector3 } from "three"
-import { Vector } from "input-composer"
+import { IVector } from "input-composer"
 
-const resetVector = (v: Vector) => {
+const resetVector = (v: IVector) => {
   v.x = 0
   v.y = 0
 
   return v
 }
 
-const normalizeVector = (v: Vector) => {
+const normalizeVector = (v: IVector) => {
   const length = Math.sqrt(v.x * v.x + v.y * v.y)
 
   if (length > 0) {
@@ -64,7 +64,7 @@ const KeyboardDriver = () => {
   return { getDevice, start, stop }
 }
 
-const getKeyboardVector = (keyboard: KeyboardDevice) => (v: Vector) => {
+const getKeyboardVector = (keyboard: KeyboardDevice) => (v: IVector) => {
   v.x = keyboard.getAxis("a", "d")
   v.y = keyboard.getAxis("s", "w")
   return v
@@ -78,14 +78,24 @@ export default function Example({ playerSpeed = 3 }) {
     keyboardDriver.start()
     const keyboard = keyboardDriver.getDevice()
 
+    /* Define some objects here so we don't create new ones every frame */
     const moveVector = { x: 0, y: 0 }
     const tmpVec3 = new Vector3()
 
+    const activeDevice = keyboard
+
     return () =>
       pipe(
+        /* We'll start with our move vector */
         moveVector,
+
+        /* Reset it to 0/0 */
         resetVector,
-        getKeyboardVector(keyboard),
+
+        /* Set it to the keyboard input */
+        (v) => (activeDevice === keyboard ? getKeyboardVector(keyboard)(v) : v),
+
+        /* Normalize it */
         normalizeVector,
 
         /* Convert it into a THREE.Vector3 */
