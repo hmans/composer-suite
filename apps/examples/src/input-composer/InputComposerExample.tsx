@@ -26,9 +26,11 @@ const normalizeVector = (v: Vector) => {
   return v
 }
 
-type KeyboardDevice = ReturnType<typeof keyboardDevice>
+type KeyboardDriver = ReturnType<typeof KeyboardDriver>
 
-const keyboardDevice = () => {
+type KeyboardDevice = ReturnType<KeyboardDriver["getDevice"]>
+
+const KeyboardDriver = () => {
   const keys: Record<string, boolean> = {}
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -56,7 +58,13 @@ const keyboardDevice = () => {
   const getAxis = (negative: string, positive: string) =>
     isPressed(positive) - isPressed(negative)
 
-  return { isPressed, isReleased, getAxis, start, stop }
+  const getDevice = () => ({
+    isPressed,
+    isReleased,
+    getAxis
+  })
+
+  return { getDevice, start, stop }
 }
 
 const getKeyboardVector = (keyboard: KeyboardDevice) => (v: Vector) => {
@@ -69,8 +77,9 @@ export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
   const moveControl = useMemo(() => {
-    const keyboard = keyboardDevice()
-    keyboard.start()
+    const keyboardDriver = KeyboardDriver()
+    keyboardDriver.start()
+    const keyboard = keyboardDriver.getDevice()
 
     const moveVector = { x: 0, y: 0 }
 
