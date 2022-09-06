@@ -30,18 +30,19 @@ export default function Example({ playerSpeed = 3 }) {
 
     onGamepadConnected((g) => {
       gamepad = g
+      activeDevice = gamepad
     })
 
     const moveVector = { x: 0, y: 0 }
     const tmpVec3 = new Vector3()
-    const activeDevice = keyboard
+    let activeDevice: any = keyboard
 
     return () => {
       return pipe(
         moveVector,
         resetVector,
         (v) => (activeDevice === keyboard ? getKeyboardVector(keyboard)(v) : v),
-        gamepad ? getGamepadVector(gamepad) : identity,
+        (v) => (activeDevice === gamepad ? getGamepadVector(gamepad)(v) : v),
         // normalizeVector,
         (v) => tmpVec3.set(v.x, 0, -v.y)
       )
