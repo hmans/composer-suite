@@ -3,20 +3,6 @@ import { type } from "../glslType"
 import { Input, Unit } from "../units"
 import { Float, Vec3 } from "./values"
 
-export const SplitVector2 = (vector: Input<"vec2">) =>
-  [Float($`${vector}.x`), Float($`${vector}.y`)] as const
-
-export const SplitVector3 = (vector: Input<"vec3">) =>
-  [Float($`${vector}.x`), Float($`${vector}.y`), Float($`${vector}.z`)] as const
-
-export const SplitVector4 = (vector: Input<"vec4">) =>
-  [
-    Float($`${vector}.x`),
-    Float($`${vector}.y`),
-    Float($`${vector}.z`),
-    Float($`${vector}.w`)
-  ] as const
-
 export const $orthogonal = (v: Input<"vec3">) => $/*glsl*/ `
   normalize(
     abs(${v}.x) > abs(${v}.z)

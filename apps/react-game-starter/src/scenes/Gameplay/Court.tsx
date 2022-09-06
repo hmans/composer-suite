@@ -5,7 +5,6 @@ import {
   Add,
   Mul,
   ShaderMaterialMaster,
-  SplitVector3,
   Time,
   vec2,
   vec3,
@@ -44,8 +43,7 @@ const Background = () => {
       Time(),
       (v) => vec3(Mul(v, 2), v, 0),
       (v) => Add(VertexPosition, v),
-      (v) => SplitVector3(v),
-      ([x, y]) => Grid2D(vec2(x, y), 1, 0.035)
+      ({ x, y }) => Grid2D(vec2(x, y), 1, 0.035)
     )
 
     return ShaderMaterialMaster({
