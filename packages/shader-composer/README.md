@@ -191,8 +191,7 @@ const ImperativelyDoSomething = Unit("float", 0, {
 })
 ```
 
-> **Warning**  
-> It is generally recommended to _not_ use chunks for anything that can be done another way. Chunks should be considered a last resort, and be used sparingly, as they can make your shader graph harder to reason about, and increase the risk of namespace collisions.
+> **Warning** It is generally recommended to _not_ use chunks for anything that can be done another way. Chunks should be considered a last resort, and be used sparingly, as they can make your shader graph harder to reason about, and increase the risk of namespace collisions.
 
 ## Snippets
 
