@@ -26,6 +26,8 @@ const normalizeVector = (v: Vector) => {
   return v
 }
 
+type KeyboardDevice = ReturnType<typeof keyboardDevice>
+
 const keyboardDevice = () => {
   const keys: Record<string, boolean> = {}
 
@@ -54,12 +56,11 @@ const keyboardDevice = () => {
   return { isPressed, isReleased, start, stop }
 }
 
-const getKeyboardVector =
-  (keyboard: ReturnType<typeof keyboardDevice>) => (v: Vector) => {
-    v.x = -1 * keyboard.isPressed("a") + 1 * keyboard.isPressed("d")
-    v.y = -1 * keyboard.isPressed("s") + 1 * keyboard.isPressed("w")
-    return v
-  }
+const getKeyboardVector = (keyboard: KeyboardDevice) => (v: Vector) => {
+  v.x = -1 * keyboard.isPressed("a") + 1 * keyboard.isPressed("d")
+  v.y = -1 * keyboard.isPressed("s") + 1 * keyboard.isPressed("w")
+  return v
+}
 
 export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
