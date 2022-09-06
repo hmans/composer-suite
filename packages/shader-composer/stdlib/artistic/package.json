@@ -1,0 +1,4 @@
+{
+  "main": "dist/shader-composer-stdlib-artistic.cjs.js",
+  "module": "dist/shader-composer-stdlib-artistic.esm.js"
+}

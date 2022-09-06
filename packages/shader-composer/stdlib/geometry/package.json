@@ -1,0 +1,4 @@
+{
+  "main": "dist/shader-composer-stdlib-geometry.cjs.js",
+  "module": "dist/shader-composer-stdlib-geometry.esm.js"
+}

@@ -16,10 +16,13 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "fun.ts"
+      "fun.ts",
+      "stdlib/artistic.ts",
+      "stdlib/geometry.ts"
     ]
   },
   "files": [
+    "stdlib/**",
     "fun/**",
     "dist/**",
     "LICENSE",
