@@ -15,12 +15,14 @@ const isReleased = (key: string) => (keys[key] ? 0 : 1)
 let started = false
 
 const start = () => {
+  if (started) return
   started = true
   window.addEventListener("keydown", onKeyDown)
   window.addEventListener("keyup", onKeyUp)
 }
 
 const stop = () => {
+  if (!started) return
   started = false
   window.removeEventListener("keydown", onKeyDown)
   window.removeEventListener("keyup", onKeyUp)
