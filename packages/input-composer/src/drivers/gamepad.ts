@@ -10,6 +10,8 @@ export type GamepadDevice = ReturnType<typeof GamepadDevice>
  * @returns A gamepad device.
  */
 const GamepadDevice = (index: number) => {
+  const onActivity = createEvent()
+
   const getVector =
     (horizontalAxis = 0, verticalAxis = 1) =>
     (v: IVector) => {
@@ -24,7 +26,9 @@ const GamepadDevice = (index: number) => {
       return getGamepadState(index)!
     },
 
-    getVector
+    getVector,
+
+    onActivity
   }
 }
 

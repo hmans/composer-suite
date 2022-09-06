@@ -30,6 +30,14 @@ const makeController = () => {
     activeScheme = scheme
   }
 
+  controlSchemes.keyboard.keyboard.onActivity(() =>
+    switchScheme(controlSchemes.keyboard)
+  )
+
+  controlSchemes.gamepad.gamepad?.onActivity(() =>
+    switchScheme(controlSchemes.gamepad)
+  )
+
   const moveVector = { x: 0, y: 0 }
   const tmpVec3 = new Vector3()
 

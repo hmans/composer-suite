@@ -1,3 +1,4 @@
+import { createEvent } from "../lib/event"
 import { IVector } from "../types"
 
 export type KeyboardDevice = ReturnType<typeof KeyboardDevice>
@@ -8,15 +9,19 @@ export const KeyboardDevice = () => {
   return {
     getAxis,
     getVector,
+    onActivity,
     isPressed,
     isReleased
   }
 }
 
+export const onActivity = createEvent()
+
 const keys: Record<string, boolean> = {}
 
 const onKeyDown = (e: KeyboardEvent) => {
   keys[e.key] = true
+  onActivity.emit()
 }
 
 const onKeyUp = (e: KeyboardEvent) => {

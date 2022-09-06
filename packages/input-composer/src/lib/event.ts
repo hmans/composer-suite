@@ -10,7 +10,7 @@ export const createEvent = <P>() => {
     return () => listeners.delete(listener)
   }
 
-  const emit = (payload: P) => {
+  const emit = (payload: P = undefined as P) => {
     for (const listener of listeners) {
       listener(payload)
     }
