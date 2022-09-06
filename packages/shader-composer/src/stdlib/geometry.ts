@@ -4,7 +4,7 @@
 
 import { Vector2 } from "three"
 import { $, Expression } from "../expressions"
-import { injectAPI, GLSLType, Input, Unit } from "../units"
+import { injectAPI, Input } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
 import { Bool, Mat4, Vec2, Vec3 } from "./values"
 
@@ -97,12 +97,3 @@ export const TilingUV = (
       ${uv}.x * ${tiling}.x + ${offset}.x,
       ${uv}.y * ${tiling}.y + ${offset}.y)`
   )
-
-export const Attribute = <T extends GLSLType>(type: T, name: string) =>
-  Unit(type, $`${name}`, {
-    name: `Attribute: ${name}`,
-    varying: true,
-    vertex: {
-      header: $`attribute ${type} ${name};`
-    }
-  })

@@ -3,6 +3,7 @@
  */
 
 export * from "./artistic"
+export * from "./attributes"
 export * from "./geometry"
 export * from "./globals"
 export * from "./logic"
