@@ -1,6 +1,7 @@
 import { PerspectiveCamera, Vector2 } from "three"
 import { $, Expression } from "../expressions"
 import { GLSLType, injectAPI, Input, JSTypes, Unit, UnitConfig } from "../units"
+import { ScaleAndOffset } from "./math"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
 import { Bool, Int, Mat4, Vec2, Vec3 } from "./values"
 
@@ -112,17 +113,6 @@ export const ViewDirection = Vec3(
 )
 
 export const IsFrontFacing = Bool($`gl_FrontFacing`, { only: "fragment" })
-
-export const TilingUV = (
-  uv: Input<"vec2"> = UV,
-  tiling: Input<"vec2"> = new Vector2(1, 1),
-  offset: Input<"vec2"> = new Vector2(0, 0)
-) =>
-  Vec2(
-    $`vec2(
-      ${uv}.x * ${tiling}.x + ${offset}.x,
-      ${uv}.y * ${tiling}.y + ${offset}.y)`
-  )
 
 export const Attribute = <T extends GLSLType>(type: T, name: string) =>
   Unit(type, $`${name}`, {

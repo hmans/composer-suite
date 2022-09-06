@@ -13,11 +13,11 @@ import {
   OneMinus,
   PerspectiveDepth,
   Saturate,
+  ScaleAndOffset,
   ScreenUV,
   Smoothstep,
   Sub,
   Texture2D,
-  TilingUV,
   UV,
   Vec2,
   VertexPosition
@@ -53,7 +53,7 @@ export default function ForceField() {
     const textureOffset = Vec2([Mul(time, 0.05), Mul(time, 0.03)])
     const texture = Texture2D(
       sampler2D,
-      TilingUV(UV, Vec2([4, 2]), textureOffset)
+      ScaleAndOffset(UV, Vec2([4, 2]), textureOffset)
     )
 
     /* Get the depth of the current fragment. */
