@@ -1,5 +1,18 @@
 import { IVector } from "../types"
 
+export type KeyboardDevice = ReturnType<typeof KeyboardDevice>
+
+export const KeyboardDevice = () => {
+  if (!started) start()
+
+  return {
+    getAxis,
+    getVector,
+    isPressed,
+    isReleased
+  }
+}
+
 const keys: Record<string, boolean> = {}
 
 const onKeyDown = (e: KeyboardEvent) => {
@@ -50,16 +63,3 @@ const getVector =
     v.y = getAxis(down, up)
     return v
   }
-
-export const getKeyboardDevice = () => {
-  if (!started) start()
-
-  return {
-    isPressed,
-    isReleased,
-    getAxis,
-    getVector
-  }
-}
-
-export type Keyboard = ReturnType<typeof getKeyboardDevice>

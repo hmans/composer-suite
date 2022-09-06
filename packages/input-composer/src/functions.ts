@@ -1,4 +1,3 @@
-import { Keyboard } from "./drivers/keyboard"
 import { IVector } from "./types"
 
 export const resetVector = (v: IVector) => {

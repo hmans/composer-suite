@@ -5,14 +5,14 @@ import {
   GamepadDevice,
   onGamepadConnected
 } from "input-composer/drivers/gamepad"
-import { getKeyboardDevice } from "input-composer/drivers/keyboard"
+import { KeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const makeController = () => {
   const controlSchemes = {
-    keyboard: { keyboard: getKeyboardDevice() },
+    keyboard: { keyboard: KeyboardDevice() },
     gamepad: { gamepad: undefined as GamepadDevice | undefined }
   }
 
