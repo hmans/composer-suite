@@ -1,5 +1,11 @@
 # @material-composer/patch-material
 
+## 0.1.2
+
+### Patch Changes
+
+- c3dcb12: Now also supports the `patched_Emissive` color value (`emissiveColor` in the `PatchedMaterialMaster`.)
+
 ## 0.1.1
 
 ### Patch Changes

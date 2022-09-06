@@ -1,5 +1,21 @@
 # material-composer-r3f
 
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [a92d0d3]
+- Updated dependencies [433f93b]
+- Updated dependencies [c3dcb12]
+- Updated dependencies [765b29d]
+- Updated dependencies [c3dcb12]
+- Updated dependencies [9406986]
+- Updated dependencies [6d99c19]
+- Updated dependencies [765b29d]
+  - shader-composer@0.4.0
+  - @material-composer/patch-material@0.1.2
+  - shader-composer-r3f@0.4.0
+
 ## 0.1.2
 
 ### Patch Changes

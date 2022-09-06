@@ -1,5 +1,79 @@
 # shader-composer
 
+## 0.4.0
+
+### Minor Changes
+
+- a92d0d3: **Breaking Change:** The `SplitVector2`, `SplitVector3` and `SplitVector4` units have been removed. `Vec2`, `Vec3` and `Vec4` units now provide their own API to access their components.
+
+  Before:
+
+  ```js
+  const [x, y] = SplitVector2(vector)
+  ```
+
+  Now:
+
+  ```js
+  const { x, y } = vector
+  ```
+
+  If you're dealing with arguments of type `Input<"vec2">`, you can wrap them in a `Vec2` unit:
+
+  ```js
+  const { x, y } = Vec2(aVec2CompatibleInput)
+  ```
+
+  (The same applies to `Vec3` and `Vec4`, naturally.)
+
+- 433f93b: **Breaking Change**: The type-specific unit factories (`Float()`, `Vec3()`, `Mat4()`, etc.) have received a big upgrade: they now automatically cast the given input values to their own type. This means that you can now pass a `Float` to a `Vec3` factory, and it will automatically be converted to a `Vec3` with the same value in all components. This is a big improvement over the previous behavior, where you had to manually cast the value to the correct type.
+
+  Furthermore, this now allows the factories of units with multiple components to take arrays -- even nested arrays -- as their value input:
+
+  ```ts
+  const v1 = Vec3([1, 2, 3])
+  const v2 = Vec3([new Vector2(1, 2), 3])
+  /* And so on. */
+  ```
+
+  If you've only been using these unit factories and nothing else, you might not need to change any of your code -- but in order to implement this, the previously available _cast_ helpers (`vec3`, `vec2`, `float`, etc. -- notice the lowercase first letter) have been completely changed. They are now named `$vec3`, `$vec2` and so on -- starting with a `# shader-composer prefix -- and will return not a unit like previously, but an _expression_. Hence the naming; a new convention is being established in the codebase to prefix functions that return _expressions_ with a `# shader-composer sign, to match the `# shader-composer export that builds GLSL expressions:
+
+  ```ts
+  const vectorExpression = $vec3(1, 2, 3)
+  ```
+
+  Remember that expressions are valid inputs for any kind of input type, so when authoring a higher-order unit, you may type its user-facing arguments using `Input<T>`, but set the default argument falues to expressions:
+
+  ```ts
+  type FooArgs = {
+    position: Input<"vec3">
+  }
+
+  const Foo = ({ position = $vec3(1, 2, 3) }: FooArgs) => {
+    /* ... */
+  }
+  ```
+
+- 765b29d: **Breaking Change:** removed the `TilingUV` unit. The same functionality can be achieved by using the `ScaleAndOffset` unit with a `UV` input:
+
+  ```js
+  ScaleAndOffset(UV, scale, offset)
+  ```
+
+- 9406986: **Breaking Change**: The function composition-leaning APIs `add`, `mul`, `div`, `sub` and `mix` have been moved into a dedicated `shader-composer/fun` entrypoint.
+
+  Also, neither that entrypoint nor the main package itself now no longer re-export `pipe` and `flow` from the `fp-ts` library. Shader Composer lends itself very well for functional composition using tools like these, but we didn't want to make the decision for you as to which library to use. We continue to recommend the excellent [fp-ts](https://github.com/gcanti/fp-ts) library (and use it internally), but would like to ask you to add it to your projects as a dependency yourself.
+
+- 6d99c19: As part of a general cleanup pass on the Shader Composer standard library, some functions returning expressions have been renamed to match the new convention that functions returning expressions should start with a `# shader-composer.
+
+  For example, `lerp` is now `$lerp`, `inverseLerp` is now `$inverseLerp`, and `remap` is now `$remap`.
+
+  Please keep in mind that you will usually only need their Unit counterparts (`Lerp`, `Mix`, `InverseLerp`), which are not affected by this change.
+
+### Patch Changes
+
+- 765b29d: New `ScaleAndOffset(v, scale, offset)` unit that takes a value and applies a scale and an offset. A simple wrapper around multiplication and addition.
+
 ## 0.3.4
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # shader-composer-toybox
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [a92d0d3]
+- Updated dependencies [433f93b]
+- Updated dependencies [765b29d]
+- Updated dependencies [9406986]
+- Updated dependencies [6d99c19]
+- Updated dependencies [765b29d]
+  - shader-composer@0.4.0
+
 ## 0.1.2
 
 ### Patch Changes

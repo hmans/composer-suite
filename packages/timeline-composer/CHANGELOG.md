@@ -1,5 +1,11 @@
 # timeline-composer
 
+## 0.1.6
+
+### Patch Changes
+
+- 411f406: Extracted `useAnimationFrame` into [@hmans/use-animation-frame](https://github.com/hmans/things/tree/main/packages/hmans-use-animation-frame).
+
 ## 0.1.5
 
 ### Patch Changes

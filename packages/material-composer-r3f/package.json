@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "React-Three-Fiber bindings for Material Composer.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "main": "dist/material-composer-r3f.cjs.js",
   "module": "dist/material-composer-r3f.esm.js",
   "files": [
@@ -28,10 +28,10 @@
     "@hmans/use-list": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
-    "@material-composer/patch-material": "^0.1.1",
+    "@material-composer/patch-material": "^0.1.2",
     "@material-composer/patched": "^0.1.1",
-    "shader-composer": "0.3.4",
-    "shader-composer-r3f": "0.2.0"
+    "shader-composer": "0.4.0",
+    "shader-composer-r3f": "0.4.0"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.27",
