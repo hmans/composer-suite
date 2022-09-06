@@ -1,13 +1,6 @@
 import { PerspectiveCamera, Vector2 } from "three"
 import { $ } from "../expressions"
-import {
-  GLSLType,
-  injectAPI,
-  JSTypes,
-  uniformName,
-  Unit,
-  UnitConfig
-} from "../units"
+import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { FragmentCoordinate } from "./globals"
 import { Vec2 } from "./values"
 
