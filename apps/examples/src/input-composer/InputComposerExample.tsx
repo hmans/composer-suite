@@ -12,6 +12,17 @@ const resetVector = (v: Vector) => {
   return v
 }
 
+const normalizeVector = (v: Vector) => {
+  const length = Math.sqrt(v.x * v.x + v.y * v.y)
+
+  if (length > 0) {
+    v.x /= length
+    v.y /= length
+  }
+
+  return v
+}
+
 const keyboardDevice = () => {
   const keys: Record<string, boolean> = {}
 
@@ -54,7 +65,13 @@ export default function Example() {
 
     const moveVector = { x: 0, y: 0 }
 
-    return () => pipe(moveVector, resetVector, getKeyboardVector(keyboard))
+    return () =>
+      pipe(
+        moveVector,
+        resetVector,
+        getKeyboardVector(keyboard),
+        normalizeVector
+      )
   }, [])
 
   useFrame(() => {
