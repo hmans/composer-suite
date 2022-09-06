@@ -60,6 +60,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.1.0
+      input-composer: workspace:^0.0.1
       r3f-stage: workspace:^0.3.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -69,6 +70,7 @@ importers:
     dependencies:
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
+      input-composer: link:../../packages/input-composer
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
