@@ -5,8 +5,6 @@ import { pipe } from "fp-ts/lib/function"
 import { Group, Vector3 } from "three"
 import { Vector } from "input-composer"
 
-const tmpVec3 = new Vector3()
-
 const resetVector = (v: Vector) => {
   v.x = 0
   v.y = 0
@@ -81,23 +79,23 @@ export default function Example({ playerSpeed = 3 }) {
     const keyboard = keyboardDriver.getDevice()
 
     const moveVector = { x: 0, y: 0 }
+    const tmpVec3 = new Vector3()
 
     return () =>
       pipe(
         moveVector,
         resetVector,
         getKeyboardVector(keyboard),
-        normalizeVector
+        normalizeVector,
+
+        /* Convert it into a THREE.Vector3 */
+        (v) => tmpVec3.set(v.x, 0, -v.y)
       )
   }, [])
 
   useFrame((_, dt) => {
     const move = moveControl()
-    console.log(move)
-
-    player.current.position.add(
-      tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
-    )
+    player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
   return (
