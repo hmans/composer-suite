@@ -31,11 +31,13 @@ export default function Example({ playerSpeed = 3 }) {
     const keyboard = getKeyboardDevice()
 
     /* Store a reference to the player's gamepad */
-    let gamepad: GamepadDevice
+    let activeGamepad: GamepadDevice
 
     onGamepadConnected((g) => {
-      gamepad = g
-      activeDevice = gamepad
+      if (activeGamepad) return
+
+      activeGamepad = g
+      activeDevice = activeGamepad
     })
 
     const moveVector = { x: 0, y: 0 }
@@ -47,7 +49,9 @@ export default function Example({ playerSpeed = 3 }) {
         moveVector,
         resetVector,
         activeDevice === keyboard ? getKeyboardVector(keyboard) : identity,
-        activeDevice === gamepad ? getGamepadVector(gamepad) : identity,
+        activeDevice === activeGamepad
+          ? getGamepadVector(activeGamepad)
+          : identity,
         clampVector,
         (v) => tmpVec3.set(v.x, 0, -v.y)
       )
