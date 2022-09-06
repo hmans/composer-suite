@@ -4,9 +4,7 @@
 [![Downloads](https://img.shields.io/npm/dt/shader-composer.svg?style=for-the-badge)](https://www.npmjs.com/package/shader-composer)
 [![Bundle Size](https://img.shields.io/bundlephobia/min/shader-composer?label=bundle%20size&style=for-the-badge)](https://bundlephobia.com/result?p=shader-composer)
 
-## Summary
-
-Write Three.js shaders, but with JavaScript! ✨
+## Write Three.js shaders, but with JavaScript! ✨
 
 Shader Composer is a library for authoring Three.js shaders with JavaScript. It offers a lean, functional API that makes shader composition straight-forward and fun, while allowing for simple, low-friction reusability of your favorite shader functions.
 
