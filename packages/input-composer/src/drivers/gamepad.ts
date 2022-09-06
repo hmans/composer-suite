@@ -1,14 +1,10 @@
 import { createEvent } from "../lib/event"
 
-export const onGamepadConnected = createEvent<Gamepad>()
+export const onGamepadConnected = createEvent<number>()
 
 const handleGamepadConnected = (e: GamepadEvent) => {
   console.debug("New gamepad connected:", e.gamepad.id)
-  const device = navigator.getGamepads()[e.gamepad.index]
-
-  if (device) {
-    onGamepadConnected.emit(device)
-  }
+  onGamepadConnected.emit(e.gamepad.index)
 }
 
 const handleGamepadDisconnected = (e: GamepadEvent) => {
@@ -17,7 +13,7 @@ const handleGamepadDisconnected = (e: GamepadEvent) => {
 
 let started = false
 
-const start = () => {
+export const start = () => {
   if (started) return
   started = true
 
@@ -25,7 +21,7 @@ const start = () => {
   window.addEventListener("gamepaddisconnected", handleGamepadDisconnected)
 }
 
-const stop = () => {
+export const stop = () => {
   if (!started) return
   started = false
 
@@ -33,6 +29,6 @@ const stop = () => {
   window.removeEventListener("gamepaddisconnected", handleGamepadDisconnected)
 }
 
-start()
+export const getGamepad = (index: number) => navigator.getGamepads()[index]
 
-export { start, stop }
+start()
