@@ -32,14 +32,16 @@ export default function Example({ playerSpeed = 3 }) {
       gamepad: { gamepad: undefined as GamepadDevice | undefined }
     }
 
-    let activeScheme: keyof typeof controlSchemes = "keyboard"
+    type ControlScheme = typeof controlSchemes[keyof typeof controlSchemes]
+
+    let activeScheme: ControlScheme = controlSchemes.keyboard
 
     onGamepadConnected((g) => {
       controlSchemes.gamepad.gamepad = g
-      switchScheme("gamepad")
+      switchScheme(controlSchemes.gamepad)
     })
 
-    const switchScheme = (scheme: keyof typeof controlSchemes) => {
+    const switchScheme = (scheme: ControlScheme) => {
       console.log("Switching active control scheme to:", scheme)
       activeScheme = scheme
     }
@@ -51,10 +53,10 @@ export default function Example({ playerSpeed = 3 }) {
       return pipe(
         moveVector,
         resetVector,
-        activeScheme === "keyboard"
+        activeScheme === controlSchemes.keyboard
           ? getKeyboardVector(controlSchemes.keyboard.keyboard)
           : identity,
-        activeScheme === "gamepad"
+        activeScheme === controlSchemes.gamepad
           ? getGamepadVector(controlSchemes.gamepad.gamepad!)
           : identity,
         clampVector,
