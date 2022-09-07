@@ -1,7 +1,13 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe } from "fp-ts/lib/function"
 import { getLeft } from "fp-ts/lib/These"
-import { clampVector, IDevice, IVector, resetVector } from "input-composer"
+import {
+  applyDeadzone,
+  clampVector,
+  IDevice,
+  IVector,
+  resetVector
+} from "input-composer"
 import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
 import keyboardDriver, { KeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
@@ -93,6 +99,7 @@ const makeController = () => {
           ? getKeyboardVector(state.keyboard, "w", "s", "a", "d")
           : identity,
 
+        applyDeadzone(0.1),
         clampVector
       )
   }

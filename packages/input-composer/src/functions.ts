@@ -28,3 +28,19 @@ export const clampVector = (v: IVector) => {
 
   return v
 }
+
+export const applyDeadzone =
+  (threshold = 0.1) =>
+  (v: IVector) => {
+    const length = Math.sqrt(v.x * v.x + v.y * v.y)
+
+    if (length < threshold) {
+      v.x = 0
+      v.y = 0
+    } else {
+      v.x = (v.x - threshold) / (1 - threshold)
+      v.y = (v.y - threshold) / (1 - threshold)
+    }
+
+    return v
+  }
