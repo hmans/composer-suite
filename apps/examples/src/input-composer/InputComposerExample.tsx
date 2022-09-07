@@ -3,10 +3,24 @@ import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group } from "three"
 import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
+import { identity, pipe } from "fp-ts/lib/function"
+import { clampVector, IVector, resetVector } from "input-composer"
+
+const getGamepadVector =
+  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
+  (v: IVector) => {
+    v.x = gamepad.getAxis(horizontalAxis)
+    v.y = gamepad.getAxis(verticalAxis)
+    return v
+  }
 
 const makeController = () => {
   const state = {
     gamepad: null as GamepadDevice | null
+  }
+
+  const controls = {
+    move: { x: 0, y: 0 }
   }
 
   gamepadDriver.start()
@@ -20,7 +34,13 @@ const makeController = () => {
   })
 
   return {
-    move: () => state.gamepad?.getAxis("0")
+    move: () =>
+      pipe(
+        controls.move,
+        resetVector,
+        state.gamepad ? getGamepadVector(state.gamepad, 0, 1) : identity,
+        clampVector
+      )
   }
 }
 

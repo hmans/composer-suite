@@ -1,7 +1,9 @@
 import { createEvent } from "../lib/event"
 import { IDevice, IDriver } from "../types"
 
-export type GamepadDevice = IDevice
+export type GamepadDevice = IDevice & {
+  getAxis: (axis: number) => number
+}
 
 const devices = new Map<number, GamepadDevice>()
 
@@ -30,8 +32,8 @@ const createGamepadDevice = (index: number): GamepadDevice => {
     }
   }
 
-  const getAxis = (axis: string) => {
-    return state.gamepad.axes[0]
+  const getAxis = (axis: number) => {
+    return state.gamepad.axes[axis]
   }
 
   return { update, onActivity, getAxis }
