@@ -26,4 +26,5 @@ export interface IDriver<D extends IDevice> {
 export interface IDevice {
   update: () => void
   onActivity: Event
+  getAxis: (axis: string) => number
 }

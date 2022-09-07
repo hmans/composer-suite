@@ -30,7 +30,11 @@ const createGamepadDevice = (index: number): GamepadDevice => {
     }
   }
 
-  return { update, onActivity }
+  const getAxis = (axis: string) => {
+    return state.gamepad.axes[0]
+  }
+
+  return { update, onActivity, getAxis }
 }
 
 const onGamepadConnected = (e: GamepadEvent) => {

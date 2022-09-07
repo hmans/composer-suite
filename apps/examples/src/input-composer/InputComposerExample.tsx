@@ -11,21 +11,17 @@ const makeController = () => {
 
   gamepadDriver.start()
 
-  gamepadDriver.onDeviceAppeared.addListener(() => {
-    console.log("Yay, a new gamepad!")
-  })
-
-  gamepadDriver.onDeviceDisappeared.addListener(() => {
-    console.log("It's gone :(")
-  })
-
-  gamepadDriver.onDeviceActivity.addListener((gamepad) => {
-    console.log("Activity detected!", gamepad)
+  gamepadDriver.onDeviceAppeared.addListener((gamepad) => {
     state.gamepad = gamepad
+
     state.gamepad.onActivity.addListener(() => {
-      console.log("holy fuck!")
+      // TODO: make gamepad the active device
     })
   })
+
+  return {
+    move: () => state.gamepad?.getAxis("0")
+  }
 }
 
 export default function Example({ playerSpeed = 3 }) {
@@ -35,7 +31,8 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     gamepadDriver.update()
-    // const move = controller.move()
+    const move = controller.move()
+    console.log(move)
     // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
