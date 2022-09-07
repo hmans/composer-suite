@@ -26,7 +26,7 @@ const createGamepadDevice = (index: number): GamepadDevice => {
     const gamepad = getGamepadData(index)
     if (gamepad.timestamp > state.gamepad.timestamp) {
       state.gamepad = gamepad
-      onActivity.emit(undefined as never) // FIXME
+      onActivity.emit()
     }
   }
 

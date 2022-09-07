@@ -1,12 +1,12 @@
 /* TODO: extract into @hmans/things */
 
-export interface IEventCallback<P = undefined> {
+export interface IEvent<P = void> {
   (listener: Listener<P>): void
 }
 
 type Listener<P> = (payload: P) => void
 
-export const createEvent = <P = never>() => {
+export const createEvent = <P = void>() => {
   const listeners = new Set<Listener<P>>()
 
   const on = (listener: Listener<P>) => {

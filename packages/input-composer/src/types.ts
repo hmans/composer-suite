@@ -1,4 +1,4 @@
-import { IEventCallback } from "./lib/event"
+import { IEvent } from "./lib/event"
 
 export interface IVector {
   x: number
@@ -18,12 +18,12 @@ export interface IDriver<D extends IDevice> {
    */
   update: () => void
 
-  onDeviceAppeared: IEventCallback<D>
-  onDeviceDisappeared: IEventCallback<D>
-  onDeviceActivity: IEventCallback<D>
+  onDeviceAppeared: IEvent<D>
+  onDeviceDisappeared: IEvent<D>
+  onDeviceActivity: IEvent<D>
 }
 
 export interface IDevice {
   update: () => void
-  onActivity: IEventCallback
+  onActivity: IEvent
 }
