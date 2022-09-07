@@ -1,10 +1,11 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
+import { identity, pipe } from "fp-ts/lib/function"
+import { clampVector, IDevice, IVector, resetVector } from "input-composer"
+import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
+import keyboardDriver, { KeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group } from "three"
-import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
-import { identity, pipe } from "fp-ts/lib/function"
-import { clampVector, IVector, resetVector } from "input-composer"
 
 const getGamepadVector =
   (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
@@ -16,22 +17,32 @@ const getGamepadVector =
 
 const makeController = () => {
   const state = {
+    keyboard: null as KeyboardDevice | null,
     gamepad: null as GamepadDevice | null,
-    activeDevice: null as GamepadDevice | null
+    activeDevice: null as IDevice | null
   }
 
   const controls = {
     move: { x: 0, y: 0 }
   }
 
+  const setActiveDevice = (device: IDevice) => {
+    if (state.activeDevice === device) return
+    console.log("Switching active device to:", device)
+    state.activeDevice = device
+  }
+
   gamepadDriver.start()
+  keyboardDriver.start()
 
   gamepadDriver.onDeviceAppeared.addListener((gamepad) => {
     state.gamepad = gamepad
+    state.gamepad.onActivity.addListener(() => setActiveDevice(gamepad))
+  })
 
-    state.gamepad.onActivity.addListener(() => {
-      state.activeDevice = state.gamepad
-    })
+  keyboardDriver.onDeviceAppeared.addListener((keyboard) => {
+    state.keyboard = keyboard
+    state.keyboard.onActivity.addListener(() => setActiveDevice(keyboard))
   })
 
   return {
@@ -55,7 +66,7 @@ export default function Example({ playerSpeed = 3 }) {
   useFrame((_, dt) => {
     gamepadDriver.update()
     const move = controller.move()
-    console.log(move)
+    // console.log(move)
     // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
