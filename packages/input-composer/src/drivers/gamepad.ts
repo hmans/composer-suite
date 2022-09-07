@@ -1,7 +1,7 @@
 import { createEvent } from "../lib/event"
 import { IDevice, IDriver } from "../types"
 
-type GamepadDevice = IDevice
+export type GamepadDevice = IDevice
 
 const devices = new Map<number, GamepadDevice>()
 

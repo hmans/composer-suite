@@ -2,9 +2,13 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group } from "three"
-import gamepadDriver from "input-composer/drivers/gamepad"
+import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
 
 const makeController = () => {
+  const state = {
+    gamepad: null as GamepadDevice | null
+  }
+
   gamepadDriver.start()
 
   gamepadDriver.onDeviceAppeared(() => {
@@ -17,6 +21,10 @@ const makeController = () => {
 
   gamepadDriver.onDeviceActivity((gamepad) => {
     console.log("Activity detected!", gamepad)
+    state.gamepad = gamepad
+    state.gamepad.onActivity(() => {
+      console.log("holy fuck!")
+    })
   })
 }
 
