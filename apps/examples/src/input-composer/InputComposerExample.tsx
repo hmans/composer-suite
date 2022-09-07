@@ -2,30 +2,83 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
 import { IVector } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useMemo, useRef } from "react"
+import { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
+import { useConst } from "@hmans/things"
 
 const tmpVec3 = new Vector3()
 
-const useVectorControl = () => {
-  const vector: IVector = { x: 0, y: 0 }
+type ControllerProps = {
+  gamepad: number
+  up: string
+  down: string
+  left: string
+  right: string
+}
 
-  const get = () => pipe(vector)
+const useController = (props: ControllerProps) => {
+  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
+  const keyState = useConst(() => new Map<string, boolean>())
 
-  return { get }
+  const isPressed = (key: string) => (keyState.get(key) ? 1 : 0)
+
+  useLayoutEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      keyState.set(e.key, true)
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      keyState.set(e.key, false)
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    window.addEventListener("keyup", handleKeyUp)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keyup", handleKeyUp)
+    }
+  }, [])
+
+  const getMoveVector = () =>
+    pipe(
+      vector,
+
+      // (v) => {
+      //   v.x = isPressed(props.right) - isPressed(props.left)
+      //   v.y = isPressed(props.up) - isPressed(props.down)
+      //   return v
+      // }
+
+      (v) => {
+        const data = navigator.getGamepads()[props.gamepad]
+        if (data) {
+          v.x = data.axes[0]
+          v.y = -data.axes[1]
+        }
+        return v
+      }
+    )
+
+  return { getMoveVector }
 }
 
 export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
-  const moveControl = useVectorControl()
+  const controller = useController({
+    gamepad: 0,
+    up: "w",
+    down: "s",
+    left: "a",
+    right: "d"
+  })
 
   useFrame((_, dt) => {
-    const move = moveControl.get()
-    console.log(move)
-    // player.current.position.add(
-    //   tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
-    // )
+    const move = controller.getMoveVector()
+    player.current.position.add(
+      tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
+    )
   })
 
   return (

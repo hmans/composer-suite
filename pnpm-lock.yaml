@@ -54,6 +54,7 @@ importers:
 
   apps/examples:
     specifiers:
+      '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.26.0
       '@react-three/fiber': ^8.7.0
       '@types/react': ^18.0.17
@@ -69,6 +70,7 @@ importers:
       typescript: ^4.6.4
       vite: ^3.1.0
     dependencies:
+      '@hmans/things': 0.0.6_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
