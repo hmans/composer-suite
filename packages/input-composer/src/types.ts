@@ -5,7 +5,7 @@ export interface IVector {
   y: number
 }
 
-export type Driver<D = undefined> = {
+export interface IDriver<D = undefined> {
   start: () => void
   stop: () => void
   update: () => void
@@ -13,5 +13,7 @@ export type Driver<D = undefined> = {
   onDeviceDisappeared: IEventCallback<D>
   onDeviceActivity: IEventCallback<D>
 }
+
+export type Driver<D = undefined> = IDriver<D>
 
 export type Device = {}
