@@ -1,7 +1,7 @@
 import { createEvent } from "../lib/event"
 import { IDriver } from "../types"
 
-type GamepadDevice = ReturnType<typeof createDevice>
+type GamepadDevice = ReturnType<typeof createGamepadDevice>
 
 const devices = new Map<number, GamepadDevice>()
 
@@ -9,7 +9,7 @@ const onDeviceAppeared = createEvent<GamepadDevice>()
 const onDeviceDisappeared = createEvent<GamepadDevice>()
 const onDeviceActivity = createEvent<GamepadDevice>()
 
-const createDevice = (index: number) => ({ index })
+const createGamepadDevice = (index: number) => ({ index })
 
 const onGamepadConnected = (e: GamepadEvent) => {
   console.debug(
@@ -20,7 +20,7 @@ const onGamepadConnected = (e: GamepadEvent) => {
     e.gamepad.axes.length
   )
 
-  const device = createDevice(e.gamepad.index)
+  const device = createGamepadDevice(e.gamepad.index)
   devices.set(device.index, device)
 
   onDeviceAppeared.emit(device)
