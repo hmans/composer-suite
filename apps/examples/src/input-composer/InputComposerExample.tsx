@@ -11,18 +11,18 @@ const makeController = () => {
 
   gamepadDriver.start()
 
-  gamepadDriver.onDeviceAppeared.on(() => {
+  gamepadDriver.onDeviceAppeared.addListener(() => {
     console.log("Yay, a new gamepad!")
   })
 
-  gamepadDriver.onDeviceDisappeared.on(() => {
+  gamepadDriver.onDeviceDisappeared.addListener(() => {
     console.log("It's gone :(")
   })
 
-  gamepadDriver.onDeviceActivity.on((gamepad) => {
+  gamepadDriver.onDeviceActivity.addListener((gamepad) => {
     console.log("Activity detected!", gamepad)
     state.gamepad = gamepad
-    state.gamepad.onActivity.on(() => {
+    state.gamepad.onActivity.addListener(() => {
       console.log("holy fuck!")
     })
   })

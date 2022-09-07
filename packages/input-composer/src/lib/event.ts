@@ -7,12 +7,12 @@ export type Listener<P> = (payload: P) => void
 export const createEvent = <P = void>() => {
   const listeners = new Set<Listener<P>>()
 
-  const on = (listener: Listener<P>) => {
+  const addListener = (listener: Listener<P>) => {
     listeners.add(listener)
-    return () => off(listener)
+    return () => removeListener(listener)
   }
 
-  const off = (listener: Listener<P>) => {
+  const removeListener = (listener: Listener<P>) => {
     listeners.delete(listener)
   }
 
@@ -22,5 +22,5 @@ export const createEvent = <P = void>() => {
     }
   }
 
-  return { on, off, emit }
+  return { addListener, removeListener, emit }
 }
