@@ -1,71 +1,23 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { identity, pipe } from "fp-ts/lib/function"
-import { clampVector, resetVector } from "input-composer"
-import {
-  GamepadDevice,
-  onGamepadConnected
-} from "input-composer/drivers/gamepad"
-import { KeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
-import { Group, Vector3 } from "three"
+import { Group } from "three"
+import gamepadDriver from "input-composer/drivers/gamepad"
 
 const makeController = () => {
-  const controlSchemes = {
-    keyboard: { keyboard: KeyboardDevice() },
-    gamepad: { gamepad: undefined as GamepadDevice | undefined }
-  }
+  gamepadDriver.start()
 
-  type ControlScheme = typeof controlSchemes[keyof typeof controlSchemes]
-
-  let activeScheme: ControlScheme = controlSchemes.keyboard
-
-  onGamepadConnected((g) => {
-    controlSchemes.gamepad.gamepad = g
-    switchScheme(controlSchemes.gamepad)
+  gamepadDriver.onDeviceAppeared(() => {
+    console.log("Yay, a new gamepad!")
   })
 
-  const switchScheme = (scheme: ControlScheme) => {
-    if (activeScheme === scheme) return
+  gamepadDriver.onDeviceDisappeared(() => {
+    console.log("It's gone :(")
+  })
 
-    console.log("Switching active control scheme to:", scheme)
-    activeScheme = scheme
-  }
-
-  controlSchemes.keyboard.keyboard.onActivity(() =>
-    switchScheme(controlSchemes.keyboard)
-  )
-
-  controlSchemes.gamepad.gamepad?.onActivity(() =>
-    switchScheme(controlSchemes.gamepad)
-  )
-
-  const moveVector = { x: 0, y: 0 }
-  const tmpVec3 = new Vector3()
-
-  const move = () => {
-    return pipe(
-      moveVector,
-      resetVector,
-
-      activeScheme === controlSchemes.keyboard
-        ? activeScheme.keyboard.getVector({
-            up: "w",
-            down: "s",
-            left: "a",
-            right: "d"
-          })
-        : identity,
-
-      activeScheme === controlSchemes.gamepad
-        ? activeScheme.gamepad!.getVector(0, 1)
-        : identity,
-
-      clampVector,
-      (v) => tmpVec3.set(v.x, 0, -v.y)
-    )
-  }
-  return { move }
+  gamepadDriver.onDeviceActivity(() => {
+    console.log("Activity detected:")
+  })
 }
 
 export default function Example({ playerSpeed = 3 }) {
@@ -74,8 +26,8 @@ export default function Example({ playerSpeed = 3 }) {
   const controller = useMemo(() => makeController(), [])
 
   useFrame((_, dt) => {
-    const move = controller.move()
-    player.current.position.add(move.multiplyScalar(playerSpeed * dt))
+    // const move = controller.move()
+    // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
   return (
