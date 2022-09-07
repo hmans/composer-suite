@@ -1,19 +1,28 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
+import { pipe } from "fp-ts/lib/function"
+import { IVector } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
-const useController = () => useMemo(() => {}, [])
+const useVectorControl = () => {
+  const vector: IVector = { x: 0, y: 0 }
+
+  const get = () => pipe(vector)
+
+  return { get }
+}
 
 export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
-  const controller = useController()
+  const moveControl = useVectorControl()
 
   useFrame((_, dt) => {
-    // const move = controller.move()
+    const move = moveControl.get()
+    console.log(move)
     // player.current.position.add(
     //   tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
     // )
