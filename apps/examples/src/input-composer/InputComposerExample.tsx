@@ -5,13 +5,15 @@ import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
 import keyboardDriver, { KeyboardDevice } from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
-import { Group } from "three"
+import { Group, Vector3 } from "three"
+
+const tmpVec3 = new Vector3()
 
 const getGamepadVector =
   (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
   (v: IVector) => {
     v.x = gamepad.getAxis(horizontalAxis)
-    v.y = gamepad.getAxis(verticalAxis)
+    v.y = -gamepad.getAxis(verticalAxis)
     return v
   }
 
@@ -86,8 +88,9 @@ export default function Example({ playerSpeed = 3 }) {
   useFrame((_, dt) => {
     gamepadDriver.update()
     const move = controller.move()
-    console.log(move)
-    // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
+    player.current.position.add(
+      tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
+    )
   })
 
   return (
