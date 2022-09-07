@@ -16,7 +16,8 @@ const getGamepadVector =
 
 const makeController = () => {
   const state = {
-    gamepad: null as GamepadDevice | null
+    gamepad: null as GamepadDevice | null,
+    activeDevice: null as GamepadDevice | null
   }
 
   const controls = {
@@ -29,7 +30,7 @@ const makeController = () => {
     state.gamepad = gamepad
 
     state.gamepad.onActivity.addListener(() => {
-      // TODO: make gamepad the active device
+      state.activeDevice = state.gamepad
     })
   })
 
@@ -38,7 +39,9 @@ const makeController = () => {
       pipe(
         controls.move,
         resetVector,
-        state.gamepad ? getGamepadVector(state.gamepad, 0, 1) : identity,
+        state.gamepad && state.activeDevice === state.gamepad
+          ? getGamepadVector(state.gamepad, 0, 1)
+          : identity,
         clampVector
       )
   }
