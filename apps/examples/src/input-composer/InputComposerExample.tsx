@@ -1,8 +1,15 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { pipe } from "fp-ts/lib/function"
-import { IVector } from "input-composer"
+import { identity, pipe } from "fp-ts/lib/function"
+import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useLayoutEffect, useMemo, useRef } from "react"
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react"
 import { Group, Vector3 } from "three"
 import { useConst } from "@hmans/things"
 
@@ -39,32 +46,94 @@ const useKeyboardInput = () => {
 
   const isPressed = (key: string) => (keyState.get(key) ? 1 : 0)
 
-  return { isPressed }
+  const getAxis = (minKey: string, maxKey: string) =>
+    isPressed(maxKey) - isPressed(minKey)
+
+  const getVector = (
+    upKey: string,
+    downKey: string,
+    leftKey: string,
+    rightKey: string
+  ) => ({
+    x: getAxis(leftKey, rightKey),
+    y: getAxis(downKey, upKey)
+  })
+
+  return { isPressed, getAxis, getVector }
+}
+
+const useGamepadInput = (index: number) => {
+  const getGamepadState = () => navigator.getGamepads()[index]
+
+  const getAxis = (axis: number) => getGamepadState()?.axes[axis]
+
+  const getVector = (axisX: number, axisY: number) => {
+    const state = getGamepadState()
+    if (!state) return undefined
+
+    return {
+      x: state.axes[axisX],
+      y: state.axes[axisY]
+    }
+  }
+
+  return { getGamepadState, getAxis, getVector }
 }
 
 const useController = (props: ControllerProps) => {
-  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
+  const keyboard = useKeyboardInput()
+  const gamepad = useGamepadInput(props.gamepad)
 
-  const { isPressed } = useKeyboardInput()
+  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
+  const [activeDevice, setActiveDevice] = useState<"keyboard" | "gamepad">(
+    "keyboard"
+  )
+
+  useEffect(() => {
+    console.log("Active device:", activeDevice)
+  }, [activeDevice])
 
   const getMoveVector = () =>
     pipe(
       vector,
 
       (v) => {
-        v.x = isPressed(props.right) - isPressed(props.left)
-        v.y = isPressed(props.up) - isPressed(props.down)
-        return v
-      }
+        const keyboardVector = keyboard.getVector(
+          props.up,
+          props.down,
+          props.left,
+          props.right
+        )
 
-      // (v) => {
-      //   const data = navigator.getGamepads()[props.gamepad]
-      //   if (data) {
-      //     v.x = data.axes[0]
-      //     v.y = -data.axes[1]
-      //   }
-      //   return v
-      // }
+        if (magnitude(keyboardVector)) {
+          setActiveDevice("keyboard")
+        }
+
+        if (activeDevice === "keyboard") {
+          v.x = keyboardVector.x
+          v.y = keyboardVector.y
+        }
+
+        return v
+      },
+
+      (v) => {
+        const gamepadVector = gamepad.getVector(0, 1)
+        if (gamepadVector) {
+          if (magnitude(gamepadVector) > 0) {
+            setActiveDevice("gamepad")
+          }
+
+          if (activeDevice === "gamepad") {
+            v.x = gamepadVector.x
+            v.y = -gamepadVector.y
+          }
+        }
+        return v
+      },
+
+      applyDeadzone(0.1),
+      clampVector
     )
 
   return { getMoveVector }

@@ -44,3 +44,5 @@ export const applyDeadzone =
 
     return v
   }
+
+export const magnitude = (v: IVector) => Math.sqrt(v.x * v.x + v.y * v.y)
