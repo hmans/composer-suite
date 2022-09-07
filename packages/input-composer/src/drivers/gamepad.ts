@@ -13,7 +13,6 @@ const createGamepadDriver = (): Driver<GamepadDevice> => {
   const onGamepadConnected = (e: GamepadEvent) => {
     console.debug(
       "Gamepad connected at index %d: %s. %d buttons, %d axes.",
-
       e.gamepad.index,
       e.gamepad.id,
       e.gamepad.buttons.length,
