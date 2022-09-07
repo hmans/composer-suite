@@ -32,12 +32,16 @@ const createGamepadDriver = (): Driver<GamepadDevice> => {
     onDeviceDisappeared.emit(e.gamepad)
   }
 
+  let started = false
+
   const start = () => {
+    if (started) return
     window.addEventListener("gamepadconnected", onGamepadConnected)
     window.addEventListener("gamepaddisconnected", onGamepadDisconnected)
   }
 
   const stop = () => {
+    if (!started) return
     window.removeEventListener("gamepadconnected", onGamepadConnected)
     window.removeEventListener("gamepaddisconnected", onGamepadDisconnected)
   }
