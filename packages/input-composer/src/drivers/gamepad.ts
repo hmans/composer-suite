@@ -1,10 +1,14 @@
 import { createEvent } from "../lib/event"
 import { Driver } from "../types"
 
-const createGamepadDriver = (): Driver => {
-  const onDeviceAppeared = createEvent()
-  const onDeviceDisappeared = createEvent()
-  const onDeviceActivity = createEvent()
+const gamepadLastTimestamp = new Map<number, number>()
+
+type GamepadDevice = Gamepad
+
+const createGamepadDriver = (): Driver<GamepadDevice> => {
+  const onDeviceAppeared = createEvent<GamepadDevice>()
+  const onDeviceDisappeared = createEvent<GamepadDevice>()
+  const onDeviceActivity = createEvent<GamepadDevice>()
 
   const onGamepadConnected = (e: GamepadEvent) => {
     console.debug(
@@ -16,7 +20,7 @@ const createGamepadDriver = (): Driver => {
       e.gamepad.axes.length
     )
 
-    onDeviceAppeared.emit()
+    onDeviceAppeared.emit(e.gamepad)
   }
 
   const onGamepadDisconnected = (e: GamepadEvent) => {
@@ -26,7 +30,7 @@ const createGamepadDriver = (): Driver => {
       e.gamepad.id
     )
 
-    onDeviceDisappeared.emit()
+    onDeviceDisappeared.emit(e.gamepad)
   }
 
   const start = () => {
@@ -39,9 +43,24 @@ const createGamepadDriver = (): Driver => {
     window.removeEventListener("gamepaddisconnected", onGamepadDisconnected)
   }
 
+  const update = () => {
+    /* Iterate through all registered gamepads and check if they have been updated. */
+    for (const gamepad of navigator.getGamepads()) {
+      /* Gamepad may be null after disconnecting. */
+      if (!gamepad) continue
+
+      /* Compare the last timestamp with the current one. */
+      if (gamepadLastTimestamp.get(gamepad.index) !== gamepad.timestamp) {
+        gamepadLastTimestamp.set(gamepad.index, gamepad.timestamp)
+        onDeviceActivity.emit(gamepad)
+      }
+    }
+  }
+
   return {
     start,
     stop,
+    update,
     onDeviceAppeared,
     onDeviceDisappeared,
     onDeviceActivity

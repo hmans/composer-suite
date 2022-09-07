@@ -5,12 +5,13 @@ export interface IVector {
   y: number
 }
 
-export type Driver = {
+export type Driver<D = undefined> = {
   start: () => void
   stop: () => void
-  onDeviceAppeared: IEventCallback
-  onDeviceDisappeared: IEventCallback
-  onDeviceActivity: IEventCallback
+  update: () => void
+  onDeviceAppeared: IEventCallback<D>
+  onDeviceDisappeared: IEventCallback<D>
+  onDeviceActivity: IEventCallback<D>
 }
 
 export type Device = {}

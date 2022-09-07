@@ -15,8 +15,8 @@ const makeController = () => {
     console.log("It's gone :(")
   })
 
-  gamepadDriver.onDeviceActivity(() => {
-    console.log("Activity detected:")
+  gamepadDriver.onDeviceActivity((gamepad) => {
+    console.log("Activity detected:", gamepad.timestamp)
   })
 }
 
@@ -26,6 +26,7 @@ export default function Example({ playerSpeed = 3 }) {
   const controller = useMemo(() => makeController(), [])
 
   useFrame((_, dt) => {
+    gamepadDriver.update()
     // const move = controller.move()
     // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
