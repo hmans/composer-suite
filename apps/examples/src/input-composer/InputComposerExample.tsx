@@ -1,27 +1,20 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
-import gamepadDriver from "input-composer/drivers/gamepad"
-import keyboardDriver from "input-composer/drivers/keyboard"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
-import { makeController } from "./makeController"
 
 const tmpVec3 = new Vector3()
 
 export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
-  const controller = useMemo(() => makeController(), [])
+  const controller = useMemo(() => {}, [])
 
   useFrame((_, dt) => {
-    gamepadDriver.update()
-    keyboardDriver.update()
-
-    const move = controller.move()
-
-    player.current.position.add(
-      tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
-    )
+    // const move = controller.move()
+    // player.current.position.add(
+    //   tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
+    // )
   })
 
   return (
