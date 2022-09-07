@@ -15,6 +15,20 @@ const getGamepadVector =
     return v
   }
 
+const getKeyboardVector =
+  (
+    keyboard: KeyboardDevice,
+    up: string,
+    down: string,
+    left: string,
+    right: string
+  ) =>
+  (v: IVector) => {
+    v.x = keyboard.isPressed(right) - keyboard.isPressed(left)
+    v.y = keyboard.isPressed(up) - keyboard.isPressed(down)
+    return v
+  }
+
 const makeController = () => {
   const state = {
     keyboard: null as KeyboardDevice | null,
@@ -50,9 +64,15 @@ const makeController = () => {
       pipe(
         controls.move,
         resetVector,
+
         state.gamepad && state.activeDevice === state.gamepad
           ? getGamepadVector(state.gamepad, 0, 1)
           : identity,
+
+        state.keyboard && state.activeDevice === state.keyboard
+          ? getKeyboardVector(state.keyboard, "w", "s", "a", "d")
+          : identity,
+
         clampVector
       )
   }
@@ -66,7 +86,7 @@ export default function Example({ playerSpeed = 3 }) {
   useFrame((_, dt) => {
     gamepadDriver.update()
     const move = controller.move()
-    // console.log(move)
+    console.log(move)
     // player.current.position.add(move.multiplyScalar(playerSpeed * dt))
   })
 
