@@ -21,12 +21,16 @@ let isAppeared = false
 const driver: IDriver<KeyboardDevice> = {
   start: () => {
     if (isStarted) return
+    isStarted = true
+    isAppeared = false
     window.addEventListener("keydown", onKeydown)
     window.addEventListener("keyup", onKeyup)
   },
 
   stop: () => {
     if (!isStarted) return
+    isStarted = false
+    isAppeared = false
     window.removeEventListener("keydown", onKeydown)
     window.removeEventListener("keyup", onKeyup)
   },
@@ -40,10 +44,13 @@ const driver: IDriver<KeyboardDevice> = {
 
 const onKeydown = (event: KeyboardEvent) => {
   pressedKeys.add(event.key)
+
+  /* Announce that the keyboard has "appeared" */
   if (!isAppeared) {
     isAppeared = true
     driver.onDeviceAppeared.emit(device)
   }
+
   device.onActivity.emit()
   driver.onDeviceActivity.emit(device)
 }

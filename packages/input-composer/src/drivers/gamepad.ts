@@ -70,16 +70,18 @@ const onGamepadDisconnected = (e: GamepadEvent) => {
   devices.delete(e.gamepad.index)
 }
 
-let started = false
+let isStarted = false
 
 const start = () => {
-  if (started) return
+  if (isStarted) return
+  isStarted = true
   window.addEventListener("gamepadconnected", onGamepadConnected)
   window.addEventListener("gamepaddisconnected", onGamepadDisconnected)
 }
 
 const stop = () => {
-  if (!started) return
+  if (!isStarted) return
+  isStarted = false
   window.removeEventListener("gamepadconnected", onGamepadConnected)
   window.removeEventListener("gamepaddisconnected", onGamepadDisconnected)
 }
