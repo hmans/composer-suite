@@ -16,11 +16,8 @@ type ControllerProps = {
   right: string
 }
 
-const useController = (props: ControllerProps) => {
-  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
+const useKeyboardInput = () => {
   const keyState = useConst(() => new Map<string, boolean>())
-
-  const isPressed = (key: string) => (keyState.get(key) ? 1 : 0)
 
   useLayoutEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -40,24 +37,34 @@ const useController = (props: ControllerProps) => {
     }
   }, [])
 
+  const isPressed = (key: string) => (keyState.get(key) ? 1 : 0)
+
+  return { isPressed }
+}
+
+const useController = (props: ControllerProps) => {
+  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
+
+  const { isPressed } = useKeyboardInput()
+
   const getMoveVector = () =>
     pipe(
       vector,
 
-      // (v) => {
-      //   v.x = isPressed(props.right) - isPressed(props.left)
-      //   v.y = isPressed(props.up) - isPressed(props.down)
-      //   return v
-      // }
-
       (v) => {
-        const data = navigator.getGamepads()[props.gamepad]
-        if (data) {
-          v.x = data.axes[0]
-          v.y = -data.axes[1]
-        }
+        v.x = isPressed(props.right) - isPressed(props.left)
+        v.y = isPressed(props.up) - isPressed(props.down)
         return v
       }
+
+      // (v) => {
+      //   const data = navigator.getGamepads()[props.gamepad]
+      //   if (data) {
+      //     v.x = data.axes[0]
+      //     v.y = -data.axes[1]
+      //   }
+      //   return v
+      // }
     )
 
   return { getMoveVector }
