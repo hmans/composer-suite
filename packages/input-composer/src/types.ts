@@ -1,4 +1,4 @@
-import { IEvent } from "./lib/event"
+import { Event } from "./lib/event"
 
 export interface IVector {
   x: number
@@ -18,12 +18,12 @@ export interface IDriver<D extends IDevice> {
    */
   update: () => void
 
-  onDeviceAppeared: IEvent<D>
-  onDeviceDisappeared: IEvent<D>
-  onDeviceActivity: IEvent<D>
+  onDeviceAppeared: Event<D>
+  onDeviceDisappeared: Event<D>
+  onDeviceActivity: Event<D>
 }
 
 export interface IDevice {
   update: () => void
-  onActivity: IEvent
+  onActivity: Event
 }

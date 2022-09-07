@@ -47,7 +47,7 @@ const onGamepadConnected = (e: GamepadEvent) => {
 
   onDeviceAppeared.emit(device)
 
-  device.onActivity(() => onDeviceActivity.emit(device))
+  device.onActivity.on(() => onDeviceActivity.emit(device))
 }
 
 const onGamepadDisconnected = (e: GamepadEvent) => {
