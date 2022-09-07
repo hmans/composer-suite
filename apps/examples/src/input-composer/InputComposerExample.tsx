@@ -5,10 +5,12 @@ import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
+const useController = () => useMemo(() => {}, [])
+
 export default function Example({ playerSpeed = 3 }) {
   const player = useRef<Group>(null!)
 
-  const controller = useMemo(() => {}, [])
+  const controller = useController()
 
   useFrame((_, dt) => {
     // const move = controller.move()
