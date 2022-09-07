@@ -1,3 +1,5 @@
+import { GamepadDevice } from "./drivers/gamepad"
+import { KeyboardDevice } from "./drivers/keyboard"
 import { IVector } from "./types"
 
 export const resetVector = (v: IVector) => {
@@ -42,5 +44,27 @@ export const applyDeadzone =
       v.y = (v.y - threshold) / (1 - threshold)
     }
 
+    return v
+  }
+
+export const getGamepadVector =
+  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
+  (v: IVector) => {
+    v.x = gamepad.getAxis(horizontalAxis)
+    v.y = -gamepad.getAxis(verticalAxis)
+    return v
+  }
+
+export const getKeyboardVector =
+  (
+    keyboard: KeyboardDevice,
+    up: string,
+    down: string,
+    left: string,
+    right: string
+  ) =>
+  (v: IVector) => {
+    v.x = keyboard.isPressed(right) - keyboard.isPressed(left)
+    v.y = keyboard.isPressed(up) - keyboard.isPressed(down)
     return v
   }

@@ -3,8 +3,9 @@ import { identity, pipe } from "fp-ts/lib/function"
 import {
   applyDeadzone,
   clampVector,
+  getGamepadVector,
+  getKeyboardVector,
   IDevice,
-  IVector,
   resetVector
 } from "input-composer"
 import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
@@ -14,28 +15,6 @@ import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
-
-const getGamepadVector =
-  (gamepad: GamepadDevice, horizontalAxis = 0, verticalAxis = 1) =>
-  (v: IVector) => {
-    v.x = gamepad.getAxis(horizontalAxis)
-    v.y = -gamepad.getAxis(verticalAxis)
-    return v
-  }
-
-const getKeyboardVector =
-  (
-    keyboard: KeyboardDevice,
-    up: string,
-    down: string,
-    left: string,
-    right: string
-  ) =>
-  (v: IVector) => {
-    v.x = keyboard.isPressed(right) - keyboard.isPressed(left)
-    v.y = keyboard.isPressed(up) - keyboard.isPressed(down)
-    return v
-  }
 
 const makeController = () => {
   const state = {
@@ -94,6 +73,8 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     gamepadDriver.update()
+    keyboardDriver.update()
+
     const move = controller.move()
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
