@@ -1,5 +1,6 @@
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe } from "fp-ts/lib/function"
+import { getLeft } from "fp-ts/lib/These"
 import { clampVector, IDevice, IVector, resetVector } from "input-composer"
 import gamepadDriver, { GamepadDevice } from "input-composer/drivers/gamepad"
 import keyboardDriver, { KeyboardDevice } from "input-composer/drivers/keyboard"
@@ -16,6 +17,23 @@ const getGamepadVector =
     v.y = -gamepad.getAxis(verticalAxis)
     return v
   }
+
+const mapLeftStick = (gamepad: GamepadDevice) => {
+  /*
+  Theoretically, here's where we could inspect the gamepad vendor
+  and return the correct axis mapping.
+  */
+
+  return {
+    horizontal: 0,
+    vertical: 1
+  }
+}
+
+const getLeftStickVector = (gamepad: GamepadDevice) => {
+  const { horizontal, vertical } = mapLeftStick(gamepad)
+  return getGamepadVector(gamepad, horizontal, vertical)
+}
 
 const getKeyboardVector =
   (
@@ -68,7 +86,7 @@ const makeController = () => {
         resetVector,
 
         state.gamepad && state.activeDevice === state.gamepad
-          ? getGamepadVector(state.gamepad, 0, 1)
+          ? getLeftStickVector(state.gamepad)
           : identity,
 
         state.keyboard && state.activeDevice === state.keyboard
