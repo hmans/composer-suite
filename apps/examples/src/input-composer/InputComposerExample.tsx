@@ -16,7 +16,7 @@ const makeController = () => {
   })
 
   gamepadDriver.onDeviceActivity((gamepad) => {
-    console.log("Activity detected:", gamepad.timestamp)
+    console.log("Activity detected!", gamepad.index)
   })
 }
 
