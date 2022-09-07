@@ -14,6 +14,4 @@ export interface IDriver<D = undefined> {
   onDeviceActivity: IEventCallback<D>
 }
 
-export type Driver<D = undefined> = IDriver<D>
-
-export type Device = {}
+export interface IDevice {}

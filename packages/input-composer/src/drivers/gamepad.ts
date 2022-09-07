@@ -1,11 +1,11 @@
 import { createEvent } from "../lib/event"
-import { Driver } from "../types"
+import { IDriver } from "../types"
 
 const gamepadLastTimestamp = new Map<number, number>()
 
 type GamepadDevice = Gamepad
 
-const createGamepadDriver = (): Driver<GamepadDevice> => {
+const createGamepadDriver = (): IDriver<GamepadDevice> => {
   const onDeviceAppeared = createEvent<GamepadDevice>()
   const onDeviceDisappeared = createEvent<GamepadDevice>()
   const onDeviceActivity = createEvent<GamepadDevice>()
