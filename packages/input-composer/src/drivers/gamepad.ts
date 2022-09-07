@@ -1,7 +1,7 @@
 import { createEvent } from "../lib/event"
-import { IDriver } from "../types"
+import { IDevice, IDriver } from "../types"
 
-type GamepadDevice = ReturnType<typeof createGamepadDevice>
+type GamepadDevice = IDevice
 
 const devices = new Map<number, GamepadDevice>()
 
@@ -9,7 +9,29 @@ const onDeviceAppeared = createEvent<GamepadDevice>()
 const onDeviceDisappeared = createEvent<GamepadDevice>()
 const onDeviceActivity = createEvent<GamepadDevice>()
 
-const createGamepadDevice = (index: number) => ({ index })
+const getGamepadData = (index: number) => {
+  const gamepad = navigator.getGamepads()[index]
+  if (!gamepad) throw new Error("Gamepad not connected.")
+  return gamepad
+}
+
+const createGamepadDevice = (index: number): GamepadDevice => {
+  const state = {
+    gamepad: getGamepadData(index)
+  }
+
+  const onActivity = createEvent()
+
+  const update = () => {
+    const gamepad = getGamepadData(index)
+    if (gamepad.timestamp > state.gamepad.timestamp) {
+      state.gamepad = gamepad
+      onActivity.emit(undefined as never) // FIXME
+    }
+  }
+
+  return { update, onActivity }
+}
 
 const onGamepadConnected = (e: GamepadEvent) => {
   console.debug(
@@ -21,9 +43,11 @@ const onGamepadConnected = (e: GamepadEvent) => {
   )
 
   const device = createGamepadDevice(e.gamepad.index)
-  devices.set(device.index, device)
+  devices.set(e.gamepad.index, device)
 
   onDeviceAppeared.emit(device)
+
+  device.onActivity(() => onDeviceActivity.emit(device))
 }
 
 const onGamepadDisconnected = (e: GamepadEvent) => {
@@ -54,7 +78,11 @@ const stop = () => {
   window.removeEventListener("gamepaddisconnected", onGamepadDisconnected)
 }
 
-const update = () => {}
+const update = () => {
+  for (const device of devices.values()) {
+    device.update()
+  }
+}
 
 const driver: IDriver<GamepadDevice> = {
   start,

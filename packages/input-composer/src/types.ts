@@ -23,4 +23,7 @@ export interface IDriver<D extends IDevice> {
   onDeviceActivity: IEventCallback<D>
 }
 
-export interface IDevice {}
+export interface IDevice {
+  update: () => void
+  onActivity: IEventCallback
+}

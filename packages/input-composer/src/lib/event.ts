@@ -6,7 +6,7 @@ export interface IEventCallback<P = undefined> {
 
 type Listener<P> = (payload: P) => void
 
-export const createEvent = <P = undefined>() => {
+export const createEvent = <P = never>() => {
   const listeners = new Set<Listener<P>>()
 
   const on = (listener: Listener<P>) => {
