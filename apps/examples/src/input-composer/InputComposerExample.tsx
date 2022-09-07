@@ -65,6 +65,11 @@ const useKeyboardInput = () => {
 const useGamepadInput = (index: number) => {
   const getGamepadState = () => navigator.getGamepads()[index]
 
+  const getButton = (buttonIndex: number) => {
+    const gamepad = getGamepadState()
+    return gamepad?.buttons[buttonIndex]?.pressed ? 1 : 0
+  }
+
   const getAxis = (axis: number) => getGamepadState()?.axes[axis]
 
   const getVector = (axisX: number, axisY: number) => {
@@ -77,7 +82,7 @@ const useGamepadInput = (index: number) => {
     }
   }
 
-  return { getGamepadState, getAxis, getVector }
+  return { getGamepadState, getButton, getAxis, getVector }
 }
 
 const useController = (props: ControllerProps) => {
@@ -136,10 +141,13 @@ const useController = (props: ControllerProps) => {
       clampVector
     )
 
-  return { getMoveVector }
+  const getJumpButton = () => pipe(false, (v) => gamepad.getButton(0))
+
+  return { getMoveVector, getJumpButton }
 }
 
 export default function Example({ playerSpeed = 3 }) {
+  const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
   const controller = useController({
@@ -152,9 +160,28 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     const move = controller.getMoveVector()
+    const jump = controller.getJumpButton()
+
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
     )
+
+    if (jump) {
+      if (player.current.position.y == 0) {
+        velocity.y = 5
+      }
+    }
+  })
+
+  useFrame((_, dt) => {
+    player.current.position.add(tmpVec3.copy(velocity).multiplyScalar(dt))
+
+    velocity.y -= 20 * dt
+
+    if (player.current.position.y < 0) {
+      velocity.y = 0
+      player.current.position.y = 0
+    }
   })
 
   return (
