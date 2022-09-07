@@ -85,13 +85,13 @@ const useController = (props: ControllerProps) => {
   const gamepad = useGamepadInput(props.gamepad)
 
   const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
-  const [activeDevice, setActiveDevice] = useState<"keyboard" | "gamepad">(
-    "keyboard"
-  )
+  const [activeInputScheme, setActiveInputScheme] = useState<
+    "keyboard" | "gamepad"
+  >("keyboard")
 
   useEffect(() => {
-    console.log("Active device:", activeDevice)
-  }, [activeDevice])
+    console.log("Active input scheme:", activeInputScheme)
+  }, [activeInputScheme])
 
   const getMoveVector = () =>
     pipe(
@@ -106,10 +106,10 @@ const useController = (props: ControllerProps) => {
         )
 
         if (magnitude(keyboardVector)) {
-          setActiveDevice("keyboard")
+          setActiveInputScheme("keyboard")
         }
 
-        if (activeDevice === "keyboard") {
+        if (activeInputScheme === "keyboard") {
           v.x = keyboardVector.x
           v.y = keyboardVector.y
         }
@@ -121,10 +121,10 @@ const useController = (props: ControllerProps) => {
         const gamepadVector = gamepad.getVector(0, 1)
         if (gamepadVector) {
           if (magnitude(gamepadVector) > 0) {
-            setActiveDevice("gamepad")
+            setActiveInputScheme("gamepad")
           }
 
-          if (activeDevice === "gamepad") {
+          if (activeInputScheme === "gamepad") {
             v.x = gamepadVector.x
             v.y = -gamepadVector.y
           }
