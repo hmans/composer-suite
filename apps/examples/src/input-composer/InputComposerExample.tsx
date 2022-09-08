@@ -137,7 +137,7 @@ const useController = (props: ControllerProps) => {
         return v
       },
 
-      applyDeadzone(0.1),
+      applyDeadzone(0.05),
       clampVector
     )
 
