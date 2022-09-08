@@ -43,13 +43,16 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const detectDoubleJump = onPress(doubleJump())
+  const jumpFlow = onPress(doubleJump())
+  const stickFlow = flow(applyDeadzone(0.1), clampVector())
+  const moveFlow = stickFlow
+
+  const getMove = () => pipe(keyboard.getVector("w", "s", "a", "d"), moveFlow)
+  const getJump = () => pipe(!!keyboard.isPressed(" "), jumpFlow)
 
   useFrame((_, dt) => {
-    const stickProcessing = flow(applyDeadzone(0.1), clampVector())
-
-    const move = pipe(keyboard.getVector("w", "s", "a", "d"), stickProcessing)
-    const jump = pipe(!!keyboard.isPressed(" "), detectDoubleJump)
+    const move = getMove()
+    const jump = getJump()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
