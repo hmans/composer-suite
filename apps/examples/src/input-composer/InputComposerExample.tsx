@@ -6,7 +6,6 @@ import { useKeyboardInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useCallback, useRef } from "react"
 import { Group, Vector3 } from "three"
-import { clamp } from "three/src/math/MathUtils"
 
 const tmpVec3 = new Vector3()
 
@@ -23,15 +22,6 @@ const onPress = (callback: () => void) => {
 
     return button
   }
-}
-
-type ControllerProps = {
-  gamepad: number
-  up: string
-  down: string
-  left: string
-  right: string
-  onJump: () => void
 }
 
 export default function Example({ playerSpeed = 3 }) {
