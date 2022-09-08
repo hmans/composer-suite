@@ -10,6 +10,21 @@ import { clamp } from "three/src/math/MathUtils"
 
 const tmpVec3 = new Vector3()
 
+const onPress = (callback: () => void) => {
+  let pressed = false
+
+  return (button: boolean) => {
+    if (button && !pressed) {
+      pressed = true
+      callback()
+    } else if (!button) {
+      pressed = false
+    }
+
+    return button
+  }
+}
+
 type ControllerProps = {
   gamepad: number
   up: string
@@ -38,12 +53,13 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
+  const detectDoubleJump = onPress(doubleJump())
+
   useFrame((_, dt) => {
     const stickProcessing = flow(applyDeadzone(0.1), clampVector())
 
     const move = pipe(keyboard.getVector("w", "s", "a", "d"), stickProcessing)
-
-    console.log(move)
+    const jump = pipe(!!keyboard.isPressed(" "), detectDoubleJump)
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
@@ -51,8 +67,10 @@ export default function Example({ playerSpeed = 3 }) {
   })
 
   useFrame((_, dt) => {
+    /* Apply velocity */
     player.current.position.add(tmpVec3.copy(velocity).multiplyScalar(dt))
 
+    /* Apply gravity to velocity */
     velocity.y -= 20 * dt
 
     if (player.current.position.y < 0) {
