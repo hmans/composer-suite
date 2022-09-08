@@ -91,7 +91,6 @@ const useInputController = (props: ControllerProps) => {
   const [activeInputScheme, setActiveInputScheme] = useState<
     "keyboard" | "gamepad"
   >("keyboard")
-  const vector: IVector = useConst(() => ({ x: 0, y: 0 }))
 
   useEffect(() => {
     console.log("Active input scheme:", activeInputScheme)
@@ -102,51 +101,53 @@ const useInputController = (props: ControllerProps) => {
 
   const getGamepadVector = () => gamepad.getVector(0, 1)
 
+  const move: IVector = useConst(() => ({ x: 0, y: 0 }))
+
   const getControls = () => {
     const keyboardVector = getKeyboardVector()
     const gamepadVector = getGamepadVector()
 
-    const move = pipe(
-      vector,
+    return {
+      move: pipe(
+        move,
 
-      (v) => {
-        if (magnitude(keyboardVector)) {
-          setActiveInputScheme("keyboard")
-        }
-
-        if (gamepadVector && magnitude(gamepadVector) > 0) {
-          setActiveInputScheme("gamepad")
-        }
-
-        return v
-      },
-
-      activeInputScheme === "keyboard"
-        ? (v) => {
-            v.x = keyboardVector.x
-            v.y = keyboardVector.y
-
-            return v
+        (v) => {
+          if (magnitude(keyboardVector)) {
+            setActiveInputScheme("keyboard")
           }
-        : identity,
 
-      activeInputScheme === "gamepad"
-        ? (v) => {
-            if (gamepadVector) {
-              v.x = gamepadVector.x
-              v.y = -gamepadVector.y
+          if (gamepadVector && magnitude(gamepadVector) > 0) {
+            setActiveInputScheme("gamepad")
+          }
+
+          return v
+        },
+
+        activeInputScheme === "keyboard"
+          ? (v) => {
+              v.x = keyboardVector.x
+              v.y = keyboardVector.y
+
+              return v
             }
-            return v
-          }
-        : identity,
+          : identity,
 
-      applyDeadzone(0.05),
-      clampVector
-    )
+        activeInputScheme === "gamepad"
+          ? (v) => {
+              if (gamepadVector) {
+                v.x = gamepadVector.x
+                v.y = -gamepadVector.y
+              }
+              return v
+            }
+          : identity,
 
-    const jump = pipe(false, (v) => gamepad.getButton(0))
+        applyDeadzone(0.05),
+        clampVector
+      ),
 
-    return { move, jump }
+      jump: pipe(false, (v) => gamepad.getButton(0))
+    }
   }
 
   return { getControls }
