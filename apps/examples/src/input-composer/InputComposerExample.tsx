@@ -52,27 +52,27 @@ const useInputController = (props: ControllerProps) => {
     const keyboardVector = getKeyboardVector()
     const gamepadVector = getGamepadVector()
 
+    if (magnitude(keyboardVector)) {
+      setActiveInputScheme("keyboard")
+    }
+
+    if (magnitude(gamepadVector) > 0) {
+      setActiveInputScheme("gamepad")
+    }
+
     return {
       move: pipe(
         move,
 
-        (v) => {
-          if (magnitude(keyboardVector)) {
-            setActiveInputScheme("keyboard")
-          }
-
-          if (magnitude(gamepadVector) > 0) {
-            setActiveInputScheme("gamepad")
-          }
-
-          return v
-        },
-
         activeInputScheme === "keyboard"
-          ? copyVector(keyboardVector)
+          ? copyVector(
+              keyboard.getVector(props.up, props.down, props.left, props.right)
+            )
           : identity,
 
-        activeInputScheme === "gamepad" ? copyVector(gamepadVector) : identity,
+        activeInputScheme === "gamepad"
+          ? copyVector(gamepad.getVector(0, 1))
+          : identity,
 
         applyDeadzone(0.05),
         clampVector
