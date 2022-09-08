@@ -66,6 +66,11 @@ const useInputController = (props: ControllerProps) => {
     return payload
   }
 
+  const withActiveInputScheme = <T,>(
+    scheme: "keyboard" | "gamepad",
+    fun: (p: T) => T
+  ) => (activeInputScheme === scheme ? fun : identity)
+
   return () =>
     pipe(
       controls,
@@ -75,20 +80,14 @@ const useInputController = (props: ControllerProps) => {
         move: pipe(
           controls.move,
 
-          activeInputScheme === "keyboard"
-            ? copyVector(
-                keyboard.getVector(
-                  props.up,
-                  props.down,
-                  props.left,
-                  props.right
-                )
-              )
-            : identity,
+          withActiveInputScheme(
+            "keyboard",
+            copyVector(
+              keyboard.getVector(props.up, props.down, props.left, props.right)
+            )
+          ),
 
-          activeInputScheme === "gamepad"
-            ? copyVector(gamepad.getVector(0, 1))
-            : identity,
+          withActiveInputScheme("gamepad", copyVector(gamepad.getVector(0, 1))),
 
           applyDeadzone(0.05),
           clampVector
