@@ -1,6 +1,6 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { identity, pipe } from "fp-ts/lib/function"
+import { identity, pipe, flow } from "fp-ts/lib/function"
 import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useEffect, useRef, useState } from "react"
@@ -15,6 +15,7 @@ type ControllerProps = {
   down: string
   left: string
   right: string
+  onJump: () => void
 }
 
 const copyVector = (source: IVector) => (v: IVector) => {
@@ -23,13 +24,13 @@ const copyVector = (source: IVector) => (v: IVector) => {
   return v
 }
 
-const onPressedDown = () => {
+const onPressedDown = (callback: () => void) => {
   let pushed = false
 
   return (button: boolean) => {
     if (button && !pushed) {
       pushed = true
-      console.log("pressed!")
+      callback()
     } else if (!button) {
       pushed = false
     }
@@ -71,7 +72,10 @@ const useInputController = (props: ControllerProps) => {
     return payload
   }
 
-  const eh = onPressedDown()
+  const jumpFlow = flow(
+    (v) => !!gamepad.getButton(0),
+    onPressedDown(props.onJump)
+  )
 
   return () =>
     pipe(
@@ -92,7 +96,7 @@ const useInputController = (props: ControllerProps) => {
           clampVector
         ),
 
-        jump: pipe(false, (v) => !!gamepad.getButton(0), eh)
+        jump: pipe(false, jumpFlow)
       })
     )
 }
@@ -106,7 +110,12 @@ export default function Example({ playerSpeed = 3 }) {
     up: "w",
     down: "s",
     left: "a",
-    right: "d"
+    right: "d",
+    onJump: () => {
+      if (player.current.position.y == 0) {
+        velocity.y = 5
+      }
+    }
   })
 
   useFrame((_, dt) => {
@@ -115,12 +124,6 @@ export default function Example({ playerSpeed = 3 }) {
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
     )
-
-    if (jump) {
-      if (player.current.position.y == 0) {
-        velocity.y = 5
-      }
-    }
   })
 
   useFrame((_, dt) => {
