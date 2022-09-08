@@ -85,7 +85,7 @@ const useGamepadInput = (index: number) => {
   return { getGamepadState, getButton, getAxis, getVector }
 }
 
-const useController = (props: ControllerProps) => {
+const useInputController = (props: ControllerProps) => {
   const keyboard = useKeyboardInput()
   const gamepad = useGamepadInput(props.gamepad)
 
@@ -150,7 +150,7 @@ export default function Example({ playerSpeed = 3 }) {
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
-  const controller = useController({
+  const controller = useInputController({
     gamepad: 0,
     up: "w",
     down: "s",
