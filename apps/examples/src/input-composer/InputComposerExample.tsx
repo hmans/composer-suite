@@ -4,7 +4,7 @@ import { flow, pipe } from "fp-ts/lib/function"
 import { applyDeadzone, clampVector } from "input-composer"
 import { useKeyboardInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useCallback, useRef } from "react"
+import { forwardRef, useCallback, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
@@ -43,16 +43,19 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const jumpFlow = onPress(doubleJump())
-  const stickFlow = flow(applyDeadzone(0.1), clampVector())
-  const moveFlow = stickFlow
+  const controller = useMemo(() => {
+    const jumpFlow = onPress(doubleJump())
+    const stickFlow = flow(applyDeadzone(0.1), clampVector())
+    const moveFlow = stickFlow
 
-  const getMove = () => pipe(keyboard.getVector("w", "s", "a", "d"), moveFlow)
-  const getJump = () => pipe(!!keyboard.isPressed(" "), jumpFlow)
+    return () => ({
+      move: pipe(keyboard.getVector("w", "s", "a", "d"), moveFlow),
+      jump: pipe(!!keyboard.isPressed(" "), jumpFlow)
+    })
+  }, [])
 
   useFrame((_, dt) => {
-    const move = getMove()
-    const jump = getJump()
+    const { move, jump } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
