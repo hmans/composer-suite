@@ -95,7 +95,7 @@ const useActiveInputScheme = () => {
     console.log("Active input scheme:", activeInputScheme)
   }, [activeInputScheme])
 
-  return [activeInputScheme, setActiveInputScheme]
+  return [activeInputScheme, setActiveInputScheme] as const
 }
 
 const useInputController = (props: ControllerProps) => {
