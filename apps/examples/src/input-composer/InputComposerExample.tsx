@@ -43,6 +43,21 @@ const copyVector = (source: IVector) => (v: IVector) => {
   return v
 }
 
+const onPressedDown = () => {
+  let pushed = false
+
+  return (button: boolean) => {
+    if (button && !pushed) {
+      pushed = true
+      console.log("pressed!")
+    } else if (!button) {
+      pushed = false
+    }
+
+    return button
+  }
+}
+
 const useInputController = (props: ControllerProps) => {
   const keyboard = useKeyboardInput()
   const gamepad = useGamepadInput(props.gamepad)
@@ -73,6 +88,8 @@ const useInputController = (props: ControllerProps) => {
     return payload
   }
 
+  const eh = onPressedDown()
+
   return () =>
     pipe(
       controls,
@@ -95,7 +112,7 @@ const useInputController = (props: ControllerProps) => {
           clampVector
         ),
 
-        jump: pipe(false, (v) => gamepad.getButton(0))
+        jump: pipe(false, (v) => !!gamepad.getButton(0), eh)
       })
     )
 }
