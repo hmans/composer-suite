@@ -66,7 +66,7 @@ const useInputController = (props: ControllerProps) => {
     return payload
   }
 
-  const getControls = () =>
+  return () =>
     pipe(
       controls,
       autoSwitchInputScheme,
@@ -97,8 +97,6 @@ const useInputController = (props: ControllerProps) => {
         jump: pipe(false, (v) => gamepad.getButton(0))
       })
     )
-
-  return { getControls }
 }
 
 export default function Example({ playerSpeed = 3 }) {
@@ -114,7 +112,7 @@ export default function Example({ playerSpeed = 3 }) {
   })
 
   useFrame((_, dt) => {
-    const { move, jump } = controller.getControls()
+    const { move, jump } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
