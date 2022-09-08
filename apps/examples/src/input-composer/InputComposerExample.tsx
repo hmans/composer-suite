@@ -102,11 +102,11 @@ const useInputController = (props: ControllerProps) => {
 
   const getGamepadVector = () => gamepad.getVector(0, 1)
 
-  const getMoveVector = () => {
+  const getControls = () => {
     const keyboardVector = getKeyboardVector()
     const gamepadVector = getGamepadVector()
 
-    return pipe(
+    const move = pipe(
       vector,
 
       (v) => {
@@ -143,11 +143,13 @@ const useInputController = (props: ControllerProps) => {
       applyDeadzone(0.05),
       clampVector
     )
+
+    const jump = pipe(false, (v) => gamepad.getButton(0))
+
+    return { move, jump }
   }
 
-  const getJumpButton = () => pipe(false, (v) => gamepad.getButton(0))
-
-  return { getMoveVector, getJumpButton }
+  return { getControls }
 }
 
 export default function Example({ playerSpeed = 3 }) {
@@ -163,8 +165,7 @@ export default function Example({ playerSpeed = 3 }) {
   })
 
   useFrame((_, dt) => {
-    const move = controller.getMoveVector()
-    const jump = controller.getJumpButton()
+    const { move, jump } = controller.getControls()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
