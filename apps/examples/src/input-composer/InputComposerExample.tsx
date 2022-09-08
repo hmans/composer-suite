@@ -103,44 +103,48 @@ const useInputController = (props: ControllerProps) => {
 
   const getGamepadVector = () => gamepad.getVector(0, 1)
 
-  const getMoveVector = () =>
-    pipe(
+  const getMoveVector = () => {
+    const keyboardVector = getKeyboardVector()
+    const gamepadVector = getGamepadVector()
+
+    return pipe(
       vector,
 
       (v) => {
-        const keyboardVector = getKeyboardVector()
-
         if (magnitude(keyboardVector)) {
           setActiveInputScheme("keyboard")
         }
 
-        if (activeInputScheme === "keyboard") {
-          v.x = keyboardVector.x
-          v.y = keyboardVector.y
+        if (gamepadVector && magnitude(gamepadVector) > 0) {
+          setActiveInputScheme("gamepad")
         }
 
         return v
       },
 
-      (v) => {
-        const gamepadVector = getGamepadVector()
+      activeInputScheme === "keyboard"
+        ? (v) => {
+            v.x = keyboardVector.x
+            v.y = keyboardVector.y
 
-        if (gamepadVector) {
-          if (magnitude(gamepadVector) > 0) {
-            setActiveInputScheme("gamepad")
+            return v
           }
+        : identity,
 
-          if (activeInputScheme === "gamepad") {
-            v.x = gamepadVector.x
-            v.y = -gamepadVector.y
+      activeInputScheme === "gamepad"
+        ? (v) => {
+            if (gamepadVector) {
+              v.x = gamepadVector.x
+              v.y = -gamepadVector.y
+            }
+            return v
           }
-        }
-        return v
-      },
+        : identity,
 
       applyDeadzone(0.05),
       clampVector
     )
+  }
 
   const getJumpButton = () => pipe(false, (v) => gamepad.getButton(0))
 
