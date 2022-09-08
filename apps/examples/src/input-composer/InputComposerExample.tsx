@@ -3,7 +3,7 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe, flow } from "fp-ts/lib/function"
 import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
 import { Group, Vector3 } from "three"
 import { useGamepadInput, useKeyboardInput } from "input-composer/react"
 
@@ -57,7 +57,7 @@ const useInputController = (props: ControllerProps) => {
     fire: false
   }
 
-  const autoSwitchInputScheme = <T extends any>(payload: T) => {
+  const autoSwitchInputScheme = () => {
     const keyboardVector = getKeyboardVector()
     const gamepadVector = getGamepadVector()
 
@@ -68,8 +68,6 @@ const useInputController = (props: ControllerProps) => {
     if (magnitude(gamepadVector) > 0) {
       setActiveDevice("gamepad")
     }
-
-    return payload
   }
 
   const jumpFlow = flow(
@@ -77,43 +75,32 @@ const useInputController = (props: ControllerProps) => {
     onPressedDown(props.onJump)
   )
 
-  return () =>
-    pipe(
-      controls,
-      autoSwitchInputScheme,
+  return () => {
+    autoSwitchInputScheme()
 
-      (controls) => ({
-        move: pipe(
-          controls.move,
-
-          copyVector(
-            activeDevice === "keyboard"
-              ? getKeyboardVector()
-              : getGamepadVector()
-          ),
-
-          applyDeadzone(0.05),
-          clampVector
+    return {
+      move: pipe(
+        controls.move,
+        copyVector(
+          activeDevice === "keyboard" ? getKeyboardVector() : getGamepadVector()
         ),
+        applyDeadzone(0.05),
+        clampVector
+      ),
 
-        jump: pipe(false, jumpFlow)
-      })
-    )
+      jump: pipe(false, jumpFlow)
+    }
+  }
 }
 
 export default function Example({ playerSpeed = 3 }) {
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
-  let doubleJumped = false
+  const doubleJump = useCallback(() => {
+    let doubleJumped = false
 
-  const controller = useInputController({
-    gamepad: 0,
-    up: "w",
-    down: "s",
-    left: "a",
-    right: "d",
-    onJump: () => {
+    return () => {
       if (player.current.position.y == 0) {
         doubleJumped = false
         velocity.y = 5
@@ -122,10 +109,19 @@ export default function Example({ playerSpeed = 3 }) {
         velocity.y = 5
       }
     }
+  }, [velocity, player])
+
+  const controller = useInputController({
+    gamepad: 0,
+    up: "w",
+    down: "s",
+    left: "a",
+    right: "d",
+    onJump: doubleJump()
   })
 
   useFrame((_, dt) => {
-    const { move, jump } = controller()
+    const { move } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
