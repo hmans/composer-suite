@@ -46,9 +46,12 @@ const useInputController = (props: ControllerProps) => {
 
   const getGamepadVector = () => gamepad.getVector(0, 1)
 
-  const move: IVector = useConst(() => ({ x: 0, y: 0 }))
+  const controls = {
+    move: { x: 0, y: 0 },
+    fire: false
+  }
 
-  const getControls = () => {
+  const autoSwitchInputScheme = <T extends any>(payload: T) => {
     const keyboardVector = getKeyboardVector()
     const gamepadVector = getGamepadVector()
 
@@ -60,27 +63,40 @@ const useInputController = (props: ControllerProps) => {
       setActiveInputScheme("gamepad")
     }
 
-    return {
-      move: pipe(
-        move,
-
-        activeInputScheme === "keyboard"
-          ? copyVector(
-              keyboard.getVector(props.up, props.down, props.left, props.right)
-            )
-          : identity,
-
-        activeInputScheme === "gamepad"
-          ? copyVector(gamepad.getVector(0, 1))
-          : identity,
-
-        applyDeadzone(0.05),
-        clampVector
-      ),
-
-      jump: pipe(false, (v) => gamepad.getButton(0))
-    }
+    return payload
   }
+
+  const getControls = () =>
+    pipe(
+      controls,
+      autoSwitchInputScheme,
+
+      (controls) => ({
+        move: pipe(
+          controls.move,
+
+          activeInputScheme === "keyboard"
+            ? copyVector(
+                keyboard.getVector(
+                  props.up,
+                  props.down,
+                  props.left,
+                  props.right
+                )
+              )
+            : identity,
+
+          activeInputScheme === "gamepad"
+            ? copyVector(gamepad.getVector(0, 1))
+            : identity,
+
+          applyDeadzone(0.05),
+          clampVector
+        ),
+
+        jump: pipe(false, (v) => gamepad.getButton(0))
+      })
+    )
 
   return { getControls }
 }
