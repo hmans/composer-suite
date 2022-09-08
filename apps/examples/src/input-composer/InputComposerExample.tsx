@@ -61,25 +61,17 @@ const useInputController = (props: ControllerProps) => {
             setActiveInputScheme("keyboard")
           }
 
-          if (activeInputScheme === "keyboard") {
-            copyVector(keyboardVector)(v)
-          }
-
-          return v
-        },
-
-        (v) => {
           if (gamepadVector && magnitude(gamepadVector) > 0) {
             setActiveInputScheme("gamepad")
           }
 
-          if (activeInputScheme === "gamepad") {
-            if (gamepadVector) {
-              copyVector(gamepadVector)(v)
-            }
-          }
           return v
         },
+
+        activeInputScheme === "keyboard"
+          ? copyVector(keyboardVector)
+          : identity,
+        activeInputScheme === "gamepad" ? copyVector(gamepadVector!) : identity,
 
         applyDeadzone(0.05),
         clampVector
