@@ -98,17 +98,17 @@ const useInputController = (props: ControllerProps) => {
     console.log("Active input scheme:", activeInputScheme)
   }, [activeInputScheme])
 
+  const getKeyboardVector = () =>
+    keyboard.getVector(props.up, props.down, props.left, props.right)
+
+  const getGamepadVector = () => gamepad.getVector(0, 1)
+
   const getMoveVector = () =>
     pipe(
       vector,
 
       (v) => {
-        const keyboardVector = keyboard.getVector(
-          props.up,
-          props.down,
-          props.left,
-          props.right
-        )
+        const keyboardVector = getKeyboardVector()
 
         if (magnitude(keyboardVector)) {
           setActiveInputScheme("keyboard")
@@ -123,7 +123,8 @@ const useInputController = (props: ControllerProps) => {
       },
 
       (v) => {
-        const gamepadVector = gamepad.getVector(0, 1)
+        const gamepadVector = getGamepadVector()
+
         if (gamepadVector) {
           if (magnitude(gamepadVector) > 0) {
             setActiveInputScheme("gamepad")
