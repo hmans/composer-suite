@@ -85,16 +85,23 @@ const useGamepadInput = (index: number) => {
   return { getGamepadState, getButton, getAxis, getVector }
 }
 
-const useInputController = (props: ControllerProps) => {
-  const keyboard = useKeyboardInput()
-  const gamepad = useGamepadInput(props.gamepad)
+const useActiveInputScheme = () => {
   const [activeInputScheme, setActiveInputScheme] = useState<
     "keyboard" | "gamepad"
   >("keyboard")
 
+  /* Log when the input scheme has changed. */
   useEffect(() => {
     console.log("Active input scheme:", activeInputScheme)
   }, [activeInputScheme])
+
+  return [activeInputScheme, setActiveInputScheme]
+}
+
+const useInputController = (props: ControllerProps) => {
+  const keyboard = useKeyboardInput()
+  const gamepad = useGamepadInput(props.gamepad)
+  const [activeInputScheme, setActiveInputScheme] = useActiveInputScheme()
 
   const getKeyboardVector = () =>
     keyboard.getVector(props.up, props.down, props.left, props.right)
