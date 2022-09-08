@@ -30,6 +30,12 @@ const useActiveInputScheme = () => {
   return [activeInputScheme, setActiveInputScheme] as const
 }
 
+const copyVector = (source: IVector) => (v: IVector) => {
+  v.x = source.x
+  v.y = source.y
+  return v
+}
+
 const useInputController = (props: ControllerProps) => {
   const keyboard = useKeyboardInput()
   const gamepad = useGamepadInput(props.gamepad)
@@ -55,31 +61,25 @@ const useInputController = (props: ControllerProps) => {
             setActiveInputScheme("keyboard")
           }
 
-          if (gamepadVector && magnitude(gamepadVector) > 0) {
-            setActiveInputScheme("gamepad")
+          if (activeInputScheme === "keyboard") {
+            copyVector(keyboardVector)(v)
           }
 
           return v
         },
 
-        activeInputScheme === "keyboard"
-          ? (v) => {
-              v.x = keyboardVector.x
-              v.y = keyboardVector.y
+        (v) => {
+          if (gamepadVector && magnitude(gamepadVector) > 0) {
+            setActiveInputScheme("gamepad")
+          }
 
-              return v
+          if (activeInputScheme === "gamepad") {
+            if (gamepadVector) {
+              copyVector(gamepadVector)(v)
             }
-          : identity,
-
-        activeInputScheme === "gamepad"
-          ? (v) => {
-              if (gamepadVector) {
-                v.x = gamepadVector.x
-                v.y = -gamepadVector.y
-              }
-              return v
-            }
-          : identity,
+          }
+          return v
+        },
 
         applyDeadzone(0.05),
         clampVector

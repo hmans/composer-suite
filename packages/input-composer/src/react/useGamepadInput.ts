@@ -14,7 +14,7 @@ export const useGamepadInput = (index: number) => {
 
     return {
       x: state.axes[axisX],
-      y: state.axes[axisY]
+      y: -state.axes[axisY]
     }
   }
 
