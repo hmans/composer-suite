@@ -463,7 +463,13 @@ importers:
       vite: 3.0.9
 
   packages/input-composer:
-    specifiers: {}
+    specifiers:
+      '@hmans/use-const': ^0.0.1
+      react: ^18.2.0
+    dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
+    devDependencies:
+      react: 18.2.0
 
   packages/material-composer:
     specifiers:

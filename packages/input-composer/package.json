@@ -12,15 +12,26 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
+      "react/index.ts",
       "drivers/*.ts"
     ]
   },
   "files": [
     "drivers/**",
     "dist/**",
+    "react/**",
     "LICENSE",
     "README.md"
   ],
   "license": "MIT",
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "@hmans/use-const": "^0.0.1"
+  },
+  "devDependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
 }

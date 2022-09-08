@@ -1,17 +1,11 @@
+import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { identity, pipe } from "fp-ts/lib/function"
 import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
 import { Description, FlatStage } from "r3f-stage"
-import {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import { Group, Vector3 } from "three"
-import { useConst } from "@hmans/things"
+import { useGamepadInput, useKeyboardInput } from "input-composer/react"
 
 const tmpVec3 = new Vector3()
 
@@ -21,68 +15,6 @@ type ControllerProps = {
   down: string
   left: string
   right: string
-}
-
-const useKeyboardInput = () => {
-  const keyState = useConst(() => new Map<string, boolean>())
-
-  useLayoutEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      keyState.set(e.key, true)
-    }
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      keyState.set(e.key, false)
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    window.addEventListener("keyup", handleKeyUp)
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-      window.removeEventListener("keyup", handleKeyUp)
-    }
-  }, [])
-
-  const isPressed = (key: string) => (keyState.get(key) ? 1 : 0)
-
-  const getAxis = (minKey: string, maxKey: string) =>
-    isPressed(maxKey) - isPressed(minKey)
-
-  const getVector = (
-    upKey: string,
-    downKey: string,
-    leftKey: string,
-    rightKey: string
-  ) => ({
-    x: getAxis(leftKey, rightKey),
-    y: getAxis(downKey, upKey)
-  })
-
-  return { isPressed, getAxis, getVector }
-}
-
-const useGamepadInput = (index: number) => {
-  const getGamepadState = () => navigator.getGamepads()[index]
-
-  const getButton = (buttonIndex: number) => {
-    const gamepad = getGamepadState()
-    return gamepad?.buttons[buttonIndex]?.pressed ? 1 : 0
-  }
-
-  const getAxis = (axis: number) => getGamepadState()?.axes[axis]
-
-  const getVector = (axisX: number, axisY: number) => {
-    const state = getGamepadState()
-    if (!state) return undefined
-
-    return {
-      x: state.axes[axisX],
-      y: state.axes[axisY]
-    }
-  }
-
-  return { getGamepadState, getButton, getAxis, getVector }
 }
 
 const useActiveInputScheme = () => {
