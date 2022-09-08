@@ -27,7 +27,14 @@ const useActiveInputScheme = () => {
     console.log("Active input scheme:", activeInputScheme)
   }, [activeInputScheme])
 
-  return [activeInputScheme, setActiveInputScheme] as const
+  const when = <T,>(s: "keyboard" | "gamepad", fun: (p: T) => T) =>
+    activeInputScheme === s ? fun : identity
+
+  return {
+    current: activeInputScheme,
+    set: setActiveInputScheme,
+    when
+  }
 }
 
 const copyVector = (source: IVector) => (v: IVector) => {
@@ -39,7 +46,7 @@ const copyVector = (source: IVector) => (v: IVector) => {
 const useInputController = (props: ControllerProps) => {
   const keyboard = useKeyboardInput()
   const gamepad = useGamepadInput(props.gamepad)
-  const [activeInputScheme, setActiveInputScheme] = useActiveInputScheme()
+  const scheme = useActiveInputScheme()
 
   const getKeyboardVector = () =>
     keyboard.getVector(props.up, props.down, props.left, props.right)
@@ -56,20 +63,15 @@ const useInputController = (props: ControllerProps) => {
     const gamepadVector = getGamepadVector()
 
     if (magnitude(keyboardVector)) {
-      setActiveInputScheme("keyboard")
+      scheme.set("keyboard")
     }
 
     if (magnitude(gamepadVector) > 0) {
-      setActiveInputScheme("gamepad")
+      scheme.set("gamepad")
     }
 
     return payload
   }
-
-  const withActiveInputScheme = <T,>(
-    scheme: "keyboard" | "gamepad",
-    fun: (p: T) => T
-  ) => (activeInputScheme === scheme ? fun : identity)
 
   return () =>
     pipe(
@@ -80,14 +82,14 @@ const useInputController = (props: ControllerProps) => {
         move: pipe(
           controls.move,
 
-          withActiveInputScheme(
+          scheme.when(
             "keyboard",
             copyVector(
               keyboard.getVector(props.up, props.down, props.left, props.right)
             )
           ),
 
-          withActiveInputScheme("gamepad", copyVector(gamepad.getVector(0, 1))),
+          scheme.when("gamepad", copyVector(gamepad.getVector(0, 1))),
 
           applyDeadzone(0.05),
           clampVector
