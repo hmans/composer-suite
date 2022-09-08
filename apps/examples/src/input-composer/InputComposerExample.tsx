@@ -17,26 +17,6 @@ type ControllerProps = {
   right: string
 }
 
-const useActiveInputScheme = () => {
-  const [activeInputScheme, setActiveInputScheme] = useState<
-    "keyboard" | "gamepad"
-  >("keyboard")
-
-  /* Log when the input scheme has changed. */
-  useEffect(() => {
-    console.log("Active input scheme:", activeInputScheme)
-  }, [activeInputScheme])
-
-  const when = <T,>(s: "keyboard" | "gamepad", fun: (p: T) => T) =>
-    activeInputScheme === s ? fun : identity
-
-  return {
-    current: activeInputScheme,
-    set: setActiveInputScheme,
-    when
-  }
-}
-
 const copyVector = (source: IVector) => (v: IVector) => {
   v.x = source.x
   v.y = source.y
@@ -61,7 +41,10 @@ const onPressedDown = () => {
 const useInputController = (props: ControllerProps) => {
   const keyboard = useKeyboardInput()
   const gamepad = useGamepadInput(props.gamepad)
-  const scheme = useActiveInputScheme()
+
+  const [activeDevice, setActiveDevice] = useState<"keyboard" | "gamepad">(
+    "keyboard"
+  )
 
   const getKeyboardVector = () =>
     keyboard.getVector(props.up, props.down, props.left, props.right)
@@ -78,11 +61,11 @@ const useInputController = (props: ControllerProps) => {
     const gamepadVector = getGamepadVector()
 
     if (magnitude(keyboardVector)) {
-      scheme.set("keyboard")
+      setActiveDevice("keyboard")
     }
 
     if (magnitude(gamepadVector) > 0) {
-      scheme.set("gamepad")
+      setActiveDevice("gamepad")
     }
 
     return payload
@@ -99,14 +82,11 @@ const useInputController = (props: ControllerProps) => {
         move: pipe(
           controls.move,
 
-          scheme.when(
-            "keyboard",
-            copyVector(
-              keyboard.getVector(props.up, props.down, props.left, props.right)
-            )
+          copyVector(
+            activeDevice === "keyboard"
+              ? getKeyboardVector()
+              : getGamepadVector()
           ),
-
-          scheme.when("gamepad", copyVector(gamepad.getVector(0, 1))),
 
           applyDeadzone(0.05),
           clampVector
