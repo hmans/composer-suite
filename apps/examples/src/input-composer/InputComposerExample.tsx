@@ -1,11 +1,12 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { identity, pipe, flow } from "fp-ts/lib/function"
-import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
+import { flow, pipe } from "fp-ts/lib/function"
+import { applyDeadzone, clampVector } from "input-composer"
+import { useKeyboardInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
+import { forwardRef, useCallback, useRef } from "react"
 import { Group, Vector3 } from "three"
-import { useGamepadInput, useKeyboardInput } from "input-composer/react"
+import { clamp } from "three/src/math/MathUtils"
 
 const tmpVec3 = new Vector3()
 
@@ -18,82 +19,8 @@ type ControllerProps = {
   onJump: () => void
 }
 
-const copyVector = (source: IVector) => (v: IVector) => {
-  v.x = source.x
-  v.y = source.y
-  return v
-}
-
-const onPressedDown = (callback: () => void) => {
-  let pushed = false
-
-  return (button: boolean) => {
-    if (button && !pushed) {
-      pushed = true
-      callback()
-    } else if (!button) {
-      pushed = false
-    }
-
-    return button
-  }
-}
-
-const useInputController = (props: ControllerProps) => {
-  const keyboard = useKeyboardInput()
-  const gamepad = useGamepadInput(props.gamepad)
-
-  const [activeDevice, setActiveDevice] = useState<"keyboard" | "gamepad">(
-    "keyboard"
-  )
-
-  const getKeyboardVector = () =>
-    keyboard.getVector(props.up, props.down, props.left, props.right)
-
-  const getGamepadVector = () => gamepad.getVector(0, 1)
-
-  const controls = {
-    move: { x: 0, y: 0 },
-    fire: false
-  }
-
-  const autoSwitchInputScheme = () => {
-    const keyboardVector = getKeyboardVector()
-    const gamepadVector = getGamepadVector()
-
-    if (magnitude(keyboardVector)) {
-      setActiveDevice("keyboard")
-    }
-
-    if (magnitude(gamepadVector) > 0) {
-      setActiveDevice("gamepad")
-    }
-  }
-
-  const jumpFlow = flow(
-    (v) => !!gamepad.getButton(0),
-    onPressedDown(props.onJump)
-  )
-
-  return () => {
-    autoSwitchInputScheme()
-
-    return {
-      move: pipe(
-        controls.move,
-        copyVector(
-          activeDevice === "keyboard" ? getKeyboardVector() : getGamepadVector()
-        ),
-        applyDeadzone(0.05),
-        clampVector
-      ),
-
-      jump: pipe(false, jumpFlow)
-    }
-  }
-}
-
 export default function Example({ playerSpeed = 3 }) {
+  const keyboard = useKeyboardInput()
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
@@ -111,17 +38,12 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useInputController({
-    gamepad: 0,
-    up: "w",
-    down: "s",
-    left: "a",
-    right: "d",
-    onJump: doubleJump()
-  })
-
   useFrame((_, dt) => {
-    const { move } = controller()
+    const stickProcessing = flow(applyDeadzone(0.1), clampVector())
+
+    const move = pipe(keyboard.getVector("w", "s", "a", "d"), stickProcessing)
+
+    console.log(move)
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)

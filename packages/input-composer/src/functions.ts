@@ -18,14 +18,22 @@ export const normalizeVector = (v: IVector) => {
   return v
 }
 
-export const clampVector = (v: IVector) => {
-  const length = Math.sqrt(v.x * v.x + v.y * v.y)
+export const clampVector =
+  (limit = 1) =>
+  (v: IVector) => {
+    const length = Math.sqrt(v.x * v.x + v.y * v.y)
 
-  if (length > 1) {
-    v.x /= length
-    v.y /= length
+    if (length > limit) {
+      v.x = (v.x / length) * limit
+      v.y = (v.y / length) * limit
+    }
+
+    return v
   }
 
+export const copyVector = (source: IVector) => (v: IVector) => {
+  v.x = source.x
+  v.y = source.y
   return v
 }
 
@@ -38,8 +46,9 @@ export const applyDeadzone =
       v.x = 0
       v.y = 0
     } else {
-      v.x = (v.x - threshold) / (1 - threshold)
-      v.y = (v.y - threshold) / (1 - threshold)
+      normalizeVector(v)
+      v.x = (v.x * (length - threshold)) / (1 - threshold)
+      v.y = (v.y * (length - threshold)) / (1 - threshold)
     }
 
     return v
