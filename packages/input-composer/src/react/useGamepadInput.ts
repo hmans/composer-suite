@@ -10,7 +10,7 @@ export const useGamepadInput = (index: number) => {
 
   const getVector = (axisX: number, axisY: number) => {
     const state = getGamepadState()
-    if (!state) return undefined
+    if (!state) return { x: 0, y: 0 }
 
     return {
       x: state.axes[axisX],
