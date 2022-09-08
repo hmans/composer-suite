@@ -105,6 +105,8 @@ export default function Example({ playerSpeed = 3 }) {
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
+  let doubleJumped = false
+
   const controller = useInputController({
     gamepad: 0,
     up: "w",
@@ -113,6 +115,10 @@ export default function Example({ playerSpeed = 3 }) {
     right: "d",
     onJump: () => {
       if (player.current.position.y == 0) {
+        doubleJumped = false
+        velocity.y = 5
+      } else if (!doubleJumped) {
+        doubleJumped = true
         velocity.y = 5
       }
     }
