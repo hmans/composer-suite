@@ -16,11 +16,8 @@ import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
-const createController = (input: InputManager, onJump: () => void) => {
+const createController = (input: InputManager) => {
   let scheme = "keyboard" as "keyboard" | "gamepad"
-
-  const moveFlow = flow(clampVector(), applyDeadzone(0.05))
-  const jumpFlow = onPressed(onJump)
 
   const withScheme =
     <T extends any>(s: "keyboard" | "gamepad", fun: (t: T) => T) =>
@@ -48,8 +45,7 @@ const createController = (input: InputManager, onJump: () => void) => {
     const jump = pipe(
       0,
       withScheme("keyboard", () => input.keyboard.key(" ")),
-      withScheme("gamepad", () => gamepad?.button(0) ?? 0),
-      jumpFlow
+      withScheme("gamepad", () => gamepad?.button(0) ?? 0)
     )
 
     const move = pipe(
@@ -62,7 +58,8 @@ const createController = (input: InputManager, onJump: () => void) => {
         x: +(gamepad?.axis(0) ?? 0),
         y: -(gamepad?.axis(1) ?? 0)
       })),
-      moveFlow
+      clampVector(),
+      applyDeadzone(0.05)
     )
 
     return { jump, move }
@@ -90,13 +87,14 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useMemo(
-    () => createController(input, doubleJump),
-    [input, doubleJump]
-  )
+  const controller = useMemo(() => createController(input), [input, doubleJump])
+
+  const jumpFlow = useMemo(() => onPressed(doubleJump), [doubleJump])
 
   useFrame((_, dt) => {
-    const { move } = controller()
+    const { jump, move } = controller()
+
+    pipe(jump, jumpFlow)
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
