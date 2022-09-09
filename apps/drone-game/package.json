@@ -12,6 +12,7 @@
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.26.0",
     "@react-three/fiber": "^8.7.0",
+    "@react-three/rapier": "^0.6.7",
     "camera-composer": "workspace:^0.0.1",
     "input-composer": "workspace:^0.0.1",
     "react": "^18.2.0",
@@ -19,6 +20,7 @@
     "render-composer": "workspace:^0.1.5",
     "state-composer": "workspace:^0.0.1",
     "three": "^0.143.0",
+    "three-stdlib": "^2.15.0",
     "timeline-composer": "workspace:^0.1.6"
   },
   "devDependencies": {
