@@ -24,6 +24,7 @@
   "license": "MIT",
   "sideEffects": false,
   "dependencies": {
+    "@hmans/use-animation-frame": "^0.0.2",
     "@hmans/use-const": "^0.0.1",
     "fp-ts": "^2.12.3"
   },

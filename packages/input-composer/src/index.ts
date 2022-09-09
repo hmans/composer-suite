@@ -23,19 +23,28 @@ const createKeyboardInput = () => {
     window.removeEventListener("keyup", handleKeyUp)
   }
 
+  const update = () => {}
+
   const key = (key: string) => (keyState.get(key) ? 1 : 0)
 
   const axis = (minKey: string, maxKey: string) => key(maxKey) - key(minKey)
 
-  return { start, stop, key, axis }
+  return { start, stop, update, key, axis }
 }
 
 const createGamepadInput = () => {
+  let states: Array<Gamepad | null> = []
+
   const start = () => {}
   const stop = () => {}
 
+  const update = () => {
+    const newStates = navigator.getGamepads()
+    states = newStates.filter(Boolean)
+  }
+
   const gamepad = (index: number) => {
-    const state = navigator.getGamepads()[index]
+    const state = states[index]
     if (!state) return undefined
 
     const axis = (axis: number) => state.axes[axis]
@@ -45,7 +54,7 @@ const createGamepadInput = () => {
     return { axis, button }
   }
 
-  return { start, stop, gamepad }
+  return { start, stop, update, gamepad }
 }
 
 export const createInput = () => {
@@ -55,10 +64,12 @@ export const createInput = () => {
 
   const start = flow(keyboard.start, gamepad.start)
   const stop = flow(keyboard.stop, gamepad.stop)
+  const update = flow(keyboard.update, gamepad.update)
 
   return {
     start,
     stop,
+    update,
     keyboard,
     gamepad
   }
