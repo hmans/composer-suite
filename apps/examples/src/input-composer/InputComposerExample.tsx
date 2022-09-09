@@ -3,14 +3,8 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { flow } from "fp-ts/lib/function"
 import { createPressInteraction } from "input-composer"
 import { useInput } from "input-composer/react"
-import { Description, FlatStage } from "r3f-stage"
-import {
-  forwardRef,
-  PropsWithChildren,
-  ReactNode,
-  useMemo,
-  useRef
-} from "react"
+import { Description } from "r3f-stage"
+import { forwardRef, PropsWithChildren, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 import {
   createStandardController,
