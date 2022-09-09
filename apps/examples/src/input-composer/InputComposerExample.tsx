@@ -50,42 +50,50 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
+  const controller = useMemo(() => {
+    return () => {
+      const keyboardMove = {
+        x: input.keyboard.axis("a", "d"),
+        y: input.keyboard.axis("s", "w")
+      }
+
+      /* Grab the player's gamepad. It may be null if no gamepad is connected. */
+      const gamepad = input.gamepad.gamepad(0)
+
+      /* Get the movement vector of the gamepad */
+      const gamepadMove = gamepad
+        ? {
+            x: gamepad.axis(0),
+            y: -gamepad.axis(1)
+          }
+        : { x: 0, y: 0 }
+
+      const keyboardJump = input.keyboard.key(" ")
+      const gamepadJump = gamepad ? gamepad.button(0) : 0
+
+      /* Determine the active control scheme. */
+      if (gamepad && magnitude(gamepadMove) > 0) {
+        setScheme("gamepad")
+      }
+
+      if (magnitude(keyboardMove) > 0) {
+        setScheme("keyboard")
+      }
+
+      const move = scheme === "gamepad" ? gamepadMove : keyboardMove
+
+      const jump = scheme === "gamepad" ? gamepadJump : keyboardJump
+
+      pipe(jump, jumpFlow)
+
+      return { jump, move }
+    }
+  }, [input, scheme])
+
   const jumpFlow = onPressed(doubleJump)
 
   useFrame((_, dt) => {
-    const keyboardMove = {
-      x: input.keyboard.axis("a", "d"),
-      y: input.keyboard.axis("s", "w")
-    }
-
-    /* Grab the player's gamepad. It may be null if no gamepad is connected. */
-    const gamepad = input.gamepad.gamepad(0)
-
-    /* Get the movement vector of the gamepad */
-    const gamepadMove = gamepad
-      ? {
-          x: gamepad.axis(0),
-          y: -gamepad.axis(1)
-        }
-      : { x: 0, y: 0 }
-
-    const keyboardJump = input.keyboard.key(" ")
-    const gamepadJump = gamepad ? gamepad.button(0) : 0
-
-    /* Determine the active control scheme. */
-    if (gamepad && magnitude(gamepadMove) > 0) {
-      setScheme("gamepad")
-    }
-
-    if (magnitude(keyboardMove) > 0) {
-      setScheme("keyboard")
-    }
-
-    const move = scheme === "gamepad" ? gamepadMove : keyboardMove
-
-    const jump = scheme === "gamepad" ? gamepadJump : keyboardJump
-
-    pipe(jump, jumpFlow)
+    const { jump, move } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
