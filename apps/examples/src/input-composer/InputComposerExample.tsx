@@ -15,7 +15,7 @@ const useInputScheme = () => {
     console.log("Switched to scheme:", scheme)
   }, [scheme])
 
-  return [scheme, setScheme]
+  return [scheme, setScheme] as const
 }
 
 export default function Example({ playerSpeed = 3 }) {
