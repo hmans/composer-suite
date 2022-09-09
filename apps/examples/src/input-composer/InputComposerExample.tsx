@@ -1,5 +1,6 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
+import { magnitude } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useCallback, useRef } from "react"
@@ -42,7 +43,7 @@ export default function Example({ playerSpeed = 3 }) {
         }
       : { x: 0, y: 0 }
 
-    const move = gamepadMove
+    const move = magnitude(keyboardMove) > 0 ? keyboardMove : gamepadMove
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
