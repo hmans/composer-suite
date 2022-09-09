@@ -12,6 +12,7 @@
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.26.0",
     "@react-three/fiber": "^8.7.0",
+    "camera-composer": "workspace:^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "workspace:^0.0.1",
     "r3f-stage": "workspace:^0.3.4",
