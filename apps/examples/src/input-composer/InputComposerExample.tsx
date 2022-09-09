@@ -1,7 +1,12 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { pipe } from "fp-ts/lib/function"
-import { magnitude, onPressed } from "input-composer"
+import { flow, pipe } from "fp-ts/lib/function"
+import {
+  applyDeadzone,
+  clampVector,
+  magnitude,
+  onPressed
+} from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import {
@@ -51,6 +56,9 @@ export default function Example({ playerSpeed = 3 }) {
   }, [velocity, player])
 
   const controller = useMemo(() => {
+    const moveFlow = flow(clampVector(), applyDeadzone(0.05))
+    const jumpFlow = onPressed(doubleJump)
+
     return () => {
       const keyboardMove = {
         x: input.keyboard.axis("a", "d"),
@@ -80,20 +88,22 @@ export default function Example({ playerSpeed = 3 }) {
         setScheme("keyboard")
       }
 
-      const move = scheme === "gamepad" ? gamepadMove : keyboardMove
+      const jump = pipe(
+        scheme === "gamepad" ? gamepadJump : keyboardJump,
+        jumpFlow
+      )
 
-      const jump = scheme === "gamepad" ? gamepadJump : keyboardJump
-
-      pipe(jump, jumpFlow)
+      const move = pipe(
+        scheme === "gamepad" ? gamepadMove : keyboardMove,
+        moveFlow
+      )
 
       return { jump, move }
     }
   }, [input, scheme])
 
-  const jumpFlow = onPressed(doubleJump)
-
   useFrame((_, dt) => {
-    const { jump, move } = controller()
+    const { move } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
