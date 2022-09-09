@@ -1,6 +1,7 @@
 import { Environment, PerspectiveCamera } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, Object3DProps } from "@react-three/fiber"
 import { CuboidCollider, Debug, Physics, RigidBody } from "@react-three/rapier"
+import { RigidBodyProps } from "@react-three/rapier/dist/declarations/src/RigidBody"
 
 export const GameplayScene = () => {
   return (
@@ -21,12 +22,7 @@ export const GameplayScene = () => {
 
       <Physics gravity={[0, -5, 0]} colliders={false}>
         <Debug color="red" sleepColor="blue" />
-
-        {/* Player */}
-        <RigidBody position={[0, 10, 20]}>
-          <PerspectiveCamera makeDefault />
-          <CuboidCollider args={[2, 2, 2]} />
-        </RigidBody>
+        <Player position={[0, 10, 20]} />
 
         {/* Scenery */}
         <RigidBody colliders="hull" position-y={3}>
@@ -60,4 +56,11 @@ const Ground = (props: GroupProps) => (
       <meshStandardMaterial color="#111" />
     </mesh>
   </group>
+)
+
+const Player = (props: Parameters<typeof RigidBody>[0]) => (
+  <RigidBody restitution={2} {...props}>
+    <PerspectiveCamera makeDefault />
+    <CuboidCollider args={[2, 2, 2]} />
+  </RigidBody>
 )
