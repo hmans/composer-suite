@@ -45,7 +45,21 @@ const createGamepadInput = () => {
   const start = () => {}
   const stop = () => {}
 
-  return { start, stop }
+  const getGamepad = (index: number) => {
+    const getAxis = (axis: number) => navigator.getGamepads()[index]!.axes[axis]
+
+    const getButton = (button: number) =>
+      navigator.getGamepads()[index]!.buttons[button]
+
+    const getVector = (horizontal: number, vertical: number) => ({
+      x: +getAxis(horizontal),
+      y: -getAxis(vertical)
+    })
+
+    return { getAxis, getButton, getVector }
+  }
+
+  return { start, stop, getGamepad }
 }
 
 export const createInput = () => {
