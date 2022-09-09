@@ -4,7 +4,13 @@ import { flow } from "fp-ts/lib/function"
 import { createPressInteraction } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useMemo, useRef } from "react"
+import {
+  forwardRef,
+  PropsWithChildren,
+  ReactNode,
+  useMemo,
+  useRef
+} from "react"
 import { Group, Vector3 } from "three"
 import {
   createStandardController,
@@ -74,13 +80,13 @@ export default function Example({ playerSpeed = 3 }) {
   })
 
   return (
-    <FlatStage>
+    <Stage>
       <Player ref={player} />
       <Description>
         A playground for prototyping <strong>Input Composer</strong>, the
         successor to <strong>Controlfreak</strong>.
       </Description>
-    </FlatStage>
+    </Stage>
   )
 }
 
@@ -92,3 +98,39 @@ const Player = forwardRef<Group, GroupProps>((props, ref) => (
     </mesh>
   </group>
 ))
+
+const Stage = ({ children }: PropsWithChildren) => {
+  return (
+    <group position-y={-1.5}>
+      {/* Floor */}
+      <mesh receiveShadow rotation-x={-Math.PI / 2}>
+        <planeGeometry args={[1000, 1000]} />
+        <meshStandardMaterial color="#678" />
+      </mesh>
+
+      <mesh castShadow receiveShadow position={[-3, 0, -5]}>
+        <dodecahedronGeometry />
+        <meshStandardMaterial color="#890" />
+      </mesh>
+
+      <mesh castShadow receiveShadow position={[2, 0, -3]}>
+        <icosahedronGeometry />
+        <meshStandardMaterial color="#823" />
+      </mesh>
+
+      <mesh
+        castShadow
+        receiveShadow
+        position={[2, 0, -10]}
+        scale={3}
+        rotation={[-1, -0.5, 0]}
+      >
+        <boxGeometry />
+        <meshStandardMaterial color="#211" />
+      </mesh>
+
+      {/* Everything else */}
+      {children}
+    </group>
+  )
+}
