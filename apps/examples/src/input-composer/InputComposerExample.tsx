@@ -3,14 +3,24 @@ import { GroupProps, useFrame } from "@react-three/fiber"
 import { magnitude } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useCallback, useRef } from "react"
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
+const useInputScheme = () => {
+  const [scheme, setScheme] = useState<"keyboard" | "gamepad">("keyboard")
+
+  useEffect(() => {
+    console.log("Switched to scheme:", scheme)
+  }, [scheme])
+
+  return [scheme, setScheme]
+}
+
 export default function Example({ playerSpeed = 3 }) {
   const input = useInput()
-  const scheme = useRef<"keyboard" | "gamepad">("keyboard")
+  const [scheme, setScheme] = useInputScheme()
 
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
@@ -48,14 +58,14 @@ export default function Example({ playerSpeed = 3 }) {
 
     /* Determine the active control scheme. */
     if (gamepad && magnitude(gamepadMove) > 0) {
-      scheme.current = "gamepad"
+      setScheme("gamepad")
     }
 
     if (magnitude(keyboardMove) > 0) {
-      scheme.current = "keyboard"
+      setScheme("keyboard")
     }
 
-    const move = scheme.current === "gamepad" ? gamepadMove : keyboardMove
+    const move = scheme === "gamepad" ? gamepadMove : keyboardMove
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
