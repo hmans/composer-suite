@@ -5,6 +5,12 @@
 >
 > This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but you will find most example code to be written in React.
 
+## Sponsors
+
+These are our really cool sponsors!
+
+<!-- sponsors --><!-- sponsors -->
+
 ## Packages
 
 [![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)](https://github.com/hmans/composer-suite/tree/main/packages/shader-composer)  
