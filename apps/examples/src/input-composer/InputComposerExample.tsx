@@ -48,9 +48,12 @@ export default function Example({ playerSpeed = 3 }) {
     const stickFlow = flow(applyDeadzone(0.1), clampVector())
     const moveFlow = stickFlow
 
+    const getMoveVector = () => keyboard.getVector("w", "s", "a", "d")
+    const getJumpButton = () => !!keyboard.isPressed(" ")
+
     return () => ({
-      move: pipe(keyboard.getVector("w", "s", "a", "d"), moveFlow),
-      jump: pipe(!!keyboard.isPressed(" "), jumpFlow)
+      move: pipe(getMoveVector(), moveFlow),
+      jump: pipe(getJumpButton(), jumpFlow)
     })
   }, [])
 
