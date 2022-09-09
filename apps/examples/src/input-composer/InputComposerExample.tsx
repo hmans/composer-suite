@@ -1,14 +1,8 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { flow, pipe } from "fp-ts/lib/function"
-import { applyDeadzone, clampVector, IVector, magnitude } from "input-composer"
-import {
-  useGamepadInput,
-  useInput,
-  useKeyboardInput
-} from "input-composer/react"
+import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useCallback, useMemo, useRef } from "react"
+import { forwardRef, useCallback, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
