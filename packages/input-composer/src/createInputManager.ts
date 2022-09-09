@@ -2,7 +2,9 @@ import { flow } from "fp-ts/function"
 import { createGamepadInput } from "./createGamepadInput"
 import { createKeyboardInput } from "./createKeyboardInput"
 
-export const createInput = () => {
+export type InputManager = ReturnType<typeof createInputManager>
+
+export const createInputManager = () => {
   const keyboard = createKeyboardInput()
 
   const gamepad = createGamepadInput()

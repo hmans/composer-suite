@@ -1,9 +1,9 @@
 import { useConst } from "@hmans/use-const"
 import { useEffect } from "react"
-import { createInput } from "../createInput"
+import { createInputManager } from "../createInputManager"
 
 export const useInput = () => {
-  const input = useConst(() => createInput())
+  const input = useConst(() => createInputManager())
 
   useEffect(() => {
     input.start()

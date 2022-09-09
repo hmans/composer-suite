@@ -4,6 +4,8 @@ import { flow, pipe } from "fp-ts/lib/function"
 import {
   applyDeadzone,
   clampVector,
+  createInputManager,
+  InputManager,
   magnitude,
   onPressed
 } from "input-composer"
@@ -14,59 +16,60 @@ import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
-/* An example implementation of a controller. */
-const useController = (
-  input: ReturnType<typeof useInput>,
-  onJump: () => void
-) => {
-  const scheme = useRef<"keyboard" | "gamepad">("keyboard")
+const createController = (input: InputManager, onJump: () => void) => {
+  const state = {
+    scheme: "keyboard" as "keyboard" | "gamepad"
+  }
 
-  return useMemo(() => {
-    const moveFlow = flow(clampVector(), applyDeadzone(0.05))
-    const jumpFlow = onPressed(onJump)
+  const moveFlow = flow(clampVector(), applyDeadzone(0.05))
+  const jumpFlow = onPressed(onJump)
 
-    return () => {
-      const keyboardMove = {
-        x: input.keyboard.axis("a", "d"),
-        y: input.keyboard.axis("s", "w")
-      }
-
-      /* Grab the player's gamepad. It may be null if no gamepad is connected. */
-      const gamepad = input.gamepad.gamepad(0)
-
-      /* Get the movement vector of the gamepad */
-      const gamepadMove = gamepad
-        ? {
-            x: gamepad.axis(0),
-            y: -gamepad.axis(1)
-          }
-        : { x: 0, y: 0 }
-
-      const keyboardJump = input.keyboard.key(" ")
-      const gamepadJump = gamepad ? gamepad.button(0) : 0
-
-      /* Determine the active control scheme. */
-      if (gamepad && magnitude(gamepadMove) > 0) {
-        scheme.current = "gamepad"
-      }
-
-      if (magnitude(keyboardMove) > 0) {
-        scheme.current = "keyboard"
-      }
-
-      const jump = pipe(
-        scheme.current === "gamepad" ? gamepadJump : keyboardJump,
-        jumpFlow
-      )
-
-      const move = pipe(
-        scheme.current === "gamepad" ? gamepadMove : keyboardMove,
-        moveFlow
-      )
-
-      return { jump, move }
+  return () => {
+    const keyboardMove = {
+      x: input.keyboard.axis("a", "d"),
+      y: input.keyboard.axis("s", "w")
     }
-  }, [input, scheme])
+
+    /* Grab the player's gamepad. It may be null if no gamepad is connected. */
+    const gamepad = input.gamepad.gamepad(0)
+
+    /* Get the movement vector of the gamepad */
+    const gamepadMove = gamepad
+      ? {
+          x: gamepad.axis(0),
+          y: -gamepad.axis(1)
+        }
+      : { x: 0, y: 0 }
+
+    const keyboardJump = input.keyboard.key(" ")
+    const gamepadJump = gamepad ? gamepad.button(0) : 0
+
+    /* Determine the active control scheme. */
+    if (gamepad && magnitude(gamepadMove) > 0) {
+      state.scheme = "gamepad"
+    }
+
+    if (magnitude(keyboardMove) > 0) {
+      state.scheme = "keyboard"
+    }
+
+    const jump = pipe(
+      state.scheme === "gamepad" ? gamepadJump : keyboardJump,
+      jumpFlow
+    )
+
+    const move = pipe(
+      state.scheme === "gamepad" ? gamepadMove : keyboardMove,
+      moveFlow
+    )
+
+    return { jump, move }
+  }
+}
+
+/* An example implementation of a controller. */
+const useController = (input: InputManager, onJump: () => void) => {
+  return useMemo(() => createController(input, onJump), [input, onJump])
 }
 
 export default function Example({ playerSpeed = 3 }) {
