@@ -10,6 +10,7 @@ const tmpVec3 = new Vector3()
 
 export default function Example({ playerSpeed = 3 }) {
   const input = useInput()
+  const scheme = useRef<"keyboard" | "gamepad">("keyboard")
 
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
@@ -45,10 +46,16 @@ export default function Example({ playerSpeed = 3 }) {
         }
       : { x: 0, y: 0 }
 
-    /* We're going to apply a very cheap and stupid heuristic here to
-    determine which input is currently active. This is going to have to be
-    much smarter in the future. */
-    const move = magnitude(gamepadMove) > 0 ? gamepadMove : keyboardMove
+    /* Determine the active control scheme. */
+    if (gamepad && magnitude(gamepadMove) > 0) {
+      scheme.current = "gamepad"
+    }
+
+    if (magnitude(keyboardMove) > 0) {
+      scheme.current = "keyboard"
+    }
+
+    const move = scheme.current === "gamepad" ? gamepadMove : keyboardMove
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
