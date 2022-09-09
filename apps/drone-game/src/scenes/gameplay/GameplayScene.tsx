@@ -1,7 +1,18 @@
 import { Environment, PerspectiveCamera } from "@react-three/drei"
-import { GroupProps, Object3DProps } from "@react-three/fiber"
-import { CuboidCollider, Debug, Physics, RigidBody } from "@react-three/rapier"
+import { GroupProps, Object3DProps, useFrame } from "@react-three/fiber"
+import {
+  CuboidCollider,
+  Debug,
+  Physics,
+  RigidBody,
+  RigidBodyApi
+} from "@react-three/rapier"
 import { RigidBodyProps } from "@react-three/rapier/dist/declarations/src/RigidBody"
+import { useRef } from "react"
+import { PerspectiveCamera as PerspectiveCameraImpl } from "three"
+import { useInput } from "input-composer/react"
+import { Vector3 } from "three"
+import { Quaternion } from "three"
 
 export const GameplayScene = () => {
   return (
@@ -20,8 +31,8 @@ export const GameplayScene = () => {
         castShadow
       />
 
-      <Physics gravity={[0, -5, 0]} colliders={false}>
-        <Debug color="red" sleepColor="blue" />
+      <Physics colliders={false}>
+        {/* <Debug color="red" sleepColor="blue" /> */}
         <Player position={[0, 10, 20]} />
 
         {/* Scenery */}
@@ -58,9 +69,66 @@ const Ground = (props: GroupProps) => (
   </group>
 )
 
-const Player = (props: Parameters<typeof RigidBody>[0]) => (
-  <RigidBody restitution={2} {...props}>
-    <PerspectiveCamera makeDefault />
-    <CuboidCollider args={[2, 2, 2]} />
-  </RigidBody>
-)
+const tmpVec3 = new Vector3()
+const tmpQuat = new Quaternion()
+
+const Player = (props: Parameters<typeof RigidBody>[0]) => {
+  const body = useRef<RigidBodyApi>(null!)
+  const camera = useRef<PerspectiveCameraImpl>(null!)
+  const input = useInput()
+
+  useFrame(() => {
+    const gamepad = input.gamepad.gamepad(0)
+
+    const leftStick = {
+      x: gamepad?.axis(0) ?? 0,
+      y: gamepad?.axis(1) ?? 0
+    }
+
+    const rightStick = {
+      x: gamepad?.axis(2) ?? 0,
+      y: gamepad?.axis(3) ?? 0
+    }
+
+    const leftTrigger = gamepad?.button(6) ?? 0
+    const rightTrigger = gamepad?.button(7) ?? 0
+
+    body.current.resetForces()
+    body.current.resetTorques()
+
+    camera.current.getWorldQuaternion(tmpQuat)
+
+    body.current.addForce(
+      tmpVec3
+        .set(leftStick.x * 600, -leftStick.y * 1000, 0)
+        .applyQuaternion(tmpQuat)
+    )
+
+    body.current.addForce(
+      tmpVec3.set(0, 0, leftTrigger * 200).applyQuaternion(tmpQuat)
+    )
+
+    body.current.addForce(
+      tmpVec3.set(0, 0, rightTrigger * -400).applyQuaternion(tmpQuat)
+    )
+
+    body.current.addTorque(
+      tmpVec3
+        .set(rightStick.y * 50, rightStick.x * -50, 0)
+        .applyQuaternion(tmpQuat)
+    )
+  })
+
+  return (
+    <RigidBody
+      restitution={2}
+      {...props}
+      ref={body}
+      angularDamping={1}
+      linearDamping={1}
+    >
+      <PerspectiveCamera ref={camera} makeDefault />
+      <CuboidCollider args={[2, 2, 2]} />
+    </RigidBody>
+  )
+}
