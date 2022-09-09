@@ -1,9 +1,7 @@
 import {
-  Box,
   Environment,
   OrbitControls,
-  PerspectiveCamera,
-  Torus
+  PerspectiveCamera
 } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { CuboidCollider, Debug, Physics, RigidBody } from "@react-three/rapier"
