@@ -14,22 +14,12 @@ import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
-/* An example implementation of a piece of state tracking the current input scheme. */
-const useInputScheme = () => {
-  const [scheme, setScheme] = useState<"keyboard" | "gamepad">("keyboard")
-
-  useEffect(() => {
-    console.log("Switched to scheme:", scheme)
-  }, [scheme])
-
-  return [scheme, setScheme] as const
-}
-
+/* An example implementation of a controller. */
 const useController = (
   input: ReturnType<typeof useInput>,
   onJump: () => void
 ) => {
-  const [scheme, setScheme] = useInputScheme()
+  const scheme = useRef<"keyboard" | "gamepad">("keyboard")
 
   return useMemo(() => {
     const moveFlow = flow(clampVector(), applyDeadzone(0.05))
@@ -57,20 +47,20 @@ const useController = (
 
       /* Determine the active control scheme. */
       if (gamepad && magnitude(gamepadMove) > 0) {
-        setScheme("gamepad")
+        scheme.current = "gamepad"
       }
 
       if (magnitude(keyboardMove) > 0) {
-        setScheme("keyboard")
+        scheme.current = "keyboard"
       }
 
       const jump = pipe(
-        scheme === "gamepad" ? gamepadJump : keyboardJump,
+        scheme.current === "gamepad" ? gamepadJump : keyboardJump,
         jumpFlow
       )
 
       const move = pipe(
-        scheme === "gamepad" ? gamepadMove : keyboardMove,
+        scheme.current === "gamepad" ? gamepadMove : keyboardMove,
         moveFlow
       )
 
