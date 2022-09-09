@@ -34,24 +34,19 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useMemo(() => createStandardController(input), [input])
-
-  const controllerFlow = useMemo(() => {
+  const controller = useMemo(() => {
     const performDoubleJump = onPressed(doubleJump)
 
-    return (c: StandardControllerState) => ({
+    const controller = createStandardController(input)
+
+    return flow(controller, (c: StandardControllerState) => ({
       ...c,
       jump: performDoubleJump(c.jump)
-    })
-  }, [doubleJump])
-
-  const controllerWithProcessing = useMemo(
-    () => flow(controller, controllerFlow),
-    [controller, controllerFlow]
-  )
+    }))
+  }, [input])
 
   useFrame((_, dt) => {
-    const { jump, move } = controllerWithProcessing()
+    const { jump, move } = controller()
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
