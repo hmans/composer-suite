@@ -1,1 +1,1 @@
-export const react = true
+export const react = "cool"

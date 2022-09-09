@@ -466,12 +466,24 @@ importers:
 
   packages/camera-composer:
     specifiers:
+      '@react-three/fiber': ^8.7.0
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.143.2
       fp-ts: ^2.12.3
       react: ^18.2.0
+      react-dom: ^18.2.0
+      three: ^0.143.0
     dependencies:
       fp-ts: 2.12.3
     devDependencies:
+      '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.143.2
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.143.0
 
   packages/input-composer:
     specifiers:

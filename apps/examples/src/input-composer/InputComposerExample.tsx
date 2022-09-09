@@ -1,11 +1,17 @@
 import { useConst } from "@hmans/things"
-import { GroupProps, useFrame } from "@react-three/fiber"
+import { GroupProps, useFrame, useThree } from "@react-three/fiber"
 import { flow } from "fp-ts/lib/function"
 import { createPressInteraction } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description } from "r3f-stage"
-import { forwardRef, PropsWithChildren, useMemo, useRef } from "react"
-import { Group, Vector3 } from "three"
+import {
+  forwardRef,
+  PropsWithChildren,
+  useLayoutEffect,
+  useMemo,
+  useRef
+} from "react"
+import { Group, PerspectiveCamera, Vector3 } from "three"
 import {
   createStandardController,
   StandardControllerState
@@ -75,7 +81,10 @@ export default function Example({ playerSpeed = 3 }) {
 
   return (
     <Stage>
+      <SmartCamera />
+
       <Player ref={player} />
+
       <Description>
         A playground for prototyping <strong>Input Composer</strong>, the
         successor to <strong>Controlfreak</strong>.
@@ -127,4 +136,20 @@ const Stage = ({ children }: PropsWithChildren) => {
       {children}
     </group>
   )
+}
+
+const SmartCamera = () => {
+  const camera = useRef<PerspectiveCamera>(null!)
+  const r3f = useThree()
+
+  /* Register as active camera */
+  useLayoutEffect(() => {
+    r3f.set({ camera: camera.current })
+  }, [camera])
+
+  useFrame(({ camera }, dt) => {
+    // camera.position.z -= dt
+  })
+
+  return <perspectiveCamera position={[0, 3, 7]} ref={camera} />
 }
