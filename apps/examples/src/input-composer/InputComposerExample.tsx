@@ -4,7 +4,14 @@ import { pipe } from "fp-ts/lib/function"
 import { magnitude, onPressed } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
@@ -27,7 +34,9 @@ export default function Example({ playerSpeed = 3 }) {
   const velocity = useConst(() => new Vector3())
   const player = useRef<Group>(null!)
 
-  const doubleJump = useCallback(() => {
+  /* A callback that will make the player jump when the player is on the ground,
+  and double-jump once while they are in the air. */
+  const doubleJump = useMemo(() => {
     let doubleJumped = false
 
     return () => {
@@ -41,7 +50,7 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const jumpFlow = onPressed(doubleJump())
+  const jumpFlow = onPressed(doubleJump)
 
   useFrame((_, dt) => {
     const keyboardMove = {
