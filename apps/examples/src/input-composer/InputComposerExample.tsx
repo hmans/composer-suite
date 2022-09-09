@@ -1,6 +1,6 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { flow, identity, pipe } from "fp-ts/lib/function"
+import { flow, pipe } from "fp-ts/lib/function"
 import {
   applyDeadzone,
   clampVector,
@@ -69,11 +69,6 @@ const createController = (input: InputManager, onJump: () => void) => {
   }
 }
 
-/* An example implementation of a controller. */
-const useController = (input: InputManager, onJump: () => void) => {
-  return useMemo(() => createController(input, onJump), [input, onJump])
-}
-
 export default function Example({ playerSpeed = 3 }) {
   const input = useInput()
   const velocity = useConst(() => new Vector3())
@@ -95,7 +90,10 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useController(input, doubleJump)
+  const controller = useMemo(
+    () => createController(input, doubleJump),
+    [input, doubleJump]
+  )
 
   useFrame((_, dt) => {
     const { move } = controller()
