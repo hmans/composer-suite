@@ -8,7 +8,7 @@ export const createGamepadInput = () => {
 
     const axis = (axis: number) => state.axes[axis]
 
-    const button = (button: number) => state.buttons[button]
+    const button = (button: number) => state.buttons[button].value
 
     return { axis, button }
   }

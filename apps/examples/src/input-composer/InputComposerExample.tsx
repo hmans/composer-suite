@@ -1,6 +1,7 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { magnitude } from "input-composer"
+import { pipe } from "fp-ts/lib/function"
+import { magnitude, onPressed } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
@@ -40,6 +41,8 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
+  const jumpFlow = onPressed(doubleJump())
+
   useFrame((_, dt) => {
     const keyboardMove = {
       x: input.keyboard.axis("a", "d"),
@@ -57,6 +60,9 @@ export default function Example({ playerSpeed = 3 }) {
         }
       : { x: 0, y: 0 }
 
+    const keyboardJump = input.keyboard.key(" ")
+    const gamepadJump = gamepad ? gamepad.button(0) : 0
+
     /* Determine the active control scheme. */
     if (gamepad && magnitude(gamepadMove) > 0) {
       setScheme("gamepad")
@@ -67,6 +73,10 @@ export default function Example({ playerSpeed = 3 }) {
     }
 
     const move = scheme === "gamepad" ? gamepadMove : keyboardMove
+
+    const jump = scheme === "gamepad" ? gamepadJump : keyboardJump
+
+    pipe(jump, jumpFlow)
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
