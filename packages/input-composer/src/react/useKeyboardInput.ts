@@ -1,16 +1,19 @@
 import { useLayoutEffect } from "react"
 import { useConst } from "@hmans/use-const"
 
-export const useKeyboardInput = () => {
+export const useKeyboardInput = (onActivityCallback?: () => void) => {
+  /* A map that stores the current state of all keys. */
   const keyState = useConst(() => new Map<string, boolean>())
 
   useLayoutEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       keyState.set(e.key, true)
+      onActivityCallback?.()
     }
 
     const handleKeyUp = (e: KeyboardEvent) => {
       keyState.set(e.key, false)
+      onActivityCallback?.()
     }
 
     window.addEventListener("keydown", handleKeyDown)
