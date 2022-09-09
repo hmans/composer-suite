@@ -56,7 +56,7 @@ export const applyDeadzone =
 
 export const magnitude = (v: IVector) => Math.sqrt(v.x * v.x + v.y * v.y)
 
-export const onPressed = (callback: () => void, threshold = 1) => {
+export const createPressInteraction = (callback: () => void, threshold = 1) => {
   let pressed = false
 
   return (v: number) => {

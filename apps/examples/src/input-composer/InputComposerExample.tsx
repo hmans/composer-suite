@@ -1,7 +1,7 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { flow, pipe } from "fp-ts/lib/function"
-import { onPressed } from "input-composer"
+import { createPressInteraction } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useCallback, useMemo, useRef } from "react"
@@ -34,16 +34,23 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useMemo(() => {
-    const performDoubleJump = onPressed(doubleJump)
+  /* Let's define a jump interaction. Only reason we want to do this outside of
+  the per-frame processing callbacks is so that the state of onPressed doesn't
+  get reset every time. */
+  const jumpInteraction = useMemo(() => {
+    const performDoubleJump = createPressInteraction(doubleJump)
 
-    const controller = createStandardController(input)
-
-    return flow(controller, (c: StandardControllerState) => ({
+    return (c: StandardControllerState) => ({
       ...c,
       jump: performDoubleJump(c.jump)
-    }))
-  }, [input])
+    })
+  }, [doubleJump])
+
+  /* Let's grab a controller and extend it with our own processing flows. */
+  const controller = useMemo(
+    () => flow(createStandardController(input), jumpInteraction),
+    [input]
+  )
 
   useFrame((_, dt) => {
     const { jump, move } = controller()
