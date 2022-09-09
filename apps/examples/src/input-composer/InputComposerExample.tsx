@@ -28,12 +28,13 @@ export default function Example({ playerSpeed = 3 }) {
   }, [velocity, player])
 
   useFrame((_, dt) => {
-    // const { move, jump } = controller()
     const keyboardMove = {
       x: input.keyboard.axis("a", "d"),
       y: input.keyboard.axis("s", "w")
     }
+
     const gamepad = input.gamepad.gamepad(0)
+
     const gamepadMove = gamepad
       ? {
           x: gamepad.axis(0),
