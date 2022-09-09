@@ -1,6 +1,6 @@
 import { useConst } from "@hmans/use-const"
 import { useEffect } from "react"
-import { createInput } from ".."
+import { createInput } from "../createInput"
 
 export const useInput = () => {
   const input = useConst(() => createInput())
