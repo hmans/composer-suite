@@ -1,10 +1,11 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
-import { flow, pipe } from "fp-ts/lib/function"
+import { flow, identity, pipe } from "fp-ts/lib/function"
 import {
   applyDeadzone,
   clampVector,
   InputManager,
+  isVector,
   magnitude,
   onPressed
 } from "input-composer"
@@ -21,42 +22,50 @@ const createController = (input: InputManager, onJump: () => void) => {
   const moveFlow = flow(clampVector(), applyDeadzone(0.05))
   const jumpFlow = onPressed(onJump)
 
-  return () => {
-    const keyboardMove = {
-      x: input.keyboard.axis("a", "d"),
-      y: input.keyboard.axis("s", "w")
+  const withScheme =
+    <T extends any>(s: "keyboard" | "gamepad", fun: (t: T) => T) =>
+    (v: T) => {
+      const value = fun(v)
+
+      if (scheme === s) {
+        return value
+      } else if (
+        (typeof value === "number" && value > 0) ||
+        (isVector(value) && magnitude(value) > 0)
+      ) {
+        console.log("Switching to scheme:", s)
+        scheme = s
+        return value
+      } else {
+        return v
+      }
     }
 
+  return () => {
     /* Grab the player's gamepad. It may be null if no gamepad is connected. */
     const gamepad = input.gamepad.gamepad(0)
 
-    /* Get the movement vector of the gamepad */
-    const gamepadMove = gamepad
-      ? {
-          x: gamepad.axis(0),
-          y: -gamepad.axis(1)
-        }
-      : { x: 0, y: 0 }
-
-    const keyboardJump = input.keyboard.key(" ")
-    const gamepadJump = gamepad ? gamepad.button(0) : 0
-
-    /* Determine the active control scheme. */
-    if (gamepad && magnitude(gamepadMove) > 0) {
-      scheme = "gamepad"
-    }
-
-    if (magnitude(keyboardMove) > 0) {
-      scheme = "keyboard"
-    }
-
     const jump = pipe(
-      scheme === "gamepad" ? gamepadJump : keyboardJump,
+      0,
+      withScheme("keyboard", () => input.keyboard.key(" ")),
+      withScheme("gamepad", () => (gamepad ? gamepad.button(0) : 0)),
       jumpFlow
     )
 
     const move = pipe(
-      scheme === "gamepad" ? gamepadMove : keyboardMove,
+      { x: 0, y: 0 },
+      withScheme("keyboard", () => ({
+        x: input.keyboard.axis("a", "d"),
+        y: input.keyboard.axis("s", "w")
+      })),
+      withScheme("gamepad", () =>
+        gamepad
+          ? {
+              x: gamepad.axis(0),
+              y: -gamepad.axis(1)
+            }
+          : { x: 0, y: 0 }
+      ),
       moveFlow
     )
 

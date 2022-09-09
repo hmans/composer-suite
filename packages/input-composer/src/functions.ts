@@ -72,3 +72,7 @@ export const onPressed = (callback: () => void, threshold = 1) => {
     return v
   }
 }
+
+export function isVector(v: any): v is IVector {
+  return v && v.x !== undefined && v.y !== undefined
+}
