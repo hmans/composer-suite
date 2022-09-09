@@ -8,6 +8,7 @@ import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
+/* An example implementation of a piece of state tracking the current input scheme. */
 const useInputScheme = () => {
   const [scheme, setScheme] = useState<"keyboard" | "gamepad">("keyboard")
 
