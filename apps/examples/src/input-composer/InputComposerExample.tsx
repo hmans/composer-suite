@@ -4,22 +4,19 @@ import { flow, pipe } from "fp-ts/lib/function"
 import {
   applyDeadzone,
   clampVector,
-  createInputManager,
   InputManager,
   magnitude,
   onPressed
 } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react"
+import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
 
 const createController = (input: InputManager, onJump: () => void) => {
-  const state = {
-    scheme: "keyboard" as "keyboard" | "gamepad"
-  }
+  let scheme = "keyboard" as "keyboard" | "gamepad"
 
   const moveFlow = flow(clampVector(), applyDeadzone(0.05))
   const jumpFlow = onPressed(onJump)
@@ -46,20 +43,20 @@ const createController = (input: InputManager, onJump: () => void) => {
 
     /* Determine the active control scheme. */
     if (gamepad && magnitude(gamepadMove) > 0) {
-      state.scheme = "gamepad"
+      scheme = "gamepad"
     }
 
     if (magnitude(keyboardMove) > 0) {
-      state.scheme = "keyboard"
+      scheme = "keyboard"
     }
 
     const jump = pipe(
-      state.scheme === "gamepad" ? gamepadJump : keyboardJump,
+      scheme === "gamepad" ? gamepadJump : keyboardJump,
       jumpFlow
     )
 
     const move = pipe(
-      state.scheme === "gamepad" ? gamepadMove : keyboardMove,
+      scheme === "gamepad" ? gamepadMove : keyboardMove,
       moveFlow
     )
 
