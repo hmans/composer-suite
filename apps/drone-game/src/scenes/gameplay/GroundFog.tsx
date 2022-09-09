@@ -11,10 +11,7 @@ import smokeUrl from "../../assets/smoke.png"
 export const GroundFog = () => {
   const texture = useTexture(smokeUrl)
 
-  const time = useConst(() => Time())
-  const rotation = useParticleAttribute(() => 0 as number)
   const scale = useParticleAttribute(() => 1 as number)
-
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
@@ -27,18 +24,16 @@ export const GroundFog = () => {
           transparent
           depthWrite={false}
         >
-          <modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
           <modules.Scale scale={scale} />
           <modules.Billboard />
           <modules.Softness softness={5} depthTexture={depth} />
         </composable.meshStandardMaterial>
 
         <Emitter
-          limit={200}
+          limit={150}
           rate={Infinity}
           setup={({ position }) => {
             position.set(plusMinus(30), between(-2, 4), plusMinus(30))
-            rotation.value = plusMinus(0.1)
             scale.value = between(8, 10)
           }}
         />

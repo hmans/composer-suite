@@ -1,4 +1,4 @@
-import { Environment, PerspectiveCamera } from "@react-three/drei"
+import { Environment, PerspectiveCamera, Sky } from "@react-three/drei"
 import { GroupProps, Object3DProps, useFrame } from "@react-three/fiber"
 import {
   CuboidCollider,
@@ -13,6 +13,7 @@ import { useInput } from "input-composer/react"
 import { Vector3 } from "three"
 import { Quaternion } from "three"
 import { GroundFog } from "./GroundFog"
+import { Debris } from "./Debris"
 
 export const GameplayScene = () => {
   return (
@@ -54,6 +55,7 @@ export const GameplayScene = () => {
         </RigidBody>
 
         <GroundFog />
+        <Debris />
       </Physics>
 
       <fogExp2 args={["#000", 0.03]} attach="fog" />
@@ -102,7 +104,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
 
     body.current.addForce(
       tmpVec3
-        .set(rightStick.x * 600, rightTrigger * 1000, 0)
+        .set(rightStick.x * 200, rightTrigger * 1000, 0)
         .applyQuaternion(tmpQuat)
     )
 
@@ -124,6 +126,15 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
       ref={body}
       angularDamping={1}
       linearDamping={1}
+      onCollisionEnter={({ manifold }) => {
+        console.log(
+          "Collision at world position ",
+          manifold.solverContactPoint(0)
+        )
+      }}
+      onCollisionExit={() => {
+        console.log("Collision ended")
+      }}
     >
       <PerspectiveCamera ref={camera} makeDefault />
       <CuboidCollider args={[2, 2, 2]} />
