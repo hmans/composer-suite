@@ -1,8 +1,12 @@
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
+import {
+  Box,
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+  Torus
+} from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
-import { Box, Torus } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
-import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier"
+import { CuboidCollider, Debug, Physics, RigidBody } from "@react-three/rapier"
 
 export const GameplayScene = () => {
   return (
@@ -24,25 +28,27 @@ export const GameplayScene = () => {
       </>
 
       <Physics gravity={[0, -5, 0]} colliders={false}>
-        <RigidBody colliders={"hull"} restitution={0.5}>
-          <Torus />
+        <Debug color="red" sleepColor="blue" />
+
+        <RigidBody colliders="hull" restitution={0}>
+          <mesh castShadow rotation={[0.2, 0.2, 0.2]}>
+            <dodecahedronGeometry />
+            <meshStandardMaterial
+              color="hotpink"
+              metalness={0.3}
+              roughness={0.4}
+            />
+          </mesh>
         </RigidBody>
 
-        <RigidBody position={[0, -2, 0]} type="kinematicPosition">
-          <Box args={[20, 1, 20]} />
-          <CuboidCollider args={[10, 0.5, 10]} />
+        <RigidBody type="kinematicPosition">
+          <Ground />
+          <CuboidCollider position={[0, -0.5, 0]} args={[10, 0.5, 10]} />
         </RigidBody>
       </Physics>
 
       <fogExp2 args={["#000", 0.03]} attach="fog" />
-      {/* <Environment preset="sunset" /> */}
-
-      {/* <Ground />
-
-      <mesh castShadow>
-        <dodecahedronGeometry />
-        <meshStandardMaterial color="hotpink" metalness={0.3} roughness={0.4} />
-      </mesh> */}
+      <Environment preset="sunset" />
 
       <PerspectiveCamera position={[0, 3, 7]} makeDefault />
 
