@@ -7,6 +7,10 @@ import {
   magnitude
 } from "input-composer"
 
+export type StandardController = ReturnType<typeof createStandardController>
+
+export type StandardControllerState = ReturnType<StandardController>
+
 export const createStandardController = (input: InputManager) => {
   let scheme = "keyboard" as "keyboard" | "gamepad"
 

@@ -6,7 +6,10 @@ import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useCallback, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
-import { createStandardController } from "./createStandardController"
+import {
+  createStandardController,
+  StandardControllerState
+} from "./createStandardController"
 
 const tmpVec3 = new Vector3()
 
@@ -36,7 +39,7 @@ export default function Example({ playerSpeed = 3 }) {
   const controllerFlow = useMemo(() => {
     const performDoubleJump = onPressed(doubleJump)
 
-    return (c: ReturnType<typeof controller>) => ({
+    return (c: StandardControllerState) => ({
       ...c,
       jump: performDoubleJump(c.jump)
     })
