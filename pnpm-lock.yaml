@@ -65,6 +65,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       render-composer: workspace:^0.1.5
+      state-composer: workspace:^0.0.1
       three: ^0.143.0
       timeline-composer: workspace:^0.1.6
       typescript: ^4.6.4
@@ -77,6 +78,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       render-composer: link:../../packages/render-composer
+      state-composer: link:../../packages/state-composer
       three: 0.143.0
       timeline-composer: link:../../packages/timeline-composer
     devDependencies:
@@ -698,6 +700,21 @@ importers:
       shader-composer: link:../shader-composer
     devDependencies:
       three: 0.143.0
+
+  packages/state-composer:
+    specifiers:
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      statery: ^0.6.0-next.2
+    dependencies:
+      statery: 0.6.0-next.2_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   packages/timeline-composer:
     specifiers:
