@@ -11,7 +11,7 @@ This project wouldn't be possible without the support from its lovely [sponsors]
 
 <!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><!-- sponsors -->
 
-## Packages
+## Packages 📦
 
 [![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)](https://github.com/hmans/composer-suite/tree/main/packages/shader-composer)  
 ![react] ![vanilla] ![three]
@@ -113,7 +113,7 @@ _TODO_
 
 _TODO_
 
-## Development
+## Development 🛠
 
 ### Core Tenets
 
@@ -122,7 +122,7 @@ _TODO_
 - **Flawless HMR**.  
   The libraries should provide a fun and flawless development experience with the best support for hot-module reloading possible. The user should be able to hot-reload their code and see the changes immediately in the browser. Where possible, state should be retained; there must never be errors when hot-reloading.
 
-## License
+## License 👩‍⚖️
 
 ```
 Copyright (c) 2022 Hendrik Mans
