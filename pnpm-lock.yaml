@@ -54,19 +54,35 @@ importers:
 
   apps/drone-game:
     specifiers:
+      '@react-three/drei': ^9.26.0
+      '@react-three/fiber': ^8.7.0
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
+      '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
+      camera-composer: workspace:^0.0.1
+      input-composer: workspace:^0.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      render-composer: workspace:^0.1.5
+      three: ^0.143.0
+      timeline-composer: workspace:^0.1.6
       typescript: ^4.6.4
       vite: ^3.1.0
     dependencies:
+      '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
+      '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
+      camera-composer: link:../../packages/camera-composer
+      input-composer: link:../../packages/input-composer
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      render-composer: link:../../packages/render-composer
+      three: 0.143.0
+      timeline-composer: link:../../packages/timeline-composer
     devDependencies:
       '@types/react': 18.0.18
       '@types/react-dom': 18.0.6
+      '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.0
       typescript: 4.8.2
       vite: 3.1.0
@@ -3849,6 +3865,12 @@ packages:
     resolution: {integrity: sha512-HjsRWvd6rsXViFeOdU97/pHNDQknzJbFI0/5MrQ0joOlK0uixQH40sDJs/LwkNHhFYUvVENXAUQdKDeiQChHDw==}
     dependencies:
       '@types/webxr': 0.5.0
+
+  /@types/three/0.144.0:
+    resolution: {integrity: sha512-psvEs6q5rLN50jUYZ3D4pZMfxTbdt3A243blt0my7/NcL6chaCZpHe2csbCtx0SOD9fI/XnF3wnVUAYZGqCSYg==}
+    dependencies:
+      '@types/webxr': 0.5.0
+    dev: true
 
   /@types/tough-cookie/4.0.2:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
