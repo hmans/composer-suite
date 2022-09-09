@@ -56,23 +56,6 @@ export const applyDeadzone =
 
 export const magnitude = (v: IVector) => Math.sqrt(v.x * v.x + v.y * v.y)
 
-export const createPressInteraction = (callback: () => void, threshold = 1) => {
-  let pressed = false
-
-  return (v: number) => {
-    if (v >= threshold) {
-      if (!pressed) {
-        callback()
-        pressed = true
-      }
-    } else {
-      pressed = false
-    }
-
-    return v
-  }
-}
-
 export function isVector(v: any): v is IVector {
   return v && v.x !== undefined && v.y !== undefined
 }
