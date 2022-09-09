@@ -4,7 +4,7 @@ import { flow, pipe } from "fp-ts/lib/function"
 import { onPressed } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import { forwardRef, useMemo, useRef } from "react"
+import { forwardRef, useCallback, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
 import { createStandardController } from "./createStandardController"
 
@@ -31,18 +31,19 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useMemo(
-    () => createStandardController(input),
-    [input, doubleJump]
-  )
+  const controller = useMemo(() => createStandardController(input), [input])
 
-  const jumpFlow = useMemo(() => onPressed(doubleJump), [doubleJump])
+  const controllerFlow = useMemo(() => {
+    const performDoubleJump = onPressed(doubleJump)
+
+    return (c: ReturnType<typeof controller>) => ({
+      ...c,
+      jump: performDoubleJump(c.jump)
+    })
+  }, [doubleJump])
 
   useFrame((_, dt) => {
-    const { jump, move } = pipe(controller(), (c) => ({
-      ...c,
-      jump: jumpFlow(c.jump)
-    }))
+    const { jump, move } = pipe(controller(), controllerFlow)
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
