@@ -48,7 +48,7 @@ const createController = (input: InputManager, onJump: () => void) => {
     const jump = pipe(
       0,
       withScheme("keyboard", () => input.keyboard.key(" ")),
-      withScheme("gamepad", () => (gamepad ? gamepad.button(0) : 0)),
+      withScheme("gamepad", () => gamepad?.button(0) ?? 0),
       jumpFlow
     )
 
@@ -58,14 +58,10 @@ const createController = (input: InputManager, onJump: () => void) => {
         x: input.keyboard.axis("a", "d"),
         y: input.keyboard.axis("s", "w")
       })),
-      withScheme("gamepad", () =>
-        gamepad
-          ? {
-              x: gamepad.axis(0),
-              y: -gamepad.axis(1)
-            }
-          : { x: 0, y: 0 }
-      ),
+      withScheme("gamepad", () => ({
+        x: +(gamepad?.axis(0) ?? 0),
+        y: -(gamepad?.axis(1) ?? 0)
+      })),
       moveFlow
     )
 
