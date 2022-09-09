@@ -34,8 +34,10 @@ export default function Example({ playerSpeed = 3 }) {
       y: input.keyboard.axis("s", "w")
     }
 
+    /* Grab the player's gamepad. It may be null if no gamepad is connected. */
     const gamepad = input.gamepad.gamepad(0)
 
+    /* Get the movement vector of the gamepad */
     const gamepadMove = gamepad
       ? {
           x: gamepad.axis(0),
@@ -43,7 +45,10 @@ export default function Example({ playerSpeed = 3 }) {
         }
       : { x: 0, y: 0 }
 
-    const move = magnitude(keyboardMove) > 0 ? keyboardMove : gamepadMove
+    /* We're going to apply a very cheap and stupid heuristic here to
+    determine which input is currently active. This is going to have to be
+    much smarter in the future. */
+    const move = magnitude(gamepadMove) > 0 ? gamepadMove : keyboardMove
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
