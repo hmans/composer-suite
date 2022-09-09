@@ -39,9 +39,10 @@ export default function Example({ playerSpeed = 3 }) {
   const jumpFlow = useMemo(() => onPressed(doubleJump), [doubleJump])
 
   useFrame((_, dt) => {
-    const { jump, move } = controller()
-
-    pipe(jump, jumpFlow)
+    const { jump, move } = pipe(controller(), (c) => ({
+      ...c,
+      jump: jumpFlow(c.jump)
+    }))
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)
