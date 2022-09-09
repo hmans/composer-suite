@@ -12,12 +12,10 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "react/index.ts",
-      "drivers/*.ts"
+      "react/index.ts"
     ]
   },
   "files": [
-    "drivers/**",
     "dist/**",
     "react/**",
     "LICENSE",
