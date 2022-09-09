@@ -1,5 +1,4 @@
-# Composer Suite
-
+![Composer Suite](https://user-images.githubusercontent.com/1061/189347136-c81b7807-dbbc-4d8f-a890-b9d6639165b0.jpg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=for-the-badge)](CODE_OF_CONDUCT.md)
 
 > **Note**
