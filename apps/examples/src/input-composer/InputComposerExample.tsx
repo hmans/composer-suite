@@ -9,14 +9,7 @@ import {
 } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from "react"
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react"
 import { Group, Vector3 } from "three"
 
 const tmpVec3 = new Vector3()
@@ -32,32 +25,15 @@ const useInputScheme = () => {
   return [scheme, setScheme] as const
 }
 
-export default function Example({ playerSpeed = 3 }) {
-  const input = useInput()
+const useController = (
+  input: ReturnType<typeof useInput>,
+  onJump: () => void
+) => {
   const [scheme, setScheme] = useInputScheme()
 
-  const velocity = useConst(() => new Vector3())
-  const player = useRef<Group>(null!)
-
-  /* A callback that will make the player jump when the player is on the ground,
-  and double-jump once while they are in the air. */
-  const doubleJump = useMemo(() => {
-    let doubleJumped = false
-
-    return () => {
-      if (player.current.position.y == 0) {
-        doubleJumped = false
-        velocity.y = 5
-      } else if (!doubleJumped) {
-        doubleJumped = true
-        velocity.y = 5
-      }
-    }
-  }, [velocity, player])
-
-  const controller = useMemo(() => {
+  return useMemo(() => {
     const moveFlow = flow(clampVector(), applyDeadzone(0.05))
-    const jumpFlow = onPressed(doubleJump)
+    const jumpFlow = onPressed(onJump)
 
     return () => {
       const keyboardMove = {
@@ -101,6 +77,30 @@ export default function Example({ playerSpeed = 3 }) {
       return { jump, move }
     }
   }, [input, scheme])
+}
+
+export default function Example({ playerSpeed = 3 }) {
+  const input = useInput()
+  const velocity = useConst(() => new Vector3())
+  const player = useRef<Group>(null!)
+
+  /* A callback that will make the player jump when the player is on the ground,
+  and double-jump once while they are in the air. */
+  const doubleJump = useMemo(() => {
+    let doubleJumped = false
+
+    return () => {
+      if (player.current.position.y == 0) {
+        doubleJumped = false
+        velocity.y = 5
+      } else if (!doubleJumped) {
+        doubleJumped = true
+        velocity.y = 5
+      }
+    }
+  }, [velocity, player])
+
+  const controller = useController(input, doubleJump)
 
   useFrame((_, dt) => {
     const { move } = controller()
