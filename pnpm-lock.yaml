@@ -465,9 +465,11 @@ importers:
   packages/input-composer:
     specifiers:
       '@hmans/use-const': ^0.0.1
+      fp-ts: ^2.12.3
       react: ^18.2.0
     dependencies:
       '@hmans/use-const': 0.0.1_react@18.2.0
+      fp-ts: 2.12.3
     devDependencies:
       react: 18.2.0
 
