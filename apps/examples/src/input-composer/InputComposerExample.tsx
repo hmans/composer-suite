@@ -1,70 +1,14 @@
 import { useConst } from "@hmans/things"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import { flow, pipe } from "fp-ts/lib/function"
-import {
-  applyDeadzone,
-  clampVector,
-  InputManager,
-  isVector,
-  magnitude,
-  onPressed
-} from "input-composer"
+import { onPressed } from "input-composer"
 import { useInput } from "input-composer/react"
 import { Description, FlatStage } from "r3f-stage"
 import { forwardRef, useMemo, useRef } from "react"
 import { Group, Vector3 } from "three"
+import { createStandardController } from "./createStandardController"
 
 const tmpVec3 = new Vector3()
-
-const createController = (input: InputManager) => {
-  let scheme = "keyboard" as "keyboard" | "gamepad"
-
-  const withScheme =
-    <T extends any>(s: "keyboard" | "gamepad", fun: (t: T) => T) =>
-    (v: T) => {
-      const value = fun(v)
-
-      if (scheme === s) {
-        return value
-      } else if (
-        (typeof value === "number" && value > 0) ||
-        (isVector(value) && magnitude(value) > 0)
-      ) {
-        console.log("Switching to scheme:", s)
-        scheme = s
-        return value
-      } else {
-        return v
-      }
-    }
-
-  return () => {
-    /* Grab the player's gamepad. It may be null if no gamepad is connected. */
-    const gamepad = input.gamepad.gamepad(0)
-
-    const jump = pipe(
-      0,
-      withScheme("keyboard", () => input.keyboard.key(" ")),
-      withScheme("gamepad", () => gamepad?.button(0) ?? 0)
-    )
-
-    const move = pipe(
-      { x: 0, y: 0 },
-      withScheme("keyboard", () => ({
-        x: input.keyboard.axis("a", "d"),
-        y: input.keyboard.axis("s", "w")
-      })),
-      withScheme("gamepad", () => ({
-        x: +(gamepad?.axis(0) ?? 0),
-        y: -(gamepad?.axis(1) ?? 0)
-      })),
-      clampVector(),
-      applyDeadzone(0.05)
-    )
-
-    return { jump, move }
-  }
-}
 
 export default function Example({ playerSpeed = 3 }) {
   const input = useInput()
@@ -87,7 +31,10 @@ export default function Example({ playerSpeed = 3 }) {
     }
   }, [velocity, player])
 
-  const controller = useMemo(() => createController(input), [input, doubleJump])
+  const controller = useMemo(
+    () => createStandardController(input),
+    [input, doubleJump]
+  )
 
   const jumpFlow = useMemo(() => onPressed(doubleJump), [doubleJump])
 
