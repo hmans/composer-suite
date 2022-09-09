@@ -15,13 +15,19 @@
     "@react-three/rapier": "^0.6.7",
     "camera-composer": "workspace:^0.0.1",
     "input-composer": "workspace:^0.0.1",
+    "material-composer": "workspace:^0.2.0",
+    "material-composer-r3f": "workspace:^0.2.0",
+    "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "render-composer": "workspace:^0.1.5",
+    "shader-composer": "workspace:^0.4.0",
+    "shader-composer-r3f": "workspace:^0.4.0",
     "state-composer": "workspace:^0.0.1",
     "three": "^0.143.0",
     "three-stdlib": "^2.15.0",
-    "timeline-composer": "workspace:^0.1.6"
+    "timeline-composer": "workspace:^0.1.6",
+    "vfx-composer-r3f": "workspace:^0.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",

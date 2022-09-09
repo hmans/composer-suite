@@ -7,12 +7,12 @@ import {
   RigidBody,
   RigidBodyApi
 } from "@react-three/rapier"
-import { RigidBodyProps } from "@react-three/rapier/dist/declarations/src/RigidBody"
 import { useRef } from "react"
 import { PerspectiveCamera as PerspectiveCameraImpl } from "three"
 import { useInput } from "input-composer/react"
 import { Vector3 } from "three"
 import { Quaternion } from "three"
+import { GroundFog } from "./GroundFog"
 
 export const GameplayScene = () => {
   return (
@@ -52,6 +52,8 @@ export const GameplayScene = () => {
           <Ground />
           <CuboidCollider position={[0, -0.5, 0]} args={[100, 0.5, 100]} />
         </RigidBody>
+
+        <GroundFog />
       </Physics>
 
       <fogExp2 args={["#000", 0.03]} attach="fog" />
@@ -100,7 +102,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
 
     body.current.addForce(
       tmpVec3
-        .set(leftStick.x * 600, -leftStick.y * 1000, 0)
+        .set(rightStick.x * 600, rightTrigger * 1000, 0)
         .applyQuaternion(tmpQuat)
     )
 
@@ -108,13 +110,9 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
       tmpVec3.set(0, 0, leftTrigger * 200).applyQuaternion(tmpQuat)
     )
 
-    body.current.addForce(
-      tmpVec3.set(0, 0, rightTrigger * -400).applyQuaternion(tmpQuat)
-    )
-
     body.current.addTorque(
       tmpVec3
-        .set(rightStick.y * 50, rightStick.x * -50, 0)
+        .set(leftStick.y * 50, leftStick.x * -50, leftStick.x * -50)
         .applyQuaternion(tmpQuat)
     )
   })
