@@ -29,9 +29,19 @@ export default function Example({ playerSpeed = 3 }) {
 
   useFrame((_, dt) => {
     // const { move, jump } = controller()
-    const keyboardMove = input.keyboard.getVector("w", "s", "a", "d")
-    const gamepadMove = input.gamepad.getGamepad(0)?.getVector(0, 1)
-    const move = keyboardMove
+    const keyboardMove = {
+      x: input.keyboard.axis("a", "d"),
+      y: input.keyboard.axis("s", "w")
+    }
+    const gamepad = input.gamepad.gamepad(0)
+    const gamepadMove = gamepad
+      ? {
+          x: gamepad.axis(0),
+          y: -gamepad.axis(1)
+        }
+      : { x: 0, y: 0 }
+
+    const move = gamepadMove
 
     player.current.position.add(
       tmpVec3.set(move.x, 0, -move.y).multiplyScalar(playerSpeed * dt)

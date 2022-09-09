@@ -23,45 +23,29 @@ const createKeyboardInput = () => {
     window.removeEventListener("keyup", handleKeyUp)
   }
 
-  const getKey = (key: string) => (keyState.get(key) ? 1 : 0)
+  const key = (key: string) => (keyState.get(key) ? 1 : 0)
 
-  const getAxis = (minKey: string, maxKey: string) =>
-    getKey(maxKey) - getKey(minKey)
+  const axis = (minKey: string, maxKey: string) => key(maxKey) - key(minKey)
 
-  const getVector = (
-    upKey: string,
-    downKey: string,
-    leftKey: string,
-    rightKey: string
-  ) => ({
-    x: getAxis(leftKey, rightKey),
-    y: getAxis(downKey, upKey)
-  })
-
-  return { start, stop, getKey, getAxis, getVector }
+  return { start, stop, key, axis }
 }
 
 const createGamepadInput = () => {
   const start = () => {}
   const stop = () => {}
 
-  const getGamepad = (index: number) => {
+  const gamepad = (index: number) => {
     const state = navigator.getGamepads()[index]
     if (!state) return undefined
 
-    const getAxis = (axis: number) => state.axes[axis]
+    const axis = (axis: number) => state.axes[axis]
 
-    const getButton = (button: number) => state.buttons[button]
+    const button = (button: number) => state.buttons[button]
 
-    const getVector = (horizontal: number, vertical: number) => ({
-      x: +getAxis(horizontal),
-      y: -getAxis(vertical)
-    })
-
-    return { getAxis, getButton, getVector }
+    return { axis, button }
   }
 
-  return { start, stop, getGamepad }
+  return { start, stop, gamepad }
 }
 
 export const createInput = () => {
