@@ -1,19 +1,20 @@
-import { Environment, PerspectiveCamera, Sky } from "@react-three/drei"
-import { GroupProps, Object3DProps, useFrame } from "@react-three/fiber"
+import { Environment, PerspectiveCamera } from "@react-three/drei"
+import { GroupProps, useFrame } from "@react-three/fiber"
 import {
   CuboidCollider,
-  Debug,
   Physics,
   RigidBody,
   RigidBodyApi
 } from "@react-three/rapier"
-import { useRef } from "react"
-import { PerspectiveCamera as PerspectiveCameraImpl } from "three"
 import { useInput } from "input-composer/react"
-import { Vector3 } from "three"
-import { Quaternion } from "three"
-import { GroundFog } from "./GroundFog"
+import { useRef } from "react"
+import {
+  PerspectiveCamera as PerspectiveCameraImpl,
+  Quaternion,
+  Vector3
+} from "three"
 import { Debris } from "./Debris"
+import { GroundFog } from "./GroundFog"
 
 export const GameplayScene = () => {
   return (
@@ -76,23 +77,35 @@ const Ground = (props: GroupProps) => (
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
+const useInputController = () => {
+  const input = useInput()
+
+  /* Do things that need to memoize here */
+
+  /* Return a function that can be executed every frame to get fresh input data */
+  return () => ({
+    leftStick: {
+      x: input.gamepad.gamepad(0)?.axis(0) ?? 0,
+      y: input.gamepad.gamepad(0)?.axis(1) ?? 0
+    },
+    rightStick: {
+      x: input.gamepad.gamepad(0)?.axis(2) ?? 0,
+      y: input.gamepad.gamepad(0)?.axis(3) ?? 0
+    }
+  })
+}
+
 const Player = (props: Parameters<typeof RigidBody>[0]) => {
   const body = useRef<RigidBodyApi>(null!)
   const camera = useRef<PerspectiveCameraImpl>(null!)
   const input = useInput()
 
+  const controller = useInputController()
+
   useFrame(() => {
     const gamepad = input.gamepad.gamepad(0)
 
-    const leftStick = {
-      x: gamepad?.axis(0) ?? 0,
-      y: gamepad?.axis(1) ?? 0
-    }
-
-    const rightStick = {
-      x: gamepad?.axis(2) ?? 0,
-      y: gamepad?.axis(3) ?? 0
-    }
+    const { leftStick, rightStick } = controller()
 
     const leftTrigger = gamepad?.button(6) ?? 0
     const rightTrigger = gamepad?.button(7) ?? 0
