@@ -546,6 +546,7 @@ importers:
     specifiers:
       '@hmans/use-animation-frame': ^0.0.2
       '@hmans/use-const': ^0.0.1
+      '@react-three/fiber': ^8.7.0
       fp-ts: ^2.12.3
       react: ^18.2.0
     dependencies:
@@ -553,6 +554,7 @@ importers:
       '@hmans/use-const': 0.0.1_react@18.2.0
       fp-ts: 2.12.3
     devDependencies:
+      '@react-three/fiber': 8.7.0_react@18.2.0
       react: 18.2.0
 
   packages/material-composer:
@@ -3501,6 +3503,38 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.143.0
       zustand: 3.7.2_react@18.2.0
+
+  /@react-three/fiber/8.7.0_react@18.2.0:
+    resolution: {integrity: sha512-kSxAx/7UtyjiHJsgc4XHtWCw+XnvcqGwO9D9Tr1XBNO5l/NioBwM4FEvwi4DbOjbl7/i0o9iNJc8E6hrijGqFg==}
+    peerDependencies:
+      expo: '>=43.0'
+      expo-asset: '>=8.4'
+      expo-gl: '>=11.0'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+      react-native: '>=0.64'
+      three: '>=0.133'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+      expo-asset:
+        optional: true
+      expo-gl:
+        optional: true
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.18.9
+      '@types/react-reconciler': 0.26.7
+      react: 18.2.0
+      react-reconciler: 0.27.0_react@18.2.0
+      react-use-measure: 2.1.1_react@18.2.0
+      scheduler: 0.21.0
+      suspend-react: 0.0.8_react@18.2.0
+      zustand: 3.7.2_react@18.2.0
+    dev: true
 
   /@react-three/rapier/0.6.7_7rjvrkmf6xtxxzpjgikfjrgsve:
     resolution: {integrity: sha512-1XqB52uZAvOIYaNCMqzttSdFSlvdquOKNWx0X3dMN1+trXqgZpj/NTs1fWGVw8F4xTUfj/jlpqCw9DEMVsTAqA==}
@@ -9261,6 +9295,16 @@ packages:
       debounce: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+
+  /react-use-measure/2.1.1_react@18.2.0:
+    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
+    peerDependencies:
+      react: '>=16.13'
+      react-dom: '>=16.13'
+    dependencies:
+      debounce: 1.2.1
+      react: 18.2.0
+    dev: true
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

@@ -11,10 +11,12 @@ export const createInputManager = () => {
 
   const start = flow(keyboard.start, gamepad.start)
   const stop = flow(keyboard.stop, gamepad.stop)
+  const update = flow(gamepad.update)
 
   return {
     start,
     stop,
+    update,
     keyboard,
     gamepad
   }
