@@ -4,7 +4,6 @@ import { composable, modules } from "material-composer-r3f"
 import { Layers, useRenderPipeline } from "render-composer"
 import {
   Add,
-  Div,
   Float,
   GlobalTime,
   Input,
@@ -14,11 +13,10 @@ import {
   Rotation3DZ,
   ScaleAndOffset,
   Sub,
-  Vec2,
   Vec3
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
-import { PSRDNoise2D, Random } from "shader-composer-toybox"
+import { Random } from "shader-composer-toybox"
 import { Emitter, Particles } from "vfx-composer-r3f"
 import smokeUrl from "../../assets/smoke.png"
 
@@ -29,11 +27,13 @@ export const GroundFog = () => (
 export type FogProps = {
   dimensions?: Input<"vec3">
   amount?: number
+  rotationSpeed?: Input<"float">
 }
 
 export const Fog = ({
   amount = 25,
-  dimensions = Vec3([10, 10, 10])
+  dimensions = Vec3([10, 10, 10]),
+  rotationSpeed = 0.03
 }: FogProps) => {
   const texture = useTexture(smokeUrl)
 
@@ -58,20 +58,17 @@ export const Fog = ({
 
           <modules.Rotate
             rotation={pipe(
-              GlobalTime,
-              (v) => Mul(v, InstanceRandom(-87)),
-              (v) => Mul(v, 0.05),
+              InstanceRandom(-87),
+              (v) => ScaleAndOffset(v, 2, -1),
+              (v) => Mul(v, rotationSpeed),
+              (v) => Mul(v, GlobalTime),
               Rotation3DZ
             )}
           />
 
           <modules.Billboard />
 
-          <modules.Scale
-            scale={pipe(InstanceRandom(123), NormalizePlusMinusOne, (v) =>
-              ScaleAndOffset(v, 10, 5)
-            )}
-          />
+          <modules.Scale scale={ScaleAndOffset(InstanceRandom(123), 10, 2)} />
 
           <modules.Translate
             offset={pipe(
