@@ -89,21 +89,33 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
 
     const inputs = {
       leftStick: {
-        keyboard: {
-          x: input.keyboard.axis("a", "d"),
-          y: input.keyboard.axis("w", "s")
-        },
+        keyboard: keyboard.vector("KeyS", "KeyW", "KeyA", "KeyD"),
         gamepad: gamepad.vector(0, 1)
+      },
+
+      rightStick: {
+        keyboard: keyboard.vector(
+          "ArrowUp",
+          "ArrowDown",
+          "ArrowLeft",
+          "ArrowRight"
+        ),
+        gamepad: gamepad.vector(2, 3)
+      },
+
+      rightTrigger: {
+        keyboard: keyboard.key("Space"),
+        gamepad: gamepad.button(7)
       }
     }
 
     /* Extract inputs depending on current device */
-    const currentDevice = "gamepad"
+    const currentDevice = "keyboard"
     const leftStick = inputs.leftStick[currentDevice]
-    const rightStick = gamepad.vector(2, 3)
+    const rightStick = inputs.rightStick[currentDevice]
 
     const leftTrigger = gamepad.button(6)
-    const rightTrigger = gamepad.button(7)
+    const rightTrigger = inputs.rightTrigger[currentDevice]
 
     body.current.resetForces()
     body.current.resetTorques()

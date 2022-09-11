@@ -2,15 +2,27 @@ import { useConst } from "@hmans/use-const"
 import { useLayoutEffect, useMemo } from "react"
 
 export const useKeyboard = () => {
+  /* Grab the keyboard state. This is managed by a separate hook. */
   const state = useKeyboardState()
 
+  /* Return the API. */
   return useMemo(() => {
-    const key = (key: string) => (state.keys.get(key) ? 1 : 0)
+    const key = (code: string) => (state.keys.get(code) ? 1 : 0)
 
     const axis = (minKey: string, maxKey: string) => key(maxKey) - key(minKey)
 
-    return { key, axis }
-  }, [])
+    const vector = (
+      upKey: string,
+      downKey: string,
+      leftKey: string,
+      rightKey: string
+    ) => ({
+      x: axis(leftKey, rightKey),
+      y: axis(downKey, upKey)
+    })
+
+    return { key, axis, vector }
+  }, [state])
 }
 
 const useKeyboardState = () => {
@@ -20,11 +32,12 @@ const useKeyboardState = () => {
 
   useLayoutEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      state.keys.set(event.key, true)
+      console.log(event.code)
+      state.keys.set(event.code, true)
     }
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      state.keys.set(event.key, false)
+      state.keys.set(event.code, false)
     }
 
     window.addEventListener("keydown", handleKeyDown)
@@ -34,7 +47,7 @@ const useKeyboardState = () => {
       window.removeEventListener("keydown", handleKeyDown)
       window.removeEventListener("keyup", handleKeyUp)
     }
-  }, [])
+  }, [state])
 
   return state
 }
