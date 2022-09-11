@@ -86,7 +86,12 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
   useFrame(() => {
     const gamepad = input.gamepad(0)
 
-    const leftStick = gamepad.vector(0, 1)
+    const leftStick = {
+      x: input.keyboard.axis("a", "d"),
+      y: input.keyboard.axis("w", "s")
+    }
+
+    // const leftStick = gamepad.vector(0, 1)
     const rightStick = gamepad.vector(2, 3)
 
     const leftTrigger = gamepad.button(6)
