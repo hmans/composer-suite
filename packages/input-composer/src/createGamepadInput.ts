@@ -1,17 +1,8 @@
-import { IDriver } from "./types"
+export type GamepadDriver = ReturnType<typeof createGamepadInput>
 
-export type GamepadInput = IDriver & {
-  start: () => void
-  stop: () => void
-  gamepad: (index: number) => GamepadDevice | undefined
-}
+export type GamepadDevice = ReturnType<GamepadDriver["gamepad"]>
 
-export type GamepadDevice = {
-  axis: (axis: number) => number
-  button: (button: number) => number
-}
-
-export const createGamepadInput = (): GamepadInput => {
+export const createGamepadInput = () => {
   let state = navigator.getGamepads()
 
   const start = () => {}
@@ -21,10 +12,11 @@ export const createGamepadInput = (): GamepadInput => {
     state = navigator.getGamepads()
   }
 
-  const gamepad = (index: number): GamepadDevice | undefined => {
+  const gamepad = (index: number) => {
     const data = state[index]
     if (!data) return undefined
 
+    /** FIGHT  */
     const axis = (axis: number) => data.axes[axis]
 
     const button = (button: number) => data.buttons[button].value

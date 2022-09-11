@@ -7,6 +7,7 @@ import {
   RigidBodyApi
 } from "@react-three/rapier"
 import { useInput } from "input-composer/react"
+import { GamepadDevice } from "input-composer/src/createGamepadInput"
 import { useRef } from "react"
 import {
   PerspectiveCamera as PerspectiveCameraImpl,
@@ -81,18 +82,20 @@ const useInputController = () => {
   const input = useInput()
 
   /* Do things that need to memoize here */
+  const gamepadVector = (gamepad: GamepadDevice | undefined, horizontal: number, vertical: number) => ({
+    x: gamepad?.axis(horizontal) ?? 0,
+    y: gamepad?.axis(vertical) ?? 0
+  })
 
   /* Return a function that can be executed every frame to get fresh input data */
-  return () => ({
-    leftStick: {
-      x: input.gamepad.gamepad(0)?.axis(0) ?? 0,
-      y: input.gamepad.gamepad(0)?.axis(1) ?? 0
-    },
-    rightStick: {
-      x: input.gamepad.gamepad(0)?.axis(2) ?? 0,
-      y: input.gamepad.gamepad(0)?.axis(3) ?? 0
-    }
-  })
+  return () => {
+    const gamepad = input.gamepad.gamepad(0)
+
+    return ({
+      leftStick: gamepadVector(gamepad, 0, 1),
+      rightStick: gamepadVector(gamepad, 2, 3),
+    })
+  }
 }
 
 const Player = (props: Parameters<typeof RigidBody>[0]) => {

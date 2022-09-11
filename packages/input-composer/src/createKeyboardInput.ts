@@ -1,11 +1,4 @@
-import { IDriver } from "./types"
-
-export type KeyboardInput = IDriver & {
-  key: (key: string) => number
-  axis: (minKey: string, maxKey: string) => number
-}
-
-export const createKeyboardInput = (): KeyboardInput => {
+export const createKeyboardInput = () => {
   const keyState = new Map<string, boolean>()
 
   const handleKeyDown = (e: KeyboardEvent) => {
