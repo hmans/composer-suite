@@ -63,6 +63,7 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       camera-composer: workspace:^0.0.1
+      fp-ts: ^2.12.3
       input-composer: workspace:^0.0.1
       material-composer: workspace:^0.2.0
       material-composer-r3f: workspace:^0.2.0
@@ -86,6 +87,7 @@ importers:
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
       '@react-three/rapier': 0.6.7_7rjvrkmf6xtxxzpjgikfjrgsve
       camera-composer: link:../../packages/camera-composer
+      fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
