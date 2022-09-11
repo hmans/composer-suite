@@ -103,6 +103,11 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
         gamepad: gamepad.vector(2, 3)
       },
 
+      leftTrigger: {
+        keyboard: keyboard.key("ControlLeft"),
+        gamepad: gamepad.button(6)
+      },
+
       rightTrigger: {
         keyboard: keyboard.key("Space"),
         gamepad: gamepad.button(7)
@@ -114,7 +119,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
     const leftStick = inputs.leftStick[currentDevice]
     const rightStick = inputs.rightStick[currentDevice]
 
-    const leftTrigger = gamepad.button(6)
+    const leftTrigger = inputs.leftTrigger[currentDevice]
     const rightTrigger = inputs.rightTrigger[currentDevice]
 
     body.current.resetForces()
