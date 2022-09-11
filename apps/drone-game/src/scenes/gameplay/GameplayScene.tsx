@@ -85,13 +85,21 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
 
   useFrame(() => {
     const gamepad = input.gamepad(0)
+    const keyboard = input.keyboard
 
-    const leftStick = {
-      x: input.keyboard.axis("a", "d"),
-      y: input.keyboard.axis("w", "s")
+    const inputs = {
+      leftStick: {
+        keyboard: {
+          x: input.keyboard.axis("a", "d"),
+          y: input.keyboard.axis("w", "s")
+        },
+        gamepad: gamepad.vector(0, 1)
+      }
     }
 
-    // const leftStick = gamepad.vector(0, 1)
+    /* Extract inputs depending on current device */
+    const currentDevice = "gamepad"
+    const leftStick = inputs.leftStick[currentDevice]
     const rightStick = gamepad.vector(2, 3)
 
     const leftTrigger = gamepad.button(6)
