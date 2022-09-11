@@ -9,7 +9,6 @@ import {
   Input,
   InstanceID,
   Mul,
-  NormalizePlusMinusOne,
   Rotation3DZ,
   ScaleAndOffset,
   Sub,
