@@ -1,4 +1,3 @@
-import { useConst } from "@hmans/things"
 import { Environment, PerspectiveCamera } from "@react-three/drei"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import {
@@ -7,7 +6,7 @@ import {
   RigidBody,
   RigidBodyApi
 } from "@react-three/rapier"
-import { useMemo, useRef } from "react"
+import { useRef } from "react"
 import {
   PerspectiveCamera as PerspectiveCameraImpl,
   Quaternion,
@@ -15,6 +14,7 @@ import {
 } from "three"
 import { Debris } from "./Debris"
 import { GroundFog } from "./GroundFog"
+import { useInput } from "input-composer"
 
 export const GameplayScene = () => {
   return (
@@ -77,33 +77,6 @@ const Ground = (props: GroupProps) => (
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
-const useGamepad = () => {
-  const state = useConst(() => ({
-    gamepads: navigator.getGamepads()
-  }))
-
-  useFrame(() => {
-    state.gamepads = navigator.getGamepads()
-  })
-
-  return useMemo(
-    () => (index: number) => {
-      const gamepad = state.gamepads[index]
-
-      return {
-        axis: (index: number) => gamepad?.axes[index] ?? 0,
-        button: (index: number) => gamepad?.buttons[index].value ?? 0
-      }
-    },
-    []
-  )
-}
-
-const useInput = () => {
-  const gamepad = useGamepad()
-  return { gamepad }
-}
-
 const Player = (props: Parameters<typeof RigidBody>[0]) => {
   const body = useRef<RigidBodyApi>(null!)
   const camera = useRef<PerspectiveCameraImpl>(null!)
@@ -113,18 +86,11 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
   useFrame(() => {
     const gamepad = input.gamepad(0)
 
-    const leftStick = {
-      x: gamepad.axis(0),
-      y: gamepad.axis(1)
-    }
+    const leftStick = gamepad.vector(0, 1)
+    const rightStick = gamepad.vector(2, 3)
 
-    const rightStick = {
-      x: gamepad.axis(2),
-      y: gamepad.axis(3)
-    }
-
-    const leftTrigger = gamepad?.button(6) ?? 0
-    const rightTrigger = gamepad?.button(7) ?? 0
+    const leftTrigger = gamepad.button(6)
+    const rightTrigger = gamepad.button(7)
 
     body.current.resetForces()
     body.current.resetTorques()

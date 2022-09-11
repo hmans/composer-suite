@@ -1,3 +1,5 @@
 export * from "./functions"
-export * from "./types"
 export * from "./interactions"
+export * from "./types"
+export * from "./useGamepad"
+export * from "./useInput"
