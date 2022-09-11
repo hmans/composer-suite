@@ -1,3 +1,4 @@
+import { useConst } from "@hmans/things"
 import { Environment, PerspectiveCamera } from "@react-three/drei"
 import { GroupProps, useFrame } from "@react-three/fiber"
 import {
@@ -6,9 +7,7 @@ import {
   RigidBody,
   RigidBodyApi
 } from "@react-three/rapier"
-import { useInput } from "input-composer/react"
-import { GamepadDevice } from "input-composer/src/createGamepadInput"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import {
   PerspectiveCamera as PerspectiveCameraImpl,
   Quaternion,
@@ -78,37 +77,51 @@ const Ground = (props: GroupProps) => (
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
-const useInputController = () => {
-  const input = useInput()
+const useGamepad = () => {
+  const state = useConst(() => ({
+    gamepads: navigator.getGamepads()
+  }))
 
-  /* Do things that need to memoize here */
-  const gamepadVector = (gamepad: GamepadDevice | undefined, horizontal: number, vertical: number) => ({
-    x: gamepad?.axis(horizontal) ?? 0,
-    y: gamepad?.axis(vertical) ?? 0
+  useFrame(() => {
+    state.gamepads = navigator.getGamepads()
   })
 
-  /* Return a function that can be executed every frame to get fresh input data */
-  return () => {
-    const gamepad = input.gamepad.gamepad(0)
+  return useMemo(
+    () => (index: number) => {
+      const gamepad = state.gamepads[index]
 
-    return ({
-      leftStick: gamepadVector(gamepad, 0, 1),
-      rightStick: gamepadVector(gamepad, 2, 3),
-    })
-  }
+      return {
+        axis: (index: number) => gamepad?.axes[index] ?? 0,
+        button: (index: number) => gamepad?.buttons[index].value ?? 0
+      }
+    },
+    []
+  )
+}
+
+const useInput = () => {
+  const gamepad = useGamepad()
+  return { gamepad }
 }
 
 const Player = (props: Parameters<typeof RigidBody>[0]) => {
   const body = useRef<RigidBodyApi>(null!)
   const camera = useRef<PerspectiveCameraImpl>(null!)
+
   const input = useInput()
 
-  const controller = useInputController()
-
   useFrame(() => {
-    const gamepad = input.gamepad.gamepad(0)
+    const gamepad = input.gamepad(0)
 
-    const { leftStick, rightStick } = controller()
+    const leftStick = {
+      x: gamepad.axis(0),
+      y: gamepad.axis(1)
+    }
+
+    const rightStick = {
+      x: gamepad.axis(2),
+      y: gamepad.axis(3)
+    }
 
     const leftTrigger = gamepad?.button(6) ?? 0
     const rightTrigger = gamepad?.button(7) ?? 0
