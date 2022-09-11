@@ -32,7 +32,6 @@ const useKeyboardState = () => {
 
   useLayoutEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log(event.code)
       state.keys.set(event.code, true)
     }
 

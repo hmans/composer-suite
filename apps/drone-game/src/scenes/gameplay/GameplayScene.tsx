@@ -125,7 +125,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
     }
 
     /* Extract inputs depending on current device */
-    const currentDevice = "gamepad"
+    const currentDevice = "keyboard"
     const leftStick = inputs.leftStick[currentDevice]
     const rightStick = inputs.rightStick[currentDevice]
 
