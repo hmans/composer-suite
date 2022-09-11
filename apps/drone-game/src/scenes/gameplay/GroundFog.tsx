@@ -3,10 +3,12 @@ import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
 import { Layers, useRenderPipeline } from "render-composer"
 import {
+  GlobalTime,
   Input,
   InstanceID,
   Mul,
   NormalizePlusMinusOne,
+  Rotation3DZ,
   ScaleAndOffset,
   Vec2,
   Vec3
@@ -21,7 +23,7 @@ export const GroundFog = () => {
 
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
-  const InstanceNoise = (offset: Input<"float">) =>
+  const InstanceRandom = (offset: Input<"float">) =>
     PSRDNoise2D(Vec2([InstanceID, offset]))
 
   return (
@@ -34,17 +36,34 @@ export const GroundFog = () => {
           transparent
           depthWrite={false}
         >
+          <modules.Rotate
+            rotation={Rotation3DZ(Mul(InstanceRandom(9999), Math.PI))}
+          />
+
+          <modules.Rotate
+            rotation={pipe(
+              GlobalTime,
+              (v) => Mul(v, InstanceRandom(-87)),
+              (v) => Mul(v, 0.05),
+              Rotation3DZ
+            )}
+          />
+
           <modules.Billboard />
 
           <modules.Scale
-            scale={pipe(InstanceNoise(123), NormalizePlusMinusOne, (v) =>
+            scale={pipe(InstanceRandom(123), NormalizePlusMinusOne, (v) =>
               ScaleAndOffset(v, 10, 5)
             )}
           />
 
           <modules.Translate
             offset={pipe(
-              Vec3([InstanceNoise(1), InstanceNoise(2), InstanceNoise(3)]),
+              Vec3([
+                InstanceRandom(1),
+                NormalizePlusMinusOne(InstanceRandom(2)),
+                InstanceRandom(3)
+              ]),
               (v) => ScaleAndOffset(v, Vec3([30, 1, 30]))
             )}
           />

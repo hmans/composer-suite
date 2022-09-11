@@ -33,7 +33,7 @@ export const GameplayScene = () => {
         castShadow
       />
 
-      <Physics colliders={false}>
+      <Physics colliders={false} gravity={[0, 0, 0]}>
         {/* <Debug color="red" sleepColor="blue" /> */}
         <Player position={[0, 10, 20]} />
 
@@ -103,6 +103,16 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
         gamepad: gamepad.vector(2, 3)
       },
 
+      leftBumper: {
+        gamepad: gamepad.button(4),
+        keyboard: keyboard.key("KeyQ")
+      },
+
+      rightBumper: {
+        gamepad: gamepad.button(5),
+        keyboard: keyboard.key("KeyE")
+      },
+
       leftTrigger: {
         keyboard: keyboard.key("ControlLeft"),
         gamepad: gamepad.button(6)
@@ -115,31 +125,46 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
     }
 
     /* Extract inputs depending on current device */
-    const currentDevice = "keyboard"
+    const currentDevice = "gamepad"
     const leftStick = inputs.leftStick[currentDevice]
     const rightStick = inputs.rightStick[currentDevice]
 
     const leftTrigger = inputs.leftTrigger[currentDevice]
     const rightTrigger = inputs.rightTrigger[currentDevice]
 
+    const leftBumper = inputs.leftBumper[currentDevice]
+    const rightBumper = inputs.rightBumper[currentDevice]
+
     body.current.resetForces()
     body.current.resetTorques()
 
     camera.current.getWorldQuaternion(tmpQuat)
 
+    /* Thrust */
     body.current.addForce(
       tmpVec3
-        .set(rightStick.x * 200, rightTrigger * 1000, 0)
+        .set(0, 0, -(rightTrigger * 1000 - leftTrigger * 500))
         .applyQuaternion(tmpQuat)
     )
 
+    /* Lateral movement */
     body.current.addForce(
-      tmpVec3.set(0, 0, leftTrigger * 200).applyQuaternion(tmpQuat)
+      tmpVec3.set(0, rightStick.y * -200, 0).applyQuaternion(tmpQuat)
+    )
+
+    body.current.addTorque(
+      tmpVec3.set(0, rightStick.x * -100, 0).applyQuaternion(tmpQuat)
     )
 
     body.current.addTorque(
       tmpVec3
-        .set(leftStick.y * 50, leftStick.x * -50, leftStick.x * -50)
+        .set(0, 0, (rightBumper - leftBumper) * -100)
+        .applyQuaternion(tmpQuat)
+    )
+
+    body.current.addTorque(
+      tmpVec3
+        .set(leftStick.y * 100, leftStick.x * -100, leftStick.x * -100)
         .applyQuaternion(tmpQuat)
     )
   })
