@@ -13,6 +13,7 @@ import {
   NormalizePlusMinusOne,
   Rotation3DZ,
   ScaleAndOffset,
+  Sub,
   Vec2,
   Vec3
 } from "shader-composer"
@@ -21,13 +22,19 @@ import { PSRDNoise2D, Random } from "shader-composer-toybox"
 import { Emitter, Particles } from "vfx-composer-r3f"
 import smokeUrl from "../../assets/smoke.png"
 
-export const GroundFog = () => <Fog dimensions={Vec3([10, 50, 10])} />
+export const GroundFog = () => (
+  <Fog dimensions={Vec3([30, 30, 30])} amount={150} />
+)
 
 export type FogProps = {
   dimensions?: Input<"vec3">
+  amount?: number
 }
 
-export const Fog = ({ dimensions = Vec3([10, 10, 10]) }: FogProps) => {
+export const Fog = ({
+  amount = 25,
+  dimensions = Vec3([10, 10, 10])
+}: FogProps) => {
   const texture = useTexture(smokeUrl)
 
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
@@ -37,7 +44,7 @@ export const Fog = ({ dimensions = Vec3([10, 10, 10]) }: FogProps) => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles layers-mask={Layers.TransparentFX} capacity={amount}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -69,19 +76,20 @@ export const Fog = ({ dimensions = Vec3([10, 10, 10]) }: FogProps) => {
           <modules.Translate
             offset={pipe(
               Vec3([
-                InstanceRandom(1),
-                InstanceRandom(50),
-                InstanceRandom(0.4)
+                InstanceRandom(0.1),
+                InstanceRandom(0.2),
+                InstanceRandom(0.3)
               ]),
+              (v) => Sub(v, Vec3([0.5, 0.5, 0.5])),
               (v) => Mul(v, dimensions)
             )}
-            space="world"
+            space="local"
           />
 
           <modules.Softness softness={5} depthTexture={depth} />
         </composable.meshStandardMaterial>
 
-        <Emitter limit={10} rate={Infinity} />
+        <Emitter limit={amount} rate={Infinity} />
       </Particles>
     </group>
   )

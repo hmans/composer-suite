@@ -38,21 +38,15 @@ export const GameplayScene = () => {
         <Player position={[0, 10, 20]} />
 
         {/* Scenery */}
-        <RigidBody colliders="hull" position-y={3}>
-          <mesh castShadow rotation={[0.2, 0.2, 0.2]}>
+        <RigidBody colliders="hull">
+          <mesh castShadow rotation={[0.2, 0.2, 0.2]} scale={5}>
             <dodecahedronGeometry />
             <meshStandardMaterial
-              color="hotpink"
+              color="#222"
               metalness={0.3}
-              roughness={0.4}
+              roughness={0.8}
             />
           </mesh>
-        </RigidBody>
-
-        {/* Ground */}
-        <RigidBody type="kinematicPosition">
-          <Ground />
-          <CuboidCollider position={[0, -0.5, 0]} args={[100, 0.5, 100]} />
         </RigidBody>
 
         <GroundFog />
@@ -125,7 +119,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
     }
 
     /* Extract inputs depending on current device */
-    const currentDevice = "keyboard"
+    const currentDevice = "gamepad"
     const leftStick = inputs.leftStick[currentDevice]
     const rightStick = inputs.rightStick[currentDevice]
 
