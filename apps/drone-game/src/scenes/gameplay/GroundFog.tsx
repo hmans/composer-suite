@@ -32,7 +32,7 @@ export const GroundFog = () => {
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
-          opacity={0.1}
+          opacity={0.05}
           transparent
           depthWrite={false}
         >
