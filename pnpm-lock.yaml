@@ -664,6 +664,21 @@ importers:
     devDependencies:
       three: 0.143.0
 
+  packages/state-composer:
+    specifiers:
+      '@types/react': ^18.0.18
+      '@types/react-dom': ^18.0.6
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      statery: 0.6.0-next.3
+    dependencies:
+      statery: 0.6.0-next.3_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.18
+      '@types/react-dom': 18.0.6
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+
   packages/timeline-composer:
     specifiers:
       '@hmans/use-animation-frame': ^0.0.2
@@ -2439,7 +2454,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-merge-refs: 2.0.1
-      statery: 0.6.0-next.2_react@18.2.0
+      statery: 0.6.0-next.3_react@18.2.0
       three: 0.143.0
     dev: false
 
@@ -9875,6 +9890,14 @@ packages:
 
   /statery/0.6.0-next.2_react@18.2.0:
     resolution: {integrity: sha512-R52hnY8TWIOh2EQf5/uXAUHHEXiK2JgFQQ0NCQZeyCscmkrwrqmVYpau62xd7ZOhsAlwNd7CTrUX6tKvi1tDgQ==}
+    peerDependencies:
+      react: '>=18.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /statery/0.6.0-next.3_react@18.2.0:
+    resolution: {integrity: sha512-ryFCmW+8wb31UL/O2HynXt3bggB8vyiBYHSD0Hmaatb8EESnwlp+I8BtiQLMsiN4sorhJx21jRtu8J7VBtGr1A==}
     peerDependencies:
       react: '>=18.0'
     dependencies:
