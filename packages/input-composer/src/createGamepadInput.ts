@@ -1,8 +1,19 @@
-export const createGamepadInput = () => {
+export type GamepadInput = {
+  start: () => void
+  stop: () => void
+  gamepad: (index: number) => GamepadDevice | undefined
+}
+
+export type GamepadDevice = {
+  axis: (axis: number) => number
+  button: (button: number) => number
+}
+
+export const createGamepadInput = (): GamepadInput => {
   const start = () => {}
   const stop = () => {}
 
-  const gamepad = (index: number) => {
+  const gamepad = (index: number): GamepadDevice | undefined => {
     const state = navigator.getGamepads()[index]
     if (!state) return undefined
 
