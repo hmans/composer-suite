@@ -71,11 +71,7 @@ export const Fog = ({
 
           <modules.Translate
             offset={pipe(
-              Vec3([
-                InstanceRandom(0.1),
-                InstanceRandom(0.2),
-                InstanceRandom(0.3)
-              ]),
+              Vec3([InstanceRandom(1), InstanceRandom(2), InstanceRandom(3)]),
               (v) => Sub(v, Vec3([0.5, 0.5, 0.5])),
               (v) => Mul(v, dimensions)
             )}
