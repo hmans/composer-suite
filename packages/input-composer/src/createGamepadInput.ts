@@ -1,12 +1,12 @@
-import { IDevice, IDriver } from "./types"
+import { IDriver } from "./types"
 
-export type GamepadInput = IDriver<GamepadDevice> & {
+export type GamepadInput = IDriver & {
   start: () => void
   stop: () => void
   gamepad: (index: number) => GamepadDevice | undefined
 }
 
-export type GamepadDevice = IDevice & {
+export type GamepadDevice = {
   axis: (axis: number) => number
   button: (button: number) => number
 }

@@ -1,4 +1,11 @@
-export const createKeyboardInput = () => {
+import { IDriver } from "./types"
+
+export type KeyboardInput = IDriver & {
+  key: (key: string) => number
+  axis: (minKey: string, maxKey: string) => number
+}
+
+export const createKeyboardInput = (): KeyboardInput => {
   const keyState = new Map<string, boolean>()
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -19,9 +26,11 @@ export const createKeyboardInput = () => {
     window.removeEventListener("keyup", handleKeyUp)
   }
 
+  const update = () => {}
+
   const key = (key: string) => (keyState.get(key) ? 1 : 0)
 
   const axis = (minKey: string, maxKey: string) => key(maxKey) - key(minKey)
 
-  return { start, stop, key, axis }
+  return { start, stop, update, key, axis }
 }

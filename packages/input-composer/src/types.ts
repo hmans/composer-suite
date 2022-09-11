@@ -3,7 +3,7 @@ export interface IVector {
   y: number
 }
 
-export interface IDriver<D extends IDevice> {
+export interface IDriver {
   /** Start the driver. */
   start: () => void
 
@@ -13,5 +13,3 @@ export interface IDriver<D extends IDevice> {
   /** Update the driver. Will be called by the InputManager. */
   update: () => void
 }
-
-export interface IDevice {}
