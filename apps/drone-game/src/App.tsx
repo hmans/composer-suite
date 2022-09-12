@@ -8,9 +8,9 @@ export function App() {
     <RenderCanvas>
       <RenderPipeline bloom antiAliasing vignette>
         <Suspense>
-          <FSM.MatchState state="gameplay">
+          <FSM.Match state="gameplay">
             <GameplayScene />
-          </FSM.MatchState>
+          </FSM.Match>
         </Suspense>
       </RenderPipeline>
     </RenderCanvas>

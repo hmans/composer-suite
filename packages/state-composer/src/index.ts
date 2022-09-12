@@ -1,1 +1,1 @@
-export * from "./makeStateMachine"
+export * from "./createStateMachine"

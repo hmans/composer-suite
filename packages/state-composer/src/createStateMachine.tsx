@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import { makeStore, useStore } from "statery"
 
-export const makeStateMachine = <S extends string>(initialState: S) => {
+export const createStateMachine = <S extends string>(initialState: S) => {
   const store = makeStore({
     state: initialState as S
   })
@@ -9,7 +9,7 @@ export const makeStateMachine = <S extends string>(initialState: S) => {
   const matchesState = (state: S, other: S | S[]) =>
     Array.isArray(other) ? other.includes(state) : state === other
 
-  const MatchState = ({
+  const Match = ({
     state,
     children
   }: {
@@ -21,7 +21,7 @@ export const makeStateMachine = <S extends string>(initialState: S) => {
     return matchesState(currentState, state) ? <>{children}</> : null
   }
 
-  const enterState = (state: S) => {
+  const enter = (state: S) => {
     const { state: currentState } = store.state
 
     if (state && state !== currentState) {
@@ -29,12 +29,11 @@ export const makeStateMachine = <S extends string>(initialState: S) => {
     }
   }
 
-  const isCurrentState = (state: S | S[]) =>
-    matchesState(store.state.state, state)
+  const is = (state: S | S[]) => matchesState(store.state.state, state)
 
   return {
-    MatchState,
-    enterState,
-    isCurrentState
+    Match,
+    enter,
+    is
   }
 }

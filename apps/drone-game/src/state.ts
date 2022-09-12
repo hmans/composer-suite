@@ -1,3 +1,5 @@
-import { makeStateMachine } from "state-composer"
+import { createStateMachine } from "state-composer"
 
-export const FSM = makeStateMachine<"gameplay">("gameplay")
+export const FSM = createStateMachine("gameplay" as "gameplay" | "gameover")
+
+export const enterGameplay = () => FSM.enter("gameplay")
