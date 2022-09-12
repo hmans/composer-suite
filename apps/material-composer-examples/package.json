@@ -15,7 +15,7 @@
     "@material-composer/patch-material": "^0.1.2",
     "@react-three/drei": "^9.26.0",
     "@react-three/fiber": "^8.7.0",
-    "leva": "^0.9.30",
+    "leva": "^0.9.31",
     "material-composer": "^0.2.0",
     "material-composer-r3f": "^0.2.0",
     "r3f-perf": "^6.4.4",

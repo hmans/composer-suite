@@ -111,43 +111,6 @@ importers:
       typescript: 4.8.2
       vite: 3.1.0
 
-  apps/examples:
-    specifiers:
-      '@hmans/things': ^0.0.6
-      '@react-three/drei': ^9.26.0
-      '@react-three/fiber': ^8.7.0
-      '@types/react': ^18.0.17
-      '@types/react-dom': ^18.0.6
-      '@types/three': ^0.143.1
-      '@vitejs/plugin-react': ^2.1.0
-      camera-composer: workspace:^0.0.1
-      fp-ts: ^2.12.3
-      input-composer: workspace:^0.0.1
-      r3f-stage: workspace:^0.3.4
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      three: ^0.143.0
-      typescript: ^4.6.4
-      vite: ^3.1.0
-    dependencies:
-      '@hmans/things': 0.0.6_dqbvravr3s5buz3zuoms5ekkmq
-      '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
-      '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
-      camera-composer: link:../../packages/camera-composer
-      fp-ts: 2.12.3
-      input-composer: link:../../packages/input-composer
-      r3f-stage: link:../../packages/r3f-stage
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      three: 0.143.0
-    devDependencies:
-      '@types/react': 18.0.18
-      '@types/react-dom': 18.0.6
-      '@types/three': 0.143.2
-      '@vitejs/plugin-react': 2.1.0_vite@3.1.0
-      typescript: 4.8.2
-      vite: 3.1.0
-
   apps/material-composer-examples:
     specifiers:
       '@hmans/r3f-shared-resource': ^0.1.0
@@ -161,7 +124,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
-      leva: ^0.9.30
+      leva: ^0.9.31
       material-composer: ^0.2.0
       material-composer-r3f: ^0.2.0
       r3f-perf: ^6.4.4
@@ -186,7 +149,7 @@ importers:
       '@material-composer/patch-material': link:../../packages/material-composer-patch-material
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
-      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
+      leva: 0.9.31_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
       r3f-perf: 6.4.4_decigdl7uqoy3pabyxxdvmwbtm
@@ -363,7 +326,7 @@ importers:
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
       fp-ts: ^2.12.3
-      leva: ^0.9.30
+      leva: ^0.9.31
       r3f-stage: ^0.3.3
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -380,7 +343,7 @@ importers:
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
-      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
+      leva: 0.9.31_biqbaboplfbrettd7655fr4n2y
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -466,7 +429,7 @@ importers:
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
       fp-ts: ^2.12.3
-      leva: ^0.9.30
+      leva: ^0.9.31
       material-composer: ^0.2.0
       material-composer-r3f: ^0.2.0
       r3f-perf: ^6.4.4
@@ -496,7 +459,7 @@ importers:
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
       fp-ts: 2.12.3
-      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
+      leva: 0.9.31_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
       r3f-perf: 6.4.4_3pfg26wpgwnspkolhxxlrrh6y4
@@ -651,7 +614,7 @@ importers:
     specifiers:
       '@react-three/drei': ^9.26.0
       '@react-three/fiber': ^8.7.0
-      leva: ^0.9.30
+      leva: ^0.9.31
       postprocessing: ^6.28.7
       r3f-perf: ^6.4.4
       react: ^18.2.0
@@ -663,7 +626,7 @@ importers:
       zustand: ^3.6.9
     dependencies:
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
-      leva: 0.9.30_biqbaboplfbrettd7655fr4n2y
+      leva: 0.9.31_biqbaboplfbrettd7655fr4n2y
       postprocessing: 6.28.7_three@0.143.0
       r3f-perf: 6.4.4_3pfg26wpgwnspkolhxxlrrh6y4
       render-composer: link:../render-composer
@@ -7640,8 +7603,8 @@ packages:
     resolution: {integrity: sha512-MK3FOody4TXbFf8Yqv7EBbySw7aPvEcPX++Ipt6Sox+/YMFvR5xaTyhfNSk1AEmMy+RYIw81ctN4IMxCB8OAlg==}
     dev: false
 
-  /leva/0.9.30_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-sAf+kYaiyLIYyNyxVwq7V9A+xFuzbHc34uN7wLz7UTxGh5zxiEKVJ2K8k1zC42N3PEt2cOg0NgwlYa+NITdDHw==}
+  /leva/0.9.31_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-qQGz35mKM9BXTFcG9qeB+89lkdvguDriiNWoGU9U8BU8r57Ve+6rFF+X5EPKJKwhmFQSbHIRj3mBZKjCjHor2g==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
