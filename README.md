@@ -133,6 +133,8 @@ _TODO_
 
 ### Core Tenets
 
+All of the libraries in the Composer Suite are aiming for the following:
+
 - **Authored in and for TypeScript**.  
   All libraries are authored in TypeScript, with first-class type support. This means that you can use these libraries in JavaScript, but you will get the best experience when using TypeScript. If you're using them from within JavaScript, please be aware that these libraries will not make any significant effort to provide runtime type checking or similar.
 - **Flawless HMR**.  
