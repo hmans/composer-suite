@@ -2,7 +2,7 @@ import { useConst } from "@hmans/things"
 import { GroupProps, useFrame, useThree } from "@react-three/fiber"
 import { flow } from "fp-ts/lib/function"
 import { createPressInteraction } from "input-composer"
-import { useInput } from "input-composer/react"
+import { useInput } from "input-composer"
 import { Description } from "r3f-stage"
 import {
   forwardRef,

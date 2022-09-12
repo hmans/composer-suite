@@ -9,15 +9,8 @@
   "version": "0.0.1",
   "main": "dist/input-composer.cjs.js",
   "module": "dist/input-composer.esm.js",
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts",
-      "react/index.ts"
-    ]
-  },
   "files": [
     "dist/**",
-    "react/**",
     "LICENSE",
     "README.md"
   ],
