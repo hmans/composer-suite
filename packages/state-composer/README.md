@@ -68,7 +68,7 @@ if (GameState.is("gameplay")) {
 
 ### Transitioning Between States
 
-State machines provide an `enter` function that can be used to move from the current to a new state, but unlike other FSM implementations, State Composer does _not_ provide any extra mechanisms for defining transitions or guards, and instead asks you to implement these as simple functions.
+State machines provide an `enter` function that can be used to move from the current to a new state, but unlike other FSM implementations, State Composer does _not_ provide any extra mechanisms for defining transitions or guards, and instead encourages you to implement these as simple functions.
 
 Things you'll typically do related to state transitions:
 
