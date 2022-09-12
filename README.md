@@ -1,9 +1,10 @@
 ![Composer Suite](https://user-images.githubusercontent.com/1061/189347136-c81b7807-dbbc-4d8f-a890-b9d6639165b0.jpg)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=for-the-badge)](CODE_OF_CONDUCT.md)
 
+### A collection of libraries for making game development with Three.js and React not only awesome, but "so good, it would feel wrong to use anything else." – [hmans](https://github.com/sponsors/hmans)
+
 > **Note**
->
-> This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but you will find most example code to be written in React.
+> This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but building games with React is really where it's at, which is why you will find most example code in this document to be written in React. 😎
 
 ## Sponsors ❤️
 
