@@ -29,6 +29,7 @@ export type FogProps = {
   rotationSpeed?: Input<"float">
 }
 
+/* TODO: extract this Fog component into vfx-composer! */
 export const Fog = ({
   amount = 25,
   dimensions = Vec3([10, 10, 10]),
