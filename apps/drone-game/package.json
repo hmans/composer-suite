@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hmans/things": "^0.0.6",
-    "@react-three/drei": "^9.26.0",
+    "@react-three/drei": "^9.29.1",
     "@react-three/fiber": "^8.7.0",
     "@react-three/rapier": "^0.6.7",
     "camera-composer": "workspace:^0.0.1",
@@ -32,11 +32,11 @@
     "vfx-composer-r3f": "workspace:^0.2.3"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6",
     "@types/three": "^0.144.0",
     "@vitejs/plugin-react": "^2.1.0",
-    "typescript": "^4.6.4",
+    "typescript": "^4.8.3",
     "vite": "^3.1.0"
   }
 }
