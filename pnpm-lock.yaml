@@ -85,7 +85,7 @@ importers:
       '@hmans/things': 0.0.6_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/drei': 9.26.0_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
-      '@react-three/rapier': 0.6.7_7rjvrkmf6xtxxzpjgikfjrgsve
+      '@react-three/rapier': 0.6.8_7rjvrkmf6xtxxzpjgikfjrgsve
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
@@ -3467,7 +3467,7 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.143.0
       three-mesh-bvh: 0.5.15_three@0.143.0
-      three-stdlib: 2.15.0_three@0.143.0
+      three-stdlib: 2.14.3_three@0.143.0
       troika-three-text: 0.46.4_three@0.143.0
       utility-types: 3.10.0
       zustand: 3.7.2_react@18.2.0
@@ -3538,8 +3538,8 @@ packages:
       zustand: 3.7.2_react@18.2.0
     dev: true
 
-  /@react-three/rapier/0.6.7_7rjvrkmf6xtxxzpjgikfjrgsve:
-    resolution: {integrity: sha512-1XqB52uZAvOIYaNCMqzttSdFSlvdquOKNWx0X3dMN1+trXqgZpj/NTs1fWGVw8F4xTUfj/jlpqCw9DEMVsTAqA==}
+  /@react-three/rapier/0.6.8_7rjvrkmf6xtxxzpjgikfjrgsve:
+    resolution: {integrity: sha512-GP9GGvcD9Lii4zeXrZcb9TCuJATiCuY3C9yL77iv0QlpMeZbupXH+e3+NMMj+042yauuABcfWlYVUXxt35uPaA==}
     peerDependencies:
       '@react-three/fiber': ^8.0.12
       react: ^18.0.0
@@ -10023,14 +10023,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       escape-string-regexp: 2.0.0
-    dev: false
-
-  /statery/0.6.0-next.3_react@18.2.0:
-    resolution: {integrity: sha512-ryFCmW+8wb31UL/O2HynXt3bggB8vyiBYHSD0Hmaatb8EESnwlp+I8BtiQLMsiN4sorhJx21jRtu8J7VBtGr1A==}
-    peerDependencies:
-      react: '>=18.0'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /statery/0.6.0-next.3_react@18.2.0:
