@@ -93,11 +93,15 @@ _TODO_
 
 ![react] ![three]
 
+A preconfigured, opinionated render pipeline for your React-Three-Fiber games.
+
 _TODO_
 
 ### Input Composer
 
 ![react] ![vanilla]
+
+Composable multi-device game input.
 
 _TODO_
 
@@ -105,17 +109,23 @@ _TODO_
 
 ![react]
 
+Screen-space UI for games and game tooling.
+
 _TODO_
 
 ### Camera Composer
 
 ![react] ![vanilla] ![three]
 
+Composable camera automation.
+
 _TODO_
 
 ### [State Composer](https://github.com/hmans/composer-suite/tree/main/packages/state-composer)
 
 ![react]
+
+Helpers for managing game state.
 
 _TODO_
 
