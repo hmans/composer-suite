@@ -147,7 +147,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
     )
 
     body.current.addTorque(
-      tmpVec3.set(0, rightStick.x * -100, 0).applyQuaternion(tmpQuat)
+      tmpVec3.set(0, 0, rightStick.x * -100).applyQuaternion(tmpQuat)
     )
 
     body.current.addTorque(
@@ -158,7 +158,7 @@ const Player = (props: Parameters<typeof RigidBody>[0]) => {
 
     body.current.addTorque(
       tmpVec3
-        .set(leftStick.y * 100, leftStick.x * -100, leftStick.x * -100)
+        .set(leftStick.y * 100, leftStick.x * -100, 0)
         .applyQuaternion(tmpQuat)
     )
   })
