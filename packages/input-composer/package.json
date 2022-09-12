@@ -9,15 +9,8 @@
   "version": "0.0.1",
   "main": "dist/input-composer.cjs.js",
   "module": "dist/input-composer.esm.js",
-  "preconstruct": {
-    "entrypoints": [
-      "index.ts",
-      "react/index.ts"
-    ]
-  },
   "files": [
     "dist/**",
-    "react/**",
     "LICENSE",
     "README.md"
   ],
@@ -29,9 +22,11 @@
     "fp-ts": "^2.12.3"
   },
   "devDependencies": {
+    "@react-three/fiber": "^8.7.0",
     "react": "^18.2.0"
   },
   "peerDependencies": {
+    "@react-three/fiber": "^8.7.0",
     "react": "^18.2.0"
   }
 }
