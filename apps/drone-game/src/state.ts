@@ -1,3 +1,3 @@
-import { makeFSM } from "state-composer"
+import { makeStateMachine } from "state-composer"
 
-export const FSM = makeFSM<"gameplay">("gameplay")
+export const FSM = makeStateMachine<"gameplay">("gameplay")

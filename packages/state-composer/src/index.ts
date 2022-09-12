@@ -1,1 +1,1 @@
-export * from "./makeFSM"
+export * from "./makeStateMachine"

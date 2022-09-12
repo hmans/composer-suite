@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import { makeStore, useStore } from "statery"
 
-export const makeFSM = <S extends string>(initialState: S) => {
+export const makeStateMachine = <S extends string>(initialState: S) => {
   const store = makeStore({
     state: initialState as S
   })
