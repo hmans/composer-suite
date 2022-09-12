@@ -22,7 +22,7 @@
     "build": "preconstruct build",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm examples",
-    "examples": "pnpm clean:vite && preconstruct dev && cd apps/examples/ && pnpm dev",
+    "examples": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "postinstall": "preconstruct dev",
     "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
