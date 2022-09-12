@@ -27,7 +27,7 @@ type State = "menu" | "gameplay" | "pause" | "gameover"
 export const GameState = createStateMachine<State>("menu")
 ```
 
-Now this state machine can be imported and used in other module of your project.
+Now this state machine can be imported and used in any other module of your project.
 
 ### Checking the Current State
 
