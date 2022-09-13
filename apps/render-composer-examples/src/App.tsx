@@ -1,8 +1,15 @@
 import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
-import { Suspense } from "react"
+import { Suspense, useRef } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Color, Object3D } from "three"
+import {
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Object3D,
+  SphereGeometry
+} from "three"
 
 const rotate = (o: Object3D, dt: number) => {
   o.rotation.x += dt * 0.7
@@ -10,25 +17,43 @@ const rotate = (o: Object3D, dt: number) => {
 }
 
 function App() {
+  const sun = new Mesh(
+    new SphereGeometry(1),
+    new MeshBasicMaterial({
+      color: new Color(0xffffff),
+      fog: false
+    })
+  )
+
+  sun.position.z = -100
+  sun.scale.setScalar(10)
+
   return (
     <>
       <Loader />
 
       <RenderCanvas>
-        <RenderPipeline vignette bloom antiAliasing>
+        <RenderPipeline
+          // vignette
+          // bloom
+          antiAliasing
+          godRays={{ lightSource: sun }}
+        >
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
 
+            <primitive object={sun} />
+
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
 
             {/* The "sun" */}
-            <mesh position={[40, 10, -100]} scale={15}>
+            {/* <mesh position={[40, 10, -100]} scale={15} ref={sun}>
               <sphereGeometry />
               <meshStandardMaterial
                 color={new Color("white").multiplyScalar(3)}
               />
-            </mesh>
+            </mesh> */}
 
             <Animate
               fun={(o, _, { clock }) => {

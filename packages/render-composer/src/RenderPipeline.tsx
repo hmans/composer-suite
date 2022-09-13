@@ -7,6 +7,8 @@ import {
   Effect,
   EffectComposer,
   EffectPass,
+  GodRaysEffect,
+  KernelSize,
   RenderPass,
   SelectiveBloomEffect,
   SMAAEffect,
@@ -15,13 +17,14 @@ import {
 import React, {
   createContext,
   FC,
+  MutableRefObject,
   ReactNode,
   useContext,
   useLayoutEffect,
   useMemo
 } from "react"
 import * as THREE from "three"
-import { BasicDepthPacking } from "three"
+import { BasicDepthPacking, Mesh } from "three"
 import { LayerRenderPass } from "./LayerRenderPass"
 
 export const Layers = {
@@ -41,6 +44,7 @@ export type RenderPipelineProps = {
   bloom?: boolean | BloomEffectOptions
   vignette?: boolean | ConstructorParameters<typeof VignetteEffect>[0]
   antiAliasing?: boolean | ConstructorParameters<typeof SMAAEffect>[0]
+  godRays?: { lightSource: Mesh }
   effectResolutionFactor?: number
   updatePriority?: number
 }
@@ -50,6 +54,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
   bloom,
   vignette,
   antiAliasing,
+  godRays,
   effectResolutionFactor = 0.5,
   updatePriority = 1
 }) => {
@@ -73,7 +78,20 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
         luminanceSmoothing: 0.2,
         intensity: 2,
         ...(typeof bloom === "object" ? bloom : {})
-      } as any)
+      } as any),
+
+      godRays: godRays
+        ? new GodRaysEffect(camera, godRays.lightSource, {
+            height: 480,
+            kernelSize: KernelSize.SMALL,
+            density: 0.96,
+            decay: 0.92,
+            weight: 0.3,
+            exposure: 0.54,
+            samples: 60,
+            clampMax: 1.0
+          })
+        : null
     }
 
     effects.bloom.inverted = true
@@ -121,7 +139,8 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
       ...([
         bloom && effects.bloom,
         vignette && effects.vignette,
-        antiAliasing && effects.smaa
+        antiAliasing && effects.smaa,
+        effects.godRays && effects.godRays
       ].filter((e) => e) as Effect[])
     )
   }, [camera, composer, bloom, vignette, antiAliasing])
@@ -129,6 +148,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
   /* Make sure the effects pass is added to the effects composer. */
   useLayoutEffect(() => {
     composer.addPass(effectsPass)
+    console.log(effectsPass)
     return () => composer.removePass(effectsPass)
   }, [effectsPass])
 
@@ -137,6 +157,11 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
     composer.setSize(size.width, size.height)
 
     effects.bloom.setSize(
+      size.width * effectResolutionFactor,
+      size.height * effectResolutionFactor
+    )
+
+    effects.godRays?.setSize(
       size.width * effectResolutionFactor,
       size.height * effectResolutionFactor
     )
