@@ -16,7 +16,7 @@
     "camera-composer": "workspace:^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "workspace:^0.0.1",
-    "material-composer": "workspace:^0.2.0",
+    "material-composer": "workspace:^0.2.1",
     "material-composer-r3f": "workspace:^0.2.0",
     "randomish": "^0.1.4",
     "react": "^18.2.0",
