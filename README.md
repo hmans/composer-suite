@@ -140,6 +140,8 @@ All of the libraries in the Composer Suite are aiming for the following:
   All libraries are authored in TypeScript, with first-class type support. This means that you can use these libraries in JavaScript, but you will get the best experience when using TypeScript. If you're using them from within JavaScript, please be aware that these libraries will not make any significant effort to provide runtime type checking or similar.
 - **Flawless HMR**.  
   The libraries should provide a fun and flawless development experience with the best support for hot-module reloading possible. The user should be able to hot-reload their code and see the changes immediately in the browser. Where possible, state should be retained; there must never be errors when hot-reloading.
+- **Prefer Declarative over Imperative**.  
+  Where possible, allow the user to declare logic and data using JSX, instead of forcing them out of the declarative JSX layer and towards hooks (or even further into the imperative world.)
 
 ## License 👩‍⚖️
 
