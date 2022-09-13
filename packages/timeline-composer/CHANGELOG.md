@@ -1,5 +1,11 @@
 # timeline-composer
 
+## 0.1.7
+
+### Patch Changes
+
+- 481cc82: Fixed a bug in the use of `key` within `<Repeat>` that caused React to log warnings.
+
 ## 0.1.6
 
 ### Patch Changes
