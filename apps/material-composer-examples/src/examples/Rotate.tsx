@@ -1,10 +1,8 @@
 import { useControls } from "leva"
 import { composable, modules } from "material-composer-r3f"
-import { Space } from "material-composer/modules"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
-import { Mul, Sin, Time } from "shader-composer"
-import { Vector3 } from "three"
+import { GlobalTime, Rotation3D, Time, Vec3 } from "shader-composer"
 
 export default function Rotate() {
   const controls = useControls({
@@ -16,19 +14,16 @@ export default function Rotate() {
   return (
     <group>
       <mesh position-y={1.5} rotation-z={Math.PI / 2}>
-        <sphereGeometry />
+        <boxGeometry />
 
         <composable.meshStandardMaterial>
-          <modules.Translate
-            offset={Mul(new Vector3(1, 0, 0), Sin(time))}
-            space={controls.space as Space}
-          />
+          <modules.Rotate rotation={Rotation3D(Vec3([1, 1, 0]), GlobalTime)} />
         </composable.meshStandardMaterial>
       </mesh>
 
       <Description>
-        The <strong>Translate</strong> module translates (moves) vertices by a
-        given offset.
+        The <strong>Rotate</strong> module applies a rotation to the object's
+        vertices.
       </Description>
     </group>
   )
