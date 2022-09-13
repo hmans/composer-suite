@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.1.6
+
+### Patch Changes
+
+- 63afffb: `<RenderPipeline>` now supports a `godRays` prop. When enabled, you can set the position of the sun by getting the `sun` prop of `useRenderPipeline` and modifying it.
+
 ## 0.1.5
 
 ### Patch Changes

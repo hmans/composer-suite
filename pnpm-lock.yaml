@@ -70,7 +70,7 @@ importers:
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: workspace:^0.1.5
+      render-composer: workspace:^0.1.6
       shader-composer: workspace:^0.4.0
       shader-composer-r3f: workspace:^0.4.0
       shader-composer-toybox: workspace:^0.1.3
@@ -294,7 +294,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: ^0.1.5
+      render-composer: ^0.1.6
       three: ^0.143.0
       typescript: ^4.8.3
       vite: ^3.1.0
@@ -392,7 +392,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: workspace:^0.1.5
+      render-composer: workspace:^0.1.6
       three: ^0.143.0
       typescript: ^4.8.3
       ui-composer: workspace:^0.0.1
