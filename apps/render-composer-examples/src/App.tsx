@@ -1,5 +1,6 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, OrbitControls } from "@react-three/drei"
+import { Environment, Loader, OrbitControls } from "@react-three/drei"
+import { Suspense } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
 import { Object3D } from "three"
 
@@ -10,33 +11,39 @@ const rotate = (o: Object3D, dt: number) => {
 
 function App() {
   return (
-    <RenderCanvas>
-      <RenderPipeline vignette bloom antiAliasing>
-        <color attach="background" args={["#264653"]} />
-        <Environment preset="sunset" />
+    <>
+      <Loader />
 
-        <directionalLight position={[30, 10, 10]} intensity={1.5} />
+      <RenderCanvas>
+        <RenderPipeline vignette bloom antiAliasing>
+          <Suspense>
+            <color attach="background" args={["#264653"]} />
+            <Environment preset="sunset" />
 
-        <Animate
-          fun={(o, _, { clock }) => {
-            o.position.x = Math.sin(clock.getElapsedTime() * 0.7) * 2
-            o.position.y = Math.sin(clock.getElapsedTime() * 1.1)
-            o.position.z = Math.cos(clock.getElapsedTime() * 0.5)
-          }}
-        >
-          <Animate fun={rotate}>
-            <mesh>
-              <icosahedronGeometry />
-              <meshStandardMaterial
-                color="#E9C46A"
-                metalness={0.5}
-                roughness={0.5}
-              />
-            </mesh>
-          </Animate>
-        </Animate>
-      </RenderPipeline>
-    </RenderCanvas>
+            <directionalLight position={[30, 10, 10]} intensity={1.5} />
+
+            <Animate
+              fun={(o, _, { clock }) => {
+                o.position.x = Math.sin(clock.getElapsedTime() * 0.7) * 2
+                o.position.y = Math.sin(clock.getElapsedTime() * 1.1)
+                o.position.z = Math.cos(clock.getElapsedTime() * 0.5)
+              }}
+            >
+              <Animate fun={rotate}>
+                <mesh>
+                  <icosahedronGeometry />
+                  <meshStandardMaterial
+                    color="#E9C46A"
+                    metalness={0.5}
+                    roughness={0.5}
+                  />
+                </mesh>
+              </Animate>
+            </Animate>
+          </Suspense>
+        </RenderPipeline>
+      </RenderCanvas>
+    </>
   )
 }
 
