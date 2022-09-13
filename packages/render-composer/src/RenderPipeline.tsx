@@ -173,7 +173,6 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
   /* Make sure the effects pass is added to the effects composer. */
   useLayoutEffect(() => {
     composer.addPass(effectsPass)
-    console.log(effectsPass)
     return () => composer.removePass(effectsPass)
   }, [effectsPass])
 
