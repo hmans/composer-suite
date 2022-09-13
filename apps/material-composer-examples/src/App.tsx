@@ -12,6 +12,7 @@ import HelloWorld from "./examples/HelloWorld"
 import MemoizationExample from "./examples/Memoization"
 import PlasmaBallExample from "./examples/PlasmaBall"
 import Playground from "./examples/Playground"
+import Rotate from "./examples/Rotate"
 import Textures from "./examples/Textures"
 import Translate from "./examples/Translate"
 import Vanilla from "./examples/Vanilla"
@@ -42,6 +43,10 @@ export default () => (
 
       <Example path="translate" title="Translate">
         <Translate />
+      </Example>
+
+      <Example path="rotate" title="Rotate">
+        <Rotate />
       </Example>
 
       <Example path="velocity" title="Velocity">

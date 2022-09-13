@@ -1,13 +1,15 @@
 import { ModuleFactory } from ".."
-import { Input, Mul } from "shader-composer"
+import { Input, Mat3, Mul } from "shader-composer"
 
 type RotateProps = {
-  rotation: Input<"mat3">
+  rotation: Input<"mat3" | "mat4">
+  normal?: boolean
 }
 
-export const Rotate: ModuleFactory<RotateProps> = ({ rotation }) => (
+export const Rotate: ModuleFactory<RotateProps> = ({ rotation, normal = true }) => (
   state
 ) => ({
   ...state,
-  position: Mul(state.position, rotation)
+  normal: normal ? Mul(state.normal, Mat3(rotation)) : state.normal,
+  position: Mul(state.position, Mat3(rotation))
 })
