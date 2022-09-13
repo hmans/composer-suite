@@ -1,7 +1,11 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, Loader, OrbitControls } from "@react-three/drei"
-import { Suspense } from "react"
-import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Environment, Loader } from "@react-three/drei"
+import { Suspense, useLayoutEffect } from "react"
+import {
+  RenderCanvas,
+  RenderPipeline,
+  useRenderPipeline
+} from "render-composer"
 import { Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
@@ -15,12 +19,14 @@ function App() {
       <Loader />
 
       <RenderCanvas>
-        <RenderPipeline vignette bloom antiAliasing>
+        <RenderPipeline vignette bloom antiAliasing godRays>
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
 
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
+
+            <Sun />
 
             <Animate
               fun={(o, _, { clock }) => {
@@ -45,6 +51,17 @@ function App() {
       </RenderCanvas>
     </>
   )
+}
+
+const Sun = () => {
+  const { sun } = useRenderPipeline()
+
+  useLayoutEffect(() => {
+    console.log(sun)
+    sun.position.set(40, 10, -100)
+  }, [])
+
+  return null
 }
 
 export default App
