@@ -2,7 +2,7 @@ import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
 import { Suspense } from "react"
 import { RenderCanvas, RenderPipeline } from "render-composer"
-import { Object3D } from "three"
+import { Color, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
   o.rotation.x += dt * 0.7
@@ -21,6 +21,14 @@ function App() {
             <Environment preset="sunset" />
 
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
+
+            {/* The "sun" */}
+            <mesh position={[40, 10, -100]} scale={15}>
+              <sphereGeometry />
+              <meshStandardMaterial
+                color={new Color("white").multiplyScalar(3)}
+              />
+            </mesh>
 
             <Animate
               fun={(o, _, { clock }) => {
