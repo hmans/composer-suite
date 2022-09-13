@@ -10,7 +10,7 @@
 
 This project wouldn't be possible without the support from its lovely [sponsors](https://github.com/sponsors/hmans). If you'd like to sponsor this project and help **make game development with React & Three.js incredible**, [click here](https://github.com/sponsors/hmans)!
 
-<!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><a href="https://github.com/djradon"><img src="https://github.com/djradon.png" width="60px" alt="Dave Richardson" /></a><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><a href="https://github.com/djradon"><img src="https://github.com/djradon.png" width="60px" alt="Dave Richardson" /></a><a href="https://github.com/souporserious"><img src="https://github.com/souporserious.png" width="60px" alt="Travis Arnold" /></a><!-- sponsors -->
 
 ## Packages 📦
 

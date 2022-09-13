@@ -24,7 +24,7 @@ For example, your game may have a `state.ts` module that creates and exports all
 type State = "menu" | "gameplay" | "pause" | "gameover"
 
 /* Create and export the State Machine */
-export const gameState = createStateMachine<State>("menu")
+export const GameState = createStateMachine<State>("menu")
 ```
 
 Now this state machine can be imported and used in any other module of your project.
@@ -34,26 +34,26 @@ Now this state machine can be imported and used in any other module of your proj
 `createStateMachine` returns a `Match` component that can now be used to only render a tree of React children when the current state equals a specified state, or is in a list of specified states:
 
 ```tsx
-import { gameState } from "./state"
+import { GameState } from "./state"
 
 const Game = () => (
   <Canvas>
-    <gameState.Match state="menu">
+    <GameState.Match state="menu">
       <Menu />
-    </gameState.Match>
+    </GameState.Match>
 
     {/* The gameplay tree is rendered no matter if the game is paused or not */}
-    <gameState.Match state={["gameplay", "pause"]}>
+    <GameState.Match state={["gameplay", "pause"]}>
       <Gameplay />
-    </gameState.Match>
+    </GameState.Match>
 
-    <gameState.Match state="pause">
+    <GameState.Match state="pause">
       <Menu />
-    </gameState.Match>
+    </GameState.Match>
 
-    <gameState.Match state="pause">
+    <GameState.Match state="pause">
       <Menu />
-    </gameState.Match>
+    </GameState.Match>
   </Canvas>
 )
 ```
@@ -61,7 +61,7 @@ const Game = () => (
 If you need to check the current state from within imperative code, you can use the `is` function:
 
 ```ts
-if (gameState.is("gameplay")) {
+if (GameState.is("gameplay")) {
   /* ... */
 }
 ```
@@ -82,13 +82,13 @@ All of these can be done using normal JavaScript, and the functions provided by 
 ```ts
 export const enterGameplay = () => {
   /* Check if we're currently in an expected state */
-  if (!gameState.is("menu")) return
+  if (!GameState.is("menu")) return
 
   /* Execute some code that should run at the transition */
   initializeGameplay()
 
   /* Transition to the next state */
-  gameState.enter("gameplay")
+  GameState.enter("gameplay")
 }
 ```
 
@@ -96,7 +96,7 @@ If that's a little too verbose and/or imperative for you, consider that you can 
 
 ```ts
 export const returnToTitle = () =>
-  gameState.is("gameplay") && gameState.enter("title")
+  GameState.is("gameplay") && GameState.enter("title")
 ```
 
 If you ever need guard functions that check specific conditions before transitioning to a new state, consider implementing them as functions returning a boolean value, and using them as part of these logic chains:
@@ -107,7 +107,7 @@ const canStartGame = () => {
 }
 
 export const startGame = () =>
-  gameState.is("menu") && canStartGame && gameState.enter("title")
+  GameState.is("menu") && canStartGame && GameState.enter("title")
 ```
 
 > **Note**
