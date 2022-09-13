@@ -1,5 +1,12 @@
 # material-composer
 
+## 0.2.1
+
+### Patch Changes
+
+- e632a35: The `Rotate` module will now also, by default, rotate the vertex normal. If, for some reason, you don't want this to happen, just set the `normal` option to `false`.
+- e632a35: The `Rotate` module now also happily accepts rotation matrices of type `mat4`.
+
 ## 0.2.0
 
 ### Minor Changes

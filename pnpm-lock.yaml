@@ -65,7 +65,7 @@ importers:
       camera-composer: workspace:^0.0.1
       fp-ts: ^2.12.3
       input-composer: workspace:^0.0.1
-      material-composer: workspace:^0.2.0
+      material-composer: workspace:^0.2.1
       material-composer-r3f: workspace:^0.2.0
       randomish: ^0.1.4
       react: ^18.2.0
@@ -125,7 +125,7 @@ importers:
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
       leva: ^0.9.31
-      material-composer: ^0.2.0
+      material-composer: ^0.2.1
       material-composer-r3f: ^0.2.0
       r3f-perf: ^6.4.4
       r3f-stage: ^0.3.3
@@ -430,7 +430,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       fp-ts: ^2.12.3
       leva: ^0.9.31
-      material-composer: ^0.2.0
+      material-composer: ^0.2.1
       material-composer-r3f: ^0.2.0
       r3f-perf: ^6.4.4
       r3f-stage: ^0.3.4
