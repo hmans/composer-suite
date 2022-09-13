@@ -17,14 +17,20 @@ import {
 import React, {
   createContext,
   FC,
-  MutableRefObject,
   ReactNode,
   useContext,
   useLayoutEffect,
-  useMemo
+  useMemo,
+  useState
 } from "react"
 import * as THREE from "three"
-import { BasicDepthPacking, Mesh } from "three"
+import {
+  BasicDepthPacking,
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  SphereGeometry
+} from "three"
 import { LayerRenderPass } from "./LayerRenderPass"
 
 export const Layers = {
@@ -35,6 +41,8 @@ export const Layers = {
 const RenderPipelineContext = createContext<{
   depth: THREE.Texture
   scene: THREE.Texture
+  sun: THREE.Mesh
+  setSun: (sun: THREE.Mesh) => void
 }>(null!)
 
 export const useRenderPipeline = () => useContext(RenderPipelineContext)
@@ -44,7 +52,7 @@ export type RenderPipelineProps = {
   bloom?: boolean | BloomEffectOptions
   vignette?: boolean | ConstructorParameters<typeof VignetteEffect>[0]
   antiAliasing?: boolean | ConstructorParameters<typeof SMAAEffect>[0]
-  godRays?: { lightSource: Mesh }
+  godRays?: boolean | ConstructorParameters<typeof GodRaysEffect>[2]
   effectResolutionFactor?: number
   updatePriority?: number
 }
@@ -59,6 +67,21 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
   updatePriority = 1
 }) => {
   const { gl, scene, camera, size } = useThree()
+
+  const [sun, setSun] = useState<Mesh>(() => {
+    const sun = new Mesh(
+      new SphereGeometry(1),
+      new MeshBasicMaterial({
+        color: new Color(0xffffff),
+        fog: false
+      })
+    )
+
+    sun.position.z = -100
+    sun.scale.setScalar(10)
+
+    return sun
+  })
 
   /* Create all the basic primitives we will be using. */
   const { composer, passes, effects } = useMemo(() => {
@@ -81,7 +104,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
       } as any),
 
       godRays: godRays
-        ? new GodRaysEffect(camera, godRays.lightSource, {
+        ? new GodRaysEffect(camera, sun, {
             height: 480,
             kernelSize: KernelSize.SMALL,
             density: 0.96,
@@ -121,7 +144,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
       effects,
       passes
     }
-  }, [camera, scene])
+  }, [camera, scene, sun])
 
   useLayoutEffect(() => {
     return () => composer.removeAllPasses()
@@ -137,10 +160,10 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
     return new EffectPass(
       camera,
       ...([
+        effects.godRays && effects.godRays,
         bloom && effects.bloom,
         vignette && effects.vignette,
-        antiAliasing && effects.smaa,
-        effects.godRays && effects.godRays
+        antiAliasing && effects.smaa
       ].filter((e) => e) as Effect[])
     )
   }, [camera, composer, bloom, vignette, antiAliasing])
@@ -176,9 +199,12 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
     <RenderPipelineContext.Provider
       value={{
         depth: passes.depthCopyPass.texture,
-        scene: passes.copyPass.texture
+        scene: passes.copyPass.texture,
+        sun,
+        setSun
       }}
     >
+      <primitive object={sun} />
       {children}
     </RenderPipelineContext.Provider>
   )

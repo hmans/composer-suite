@@ -1,7 +1,11 @@
 import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
-import { Suspense, useRef } from "react"
-import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Suspense, useLayoutEffect, useRef } from "react"
+import {
+  RenderCanvas,
+  RenderPipeline,
+  useRenderPipeline
+} from "render-composer"
 import {
   Color,
   Mesh,
@@ -17,43 +21,19 @@ const rotate = (o: Object3D, dt: number) => {
 }
 
 function App() {
-  const sun = new Mesh(
-    new SphereGeometry(1),
-    new MeshBasicMaterial({
-      color: new Color(0xffffff),
-      fog: false
-    })
-  )
-
-  sun.position.z = -100
-  sun.scale.setScalar(10)
-
   return (
     <>
       <Loader />
 
       <RenderCanvas>
-        <RenderPipeline
-          // vignette
-          // bloom
-          antiAliasing
-          godRays={{ lightSource: sun }}
-        >
+        <RenderPipeline vignette bloom antiAliasing godRays>
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
 
-            <primitive object={sun} />
-
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
 
-            {/* The "sun" */}
-            {/* <mesh position={[40, 10, -100]} scale={15} ref={sun}>
-              <sphereGeometry />
-              <meshStandardMaterial
-                color={new Color("white").multiplyScalar(3)}
-              />
-            </mesh> */}
+            <Sun />
 
             <Animate
               fun={(o, _, { clock }) => {
@@ -78,6 +58,17 @@ function App() {
       </RenderCanvas>
     </>
   )
+}
+
+const Sun = () => {
+  const { sun } = useRenderPipeline()
+
+  useLayoutEffect(() => {
+    console.log(sun)
+    sun.position.set(40, 10, -100)
+  }, [])
+
+  return null
 }
 
 export default App
