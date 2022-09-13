@@ -1,19 +1,12 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, Loader, OrbitControls } from "@react-three/drei"
-import { Suspense, useLayoutEffect, useRef } from "react"
+import { Environment, Loader } from "@react-three/drei"
+import { Suspense, useLayoutEffect } from "react"
 import {
   RenderCanvas,
   RenderPipeline,
   useRenderPipeline
 } from "render-composer"
-import {
-  Color,
-  Mesh,
-  MeshBasicMaterial,
-  MeshStandardMaterial,
-  Object3D,
-  SphereGeometry
-} from "three"
+import { Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
   o.rotation.x += dt * 0.7

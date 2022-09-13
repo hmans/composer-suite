@@ -152,6 +152,8 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
 
   /* Create the effects pass. */
   const effectsPass = useMemo(() => {
+    if (typeof godRays === "object" && effects.godRays)
+      Object.assign(effects.godRays, godRays)
     if (typeof bloom === "object") Object.assign(effects.bloom, bloom)
     if (typeof vignette === "object") Object.assign(effects.vignette, vignette)
     if (typeof antiAliasing === "object")
@@ -204,7 +206,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
         setSun
       }}
     >
-      <primitive object={sun} />
+      {godRays && <primitive object={sun} />}
       {children}
     </RenderPipelineContext.Provider>
   )
