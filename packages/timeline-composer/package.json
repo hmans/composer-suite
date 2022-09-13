@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Composable timelines for React.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "dist/timeline-composer.cjs.js",
   "module": "dist/timeline-composer.esm.js",
   "files": [

@@ -28,7 +28,7 @@
     "state-composer": "workspace:^0.1.0",
     "three": "^0.143.0",
     "three-stdlib": "^2.15.0",
-    "timeline-composer": "workspace:^0.1.6",
+    "timeline-composer": "workspace:^0.1.7",
     "vfx-composer-r3f": "workspace:^0.2.3"
   },
   "devDependencies": {

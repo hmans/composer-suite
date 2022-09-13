@@ -30,7 +30,7 @@
     "statery": "0.6.0-next.3",
     "three": "^0.143.0",
     "three-stdlib": "^2.15.0",
-    "timeline-composer": "^0.1.6",
+    "timeline-composer": "^0.1.7",
     "vfx-composer": "^0.2.3",
     "vfx-composer-r3f": "^0.2.3",
     "wouter": "^2.8.0-alpha.2"
