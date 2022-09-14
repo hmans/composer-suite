@@ -17,10 +17,10 @@ export const EffectPass = ({ children }: EffectPassProps) => {
   const effects = useMutableList<PP.Effect>()
 
   /* Recreate the effect pass every time the effects change */
-  const pass = useMemo(
-    () => new PP.EffectPass(camera, ...effects.list),
-    [camera, effects.version]
-  )
+  const pass = useMemo(() => {
+    console.log(effects.list)
+    return new PP.EffectPass(camera, ...effects.list)
+  }, [camera, effects.version])
 
   /* Register with effect composer */
   const { useItem } = useContext(EffectComposerContext)

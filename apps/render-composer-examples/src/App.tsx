@@ -8,6 +8,7 @@ import {
   RenderCanvas,
   RenderPass,
   RenderPipeline,
+  SMAAEffect,
   useRenderPipeline
 } from "render-composer"
 import { Object3D } from "three"
@@ -28,6 +29,7 @@ function App() {
 
           <EffectPass>
             <BloomEffect />
+            <SMAAEffect />
           </EffectPass>
         </EffectComposer>
 
