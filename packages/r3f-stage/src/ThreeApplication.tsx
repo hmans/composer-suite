@@ -6,6 +6,7 @@ import {
   Canvas,
   EffectComposer,
   EffectPass,
+  PreRenderPass,
   RenderPass,
   RenderPipeline,
   SelectiveBloomEffect,
@@ -52,6 +53,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
   return (
     <Canvas dpr={controls.dpr}>
       <EffectComposer>
+        <PreRenderPass />
         <RenderPass />
 
         {controls.effects && (
