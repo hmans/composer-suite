@@ -31,6 +31,8 @@
     "three": ">=0.143.0"
   },
   "dependencies": {
-    "@hmans/use-const": "^0.0.1"
+    "@hmans/use-const": "^0.0.1",
+    "@hmans/use-mutable-list": "workspace:^0.0.1",
+    "test": "^3.2.1"
   }
 }

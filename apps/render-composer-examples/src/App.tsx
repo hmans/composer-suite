@@ -4,6 +4,7 @@ import { Suspense, useLayoutEffect } from "react"
 import {
   EffectComposer,
   RenderCanvas,
+  RenderPass,
   RenderPipeline,
   useRenderPipeline
 } from "render-composer"
@@ -20,7 +21,9 @@ function App() {
       <Loader />
 
       <RenderCanvas>
-        <EffectComposer></EffectComposer>
+        <EffectComposer>
+          <RenderPass />
+        </EffectComposer>
 
         <Suspense>
           <color attach="background" args={["#264653"]} />

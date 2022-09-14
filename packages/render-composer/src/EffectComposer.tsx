@@ -1,7 +1,8 @@
 import { useConst } from "@hmans/use-const"
+import { MutableListAPI, useMutableList } from "@hmans/use-mutable-list"
 import { useFrame, useThree } from "@react-three/fiber"
-import { EffectComposer as EffectComposerImpl } from "postprocessing"
-import React, { ReactNode } from "react"
+import { EffectComposer as EffectComposerImpl, Pass } from "postprocessing"
+import React, { createContext, ReactNode, useLayoutEffect } from "react"
 import { HalfFloatType } from "three"
 
 export type EffectComposerProps = {
@@ -9,13 +10,15 @@ export type EffectComposerProps = {
   updatePriority?: number
 }
 
+export const EffectComposerContext = createContext<MutableListAPI<Pass>>(null!)
+
 export const EffectComposer = ({
   children,
   updatePriority = 1
 }: EffectComposerProps) => {
   const gl = useThree((s) => s.gl)
-  const camera = useThree((s) => s.camera)
-  const scene = useThree((s) => s.scene)
+
+  const passes = useMutableList<Pass>()
 
   const composer = useConst(() => {
     return new EffectComposerImpl(gl, {
@@ -23,9 +26,25 @@ export const EffectComposer = ({
     })
   })
 
+  useLayoutEffect(() => {
+    console.log("Version of passes was bumped, updating composer")
+
+    for (const pass of passes.list) {
+      composer.addPass(pass)
+    }
+
+    return () => {
+      composer.removeAllPasses()
+    }
+  }, [passes.version])
+
   useFrame((_, dt) => {
     composer.render(dt)
   }, updatePriority)
 
-  return <>{children}</>
+  return (
+    <EffectComposerContext.Provider value={passes}>
+      {children}
+    </EffectComposerContext.Provider>
+  )
 }
