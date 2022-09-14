@@ -33,9 +33,7 @@ export const EffectComposer = ({
       composer.addPass(pass)
     }
 
-    return () => {
-      composer.removeAllPasses()
-    }
+    return () => composer.removeAllPasses()
   }, [passes.version])
 
   useFrame((_, dt) => {
