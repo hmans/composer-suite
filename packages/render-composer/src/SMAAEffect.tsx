@@ -1,17 +1,9 @@
 import * as PP from "postprocessing"
-import { useContext, useLayoutEffect, useMemo } from "react"
-import { EffectPassContext } from "./EffectPass"
+import { usePostProcessingEffect } from "./usePostProcessingEffect"
 
 export const SMAAEffect = (
   props: ConstructorParameters<typeof PP.SMAAEffect>[0]
 ) => {
-  const effect = useMemo(() => new PP.SMAAEffect(props), [])
-
-  useLayoutEffect(() => {
-    Object.assign(effect, props)
-  }, [effect, props])
-
-  useContext(EffectPassContext).useItem(effect)
-
+  usePostProcessingEffect(() => new PP.SMAAEffect(props), props)
   return null
 }
