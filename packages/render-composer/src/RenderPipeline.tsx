@@ -1,6 +1,7 @@
 import * as PP from "postprocessing"
 import React, { createContext, useContext } from "react"
 import * as RC from "."
+import { Layers } from "./Layers"
 import { useNullableState } from "./lib/useNullableState"
 
 const RenderPipelineContext = createContext<{
@@ -20,7 +21,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
 
   return (
     <RC.EffectComposer>
-      <RC.PreRenderPass />
+      <RC.LayerRenderPass layer={Layers.TransparentFX} />
       <RC.DepthCopyPass ref={setDepthCopyPass} />
       <RC.CopyPass ref={setCopyPass} />
       <RC.RenderPass />

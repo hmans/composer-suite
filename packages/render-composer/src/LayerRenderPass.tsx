@@ -1,7 +1,40 @@
+import { useThree } from "@react-three/fiber"
 import { RenderPass } from "postprocessing"
-import { Camera, Material, Scene, WebGLRenderer, WebGLRenderTarget } from "three"
+import { useContext, useMemo } from "react"
+import {
+  Camera,
+  Material,
+  Scene,
+  WebGLRenderer,
+  WebGLRenderTarget
+} from "three"
+import { EffectComposerContext } from "./EffectComposer"
 
-export class LayerRenderPass extends RenderPass {
+export type LayerRenderPassProps = {
+  layer: number
+}
+
+export const LayerRenderPass = ({ layer }: LayerRenderPassProps) => {
+  const scene = useThree((s) => s.scene)
+  const camera = useThree((s) => s.camera)
+
+  const pass = useMemo(
+    () =>
+      new LayerRenderPassImpl(
+        scene,
+        camera,
+        undefined,
+        camera.layers.mask & ~(1 << layer)
+      ),
+    [scene, camera]
+  )
+
+  useContext(EffectComposerContext).useItem(pass)
+
+  return null
+}
+
+export class LayerRenderPassImpl extends RenderPass {
   constructor(
     scene: Scene,
     camera: Camera,
