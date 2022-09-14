@@ -2,7 +2,7 @@ import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader } from "@react-three/drei"
 import { Suspense, useLayoutEffect } from "react"
 import {
-  BloomEffect,
+  SelectiveBloomEffect,
   EffectComposer,
   EffectPass,
   RenderCanvas,
@@ -28,7 +28,7 @@ function App() {
           <RenderPass />
 
           <EffectPass>
-            <BloomEffect />
+            <SelectiveBloomEffect />
             <SMAAEffect />
             <VignetteEffect />
           </EffectPass>

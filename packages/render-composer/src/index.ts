@@ -1,4 +1,4 @@
-export * from "./BloomEffect"
+export * from "./SelectiveBloomEffect"
 export * from "./EffectComposer"
 export * from "./EffectPass"
 export * from "./RenderCanvas"

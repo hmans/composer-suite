@@ -3,7 +3,7 @@ import * as PP from "postprocessing"
 import { useContext, useLayoutEffect, useMemo } from "react"
 import { EffectPassContext } from "./EffectPass"
 
-export const BloomEffect = () => {
+export const SelectiveBloomEffect = () => {
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
   const effects = useContext(EffectPassContext)
