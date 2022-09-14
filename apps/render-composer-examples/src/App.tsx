@@ -17,9 +17,9 @@ function App() {
       <RC.Canvas>
         <RC.RenderPipeline>
           <RC.EffectPass>
-            <RC.SelectiveBloomEffect intensity={3} />
+            <RC.SelectiveBloomEffect />
             <RC.SMAAEffect />
-            <RC.VignetteEffect darkness={0.5} />
+            <RC.VignetteEffect />
           </RC.EffectPass>
 
           <Suspense>
