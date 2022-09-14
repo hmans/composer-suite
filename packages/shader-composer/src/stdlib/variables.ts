@@ -19,19 +19,7 @@ export const FragmentCoordinate = Vec2($`gl_FragCoord.xy`, {
  */
 export const InstanceID = Int(0, {
   name: "Instance ID",
-  vertex: {
-    header: $`
-      flat varying int _instanceID;
-    `,
-    body: $`
-      _instanceID = gl_InstanceID;
-      value = gl_InstanceID;
-    `
-  },
-  fragment: {
-    header: $`flat varying int _instanceID;`,
-    body: $`value = _instanceID;`
-  }
+  varying: "flat"
 })
 
 /**

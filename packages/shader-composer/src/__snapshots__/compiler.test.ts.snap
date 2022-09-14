@@ -46,6 +46,43 @@ void main()
 }"
 `;
 
+exports[`compileShader allows varyings to be configured as 'flat' 1`] = `
+Object {
+  "fragmentShader": "/*** PROGRAM: FRAGMENT ***/
+
+precision highp float;
+
+/*** UNIT: Anonymous ***/
+flat varying int v_Anonymous_1;
+
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  int Anonymous_1 = v_Anonymous_1;
+  
+  
+}",
+  "uniforms": Object {},
+  "vertexShader": "/*** PROGRAM: VERTEX ***/
+
+precision highp float;
+
+/*** UNIT: Anonymous ***/
+flat varying int v_Anonymous_1;
+
+
+void main()
+{
+  /*** UNIT: Anonymous ***/
+  int Anonymous_1 = 1;
+  v_Anonymous_1 = Anonymous_1;
+  
+  
+}",
+}
+`;
+
 exports[`compileShader compiles shader programs from the given unit 1`] = `
 "/*** PROGRAM: VERTEX ***/
 

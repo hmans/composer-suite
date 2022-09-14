@@ -90,7 +90,7 @@ export type UnitConfig<T extends GLSLType> = {
    * calculate/source its value in the vertex program only, and pass the
    * result to the fragment program through that varying. Default: false.
    */
-  varying: boolean
+  varying: boolean | "flat"
 
   /**
    * An optional uniform object. It will automatically be
@@ -128,22 +128,22 @@ export type UnitState<T extends GLSLType> = {
 
 export type UnitAPI<T extends GLSLType> = T extends "vec2"
   ? {
-      readonly x: Unit<"float">
-      readonly y: Unit<"float">
-    }
+    readonly x: Unit<"float">
+    readonly y: Unit<"float">
+  }
   : T extends "vec3"
   ? {
-      readonly x: Unit<"float">
-      readonly y: Unit<"float">
-      readonly z: Unit<"float">
-    }
+    readonly x: Unit<"float">
+    readonly y: Unit<"float">
+    readonly z: Unit<"float">
+  }
   : T extends "vec4"
   ? {
-      readonly x: Unit<"float">
-      readonly y: Unit<"float">
-      readonly z: Unit<"float">
-      readonly w: Unit<"float">
-    }
+    readonly x: Unit<"float">
+    readonly y: Unit<"float">
+    readonly z: Unit<"float">
+    readonly w: Unit<"float">
+  }
   : API
 
 const unitAPI = <T extends GLSLType>(unit: IUnit<T>): UnitAPI<T> => {
