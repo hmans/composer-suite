@@ -31,11 +31,13 @@ export const useRenderPipeline = () => useContext(RenderPipelineContext)
 
 export type RenderPipelineProps = {
   children?: ReactNode
+  effectResolutionFactor?: number
   updatePriority?: number
 }
 
 export const RenderPipeline: FC<RenderPipelineProps> = ({
   children,
+  effectResolutionFactor = 0.5,
   updatePriority = 1
 }) => {
   const { gl, scene, camera, size } = useThree()
@@ -79,7 +81,7 @@ export const RenderPipeline: FC<RenderPipelineProps> = ({
   /* Apply updated sizes and resolutions when they change. */
   useLayoutEffect(() => {
     composer.setSize(size.width, size.height)
-  }, [size.width, size.height, composer])
+  }, [size.width, size.height, effectResolutionFactor, composer])
 
   /* Render the scene! */
   useFrame(() => {
