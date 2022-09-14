@@ -1,0 +1,42 @@
+{
+  "name": "drone-game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hmans/things": "^0.0.6",
+    "@react-three/drei": "^9.29.1",
+    "@react-three/fiber": "^8.7.0",
+    "@react-three/rapier": "^0.6.7",
+    "camera-composer": "workspace:^0.0.1",
+    "fp-ts": "^2.12.3",
+    "input-composer": "workspace:^0.0.1",
+    "material-composer": "workspace:^0.2.1",
+    "material-composer-r3f": "workspace:^0.2.0",
+    "randomish": "^0.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "render-composer": "workspace:^0.1.6",
+    "shader-composer": "workspace:^0.4.0",
+    "shader-composer-r3f": "workspace:^0.4.0",
+    "shader-composer-toybox": "workspace:^0.1.3",
+    "state-composer": "workspace:^0.1.0",
+    "three": "^0.143.0",
+    "three-stdlib": "^2.15.0",
+    "timeline-composer": "workspace:^0.1.7",
+    "vfx-composer-r3f": "workspace:^0.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.19",
+    "@types/react-dom": "^18.0.6",
+    "@types/three": "^0.144.0",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.0"
+  }
+}

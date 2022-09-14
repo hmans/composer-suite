@@ -4,15 +4,15 @@ import { Layer, LayerArgs } from "material-composer"
 import { composable, moduleComponent } from "material-composer-r3f"
 import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
+  $vec2,
   GlobalTime,
   GradientStops,
   Input,
   Mul,
+  ScaleAndOffset,
   Texture2D,
-  TilingUV,
   Unit,
-  UV,
-  $vec2
+  UV
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { DoubleSide, RepeatWrapping } from "three"
@@ -39,7 +39,7 @@ export const AuraLayerModule = ({
   time = GlobalTime,
   ...layerArgs
 }: AuraArgs) => {
-  const heat = Texture2D(texture, TilingUV(UV, tiling, offset))
+  const heat = Texture2D(texture, ScaleAndOffset(UV, tiling, offset))
 
   return Layer({
     ...layerArgs,

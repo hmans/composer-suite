@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "react-three-fiber glue for shader-composer.",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "main": "dist/shader-composer-r3f.cjs.js",
   "module": "dist/shader-composer-r3f.esm.js",
   "files": [
@@ -33,6 +33,6 @@
     "three": ">=0.143.0"
   },
   "dependencies": {
-    "shader-composer": "^0.3.0"
+    "shader-composer": "^0.4.0"
   }
 }

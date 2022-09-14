@@ -1,5 +1,21 @@
 # shader-composer-r3f
 
+## 0.4.0
+
+### Minor Changes
+
+- c3dcb12: **Breaking Change:** Removed the `Custom.*` proxy for CustomShaderMaterial. (You were probably not using it, but who knows!) For a similar proxy-based system, please use `@material-composer/patched`.
+
+### Patch Changes
+
+- Updated dependencies [a92d0d3]
+- Updated dependencies [433f93b]
+- Updated dependencies [765b29d]
+- Updated dependencies [9406986]
+- Updated dependencies [6d99c19]
+- Updated dependencies [765b29d]
+  - shader-composer@0.4.0
+
 ## 0.2.0
 
 ### Breaking Changes

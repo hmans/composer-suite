@@ -1,3 +1,4 @@
+import { pipe } from "fp-ts/function"
 import { $ } from "../expressions"
 import { type } from "../glslType"
 import { GLSLType, Input, Unit } from "../units"
@@ -154,7 +155,7 @@ export const Negate = <T extends GLSLType>(v: Input<T>) =>
  * @param ratio
  * @returns
  */
-export const lerp = <T extends GLSLType>(
+export const $lerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   ratio: Input<"float">
@@ -174,9 +175,9 @@ export const Lerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   ratio: Input<"float">
-) => Unit(type(a), lerp(a, b, ratio), { name: "Mix" })
+) => Unit(type(a), $lerp(a, b, ratio), { name: "Mix" })
 
-export const inverseLerp = <T extends GLSLType>(
+export const $inverseLerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   c: Input<T>
@@ -196,7 +197,7 @@ export const InverseLerp = <T extends GLSLType>(
   a: Input<T>,
   b: Input<T>,
   c: Input<T>
-) => Unit(type(a), inverseLerp(a, b, c), { name: "Inverse Lerp" })
+) => Unit(type(a), $inverseLerp(a, b, c), { name: "Inverse Lerp" })
 
 export const Mix = Lerp
 
@@ -236,13 +237,13 @@ export const Smoothstep = (
   v: Input<"float">
 ) => Float($`smoothstep(${min}, ${max}, ${v})`, { name: "Smoothstep" })
 
-export const remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
+export const $remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   value: Input<T>,
   inMin: Input<T>,
   inMax: Input<T>,
   outMin: Input<T>,
   outMax: Input<T>
-) => $`mix(${outMin}, ${outMax}, ${inverseLerp(inMin, inMax, value)})`
+) => $`mix(${outMin}, ${outMax}, ${$inverseLerp(inMin, inMax, value)})`
 
 export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   value: Input<T>,
@@ -250,7 +251,7 @@ export const Remap = <T extends "float" | "vec2" | "vec3" | "vec4">(
   inMax: Input<T>,
   outMin: Input<T>,
   outMax: Input<T>
-) => Unit(type(value), remap(value, inMin, inMax, outMin, outMax))
+) => Unit(type(value), $remap(value, inMin, inMax, outMin, outMax))
 
 export const NormalizePlusMinusOne = (f: Input<"float">) =>
   Remap(f, -1, 1, 0, 1)
@@ -264,3 +265,26 @@ export const Max = <T extends "float" | "vec2" | "vec3" | "vec4">(
   a: Input<T>,
   b: Input<T>
 ) => Unit(type(a), $`max(${a}, ${b})`)
+
+/**
+ * Applies scaling (multiplication) and offset (addition) to a given value.
+ *
+ * @param v The value to scale and offset.
+ * @param scale The scale to apply. (Default: 1)
+ * @param offset The offset to apply. (Default: 0)
+ * @returns A unit holding the scaled and offset value.
+ */
+export const ScaleAndOffset = <T extends GLSLType>(
+  v: Input<T>,
+  scale: Input = 1,
+  offset: Input = 0
+) =>
+  Unit(
+    type(v),
+    pipe(
+      v,
+      (v) => Mul(v, scale),
+      (v) => Add(v, offset)
+    ),
+    { name: "Scale and Offset" }
+  )

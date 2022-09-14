@@ -10,19 +10,19 @@
   },
   "dependencies": {
     "@hmans/r3f-animate": "^0.0.4",
-    "@react-three/drei": "^9.26.0",
+    "@react-three/drei": "^9.29.1",
     "@react-three/fiber": "^8.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render-composer": "^0.1.5",
+    "render-composer": "^0.1.6",
     "three": "^0.143.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.18",
+    "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6",
     "@types/three": "^0.143.1",
     "@vitejs/plugin-react": "^2.0.1",
-    "typescript": "^4.8.2",
-    "vite": "^3.0.9"
+    "typescript": "^4.8.3",
+    "vite": "^3.1.0"
   }
 }

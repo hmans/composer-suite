@@ -1,7 +1,7 @@
 import { Color } from "three"
 import { $ } from "../expressions"
 import { Input } from "../units"
-import { VertexPosition } from "./geometry"
+import { VertexPosition } from "./variables"
 import { Master } from "./values"
 
 export type ShaderMaterialMasterProps = {
@@ -67,7 +67,11 @@ export const CustomShaderMaterialMaster = ({
   			${alpha !== undefined ? $`csm_DiffuseColor.a = ${alpha};` : ""}
 				${diffuseColor !== undefined ? $`csm_DiffuseColor.rgb = ${diffuseColor};` : ""}
 				${emissiveColor !== undefined ? $`csm_Emissive = ${emissiveColor};` : ""}
-				${fragColor !== undefined ? $`csm_FragColor = vec4(${fragColor}, ${alpha});` : ""}
+				${
+          fragColor !== undefined
+            ? $`csm_FragColor = vec4(${fragColor}, ${alpha});`
+            : ""
+        }
 
         #if defined IS_MESHSTANDARDMATERIAL || defined IS_MESHPHYSICALMATERIAL
           ${roughness !== undefined ? $`csm_Roughness = ${roughness};` : ""}

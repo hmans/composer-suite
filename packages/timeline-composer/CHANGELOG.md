@@ -1,5 +1,17 @@
 # timeline-composer
 
+## 0.1.7
+
+### Patch Changes
+
+- 481cc82: Fixed a bug in the use of `key` within `<Repeat>` that caused React to log warnings.
+
+## 0.1.6
+
+### Patch Changes
+
+- 411f406: Extracted `useAnimationFrame` into [@hmans/use-animation-frame](https://github.com/hmans/things/tree/main/packages/hmans-use-animation-frame).
+
 ## 0.1.5
 
 ### Patch Changes

@@ -12,7 +12,6 @@ import {
   Mul,
   Sin,
   Smoothstep,
-  SplitVector3,
   Step,
   Time,
   Vec3,
@@ -50,7 +49,7 @@ function Planet() {
 
     const water = pipe(
       Time(),
-      (v) => Add(v, SplitVector3(VertexPosition)[1]),
+      (v) => Add(v, VertexPosition.y),
       (v) => Sin(v),
       (v) => Mul(v, 0.008),
       (v) => Add(v, 0.02)

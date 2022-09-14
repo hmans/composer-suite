@@ -2,15 +2,15 @@ import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { patched } from "@material-composer/patched"
 import {
   $,
+  $vec2,
   Add,
   Fresnel,
   Mul,
+  ScaleAndOffset,
   Texture2D,
-  TilingUV,
   Time,
   UniformUnit,
-  UV,
-  $vec2
+  UV
 } from "shader-composer"
 import { useShader } from "shader-composer-r3f"
 import { Color } from "three"
@@ -26,7 +26,7 @@ export default function Textures() {
     const sampler2D = UniformUnit("sampler2D", texture)
 
     /* Get the texture information for the current fragment */
-    const tex2d = Texture2D(sampler2D, TilingUV(UV, $vec2(2, 1), offset))
+    const tex2d = Texture2D(sampler2D, ScaleAndOffset(UV, $vec2(2, 1), offset))
 
     /* Define a color to tint the texture with */
     const color = new Color("hotpink")
