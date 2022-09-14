@@ -282,9 +282,9 @@ exports[`compileShader supports snippets 1`] = `
 precision highp float;
 
 
-			float snippet_1(in float a) {
-				return a * 2.0;
-			}
+      float snippet_1(in float a) {
+        return a * 2.0;
+      }
 void main()
 {
   /*** UNIT: Anonymous ***/
@@ -300,9 +300,9 @@ exports[`compileShader supports snippets 2`] = `
 precision highp float;
 
 
-			float snippet_1(in float a) {
-				return a * 2.0;
-			}
+      float snippet_1(in float a) {
+        return a * 2.0;
+      }
 void main()
 {
   /*** UNIT: Anonymous ***/

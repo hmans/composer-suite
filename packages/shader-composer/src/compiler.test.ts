@@ -72,9 +72,9 @@ describe("compileShader", () => {
   it("supports snippets", () => {
     const double = Snippet(
       (name) => $`
-			float ${name}(in float a) {
-				return a * 2.0;
-			}`
+      float ${name}(in float a) {
+        return a * 2.0;
+      }`
     )
 
     const root = Float($`${double}(1.0)`)
