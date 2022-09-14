@@ -1,8 +1,8 @@
 import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader } from "@react-three/drei"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import * as RC from "render-composer"
-import { Object3D } from "three"
+import { Mesh, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
   o.rotation.x += dt * 0.7
@@ -10,6 +10,8 @@ const rotate = (o: Object3D, dt: number) => {
 }
 
 function App() {
+  const [sun, setSun] = useState<Mesh | null>(null!)
+
   return (
     <>
       <Loader />
@@ -19,12 +21,18 @@ function App() {
           <RC.EffectPass>
             <RC.SelectiveBloomEffect />
             <RC.SMAAEffect />
+            {sun && <RC.GodRaysEffect lightSource={sun} />}
             <RC.VignetteEffect />
           </RC.EffectPass>
 
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
+
+            <mesh position={[0, 0, -10]} ref={setSun}>
+              <sphereGeometry />
+              <meshBasicMaterial color="#f5ebe0" />
+            </mesh>
 
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
 
