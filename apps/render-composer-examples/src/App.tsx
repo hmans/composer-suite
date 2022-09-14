@@ -1,6 +1,6 @@
 import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader } from "@react-three/drei"
-import { Suspense, useLayoutEffect } from "react"
+import { Suspense } from "react"
 import * as RC from "render-composer"
 import { Object3D } from "three"
 
@@ -53,17 +53,6 @@ function App() {
       </RC.Canvas>
     </>
   )
-}
-
-const Sun = () => {
-  const { sun } = useRenderPipeline()
-
-  useLayoutEffect(() => {
-    console.log(sun)
-    sun.position.set(40, 10, -100)
-  }, [])
-
-  return null
 }
 
 export default App
