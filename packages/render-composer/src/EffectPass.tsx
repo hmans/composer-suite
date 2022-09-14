@@ -24,7 +24,6 @@ export const EffectPass = ({ children }: EffectPassProps) => {
 
   /* Recreate the effect pass every time the effects change */
   const pass = useMemo(() => {
-    console.log(effects.list)
     return new PP.EffectPass(camera, ...effects.list)
   }, [camera, effects.version])
 

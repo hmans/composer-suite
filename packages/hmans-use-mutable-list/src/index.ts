@@ -15,7 +15,8 @@ export const useMutableList = <T>(): MutableListAPI<T> => {
     version: 0
   }))
 
-  const bumpVersion = () => setState({ ...state, version: state.version + 1 })
+  const bumpVersion = () =>
+    setState((state) => ({ ...state, version: state.version + 1 }))
 
   const addItem = (item: T) => {
     state.list.push(item)

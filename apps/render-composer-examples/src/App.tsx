@@ -7,9 +7,9 @@ import {
   EffectPass,
   RenderCanvas,
   RenderPass,
-  RenderPipeline,
   SMAAEffect,
-  useRenderPipeline
+  useRenderPipeline,
+  VignetteEffect
 } from "render-composer"
 import { Object3D } from "three"
 
@@ -30,6 +30,7 @@ function App() {
           <EffectPass>
             <BloomEffect />
             <SMAAEffect />
+            <VignetteEffect />
           </EffectPass>
         </EffectComposer>
 
