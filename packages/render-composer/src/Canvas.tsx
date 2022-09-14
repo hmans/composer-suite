@@ -1,10 +1,10 @@
-import { Canvas, Props } from "@react-three/fiber"
+import * as R3F from "@react-three/fiber"
 import React from "react"
 
-export type RenderCanvasProps = Props
+export type CanvasProps = R3F.Props
 
-export const RenderCanvas = (props: RenderCanvasProps) => (
-  <Canvas
+export const Canvas = (props: CanvasProps) => (
+  <R3F.Canvas
     shadows
     flat
     gl={{

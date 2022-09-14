@@ -5,7 +5,7 @@ import {
   SelectiveBloomEffect,
   EffectComposer,
   EffectPass,
-  RenderCanvas,
+  Canvas,
   RenderPass,
   SMAAEffect,
   useRenderPipeline,
@@ -23,7 +23,7 @@ function App() {
     <>
       <Loader />
 
-      <RenderCanvas>
+      <Canvas>
         <EffectComposer>
           <RenderPass />
 
@@ -61,7 +61,7 @@ function App() {
             </Animate>
           </Animate>
         </Suspense>
-      </RenderCanvas>
+      </Canvas>
     </>
   )
 }
