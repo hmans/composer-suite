@@ -27,7 +27,7 @@ export const EffectComposer = ({
   })
 
   useLayoutEffect(() => {
-    console.log("Version of passes was bumped, updating composer")
+    // console.log("Version of passes was bumped, updating composer")
 
     for (const pass of passes.list) {
       composer.addPass(pass)
