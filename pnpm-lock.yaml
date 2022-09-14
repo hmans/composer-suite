@@ -583,6 +583,7 @@ importers:
     specifiers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-list': ^0.0.1
+      '@hmans/use-mutable-list': workspace:^0.0.1
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       '@material-composer/patch-material': ^0.1.2
@@ -597,6 +598,7 @@ importers:
     dependencies:
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@hmans/use-list': 0.0.1_react@18.2.0
+      '@hmans/use-mutable-list': link:../hmans-use-mutable-list
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       '@material-composer/patch-material': link:../material-composer-patch-material
