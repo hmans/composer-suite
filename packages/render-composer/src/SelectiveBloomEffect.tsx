@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import { useContext, useLayoutEffect, useMemo } from "react"
-import { EffectPassContext } from "./EffectPass"
+import { useLayoutEffect } from "react"
+import { usePostProcessingEffect } from "./usePostProcessingEffect"
 
 export const SelectiveBloomEffect = (
   props: ConstructorParameters<typeof PP.SelectiveBloomEffect>[2]
@@ -9,27 +9,22 @@ export const SelectiveBloomEffect = (
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
 
-  const effect = useMemo(
+  const effect = usePostProcessingEffect(
     () =>
       new PP.SelectiveBloomEffect(scene, camera, {
         blendFunction: PP.BlendFunction.ADD,
         mipmapBlur: true,
         luminanceThreshold: 1,
         luminanceSmoothing: 0.2,
-        intensity: 1
+        intensity: 1,
+        ...props
       }),
-    []
+    props
   )
-
-  useLayoutEffect(() => {
-    Object.assign(effect, props)
-  }, [effect, props])
 
   useLayoutEffect(() => {
     effect.inverted = true
   }, [effect])
-
-  useContext(EffectPassContext).useItem(effect)
 
   return null
 }
