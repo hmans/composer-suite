@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - render-composer-0-2-0
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
