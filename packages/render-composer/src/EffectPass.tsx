@@ -1,7 +1,13 @@
 import { MutableListAPI, useMutableList } from "@hmans/use-mutable-list"
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import React, { createContext, ReactNode, useContext, useMemo } from "react"
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo
+} from "react"
 import { EffectComposerContext } from "./EffectComposer"
 
 export const EffectPassContext = createContext<MutableListAPI<PP.Effect>>(null!)
@@ -21,6 +27,10 @@ export const EffectPass = ({ children }: EffectPassProps) => {
     console.log(effects.list)
     return new PP.EffectPass(camera, ...effects.list)
   }, [camera, effects.version])
+
+  useEffect(() => {
+    return () => pass.dispose()
+  }, [pass])
 
   /* Register with effect composer */
   const { useItem } = useContext(EffectComposerContext)
