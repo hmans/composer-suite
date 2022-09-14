@@ -58,7 +58,12 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
   /* Declare varying if this unit has varying mode */
   if (unit._unitConfig.varying) {
     header.push(
-      `varying ${unit._unitConfig.type} v_${unit._unitConfig.variableName};`
+      statement(
+        unit._unitConfig.varying === "flat" ? "flat" : undefined,
+        "varying",
+        unit._unitConfig.type,
+        `v_${unit._unitConfig.variableName}`
+      )
     )
   }
 

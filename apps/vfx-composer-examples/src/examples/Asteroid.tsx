@@ -11,7 +11,6 @@ import { between, plusMinus } from "randomish"
 import {
   Abs,
   Add,
-  Float,
   GlobalTime,
   Input,
   InstanceID,
@@ -140,8 +139,8 @@ const OuterAura = () => (
 
 const Sparks = () => {
   const particles = useParticles()
-  const id = Float(InstanceID, { varying: true })
-  const getNoise = (offset: Input<"float">) => PSRDNoise2D(Vec2([offset, id]))
+  const getNoise = (offset: Input<"float">) =>
+    PSRDNoise2D(Vec2([offset, InstanceID]))
   const clock = useThree((s) => s.clock)
 
   return (
@@ -150,7 +149,7 @@ const Sparks = () => {
       <composable.meshBasicMaterial side={DoubleSide}>
         <modules.Color
           color={pipe(
-            id,
+            InstanceID,
             (v) => getNoise(20),
             (v) => NormalizePlusMinusOne(v),
             (v) => Mul(v, 10),
@@ -162,7 +161,10 @@ const Sparks = () => {
 
         <modules.Scale scale={Add(2, getNoise(123))} />
 
-        <modules.SurfaceWobble offset={Vec3([time, id, 0])} amplitude={0.5} />
+        <modules.SurfaceWobble
+          offset={Vec3([time, InstanceID, 0])}
+          amplitude={0.5}
+        />
 
         <modules.Translate
           offset={Vec3([Mul(getNoise(99), 5), getNoise(67), getNoise(567)])}
@@ -195,8 +197,8 @@ const Sparks = () => {
 
 const RockSplitters = () => {
   const particles = useParticles()
-  const id = Float(InstanceID, { varying: true })
-  const getNoise = (offset: Input<"float">) => PSRDNoise2D(Vec2([offset, id]))
+  const getNoise = (offset: Input<"float">) =>
+    PSRDNoise2D(Vec2([offset, InstanceID]))
 
   return (
     <Particles capacity={100} safetyCapacity={10}>

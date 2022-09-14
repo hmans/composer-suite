@@ -16,12 +16,10 @@ export const FragmentCoordinate = Vec2($`gl_FragCoord.xy`, {
 /**
  * In instanced rendering, will return the instance ID.
  * Wraps the `gl_InstanceID` GLSL built-in.
- *
- * Note: available in vertex shader only!
  */
-export const InstanceID = Int($`gl_InstanceID`, {
+export const InstanceID = Int(0, {
   name: "Instance ID",
-  only: "vertex"
+  varying: "flat"
 })
 
 /**
