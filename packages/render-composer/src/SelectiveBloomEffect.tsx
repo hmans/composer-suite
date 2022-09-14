@@ -3,9 +3,9 @@ import * as PP from "postprocessing"
 import { useContext, useLayoutEffect, useMemo } from "react"
 import { EffectPassContext } from "./EffectPass"
 
-export type SelectiveBloomEffectProps = PP.BloomEffectOptions
-
-export const SelectiveBloomEffect = (props: SelectiveBloomEffectProps) => {
+export const SelectiveBloomEffect = (
+  props: ConstructorParameters<typeof PP.SelectiveBloomEffect>[2]
+) => {
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
 

@@ -30,7 +30,7 @@ function App() {
           <EffectPass>
             <SelectiveBloomEffect intensity={3} />
             <SMAAEffect />
-            <VignetteEffect />
+            <VignetteEffect darkness={0.5} />
           </EffectPass>
         </EffectComposer>
 
