@@ -26,12 +26,6 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
       <RC.CopyPass ref={setCopyPass} />
       <RC.RenderPass />
 
-      <RC.EffectPass>
-        <RC.SMAAEffect />
-        <RC.SelectiveBloomEffect />
-        <RC.VignetteEffect />
-      </RC.EffectPass>
-
       {depthCopyPass && copyPass && (
         <RenderPipelineContext.Provider
           value={{
