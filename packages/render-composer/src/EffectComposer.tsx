@@ -16,16 +16,21 @@ export const EffectComposer = ({
   children,
   updatePriority = 1
 }: EffectComposerProps) => {
-  const gl = useThree((s) => s.gl)
-
+  /* This list will contain all our render passes. */
   const passes = useMutableList<Pass>()
 
+  /* Fetch some R3F state we'll need. */
+  const gl = useThree((s) => s.gl)
+  const size = useThree((s) => s.size)
+
+  /* Create the composer. */
   const composer = useConst(() => {
     return new EffectComposerImpl(gl, {
       frameBufferType: HalfFloatType
     })
   })
 
+  /* Rebuild passes when the list changes */
   useLayoutEffect(() => {
     // console.log("Version of passes was bumped, updating composer")
 
@@ -38,6 +43,12 @@ export const EffectComposer = ({
     }
   }, [passes.version])
 
+  /* Resize composer on resolution change */
+  useLayoutEffect(() => {
+    composer.setSize(size.width, size.height)
+  }, [size.width, size.height, composer])
+
+  /* Render! */
   useFrame((_, dt) => {
     composer.render(dt)
   }, updatePriority)
