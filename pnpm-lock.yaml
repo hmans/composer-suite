@@ -641,11 +641,14 @@ importers:
 
   packages/render-composer:
     specifiers:
+      '@hmans/use-const': ^0.0.1
       '@react-three/fiber': ^8.7.0
       postprocessing: ^6.28.7
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.143.0
+    dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
     devDependencies:
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
       postprocessing: 6.28.7_three@0.143.0

@@ -29,5 +29,8 @@
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "three": ">=0.143.0"
+  },
+  "dependencies": {
+    "@hmans/use-const": "^0.0.1"
   }
 }
