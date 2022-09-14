@@ -1,10 +1,7 @@
 import * as PP from "postprocessing"
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useContext } from "react"
 import * as RC from "."
-
-export type RenderPipelineProps = {
-  children?: React.ReactNode
-}
+import { useNullableState } from "./lib/useNullableState"
 
 const RenderPipelineContext = createContext<{
   depth: THREE.Texture
@@ -13,8 +10,9 @@ const RenderPipelineContext = createContext<{
 
 export const useRenderPipeline = () => useContext(RenderPipelineContext)
 
-const useNullableState = <T,>(initialValue: T | (() => T) = null!) =>
-  useState<T | null>(initialValue)
+export type RenderPipelineProps = {
+  children?: React.ReactNode
+}
 
 export const RenderPipeline = ({ children }: RenderPipelineProps) => {
   const [depthCopyPass, setDepthCopyPass] = useNullableState<PP.DepthCopyPass>()

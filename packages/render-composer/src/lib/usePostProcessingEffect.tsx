@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
 import { useContext, useLayoutEffect, useMemo } from "react"
-import { EffectPassContext } from "./EffectPass"
+import { EffectPassContext } from "../EffectPass"
 
 export const usePostProcessingEffect = <T extends PP.Effect, P>(
   ctor: () => T,
