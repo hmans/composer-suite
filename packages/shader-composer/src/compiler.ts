@@ -43,7 +43,7 @@ const compileSnippet = (
 
 const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
   /* As a sanity check, check if the unit is even allowed to be compiled into
-	the requested program. */
+  the requested program. */
   if (!isUnitInProgram(unit, program)) {
     throw new Error(
       program === "vertex"
@@ -88,8 +88,8 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
   state.body.push(beginUnit(unit))
 
   /*
-	Declare the unit's global variable, and assign the specified value to it.
-	*/
+  Declare the unit's global variable, and assign the specified value to it.
+  */
   if (!unit._unitConfig.uniform) {
     state.body.push(
       statement(
@@ -102,9 +102,9 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
   }
 
   /*
-	If a body chunk is given, we'll create a scoped block with a local variable called
-	"value" that the chunk can modify before it is assigned back to the unit's global.
-	*/
+  If a body chunk is given, we'll create a scoped block with a local variable called
+  "value" that the chunk can modify before it is assigned back to the unit's global.
+  */
   if (unit._unitConfig[program]?.body)
     state.body.push(
       block(
@@ -127,8 +127,8 @@ const compileUnit = (unit: Unit, program: Program, state: CompilerState) => {
     )
 
   /*
-	If we're in varying mode and vertex, write value to the varying, too.
-	*/
+  If we're in varying mode and vertex, write value to the varying, too.
+  */
   if (
     !unit._unitConfig.uniform &&
     unit._unitConfig.varying &&
@@ -190,17 +190,17 @@ export const compileShader = (root: Unit) => {
   walkTree(root, "any", (item) => prepareItem(item, nextId))
 
   /*
-	STEP 2: compile the fragment shader. We're going to compile it first because
-	we need to identify units with varyings, because we will _always_ want to
-	include them in the vertex shader.
-	*/
+  STEP 2: compile the fragment shader. We're going to compile it first because
+  we need to identify units with varyings, because we will _always_ want to
+  include them in the vertex shader.
+  */
   const fragmentState = CompilerState()
   const fragmentShader = compileProgram(root, "fragment", fragmentState)
 
   /*
-	STEP 3: compile the vertex shader. But first, we'll manually squeeze in all
-	units with varyings.
-	*/
+  STEP 3: compile the vertex shader. But first, we'll manually squeeze in all
+  units with varyings.
+  */
   const vertexState = CompilerState()
 
   /* Explicitly add all units with varyings. */
@@ -216,8 +216,8 @@ export const compileShader = (root: Unit) => {
   const vertexShader = compileProgram(root, "vertex", vertexState)
 
   /*
-	STEP 4: Collect uniforms.
-	*/
+  STEP 4: Collect uniforms.
+  */
   const unitsWithUniforms = collectFromTree(
     root,
     "any",
@@ -229,8 +229,8 @@ export const compileShader = (root: Unit) => {
   }, {})
 
   /*
-	STEP 5: Collect update callbacks.
-	*/
+  STEP 5: Collect update callbacks.
+  */
   const unitsWithUpdates = collectFromTree(
     root,
     "any",
@@ -238,8 +238,8 @@ export const compileShader = (root: Unit) => {
   )
 
   /*
-	STEP 6: Build per-frame update function.
-	*/
+  STEP 6: Build per-frame update function.
+  */
   const update = (
     dt: number,
     camera: Camera,
@@ -264,8 +264,8 @@ export const compileShader = (root: Unit) => {
   const dispose = () => allUnits.forEach((u) => u._unitConfig.dispose?.())
 
   /*
-	DONE! Let's return everything and go on a lengthy vacation somewhere nice.
-	*/
+  DONE! Let's return everything and go on a lengthy vacation somewhere nice.
+  */
   const shader = {
     vertexShader,
     fragmentShader,
