@@ -2,7 +2,7 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { useControls } from "leva"
 import { Perf } from "r3f-perf"
 import React, { FC, ReactNode } from "react"
-import { RenderCanvas, RenderPipeline } from "render-composer"
+import { Canvas, RenderPipeline } from "render-composer"
 import { Layers } from "./Layers"
 
 export type ThreeApplicationProps = {
@@ -41,7 +41,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
   )
 
   return (
-    <RenderCanvas dpr={controls.dpr}>
+    <Canvas dpr={controls.dpr}>
       <RenderPipeline
         bloom={controls.effects}
         vignette={controls.effects}
@@ -96,6 +96,6 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
         {/* Performance Monitor */}
         {controls.performance && <Perf position="bottom-right" />}
       </RenderPipeline>
-    </RenderCanvas>
+    </Canvas>
   )
 }
