@@ -1,4 +1,6 @@
 export * from "./Canvas"
+export * from "./CopyPass"
+export * from "./DepthCopyPass"
 export * from "./EffectComposer"
 export * from "./EffectPass"
 export * from "./PreRenderPass"

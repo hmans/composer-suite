@@ -4,6 +4,8 @@ import { Perf } from "r3f-perf"
 import React, { FC, ReactNode } from "react"
 import {
   Canvas,
+  CopyPass,
+  DepthCopyPass,
   EffectComposer,
   EffectPass,
   PreRenderPass,
@@ -54,6 +56,8 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
     <Canvas dpr={controls.dpr}>
       <EffectComposer>
         <PreRenderPass />
+        <DepthCopyPass />
+        <CopyPass />
         <RenderPass />
 
         {controls.effects && (
