@@ -507,6 +507,12 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
 
+  packages/hmans-use-mutable-list:
+    specifiers:
+      react: ^18.2.0
+    devDependencies:
+      react: 18.2.0
+
   packages/input-composer:
     specifiers:
       '@hmans/use-animation-frame': ^0.0.2
