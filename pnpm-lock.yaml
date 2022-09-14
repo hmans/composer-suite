@@ -513,6 +513,12 @@ importers:
     devDependencies:
       react: 18.2.0
 
+  packages/hmans-use-nullable-state:
+    specifiers:
+      react: ^18.2.0
+    devDependencies:
+      react: 18.2.0
+
   packages/input-composer:
     specifiers:
       '@hmans/use-animation-frame': ^0.0.2
