@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Declarative graph-based render pipelines.",
-  "version": "0.1.6",
+  "version": "0.2.0-next.0",
   "main": "dist/render-composer.cjs.js",
   "module": "dist/render-composer.esm.js",
   "files": [
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@hmans/use-const": "^0.0.1",
-    "@hmans/use-mutable-list": "workspace:^0.0.1",
+    "@hmans/use-mutable-list": "workspace:^0.0.2-next.0",
     "@hmans/use-nullable-state": "workspace:^0.0.1",
     "test": "^3.2.1"
   }

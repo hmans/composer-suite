@@ -1,5 +1,11 @@
 # vfx-composer-r3f
 
+## 0.2.5-next.0
+
+### Patch Changes
+
+- material-composer-r3f@0.2.3-next.0
+
 ## 0.2.4
 
 ### Patch Changes

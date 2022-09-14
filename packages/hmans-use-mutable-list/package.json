@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.2-next.0",
   "main": "dist/hmans-use-mutable-list.cjs.js",
   "module": "dist/hmans-use-mutable-list.esm.js",
   "files": [

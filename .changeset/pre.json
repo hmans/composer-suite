@@ -32,5 +32,8 @@
     "vfx-composer": "0.2.4",
     "vfx-composer-r3f": "0.2.4"
   },
-  "changesets": []
+  "changesets": [
+    "six-moons-love",
+    "young-tables-learn"
+  ]
 }

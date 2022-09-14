@@ -66,11 +66,11 @@ importers:
       fp-ts: ^2.12.3
       input-composer: workspace:^0.0.1
       material-composer: workspace:^0.2.2
-      material-composer-r3f: workspace:^0.2.2
+      material-composer-r3f: workspace:^0.2.3-next.0
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: workspace:^0.1.6
+      render-composer: workspace:^0.2.0-next.0
       shader-composer: workspace:^0.4.2
       shader-composer-r3f: workspace:^0.4.0
       shader-composer-toybox: workspace:^0.1.3
@@ -79,7 +79,7 @@ importers:
       three-stdlib: ^2.15.0
       timeline-composer: workspace:^0.1.7
       typescript: ^4.8.3
-      vfx-composer-r3f: workspace:^0.2.4
+      vfx-composer-r3f: workspace:^0.2.5-next.0
       vite: ^3.1.0
     dependencies:
       '@hmans/things': 0.0.6_dqbvravr3s5buz3zuoms5ekkmq
@@ -126,9 +126,9 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       leva: ^0.9.31
       material-composer: ^0.2.2
-      material-composer-r3f: ^0.2.2
+      material-composer-r3f: ^0.2.3-next.0
       r3f-perf: ^6.4.4
-      r3f-stage: ^0.3.3
+      r3f-stage: ^0.3.5-next.0
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -210,7 +210,7 @@ importers:
       '@types/react': ^18.0.19
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.0.1
-      r3f-stage: ^0.3.3
+      r3f-stage: ^0.3.5-next.0
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.143.0
@@ -294,7 +294,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: ^0.1.6
+      render-composer: ^0.2.0-next.0
       three: ^0.143.0
       typescript: ^4.8.3
       vite: ^3.1.0
@@ -327,7 +327,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       fp-ts: ^2.12.3
       leva: ^0.9.31
-      r3f-stage: ^0.3.3
+      r3f-stage: ^0.3.5-next.0
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.2
@@ -392,7 +392,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: workspace:^0.1.6
+      render-composer: workspace:^0.2.0-next.0
       three: ^0.143.0
       typescript: ^4.8.3
       ui-composer: workspace:^0.0.1
@@ -431,9 +431,9 @@ importers:
       fp-ts: ^2.12.3
       leva: ^0.9.31
       material-composer: ^0.2.2
-      material-composer-r3f: ^0.2.2
+      material-composer-r3f: ^0.2.3-next.0
       r3f-perf: ^6.4.4
-      r3f-stage: ^0.3.4
+      r3f-stage: ^0.3.5-next.0
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -447,7 +447,7 @@ importers:
       timeline-composer: ^0.1.7
       typescript: ^4.8.3
       vfx-composer: ^0.2.4
-      vfx-composer-r3f: ^0.2.4
+      vfx-composer-r3f: ^0.2.5-next.0
       vite: ^3.1.0
       wouter: ^2.8.0-alpha.2
     dependencies:
@@ -595,7 +595,7 @@ importers:
     specifiers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-list': ^0.0.1
-      '@hmans/use-mutable-list': workspace:^0.0.1
+      '@hmans/use-mutable-list': workspace:^0.0.2-next.0
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       '@material-composer/patch-material': ^0.1.2
@@ -633,7 +633,7 @@ importers:
       r3f-perf: ^6.4.4
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: ^0.1.5
+      render-composer: ^0.2.0-next.0
       three: ^0.143.0
       three-stdlib: ^2.15.0
       wouter: ^2.8.0-alpha.2
@@ -656,7 +656,7 @@ importers:
   packages/render-composer:
     specifiers:
       '@hmans/use-const': ^0.0.1
-      '@hmans/use-mutable-list': workspace:^0.0.1
+      '@hmans/use-mutable-list': workspace:^0.0.2-next.0
       '@hmans/use-nullable-state': workspace:^0.0.1
       '@react-three/fiber': ^8.7.0
       postprocessing: ^6.28.7
@@ -773,7 +773,7 @@ importers:
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       '@react-three/fiber': ^8.7.0
-      material-composer-r3f: ^0.2.2
+      material-composer-r3f: ^0.2.3-next.0
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.1

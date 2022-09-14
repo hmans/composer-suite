@@ -1,5 +1,16 @@
 # render-composer
 
+## 0.2.0-next.0
+
+### Minor Changes
+
+- 3fdb3fc: The `<RenderCanvas>` component now has been renamed to just `<Canvas>`.
+
+### Patch Changes
+
+- Updated dependencies [62bd2c6]
+  - @hmans/use-mutable-list@0.0.2-next.0
+
 ## 0.1.6
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # material-composer-r3f
 
+## 0.2.3-next.0
+
+### Patch Changes
+
+- Updated dependencies [62bd2c6]
+  - @hmans/use-mutable-list@0.0.2-next.0
+
 ## 0.2.2
 
 ### Patch Changes

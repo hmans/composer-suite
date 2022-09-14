@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "React-Three-Fiber bindings for VFX Composer.",
-  "version": "0.2.4",
+  "version": "0.2.5-next.0",
   "main": "dist/vfx-composer-r3f.cjs.js",
   "module": "dist/vfx-composer-r3f.esm.js",
   "files": [
@@ -26,7 +26,7 @@
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
-    "material-composer-r3f": "^0.2.2",
+    "material-composer-r3f": "^0.2.3-next.0",
     "shader-composer": "^0.4.1",
     "shader-composer-r3f": "^0.4.0",
     "vfx-composer": "^0.2.4"
