@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import { usePostProcessingEffect } from "./lib/usePostProcessingEffect"
+import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 
 export type GodRaysEffectProps = {
   lightSource: ConstructorParameters<typeof PP.GodRaysEffect>[1]

@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
 import { useLayoutEffect } from "react"
-import { usePostProcessingEffect } from "./lib/usePostProcessingEffect"
+import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 
 export const SelectiveBloomEffect = (
   props: ConstructorParameters<typeof PP.SelectiveBloomEffect>[2]
