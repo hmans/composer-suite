@@ -19,14 +19,12 @@ function App() {
       <Loader />
 
       <RenderCanvas>
-        <RenderPipeline vignette bloom antiAliasing godRays>
+        <RenderPipeline>
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
 
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
-
-            <Sun />
 
             <Animate
               fun={(o, _, { clock }) => {
@@ -51,17 +49,6 @@ function App() {
       </RenderCanvas>
     </>
   )
-}
-
-const Sun = () => {
-  const { sun } = useRenderPipeline()
-
-  useLayoutEffect(() => {
-    console.log(sun)
-    sun.position.set(40, 10, -100)
-  }, [])
-
-  return null
 }
 
 export default App
