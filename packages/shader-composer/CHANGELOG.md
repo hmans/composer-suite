@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.2
+
+### Patch Changes
+
+- 7a3ba7b: **Fix:** In the last update, the value of `InstanceID` was accidentally always set to `0`. This has been fixed, and I have reported to Open Source HR to fire myself.
+
 ## 0.4.1
 
 ### Patch Changes
