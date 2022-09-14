@@ -8,7 +8,7 @@ import {
   WebGLRenderer,
   WebGLRenderTarget
 } from "three"
-import { EffectComposerContext } from "./EffectComposer"
+import { EffectComposerContext } from "../EffectComposer"
 
 export type LayerRenderPassProps = {
   layer: number

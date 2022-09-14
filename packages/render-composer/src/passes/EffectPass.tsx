@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useMemo
 } from "react"
-import { EffectComposerContext } from "./EffectComposer"
+import { EffectComposerContext } from "../EffectComposer"
 
 export const EffectPassContext = createContext<MutableListAPI<PP.Effect>>(null!)
 
