@@ -28,7 +28,7 @@ function App() {
           <RenderPass />
 
           <EffectPass>
-            <SelectiveBloomEffect />
+            <SelectiveBloomEffect intensity={3} />
             <SMAAEffect />
             <VignetteEffect />
           </EffectPass>

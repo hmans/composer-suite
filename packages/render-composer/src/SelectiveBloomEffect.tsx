@@ -3,10 +3,11 @@ import * as PP from "postprocessing"
 import { useContext, useLayoutEffect, useMemo } from "react"
 import { EffectPassContext } from "./EffectPass"
 
-export const SelectiveBloomEffect = () => {
+export type SelectiveBloomEffectProps = PP.BloomEffectOptions
+
+export const SelectiveBloomEffect = (props: SelectiveBloomEffectProps) => {
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
-  const effects = useContext(EffectPassContext)
 
   const effect = useMemo(
     () =>
@@ -15,16 +16,20 @@ export const SelectiveBloomEffect = () => {
         mipmapBlur: true,
         luminanceThreshold: 1,
         luminanceSmoothing: 0.2,
-        intensity: 2
+        intensity: 1
       }),
     []
   )
 
   useLayoutEffect(() => {
+    Object.assign(effect, props)
+  }, [effect, props])
+
+  useLayoutEffect(() => {
     effect.inverted = true
   }, [effect])
 
-  effects.useItem(effect)
+  useContext(EffectPassContext).useItem(effect)
 
   return null
 }
