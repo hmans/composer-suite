@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import { useContext, useMemo } from "react"
+import { useContext, useLayoutEffect, useMemo } from "react"
 import { EffectPassContext } from "./EffectPass"
 
 export const BloomEffect = () => {
@@ -20,7 +20,9 @@ export const BloomEffect = () => {
     []
   )
 
-  effect.inverted = true
+  useLayoutEffect(() => {
+    effect.inverted = true
+  }, [effect])
 
   effects.useItem(effect)
 
