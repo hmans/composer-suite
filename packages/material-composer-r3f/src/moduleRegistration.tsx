@@ -1,6 +1,6 @@
 import { Module } from "material-composer"
 import { createContext, useContext, useLayoutEffect } from "react"
-import { MutableListAPI, useMutableList } from "./lib/use-mutable-list"
+import { MutableListAPI, useMutableList } from "@hmans/use-mutable-list"
 
 export const ModuleRegistrationContext = createContext<MutableListAPI<Module>>(
   null!
