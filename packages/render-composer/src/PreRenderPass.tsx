@@ -2,7 +2,7 @@ import { useThree } from "@react-three/fiber"
 import { useContext, useMemo } from "react"
 import { EffectComposerContext } from "./EffectComposer"
 import { LayerRenderPass } from "./LayerRenderPass"
-import { Layers } from "./RenderPipeline"
+import { Layers } from "./Layers"
 
 export const PreRenderPass = () => {
   const scene = useThree((s) => s.scene)
