@@ -3,7 +3,7 @@ import { forwardRef, useContext, useImperativeHandle, useMemo } from "react"
 import { BasicDepthPacking } from "three"
 import { EffectComposerContext } from "./EffectComposer"
 
-export const DepthCopyPass = forwardRef<PP.DepthCopyPass>((props, ref) => {
+export const DepthCopyPass = forwardRef<PP.DepthCopyPass>((_, ref) => {
   const pass = useMemo(
     () => new PP.DepthCopyPass({ depthPacking: BasicDepthPacking }),
     []
