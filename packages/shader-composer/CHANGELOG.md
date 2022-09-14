@@ -1,5 +1,12 @@
 # shader-composer
 
+## 0.4.1
+
+### Patch Changes
+
+- f669675: The `InstanceID` unit is now available in the fragment shader through a flat varying.
+- f669675: **New feature:** Units that use varyings can now be configured to use _flat_ varyings by setting their `varying` configuration option to `"flat"`.
+
 ## 0.4.0
 
 ### Minor Changes
