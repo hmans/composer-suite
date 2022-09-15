@@ -167,7 +167,7 @@ const Water = (props: MeshProps) => {
   return (
     <mesh
       {...props}
-      layers-mask={Layers.TransparentFX}
+      layers-mask={1 << Layers.TransparentFX}
       rotation-x={-Math.PI / 2}
     >
       <planeGeometry args={[100, 100, 137, 137]} />

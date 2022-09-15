@@ -1,7 +1,6 @@
 import { useConst } from "@hmans/things"
 import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus, upTo } from "randomish"
-import { Layers, useRenderPipeline } from "render-composer"
 import {
   Float,
   GlobalTime,
@@ -13,10 +12,9 @@ import {
   Vec2,
   Vec3
 } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
-import { DoubleSide, Vector3 } from "three"
-import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 import { PSRDNoise2D } from "shader-composer-toybox"
+import { DoubleSide } from "three"
+import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 
 export const Debris = () => {
   const time = useConst(() => Time())
@@ -28,7 +26,7 @@ export const Debris = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles>
         <planeGeometry />
 
         <composable.meshStandardMaterial
