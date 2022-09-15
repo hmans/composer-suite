@@ -17,7 +17,7 @@ function App() {
       <Loader />
 
       <RC.Canvas>
-        <RC.RenderPipeline transparentFXLayer={16}>
+        <RC.RenderPipeline>
           <RC.EffectPass>
             <RC.SelectiveBloomEffect />
             <RC.SMAAEffect />

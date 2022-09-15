@@ -13,13 +13,15 @@ export const useRenderPipeline = () => useContext(RenderPipelineContext)
 
 export type RenderPipelineProps = {
   children?: React.ReactNode
-  transparentFXLayer: number
 }
 
-export const RenderPipeline = ({
-  children,
-  transparentFXLayer
-}: RenderPipelineProps) => {
+export const Layers = {
+  Default: 0,
+  Lights: 30,
+  TransparentFX: 31
+}
+
+export const RenderPipeline = ({ children }: RenderPipelineProps) => {
   const camera = useThree((s) => s.camera)
   const scene = useThree((s) => s.scene)
 
@@ -33,7 +35,7 @@ export const RenderPipeline = ({
       <RC.LayerRenderPass
         camera={camera}
         scene={scene}
-        layerMask={camera.layers.mask & ~(1 << transparentFXLayer)}
+        layerMask={camera.layers.mask & ~(1 << Layers.TransparentFX)}
       />
 
       {/* Steal the render and depth textures for later: */}
@@ -44,7 +46,7 @@ export const RenderPipeline = ({
       <RC.LayerRenderPass
         camera={camera}
         scene={scene}
-        layerMask={1 << transparentFXLayer}
+        layerMask={(1 << Layers.TransparentFX) | (1 << Layers.Lights)}
         ignoreBackground
       />
       <RC.CopyPass ref={setFxPass} />

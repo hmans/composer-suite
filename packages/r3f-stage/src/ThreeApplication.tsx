@@ -3,7 +3,7 @@ import { useControls } from "leva"
 import { Perf } from "r3f-perf"
 import React, { FC, ReactNode } from "react"
 import * as RC from "render-composer"
-import { Layers } from "./Layers"
+import { Layers } from "render-composer"
 
 export type ThreeApplicationProps = {
   children?: ReactNode
@@ -42,7 +42,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
 
   return (
     <RC.Canvas dpr={controls.dpr}>
-      <RC.RenderPipeline transparentFXLayer={Layers.TransparentFX}>
+      <RC.RenderPipeline>
         {controls.effects && (
           <RC.EffectPass>
             <RC.SMAAEffect />
@@ -62,31 +62,27 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
           <>
             <ambientLight
               intensity={0.2}
-              layers-mask={(1 << Layers.TransparentFX) + 1}
+              layers-mask={1 | (1 << Layers.Lights)}
             />
             <directionalLight
               color="white"
               intensity={0.7}
               position={[10, 10, 10]}
-              layers-mask={(1 << Layers.TransparentFX) + 1}
+              layers-mask={1 | (1 << Layers.Lights)}
               castShadow
             />
             <directionalLight
               color="white"
               intensity={0.2}
               position={[-10, 5, 10]}
-              layers-mask={(1 << Layers.TransparentFX) + 1}
+              layers-mask={1 | (1 << Layers.Lights)}
               castShadow
             />
           </>
         )}
 
         {/* Camera */}
-        <PerspectiveCamera
-          position={[0, 2, 8]}
-          layers-mask={Layers.Default + Layers.TransparentFX}
-          makeDefault
-        />
+        <PerspectiveCamera position={[0, 2, 8]} makeDefault />
 
         {/* Camera Controls */}
         <OrbitControls
