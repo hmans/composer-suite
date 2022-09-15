@@ -42,7 +42,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
 
   return (
     <RC.Canvas dpr={controls.dpr}>
-      <RC.RenderPipeline>
+      <RC.RenderPipeline transparentFXLayer={Layers.TransparentFX}>
         {controls.effects && (
           <RC.EffectPass>
             <RC.SMAAEffect />
@@ -60,17 +60,22 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
         {/* Lights */}
         {lights && (
           <>
-            <ambientLight intensity={0.2} />
+            <ambientLight
+              intensity={0.2}
+              layers-mask={(1 << Layers.TransparentFX) + 1}
+            />
             <directionalLight
               color="white"
               intensity={0.7}
               position={[10, 10, 10]}
+              layers-mask={(1 << Layers.TransparentFX) + 1}
               castShadow
             />
             <directionalLight
               color="white"
               intensity={0.2}
               position={[-10, 5, 10]}
+              layers-mask={(1 << Layers.TransparentFX) + 1}
               castShadow
             />
           </>
