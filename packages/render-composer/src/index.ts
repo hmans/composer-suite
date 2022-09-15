@@ -1,6 +1,5 @@
 export * from "./Canvas"
 export * from "./EffectComposer"
 export * from "./effects"
-export * from "./Layers"
 export * from "./passes"
 export * from "./RenderPipeline"
