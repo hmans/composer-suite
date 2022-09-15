@@ -28,16 +28,18 @@ export const RenderPipeline = ({
 
   return (
     <RC.EffectComposer>
-      {/* Render all scene objects _except_ for those on the transparent FX layer. */}
+      {/* Render all scene objects _except_ for those on the transparent FX layer: */}
       <RC.LambdaPass
         fun={() => (camera.layers.mask = ~(1 << transparentFXLayer))}
       />
       <RC.RenderPass />
       <RC.LambdaPass fun={() => (camera.layers.mask = cameraLayerMask)} />
+
+      {/* Steal the render and depth textures for later: */}
       <RC.DepthCopyPass ref={setDepthCopyPass} />
       <RC.CopyPass ref={setCopyPass} />
 
-      {/* Render just the transparent FX objects. */}
+      {/* Render the transparent FX objects on top: */}
       <RC.LambdaPass
         fun={() => (camera.layers.mask = 1 << transparentFXLayer)}
       />
