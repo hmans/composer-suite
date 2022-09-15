@@ -68,7 +68,7 @@ function App() {
               }}
             >
               <Animate fun={rotate}>
-                <mesh layers-mask={1 << Layers.TransparentFX}>
+                <mesh layers-mask={1 << 16}>
                   <icosahedronGeometry />
                   <meshStandardMaterial
                     color="#f1faee"

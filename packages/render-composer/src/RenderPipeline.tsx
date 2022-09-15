@@ -1,8 +1,7 @@
+import { useNullableState } from "@hmans/use-nullable-state"
 import * as PP from "postprocessing"
 import React, { createContext, useContext } from "react"
 import * as RC from "."
-import { Layers } from "./Layers"
-import { useNullableState } from "@hmans/use-nullable-state"
 
 const RenderPipelineContext = createContext<{
   depth: THREE.Texture
@@ -19,12 +18,18 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
   const [depthCopyPass, setDepthCopyPass] = useNullableState<PP.DepthCopyPass>()
   const [copyPass, setCopyPass] = useNullableState<PP.CopyPass>()
 
+  /* TODO: make this a prop */
+  const transparentFXLayer = 16
+
   return (
     <RC.EffectComposer>
-      <RC.LayerRenderPass layerMask={1 << 0} />
+      {/* Render all scene objects _except_ for those on the transparent FX layer. */}
+      <RC.LayerRenderPass layerMask={~(1 << transparentFXLayer)} />
       <RC.DepthCopyPass ref={setDepthCopyPass} />
       <RC.CopyPass ref={setCopyPass} />
-      <RC.LayerRenderPass layerMask={~(1 << 0)} />
+
+      {/* Render just the transparent FX objects. */}
+      <RC.LayerRenderPass layerMask={1 << transparentFXLayer} />
 
       {depthCopyPass && copyPass && (
         <RenderPipelineContext.Provider
