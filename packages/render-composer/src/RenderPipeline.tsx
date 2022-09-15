@@ -18,7 +18,7 @@ export type RenderPipelineProps = {
 
 export const RenderPipeline = ({
   children,
-  transparentFXLayer = 2
+  transparentFXLayer
 }: RenderPipelineProps) => {
   const camera = useThree((s) => s.camera)
   const [depthCopyPass, setDepthCopyPass] = useNullableState<PP.DepthCopyPass>()
