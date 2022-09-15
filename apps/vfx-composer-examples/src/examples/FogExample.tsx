@@ -5,13 +5,13 @@ import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
-import { Color, Vector3 } from "three"
+import { Vector3 } from "three"
 import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
 export const FogExample = () => (
   <FlatStage>
-    <Fog />Ö
+    <Fog />
     <Sculpture />
   </FlatStage>
 )
