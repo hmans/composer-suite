@@ -11,21 +11,15 @@ import {
 import { EffectComposerContext } from "../EffectComposer"
 
 export type LayerRenderPassProps = {
-  layer: number
+  layerMask: number
 }
 
-export const LayerRenderPass = ({ layer }: LayerRenderPassProps) => {
+export const LayerRenderPass = ({ layerMask }: LayerRenderPassProps) => {
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
 
   const pass = useMemo(
-    () =>
-      new LayerRenderPassImpl(
-        scene,
-        camera,
-        undefined,
-        camera.layers.mask & ~(1 << layer)
-      ),
+    () => new LayerRenderPassImpl(scene, camera, undefined, layerMask),
     [scene, camera]
   )
 

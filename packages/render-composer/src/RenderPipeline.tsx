@@ -21,10 +21,10 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
 
   return (
     <RC.EffectComposer>
-      <RC.LayerRenderPass layer={Layers.TransparentFX} />
+      <RC.LayerRenderPass layerMask={1 << 0} />
       <RC.DepthCopyPass ref={setDepthCopyPass} />
       <RC.CopyPass ref={setCopyPass} />
-      <RC.RenderPass />
+      <RC.LayerRenderPass layerMask={~(1 << 0)} />
 
       {depthCopyPass && copyPass && (
         <RenderPipelineContext.Provider
