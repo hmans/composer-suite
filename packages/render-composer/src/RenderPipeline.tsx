@@ -23,28 +23,37 @@ export const RenderPipeline = ({
   const camera = useThree((s) => s.camera)
   const [depthCopyPass, setDepthCopyPass] = useNullableState<PP.DepthCopyPass>()
   const [copyPass, setCopyPass] = useNullableState<PP.CopyPass>()
+  const [fxPass, setFxPass] = useNullableState<PP.CopyPass>()
 
   const cameraLayerMask = useMemo(() => camera.layers.mask, [camera])
 
   return (
     <RC.EffectComposer>
       {/* Render all scene objects _except_ for those on the transparent FX layer: */}
-      <RC.LambdaPass
-        fun={() => (camera.layers.mask = ~(1 << transparentFXLayer))}
+      <RC.LayerRenderPass
+        layerMask={cameraLayerMask & ~(1 << transparentFXLayer)}
       />
-      <RC.RenderPass />
-      <RC.LambdaPass fun={() => (camera.layers.mask = cameraLayerMask)} />
 
       {/* Steal the render and depth textures for later: */}
       <RC.DepthCopyPass ref={setDepthCopyPass} />
       <RC.CopyPass ref={setCopyPass} />
 
       {/* Render the transparent FX objects on top: */}
-      <RC.LambdaPass
-        fun={() => (camera.layers.mask = 1 << transparentFXLayer)}
+      <RC.LayerRenderPass
+        layerMask={1 << transparentFXLayer}
+        ignoreBackground
       />
-      <RC.RenderPass ignoreBackground />
-      <RC.LambdaPass fun={() => (camera.layers.mask = cameraLayerMask)} />
+      <RC.CopyPass ref={setFxPass} />
+
+      <RC.EffectPass>
+        {copyPass && <RC.TextureEffect texture={copyPass.texture} />}
+        {fxPass && (
+          <RC.TextureEffect
+            texture={fxPass.texture}
+            blendFunction={PP.BlendFunction.NORMAL}
+          />
+        )}
+      </RC.EffectPass>
 
       {depthCopyPass && copyPass && (
         <RenderPipelineContext.Provider
