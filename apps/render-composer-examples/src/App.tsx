@@ -1,7 +1,8 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, Loader } from "@react-three/drei"
+import { Environment, Loader, OrbitControls } from "@react-three/drei"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
+import { Layers } from "render-composer"
 import { Mesh, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
@@ -28,6 +29,7 @@ function App() {
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
+            <OrbitControls />
 
             <mesh position={[0, 0, -10]} ref={setSun}>
               <sphereGeometry />
@@ -66,7 +68,7 @@ function App() {
               }}
             >
               <Animate fun={rotate}>
-                <mesh>
+                <mesh layers-mask={Layers.TransparentFX}>
                   <icosahedronGeometry />
                   <meshStandardMaterial
                     color="#f1faee"
