@@ -5,13 +5,13 @@ import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
-import { Vector3 } from "three"
+import { Color, Vector3 } from "three"
 import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
 export const FogExample = () => (
   <FlatStage>
-    <Fog />
+    <Fog />Ö
     <Sculpture />
   </FlatStage>
 )
@@ -28,7 +28,7 @@ export const Fog = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles layers-mask={1 << Layers.TransparentFX}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
