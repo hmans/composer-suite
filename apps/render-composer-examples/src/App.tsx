@@ -42,7 +42,7 @@ function App() {
               fun={(o, _, { clock }) => {
                 o.position.x = Math.sin(clock.getElapsedTime() * 0.7) * 2
                 o.position.y = Math.sin(clock.getElapsedTime() * 1.1)
-                o.position.z = Math.cos(clock.getElapsedTime() * 0.5)
+                o.position.z = Math.cos(clock.getElapsedTime() * 0.5) - 5
               }}
             >
               <Animate fun={rotate}>
@@ -52,6 +52,29 @@ function App() {
                     color="#E9C46A"
                     metalness={0.5}
                     roughness={0.5}
+                  />
+                </mesh>
+              </Animate>
+            </Animate>
+
+            {/* Transparent object */}
+            <Animate
+              fun={(o, _, { clock }) => {
+                o.position.x = -Math.sin(clock.getElapsedTime() * 0.2)
+                o.position.y = -Math.sin(clock.getElapsedTime() * 0.2)
+                o.position.z = -Math.cos(clock.getElapsedTime() * 0.2)
+              }}
+            >
+              <Animate fun={rotate}>
+                <mesh>
+                  <icosahedronGeometry />
+                  <meshStandardMaterial
+                    color="#f1faee"
+                    transparent
+                    opacity={0.2}
+                    metalness={0.5}
+                    roughness={0.5}
+                    depthWrite={false}
                   />
                 </mesh>
               </Animate>
