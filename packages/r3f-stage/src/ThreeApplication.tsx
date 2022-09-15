@@ -42,7 +42,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
 
   return (
     <RC.Canvas dpr={controls.dpr}>
-      <RC.RenderPipeline transparentFXLayer={1 << Layers.TransparentFX}>
+      <RC.RenderPipeline transparentFXLayer={Layers.TransparentFX}>
         {controls.effects && (
           <RC.EffectPass>
             <RC.SMAAEffect />
