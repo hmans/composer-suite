@@ -1,4 +1,3 @@
-import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
 import {
   forwardRef,
@@ -7,18 +6,18 @@ import {
   useLayoutEffect,
   useMemo
 } from "react"
+import * as THREE from "three"
 import { EffectComposerContext } from "../EffectComposer"
 
 export type RenderPassProps = {
+  camera: THREE.Camera
+  scene: THREE.Scene
   ignoreBackground?: boolean
   clear?: boolean
 }
 
 export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
-  ({ ignoreBackground = false, clear = false }, ref) => {
-    const scene = useThree((s) => s.scene)
-    const camera = useThree((s) => s.camera)
-
+  ({ camera, scene, ignoreBackground = false, clear = false }, ref) => {
     const pass = useMemo(
       () => new PP.RenderPass(scene, camera),
       [scene, camera]

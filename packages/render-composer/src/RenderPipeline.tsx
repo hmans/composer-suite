@@ -1,7 +1,7 @@
 import { useNullableState } from "@hmans/use-nullable-state"
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import React, { createContext, useContext, useMemo } from "react"
+import React, { createContext, useContext } from "react"
 import * as RC from "."
 
 const RenderPipelineContext = createContext<{
@@ -21,6 +21,8 @@ export const RenderPipeline = ({
   transparentFXLayer
 }: RenderPipelineProps) => {
   const camera = useThree((s) => s.camera)
+  const scene = useThree((s) => s.scene)
+
   const [depthPass, setDepthPass] = useNullableState<PP.DepthCopyPass>()
   const [scenePass, setScenePass] = useNullableState<PP.CopyPass>()
   const [fxPass, setFxPass] = useNullableState<PP.CopyPass>()
@@ -29,6 +31,8 @@ export const RenderPipeline = ({
     <RC.EffectComposer>
       {/* Render all scene objects _except_ for those on the transparent FX layer: */}
       <RC.LayerRenderPass
+        camera={camera}
+        scene={scene}
         layerMask={camera.layers.mask & ~(1 << transparentFXLayer)}
       />
 
@@ -38,6 +42,8 @@ export const RenderPipeline = ({
 
       {/* Render the transparent FX objects on top: */}
       <RC.LayerRenderPass
+        camera={camera}
+        scene={scene}
         layerMask={1 << transparentFXLayer}
         ignoreBackground
       />

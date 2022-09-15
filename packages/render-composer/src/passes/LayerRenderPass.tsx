@@ -1,4 +1,3 @@
-import { useThree } from "@react-three/fiber"
 import { RenderPass } from "postprocessing"
 import {
   forwardRef,
@@ -20,31 +19,35 @@ export type LayerRenderPassProps = {
   layerMask: number
   ignoreBackground?: boolean
   clear?: boolean
+  camera: Camera
+  scene: Scene
 }
 
 export const LayerRenderPass = forwardRef<
   LayerRenderPassImpl,
   LayerRenderPassProps
->(({ layerMask, ignoreBackground = false, clear = false }, ref) => {
-  const scene = useThree((s) => s.scene)
-  const camera = useThree((s) => s.camera)
+>(
+  (
+    { scene, camera, layerMask, ignoreBackground = false, clear = false },
+    ref
+  ) => {
+    const pass = useMemo(
+      () => new LayerRenderPassImpl(scene, camera, undefined, layerMask),
+      [scene, camera]
+    )
 
-  const pass = useMemo(
-    () => new LayerRenderPassImpl(scene, camera, undefined, layerMask),
-    [scene, camera]
-  )
+    useLayoutEffect(() => {
+      pass.ignoreBackground = ignoreBackground
+      pass.clearPass.enabled = clear
+    })
 
-  useLayoutEffect(() => {
-    pass.ignoreBackground = ignoreBackground
-    pass.clearPass.enabled = clear
-  })
+    useContext(EffectComposerContext).useItem(pass)
 
-  useContext(EffectComposerContext).useItem(pass)
+    useImperativeHandle(ref, () => pass)
 
-  useImperativeHandle(ref, () => pass)
-
-  return null
-})
+    return null
+  }
+)
 
 export class LayerRenderPassImpl extends RenderPass {
   constructor(
