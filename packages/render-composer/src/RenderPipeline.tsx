@@ -12,14 +12,15 @@ export const useRenderPipeline = () => useContext(RenderPipelineContext)
 
 export type RenderPipelineProps = {
   children?: React.ReactNode
+  transparentFXLayer: number
 }
 
-export const RenderPipeline = ({ children }: RenderPipelineProps) => {
+export const RenderPipeline = ({
+  children,
+  transparentFXLayer = 2
+}: RenderPipelineProps) => {
   const [depthCopyPass, setDepthCopyPass] = useNullableState<PP.DepthCopyPass>()
   const [copyPass, setCopyPass] = useNullableState<PP.CopyPass>()
-
-  /* TODO: make this a prop */
-  const transparentFXLayer = 16
 
   return (
     <RC.EffectComposer>
@@ -29,7 +30,10 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
       <RC.CopyPass ref={setCopyPass} />
 
       {/* Render just the transparent FX objects. */}
-      <RC.LayerRenderPass layerMask={1 << transparentFXLayer} />
+      <RC.LayerRenderPass
+        layerMask={1 << transparentFXLayer}
+        ignoreBackground
+      />
 
       {depthCopyPass && copyPass && (
         <RenderPipelineContext.Provider

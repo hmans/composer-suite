@@ -2,7 +2,6 @@ import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
-import { Layers } from "render-composer"
 import { Mesh, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
@@ -18,7 +17,7 @@ function App() {
       <Loader />
 
       <RC.Canvas>
-        <RC.RenderPipeline>
+        <RC.RenderPipeline transparentFXLayer={16}>
           <RC.EffectPass>
             <RC.SelectiveBloomEffect />
             <RC.SMAAEffect />
