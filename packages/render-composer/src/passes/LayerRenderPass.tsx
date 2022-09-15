@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber"
 import { RenderPass } from "postprocessing"
-import { useContext, useMemo } from "react"
+import { useContext, useLayoutEffect, useMemo } from "react"
 import {
   Camera,
   Material,
@@ -12,9 +12,15 @@ import { EffectComposerContext } from "../EffectComposer"
 
 export type LayerRenderPassProps = {
   layerMask: number
+  ignoreBackground?: boolean
+  clear?: boolean
 }
 
-export const LayerRenderPass = ({ layerMask }: LayerRenderPassProps) => {
+export const LayerRenderPass = ({
+  layerMask,
+  ignoreBackground = false,
+  clear = false
+}: LayerRenderPassProps) => {
   const scene = useThree((s) => s.scene)
   const camera = useThree((s) => s.camera)
 
@@ -22,6 +28,11 @@ export const LayerRenderPass = ({ layerMask }: LayerRenderPassProps) => {
     () => new LayerRenderPassImpl(scene, camera, undefined, layerMask),
     [scene, camera]
   )
+
+  useLayoutEffect(() => {
+    pass.ignoreBackground = ignoreBackground
+    pass.clearPass.enabled = clear
+  })
 
   useContext(EffectComposerContext).useItem(pass)
 
