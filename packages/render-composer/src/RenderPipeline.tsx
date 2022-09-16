@@ -7,7 +7,7 @@ import { bitmask } from "./lib/bitmask"
 
 const RenderPipelineContext = createContext<{
   depth: THREE.Texture
-  scene: THREE.Texture
+  color: THREE.Texture
 }>(null!)
 
 export const useRenderPipeline = () => useContext(RenderPipelineContext)
@@ -26,7 +26,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
   const scene = useThree((s) => s.scene)
 
   const [depthPass, setDepthPass] = useNullableState<PP.DepthCopyPass>()
-  const [scenePass, setScenePass] = useNullableState<PP.CopyPass>()
+  const [colorPass, setColorPass] = useNullableState<PP.CopyPass>()
 
   return (
     <RC.EffectComposer>
@@ -39,7 +39,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
 
       {/* Steal the render and depth textures for later: */}
       <RC.DepthCopyPass ref={setDepthPass} />
-      <RC.CopyPass ref={setScenePass} />
+      <RC.CopyPass ref={setColorPass} />
 
       {/* Render the transparent FX objects on top: */}
       <RC.LayerRenderPass
@@ -49,11 +49,11 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
         ignoreBackground
       />
 
-      {depthPass && scenePass && (
+      {depthPass && colorPass && (
         <RenderPipelineContext.Provider
           value={{
             depth: depthPass.texture,
-            scene: scenePass.texture
+            color: colorPass.texture
           }}
         >
           {children}
