@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.2.1
+
+### Patch Changes
+
+- 679d934: The first render pass did not have its clear flag set. This has been fixed.
+
 ## 0.2.0
 
 ### Minor Changes
