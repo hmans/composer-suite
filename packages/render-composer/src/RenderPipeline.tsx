@@ -34,6 +34,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
       <RC.LayerRenderPass
         camera={camera}
         scene={scene}
+        clear
         layerMask={camera.layers.mask & bitmask.not(Layers.TransparentFX)}
       />
 

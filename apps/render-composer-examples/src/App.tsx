@@ -2,6 +2,7 @@ import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
+import { bitmask } from "render-composer"
 import { Mesh, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
@@ -67,7 +68,7 @@ function App() {
               }}
             >
               <Animate fun={rotate}>
-                <mesh layers-mask={1 << 16}>
+                <mesh layers-mask={bitmask(RC.Layers.TransparentFX)}>
                   <icosahedronGeometry />
                   <meshStandardMaterial
                     color="#f1faee"
