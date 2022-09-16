@@ -27,7 +27,6 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
 
   const [depthPass, setDepthPass] = useNullableState<PP.DepthCopyPass>()
   const [scenePass, setScenePass] = useNullableState<PP.CopyPass>()
-  const [fxPass, setFxPass] = useNullableState<PP.CopyPass>()
 
   return (
     <RC.EffectComposer>
@@ -49,17 +48,6 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
         layerMask={(1 << Layers.TransparentFX) | (1 << Layers.Lights)}
         ignoreBackground
       />
-      <RC.CopyPass ref={setFxPass} />
-
-      <RC.EffectPass>
-        {scenePass && <RC.TextureEffect texture={scenePass.texture} />}
-        {fxPass && (
-          <RC.TextureEffect
-            texture={fxPass.texture}
-            blendFunction={PP.BlendFunction.NORMAL}
-          />
-        )}
-      </RC.EffectPass>
 
       {depthPass && scenePass && (
         <RenderPipelineContext.Provider
