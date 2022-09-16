@@ -3,6 +3,7 @@ import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
 import React, { createContext, useContext } from "react"
 import * as RC from "."
+import { bitmask } from "./lib/bitmask"
 
 const RenderPipelineContext = createContext<{
   depth: THREE.Texture
@@ -17,7 +18,6 @@ export type RenderPipelineProps = {
 
 export const Layers = {
   Default: 0,
-  Lights: 30,
   TransparentFX: 31
 }
 
@@ -34,7 +34,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
       <RC.LayerRenderPass
         camera={camera}
         scene={scene}
-        layerMask={camera.layers.mask & ~(1 << Layers.TransparentFX)}
+        layerMask={camera.layers.mask & bitmask.not(Layers.TransparentFX)}
       />
 
       {/* Steal the render and depth textures for later: */}
@@ -45,7 +45,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
       <RC.LayerRenderPass
         camera={camera}
         scene={scene}
-        layerMask={(1 << Layers.TransparentFX) | (1 << Layers.Lights)}
+        layerMask={bitmask(Layers.TransparentFX)}
         ignoreBackground
       />
 

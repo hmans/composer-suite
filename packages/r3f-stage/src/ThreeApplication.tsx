@@ -3,7 +3,7 @@ import { useControls } from "leva"
 import { Perf } from "r3f-perf"
 import React, { FC, ReactNode } from "react"
 import * as RC from "render-composer"
-import { Layers } from "render-composer"
+import { bitmask, Layers } from "render-composer"
 
 export type ThreeApplicationProps = {
   children?: ReactNode
@@ -62,20 +62,20 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
           <>
             <ambientLight
               intensity={0.2}
-              layers-mask={1 | (1 << Layers.Lights)}
+              layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
             />
             <directionalLight
               color="white"
               intensity={0.7}
               position={[10, 10, 10]}
-              layers-mask={1 | (1 << Layers.Lights)}
+              layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
               castShadow
             />
             <directionalLight
               color="white"
               intensity={0.2}
               position={[-10, 5, 10]}
-              layers-mask={1 | (1 << Layers.Lights)}
+              layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
               castShadow
             />
           </>
