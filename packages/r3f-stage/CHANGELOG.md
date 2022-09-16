@@ -1,5 +1,14 @@
 # r3f-stage
 
+## 0.3.5
+
+### Patch Changes
+
+- Updated dependencies [2a56a89]
+- Updated dependencies [2a56a89]
+- Updated dependencies [2a56a89]
+  - render-composer@0.2.0
+
 ## 0.3.4
 
 ### Patch Changes
@@ -31,7 +40,9 @@
 - b7fb75e: **Breaking Change:** Once more, the way examples are declared has been changed. We now use plain old JSX and some React components for this. Example:
 
   ```jsx
-  const IcosahedronExample = React.lazy(() => import("./examples/IcosahedronExample"))
+  const IcosahedronExample = React.lazy(() =>
+    import("./examples/IcosahedronExample")
+  )
 
   function App() {
     return (
@@ -132,7 +143,9 @@
 - b7fb75e: **Breaking Change:** Once more, the way examples are declared has been changed. We now use plain old JSX and some React components for this. Example:
 
   ```jsx
-  const IcosahedronExample = React.lazy(() => import("./examples/IcosahedronExample"))
+  const IcosahedronExample = React.lazy(() =>
+    import("./examples/IcosahedronExample")
+  )
 
   function App() {
     return (
