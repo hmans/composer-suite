@@ -50,6 +50,10 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
         ignoreBackground
       />
 
+      {/* An empty effect pass, because for some reason this is the only way to get both of
+      the previous passes merged. :( */}
+      <RC.EffectPass />
+
       {depthPass && colorPass && (
         <RenderPipelineContext.Provider
           value={{
