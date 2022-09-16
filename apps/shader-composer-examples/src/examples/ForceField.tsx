@@ -83,7 +83,7 @@ export default function ForceField() {
   return (
     <group>
       <Float floatIntensity={1} speed={2}>
-        <mesh layers-mask={Layers.TransparentFX}>
+        <mesh layers-mask={1 << Layers.TransparentFX}>
           <icosahedronGeometry args={[1.3, 8]} />
           <patched.meshStandardMaterial
             transparent

@@ -28,7 +28,7 @@ export const Fog = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles layers-mask={1 << Layers.TransparentFX}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}

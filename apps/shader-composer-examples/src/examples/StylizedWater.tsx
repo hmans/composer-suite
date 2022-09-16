@@ -49,7 +49,7 @@ const Water = (props: MeshProps) => {
   const rp = useRenderPipeline()
 
   const depthSampler = useUniformUnit("sampler2D", rp.depth)
-  const sceneSampler = useUniformUnit("sampler2D", rp.scene)
+  const sceneSampler = useUniformUnit("sampler2D", rp.color)
 
   /* We'll let the user control some values through Leva. */
   const controls = useControls("Water", {
@@ -167,7 +167,7 @@ const Water = (props: MeshProps) => {
   return (
     <mesh
       {...props}
-      layers-mask={Layers.TransparentFX}
+      layers-mask={1 << Layers.TransparentFX}
       rotation-x={-Math.PI / 2}
     >
       <planeGeometry args={[100, 100, 137, 137]} />

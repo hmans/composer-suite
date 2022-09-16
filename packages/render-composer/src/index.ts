@@ -1,2 +1,6 @@
-export * from "./RenderCanvas"
+export * from "./Canvas"
+export * from "./EffectComposer"
+export * from "./effects"
+export * from "./lib/bitmask"
+export * from "./passes"
 export * from "./RenderPipeline"

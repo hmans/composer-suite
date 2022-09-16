@@ -1,12 +1,8 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, Loader } from "@react-three/drei"
-import { Suspense, useLayoutEffect } from "react"
-import {
-  RenderCanvas,
-  RenderPipeline,
-  useRenderPipeline
-} from "render-composer"
-import { Object3D } from "three"
+import { Environment, Loader, OrbitControls } from "@react-three/drei"
+import { Suspense, useState } from "react"
+import * as RC from "render-composer"
+import { Mesh, Object3D } from "three"
 
 const rotate = (o: Object3D, dt: number) => {
   o.rotation.x += dt * 0.7
@@ -14,25 +10,40 @@ const rotate = (o: Object3D, dt: number) => {
 }
 
 function App() {
+  const [sun, setSun] = useState<Mesh | null>(null!)
+
   return (
     <>
       <Loader />
 
-      <RenderCanvas>
-        <RenderPipeline vignette bloom antiAliasing godRays>
+      <RC.Canvas>
+        <RC.RenderPipeline>
+          <RC.EffectPass>
+            <RC.SelectiveBloomEffect />
+            <RC.SMAAEffect />
+            {sun && <RC.GodRaysEffect lightSource={sun} />}
+            <RC.VignetteEffect />
+          </RC.EffectPass>
+
           <Suspense>
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
+            <OrbitControls />
+
+            <mesh position={[0, 0, -10]} ref={setSun}>
+              <sphereGeometry />
+              <meshBasicMaterial color="#f5ebe0" />
+            </mesh>
 
             <directionalLight position={[30, 10, 10]} intensity={1.5} />
 
-            <Sun />
+            {/* <Sun /> */}
 
             <Animate
               fun={(o, _, { clock }) => {
                 o.position.x = Math.sin(clock.getElapsedTime() * 0.7) * 2
                 o.position.y = Math.sin(clock.getElapsedTime() * 1.1)
-                o.position.z = Math.cos(clock.getElapsedTime() * 0.5)
+                o.position.z = Math.cos(clock.getElapsedTime() * 0.5) - 5
               }}
             >
               <Animate fun={rotate}>
@@ -46,22 +57,34 @@ function App() {
                 </mesh>
               </Animate>
             </Animate>
+
+            {/* Transparent object */}
+            <Animate
+              fun={(o, _, { clock }) => {
+                o.position.x = -Math.sin(clock.getElapsedTime() * 0.2)
+                o.position.y = -Math.sin(clock.getElapsedTime() * 0.2)
+                o.position.z = -Math.cos(clock.getElapsedTime() * 0.2)
+              }}
+            >
+              <Animate fun={rotate}>
+                <mesh layers-mask={1 << 16}>
+                  <icosahedronGeometry />
+                  <meshStandardMaterial
+                    color="#f1faee"
+                    transparent
+                    opacity={0.2}
+                    metalness={0.5}
+                    roughness={0.5}
+                    depthWrite={false}
+                  />
+                </mesh>
+              </Animate>
+            </Animate>
           </Suspense>
-        </RenderPipeline>
-      </RenderCanvas>
+        </RC.RenderPipeline>
+      </RC.Canvas>
     </>
   )
-}
-
-const Sun = () => {
-  const { sun } = useRenderPipeline()
-
-  useLayoutEffect(() => {
-    console.log(sun)
-    sun.position.set(40, 10, -100)
-  }, [])
-
-  return null
 }
 
 export default App

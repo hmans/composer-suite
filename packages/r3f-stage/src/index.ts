@@ -1,7 +1,6 @@
-export { useRenderPipeline } from "render-composer"
+export { Layers, useRenderPipeline } from "render-composer"
 export { Application } from "./Application"
 export * from "./Example"
-export { Layers } from "./Layers"
 export * from "./stages"
 export * from "./ui/Description"
 export * from "./ui/Heading"
