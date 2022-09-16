@@ -23,6 +23,23 @@ function App() {
 }
 ```
 
+## Depth and Scene Buffers
+
+The render pipeline implemented by the `<RenderPipeline>` component splits rendering of the scene into two discrete render passes, the color and depth buffers of which are made available to objects rendered in the second pass. This allows you to render objects that require depth or color buffers to work (like transparent water with refraction and depth-based foam, or volumetric fog).
+
+In order to make use of this functionality, you will have to do two things:
+
+1. Make sure the meshes that consume these buffers are set to the `Layers.TransparentFX` layer. This will remove them from the scene pass and only render them in the effects pass.
+2. Use the `useRenderPipeline` hook to get a reference to the depth and color textures.
+
+```tsx
+const StylizedWater = () => {
+  const { depth, color } = useRenderPipeline()
+
+  return <mesh layers-mask={1 << Layers.TransparentFX}>{/* ... */}</mesh>
+}
+```
+
 ## Customizing Canvas
 
 `<RC.Canvas>` is just a thin wrapper around react-three-fiber's `<Canvas>` that applies some configuration that Render Composer needs to operate as expected. You can override any of the props if you want to:
