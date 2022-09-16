@@ -90,7 +90,7 @@ _TODO_
 </Lifetime>
 ```
 
-### Render Composer
+### [Render Composer](https://github.com/hmans/composer-suite/tree/main/packages/render-composer)
 
 ![react] ![three]
 
