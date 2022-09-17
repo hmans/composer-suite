@@ -34,6 +34,8 @@
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-mutable-list": "workspace:^0.0.2",
     "@hmans/use-nullable-state": "workspace:^0.0.1",
+    "shader-composer": "workspace:^0.4.3",
+    "shader-composer-postprocessing": "workspace:^0.0.1",
     "test": "^3.2.1"
   }
 }

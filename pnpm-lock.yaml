@@ -292,6 +292,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.143.1
       '@vitejs/plugin-react': ^2.0.1
+      postprocessing: ^6.28.7
       react: ^18.2.0
       react-dom: ^18.2.0
       render-composer: ^0.2.1
@@ -302,6 +303,7 @@ importers:
       '@hmans/r3f-animate': 0.0.4_y3omt5lvwtl6lo6hnfcawzz7ea
       '@react-three/drei': 9.29.1_dqbvravr3s5buz3zuoms5ekkmq
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
+      postprocessing: 6.28.7_three@0.143.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       render-composer: link:../../packages/render-composer
@@ -662,12 +664,16 @@ importers:
       postprocessing: ^6.28.7
       react: ^18.2.0
       react-dom: ^18.2.0
+      shader-composer: workspace:^0.4.3
+      shader-composer-postprocessing: workspace:^0.0.1
       test: ^3.2.1
       three: ^0.143.0
     dependencies:
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@hmans/use-mutable-list': link:../hmans-use-mutable-list
       '@hmans/use-nullable-state': link:../hmans-use-nullable-state
+      shader-composer: link:../shader-composer
+      shader-composer-postprocessing: link:../shader-composer-postprocessing
       test: 3.2.1
     devDependencies:
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
@@ -683,6 +689,16 @@ importers:
     dependencies:
       fp-ts: 2.12.3
     devDependencies:
+      three: 0.143.0
+
+  packages/shader-composer-postprocessing:
+    specifiers:
+      postprocessing: ^6.28.7
+      shader-composer: workspace:^0.4.3
+      three: ^0.143.0
+    devDependencies:
+      postprocessing: 6.28.7_three@0.143.0
+      shader-composer: link:../shader-composer
       three: 0.143.0
 
   packages/shader-composer-r3f:
