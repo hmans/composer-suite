@@ -15,8 +15,8 @@ export default function Playground() {
           <modules.Color color={new Color("hotpink")} />
           {/* <modules.Fresnel /> */}
 
-          <Layer opacity={Fresnel()}>
-            <modules.Color color={new Color("white")} />
+          <Layer opacity={Fresnel({ power: 2 })}>
+            <modules.Color color={new Color("white").multiplyScalar(4)} />
           </Layer>
         </composable.meshStandardMaterial>
       </mesh>
