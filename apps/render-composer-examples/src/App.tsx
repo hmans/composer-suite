@@ -1,8 +1,8 @@
 import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
+import * as PP from "postprocessing"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
-import * as PP from "postprocessing"
 import { bitmask } from "render-composer"
 import { Mesh, Object3D } from "three"
 
@@ -31,6 +31,7 @@ function App() {
               opacity={0.1}
               // blendMode={new PP.BlendMode(PP.BlendFunction.SCREEN, 0.1)}
             />
+            <RC.LensDirtEffect />
           </RC.EffectPass>
 
           <Suspense>
