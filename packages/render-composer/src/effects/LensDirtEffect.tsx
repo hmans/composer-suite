@@ -1,13 +1,18 @@
 import * as PP from "postprocessing"
 import {
   $,
+  Add,
   compileShader,
+  Float,
+  Input,
   Mix,
   Mul,
   PostProcessingEffectMaster,
+  Smoothstep,
   Texture2D,
   UniformUnit,
-  UV
+  Vec2,
+  Vec3
 } from "shader-composer"
 import { Color, Texture, TextureLoader } from "three"
 import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
@@ -37,13 +42,23 @@ export class ShaderComposerEffect extends PP.Effect {
   }
 }
 
+const InputColor = Vec3($`inputColor`)
+const UV = Vec2($`uv`)
+const Luminance = (color: Input<"vec3">) => Float($`luminance(${color})`)
+
 export class LensDirtEffectImpl extends ShaderComposerEffect {
-  constructor({ texture }: { texture: Texture }) {
-    const u_texture = UniformUnit("sampler2D", texture)
+  constructor(opts: { texture: Texture }) {
+    const u_texture = UniformUnit("sampler2D", opts.texture)
 
     super(
       PostProcessingEffectMaster({
-        color: Mix(Texture2D(u_texture, $`uv`).color, $`inputColor`, 0.5)
+        color: Add(
+          InputColor,
+          Mul(
+            Texture2D(u_texture, UV).color,
+            Smoothstep(0.1, 0.5, Luminance(InputColor))
+          )
+        )
       })
     )
   }
