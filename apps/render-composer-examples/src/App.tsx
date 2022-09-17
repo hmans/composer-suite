@@ -2,6 +2,7 @@ import { Animate } from "@hmans/r3f-animate"
 import { Environment, Loader, OrbitControls } from "@react-three/drei"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
+import * as PP from "postprocessing"
 import { bitmask } from "render-composer"
 import { Mesh, Object3D } from "three"
 
@@ -24,6 +25,12 @@ function App() {
             <RC.SMAAEffect />
             {sun && <RC.GodRaysEffect lightSource={sun} />}
             <RC.VignetteEffect />
+            <RC.NoiseEffect
+              premultiply={false}
+              blendFunction={PP.BlendFunction.COLOR_DODGE}
+              opacity={0.1}
+              // blendMode={new PP.BlendMode(PP.BlendFunction.SCREEN, 0.1)}
+            />
           </RC.EffectPass>
 
           <Suspense>
