@@ -1,4 +1,5 @@
 import { pipe } from "fp-ts/function"
+import { $ } from "../expressions"
 import { GLSLType, Input, Unit } from "../units"
 import { Abs, Add, Lerp, Mul, Pow, Saturate, Smoothstep } from "./math"
 import { Float } from "./values"
@@ -74,3 +75,5 @@ export const Gradient = <T extends GLSLType = "vec3">(
 
   return color as Unit<T>
 }
+
+export const Luminance = (color: Input<"vec3">) => Float($`luminance(${color})`)
