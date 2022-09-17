@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.4
+
+### Patch Changes
+
+- 066b805: Added new `Luminance` unit, wrapping Three's `luminance` function.
+
 ## 0.4.3
 
 ### Patch Changes
