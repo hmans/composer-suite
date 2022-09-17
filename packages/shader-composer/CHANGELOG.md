@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.3
+
+### Patch Changes
+
+- 455c06c: `Fresnel` was returning wrong results for scaled geometries. This has now been fixed.
+
 ## 0.4.2
 
 ### Patch Changes

@@ -22,7 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "render-composer": "workspace:^0.2.1",
-    "shader-composer": "workspace:^0.4.2",
+    "shader-composer": "workspace:^0.4.3",
     "shader-composer-r3f": "workspace:^0.4.0",
     "shader-composer-toybox": "workspace:^0.1.3",
     "state-composer": "workspace:^0.1.0",
