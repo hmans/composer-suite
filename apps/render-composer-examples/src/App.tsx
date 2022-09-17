@@ -5,7 +5,6 @@ import {
   OrbitControls,
   useTexture
 } from "@react-three/drei"
-import * as PP from "postprocessing"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
 import { bitmask } from "render-composer"

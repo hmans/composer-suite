@@ -1,5 +1,7 @@
+import { pipe } from "fp-ts/function"
 import * as PP from "postprocessing"
 import {
+  Input,
   Luminance,
   Mul,
   Smoothstep,
@@ -24,22 +26,33 @@ export const LensDirtEffect = (props: LensDirtEffectProps) => {
   return null
 }
 
+export type LensDirtEffectArgs = {
+  texture: Texture
+  blendFunction?: PP.BlendFunction
+  minLuminance?: Input<"float">
+  maxLuminance?: Input<"float">
+  strength?: Input<"float">
+}
+
 export class LensDirtEffectImpl extends ShaderComposerEffect {
   constructor({
     texture,
-    blendFunction = PP.BlendFunction.ADD
-  }: {
-    texture: Texture
-    blendFunction?: PP.BlendFunction
-  }) {
+    blendFunction = PP.BlendFunction.ADD,
+    minLuminance = 0.1,
+    maxLuminance = 0.3,
+    strength = 1
+  }: LensDirtEffectArgs) {
     const u_texture = UniformUnit("sampler2D", texture)
 
     super({
       blendFunction,
       root: PostProcessingEffectMaster({
-        color: Mul(
-          Texture2D(u_texture, UV).color,
-          Smoothstep(0.1, 0.3, Luminance(InputColor))
+        color: pipe(
+          InputColor,
+          (v) => Luminance(v),
+          (v) => Smoothstep(minLuminance, maxLuminance, v),
+          (v) => Mul(v, strength),
+          (v) => Mul(Texture2D(u_texture, UV).color, v)
         )
       })
     })
