@@ -2,4 +2,4 @@
 "shader-composer": patch
 ---
 
-Added new `PostProcessingEffectMaster` unit.
+Added new `Luminance` unit, wrapping Three's `luminance` function.
