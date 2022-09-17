@@ -30,9 +30,10 @@ export class ShaderComposerEffect extends PP.Effect {
   constructor(root: ReturnType<typeof PostProcessingEffectMaster>) {
     const [shader] = compileShader(root)
 
+    /* TODO: replace this hack with something nicer. Maybe we can teach `compileShader` the signature of the function it should emit? */
     const fragment = shader.fragmentShader.replace(
-      "void main()\n{",
-      "void mainImage(const in vec4 inputColorRGBA, const in vec2 uv, out vec4 outputColorRGBA)\n{ vec3 inputColor = inputColorRGBA.rgb; float inputAlpha = inputColorRGBA.a;"
+      "void main()",
+      "void mainImage(const in vec4 inputColorRGBA, const in vec2 uv, out vec4 outputColorRGBA)"
     )
 
     super("LensDirt", fragment, {
@@ -42,7 +43,8 @@ export class ShaderComposerEffect extends PP.Effect {
   }
 }
 
-const InputColor = Vec3($`inputColor`)
+const InputColor = Vec3($`inputColorRGBA.rgb`)
+const InputAlpha = Vec3($`inputColorRGBA.a`)
 const UV = Vec2($`uv`)
 const Luminance = (color: Input<"vec3">) => Float($`luminance(${color})`)
 
