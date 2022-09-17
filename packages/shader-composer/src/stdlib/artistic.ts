@@ -1,9 +1,9 @@
 import { pipe } from "fp-ts/function"
 import { GLSLType, Input, Unit } from "../units"
-import { VertexNormal, ViewDirection } from "./variables"
 import { Abs, Add, Lerp, Mul, Pow, Saturate, Smoothstep } from "./math"
 import { Float } from "./values"
-import { Dot } from "./vectors"
+import { VertexNormal, ViewDirection } from "./variables"
+import { Dot, Normalize } from "./vectors"
 
 export type FresnelProps = {
   normal?: Input<"vec3">
@@ -34,6 +34,7 @@ export const Fresnel = ({
   Float(
     pipe(
       normal,
+      (v) => Normalize(v),
       (v) => Dot(ViewDirection, v),
       (v) => Add(factor, v),
       (v) => Abs(v),
