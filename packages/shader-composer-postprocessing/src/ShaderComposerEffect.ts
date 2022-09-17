@@ -17,7 +17,7 @@ export class ShaderComposerEffect extends PP.Effect {
     /* TODO: replace this hack with something nicer. Maybe we can teach `compileShader` the signature of the function it should emit? */
     const fragment = shader.fragmentShader.replace(
       "void main()",
-      "void mainImage(const in vec4 inputColorRGBA, const in vec2 uv, out vec4 outputColorRGBA)"
+      "void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)"
     )
 
     super("LensDirt", fragment, {

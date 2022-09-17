@@ -1,5 +1,5 @@
-import { $, Vec2, Vec3 } from "shader-composer"
+import { $, Float, Vec2, Vec3 } from "shader-composer"
 
-export const InputColor = Vec3($`inputColorRGBA.rgb`)
-export const InputAlpha = Vec3($`inputColorRGBA.a`)
+export const InputColor = Vec3($`inputColor.rgb`)
+export const InputAlpha = Float($`inputColor.a`)
 export const UV = Vec2($`uv`)

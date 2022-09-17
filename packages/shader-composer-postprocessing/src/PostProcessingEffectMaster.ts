@@ -1,4 +1,5 @@
 import { $, Input, Master } from "shader-composer"
+import { InputAlpha, InputColor } from "./units"
 
 export type PostProcessingEffectMasterProps = {
   color?: Input<"vec3">
@@ -6,16 +7,13 @@ export type PostProcessingEffectMasterProps = {
 }
 
 export const PostProcessingEffectMaster = ({
-  color = $`inputColor`,
-  alpha = $`inputAlpha`
+  color = InputColor,
+  alpha = InputAlpha
 }: PostProcessingEffectMasterProps) =>
   Master({
     fragment: {
       body: $`
-        vec3 inputColor = inputColorRGBA.rgb;
-        float inputAlpha = inputColorRGBA.a;
-
-        outputColorRGBA = vec4(${color}.rgb, ${alpha});
+        outputColor = vec4(${color}.rgb, ${alpha});
       `
     }
   })

@@ -99,12 +99,6 @@ const PostProcessing = ({ sun }: { sun?: Mesh | null }) => {
       <RC.SMAAEffect />
       {sun && <RC.GodRaysEffect lightSource={sun} />}
       <RC.VignetteEffect />
-      {/* <RC.NoiseEffect
-        premultiply={false}
-        blendFunction={PP.BlendFunction.COLOR_DODGE}
-        opacity={0.1}
-        // blendMode={new PP.BlendMode(PP.BlendFunction.SCREEN, 0.1)}
-      /> */}
       <RC.LensDirtEffect texture={texture} />
     </RC.EffectPass>
   )
