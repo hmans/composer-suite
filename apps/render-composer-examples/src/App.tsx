@@ -1,5 +1,10 @@
 import { Animate } from "@hmans/r3f-animate"
-import { Environment, Loader, OrbitControls } from "@react-three/drei"
+import {
+  Environment,
+  Loader,
+  OrbitControls,
+  useTexture
+} from "@react-three/drei"
 import * as PP from "postprocessing"
 import { Suspense, useState } from "react"
 import * as RC from "render-composer"
@@ -20,21 +25,8 @@ function App() {
 
       <RC.Canvas>
         <RC.RenderPipeline>
-          <RC.EffectPass>
-            <RC.SelectiveBloomEffect />
-            <RC.SMAAEffect />
-            {sun && <RC.GodRaysEffect lightSource={sun} />}
-            <RC.VignetteEffect />
-            <RC.NoiseEffect
-              premultiply={false}
-              blendFunction={PP.BlendFunction.COLOR_DODGE}
-              opacity={0.1}
-              // blendMode={new PP.BlendMode(PP.BlendFunction.SCREEN, 0.1)}
-            />
-            <RC.LensDirtEffect />
-          </RC.EffectPass>
-
           <Suspense>
+            <PostProcessing sun={sun} />
             <color attach="background" args={["#264653"]} />
             <Environment preset="sunset" />
             <OrbitControls />
@@ -97,3 +89,23 @@ function App() {
 }
 
 export default App
+
+const PostProcessing = ({ sun }: { sun?: Mesh | null }) => {
+  const texture = useTexture("/textures/lensdirt.jpg")
+
+  return (
+    <RC.EffectPass>
+      <RC.SelectiveBloomEffect />
+      <RC.SMAAEffect />
+      {sun && <RC.GodRaysEffect lightSource={sun} />}
+      <RC.VignetteEffect />
+      <RC.NoiseEffect
+        premultiply={false}
+        blendFunction={PP.BlendFunction.COLOR_DODGE}
+        opacity={0.1}
+        // blendMode={new PP.BlendMode(PP.BlendFunction.SCREEN, 0.1)}
+      />
+      <RC.LensDirtEffect texture={texture} />
+    </RC.EffectPass>
+  )
+}

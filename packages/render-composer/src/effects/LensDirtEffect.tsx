@@ -2,24 +2,22 @@ import * as PP from "postprocessing"
 import {
   $,
   compileShader,
+  Mix,
   Mul,
-  PostProcessingEffectMaster
+  PostProcessingEffectMaster,
+  Texture2D,
+  UniformUnit,
+  UV
 } from "shader-composer"
-import { Color } from "three"
+import { Color, Texture, TextureLoader } from "three"
 import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 
 export type LensDirtEffectProps = ConstructorParameters<
-  typeof PP.NoiseEffect
->[0] & { opacity?: number }
+  typeof LensDirtEffectImpl
+>[0]
 
-export const LensDirtEffect = ({
-  blendFunction = PP.BlendFunction.NORMAL,
-  premultiply,
-  opacity = 1
-}: LensDirtEffectProps) => {
-  usePostProcessingEffect(() => new LensDirtEffectImpl(), {
-    blendMode: new PP.BlendMode(blendFunction, opacity)
-  })
+export const LensDirtEffect = (props: LensDirtEffectProps) => {
+  usePostProcessingEffect(() => new LensDirtEffectImpl(props), props)
   return null
 }
 
@@ -33,17 +31,19 @@ export class ShaderComposerEffect extends PP.Effect {
     )
 
     super("LensDirt", fragment, {
-      blendFunction: PP.BlendFunction.NORMAL
-      // uniforms: new Map(shader.uniforms)
+      blendFunction: PP.BlendFunction.NORMAL,
+      uniforms: new Map(Object.entries(shader.uniforms))
     })
   }
 }
 
 export class LensDirtEffectImpl extends ShaderComposerEffect {
-  constructor() {
+  constructor({ texture }: { texture: Texture }) {
+    const u_texture = UniformUnit("sampler2D", texture)
+
     super(
       PostProcessingEffectMaster({
-        color: Mul(new Color("hotpink"), $`inputColor`)
+        color: Mix(Texture2D(u_texture, $`uv`).color, $`inputColor`, 0.5)
       })
     )
   }
