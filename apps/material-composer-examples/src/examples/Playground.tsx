@@ -1,4 +1,4 @@
-import { MaterialModules } from "material-composer-r3f"
+import { MaterialModules, modules } from "material-composer-r3f"
 
 export default function Playground() {
   return (
@@ -7,7 +7,9 @@ export default function Playground() {
         <sphereGeometry args={[1, 32, 32]} />
 
         <meshStandardMaterial>
-          <MaterialModules></MaterialModules>
+          <MaterialModules>
+            <modules.Color color="hotpink" />
+          </MaterialModules>
         </meshStandardMaterial>
       </mesh>
     </group>

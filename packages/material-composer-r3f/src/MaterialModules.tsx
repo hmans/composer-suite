@@ -3,7 +3,10 @@ import { useInstanceHandle } from "@react-three/fiber"
 import { compileModules } from "material-composer"
 import React, { useLayoutEffect, useMemo, useRef } from "react"
 import { useShader } from "shader-composer-r3f"
-import { provideModuleRegistration } from "./moduleRegistration"
+import {
+  ModuleRegistrationContext,
+  provideModuleRegistration
+} from "./moduleRegistration"
 
 export type MaterialModulesProps = {
   children?: React.ReactNode
@@ -24,7 +27,9 @@ export const MaterialModules = ({ children }: MaterialModulesProps) => {
 
   return (
     <primitive object={object} ref={ref}>
-      {children}
+      <ModuleRegistrationContext.Provider value={modules}>
+        {children}
+      </ModuleRegistrationContext.Provider>
     </primitive>
   )
 }
