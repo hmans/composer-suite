@@ -1,8 +1,10 @@
 import { useConst } from "@hmans/use-const"
 import { useInstanceHandle } from "@react-three/fiber"
-import { compileModules } from "material-composer"
+import { compileModules, patchMaterial } from "material-composer"
 import React, { useLayoutEffect, useMemo, useRef } from "react"
 import { useShader } from "shader-composer-r3f"
+import { Material } from "three"
+import { materialShaderRoots } from "./composable"
 import {
   ModuleRegistrationContext,
   provideModuleRegistration
@@ -22,8 +24,17 @@ export const MaterialModules = ({ children }: MaterialModulesProps) => {
   const instance = useInstanceHandle(ref)
 
   useLayoutEffect(() => {
-    console.log(instance.current.parent)
-  }, [])
+    const parent = instance.current.parent
+    if (!parent)
+      throw new Error("MaterialModules must be a child of a material")
+
+    const material = parent as unknown as Material
+
+    patchMaterial(material, shader)
+
+    materialShaderRoots.set(material, root)
+    return () => void materialShaderRoots.delete(material)
+  }, [root])
 
   return (
     <primitive object={object} ref={ref}>
