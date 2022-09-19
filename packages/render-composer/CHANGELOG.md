@@ -1,5 +1,14 @@
 # render-composer
 
+## 0.2.2
+
+### Patch Changes
+
+- 2ca62df: Added `NoiseEffect`.
+- 2ca62df: Added new `LensDirt` effect.
+- Updated dependencies [2ca62df]
+  - shader-composer@0.4.4
+
 ## 0.2.1
 
 ### Patch Changes
