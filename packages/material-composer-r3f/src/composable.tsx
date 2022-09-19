@@ -77,7 +77,7 @@ export const composable = new Proxy<Composable>(patched, {
   }
 })
 
-export const materialShaderRoots = new Map<Material, Unit>()
+export const materialShaderRoots = new WeakMap<Material, Unit>()
 
 /**
  * A somewhat experimental, possibly temporary API to retrieve the Shader Composer
