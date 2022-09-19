@@ -1,23 +1,25 @@
-import { useControls } from "leva"
-import { composable, Layer, modules } from "material-composer-r3f"
-import { Fresnel } from "shader-composer"
-import { Color } from "three"
+import { useConst } from "@hmans/use-const"
+import { useInstanceHandle } from "@react-three/fiber"
+import { composable } from "material-composer-r3f"
+import { useLayoutEffect, useRef, useState } from "react"
 
 export default function Playground() {
-  const controls = useControls({ scale: { value: 1, min: 0, max: 2 } })
+  const object = useConst(() => ({}))
+  const ref = useRef()
+
+  const instance = useInstanceHandle(ref)
+
+  useLayoutEffect(() => {
+    console.log(instance.current.parent)
+  }, [])
 
   return (
     <group position-y={1.5}>
-      <mesh scale={controls.scale}>
+      <mesh>
         <sphereGeometry args={[1, 32, 32]} />
 
         <composable.meshStandardMaterial>
-          <modules.Color color={new Color("hotpink")} />
-          {/* <modules.Fresnel /> */}
-
-          <Layer opacity={Fresnel({ power: 2 })}>
-            <modules.Color color={new Color("white").multiplyScalar(4)} />
-          </Layer>
+          <primitive object={object} ref={ref} />
         </composable.meshStandardMaterial>
       </mesh>
     </group>
