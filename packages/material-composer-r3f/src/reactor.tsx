@@ -19,7 +19,7 @@ type ModuleComponentProxy = {
     : never
 }
 
-export const createModuleComponent =
+export const moduleComponent =
   <P extends ModuleFactoryProps>(fac: ModuleFactory<P>) =>
   (props: P) => {
     const module = useMemo(() => {
@@ -37,7 +37,7 @@ export const ModuleReactor = new Proxy<ModuleComponentProxy>(
     get<N extends keyof Modules>(target: any, name: N) {
       if (!cache.has(name)) {
         // @ts-ignore
-        cache.set(name, createModuleComponent(Modules[name]))
+        cache.set(name, moduleComponent(Modules[name]))
       }
       return cache.get(name)
     }

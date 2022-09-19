@@ -1,6 +1,6 @@
 import { ModuleFactory } from "material-composer"
 import { composable, modules } from "material-composer-r3f"
-import { createModuleComponent } from "material-composer-r3f/src/reactor"
+import { moduleComponent } from "material-composer-r3f/src/reactor"
 import { Heat, HeatOptions } from "material-composer/units"
 import {
   Cos,
@@ -35,7 +35,7 @@ export const PlasmaModule: ModuleFactory<PlasmaProps> =
     }
   }
 
-export const Plasma = createModuleComponent(PlasmaModule)
+export const Plasma = moduleComponent(PlasmaModule)
 
 export default function PlasmaBallExample() {
   const time = GlobalTime

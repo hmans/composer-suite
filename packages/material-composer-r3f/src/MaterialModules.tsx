@@ -4,11 +4,11 @@ import { compileModules, patchMaterial } from "material-composer"
 import React, { useLayoutEffect, useMemo, useRef } from "react"
 import { useShader } from "shader-composer-r3f"
 import { Material } from "three"
-import { materialShaderRoots } from "./composable"
 import {
   ModuleRegistrationContext,
   provideModuleRegistration
 } from "./moduleRegistration"
+import { materialShaderRoots } from "./store"
 
 export type MaterialModulesProps = {
   children?: React.ReactNode
