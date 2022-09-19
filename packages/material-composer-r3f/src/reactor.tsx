@@ -8,9 +8,8 @@ type Modules = typeof Modules
 
 const cache = new Map<string, ModuleComponent<any>>()
 
-type ModuleComponentProps<
-  K extends keyof Modules
-> = Modules[K] extends ModuleFactory<infer A> ? A : never
+type ModuleComponentProps<K extends keyof Modules> =
+  Modules[K] extends ModuleFactory<infer A> ? A : never
 
 type ModuleComponent<K extends keyof Modules> = FC<ModuleComponentProps<K>>
 
@@ -20,17 +19,17 @@ type ModuleComponentProxy = {
     : never
 }
 
-export const moduleComponent = <P extends ModuleFactoryProps>(
-  fac: ModuleFactory<P>
-) => (props: P) => {
-  const module = useMemo(() => {
-    return fac(props)
-  }, [useDetectShallowChange(props)])
+export const createModuleComponent =
+  <P extends ModuleFactoryProps>(fac: ModuleFactory<P>) =>
+  (props: P) => {
+    const module = useMemo(() => {
+      return fac(props)
+    }, [useDetectShallowChange(props)])
 
-  useModuleRegistration(module)
+    useModuleRegistration(module)
 
-  return null
-}
+    return null
+  }
 
 export const ModuleReactor = new Proxy<ModuleComponentProxy>(
   {} as ModuleComponentProxy,
@@ -38,7 +37,7 @@ export const ModuleReactor = new Proxy<ModuleComponentProxy>(
     get<N extends keyof Modules>(target: any, name: N) {
       if (!cache.has(name)) {
         // @ts-ignore
-        cache.set(name, moduleComponent(Modules[name]))
+        cache.set(name, createModuleComponent(Modules[name]))
       }
       return cache.get(name)
     }

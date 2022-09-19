@@ -1,4 +1,5 @@
-import { MaterialModules, modules } from "material-composer-r3f"
+import { Color, Layer, MaterialModules, modules } from "material-composer-r3f"
+import { GlobalTime, Sin } from "shader-composer"
 
 export default function Playground() {
   return (
@@ -8,7 +9,11 @@ export default function Playground() {
 
         <meshStandardMaterial>
           <MaterialModules>
-            <modules.Color color="hotpink" />
+            <Color color="red" />
+
+            <Layer opacity={Sin(GlobalTime)}>
+              <Color color="yellow" />
+            </Layer>
           </MaterialModules>
         </meshStandardMaterial>
       </mesh>

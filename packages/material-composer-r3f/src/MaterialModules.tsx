@@ -16,25 +16,30 @@ export type MaterialModulesProps = {
 
 export const MaterialModules = ({ children }: MaterialModulesProps) => {
   const modules = provideModuleRegistration()
+
   const root = useMemo(() => compileModules(modules.list), [modules.version])
+
   const shader = useShader(() => root, [root])
 
+  /* Hook into r3f internals to get the parent */
   const object = useConst(() => ({}))
   const ref = useRef()
   const instance = useInstanceHandle(ref)
 
   useLayoutEffect(() => {
-    const parent = instance.current.parent
+    console.log("COMPILING")
+    const parent = instance.current.parent as unknown
+
     if (!parent)
       throw new Error("MaterialModules must be a child of a material")
 
-    const material = parent as unknown as Material
+    const material = parent as Material
 
     patchMaterial(material, shader)
 
     materialShaderRoots.set(material, root)
     return () => void materialShaderRoots.delete(material)
-  }, [root])
+  }, [root, shader])
 
   return (
     <primitive object={object} ref={ref}>
