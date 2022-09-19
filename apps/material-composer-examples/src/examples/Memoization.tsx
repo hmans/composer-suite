@@ -1,5 +1,12 @@
 import { useControls } from "leva"
-import { composable, Layer, modules } from "material-composer-r3f"
+import {
+  Alpha,
+  composable,
+  Layer,
+  MaterialModules,
+  modules,
+  SurfaceWobble
+} from "material-composer-r3f"
 import { Description } from "r3f-stage"
 import { memo, useMemo } from "react"
 import {
@@ -46,17 +53,19 @@ const MyMaterial = ({ mix }: { mix: Input<"float"> }) => {
   const time = useMemo(() => Time(), [])
 
   return (
-    <composable.meshStandardMaterial transparent side={DoubleSide}>
-      <Plasma offset={Mul(time, -0.3)} />
+    <meshStandardMaterial transparent side={DoubleSide}>
+      <MaterialModules>
+        <Plasma offset={Mul(time, -0.3)} />
 
-      <Layer
-        opacity={Smoothstep(Sub(mix, 0.1), Add(mix, 0.1), VertexPosition.x)}
-      >
-        <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.3} />
-        <Lava offset={Mul(time, 0.5)} scale={0.3} />
-        <modules.Alpha alpha={1} />
-      </Layer>
-    </composable.meshStandardMaterial>
+        <Layer
+          opacity={Smoothstep(Sub(mix, 0.1), Add(mix, 0.1), VertexPosition.x)}
+        >
+          <SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.3} />
+          <Lava offset={Mul(time, 0.5)} scale={0.3} />
+          <Alpha alpha={1} />
+        </Layer>
+      </MaterialModules>
+    </meshStandardMaterial>
   )
 }
 

@@ -1,5 +1,10 @@
 import { ModuleFactory } from "material-composer"
-import { composable, modules } from "material-composer-r3f"
+import {
+  composable,
+  MaterialModules,
+  modules,
+  SurfaceWobble
+} from "material-composer-r3f"
 import { moduleComponent } from "material-composer-r3f/src/reactor"
 import { Heat, HeatOptions } from "material-composer/units"
 import {
@@ -47,13 +52,15 @@ export default function PlasmaBallExample() {
       <mesh>
         <icosahedronGeometry args={[1, 8]} />
 
-        <composable.meshStandardMaterial transparent side={DoubleSide}>
-          <modules.SurfaceWobble
-            offset={Mul(time, 0.5)}
-            amplitude={Mul(Cos(time), 0.2)}
-          />
-          <Plasma offset={Mul(time, 0.3)} />
-        </composable.meshStandardMaterial>
+        <meshStandardMaterial transparent side={DoubleSide}>
+          <MaterialModules>
+            <SurfaceWobble
+              offset={Mul(time, 0.5)}
+              amplitude={Mul(Cos(time), 0.2)}
+            />
+            <Plasma offset={Mul(time, 0.3)} />
+          </MaterialModules>
+        </meshStandardMaterial>
       </mesh>
     </group>
   )

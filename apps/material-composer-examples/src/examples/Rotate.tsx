@@ -1,24 +1,18 @@
-import { useControls } from "leva"
-import { composable, modules } from "material-composer-r3f"
+import { MaterialModules, Rotate } from "material-composer-r3f"
 import { Description } from "r3f-stage"
-import { useMemo } from "react"
-import { GlobalTime, Rotation3D, Time, Vec3 } from "shader-composer"
+import { GlobalTime, Rotation3D, Vec3 } from "shader-composer"
 
-export default function Rotate() {
-  const controls = useControls({
-    space: { value: "world", options: ["local", "world", "view"] }
-  })
-
-  const time = useMemo(() => Time(), [])
-
+export default function RotateExample() {
   return (
     <group>
       <mesh position-y={1.5} rotation-z={Math.PI / 2}>
         <boxGeometry />
 
-        <composable.meshStandardMaterial>
-          <modules.Rotate rotation={Rotation3D(Vec3([1, 1, 0]), GlobalTime)} />
-        </composable.meshStandardMaterial>
+        <meshStandardMaterial>
+          <MaterialModules>
+            <Rotate rotation={Rotation3D(Vec3([1, 1, 0]), GlobalTime)} />
+          </MaterialModules>
+        </meshStandardMaterial>
       </mesh>
 
       <Description>

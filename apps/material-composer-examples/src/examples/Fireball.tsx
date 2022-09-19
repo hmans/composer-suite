@@ -1,5 +1,11 @@
 import { ModuleFactory } from "material-composer"
-import { composable, moduleComponent, modules } from "material-composer-r3f"
+import {
+  composable,
+  MaterialModules,
+  moduleComponent,
+  modules,
+  SurfaceWobble
+} from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import { Description } from "r3f-stage"
 import { GlobalTime, Gradient, Mul, Vec3 } from "shader-composer"
@@ -34,16 +40,18 @@ export default function FireballExample() {
       <mesh castShadow>
         <icosahedronGeometry args={[1, 8]} />
 
-        <composable.meshStandardMaterial autoShadow>
-          <modules.SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
+        <meshStandardMaterial autoShadow>
+          <MaterialModules>
+            <SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
 
-          <Lava
-            offset={Mul(Vec3([0.1, 0.2, 0.5]), time)}
-            scale={0.3}
-            octaves={5}
-            power={1}
-          />
-        </composable.meshStandardMaterial>
+            <Lava
+              offset={Mul(Vec3([0.1, 0.2, 0.5]), time)}
+              scale={0.3}
+              octaves={5}
+              power={1}
+            />
+          </MaterialModules>
+        </meshStandardMaterial>
       </mesh>
 
       <Description>

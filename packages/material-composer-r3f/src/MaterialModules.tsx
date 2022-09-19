@@ -27,7 +27,6 @@ export const MaterialModules = ({ children }: MaterialModulesProps) => {
   const instance = useInstanceHandle(ref)
 
   useLayoutEffect(() => {
-    console.log("COMPILING")
     const parent = instance.current.parent as unknown
 
     if (!parent)

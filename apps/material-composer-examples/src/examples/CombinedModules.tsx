@@ -1,7 +1,15 @@
 import { useControls } from "leva"
-import { composable, Layer, LayerProps, modules } from "material-composer-r3f"
+import {
+  Color,
+  Fresnel,
+  Gradient,
+  Layer,
+  LayerProps,
+  MaterialModules,
+  SurfaceWobble
+} from "material-composer-r3f"
 import { useUniformUnit } from "shader-composer-r3f"
-import { Color } from "three"
+import * as THREE from "three"
 
 export const ColorLayer = (props: LayerProps) => {
   const controls = useControls("Color", {
@@ -10,11 +18,11 @@ export const ColorLayer = (props: LayerProps) => {
   })
 
   const mix = useUniformUnit("float", controls.mix)
-  const color = useUniformUnit("vec3", new Color(controls.color))
+  const color = useUniformUnit("vec3", new THREE.Color(controls.color))
 
   return (
     <Layer opacity={mix} {...props}>
-      <modules.Color color={color} />
+      <Color color={color} />
     </Layer>
   )
 }
@@ -33,16 +41,16 @@ export const GradientLayer = (props: LayerProps) => {
 
   const mix = useUniformUnit("float", controls.mix)
   const contrast = useUniformUnit("float", controls.contrast)
-  const colorA = useUniformUnit("vec3", new Color(controls.colorA))
+  const colorA = useUniformUnit("vec3", new THREE.Color(controls.colorA))
   const stopA = useUniformUnit("float", controls.stopA)
-  const colorB = useUniformUnit("vec3", new Color(controls.colorB))
+  const colorB = useUniformUnit("vec3", new THREE.Color(controls.colorB))
   const stopB = useUniformUnit("float", controls.stopB)
-  const colorC = useUniformUnit("vec3", new Color(controls.colorC))
+  const colorC = useUniformUnit("vec3", new THREE.Color(controls.colorC))
   const stopC = useUniformUnit("float", controls.stopC)
 
   return (
     <Layer opacity={mix} {...props}>
-      <modules.Gradient
+      <Gradient
         stops={[
           [colorA, stopA],
           [colorB, stopB],
@@ -67,7 +75,7 @@ export const FresnelLayer = (props: LayerProps) => {
 
   return (
     <Layer opacity={mix} blend="add" {...props}>
-      <modules.Fresnel intensity={intensity} power={power} />
+      <Fresnel intensity={intensity} power={power} />
     </Layer>
   )
 }
@@ -85,7 +93,7 @@ export const WobbleLayer = (props: LayerProps) => {
 
   return (
     <Layer opacity={mix} {...props}>
-      <modules.SurfaceWobble amplitude={amplitude} offset={offset} />
+      <SurfaceWobble amplitude={amplitude} offset={offset} />
     </Layer>
   )
 }
@@ -96,12 +104,14 @@ export default function CombinedModules() {
       <mesh castShadow>
         <icosahedronGeometry args={[1, 8]} />
 
-        <composable.meshStandardMaterial autoShadow>
-          <ColorLayer />
-          <GradientLayer />
-          <FresnelLayer />
-          <WobbleLayer />
-        </composable.meshStandardMaterial>
+        <meshStandardMaterial autoShadow>
+          <MaterialModules>
+            <ColorLayer />
+            <GradientLayer />
+            <FresnelLayer />
+            <WobbleLayer />
+          </MaterialModules>
+        </meshStandardMaterial>
       </mesh>
     </group>
   )

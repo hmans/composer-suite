@@ -1,10 +1,10 @@
-import { composable, modules } from "material-composer-r3f"
+import { MaterialModules, Velocity } from "material-composer-r3f"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
 import { Time } from "shader-composer"
 import { Vector3 } from "three"
 
-export default function Velocity() {
+export default function VelocityExample() {
   const time = useMemo(() => Time(), [])
 
   return (
@@ -12,9 +12,11 @@ export default function Velocity() {
       <mesh position-y={1.5} castShadow>
         <sphereGeometry />
 
-        <composable.meshStandardMaterial autoShadow>
-          <modules.Velocity direction={new Vector3(0.15, 0, 0)} time={time} />
-        </composable.meshStandardMaterial>
+        <meshStandardMaterial autoShadow>
+          <MaterialModules>
+            <Velocity direction={new Vector3(0.15, 0, 0)} time={time} />
+          </MaterialModules>
+        </meshStandardMaterial>
       </mesh>
 
       <Description>
