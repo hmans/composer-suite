@@ -4,17 +4,15 @@ import { useMemo } from "react"
 import { Time, Vec3 } from "shader-composer"
 import { RGBADepthPacking } from "three"
 
-const Modules = () => {
+export default function VelocityExample() {
   const time = useMemo(() => Time(), [])
 
-  return (
+  const Modules = () => (
     <MaterialModules>
       <Velocity direction={Vec3([0.15, 0, 0])} time={time} />
     </MaterialModules>
   )
-}
 
-export default function VelocityExample() {
   return (
     <group position-y={1.5}>
       <mesh castShadow>

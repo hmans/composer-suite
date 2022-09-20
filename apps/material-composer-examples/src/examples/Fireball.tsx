@@ -1,15 +1,14 @@
 import { ModuleFactory } from "material-composer"
 import {
-  composable,
   MaterialModules,
   moduleComponent,
-  modules,
   SurfaceWobble
 } from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import { Description } from "r3f-stage"
 import { GlobalTime, Gradient, Mul, Vec3 } from "shader-composer"
 import * as THREE from "three"
+import { RGBADepthPacking } from "three"
 
 export type LavaProps = HeatOptions
 
@@ -33,6 +32,19 @@ export const Lava = moduleComponent(LavaModule)
 export default function FireballExample() {
   const time = GlobalTime
 
+  const modules = (
+    <MaterialModules>
+      <SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
+
+      <Lava
+        offset={Mul(Vec3([0.1, 0.2, 0.5]), time)}
+        scale={0.3}
+        octaves={5}
+        power={1}
+      />
+    </MaterialModules>
+  )
+
   return (
     <group position-y={1.5}>
       <directionalLight intensity={0.8} position={[20, 10, 10]} />
@@ -40,18 +52,13 @@ export default function FireballExample() {
       <mesh castShadow>
         <icosahedronGeometry args={[1, 8]} />
 
-        <meshStandardMaterial autoShadow>
-          <MaterialModules>
-            <SurfaceWobble offset={Mul(time, 0.4)} amplitude={0.1} />
+        <meshStandardMaterial children={modules} />
 
-            <Lava
-              offset={Mul(Vec3([0.1, 0.2, 0.5]), time)}
-              scale={0.3}
-              octaves={5}
-              power={1}
-            />
-          </MaterialModules>
-        </meshStandardMaterial>
+        <meshDepthMaterial
+          attach="customDepthMaterial"
+          depthPacking={RGBADepthPacking}
+          children={modules}
+        />
       </mesh>
 
       <Description>
