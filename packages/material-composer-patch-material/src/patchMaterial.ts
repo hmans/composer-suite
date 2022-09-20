@@ -32,6 +32,9 @@ export const patchMaterial = <M extends Material>(
     shader.uniforms = { ...shader.uniforms, ...uniforms }
   }
 
+  /* Make sure the material is marked as dirty so that it will be recompiled */
+  material.needsUpdate = true
+
   /* TODO: Be smarter about the cache key :D */
   const cacheKey = String(Math.random())
   material.customProgramCacheKey = () => cacheKey
