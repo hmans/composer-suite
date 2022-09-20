@@ -1,7 +1,4 @@
-import { useConst } from "@hmans/use-const"
-import { useInstanceHandle } from "@react-three/fiber"
 import { Color, composable } from "material-composer-r3f"
-import { useLayoutEffect, useRef, useState } from "react"
 
 export default function Playground() {
   return (
