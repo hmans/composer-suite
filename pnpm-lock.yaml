@@ -605,7 +605,7 @@ importers:
       '@material-composer/patch-material': ^0.1.2
       '@material-composer/patched': ^0.1.1
       '@react-three/fiber': ^8.7.0
-      material-composer: '*'
+      material-composer: ^0.2.2
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.1
@@ -619,11 +619,11 @@ importers:
       '@hmans/use-version': 0.0.2_react@18.2.0
       '@material-composer/patch-material': link:../material-composer-patch-material
       '@material-composer/patched': link:../material-composer-patched
+      material-composer: link:../material-composer
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
     devDependencies:
       '@react-three/fiber': 8.7.0_f72olm6mn3unzgg4exeiaoxanm
-      material-composer: link:../material-composer
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.143.0
