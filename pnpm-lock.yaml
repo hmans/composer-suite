@@ -603,7 +603,6 @@ importers:
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       '@material-composer/patch-material': ^0.1.2
-      '@material-composer/patched': ^0.1.1
       '@react-three/fiber': ^8.7.0
       material-composer: ^0.2.2
       react: ^18.2.0
@@ -618,7 +617,6 @@ importers:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       '@material-composer/patch-material': link:../material-composer-patch-material
-      '@material-composer/patched': link:../material-composer-patched
       material-composer: link:../material-composer
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
