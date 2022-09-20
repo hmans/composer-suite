@@ -1,5 +1,5 @@
 import * as modules from "material-composer/modules"
-import { moduleComponent } from "./reactor"
+import { moduleComponent } from "./moduleComponent"
 
 export const Acceleration = moduleComponent(modules.Acceleration)
 export const Alpha = moduleComponent(modules.Alpha)
