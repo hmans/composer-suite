@@ -1,5 +1,5 @@
 import { useConst } from "@hmans/things"
-import { composable, modules } from "material-composer-r3f"
+import * as MC from "material-composer-r3f"
 import { between, plusMinus, upTo } from "randomish"
 import {
   Float,
@@ -29,18 +29,16 @@ export const Debris = () => {
       <Particles>
         <planeGeometry />
 
-        <composable.meshStandardMaterial
-          transparent
-          side={DoubleSide}
-          color="#888"
-        >
-          <modules.Rotate rotation={Rotation3DZ(Mul(time, rotationSpeed))} />
-          <modules.Velocity
-            direction={Mul(Vec3([getNoise(1), getNoise(2), getNoise(3)]), 5)}
-            time={GlobalTime}
-          />
-          <modules.Scale scale={scale} />
-        </composable.meshStandardMaterial>
+        <meshStandardMaterial transparent side={DoubleSide} color="#888">
+          <MC.MaterialModules>
+            <MC.Rotate rotation={Rotation3DZ(Mul(time, rotationSpeed))} />
+            <MC.Velocity
+              direction={Mul(Vec3([getNoise(1), getNoise(2), getNoise(3)]), 5)}
+              time={GlobalTime}
+            />
+            <MC.Scale scale={scale} />
+          </MC.MaterialModules>
+        </meshStandardMaterial>
 
         <Emitter
           limit={1000}
