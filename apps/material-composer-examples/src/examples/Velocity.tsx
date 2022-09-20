@@ -1,22 +1,34 @@
 import { MaterialModules, Velocity } from "material-composer-r3f"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
-import { Time } from "shader-composer"
-import { Vector3 } from "three"
+import { Time, Vec3 } from "shader-composer"
+import { RGBADepthPacking } from "three"
 
-export default function VelocityExample() {
+const Modules = () => {
   const time = useMemo(() => Time(), [])
 
   return (
-    <group>
-      <mesh position-y={1.5} castShadow>
+    <MaterialModules>
+      <Velocity direction={Vec3([0.15, 0, 0])} time={time} />
+    </MaterialModules>
+  )
+}
+
+export default function VelocityExample() {
+  return (
+    <group position-y={1.5}>
+      <mesh castShadow>
         <sphereGeometry />
 
-        <meshStandardMaterial autoShadow>
-          <MaterialModules>
-            <Velocity direction={new Vector3(0.15, 0, 0)} time={time} />
-          </MaterialModules>
-        </meshStandardMaterial>
+        {/* Create the actual material */}
+        <meshStandardMaterial children={<Modules />} />
+
+        {/* Create a depth material using the same modules */}
+        <meshDepthMaterial
+          attach="customDepthMaterial"
+          depthPacking={RGBADepthPacking}
+          children={<Modules />}
+        />
       </mesh>
 
       <Description>
