@@ -1,4 +1,4 @@
-import { Color, composable } from "material-composer-r3f"
+import * as MC from "material-composer-r3f"
 
 export default function Playground() {
   return (
@@ -6,9 +6,9 @@ export default function Playground() {
       <mesh>
         <sphereGeometry args={[1, 32, 32]} />
 
-        <composable.meshStandardMaterial>
-          <Color color="yellow" />
-        </composable.meshStandardMaterial>
+        <MC.MeshStandardMaterial>
+          <MC.Color color="yellow" />
+        </MC.MeshStandardMaterial>
       </mesh>
     </group>
   )
