@@ -39,8 +39,6 @@ export const MenuScene = () => {
         layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
       />
 
-      <PerspectiveCamera position={[0, 0, 20]} rotation-y={-0.8} makeDefault />
-
       <Dust />
       <Skybox />
 
