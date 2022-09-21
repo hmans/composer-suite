@@ -1,5 +1,17 @@
 # material-composer-r3f
 
+## 0.2.4
+
+### Patch Changes
+
+- 473407f: `composable.*` and `modules.*` have been renamed to `Composable.*` and `Modules.*`, respectively. This was done to improve integration into tooling like VS Code, which can now recognize these as impostable constants.
+
+  The lower-case versions of these objects are still being exported in order to not immediately break existing code, but will be removed in a future version.
+
+- Updated dependencies [473407f]
+- Updated dependencies [473407f]
+  - @material-composer/patched@0.1.2
+
 ## 0.2.3
 
 ### Patch Changes

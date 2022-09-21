@@ -17,7 +17,7 @@
     "fp-ts": "^2.12.3",
     "input-composer": "workspace:^0.0.1",
     "material-composer": "workspace:^0.2.2",
-    "material-composer-r3f": "workspace:^0.2.3",
+    "material-composer-r3f": "workspace:^0.2.4",
     "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
