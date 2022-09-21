@@ -20,7 +20,7 @@
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.31.1",
     "@react-three/fiber": "^8.7.4",
-    "@react-three/rapier": "^0.6.7",
+    "@react-three/rapier": "^0.6.9",
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",
@@ -39,7 +39,7 @@
     "state-composer": "^0.1.0",
     "statery": "^0.6.2",
     "three": "^0.144.0",
-    "three-stdlib": "^2.15.0",
+    "three-stdlib": "^2.16.1",
     "timeline-composer": "^0.1.7",
     "vfx-composer": "^0.2.4",
     "vfx-composer-r3f": "^0.2.4"
