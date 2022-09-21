@@ -17,7 +17,7 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
-    "three": "^0.143.0"
+    "three": "^0.144.0"
   },
   "dependencies": {
     "material-composer": "^0.2.2",

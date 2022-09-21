@@ -21,7 +21,7 @@
     "@react-three/fiber": "^8.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.143.0"
+    "three": "^0.144.0"
   },
   "dependencies": {
     "@react-three/drei": "^9.29.1",

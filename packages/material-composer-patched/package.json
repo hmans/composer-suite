@@ -19,9 +19,9 @@
   "devDependencies": {
     "@react-three/fiber": "^8.7.0",
     "@types/react": "^18.0.19",
-    "@types/three": "^0.143.1",
+    "@types/three": "^0.144.0",
     "react": "^18.2.0",
-    "three": "^0.143.0",
+    "three": "^0.144.0",
     "typescript": "^4.8.3"
   },
   "peerDependencies": {
