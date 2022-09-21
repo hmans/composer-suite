@@ -14,6 +14,7 @@ export const useRenderPipeline = () => useContext(RenderPipelineContext)
 
 export type RenderPipelineProps = {
   children?: React.ReactNode
+  updatePriority?: number
 }
 
 export const Layers = {
@@ -21,7 +22,10 @@ export const Layers = {
   TransparentFX: 31
 }
 
-export const RenderPipeline = ({ children }: RenderPipelineProps) => {
+export const RenderPipeline = ({
+  children,
+  updatePriority = 1
+}: RenderPipelineProps) => {
   const camera = useThree((s) => s.camera)
   const scene = useThree((s) => s.scene)
 
@@ -29,7 +33,7 @@ export const RenderPipeline = ({ children }: RenderPipelineProps) => {
   const [colorPass, setColorPass] = useNullableState<PP.CopyPass>()
 
   return (
-    <RC.EffectComposer>
+    <RC.EffectComposer updatePriority={updatePriority}>
       {/* Render all scene objects _except_ for those on the transparent FX layer: */}
       <RC.LayerRenderPass
         camera={camera}
