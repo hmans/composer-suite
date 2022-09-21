@@ -374,7 +374,7 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
-      input-composer: ^0.0.1
+      input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
       motion: ^10.14.2
@@ -401,7 +401,7 @@ importers:
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
-      input-composer: 0.0.1
+      input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
       motion: 10.14.2
@@ -7010,12 +7010,6 @@ packages:
 
   /inline-style-parser/0.1.1:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
-
-  /input-composer/0.0.1:
-    resolution: {integrity: sha512-Q4a6KtJsW8PjmC9PFga3A3es4qZX0e2zcpGotKHfA3Tg5OHrkgaE8hbRwL1bNmLoukTB9iKpwbmTtrZaLvUEZw==}
-    dependencies:
-      '@hmans/signal': 0.1.8
-    dev: false
 
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}

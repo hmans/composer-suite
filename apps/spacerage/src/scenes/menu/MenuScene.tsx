@@ -9,8 +9,19 @@ import { useCapture } from "../../lib/useCapture"
 import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
+import { useInput } from "input-composer"
+import { useFrame } from "@react-three/fiber"
+import { startGame } from "../../state"
 
 export const MenuScene = () => {
+  const input = useInput()
+
+  useFrame(() => {
+    if (input.keyboard.key("Space")) {
+      startGame()
+    }
+  })
+
   return (
     <group>
       <ambientLight
