@@ -1,26 +1,14 @@
-import { useConst } from "@hmans/use-const"
-import { useInstanceHandle } from "@react-three/fiber"
-import { composable } from "material-composer-r3f"
-import { useLayoutEffect, useRef, useState } from "react"
+import { Composable, Modules } from "material-composer-r3f"
 
 export default function Playground() {
-  const object = useConst(() => ({}))
-  const ref = useRef()
-
-  const instance = useInstanceHandle(ref)
-
-  useLayoutEffect(() => {
-    console.log(instance.current.parent)
-  }, [])
-
   return (
     <group position-y={1.5}>
       <mesh>
         <sphereGeometry args={[1, 32, 32]} />
 
-        <composable.meshStandardMaterial>
-          <primitive object={object} ref={ref} />
-        </composable.meshStandardMaterial>
+        <Composable.MeshStandardMaterial>
+          <Modules.Color color="#ff0000" />
+        </Composable.MeshStandardMaterial>
       </mesh>
     </group>
   )

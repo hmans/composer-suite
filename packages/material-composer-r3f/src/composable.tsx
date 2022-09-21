@@ -1,4 +1,4 @@
-import { patched } from "@material-composer/patched"
+import { Patched } from "@material-composer/patched"
 import { compileModules } from "material-composer"
 import React, {
   forwardRef,
@@ -19,7 +19,7 @@ import {
 const hasKey = <T extends object>(obj: T, k: keyof any): k is keyof T =>
   k in obj
 
-type Patched = typeof patched
+type Patched = typeof Patched
 
 export type Composable = {
   [K in keyof Patched]: Patched[K] extends FunctionComponent<infer P>
@@ -27,7 +27,7 @@ export type Composable = {
     : never
 }
 
-export const composable = new Proxy<Composable>(patched, {
+export const Composable = new Proxy<Composable>(Patched, {
   get: (target, key) => {
     if (!hasKey(target, key)) return
 
@@ -63,12 +63,12 @@ export const composable = new Proxy<Composable>(patched, {
             </Component>
 
             {autoShadow && (
-              <composable.meshDepthMaterial
+              <Composable.meshDepthMaterial
                 attach="customDepthMaterial"
                 depthPacking={RGBADepthPacking}
               >
                 {children}
-              </composable.meshDepthMaterial>
+              </Composable.meshDepthMaterial>
             )}
           </>
         )
