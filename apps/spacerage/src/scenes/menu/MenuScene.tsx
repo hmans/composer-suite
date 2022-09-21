@@ -1,26 +1,14 @@
 import { PerspectiveCamera } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
-import { useCallback } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
-import { IState, Store } from "statery"
 import { Color } from "three"
 import { Skybox } from "../../common/Skybox"
 import { store } from "../../PostProcessing"
+import { useCapture } from "../../lib/useCapture"
 import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
-
-/* WIP experimental capture hook */
-const useCapture = <S extends IState, K extends keyof S>(
-  store: Store<S>,
-  key: K
-) => {
-  return useCallback(
-    (value: S[K]) => store.set({ [key]: value } as S),
-    [store, key]
-  )
-}
 
 export const MenuScene = () => {
   return (
