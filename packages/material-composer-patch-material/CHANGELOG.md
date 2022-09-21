@@ -1,5 +1,11 @@
 # @material-composer/patch-material
 
+## 0.1.3
+
+### Patch Changes
+
+- ac6a9e6: When patching a material, it is now marked as dirty (`material.needsUpdate = true`) to make sure it gets recompiled.
+
 ## 0.1.2
 
 ### Patch Changes
