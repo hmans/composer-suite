@@ -64,7 +64,7 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       camera-composer: workspace:^0.0.1
       fp-ts: ^2.12.3
-      input-composer: workspace:^0.0.1
+      input-composer: workspace:^0.0.2
       material-composer: workspace:^0.2.2
       material-composer-r3f: workspace:^0.2.4
       randomish: ^0.1.4
