@@ -1,25 +1,30 @@
 import { PerspectiveCamera } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
+import { flow } from "fp-ts/lib/function"
+import { createPressInteraction, useInput } from "input-composer"
 import { composable, modules } from "material-composer-r3f"
+import { useCallback } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
 import { store } from "../../common/PostProcessing"
 import { Skybox } from "../../common/Skybox"
 import { useCapture } from "../../lib/useCapture"
+import { startGame } from "../../state"
 import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
-import { useInput } from "input-composer"
-import { useFrame } from "@react-three/fiber"
-import { startGame } from "../../state"
 
 export const MenuScene = () => {
   const input = useInput()
 
+  const processInput = useCallback(
+    flow(() => input.keyboard.key("Space"), createPressInteraction(startGame)),
+    [input]
+  )
+
   useFrame(() => {
-    if (input.keyboard.key("Space")) {
-      startGame()
-    }
+    processInput()
   })
 
   return (
