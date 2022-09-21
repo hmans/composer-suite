@@ -19,7 +19,13 @@ export const Player = () => {
   })
 
   return (
-    <RigidBody ref={body} linearDamping={2} angularDamping={0.5}>
+    <RigidBody
+      ref={body}
+      linearDamping={2}
+      angularDamping={0.5}
+      enabledRotations={[false, false, true]}
+      enabledTranslations={[true, true, false]}
+    >
       <primitive object={gltf.scene} scale={0.1} />
     </RigidBody>
   )
