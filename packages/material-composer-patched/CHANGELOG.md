@@ -1,5 +1,12 @@
 # @material-composer/patched
 
+## 0.1.2
+
+### Patch Changes
+
+- 473407f: `Patched.*` now exposes both lower and upper case versions of the materials, so `Patched.meshStandardMaterial` will work just as well as `Patched.MeshStandardMaterial`. Note: the lower-case version should be considered deprecated, and will likely be removed in a future update.
+- 473407f: `patched` is now also exported as `Patched`, improving certain tooling integration (like VS Code recognizing the keyboard as something it should import from this package.)
+
 ## 0.1.1
 
 ### Patch Changes
