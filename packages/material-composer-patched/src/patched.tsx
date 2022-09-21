@@ -14,9 +14,8 @@ export type ShaderProps = {
   uniforms?: Record<string, THREE.IUniform<any>>
 }
 
-export type PatchedMaterialProps<
-  C extends Constructor<THREE.Material>
-> = MaterialNode<InstanceType<C>, C> & ShaderProps
+export type PatchedMaterialProps<C extends Constructor<THREE.Material>> =
+  MaterialNode<InstanceType<C>, C> & ShaderProps
 
 export const makePatchedMaterialComponent = <
   C extends Constructor<M>,
@@ -27,11 +26,10 @@ export const makePatchedMaterialComponent = <
   forwardRef<M, PatchedMaterialProps<C>>(
     ({ args = [], vertexShader, fragmentShader, uniforms, ...props }, ref) => {
       /* Create a new material instance any time the shader-related props change. */
-      const material = useManagedPrimitive(() => new ctor(...(args as any)), [
-        vertexShader,
-        fragmentShader,
-        uniforms
-      ])
+      const material = useManagedPrimitive(
+        () => new ctor(...(args as any)),
+        [vertexShader, fragmentShader, uniforms]
+      )
 
       /* Patch newly created materials */
       useLayoutEffect(() => {
@@ -47,7 +45,7 @@ export const makePatchedMaterialComponent = <
   )
 
 /* Here's our fake proxy. We'll eventually replace it with a real proxy! */
-export const patched = {
+export const Patched = {
   lineBasicMaterial: makePatchedMaterialComponent(THREE.LineBasicMaterial),
   lineDashedMaterial: makePatchedMaterialComponent(THREE.LineDashedMaterial),
   meshBasicMaterial: makePatchedMaterialComponent(THREE.MeshBasicMaterial),
