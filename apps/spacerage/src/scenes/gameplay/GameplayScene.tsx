@@ -6,7 +6,7 @@ import { FollowCamera } from "./FollowCamera"
 export const GameplayScene = () => {
   return (
     <group>
-      <Physics gravity={[0, 0, 0]}>
+      <Physics gravity={[0, 0, 0]} timeStep={1 / 100}>
         <Skybox />
         <FollowCamera />
 
