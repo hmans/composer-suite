@@ -368,6 +368,7 @@ importers:
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.31.1
       '@react-three/fiber': ^8.7.4
+      '@react-three/rapier': ^0.6.7
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
@@ -390,6 +391,7 @@ importers:
       state-composer: ^0.1.0
       statery: ^0.6.2
       three: ^0.144.0
+      three-stdlib: ^2.15.0
       timeline-composer: ^0.1.7
       typescript: ^4.8.3
       vfx-composer: ^0.2.4
@@ -399,6 +401,7 @@ importers:
       '@hmans/things': 0.0.6_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/drei': 9.31.1_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
+      '@react-three/rapier': 0.6.8_pr6m65fne7nfyuq2u4pxs22ary
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
@@ -417,6 +420,7 @@ importers:
       state-composer: link:../../packages/state-composer
       statery: 0.6.2_react@18.2.0
       three: 0.144.0
+      three-stdlib: 2.15.0_three@0.144.0
       timeline-composer: link:../../packages/timeline-composer
       vfx-composer: link:../../packages/vfx-composer
       vfx-composer-r3f: link:../../packages/vfx-composer-r3f
@@ -3885,6 +3889,22 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.144.0
       zustand: 3.7.2_react@18.2.0
+    dev: false
+
+  /@react-three/rapier/0.6.8_pr6m65fne7nfyuq2u4pxs22ary:
+    resolution: {integrity: sha512-GP9GGvcD9Lii4zeXrZcb9TCuJATiCuY3C9yL77iv0QlpMeZbupXH+e3+NMMj+042yauuABcfWlYVUXxt35uPaA==}
+    peerDependencies:
+      '@react-three/fiber': ^8.0.12
+      react: ^18.0.0
+      three: ^0.139.2
+      three-stdlib: ^2.15.0
+    dependencies:
+      '@dimforge/rapier3d-compat': 0.9.0
+      '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
+      react: 18.2.0
+      three: 0.144.0
+      three-stdlib: 2.15.0_three@0.144.0
+      use-asset: 1.0.4_react@18.2.0
     dev: false
 
   /@react-three/rapier/0.6.8_twpnzck546a4mcvf3j3rupzz5e:
