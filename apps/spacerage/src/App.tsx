@@ -1,7 +1,7 @@
 import { Loader } from "@react-three/drei"
 import { Suspense } from "react"
 import * as RC from "render-composer"
-import { PostProcessing } from "./PostProcessing"
+import { PostProcessing } from "./common/PostProcessing"
 import { MenuScene } from "./scenes/menu/MenuScene"
 import { GameState } from "./state"
 
