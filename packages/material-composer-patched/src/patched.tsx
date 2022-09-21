@@ -46,6 +46,59 @@ export const makePatchedMaterialComponent = <
 
 /* Here's our fake proxy. We'll eventually replace it with a real proxy! */
 export const Patched = {
+  LineBasicMaterial: makePatchedMaterialComponent(THREE.LineBasicMaterial),
+  LineDashedMaterial: makePatchedMaterialComponent(THREE.LineDashedMaterial),
+  MeshBasicMaterial: makePatchedMaterialComponent(THREE.MeshBasicMaterial),
+  MeshDepthMaterial: makePatchedMaterialComponent(THREE.MeshDepthMaterial),
+  MeshDistanceMaterial: makePatchedMaterialComponent(
+    THREE.MeshDistanceMaterial
+  ),
+  MeshLambertMaterial: makePatchedMaterialComponent(THREE.MeshLambertMaterial),
+  MeshMatcapMaterial: makePatchedMaterialComponent(THREE.MeshMatcapMaterial),
+  MeshNormalMaterial: makePatchedMaterialComponent(THREE.MeshNormalMaterial),
+  MeshPhongMaterial: makePatchedMaterialComponent(THREE.MeshPhongMaterial),
+  MeshPhysicalMaterial: makePatchedMaterialComponent(
+    THREE.MeshPhysicalMaterial
+  ),
+  MeshStandardMaterial: makePatchedMaterialComponent(
+    THREE.MeshStandardMaterial
+  ),
+  MeshToonMaterial: makePatchedMaterialComponent(THREE.MeshToonMaterial),
+  PointsMaterial: makePatchedMaterialComponent(THREE.PointsMaterial),
+  ShadowMaterial: makePatchedMaterialComponent(THREE.ShadowMaterial),
+  SpriteMaterial: makePatchedMaterialComponent(THREE.SpriteMaterial),
+
+  /**
+   * Use `patched.Material` when you already have an instance of a material
+   * that you want to patch (eg. a material loded from a GLTF, or one that uses
+   * a custom material class.)
+   *
+   * @example
+   * ```jsx
+   * <patched.Material instance={myMaterial} {...shader} />
+   * ```
+   */
+  Material: <M extends THREE.Material>({
+    instance,
+    vertexShader,
+    fragmentShader,
+    uniforms,
+    ...props
+  }: {
+    instance: M
+  } & Node<M, any> &
+    PatchedMaterialOptions) => {
+    useLayoutEffect(() => {
+      patchMaterial(instance, { vertexShader, fragmentShader, uniforms })
+    }, [instance, vertexShader, fragmentShader, uniforms])
+
+    return <primitive object={instance} {...props} />
+  },
+
+  /*
+  LEGACY API
+  TODO: REMOVE in future version
+  */
   lineBasicMaterial: makePatchedMaterialComponent(THREE.LineBasicMaterial),
   lineDashedMaterial: makePatchedMaterialComponent(THREE.LineDashedMaterial),
   meshBasicMaterial: makePatchedMaterialComponent(THREE.MeshBasicMaterial),
