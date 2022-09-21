@@ -2,6 +2,7 @@ import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Suspense } from "react"
 import * as RC from "render-composer"
 import { PostProcessing } from "./common/PostProcessing"
+import { Stage } from "./configuration"
 import { useCapture } from "./lib/useCapture"
 import { GameplayScene } from "./scenes/gameplay/GameplayScene"
 import { MenuScene } from "./scenes/menu/MenuScene"
@@ -12,7 +13,7 @@ export const App = () => (
     <Loader />
 
     <RC.Canvas dpr={1}>
-      <RC.RenderPipeline>
+      <RC.RenderPipeline updatePriority={Stage.Render}>
         <PostProcessing />
         <Suspense>
           <PerspectiveCamera
