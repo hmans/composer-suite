@@ -588,6 +588,8 @@ importers:
       '@types/react': ^18.0.19
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
+      miniplex: ^0.10.5
+      miniplex-react: ^0.4.1
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.144.0
@@ -596,6 +598,8 @@ importers:
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
       '@hmans/use-const': 0.0.1_react@18.2.0
+      miniplex: 0.10.5
+      miniplex-react: 0.4.1_y4pxs2l4r6766kqe4grszmorfa
       use-asset: 1.0.4_react@18.2.0
     devDependencies:
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
@@ -2737,8 +2741,20 @@ packages:
       three: 0.144.0
     dev: false
 
+  /@hmans/react-toolbox/0.1.4_react@18.2.0:
+    resolution: {integrity: sha512-PmhaalZ70hSfIX7AUgWO9gVhKkWH8cbZXxGzmjgJ+46sw6cJUlnawkc/WlIxtUro+TTW61YG1i+18QD0zsvF+Q==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@hmans/signal/0.1.8:
     resolution: {integrity: sha512-jhTe89A0Fzp0aRcQdB1F9Z1gDqFNFS5kZohbk/EiQqvcVJqfJ5XG0IsSEZiyAT7RuiLXupwbAn7MxXVL+iZZIA==}
+    dev: false
+
+  /@hmans/signal/0.2.2:
+    resolution: {integrity: sha512-4KlR6FiqICOY9J8V483Atk7bfMqoGM/hdYd/6ab+HB+CJfiOBPzY6PtYz3O6bBsNkIZpimnTMSw2AqOz1WDlrA==}
     dev: false
 
   /@hmans/things/0.0.4_hutetxkntliphjz5jo5ozlmmu4:
@@ -8918,6 +8934,24 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+    dev: false
+
+  /miniplex-react/0.4.1_y4pxs2l4r6766kqe4grszmorfa:
+    resolution: {integrity: sha512-J00jvgLapKSZxiYNykGUXViAQBCPmnr2gEMeI0lJhDCliaC/G6T7vnZ4Q/guHFyb0NNUjeLe4ANRTjNHn76o+w==}
+    peerDependencies:
+      miniplex: '>=0.9.0'
+      react: '>=16.8'
+    dependencies:
+      '@hmans/react-toolbox': 0.1.4_react@18.2.0
+      miniplex: 0.10.5
+      react: 18.2.0
+      react-merge-refs: 1.1.0
+    dev: false
+
+  /miniplex/0.10.5:
+    resolution: {integrity: sha512-ldfZHviVJ9uJfp0UriVXlO+6iv4u+j5oQPltLKpAjuQK0xShssRG14JEoDJRz4CV+st7rw6krc2lvY4m3452Cg==}
+    dependencies:
+      '@hmans/signal': 0.2.2
     dev: false
 
   /mixin-deep/1.3.2:
