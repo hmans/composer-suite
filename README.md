@@ -3,8 +3,10 @@
 
 ### A suite of libraries for making game development with Three.js and React not only awesome, but "so good, it would feel wrong to use anything else." – [hmans](https://github.com/sponsors/hmans)
 
+Building games with React and Three.js is already pretty cool, but a lot of tooling you need to make those games _really nice_ is still missing. This project tries to fill some of these gaps by providing a collection of libraries for various aspects of game development, from **GPU-driven particle systems and VFX**, to **game UI**, **editor tooling**, **camera rigs**, **audio**, **multi-device input**, and more.
+
 > **Note**
-> This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but building games with React is really where it's at, which is why you will find most example code in this document to be written in React. 😎
+> While this suite of libraries targets building games with [React](https://reactjs.org/) and [React-Three-Fiber], some of them can also be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber. But building games with React is where our hearts are at, which is why you will find most example code in this document to be written in React. 😎
 
 ## Sponsors ❤️
 
@@ -50,15 +52,15 @@ const MaterialComposerExample = () => (
   <mesh position-y={1.5} castShadow>
     <sphereGeometry />
 
-    <composable.meshStandardMaterial>
-      <modules.Color color="#d62828" />
+    <Composable.MeshStandardMaterial>
+      <Modules.Color color="#d62828" />
 
       <Layer opacity={NormalizePlusMinusOne(Sin(Time()))}>
-        <modules.Color color="#003049" />
+        <Modules.Color color="#003049" />
       </Layer>
 
-      <modules.Fresnel intensity={0.2} />
-    </composable.meshStandardMaterial>
+      <Modules.Fresnel intensity={0.2} />
+    </Composable.MeshStandardMaterial>
   </mesh>
 )
 ```
