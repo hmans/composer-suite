@@ -1,10 +1,4 @@
-import {
-  Application,
-  Description,
-  Example,
-  FlatStage,
-  Heading
-} from "r3f-stage"
+import { Application, Description, Example, Heading } from "r3f-stage"
 import "r3f-stage/styles.css"
 import AsteroidExample from "./examples/Asteroid"
 import ControlledParticlesExample from "./examples/ControlledParticles"

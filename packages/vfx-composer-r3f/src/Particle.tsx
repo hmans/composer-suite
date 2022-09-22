@@ -1,4 +1,3 @@
-import { useConst } from "@hmans/use-const"
 import { Object3DProps, useFrame } from "@react-three/fiber"
 import React, {
   forwardRef,
