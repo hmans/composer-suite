@@ -88,9 +88,14 @@ export type UnitConfig<T extends GLSLType> = {
   /**
    * When set to true, this variable will automatically declare a varying,
    * calculate/source its value in the vertex program only, and pass the
-   * result to the fragment program through that varying. Default: false.
+   * result to the fragment program through that varying.
+   *
+   * Alternatively, you can set this to "flat", which will declare a
+   * flat varying (whose values will not be interpolated between vertices.)
+   *
+   * Default: false.
    */
-  varying: boolean
+  varying: boolean | "flat"
 
   /**
    * An optional uniform object. It will automatically be

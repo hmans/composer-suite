@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
-import { Layers, useRenderPipeline } from "render-composer"
+import { useRenderPipeline } from "render-composer"
 import {
   Add,
   Float,
@@ -44,7 +44,7 @@ export const Fog = ({
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX} capacity={amount}>
+      <Particles capacity={amount}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}

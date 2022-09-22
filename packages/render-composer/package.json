@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Declarative graph-based render pipelines.",
-  "version": "0.1.6",
+  "version": "0.2.2",
   "main": "dist/render-composer.cjs.js",
   "module": "dist/render-composer.esm.js",
   "files": [
@@ -21,7 +21,7 @@
     "postprocessing": "^6.28.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.143.0"
+    "three": "^0.144.0"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.5.0",
@@ -29,5 +29,14 @@
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "three": ">=0.143.0"
+  },
+  "dependencies": {
+    "@hmans/use-const": "^0.0.1",
+    "@hmans/use-mutable-list": "workspace:^0.0.2",
+    "@hmans/use-nullable-state": "workspace:^0.0.1",
+    "fp-ts": "^2.12.3",
+    "shader-composer": "workspace:^0.4.4",
+    "shader-composer-postprocessing": "workspace:^0.0.1",
+    "test": "^3.2.1"
   }
 }

@@ -8,7 +8,7 @@ export const SoftParticlesExample = () => {
 
   return (
     <FlatStage>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles layers-mask={1 << Layers.TransparentFX}>
         <planeGeometry args={[5, 5]} />
 
         <composable.meshStandardMaterial

@@ -1,5 +1,54 @@
 # render-composer
 
+## 0.2.2
+
+### Patch Changes
+
+- 5fc5a41: Added `NoiseEffect`.
+- 066b805: Added new `LensDirt` effect.
+- Updated dependencies [066b805]
+  - shader-composer@0.4.4
+
+## 0.2.1
+
+### Patch Changes
+
+- 679d934: The first render pass did not have its clear flag set. This has been fixed.
+
+## 0.2.0
+
+### Minor Changes
+
+- 2a56a89: **Render Composer was completely rewritten from scratch**. It now comes with its own JSX configuration layer for the `postprocessing` library, with `<RenderPipeline>` using that to construct its render passes. Because it's now much easier to declaratively add post-processing effects, `<RenderPipeline>` no longer sets them up by default. Instead, you can now add them as you see fit:
+
+  ```tsx
+  import * as RC from "render-composer"
+
+  function App() {
+    return (
+      <RC.Canvas>
+        <RC.RenderPipeline>
+          <RC.EffectPass>
+            <RC.SMAAEffect />
+            <RC.SelectiveBloomEffect intensity={5} />
+            <RC.VignetteEffect />
+          </RC.EffectPass>
+
+          {/* ...normal R3F stuff here. */}
+        </RC.RenderPipeline>
+      </RC.Canvas>
+    )
+  }
+  ```
+
+- 2a56a89: The `<RenderCanvas>` component now has been renamed to just `<Canvas>`.
+- 2a56a89: The buffer containing the first render pass' color information is now returned by `useRenderPipeline` as `color`, not `scene`.
+
+### Patch Changes
+
+- Updated dependencies [2a56a89]
+  - @hmans/use-mutable-list@0.0.2
+
 ## 0.1.6
 
 ### Patch Changes

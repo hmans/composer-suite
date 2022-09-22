@@ -1,6 +1,6 @@
 import { useConst } from "@hmans/use-const"
 import { useTexture } from "@react-three/drei"
-import { composable, modules } from "material-composer-r3f"
+import { Composable, Modules } from "material-composer-r3f"
 import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { Mul, Rotation3DZ, Time } from "shader-composer"
@@ -28,20 +28,21 @@ export const Fog = () => {
 
   return (
     <group>
-      <Particles layers-mask={Layers.TransparentFX}>
+      <Particles layers-mask={1 << Layers.TransparentFX}>
         <planeGeometry />
-        <composable.meshStandardMaterial
+
+        <Composable.MeshStandardMaterial
           map={texture}
           opacity={0.1}
           transparent
           depthWrite={false}
         >
-          <modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
-          <modules.Scale scale={scale} />
-          <modules.Velocity direction={velocity} time={time} />
-          <modules.Billboard />
-          <modules.Softness softness={5} depthTexture={depth} />
-        </composable.meshStandardMaterial>
+          <Modules.Rotate rotation={Rotation3DZ(Mul(time, rotation))} />
+          <Modules.Scale scale={scale} />
+          <Modules.Velocity direction={velocity} time={time} />
+          <Modules.Billboard />
+          <Modules.Softness softness={5} depthTexture={depth} />
+        </Composable.MeshStandardMaterial>
 
         <Emitter
           limit={50}

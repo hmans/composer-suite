@@ -3,14 +3,16 @@
 
 ### A suite of libraries for making game development with Three.js and React not only awesome, but "so good, it would feel wrong to use anything else." – [hmans](https://github.com/sponsors/hmans)
 
+Building games with React and Three.js is already pretty cool, but a lot of tooling you need to make those games _really nice_ is still missing. This project tries to fill some of these gaps by providing a collection of libraries for various aspects of game development, from **GPU-driven particle systems and VFX**, to **game UI**, **editor tooling**, **camera rigs**, **audio**, **multi-device input**, and more.
+
 > **Note**
-> This suite of libraries is primarily targeted at building games with [React](https://reactjs.org/) and [React-Three-Fiber]. Some of these libraries can be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber, but building games with React is really where it's at, which is why you will find most example code in this document to be written in React. 😎
+> While this suite of libraries targets building games with [React](https://reactjs.org/) and [React-Three-Fiber], some of them can also be used outside of React, just like some others are not specific to Three.js or React-Three-Fiber. But building games with React is where our hearts are at, which is why you will find most example code in this document to be written in React. 😎
 
 ## Sponsors ❤️
 
 This project wouldn't be possible without the support from its lovely [sponsors](https://github.com/sponsors/hmans). If you'd like to sponsor this project and help **make game development with React & Three.js incredible**, [click here](https://github.com/sponsors/hmans)!
 
-<!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><a href="https://github.com/djradon"><img src="https://github.com/djradon.png" width="60px" alt="Dave Richardson" /></a><a href="https://github.com/souporserious"><img src="https://github.com/souporserious.png" width="60px" alt="Travis Arnold" /></a><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><a href="https://github.com/djradon"><img src="https://github.com/djradon.png" width="60px" alt="Dave Richardson" /></a><a href="https://github.com/souporserious"><img src="https://github.com/souporserious.png" width="60px" alt="Travis Arnold" /></a><a href="https://github.com/MSNexploder"><img src="https://github.com/MSNexploder.png" width="60px" alt="Stefan Stüben" /></a><a href="https://github.com/jorgenbuilder"><img src="https://github.com/jorgenbuilder.png" width="60px" alt="Jorgen Hookham" /></a><a href="https://github.com/perplex-gg"><img src="https://github.com/perplex-gg.png" width="60px" alt="perplex.gg" /></a><a href="https://github.com/darrinm"><img src="https://github.com/darrinm.png" width="60px" alt="Darrin Massena" /></a><a href="https://github.com/DennisSmolek"><img src="https://github.com/DennisSmolek.png" width="60px" alt="Dennis Smolek" /></a><a href="https://github.com/gsimone"><img src="https://github.com/gsimone.png" width="60px" alt="Gianmarco" /></a><!-- sponsors -->
 
 ## Packages 📦
 
@@ -50,15 +52,15 @@ const MaterialComposerExample = () => (
   <mesh position-y={1.5} castShadow>
     <sphereGeometry />
 
-    <composable.meshStandardMaterial>
-      <modules.Color color="#d62828" />
+    <Composable.MeshStandardMaterial>
+      <Modules.Color color="#d62828" />
 
       <Layer opacity={NormalizePlusMinusOne(Sin(Time()))}>
-        <modules.Color color="#003049" />
+        <Modules.Color color="#003049" />
       </Layer>
 
-      <modules.Fresnel intensity={0.2} />
-    </composable.meshStandardMaterial>
+      <Modules.Fresnel intensity={0.2} />
+    </Composable.MeshStandardMaterial>
   </mesh>
 )
 ```
@@ -90,7 +92,7 @@ _TODO_
 </Lifetime>
 ```
 
-### Render Composer
+### [Render Composer](https://github.com/hmans/composer-suite/tree/main/packages/render-composer)
 
 ![react] ![three]
 
@@ -142,6 +144,8 @@ All of the libraries in the Composer Suite are aiming for the following:
   The libraries should provide a fun and flawless development experience with the best support for hot-module reloading possible. The user should be able to hot-reload their code and see the changes immediately in the browser. Where possible, state should be retained; there must never be errors when hot-reloading.
 - **Prefer Declarative over Imperative**.  
   Where possible, allow the user to declare logic and data using JSX, instead of forcing them out of the declarative JSX layer and towards hooks (or even further into the imperative world.)
+- **Usable Individually, and Together**.  
+  Where possible, libraries should be designed so they can be used individually, but also together.
 
 ## License 👩‍⚖️
 

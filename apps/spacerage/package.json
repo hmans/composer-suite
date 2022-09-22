@@ -1,0 +1,53 @@
+{
+  "name": "spacerage",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": false,
+    "arrowParens": "always"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hmans/things": "^0.0.6",
+    "@react-three/drei": "^9.31.1",
+    "@react-three/fiber": "^8.7.4",
+    "camera-composer": "^0.0.1",
+    "fp-ts": "^2.12.3",
+    "input-composer": "^0.0.1",
+    "material-composer": "^0.2.2",
+    "material-composer-r3f": "^0.2.4",
+    "motion": "^10.14.2",
+    "popmotion": "^11.0.5",
+    "postprocessing": "^6.28.7",
+    "randomish": "^0.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "render-composer": "^0.2.2",
+    "shader-composer": "^0.4.4",
+    "shader-composer-r3f": "^0.4.0",
+    "shader-composer-toybox": "^0.1.3",
+    "state-composer": "^0.1.0",
+    "statery": "^0.6.2",
+    "three": "^0.144.0",
+    "timeline-composer": "^0.1.7",
+    "vfx-composer": "^0.2.4",
+    "vfx-composer-r3f": "^0.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
+    "@types/three": "^0.144.0",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.3"
+  }
+}

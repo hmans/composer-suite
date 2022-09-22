@@ -1,5 +1,30 @@
 # shader-composer
 
+## 0.4.4
+
+### Patch Changes
+
+- 066b805: Added new `Luminance` unit, wrapping Three's `luminance` function.
+
+## 0.4.3
+
+### Patch Changes
+
+- 455c06c: `Fresnel` was returning wrong results for scaled geometries. This has now been fixed.
+
+## 0.4.2
+
+### Patch Changes
+
+- 7a3ba7b: **Fix:** In the last update, the value of `InstanceID` was accidentally always set to `0`. This has been fixed, and I have reported to Open Source HR to fire myself.
+
+## 0.4.1
+
+### Patch Changes
+
+- f669675: The `InstanceID` unit is now available in the fragment shader through a flat varying.
+- f669675: **New feature:** Units that use varyings can now be configured to use _flat_ varyings by setting their `varying` configuration option to `"flat"`.
+
 ## 0.4.0
 
 ### Minor Changes

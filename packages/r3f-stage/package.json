@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "A simple stage for r3f examples and sandboxes.",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "main": "dist/r3f-stage.cjs.js",
   "module": "dist/r3f-stage.esm.js",
   "files": [
@@ -21,14 +21,14 @@
     "@react-three/fiber": "^8.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.143.0"
+    "three": "^0.144.0"
   },
   "dependencies": {
     "@react-three/drei": "^9.29.1",
     "leva": "^0.9.31",
     "postprocessing": "^6.28.7",
     "r3f-perf": "^6.4.4",
-    "render-composer": "^0.1.5",
+    "render-composer": "^0.2.0",
     "three-stdlib": "^2.15.0",
     "ui-composer": "workspace:^0.0.1",
     "wouter": "^2.8.0-alpha.2",

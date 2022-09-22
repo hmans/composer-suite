@@ -42,15 +42,25 @@ const vanillaCode = (
 
   /* Create a shader graph from a list of modules */
   const graph = compileModules([
-    Layer({
-      modules: [PlasmaModule({ offset: Mul(time, -0.2) })]
-    }),
+    /* Let's start with a plasma effect. */
+    PlasmaModule({ offset: Mul(time, -0.2) }),
 
+    /* Now we're going to layer in a lava effect. The `Layer` module allows
+    us to control the blending. */
     Layer({
+      /* We can use shader subgraphs with most props. */
       opacity: NormalizePlusMinusOne(Sin(time)),
+
+      /* A layer wraps a sequence of modules, so let's combine a few
+      of them into a single layerable effect: */
       modules: [
-        modules.SurfaceWobble({ offset: Mul(time, 0.4), amplitude: 0.3 }),
+        /* Let's start with a lava effect texture: */
         LavaModule({}),
+
+        /* Now we'll add a little bit of surface wobble: */
+        modules.SurfaceWobble({ offset: Mul(time, 0.4), amplitude: 0.3 }),
+
+        /* Make sure alpha is always 1 (to override the plasma effect's alpha) */
         modules.Alpha({ alpha: 1 })
       ]
     })

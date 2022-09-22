@@ -1,5 +1,14 @@
 # vfx-composer
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [f669675]
+- Updated dependencies [f669675]
+  - shader-composer@0.4.1
+  - material-composer@0.2.2
+
 ## 0.2.3
 
 ### Patch Changes
