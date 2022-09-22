@@ -49,7 +49,7 @@ export const Player = () => {
   return (
     <RigidBody ref={rb}>
       <group ref={useCapture(gameplayStore, "player")}>
-        <primitive object={gltf.scene} scale={0.1} />
+        <primitive object={gltf.scene} scale={0.3} />
       </group>
     </RigidBody>
   )

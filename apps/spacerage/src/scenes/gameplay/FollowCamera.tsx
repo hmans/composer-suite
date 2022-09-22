@@ -6,7 +6,7 @@ import { Stage } from "../../configuration"
 import { store } from "../../state"
 import { gameplayStore } from "./state"
 
-const offset = new Vector3(0, 0, 10)
+const offset = new Vector3(0, 0, 40)
 const playerPos = new Vector3()
 const tmpVec3 = new Vector3()
 
