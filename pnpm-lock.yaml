@@ -378,6 +378,8 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
+      miniplex: ^0.10.5
+      miniplex-react: ^0.4.1
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -407,6 +409,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
+      miniplex: 0.10.5
+      miniplex-react: 0.4.1_y4pxs2l4r6766kqe4grszmorfa
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
