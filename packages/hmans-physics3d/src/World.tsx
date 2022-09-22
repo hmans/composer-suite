@@ -1,7 +1,7 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { useConst } from "@hmans/use-const"
 import { useFrame } from "@react-three/fiber"
-import React, { ReactNode } from "react"
+import React, { ReactNode, useContext } from "react"
 import { useAsset } from "use-asset"
 import { importRapier } from "./util/importRapier"
 
@@ -10,6 +10,8 @@ export type WorldProps = {
   updatePriority?: number
   gravity?: [number, number, number]
 }
+
+const WorldContext = React.createContext<{ world: RAPIER.World }>(null!)
 
 export const World = ({
   children,
@@ -20,7 +22,13 @@ export const World = ({
 
   const world = useConst(() => new RAPIER.World(new RAPIER.Vector3(...gravity)))
 
-  useFrame(() => {}, updatePriority)
+  useFrame(() => {
+    world.step()
+  }, updatePriority)
 
-  return <>{children}</>
+  return (
+    <WorldContext.Provider value={{ world }}>{children}</WorldContext.Provider>
+  )
 }
+
+export const usePhysicsWorld = () => useContext(WorldContext)

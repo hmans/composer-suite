@@ -1,3 +1,4 @@
+import { RigidBody } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { Vector3 } from "three"
 import { useCapture } from "../../lib/useCapture"
@@ -39,8 +40,10 @@ export const Player = () => {
   // }, Stage.Early)
 
   return (
-    <group ref={useCapture(gameplayStore, "player")}>
-      <primitive object={gltf.scene} scale={0.1} />
-    </group>
+    <RigidBody>
+      <group ref={useCapture(gameplayStore, "player")}>
+        <primitive object={gltf.scene} scale={0.1} />
+      </group>
+    </RigidBody>
   )
 }
