@@ -55,6 +55,11 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
       body.setRotation(quaternion, true)
 
       /* TODO: set these relative to the physics world object! */
+
+      /* On unmount, remove the body from the world again. */
+      return () => {
+        world.removeRigidBody(body)
+      }
     }, [body])
 
     /* Register ECS entity */
