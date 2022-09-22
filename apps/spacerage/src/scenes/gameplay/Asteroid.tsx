@@ -13,10 +13,6 @@ export const Asteroid = forwardRef<RigidBodyEntity, RigidBodyProps>(
         enabledRotations={[true, true, true]}
         {...props}
       >
-        <mesh>
-          <boxGeometry />
-          <meshBasicMaterial />
-        </mesh>
         <GLTFAsset url="/models/asteroid03.gltf" />
       </RigidBody>
     )
