@@ -1,6 +1,7 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { useConst } from "@hmans/use-const"
-import React, { ReactNode } from "react"
+import React, { ReactNode, useLayoutEffect, useRef } from "react"
+import { Group } from "three"
 import { usePhysicsWorld } from "./World"
 
 export type RigidBodyProps = {
@@ -8,7 +9,8 @@ export type RigidBodyProps = {
 }
 
 export const RigidBody = ({ children }: RigidBodyProps) => {
-  const { world } = usePhysicsWorld()
+  const sceneObject = useRef<Group>(null!)
+  const { world, ecs } = usePhysicsWorld()
 
   const body = useConst(() => {
     const desc = RAPIER.RigidBodyDesc.dynamic()
@@ -21,5 +23,10 @@ export const RigidBody = ({ children }: RigidBodyProps) => {
     return body
   })
 
-  return <>{children}</>
+  useLayoutEffect(() => {
+    const entity = ecs.createEntity({ body, sceneObject: sceneObject.current })
+    return () => ecs.destroyEntity(entity)
+  }, [body])
+
+  return <group ref={sceneObject}>{children}</group>
 }
