@@ -11,6 +11,8 @@ import { useParticlesContext } from "./Particles"
 
 const hideMatrix = new Matrix4().makeScale(0, 0, 0)
 
+const tmpMatrix = new Matrix4()
+
 /**
  * Use `<Particle>` to emit a single particle that remains CPU-controlled, meaning
  * that it will continuously update its instance matrix to match its transform
@@ -34,11 +36,17 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
     return () => {
       particles.setMatrixAt(id, hideMatrix)
     }
-  }, [])
+  }, [particles])
 
   /* Every frame, update the particle's matrix, and queue a re-upload */
   useFrame(() => {
-    particles.setMatrixAt(id, sceneObject.current.matrixWorld)
+    particles.setMatrixAt(
+      id,
+      tmpMatrix
+        .copy(sceneObject.current.matrixWorld)
+        .premultiply(particles.matrix.invert())
+    )
+
     particles.instanceMatrix.needsUpdate = true
   })
 
