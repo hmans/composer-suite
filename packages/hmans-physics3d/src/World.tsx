@@ -2,7 +2,7 @@ import * as RAPIER from "@dimforge/rapier3d-compat"
 import { useConst } from "@hmans/use-const"
 import { useFrame } from "@react-three/fiber"
 import * as Miniplex from "miniplex"
-import React, { ReactNode, useContext } from "react"
+import React, { ReactNode, useContext, useRef } from "react"
 import * as THREE from "three"
 import { useAsset } from "use-asset"
 import { importRapier } from "./util/importRapier"
@@ -34,9 +34,16 @@ export const World = ({
 
   const world = useConst(() => new RAPIER.World(new RAPIER.Vector3(...gravity)))
 
-  useFrame(() => {
+  const acc = useRef(0)
+
+  useFrame((_, dt) => {
     /* Step the world */
-    world.step()
+    acc.current += dt
+    world.timestep = dt
+    while (acc.current >= world.timestep) {
+      world.step()
+      acc.current -= world.timestep
+    }
 
     /* Update entities */
     for (const entity of ecs.entities) {
