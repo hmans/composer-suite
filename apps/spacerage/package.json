@@ -17,6 +17,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hmans/physics3d": "workspace:^0.1.2",
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.31.1",
     "@react-three/fiber": "^8.7.4",

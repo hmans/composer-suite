@@ -365,6 +365,7 @@ importers:
 
   apps/spacerage:
     specifiers:
+      '@hmans/physics3d': workspace:^0.1.2
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.31.1
       '@react-three/fiber': ^8.7.4
@@ -397,6 +398,7 @@ importers:
       vfx-composer-r3f: ^0.2.4
       vite: ^3.1.3
     dependencies:
+      '@hmans/physics3d': link:../../packages/hmans-physics3d
       '@hmans/things': 0.0.6_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/drei': 9.31.1_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
@@ -577,6 +579,33 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.144.0
+
+  packages/hmans-physics3d:
+    specifiers:
+      '@dimforge/rapier3d-compat': ^0.9.0
+      '@hmans/use-const': ^0.0.1
+      '@react-three/fiber': ^8.7.0
+      '@types/react': ^18.0.19
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.144.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      three: ^0.144.0
+      typescript: ^4.8.3
+      use-asset: ^1.0.4
+    dependencies:
+      '@dimforge/rapier3d-compat': 0.9.0
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      use-asset: 1.0.4_react@18.2.0
+    devDependencies:
+      '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
+      '@types/react': 18.0.20
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.144.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.144.0
+      typescript: 4.8.3
 
   packages/hmans-use-mutable-list:
     specifiers:
@@ -3887,7 +3916,6 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.144.0
       zustand: 3.7.2_react@18.2.0
-    dev: false
 
   /@react-three/rapier/0.6.8_twpnzck546a4mcvf3j3rupzz5e:
     resolution: {integrity: sha512-GP9GGvcD9Lii4zeXrZcb9TCuJATiCuY3C9yL77iv0QlpMeZbupXH+e3+NMMj+042yauuABcfWlYVUXxt35uPaA==}
@@ -4266,7 +4294,7 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.19
+      '@types/react': 18.0.20
 
   /@types/react-reconciler/0.26.7:
     resolution: {integrity: sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==}

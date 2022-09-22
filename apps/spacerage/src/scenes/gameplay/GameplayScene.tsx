@@ -1,5 +1,5 @@
 import { Skybox } from "../../common/Skybox"
-import * as Physics from "../../lib/dirty-physics"
+import * as Physics from "@hmans/physics3d"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 
