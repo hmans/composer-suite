@@ -6,8 +6,10 @@ import React, {
   useLayoutEffect,
   useRef
 } from "react"
-import { Matrix4, Object3D, Quaternion, Vector3 } from "three"
+import { Matrix4, Object3D } from "three"
 import { useParticlesContext } from "./Particles"
+
+const hideMatrix = new Matrix4().makeScale(0, 0, 0)
 
 export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   const sceneObject = useRef<Object3D>(null!)
@@ -22,14 +24,7 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   /* Hide the particle again on unmount */
   useLayoutEffect(() => {
     return () => {
-      particles.setMatrixAt(
-        id,
-        new Matrix4().compose(
-          new Vector3(),
-          new Quaternion(),
-          new Vector3(0, 0, 0)
-        )
-      )
+      particles.setMatrixAt(id, hideMatrix)
     }
   }, [])
 
