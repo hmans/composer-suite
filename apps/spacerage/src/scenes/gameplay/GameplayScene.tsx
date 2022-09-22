@@ -1,17 +1,12 @@
 import { Skybox } from "../../common/Skybox"
-import { Player } from "./Player"
-import { Physics } from "@react-three/rapier"
+import * as Physics from "../../lib/dirty-physics"
 import { FollowCamera } from "./FollowCamera"
-import { Stage } from "../../configuration"
+import { Player } from "./Player"
 
 export const GameplayScene = () => {
   return (
     <group>
-      <Physics
-        gravity={[0, 0, 0]}
-        timeStep={1 / 100}
-        updatePriority={Stage.Physics}
-      >
+      <Physics.World>
         <Skybox />
         <FollowCamera />
 
@@ -19,7 +14,7 @@ export const GameplayScene = () => {
         <directionalLight position={[30, 0, 30]} intensity={1} />
 
         <Player />
-      </Physics>
+      </Physics.World>
     </group>
   )
 }
