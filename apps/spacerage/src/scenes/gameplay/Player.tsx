@@ -55,7 +55,7 @@ export const Player = () => {
       enabledRotations={[false, false, true]}
     >
       <group ref={useCapture(gameplayStore, "player")}>
-        <Collider />
+        <Collider shape="cuboid" args={[1, 1, 1]} />
         <primitive object={gltf.scene} scale={0.3} />
       </group>
     </RigidBody>
