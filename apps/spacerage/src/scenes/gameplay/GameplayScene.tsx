@@ -1,6 +1,7 @@
 import * as Physics from "@hmans/physics3d"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
+import { Asteroid } from "./Asteroid"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 
@@ -15,6 +16,7 @@ export const GameplayScene = () => {
         <directionalLight position={[30, 0, 30]} intensity={1} />
 
         <Player />
+        <Asteroid />
       </Physics.World>
     </group>
   )
