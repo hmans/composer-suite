@@ -16,7 +16,7 @@ export type ColliderProps<S extends ColliderShape> = {
   shape: S
 } & ArgsProp<ColliderDesc[S]>
 
-const ColliderInner = <S extends keyof ColliderDesc>(
+const ColliderWithRef = <S extends keyof ColliderDesc>(
   { shape, args, ...props }: ColliderProps<S>,
   ref: ForwardedRef<Group>
 ) => {
@@ -42,4 +42,4 @@ const ColliderInner = <S extends keyof ColliderDesc>(
   return <group {...props} ref={ref} />
 }
 
-export const Collider = forwardRef(ColliderInner)
+export const Collider = forwardRef(ColliderWithRef)
