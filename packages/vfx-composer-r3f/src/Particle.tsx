@@ -24,24 +24,25 @@ const tmpMatrix = new Matrix4()
 export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   const sceneObject = useRef<Object3D>(null!)
   const particles = useParticlesContext()
-
-  const id = useConst(() => {
-    const cursor = particles.cursor
-    particles.emit(1)
-    return cursor
-  })
+  const id = useRef<number>()
 
   /* Hide the particle again on unmount */
   useLayoutEffect(() => {
+    const cursor = particles.cursor
+    id.current = cursor
+    particles.emit(1)
+
     return () => {
-      particles.setMatrixAt(id, hideMatrix)
+      particles.setMatrixAt(cursor, hideMatrix)
     }
   }, [particles])
 
   /* Every frame, update the particle's matrix, and queue a re-upload */
   useFrame(() => {
+    if (id.current === undefined) return
+
     particles.setMatrixAt(
-      id,
+      id.current,
       tmpMatrix
         .copy(sceneObject.current.matrixWorld)
         .premultiply(particles.matrixWorld.invert())
