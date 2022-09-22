@@ -60,10 +60,12 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
     useLayoutEffect(() => {
       if (enabledTranslations !== undefined)
         body.setEnabledTranslations(...enabledTranslations, true)
+    }, [body, enabledTranslations])
 
+    useLayoutEffect(() => {
       if (enabledRotations !== undefined)
         body.setEnabledRotations(...enabledRotations, true)
-    }, [body, enabledRotations, enabledTranslations])
+    }, [body, enabledRotations])
 
     /* Forward entity as ref */
     useImperativeHandle(ref, () => entity.current!)
