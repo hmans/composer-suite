@@ -1,5 +1,5 @@
-import { useRerender } from "@hmans/use-rerender"
-import { extend, InstancedMeshProps } from "@react-three/fiber"
+import { useConst } from "@hmans/use-const"
+import { InstancedMeshProps } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
@@ -7,8 +7,7 @@ import React, {
   Ref,
   useContext,
   useImperativeHandle,
-  useLayoutEffect,
-  useRef
+  useLayoutEffect
 } from "react"
 import { Material } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
@@ -25,17 +24,7 @@ export type ParticlesProps = Omit<
   safetyCapacity?: number
 }
 
-extend({ VfxComposerParticles: ParticlesImpl })
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      vfxComposerParticles: ParticlesProps
-    }
-  }
-}
-
-const Context = createContext<ParticlesImpl | null>(null)
+const Context = createContext<ParticlesImpl>(null!)
 
 export const useParticlesContext = () => useContext(Context)
 
@@ -44,8 +33,9 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     { children, capacity, safetyCapacity, geometry, material, ...props },
     ref
   ) => {
-    const rerender = useRerender()
-    const particles = useRef<ParticlesImpl>(null!)
+    const particles = useConst(
+      () => new ParticlesImpl(geometry, material, capacity, safetyCapacity)
+    )
 
     /*
     We need to be able to react to the particle mesh's material changing. Currently,
@@ -55,36 +45,26 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     */
 
     useFrameEffect(
-      () => particles.current.material as Material,
+      () => particles.material as Material,
       (material) => {
         if (!material) return
         const root = getShaderRootForMaterial(material)
-        if (root) particles.current.setupParticles(root)
+        if (root) particles.setupParticles(root)
       },
       -100
     )
 
-    /*
-    We need to re-render this beautiful component once, because it's highly
-    likely that the material driving the particle effect is only declared
-    within its children.
-    */
+    /* Dispose of the particles instance on unmount */
     useLayoutEffect(() => {
-      rerender()
+      return () => particles.dispose()
     }, [particles])
 
-    useImperativeHandle(ref, () => particles.current)
+    useImperativeHandle(ref, () => particles)
 
     return (
-      <vfxComposerParticles
-        args={[geometry, material, capacity, safetyCapacity]}
-        ref={particles}
-        {...props}
-      >
-        <Context.Provider value={particles.current}>
-          {children}
-        </Context.Provider>
-      </vfxComposerParticles>
+      <primitive object={particles} {...props}>
+        <Context.Provider value={particles}>{children}</Context.Provider>
+      </primitive>
     )
   }
 )
