@@ -25,7 +25,11 @@ const ColliderInner = <S extends keyof ColliderDesc>(
 
   /* add and remove collider */
   useLayoutEffect(() => {
-    console.log(shape)
+    if (!shape) {
+      console.error("No shape specified!")
+      return
+    }
+
     const ctor = RAPIER.ColliderDesc[shape] as any
     const desc = ctor(...args)
     const collider = world.createCollider(desc, body)

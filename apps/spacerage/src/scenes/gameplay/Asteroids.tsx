@@ -27,7 +27,7 @@ export const Asteroids = () => {
             >
               <ECS.Component name="sceneObject">
                 <group>
-                  <Collider shape={"ball"} args={[1]} />
+                  <Collider shape="ball" args={[1]} />
                   <Particle />
                 </group>
               </ECS.Component>
