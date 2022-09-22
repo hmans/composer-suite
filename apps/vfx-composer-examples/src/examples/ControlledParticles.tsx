@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Group } from "three"
-import { Emitter, Particle, Particles } from "vfx-composer-r3f"
+import { Particle, Particles } from "vfx-composer-r3f"
 
 export default function ControlledParticlesExample() {
   const group = useRef<Group>(null!)
