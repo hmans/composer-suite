@@ -75,15 +75,19 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     useImperativeHandle(ref, () => particles.current)
 
+    /* TODO: clean up this mess with the particles.current, argh */
+
     return (
       <vfxComposerParticles
         args={[geometry, material, capacity, safetyCapacity]}
         ref={particles}
         {...props}
       >
-        <Context.Provider value={particles.current}>
-          {children}
-        </Context.Provider>
+        {particles.current && (
+          <Context.Provider value={particles.current}>
+            {children}
+          </Context.Provider>
+        )}
       </vfxComposerParticles>
     )
   }
