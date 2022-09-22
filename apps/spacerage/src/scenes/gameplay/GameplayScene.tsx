@@ -1,12 +1,13 @@
-import { Skybox } from "../../common/Skybox"
 import * as Physics from "@hmans/physics3d"
+import { Skybox } from "../../common/Skybox"
+import { Stage } from "../../configuration"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 
 export const GameplayScene = () => {
   return (
     <group>
-      <Physics.World>
+      <Physics.World updatePriority={Stage.Physics}>
         <Skybox />
         <FollowCamera />
 
