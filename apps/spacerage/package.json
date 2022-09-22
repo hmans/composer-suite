@@ -32,7 +32,7 @@
     "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render-composer": "^0.2.2",
+    "render-composer": "^0.2.3",
     "shader-composer": "^0.4.4",
     "shader-composer-r3f": "^0.4.0",
     "shader-composer-toybox": "^0.1.3",

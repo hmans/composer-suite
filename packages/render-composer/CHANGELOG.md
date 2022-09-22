@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.2.3
+
+### Patch Changes
+
+- 111ab36: `<RenderPipeline>` now lets you set the `updatePriority` of its `<EffectComposer>`.
+
 ## 0.2.2
 
 ### Patch Changes
