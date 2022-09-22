@@ -1,16 +1,14 @@
-import { composable, modules } from "material-composer-r3f"
-import { Mul, Time } from "shader-composer"
-import { Color } from "three"
+import { Emitter, Particles } from "vfx-composer-r3f"
 
 export default function ControlledParticlesExample() {
   return (
     <group>
-      <mesh>
-        <sphereGeometry />
-        <composable.meshStandardMaterial>
-          <modules.Color color={Mul(new Color("hotpink"), Time())} />
-        </composable.meshStandardMaterial>
-      </mesh>
+      <Particles>
+        <sphereGeometry args={[0.2, 16, 16]} />
+        <meshStandardMaterial color="hotpink" />
+
+        <Emitter limit={1} rate={Infinity} />
+      </Particles>
     </group>
   )
 }
