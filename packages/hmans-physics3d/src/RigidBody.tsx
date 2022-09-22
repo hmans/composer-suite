@@ -1,12 +1,12 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { useConst } from "@hmans/use-const"
+import { GroupProps } from "@react-three/fiber"
 import { RegisteredEntity } from "miniplex"
 import React, {
   forwardRef,
-  ReactNode,
+  PropsWithoutRef,
   useImperativeHandle,
   useLayoutEffect,
-  useMemo,
   useRef
 } from "react"
 import { Group } from "three"
@@ -14,12 +14,10 @@ import { PhysicsEntity, usePhysicsWorld } from "./World"
 
 export type RigidBodyEntity = RegisteredEntity<PhysicsEntity>
 
-export type RigidBodyProps = {
-  children?: ReactNode
-}
+export type RigidBodyProps = PropsWithoutRef<GroupProps> & {}
 
 export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
-  ({ children }, ref) => {
+  ({ children, ...groupProps }, ref) => {
     const sceneObject = useRef<Group>(null!)
     const { world, ecs } = usePhysicsWorld()
 
@@ -49,6 +47,10 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
     /* Forward entity as ref */
     useImperativeHandle(ref, () => entity.current!)
 
-    return <group ref={sceneObject}>{children}</group>
+    return (
+      <group ref={sceneObject} {...groupProps}>
+        {children}
+      </group>
+    )
   }
 )
