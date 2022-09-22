@@ -49,6 +49,8 @@ export const Player = () => {
   return (
     <RigidBody
       ref={rb}
+      angularDamping={1}
+      linearDamping={1}
       enabledTranslations={[true, true, false]}
       enabledRotations={[false, false, true]}
     >

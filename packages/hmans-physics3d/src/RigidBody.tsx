@@ -15,12 +15,24 @@ import { PhysicsEntity, usePhysicsWorld } from "./World"
 export type RigidBodyEntity = RegisteredEntity<PhysicsEntity>
 
 export type RigidBodyProps = PropsWithoutRef<GroupProps> & {
+  linearDamping?: number
+  angularDamping?: number
   enabledRotations?: [boolean, boolean, boolean]
   enabledTranslations?: [boolean, boolean, boolean]
 }
 
 export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
-  ({ children, enabledRotations, enabledTranslations, ...groupProps }, ref) => {
+  (
+    {
+      children,
+      angularDamping,
+      enabledRotations,
+      enabledTranslations,
+      linearDamping,
+      ...groupProps
+    },
+    ref
+  ) => {
     const sceneObject = useRef<Group>(null!)
     const { world, ecs } = usePhysicsWorld()
 
@@ -58,6 +70,10 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
     /* Update props */
     useLayoutEffect(() => {
+      if (angularDamping !== undefined) body.setAngularDamping(angularDamping)
+    }, [body, angularDamping])
+
+    useLayoutEffect(() => {
       if (enabledTranslations !== undefined)
         body.setEnabledTranslations(...enabledTranslations, true)
     }, [body, enabledTranslations])
@@ -66,6 +82,10 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
       if (enabledRotations !== undefined)
         body.setEnabledRotations(...enabledRotations, true)
     }, [body, enabledRotations])
+
+    useLayoutEffect(() => {
+      if (linearDamping !== undefined) body.setLinearDamping(linearDamping)
+    }, [body, linearDamping])
 
     /* Forward entity as ref */
     useImperativeHandle(ref, () => entity.current!)

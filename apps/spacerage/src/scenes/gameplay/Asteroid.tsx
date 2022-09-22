@@ -7,6 +7,8 @@ export const Asteroid = forwardRef<RigidBodyEntity, RigidBodyProps>(
     return (
       <RigidBody
         ref={ref}
+        angularDamping={1}
+        linearDamping={1}
         enabledTranslations={[true, true, false]}
         enabledRotations={[true, true, true]}
         {...props}
