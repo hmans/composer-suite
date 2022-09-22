@@ -18,8 +18,8 @@ export const Asteroids = () => {
           <ECS.Component name="rigidBody">
             <RigidBody
               position={[plusMinus(100), plusMinus(100), 0]}
-              quaternion={tmpQuaterion.random()}
-              scale={between(0.8, 2)}
+              // quaternion={tmpQuaterion.random()}
+              // scale={between(0.8, 2)}
               angularDamping={1}
               linearDamping={1}
               enabledTranslations={[true, true, false]}
@@ -27,7 +27,12 @@ export const Asteroids = () => {
             >
               <ECS.Component name="sceneObject">
                 <group>
-                  <Collider shape="ball" args={[1]} />
+                  <Collider
+                    shape="convexHull"
+                    args={[
+                      mesh.geometry.attributes.position.array as Float32Array
+                    ]}
+                  />
                   <Particle />
                 </group>
               </ECS.Component>

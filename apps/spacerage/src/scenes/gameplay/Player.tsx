@@ -3,7 +3,7 @@ import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useInput } from "input-composer"
 import { useRef } from "react"
-import { Vector3 } from "three"
+import { Mesh, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { gameplayStore } from "./state"
@@ -55,8 +55,14 @@ export const Player = () => {
       enabledRotations={[false, false, true]}
     >
       <group ref={useCapture(gameplayStore, "player")}>
-        <Collider shape="cuboid" args={[1, 1, 1]} />
-        <primitive object={gltf.scene} scale={0.3} />
+        <Collider
+          shape="convexHull"
+          args={[
+            (gltf.scene.children[0] as Mesh).geometry.attributes.position
+              .array as Float32Array
+          ]}
+        />
+        <primitive object={gltf.scene} scale={1} />
       </group>
     </RigidBody>
   )
