@@ -33,6 +33,15 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
       return body
     })
 
+    useLayoutEffect(() => {
+      /* Synchronize rigidbody translation and rotation with sceneObject */
+      const { position, quaternion } = sceneObject.current
+      body.setTranslation(position, true)
+      body.setRotation(quaternion, true)
+
+      /* TODO: set these relative to the physics world object! */
+    }, [body])
+
     /* Register ECS entity */
     const entity = useRef<RigidBodyEntity>()
     useLayoutEffect(() => {
