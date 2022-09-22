@@ -32,6 +32,7 @@ const ColliderWithRef = <S extends keyof ColliderDesc>(
 
     const ctor = RAPIER.ColliderDesc[shape] as any
     const desc = ctor(...args)
+
     const collider = world.createCollider(desc, body)
 
     return () => {
