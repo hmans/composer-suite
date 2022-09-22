@@ -7,7 +7,7 @@ import { Player } from "./Player"
 export const GameplayScene = () => {
   return (
     <group>
-      <Physics.World updatePriority={Stage.Physics}>
+      <Physics.World updatePriority={Stage.Physics} gravity={[0, 0, 0]}>
         <Skybox />
         <FollowCamera />
 
