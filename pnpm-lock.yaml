@@ -368,7 +368,6 @@ importers:
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.31.1
       '@react-three/fiber': ^8.7.4
-      '@react-three/rapier': ^0.6.9
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
@@ -401,7 +400,6 @@ importers:
       '@hmans/things': 0.0.6_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/drei': 9.31.1_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
-      '@react-three/rapier': 0.6.9_jciktwipsq46yttqexkd2treea
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
@@ -3904,21 +3902,6 @@ packages:
       react: 18.2.0
       three: 0.144.0
       three-stdlib: 2.15.0_three@0.144.0
-      use-asset: 1.0.4_react@18.2.0
-    dev: false
-
-  /@react-three/rapier/0.6.9_jciktwipsq46yttqexkd2treea:
-    resolution: {integrity: sha512-yS9ykikIkOa2ANzdx8WbJ3fXyi4ZPet/Ue1lyoGvMnNYTg+y4hoGiNCUwGk2yzmgkEiMdNjl2SU3bc0cNaHHig==}
-    peerDependencies:
-      '@react-three/fiber': ^8.0.12
-      react: ^18.0.0
-      three: '>=0.139.2'
-    dependencies:
-      '@dimforge/rapier3d-compat': 0.9.0
-      '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
-      react: 18.2.0
-      three: 0.144.0
-      three-stdlib: 2.16.1_three@0.144.0
       use-asset: 1.0.4_react@18.2.0
     dev: false
 

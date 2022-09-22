@@ -20,7 +20,6 @@
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.31.1",
     "@react-three/fiber": "^8.7.4",
-    "@react-three/rapier": "^0.6.9",
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",
