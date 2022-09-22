@@ -28,9 +28,9 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
   lights = true
 }) => {
   return (
-    <RC.Canvas dpr={controls.dpr}>
+    <RC.Canvas dpr={dpr}>
       <RC.RenderPipeline>
-        {controls.effects && (
+        {effects && (
           <RC.EffectPass>
             <RC.SMAAEffect />
             <RC.SelectiveBloomEffect />
@@ -86,7 +86,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
         {children}
 
         {/* Performance Monitor */}
-        {controls.performance && <Perf position="bottom-right" />}
+        {performance && <Perf position="bottom-right" />}
       </RC.RenderPipeline>
     </RC.Canvas>
   )
