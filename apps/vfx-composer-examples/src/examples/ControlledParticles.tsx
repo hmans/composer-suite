@@ -1,4 +1,4 @@
-import { Emitter, Particles } from "vfx-composer-r3f"
+import { Emitter, Particle, Particles } from "vfx-composer-r3f"
 
 export default function ControlledParticlesExample() {
   return (
@@ -7,7 +7,7 @@ export default function ControlledParticlesExample() {
         <sphereGeometry args={[0.2, 16, 16]} />
         <meshStandardMaterial color="hotpink" />
 
-        <Emitter limit={1} rate={Infinity} />
+        <Particle />
       </Particles>
     </group>
   )
