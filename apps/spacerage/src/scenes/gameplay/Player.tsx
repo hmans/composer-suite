@@ -1,4 +1,4 @@
-import { RigidBody, RigidBodyEntity } from "@hmans/physics3d"
+import { Collider, RigidBody, RigidBodyEntity } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useInput } from "input-composer"
@@ -55,6 +55,7 @@ export const Player = () => {
       enabledRotations={[false, false, true]}
     >
       <group ref={useCapture(gameplayStore, "player")}>
+        <Collider />
         <primitive object={gltf.scene} scale={0.3} />
       </group>
     </RigidBody>

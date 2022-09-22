@@ -1,4 +1,4 @@
-import { RigidBody } from "@hmans/physics3d"
+import { Collider, RigidBody } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { Material, Mesh, Quaternion } from "three"
@@ -26,7 +26,10 @@ export const Asteroids = () => {
               enabledRotations={[true, true, true]}
             >
               <ECS.Component name="sceneObject">
-                <Particle />
+                <group>
+                  <Collider />
+                  <Particle />
+                </group>
               </ECS.Component>
             </RigidBody>
           </ECS.Component>

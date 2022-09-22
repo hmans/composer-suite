@@ -3,8 +3,10 @@ import { useConst } from "@hmans/use-const"
 import { GroupProps } from "@react-three/fiber"
 import { RegisteredEntity } from "miniplex"
 import React, {
+  createContext,
   forwardRef,
   PropsWithoutRef,
+  useContext,
   useImperativeHandle,
   useLayoutEffect,
   useRef
@@ -13,6 +15,10 @@ import { Group } from "three"
 import { PhysicsEntity, usePhysicsWorld } from "./World"
 
 export type RigidBodyEntity = RegisteredEntity<PhysicsEntity>
+
+const RigidBodyContext = createContext<{ body: RAPIER.RigidBody }>(null!)
+
+export const useRigidBody = () => useContext(RigidBodyContext)
 
 export type RigidBodyProps = PropsWithoutRef<GroupProps> & {
   linearDamping?: number
@@ -38,14 +44,7 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
     /* Create RigidBody */
     const body = useConst(() => {
-      const desc = RAPIER.RigidBodyDesc.dynamic()
-      const body = world.createRigidBody(desc)
-
-      /* Fake collider */
-      const colliderDesc = RAPIER.ColliderDesc.cuboid(1, 1, 1)
-      world.createCollider(colliderDesc, body)
-
-      return body
+      return world.createRigidBody(RAPIER.RigidBodyDesc.dynamic())
     })
 
     useLayoutEffect(() => {
@@ -97,7 +96,9 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
     return (
       <group ref={sceneObject} {...groupProps}>
-        {children}
+        <RigidBodyContext.Provider value={{ body }}>
+          {children}
+        </RigidBodyContext.Provider>
       </group>
     )
   }
