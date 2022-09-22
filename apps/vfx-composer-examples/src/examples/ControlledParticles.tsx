@@ -16,7 +16,7 @@ export default function ControlledParticlesExample() {
 
   return (
     <group>
-      <Particles>
+      <Particles position={[-2, 0, 0]}>
         <sphereGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial color="hotpink" />
 

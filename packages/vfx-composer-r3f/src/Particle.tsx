@@ -44,7 +44,7 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
       id,
       tmpMatrix
         .copy(sceneObject.current.matrixWorld)
-        .premultiply(particles.matrix.invert())
+        .premultiply(particles.matrixWorld.invert())
     )
 
     particles.instanceMatrix.needsUpdate = true
