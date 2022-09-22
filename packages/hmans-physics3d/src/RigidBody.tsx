@@ -14,10 +14,13 @@ import { PhysicsEntity, usePhysicsWorld } from "./World"
 
 export type RigidBodyEntity = RegisteredEntity<PhysicsEntity>
 
-export type RigidBodyProps = PropsWithoutRef<GroupProps> & {}
+export type RigidBodyProps = PropsWithoutRef<GroupProps> & {
+  enabledRotations?: [boolean, boolean, boolean]
+  enabledTranslations?: [boolean, boolean, boolean]
+}
 
 export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
-  ({ children, ...groupProps }, ref) => {
+  ({ children, enabledRotations, enabledTranslations, ...groupProps }, ref) => {
     const sceneObject = useRef<Group>(null!)
     const { world, ecs } = usePhysicsWorld()
 
@@ -52,6 +55,15 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
       return () => ecs.destroyEntity(entity.current!)
     }, [body])
+
+    /* Update props */
+    useLayoutEffect(() => {
+      if (enabledTranslations !== undefined)
+        body.setEnabledTranslations(...enabledTranslations, true)
+
+      if (enabledRotations !== undefined)
+        body.setEnabledRotations(...enabledRotations, true)
+    }, [body, enabledRotations, enabledTranslations])
 
     /* Forward entity as ref */
     useImperativeHandle(ref, () => entity.current!)

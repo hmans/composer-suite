@@ -5,7 +5,12 @@ import { GLTFAsset } from "../../common/GLTFAsset"
 export const Asteroid = forwardRef<RigidBodyEntity, RigidBodyProps>(
   (props, ref) => {
     return (
-      <RigidBody ref={ref} {...props}>
+      <RigidBody
+        ref={ref}
+        enabledTranslations={[true, true, false]}
+        enabledRotations={[true, true, true]}
+        {...props}
+      >
         <mesh>
           <boxGeometry />
           <meshBasicMaterial />

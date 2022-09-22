@@ -47,7 +47,11 @@ export const Player = () => {
   }, Stage.Early)
 
   return (
-    <RigidBody ref={rb}>
+    <RigidBody
+      ref={rb}
+      enabledTranslations={[true, true, false]}
+      enabledRotations={[false, false, true]}
+    >
       <group ref={useCapture(gameplayStore, "player")}>
         <primitive object={gltf.scene} scale={0.3} />
       </group>
