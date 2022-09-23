@@ -1,4 +1,3 @@
-export * from "./Collider"
 export * from "./colliders"
 export * from "./RigidBody"
 export * from "./types"
