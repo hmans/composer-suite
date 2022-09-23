@@ -1,6 +1,7 @@
 import { useConst } from "@hmans/use-const"
 import { InstancedMeshProps, useFrame } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
+import { World } from "miniplex"
 import React, {
   createContext,
   forwardRef,
@@ -12,7 +13,6 @@ import React, {
 import { Material, Matrix4, Object3D } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
-import { World } from "miniplex"
 
 const tmpMatrix = new Matrix4()
 
@@ -25,6 +25,7 @@ export type ParticlesProps = Omit<
   material?: Material
   capacity?: number
   safetyCapacity?: number
+  updatePriority?: number
 }
 
 export type Entity = {
@@ -40,7 +41,15 @@ export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    { children, capacity, safetyCapacity, geometry, material, ...props },
+    {
+      children,
+      capacity,
+      safetyCapacity,
+      geometry,
+      material,
+      updatePriority,
+      ...props
+    },
     ref
   ) => {
     /* The Particles instance this component is managing. */
@@ -88,7 +97,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
       /* Queue a re-upload */
       particles.instanceMatrix.needsUpdate = true
-    })
+    }, updatePriority)
 
     /* Dispose of the particles instance on unmount */
     useLayoutEffect(() => {
