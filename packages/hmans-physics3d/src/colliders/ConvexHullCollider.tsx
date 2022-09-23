@@ -18,9 +18,14 @@ function ConvexHullCollider(
 
   /* add and remove collider */
   useLayoutEffect(() => {
+    /* Create the descriptor */
     const desc = RAPIER.ColliderDesc.convexHull(points)
     if (!desc) throw new Error("Could not create convex hull collider")
+
+    /* Create the collider */
     const collider = world.createCollider(desc, body)
+
+    /* Destroy the collider on unmount */
     return () => world.removeCollider(collider, true)
   })
 
