@@ -898,6 +898,7 @@ importers:
       '@hmans/use-version': ^0.0.2
       '@react-three/fiber': ^8.7.0
       material-composer-r3f: ^0.2.2
+      miniplex: ^0.10.5
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.1
@@ -909,6 +910,7 @@ importers:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       material-composer-r3f: link:../material-composer-r3f
+      miniplex: 0.10.5
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
