@@ -59,14 +59,14 @@ export const Player = () => {
       enabledTranslations={[true, true, false]}
       enabledRotations={[false, false, true]}
     >
-      <group ref={useCapture(gameplayStore, "player")}>
+      <group ref={useCapture(gameplayStore, "player")} scale={0.2}>
         <ConvexHullCollider
           points={
             (gltf.scene.children[0] as Mesh).geometry.attributes.position
               .array as Float32Array
           }
         />
-        <primitive object={gltf.scene} scale={1} />
+        <primitive object={gltf.scene} />
       </group>
     </RigidBody>
   )

@@ -17,7 +17,7 @@ import { PhysicsEntity, usePhysicsWorld } from "./World"
 
 export type RigidBodyEntity = PhysicsEntity
 
-const RigidBodyContext = createContext<{ body: RAPIER.RigidBody }>(null!)
+const RigidBodyContext = createContext<RigidBodyEntity>(null!)
 
 export const useRigidBody = () => useContext(RigidBodyContext)
 

@@ -16,7 +16,7 @@ export const GameplayScene = () => {
         <directionalLight position={[30, 0, 30]} intensity={1} />
 
         <Player />
-        <Asteroids />
+        {/* <Asteroids /> */}
       </Physics.World>
     </group>
   )

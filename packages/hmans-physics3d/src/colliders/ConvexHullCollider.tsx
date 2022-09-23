@@ -1,6 +1,7 @@
 import React, {
   ForwardedRef,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useRef
@@ -36,28 +37,30 @@ function ConvexHullCollider(
   const sceneObject = useRef<Group>(null!)
 
   /* add and remove collider */
-  useLayoutEffect(() => {
+  useEffect(() => {
     /* Scale the input */
-    // const position = new Vector3()
-    // const rotation = new Quaternion()
-    // const scale = new Vector3()
+    const position = new Vector3()
+    const rotation = new Quaternion()
+    const scale = new Vector3()
 
-    // sceneObject.current.matrixWorld.decompose(position, rotation, scale)
+    sceneObject.current.updateMatrixWorld()
+    sceneObject.current.matrixWorld.decompose(position, rotation, scale)
+    console.log(scale)
 
-    // const relativeMatrix = new Matrix4().compose(
-    //   new Vector3(),
-    //   rotation.multiply(rb.sceneObject.quaternion.clone().invert()),
-    //   scale
-    // )
+    const relativeMatrix = new Matrix4().compose(
+      new Vector3(),
+      rotation.multiply(rb.sceneObject.quaternion.clone().invert()),
+      scale
+    )
 
     /* Scale points */
-    // const scaledPoints = multiplyByMatrix(
-    //   points,
-    //   relativeMatrix
-    // ) as Float32Array
+    const scaledPoints = multiplyByMatrix(
+      points,
+      relativeMatrix
+    ) as Float32Array
 
     /* Create the descriptor */
-    const desc = RAPIER.ColliderDesc.convexHull(points)
+    const desc = RAPIER.ColliderDesc.convexHull(scaledPoints)
     if (!desc) throw new Error("Could not create convex hull collider")
 
     /* Create the collider */
