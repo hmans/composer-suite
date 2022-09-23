@@ -9,12 +9,13 @@ import React, {
   useContext,
   useImperativeHandle,
   useLayoutEffect,
-  useRef
+  useRef,
+  useState
 } from "react"
-import { Group } from "three"
+import { Group, Object3D } from "three"
 import { PhysicsEntity, usePhysicsWorld } from "./World"
 
-export type RigidBodyEntity = RegisteredEntity<PhysicsEntity>
+export type RigidBodyEntity = PhysicsEntity
 
 const RigidBodyContext = createContext<{ body: RAPIER.RigidBody }>(null!)
 
@@ -39,66 +40,58 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
     },
     ref
   ) => {
-    const sceneObject = useRef<Group>(null!)
     const { world, ecs } = usePhysicsWorld()
+    const sceneObject = useRef<Group>(null!)
 
-    /* Create RigidBody */
-    const body = useConst(() => {
-      return world.createRigidBody(RAPIER.RigidBodyDesc.dynamic())
-    })
+    const state = useConst<RigidBodyEntity>(() => ({
+      body: world.createRigidBody(RAPIER.RigidBodyDesc.dynamic()),
+      sceneObject: null!
+    }))
 
     useLayoutEffect(() => {
       /* Synchronize rigidbody translation and rotation with sceneObject */
       const { position, quaternion } = sceneObject.current
-      body.setTranslation(position, true)
-      body.setRotation(quaternion, true)
+      state.body.setTranslation(position, true)
+      state.body.setRotation(quaternion, true)
 
       /* TODO: set these relative to the physics world object! */
 
+      /* Create an entity */
+      const entity = ecs.createEntity(state)
+
+      entity.sceneObject = sceneObject.current
+
       /* On unmount, remove the body from the world again. */
       return () => {
-        world.removeRigidBody(body)
+        ecs.destroyEntity(entity)
+        world.removeRigidBody(state.body)
       }
-    }, [body])
-
-    /* Register ECS entity */
-    const entity = useRef<RigidBodyEntity>()
-    useLayoutEffect(() => {
-      entity.current = ecs.createEntity({
-        body,
-        sceneObject: sceneObject.current
-      })
-
-      return () => ecs.destroyEntity(entity.current!)
-    }, [body])
+    }, [])
 
     /* Update props */
     useLayoutEffect(() => {
-      if (angularDamping !== undefined) body.setAngularDamping(angularDamping)
-    }, [body, angularDamping])
+      if (!state?.body) return
 
-    useLayoutEffect(() => {
+      if (angularDamping !== undefined)
+        state.body.setAngularDamping(angularDamping)
       if (enabledTranslations !== undefined)
-        body.setEnabledTranslations(...enabledTranslations, true)
-    }, [body, enabledTranslations])
-
-    useLayoutEffect(() => {
+        state.body.setEnabledTranslations(...enabledTranslations, true)
       if (enabledRotations !== undefined)
-        body.setEnabledRotations(...enabledRotations, true)
-    }, [body, enabledRotations])
-
-    useLayoutEffect(() => {
-      if (linearDamping !== undefined) body.setLinearDamping(linearDamping)
-    }, [body, linearDamping])
+        state.body.setEnabledRotations(...enabledRotations, true)
+      if (linearDamping !== undefined)
+        state.body.setLinearDamping(linearDamping)
+    })
 
     /* Forward entity as ref */
-    useImperativeHandle(ref, () => entity.current!)
+    useImperativeHandle(ref, () => state)
 
     return (
       <group ref={sceneObject} {...groupProps}>
-        <RigidBodyContext.Provider value={{ body }}>
-          {children}
-        </RigidBodyContext.Provider>
+        {state && (
+          <RigidBodyContext.Provider value={state}>
+            {children}
+          </RigidBodyContext.Provider>
+        )}
       </group>
     )
   }
