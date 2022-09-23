@@ -25,12 +25,15 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   const particles = useParticlesContext()
   const id = useRef<number>()
 
-  /* Hide the particle again on unmount */
   useLayoutEffect(() => {
+    /* Store the particle's ID */
     const cursor = particles.cursor
     id.current = cursor
+
+    /* Emit the particle */
     particles.emit(1)
 
+    /* Hide the particle again on unmount */
     return () => {
       particles.setMatrixAt(cursor, hideMatrix)
     }
