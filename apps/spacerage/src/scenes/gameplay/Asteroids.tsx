@@ -1,4 +1,4 @@
-import { Collider, RigidBody } from "@hmans/physics3d"
+import { ConvexHullCollider, RigidBody } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { Material, Mesh, Quaternion } from "three"
@@ -27,11 +27,10 @@ export const Asteroids = () => {
             >
               <ECS.Component name="sceneObject">
                 <group>
-                  <Collider
-                    shape="convexHull"
-                    args={[
+                  <ConvexHullCollider
+                    points={
                       mesh.geometry.attributes.position.array as Float32Array
-                    ]}
+                    }
                   />
                   <Particle />
                 </group>

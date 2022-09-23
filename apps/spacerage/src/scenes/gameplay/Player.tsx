@@ -1,4 +1,9 @@
-import { Collider, RigidBody, RigidBodyEntity } from "@hmans/physics3d"
+import {
+  Collider,
+  ConvexHullCollider,
+  RigidBody,
+  RigidBodyEntity
+} from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useInput } from "input-composer"
@@ -55,12 +60,11 @@ export const Player = () => {
       enabledRotations={[false, false, true]}
     >
       <group ref={useCapture(gameplayStore, "player")}>
-        <Collider
-          shape="convexHull"
-          args={[
+        <ConvexHullCollider
+          points={
             (gltf.scene.children[0] as Mesh).geometry.attributes.position
               .array as Float32Array
-          ]}
+          }
         />
         <primitive object={gltf.scene} scale={1} />
       </group>
