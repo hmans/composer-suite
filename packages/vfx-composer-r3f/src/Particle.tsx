@@ -22,7 +22,7 @@ const tmpMatrix = new Matrix4()
  */
 export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   const sceneObject = useRef<Object3D>(null!)
-  const particles = useParticlesContext()
+  const { particles } = useParticlesContext()
   const id = useRef<number>()
 
   useLayoutEffect(() => {

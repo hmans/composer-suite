@@ -28,7 +28,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     ref
   ) => {
     const origin = useRef<Object3D>(null!)
-    const particlesFromContext = useParticlesContext()
+    const context = useParticlesContext()
     const queuedParticles = useRef(0)
     const remainingParticles = useRef(limit)
     const particlesMatrix = useRef(new Matrix4())
@@ -57,7 +57,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     /* When the particle material has changed, reset this emitter. (HMR) */
     useFrameEffect(
       () => {
-        const particles = particlesProp?.current || particlesFromContext
+        const particles = particlesProp?.current || context.particles
         return particles?.material
       },
       () => {
@@ -76,7 +76,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
         if (remainingParticles.current <= 0) return
 
         /* Grab a reference to the particles mesh */
-        const particles = particlesProp?.current || particlesFromContext
+        const particles = particlesProp?.current || context.particles
         if (!particles) return
 
         /* Increase the accumulated number of particles we're supposed to emit. */
@@ -104,7 +104,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
           remainingParticles.current -= amount
         }
       },
-      [particlesProp, particlesFromContext, emitterSetup, rate, limit]
+      [particlesProp, context?.particles, emitterSetup, rate, limit]
     )
 
     useFrame((_, dt) => {

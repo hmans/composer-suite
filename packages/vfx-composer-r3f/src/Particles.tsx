@@ -9,9 +9,10 @@ import React, {
   useImperativeHandle,
   useLayoutEffect
 } from "react"
-import { Material } from "three"
+import { Material, Object3D } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
+import { World } from "miniplex"
 
 export type ParticlesProps = Omit<
   InstancedMeshProps,
@@ -24,7 +25,14 @@ export type ParticlesProps = Omit<
   safetyCapacity?: number
 }
 
-const Context = createContext<ParticlesImpl>(null!)
+export type Entity = {
+  id: number
+  sceneObject: Object3D
+}
+
+const Context = createContext<{ particles: ParticlesImpl; ecs: World<Entity> }>(
+  null!
+)
 
 export const useParticlesContext = () => useContext(Context)
 
@@ -33,9 +41,13 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     { children, capacity, safetyCapacity, geometry, material, ...props },
     ref
   ) => {
+    /* The Particles instance this component is managing. */
     const particles = useConst(
       () => new ParticlesImpl(geometry, material, capacity, safetyCapacity)
     )
+
+    /* A small ECS world for controlled particles. */
+    const ecs = useConst(() => new World<Entity>())
 
     /*
     We need to be able to react to the particle mesh's material changing. Currently,
@@ -63,7 +75,9 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     return (
       <primitive object={particles} {...props}>
-        <Context.Provider value={particles}>{children}</Context.Provider>
+        <Context.Provider value={{ particles, ecs }}>
+          {children}
+        </Context.Provider>
       </primitive>
     )
   }
