@@ -1,6 +1,7 @@
 import { useConst } from "@hmans/use-const"
-import { InstancedMeshProps } from "@react-three/fiber"
+import { InstancedMeshProps, useFrame } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
+import { World } from "miniplex"
 import React, {
   createContext,
   forwardRef,
@@ -9,9 +10,11 @@ import React, {
   useImperativeHandle,
   useLayoutEffect
 } from "react"
-import { Material } from "three"
+import { Material, Matrix4, Object3D } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
+
+const tmpMatrix = new Matrix4()
 
 export type ParticlesProps = Omit<
   InstancedMeshProps,
@@ -22,20 +25,40 @@ export type ParticlesProps = Omit<
   material?: Material
   capacity?: number
   safetyCapacity?: number
+  updatePriority?: number
 }
 
-const Context = createContext<ParticlesImpl>(null!)
+export type Entity = {
+  id: number
+  sceneObject: Object3D
+}
+
+const Context = createContext<{ particles: ParticlesImpl; ecs: World<Entity> }>(
+  null!
+)
 
 export const useParticlesContext = () => useContext(Context)
 
 export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   (
-    { children, capacity, safetyCapacity, geometry, material, ...props },
+    {
+      children,
+      capacity,
+      safetyCapacity,
+      geometry,
+      material,
+      updatePriority,
+      ...props
+    },
     ref
   ) => {
+    /* The Particles instance this component is managing. */
     const particles = useConst(
       () => new ParticlesImpl(geometry, material, capacity, safetyCapacity)
     )
+
+    /* A small ECS world for controlled particles. */
+    const ecs = useConst(() => new World<Entity>())
 
     /*
     We need to be able to react to the particle mesh's material changing. Currently,
@@ -54,6 +77,28 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
       -100
     )
 
+    useFrame(() => {
+      /* Make sure the effect's world matrix is up to date */
+      particles.updateMatrixWorld()
+
+      /* Iterate through entities */
+      for (const entity of ecs.entities) {
+        if (!entity) continue
+        const { id, sceneObject } = entity
+
+        /* Update the particle's matrix */
+        particles.setMatrixAt(
+          id,
+          tmpMatrix
+            .copy(sceneObject.matrixWorld)
+            .premultiply(particles.matrixWorld.invert())
+        )
+      }
+
+      /* Queue a re-upload */
+      particles.instanceMatrix.needsUpdate = true
+    }, updatePriority)
+
     /* Dispose of the particles instance on unmount */
     useLayoutEffect(() => {
       return () => particles.dispose()
@@ -63,7 +108,9 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
 
     return (
       <primitive object={particles} {...props}>
-        <Context.Provider value={particles}>{children}</Context.Provider>
+        <Context.Provider value={{ particles, ecs }}>
+          {children}
+        </Context.Provider>
       </primitive>
     )
   }

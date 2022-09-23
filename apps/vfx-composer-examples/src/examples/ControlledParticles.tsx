@@ -12,7 +12,7 @@ export default function ControlledParticlesExample() {
       Math.sin(clock.elapsedTime * 1.7),
       0
     )
-  })
+  }, -100)
 
   return (
     <group>
