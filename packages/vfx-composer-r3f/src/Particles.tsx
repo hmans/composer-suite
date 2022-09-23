@@ -1,5 +1,5 @@
 import { useConst } from "@hmans/use-const"
-import { InstancedMeshProps } from "@react-three/fiber"
+import { InstancedMeshProps, useFrame } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import React, {
   createContext,
@@ -9,10 +9,12 @@ import React, {
   useImperativeHandle,
   useLayoutEffect
 } from "react"
-import { Material, Object3D } from "three"
+import { Material, Matrix4, Object3D } from "three"
 import { Particles as ParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
 import { World } from "miniplex"
+
+const tmpMatrix = new Matrix4()
 
 export type ParticlesProps = Omit<
   InstancedMeshProps,
@@ -65,6 +67,28 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
       },
       -100
     )
+
+    useFrame(() => {
+      /* Make sure the effect's world matrix is up to date */
+      particles.updateMatrixWorld()
+
+      /* Iterate through entities */
+      for (const entity of ecs.entities) {
+        if (!entity) continue
+        const { id, sceneObject } = entity
+
+        /* Update the particle's matrix */
+        particles.setMatrixAt(
+          id,
+          tmpMatrix
+            .copy(sceneObject.matrixWorld)
+            .premultiply(particles.matrixWorld.invert())
+        )
+      }
+
+      /* Queue a re-upload */
+      particles.instanceMatrix.needsUpdate = true
+    })
 
     /* Dispose of the particles instance on unmount */
     useLayoutEffect(() => {

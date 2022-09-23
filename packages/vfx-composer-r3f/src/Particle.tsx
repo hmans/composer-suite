@@ -22,7 +22,7 @@ const tmpMatrix = new Matrix4()
  */
 export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   const sceneObject = useRef<Object3D>(null!)
-  const { particles } = useParticlesContext()
+  const { particles, ecs } = useParticlesContext()
   const id = useRef<number>()
 
   useLayoutEffect(() => {
@@ -33,25 +33,18 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
     /* Emit the particle */
     particles.emit(1)
 
+    /* Register with ECS */
+    const entity = ecs.createEntity({
+      id: cursor,
+      sceneObject: sceneObject.current
+    })
+
     /* Hide the particle again on unmount */
     return () => {
+      ecs.destroyEntity(entity)
       particles.setMatrixAt(cursor, hideMatrix)
     }
   }, [particles])
-
-  /* Every frame, update the particle's matrix, and queue a re-upload */
-  useFrame(() => {
-    if (id.current === undefined) return
-
-    particles.setMatrixAt(
-      id.current,
-      tmpMatrix
-        .copy(sceneObject.current.matrixWorld)
-        .premultiply(particles.matrixWorld.invert())
-    )
-
-    particles.instanceMatrix.needsUpdate = true
-  })
 
   /* Forward the ref */
   useImperativeHandle(ref, () => sceneObject.current)
