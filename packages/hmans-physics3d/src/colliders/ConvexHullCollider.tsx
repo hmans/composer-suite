@@ -7,18 +7,15 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react"
-import {
-  Float32BufferAttribute,
-  Group,
-  Matrix4,
-  Quaternion,
-  Vector3
-} from "three"
+import * as THREE from "three"
 import { useRigidBody } from "../RigidBody"
 import { usePhysicsWorld } from "../World"
 
-export const multiplyByMatrix = (points: Float32Array, matrix: Matrix4) => {
-  const buffer = new Float32BufferAttribute(points, 3)
+export const multiplyByMatrix = (
+  points: Float32Array,
+  matrix: THREE.Matrix4
+) => {
+  const buffer = new THREE.Float32BufferAttribute(points, 3)
   buffer.applyMatrix4(matrix)
   return buffer.array
 }
@@ -29,23 +26,23 @@ export type ConvexHullColliderProps = {
 
 function ConvexHullCollider(
   { points, ...props }: ConvexHullColliderProps,
-  ref: ForwardedRef<Group>
+  ref: ForwardedRef<THREE.Group>
 ) {
   const { world } = usePhysicsWorld()
   const rb = useRigidBody()
-  const sceneObject = useRef<Group>(null!)
+  const sceneObject = useRef<THREE.Group>(null!)
 
   /* add and remove collider */
   useEffect(() => {
     /* Grab the collider's world transform */
-    const position = new Vector3()
-    const rotation = new Quaternion()
-    const scale = new Vector3()
+    const position = new THREE.Vector3()
+    const rotation = new THREE.Quaternion()
+    const scale = new THREE.Vector3()
     sceneObject.current.matrixWorld.decompose(position, rotation, scale)
 
     /* Create the transform matrix relative to the ownnign rigidbody */
-    const relativeMatrix = new Matrix4().compose(
-      new Vector3(),
+    const relativeMatrix = new THREE.Matrix4().compose(
+      new THREE.Vector3(),
       rotation.multiply(rb.sceneObject.quaternion.clone().invert()),
       scale
     )
