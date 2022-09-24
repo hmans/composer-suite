@@ -5,7 +5,7 @@ import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
-import { BulletSystem } from "./systems/Bullets"
+import { BulletSystem } from "./systems/BulletSystem"
 
 export const GameplayScene = () => {
   return (
