@@ -1,9 +1,13 @@
-import { ConvexHullCollider, RigidBody } from "@hmans/physics3d"
+import {
+  ConvexHullCollider,
+  interactionGroups,
+  RigidBody
+} from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { Material, Mesh, Quaternion } from "three"
 import { Particle, Particles } from "vfx-composer-r3f"
-import { ECS } from "./state"
+import { ECS, Layers } from "./state"
 
 const tmpQuaterion = new Quaternion()
 
@@ -28,6 +32,10 @@ export const Asteroids = () => {
               <ECS.Component name="sceneObject">
                 <group>
                   <ConvexHullCollider
+                    collisionGroups={interactionGroups(Layers.Asteroid, [
+                      Layers.Asteroid,
+                      Layers.Player
+                    ])}
                     points={
                       mesh.geometry.attributes.position.array as Float32Array
                     }

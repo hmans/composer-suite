@@ -1,5 +1,6 @@
 import {
   ConvexHullCollider,
+  interactionGroups,
   RigidBody,
   RigidBodyEntity
 } from "@hmans/physics3d"
@@ -11,7 +12,7 @@ import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
-import { spawnBullet, gameplayStore } from "./state"
+import { spawnBullet, gameplayStore, Layers } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -82,6 +83,7 @@ export const Player = () => {
       <group ref={useCapture(gameplayStore, "player")}>
         <group scale={0.5}>
           <ConvexHullCollider
+            collisionGroups={interactionGroups(Layers.Player, Layers.Asteroid)}
             points={
               (gltf.scene.children[0] as Mesh).geometry.attributes.position
                 .array as Float32Array

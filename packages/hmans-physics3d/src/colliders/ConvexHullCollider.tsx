@@ -14,10 +14,11 @@ import { multiplyByMatrix } from "../util/multiplyByMatrix"
 
 export type ConvexHullColliderProps = {
   points: Float32Array
+  collisionGroups?: RAPIER.InteractionGroups
 } & GroupProps
 
 function ConvexHullCollider(
-  { points, ...props }: ConvexHullColliderProps,
+  { points, collisionGroups, ...props }: ConvexHullColliderProps,
   ref: ForwardedRef<THREE.Group>
 ) {
   const { world } = usePhysicsWorld()
@@ -51,6 +52,8 @@ function ConvexHullCollider(
 
     /* Create the collider */
     const collider = world.createCollider(desc, rb.body)
+
+    collider.setCollisionGroups(collisionGroups)
 
     /* Destroy the collider on unmount */
     return () => world.removeCollider(collider, true)

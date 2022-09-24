@@ -3,6 +3,11 @@ import { createECS } from "miniplex-react"
 import { makeStore } from "statery"
 import { Object3D, Quaternion, Vector3 } from "three"
 
+export enum Layers {
+  Player,
+  Asteroid
+}
+
 export const gameplayStore = makeStore({
   player: null as Object3D | null
 })

@@ -1,9 +1,9 @@
 import { useFrame } from "@react-three/fiber"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { ECS } from "../state"
+import { ECS, Layers } from "../state"
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { usePhysicsWorld } from "@hmans/physics3d"
+import { interactionGroups, usePhysicsWorld } from "@hmans/physics3d"
 
 const tmpVec3 = new Vector3()
 
@@ -33,7 +33,13 @@ export const BulletSystem = () => {
         .set(0, 0, -1)
         .applyQuaternion(bullet.sceneObject.quaternion)
 
-      const hit = world.castRay(ray, 10, true, 1)
+      const hit = world.castRay(
+        ray,
+        10,
+        true,
+        undefined,
+        interactionGroups(Layers.Player)
+      )
 
       if (hit) {
         const point = ray.pointAt(hit.toi)
