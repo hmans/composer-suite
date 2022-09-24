@@ -3,6 +3,7 @@ import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
+import { Debris } from "./Debris"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 import { AgeSystem } from "./systems/AgeSystem"
@@ -19,6 +20,8 @@ export const GameplayScene = () => {
 
         <ambientLight intensity={0.1} />
         <directionalLight position={[30, 0, 30]} intensity={1} />
+
+        <Debris />
 
         <Player />
         <Asteroids />
