@@ -11,7 +11,7 @@ import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
-import { gameplayStore } from "./state"
+import { fireWeapon, gameplayStore } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -28,6 +28,7 @@ export const Player = () => {
 
     const horizontal = input.keyboard.axis("KeyA", "KeyD")
     const vertical = input.keyboard.axis("KeyS", "KeyW")
+    const fire = input.keyboard.key("Space")
 
     const { body } = rb.current
 
@@ -43,6 +44,11 @@ export const Player = () => {
       .applyQuaternion(player.getWorldQuaternion(tmpQuat))
 
     body.addForce(thrust, true)
+
+    /* Fire? */
+    if (fire) {
+      fireWeapon(player.getWorldPosition(tmpVec3))
+    }
   }, Stage.Early)
 
   return (

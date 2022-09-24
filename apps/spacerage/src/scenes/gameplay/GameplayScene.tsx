@@ -2,6 +2,7 @@ import * as Physics from "@hmans/physics3d"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import { Asteroids } from "./Asteroids"
+import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 
@@ -17,6 +18,7 @@ export const GameplayScene = () => {
 
         <Player />
         <Asteroids />
+        <Bullets />
       </Physics.World>
     </group>
   )
