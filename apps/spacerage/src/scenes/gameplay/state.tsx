@@ -31,8 +31,8 @@ export const fireWeapon = (origin: Object3D) => {
         position={origin.getWorldPosition(tmpVec3)}
         quaternion={origin.getWorldQuaternion(tmpQuat)}
       >
-        <boxGeometry />
-        <meshBasicMaterial color="hotpink" />
+        <planeGeometry args={[0.2, 0.5]} />
+        <meshBasicMaterial color="yellow" />
       </mesh>
     )
   })
