@@ -1,6 +1,10 @@
 import * as Physics from "@hmans/physics3d"
+import { bitmask, Layers } from "render-composer"
+import { Vec3 } from "shader-composer"
+import { Color } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
+import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
 import { Debris } from "./Debris"
@@ -18,8 +22,25 @@ export const GameplayScene = () => {
         <Skybox />
         <FollowCamera />
 
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[30, 0, 30]} intensity={1} />
+        <ambientLight
+          intensity={0.1}
+          layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
+        />
+        <directionalLight
+          position={[30, 0, 30]}
+          intensity={1}
+          layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
+        />
+
+        <Nebula
+          dimensions={Vec3([50, 50, 50])}
+          amount={100}
+          opacity={0.1}
+          minSize={8}
+          maxSize={30}
+          rotationSpeed={0.1}
+          color={new Color("purple").multiplyScalar(3)}
+        />
 
         <Player />
         <Asteroids />
