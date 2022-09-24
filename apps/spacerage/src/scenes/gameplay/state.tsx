@@ -1,8 +1,14 @@
 import { RigidBodyEntity } from "@hmans/physics3d"
+import { GroupProps, Object3DProps } from "@react-three/fiber"
 import { createECS } from "miniplex-react"
+import { between, upTo } from "randomish"
+import { useContext } from "react"
 import { makeStore } from "statery"
 import { Object3D, Quaternion, Vector3 } from "three"
-import { Debris } from "./Debris"
+import { Emitter } from "vfx-composer-r3f"
+import { Debris, DebrisContext } from "./Debris"
+
+const tmpVec3 = new Vector3()
 
 export enum Layers {
   Player,
@@ -50,6 +56,22 @@ export const spawnDebris = (position: Vector3, quaternion: Quaternion) => {
     age: 0,
     destroyAfter: 3,
 
-    jsx: <Debris position={position} quaternion={quaternion} />
+    jsx: <DebrisEmitter position={position} quaternion={quaternion} />
   })
+}
+
+const DebrisEmitter = (props: Object3DProps) => {
+  const { particles } = useContext(DebrisContext)
+
+  return (
+    <Emitter
+      {...props}
+      rate={Infinity}
+      limit={between(5, 12)}
+      setup={({ position }) => {
+        particles.setLifetime(between(0.5, 1.5), upTo(0.1))
+        position.add(tmpVec3.randomDirection())
+      }}
+    />
+  )
 }
