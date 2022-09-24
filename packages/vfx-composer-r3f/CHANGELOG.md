@@ -1,5 +1,12 @@
 # vfx-composer-r3f
 
+## 0.2.5
+
+### Patch Changes
+
+- e0a1c00: Refactored the `<Particles>` component to bring it closer to idiomatic React.
+- 7dadce0: Added a first version of `<Particle>`, a scene-graph component that controls a single particle from the CPU.
+
 ## 0.2.4
 
 ### Patch Changes
