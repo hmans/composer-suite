@@ -1,4 +1,5 @@
 import * as Physics from "@hmans/physics3d"
+import { between, plusMinus, random } from "randomish"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
@@ -10,6 +11,7 @@ import { Bullets } from "./Bullets"
 import { Debris } from "./Debris"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
+import { ECS } from "./state"
 import { AgeSystem } from "./systems/AgeSystem"
 import { BulletSystem } from "./systems/BulletSystem"
 import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
@@ -32,15 +34,24 @@ export const GameplayScene = () => {
           layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
         />
 
-        <Nebula
-          dimensions={Vec3([50, 50, 50])}
-          amount={100}
-          opacity={0.1}
-          minSize={8}
-          maxSize={30}
-          rotationSpeed={0.1}
-          color={new Color("purple").multiplyScalar(3)}
-        />
+        <ECS.ManagedEntities initial={20} tag="isNebula">
+          {() => (
+            <Nebula
+              position={[plusMinus(300), plusMinus(300), 0]}
+              dimensions={Vec3([
+                between(20, 80),
+                between(20, 80),
+                between(30, 50)
+              ])}
+              amount={between(10, 80)}
+              opacity={between(0.05, 0.1)}
+              minSize={8}
+              maxSize={30}
+              rotationSpeed={0.1}
+              color={new Color(random(), random(), random()).multiplyScalar(3)}
+            />
+          )}
+        </ECS.ManagedEntities>
 
         <Player />
         <Asteroids />

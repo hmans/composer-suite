@@ -1,5 +1,6 @@
 import { RigidBodyEntity } from "@hmans/physics3d"
 import { GroupProps, Object3DProps } from "@react-three/fiber"
+import { Tag } from "miniplex"
 import { createECS } from "miniplex-react"
 import { between, upTo } from "randomish"
 import { useContext } from "react"
@@ -20,9 +21,10 @@ export const gameplayStore = makeStore({
 })
 
 export type Entity = {
-  isAsteroid?: boolean
-  isBullet?: boolean
-  isDebris?: boolean
+  isAsteroid?: Tag
+  isBullet?: Tag
+  isDebris?: Tag
+  isNebula?: Tag
 
   jsx?: JSX.Element
 
