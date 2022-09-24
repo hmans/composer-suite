@@ -4,7 +4,7 @@ import { createECS } from "miniplex-react"
 import { between, upTo } from "randomish"
 import { useContext } from "react"
 import { makeStore } from "statery"
-import { Object3D, Quaternion, Vector3 } from "three"
+import { Color, Object3D, Quaternion, Vector3 } from "three"
 import { Emitter } from "vfx-composer-r3f"
 import { Debris, DebrisContext } from "./Debris"
 
@@ -43,8 +43,8 @@ export const spawnBullet = (position: Vector3, quaternion: Quaternion) => {
 
     jsx: (
       <mesh position={position} quaternion={quaternion}>
-        <planeGeometry args={[0.2, 0.5]} />
-        <meshBasicMaterial color="yellow" />
+        <planeGeometry args={[0.1, 0.8]} />
+        <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
       </mesh>
     )
   })
