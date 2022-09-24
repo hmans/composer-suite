@@ -15,7 +15,7 @@
     "postprocessing": "^6.28.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render-composer": "^0.2.3",
+    "render-composer": "^0.2.4",
     "shader-composer": "workspace:^0.4.4",
     "three": "^0.144.0"
   },
