@@ -18,8 +18,8 @@ export const Asteroids = () => {
           <ECS.Component name="rigidBody">
             <RigidBody
               position={[plusMinus(100), plusMinus(100), 0]}
-              // quaternion={tmpQuaterion.random()}
-              // scale={between(0.8, 2)}
+              quaternion={tmpQuaterion.random()}
+              scale={between(0.8, 2)}
               angularDamping={1}
               linearDamping={1}
               enabledTranslations={[true, true, false]}
