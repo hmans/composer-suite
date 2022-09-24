@@ -10,15 +10,7 @@ import React, {
 import * as THREE from "three"
 import { useRigidBody } from "../RigidBody"
 import { usePhysicsWorld } from "../World"
-
-export const multiplyByMatrix = (
-  points: Float32Array,
-  matrix: THREE.Matrix4
-) => {
-  const buffer = new THREE.Float32BufferAttribute(points, 3)
-  buffer.applyMatrix4(matrix)
-  return buffer.array
-}
+import { multiplyByMatrix } from "../util/multiplyByMatrix"
 
 export type ConvexHullColliderProps = {
   points: Float32Array
