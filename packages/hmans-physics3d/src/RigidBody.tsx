@@ -56,10 +56,14 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
       /* TODO: set these relative to the physics world object! */
 
+      /* Make sure the scene object's world matrix is up to date */
+      sceneObject.current.updateMatrixWorld()
+
+      /* Assign to state */
+      state.sceneObject = sceneObject.current
+
       /* Create an entity */
       const entity = ecs.createEntity(state)
-
-      entity.sceneObject = sceneObject.current
 
       /* On unmount, remove the body from the world again. */
       return () => {
@@ -87,11 +91,9 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
 
     return (
       <group ref={sceneObject} {...groupProps}>
-        {state && (
-          <RigidBodyContext.Provider value={state}>
-            {children}
-          </RigidBodyContext.Provider>
-        )}
+        <RigidBodyContext.Provider value={state}>
+          {children}
+        </RigidBodyContext.Provider>
       </group>
     )
   }

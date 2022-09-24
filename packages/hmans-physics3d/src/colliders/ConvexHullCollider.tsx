@@ -37,9 +37,10 @@ function ConvexHullCollider(
   const sceneObject = useRef<Group>(null!)
 
   /* add and remove collider */
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!rb.sceneObject) return
     if (!sceneObject.current) return
+
     /* Scale the input */
     const position = new Vector3()
     const rotation = new Quaternion()
