@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { ECS, Layers } from "../state"
+import { ECS, Layers, spawnDebris } from "../state"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { interactionGroups, usePhysicsWorld } from "@hmans/physics3d"
 
@@ -46,6 +46,9 @@ export const BulletSystem = () => {
 
         /* Destroy bullet */
         ECS.world.queue.destroyEntity(bullet)
+
+        /* Spawn VFX */
+        spawnDebris(bullet.sceneObject.position, bullet.sceneObject.quaternion)
 
         /* Push the object we've hit */
         const collider = world.getCollider(hit.collider.handle)

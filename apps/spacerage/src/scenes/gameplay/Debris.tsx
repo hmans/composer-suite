@@ -1,8 +1,9 @@
 import { GroupProps } from "@react-three/fiber"
 import { Composable, Modules } from "material-composer-r3f"
-import { $, Float, Input, InstanceID, Vec3 } from "shader-composer"
+import { between, upTo } from "randomish"
+import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
-import { Vector3 } from "three"
+import { InstanceSetupCallback } from "vfx-composer"
 import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
 
 export const Debris = (props: GroupProps) => {
@@ -13,24 +14,27 @@ export const Debris = (props: GroupProps) => {
 
   const direction = Vec3([random(12), random(84), random(1)])
 
+  const setupDebris: InstanceSetupCallback = ({ position }) => {
+    particles.setLifetime(between(0.5, 1.5), upTo(0.1))
+    position.randomDirection()
+  }
+
   return (
     <group {...props}>
-      <Particles capacity={1000}>
-        <planeGeometry />
+      <Particles capacity={100}>
+        <planeGeometry args={[0.3, 0.3]} />
 
-        <Composable.meshStandardMaterial color="white">
-          <Modules.Velocity direction={direction} time={particles.age} />
-          {/* <Modules.Lifetime {...particles} /> */}
+        <Composable.meshStandardMaterial color="#666">
+          <Modules.Scale scale={OneMinus(particles.progress)} />
+          <Modules.Velocity
+            direction={Mul(direction, 5)}
+            time={particles.age}
+          />
+          <Modules.Color color={(c) => Mul(c, random(123))} />
+          <Modules.Lifetime {...particles} />
         </Composable.meshStandardMaterial>
 
-        <Emitter
-          rate={50}
-          limit={25}
-          setup={({ position }) => {
-            particles.setLifetime(3)
-            position.randomDirection()
-          }}
-        />
+        <Emitter rate={Infinity} limit={between(5, 12)} setup={setupDebris} />
       </Particles>
     </group>
   )

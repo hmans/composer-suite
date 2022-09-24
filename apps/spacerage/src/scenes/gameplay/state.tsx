@@ -2,6 +2,7 @@ import { RigidBodyEntity } from "@hmans/physics3d"
 import { createECS } from "miniplex-react"
 import { makeStore } from "statery"
 import { Object3D, Quaternion, Vector3 } from "three"
+import { Debris } from "./Debris"
 
 export enum Layers {
   Player,
@@ -15,6 +16,7 @@ export const gameplayStore = makeStore({
 export type Entity = {
   isAsteroid?: boolean
   isBullet?: boolean
+  isDebris?: boolean
 
   jsx?: JSX.Element
 
@@ -39,5 +41,15 @@ export const spawnBullet = (position: Vector3, quaternion: Quaternion) => {
         <meshBasicMaterial color="yellow" />
       </mesh>
     )
+  })
+}
+
+export const spawnDebris = (position: Vector3, quaternion: Quaternion) => {
+  ECS.world.createEntity({
+    isDebris: true,
+    age: 0,
+    destroyAfter: 3,
+
+    jsx: <Debris position={position} quaternion={quaternion} />
   })
 }
