@@ -3,9 +3,6 @@ import { createECS } from "miniplex-react"
 import { makeStore } from "statery"
 import { Object3D, Quaternion, Vector3 } from "three"
 
-const tmpVec3 = new Vector3()
-const tmpQuat = new Quaternion()
-
 export const gameplayStore = makeStore({
   player: null as Object3D | null
 })
