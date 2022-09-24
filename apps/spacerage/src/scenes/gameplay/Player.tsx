@@ -11,7 +11,7 @@ import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
-import { fireWeapon, gameplayStore } from "./state"
+import { spawnBullet, gameplayStore } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -23,7 +23,9 @@ export const Player = () => {
   const input = useInput()
   const { player } = useStore(gameplayStore)
 
-  useFrame(() => {
+  const fireCooldown = useRef(0)
+
+  useFrame((_, dt) => {
     if (!player) return
 
     const horizontal = input.keyboard.axis("KeyA", "KeyD")
@@ -46,8 +48,26 @@ export const Player = () => {
     body.addForce(thrust, true)
 
     /* Fire? */
-    if (fire) {
-      fireWeapon(player)
+    fireCooldown.current -= dt
+    if (fire && fireCooldown.current <= 0) {
+      const quaternion = new Quaternion()
+      player.getWorldQuaternion(tmpQuat)
+
+      spawnBullet(
+        player
+          .getWorldPosition(new Vector3())
+          .add(new Vector3(-1.3, 0.5, 0).applyQuaternion(tmpQuat)),
+        tmpQuat
+      )
+
+      spawnBullet(
+        player
+          .getWorldPosition(new Vector3())
+          .add(new Vector3(+1.3, 0.5, 0).applyQuaternion(tmpQuat)),
+        tmpQuat
+      )
+
+      fireCooldown.current = 0.065
     }
   }, Stage.Early)
 

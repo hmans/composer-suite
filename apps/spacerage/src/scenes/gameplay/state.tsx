@@ -22,15 +22,12 @@ export type Entity = {
 
 export const ECS = createECS<Entity>()
 
-export const fireWeapon = (origin: Object3D) => {
+export const spawnBullet = (position: Vector3, quaternion: Quaternion) => {
   ECS.world.createEntity({
     isBullet: true,
 
     jsx: (
-      <mesh
-        position={origin.getWorldPosition(tmpVec3)}
-        quaternion={origin.getWorldQuaternion(tmpQuat)}
-      >
+      <mesh position={position} quaternion={quaternion}>
         <planeGeometry args={[0.2, 0.5]} />
         <meshBasicMaterial color="yellow" />
       </mesh>
