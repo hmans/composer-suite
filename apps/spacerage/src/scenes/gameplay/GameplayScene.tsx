@@ -7,6 +7,7 @@ import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 import { AgeSystem } from "./systems/AgeSystem"
 import { BulletSystem } from "./systems/BulletSystem"
+import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
 import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 
 export const GameplayScene = () => {
@@ -24,6 +25,7 @@ export const GameplayScene = () => {
         <Bullets />
 
         <AgeSystem />
+        <DestroyAfterSystem />
         <BulletSystem />
         <ECSFlushSystem />
       </Physics.World>

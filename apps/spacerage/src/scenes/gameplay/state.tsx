@@ -22,6 +22,7 @@ export type Entity = {
   rigidBody?: RigidBodyEntity
 
   age?: number
+  destroyAfter?: number
 }
 
 export const ECS = createECS<Entity>()
@@ -29,6 +30,8 @@ export const ECS = createECS<Entity>()
 export const spawnBullet = (position: Vector3, quaternion: Quaternion) => {
   ECS.world.createEntity({
     isBullet: true,
+    age: 0,
+    destroyAfter: 1,
 
     jsx: (
       <mesh position={position} quaternion={quaternion}>
