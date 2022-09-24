@@ -24,8 +24,8 @@ export const Debris = (props: GroupProps) => {
         </Composable.meshStandardMaterial>
 
         <Emitter
-          rate={10}
-          limit={Infinity}
+          rate={50}
+          limit={25}
           setup={({ position }) => {
             particles.setLifetime(3)
             position.randomDirection()
