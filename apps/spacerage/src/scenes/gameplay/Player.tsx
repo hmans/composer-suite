@@ -47,7 +47,7 @@ export const Player = () => {
 
     /* Fire? */
     if (fire) {
-      fireWeapon(player.getWorldPosition(tmpVec3))
+      fireWeapon(player)
     }
   }, Stage.Early)
 
