@@ -1,5 +1,4 @@
 import {
-  Collider,
   ConvexHullCollider,
   RigidBody,
   RigidBodyEntity
@@ -8,20 +7,25 @@ import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useInput } from "input-composer"
 import { useRef } from "react"
-import { Mesh, Vector3 } from "three"
+import { useStore } from "statery"
+import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { gameplayStore } from "./state"
 
 const tmpVec3 = new Vector3()
+const tmpQuat = new Quaternion()
 
 export const Player = () => {
   const rb = useRef<RigidBodyEntity>(null!)
 
   const gltf = useGLTF("/models/spaceship25.gltf")
   const input = useInput()
+  const { player } = useStore(gameplayStore)
 
   useFrame(() => {
+    if (!player) return
+
     const horizontal = input.keyboard.axis("KeyA", "KeyD")
     const vertical = input.keyboard.axis("KeyS", "KeyW")
 
@@ -30,25 +34,15 @@ export const Player = () => {
     body.resetForces(true)
     body.resetTorques(true)
 
-    /* Move player */
-    body.addForce({ x: horizontal * 200, y: vertical * 200, z: 0 }, true)
+    /* Rotate the player */
+    body.addTorque(tmpVec3.set(0, 0, -40).multiplyScalar(horizontal), true)
 
-    // /* Rotate player in direction of movement */
-    // const velocity = tmpVec3.copy(body.current.linvel()).normalize()
+    /* Thrust */
+    const thrust = tmpVec3
+      .set(0, vertical * 100, 0)
+      .applyQuaternion(player.getWorldQuaternion(tmpQuat))
 
-    // const forward = new Vector3(-1, 0, 0).applyQuaternion(
-    //   body.current.rotation()
-    // )
-    // // console.log(forward)
-    // const dot = forward.dot(velocity)
-    // console.log(dot)
-
-    // // Rotate the player into the direction of his velocity
-    // body.current.addTorque({
-    //   x: 0,
-    //   y: 0,
-    //   z: dot * 0.1
-    // })
+    body.addForce(thrust, true)
   }, Stage.Early)
 
   return (
@@ -59,14 +53,16 @@ export const Player = () => {
       enabledTranslations={[true, true, false]}
       enabledRotations={[false, false, true]}
     >
-      <group ref={useCapture(gameplayStore, "player")} scale={0.2}>
-        <ConvexHullCollider
-          points={
-            (gltf.scene.children[0] as Mesh).geometry.attributes.position
-              .array as Float32Array
-          }
-        />
-        <primitive object={gltf.scene} />
+      <group ref={useCapture(gameplayStore, "player")}>
+        <group scale={0.5}>
+          <ConvexHullCollider
+            points={
+              (gltf.scene.children[0] as Mesh).geometry.attributes.position
+                .array as Float32Array
+            }
+          />
+          <primitive object={gltf.scene} />
+        </group>
       </group>
     </RigidBody>
   )

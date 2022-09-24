@@ -37,7 +37,9 @@ function ConvexHullCollider(
   const sceneObject = useRef<Group>(null!)
 
   /* add and remove collider */
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!rb.sceneObject) return
+    if (!sceneObject.current) return
     /* Scale the input */
     const position = new Vector3()
     const rotation = new Quaternion()
@@ -45,6 +47,7 @@ function ConvexHullCollider(
 
     sceneObject.current.updateMatrixWorld()
     sceneObject.current.matrixWorld.decompose(position, rotation, scale)
+
     console.log(scale)
 
     const relativeMatrix = new Matrix4().compose(
