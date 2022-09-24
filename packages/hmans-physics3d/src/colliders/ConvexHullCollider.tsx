@@ -1,14 +1,12 @@
+import * as RAPIER from "@dimforge/rapier3d-compat"
+import { GroupProps } from "@react-three/fiber"
 import React, {
   ForwardedRef,
   forwardRef,
   useEffect,
   useImperativeHandle,
-  useLayoutEffect,
   useRef
 } from "react"
-import { useRigidBody } from "../RigidBody"
-import { usePhysicsWorld } from "../World"
-import * as RAPIER from "@dimforge/rapier3d-compat"
 import {
   Float32BufferAttribute,
   Group,
@@ -16,7 +14,8 @@ import {
   Quaternion,
   Vector3
 } from "three"
-import { GroupProps } from "@react-three/fiber"
+import { useRigidBody } from "../RigidBody"
+import { usePhysicsWorld } from "../World"
 
 export const multiplyByMatrix = (points: Float32Array, matrix: Matrix4) => {
   const buffer = new Float32BufferAttribute(points, 3)
@@ -38,26 +37,20 @@ function ConvexHullCollider(
 
   /* add and remove collider */
   useEffect(() => {
-    if (!rb.sceneObject) return
-    if (!sceneObject.current) return
-
-    /* Scale the input */
+    /* Grab the collider's world transform */
     const position = new Vector3()
     const rotation = new Quaternion()
     const scale = new Vector3()
-
-    sceneObject.current.updateMatrixWorld()
     sceneObject.current.matrixWorld.decompose(position, rotation, scale)
 
-    console.log(scale)
-
+    /* Create the transform matrix relative to the ownnign rigidbody */
     const relativeMatrix = new Matrix4().compose(
       new Vector3(),
       rotation.multiply(rb.sceneObject.quaternion.clone().invert()),
       scale
     )
 
-    /* Scale points */
+    /* Scale points using the matrix */
     const scaledPoints = multiplyByMatrix(
       points,
       relativeMatrix
@@ -72,7 +65,7 @@ function ConvexHullCollider(
 
     /* Destroy the collider on unmount */
     return () => world.removeCollider(collider, true)
-  })
+  }, [])
 
   useImperativeHandle(ref, () => sceneObject.current)
 
