@@ -78,6 +78,8 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     )
 
     useFrame(() => {
+      if (!ecs.entities.length) return
+
       /* Make sure the effect's world matrix is up to date */
       particles.updateMatrixWorld()
 
