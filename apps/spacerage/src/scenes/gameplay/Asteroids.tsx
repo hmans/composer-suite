@@ -21,7 +21,7 @@ export const Asteroids = () => {
               quaternion={tmpQuaterion.random()}
               scale={between(0.8, 2)}
               angularDamping={1}
-              linearDamping={1}
+              linearDamping={0.5}
               enabledTranslations={[true, true, false]}
               enabledRotations={[true, true, true]}
             >

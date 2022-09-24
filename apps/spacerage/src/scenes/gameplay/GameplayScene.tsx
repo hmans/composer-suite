@@ -6,6 +6,7 @@ import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
 import { BulletSystem } from "./systems/BulletSystem"
+import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 
 export const GameplayScene = () => {
   return (
@@ -20,9 +21,10 @@ export const GameplayScene = () => {
         <Player />
         <Asteroids />
         <Bullets />
-      </Physics.World>
 
-      <BulletSystem />
+        <BulletSystem />
+        <ECSFlushSystem />
+      </Physics.World>
     </group>
   )
 }

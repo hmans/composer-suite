@@ -17,6 +17,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.9.0",
     "@hmans/physics3d": "workspace:^0.1.2",
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.31.1",
