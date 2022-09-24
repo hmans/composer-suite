@@ -20,6 +20,8 @@ export type Entity = {
 
   sceneObject?: Object3D
   rigidBody?: RigidBodyEntity
+
+  age?: number
 }
 
 export const ECS = createECS<Entity>()

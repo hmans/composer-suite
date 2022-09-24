@@ -5,6 +5,7 @@ import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
+import { AgeSystem } from "./systems/AgeSystem"
 import { BulletSystem } from "./systems/BulletSystem"
 import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 
@@ -22,6 +23,7 @@ export const GameplayScene = () => {
         <Asteroids />
         <Bullets />
 
+        <AgeSystem />
         <BulletSystem />
         <ECSFlushSystem />
       </Physics.World>
