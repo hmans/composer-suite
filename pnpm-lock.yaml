@@ -379,8 +379,8 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
-      miniplex: 0.0.0-canary-20220924150908
-      miniplex-react: ^0.4.1
+      miniplex: 0.0.0-canary-20220925113423
+      miniplex-react: 0.0.0-canary-20220925113423
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -411,8 +411,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 0.0.0-canary-20220924150908
-      miniplex-react: 0.4.1_llc3iej6o4jl2n5dy4koufyyla
+      miniplex: 0.0.0-canary-20220925113423
+      miniplex-react: 0.0.0-canary-20220925113423_ufsoos6wk4ugt5lrf7y5hpfyuy
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -8944,14 +8944,14 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/0.4.1_llc3iej6o4jl2n5dy4koufyyla:
-    resolution: {integrity: sha512-J00jvgLapKSZxiYNykGUXViAQBCPmnr2gEMeI0lJhDCliaC/G6T7vnZ4Q/guHFyb0NNUjeLe4ANRTjNHn76o+w==}
+  /miniplex-react/0.0.0-canary-20220925113423_ufsoos6wk4ugt5lrf7y5hpfyuy:
+    resolution: {integrity: sha512-mr96htbbmezcJB6crBR1sF3ll0YWWfCMyofEXAMv3gVtWBl3LnOQLe9WbrOI+Z+1K2DDW41wdsjpZNOkrdFZ9A==}
     peerDependencies:
-      miniplex: '>=0.9.0'
+      miniplex: 0.0.0-canary-20220925113423
       react: '>=16.8'
     dependencies:
       '@hmans/react-toolbox': 0.1.4_react@18.2.0
-      miniplex: 0.0.0-canary-20220924150908
+      miniplex: 0.0.0-canary-20220925113423
       react: 18.2.0
       react-merge-refs: 1.1.0
     dev: false
@@ -8968,8 +8968,8 @@ packages:
       react-merge-refs: 1.1.0
     dev: false
 
-  /miniplex/0.0.0-canary-20220924150908:
-    resolution: {integrity: sha512-s6xlDAaKuXpbolBhxtu2IdAawsY+R+O4x2vEe3RJ/fQktZb5VleYApCBe9LgRraSvgslZHvZQqKEIt/AVDaHjA==}
+  /miniplex/0.0.0-canary-20220925113423:
+    resolution: {integrity: sha512-PWhMi5hPmN18u9OHZZCFExBgVyQMtrF6ashc06LzWMXAmLhCOM7siBcjj7dmsnKtsYxym3eLW+o8FmnA2w0mHQ==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
