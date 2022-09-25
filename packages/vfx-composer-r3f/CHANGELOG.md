@@ -1,5 +1,11 @@
 # vfx-composer-r3f
 
+## 0.2.6
+
+### Patch Changes
+
+- 2006cdd: Fixed a small issue around particle effects that did not include controlled particles.
+
 ## 0.2.5
 
 ### Patch Changes

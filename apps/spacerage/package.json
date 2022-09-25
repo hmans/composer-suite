@@ -40,7 +40,7 @@
     "three": "^0.144.0",
     "timeline-composer": "^0.1.7",
     "vfx-composer": "^0.2.4",
-    "vfx-composer-r3f": "^0.2.5"
+    "vfx-composer-r3f": "^0.2.6"
   },
   "devDependencies": {
     "@types/react": "^18.0.20",
