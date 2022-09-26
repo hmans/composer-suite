@@ -5,14 +5,14 @@ import {
 } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import { useLayoutEffect, useTransition } from "react"
+import { useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { Particle, Particles } from "vfx-composer-r3f"
 import { ECS, Layers, spawnAsteroid } from "./state"
 
 const tmpQuaterion = new Quaternion()
 
-export const Asteroids = () => {
+export const Asteroids = (props: { initial: number }) => {
   const gltf = useGLTF("/models/asteroid03.gltf")
   const mesh = gltf.scene.children[0] as Mesh
 
@@ -20,7 +20,7 @@ export const Asteroids = () => {
 
   useLayoutEffect(() => {
     /* Spawn a bunch of asteroids */
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < props.initial; i++) {
       spawnAsteroid(
         new Vector3(plusMinus(300), plusMinus(300), 0),
         between(0.8, 2)
@@ -33,6 +33,7 @@ export const Asteroids = () => {
       capacity={10000}
       geometry={mesh.geometry}
       material={mesh.material as Material}
+      matrixAutoUpdate={false}
     >
       <ECS.Entities entities={entities}>
         {({ asteroid }) => (
@@ -46,7 +47,7 @@ export const Asteroids = () => {
               enabledTranslations={[true, true, false]}
               enabledRotations={[true, true, true]}
             >
-              <group>
+              <group matrixAutoUpdate={false}>
                 <ConvexHullCollider
                   density={3}
                   collisionGroups={interactionGroups(Layers.Asteroid, [

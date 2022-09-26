@@ -68,7 +68,7 @@ function ConvexHullCollider(
 
   useImperativeHandle(ref, () => sceneObject.current)
 
-  return <group {...props} ref={sceneObject} />
+  return <group {...props} ref={sceneObject} matrixAutoUpdate={false} />
 }
 
 export default forwardRef(ConvexHullCollider)
