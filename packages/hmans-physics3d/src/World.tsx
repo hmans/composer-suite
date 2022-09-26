@@ -38,7 +38,7 @@ export const World = ({
 
   const acc = useRef(0)
 
-  useFrame((_, dt) => {
+  useFrame(function physicsWorldUpdate(_, dt) {
     /* Step the world */
     acc.current += dt
     world.timestep = dt

@@ -49,7 +49,7 @@ export const EffectComposer = ({
   }, [size.width, size.height, composer])
 
   /* Render! */
-  useFrame((_, dt) => {
+  useFrame(function effectComposerRender(_, dt) {
     composer.render(dt)
   }, updatePriority)
 

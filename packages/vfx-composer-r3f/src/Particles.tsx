@@ -79,7 +79,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
       -100
     )
 
-    useFrame(() => {
+    useFrame(function controlledParticlesUpdate() {
       if (ecs.entities.length === 0) return
 
       /* Make sure the effect's world matrix is up to date. (If we don't do it now,
