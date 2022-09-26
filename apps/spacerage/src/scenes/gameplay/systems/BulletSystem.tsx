@@ -13,7 +13,7 @@ const ray = new RAPIER.Ray(
 )
 
 export const BulletSystem = () => {
-  const bullets = ECS.world.archetype("isBullet", "sceneObject")
+  const bullets = ECS.world.archetype("isBullet", "sceneObject", "velocity")
   const { world } = usePhysicsWorld()
 
   useFrame((_, dt) => {
@@ -21,9 +21,7 @@ export const BulletSystem = () => {
       const { sceneObject } = bullet
       if (!sceneObject) return
 
-      sceneObject.position.add(
-        tmpVec3.set(0, 40 * dt, 0).applyQuaternion(sceneObject.quaternion)
-      )
+      sceneObject.position.addScaledVector(bullet.velocity, dt)
 
       /* COLLISIONS */
       /* Perform hit test */

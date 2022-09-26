@@ -26,6 +26,8 @@ export type Entity = {
   isDebris?: Tag
   isNebula?: Tag
 
+  velocity?: Vector3
+
   jsx?: JSX.Element
 
   sceneObject?: Object3D
@@ -37,11 +39,16 @@ export type Entity = {
 
 export const ECS = createECS<Entity>()
 
-export const spawnBullet = (position: Vector3, quaternion: Quaternion) => {
+export const spawnBullet = (
+  position: Vector3,
+  quaternion: Quaternion,
+  velocity: Vector3
+) => {
   ECS.world.createEntity({
     isBullet: true,
     age: 0,
     destroyAfter: 1,
+    velocity,
 
     jsx: (
       <mesh position={position} quaternion={quaternion}>

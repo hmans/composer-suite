@@ -9,9 +9,10 @@ import { useFrame } from "@react-three/fiber"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
+import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { useStore } from "statery"
-import { Mesh, Quaternion, Vector3 } from "three"
+import { Euler, Mesh, Quaternion, Vector3 } from "three"
 import { clamp } from "three/src/math/MathUtils"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
@@ -75,19 +76,33 @@ export const Player = () => {
 
     /* Fire? */
     fireCooldown.current -= dt
+    const velocity = new Vector3(0, 1, 0)
+      .applyQuaternion(tmpQuat)
+      .multiplyScalar(40)
+      .add(body.linvel() as Vector3)
+
     if (input.fire && fireCooldown.current <= 0) {
       spawnBullet(
         player
           .getWorldPosition(new Vector3())
           .add(new Vector3(-1.3, 0.5, 0).applyQuaternion(tmpQuat)),
-        tmpQuat
+        tmpQuat,
+
+        new Vector3(0, 40, 0)
+          .applyQuaternion(tmpQuat)
+          .add(body.linvel() as Vector3)
       )
 
       spawnBullet(
         player
           .getWorldPosition(new Vector3())
           .add(new Vector3(+1.3, 0.5, 0).applyQuaternion(tmpQuat)),
-        tmpQuat
+
+        tmpQuat,
+
+        new Vector3(0, 40, 0)
+          .applyQuaternion(tmpQuat)
+          .add(body.linvel() as Vector3)
       )
 
       fireCooldown.current = 0.065
