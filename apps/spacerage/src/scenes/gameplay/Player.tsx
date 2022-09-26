@@ -74,7 +74,7 @@ export const Player = () => {
     body.addForce(thrust, true)
   }, Stage.Early)
 
-  useFrame((_, dt) => {
+  useFrame(function playerShootingUpdate(_, dt) {
     if (!player) return
     const { body } = rb.current
 

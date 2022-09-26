@@ -19,7 +19,7 @@ export const BulletSystem = () => {
   const bullets = ECS.world.archetype("isBullet", "sceneObject", "velocity")
   const { world } = usePhysicsWorld()
 
-  useFrame((_, dt) => {
+  useFrame(function bulletSystem(_, dt) {
     for (const bullet of bullets) {
       const { sceneObject } = bullet
       if (!sceneObject) return
