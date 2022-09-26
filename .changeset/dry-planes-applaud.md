@@ -2,4 +2,4 @@
 "@hmans/physics3d": patch
 ---
 
-Added `density` prop on collider.
+**New:** Added `density` prop on collider.

@@ -2,4 +2,4 @@
 "@hmans/physics3d": patch
 ---
 
-Don't update scene objects of sleeping bodies.
+**Fixed:** Sleeping physics bodies now don't update their scene objects' transforms.
