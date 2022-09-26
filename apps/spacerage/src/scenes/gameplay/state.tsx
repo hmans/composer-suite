@@ -119,7 +119,8 @@ const DebrisEmitter = (props: Object3DProps) => {
       {...props}
       rate={Infinity}
       limit={between(2, 5)}
-      setup={({ position }) => {
+      setup={({ position, scale }) => {
+        scale.setScalar(between(0.5, 2))
         particles.setLifetime(between(0.5, 1.5), upTo(0.1))
         position.add(tmpVec3.randomDirection())
       }}
