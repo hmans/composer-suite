@@ -1,4 +1,4 @@
-import { Object3DProps, useFrame } from "@react-three/fiber"
+import { Object3DProps } from "@react-three/fiber"
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -41,6 +41,7 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
     return () => {
       ecs.destroyEntity(entity)
       particles.setMatrixAt(cursor, hideMatrix)
+      particles.instanceMatrix.needsUpdate = true
     }
   }, [particles])
 
