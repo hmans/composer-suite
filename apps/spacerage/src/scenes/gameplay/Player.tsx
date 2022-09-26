@@ -73,13 +73,16 @@ export const Player = () => {
     const thrust = tmpVec3.set(input.move.x * 100, input.move.y * 100, 0)
 
     body.addForce(thrust, true)
+  }, Stage.Early)
+
+  useFrame((_, dt) => {
+    if (!player) return
+    const { body } = rb.current
 
     /* Fire? */
     fireCooldown.current -= dt
-    const velocity = new Vector3(0, 1, 0)
-      .applyQuaternion(tmpQuat)
-      .multiplyScalar(40)
-      .add(body.linvel() as Vector3)
+
+    const input = pipe(getInput(), transformInput)
 
     if (input.fire && fireCooldown.current <= 0) {
       spawnBullet(
@@ -109,7 +112,7 @@ export const Player = () => {
 
       fireCooldown.current = 0.065
     }
-  }, Stage.Early)
+  })
 
   return (
     <RigidBody
