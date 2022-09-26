@@ -58,7 +58,7 @@ const createGamepad = () => {
 
         vector: (horizontalAxis: number, verticalAxis: number) => ({
           x: gamepad?.axes[horizontalAxis] ?? 0,
-          y: gamepad?.axes[verticalAxis] ?? 0
+          y: -(gamepad?.axes[verticalAxis] ?? 0)
         }),
 
         button: (index: number) => gamepad?.buttons[index].value ?? 0

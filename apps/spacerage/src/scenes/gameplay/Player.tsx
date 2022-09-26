@@ -12,6 +12,7 @@ import { Input } from "input-composer/vanilla"
 import { useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
+import { clamp } from "three/src/math/MathUtils"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { gameplayStore, Layers, spawnBullet } from "./state"
@@ -22,15 +23,15 @@ const tmpQuat = new Quaternion()
 let activeDevice: "keyboard" | "gamepad" = "gamepad"
 
 const transformInput = ({ keyboard, gamepad }: Input) => ({
-  horizontal:
+  move:
     activeDevice === "keyboard"
-      ? keyboard.axis("KeyA", "KeyD")
-      : gamepad.gamepad(0).axis(0),
+      ? keyboard.vector("KeyW", "KeyS", "KeyA", "KeyD")
+      : gamepad.gamepad(0).vector(0, 1),
 
-  vertical:
+  aim:
     activeDevice === "keyboard"
-      ? keyboard.axis("KeyS", "KeyW")
-      : -gamepad.gamepad(0).axis(1),
+      ? keyboard.vector("ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight")
+      : gamepad.gamepad(0).vector(2, 3),
 
   fire:
     activeDevice === "keyboard"
@@ -54,20 +55,27 @@ export const Player = () => {
 
     body.resetForces(true)
     body.resetTorques(true)
+    player.getWorldQuaternion(tmpQuat)
 
     /* Rotate the player */
-    // body.addTorque(tmpVec3.set(0, 0, -40).multiplyScalar(horizontal), true)
+    const lookDirection = new Vector3(0, 1, 0).applyQuaternion(tmpQuat)
+    const aimDirection = new Vector3(input.aim.x, input.aim.y, 0).normalize()
+    const angle = lookDirection.angleTo(aimDirection)
+    const cross = lookDirection.cross(aimDirection)
+    if (cross.z) {
+      const delta = angle / Math.PI
+      const torque = Math.sign(cross.z) * Math.pow(delta, 2) * 300
+      body.addTorque(tmpVec3.set(0, 0, torque), true)
+    }
 
     /* Thrust */
-    const thrust = tmpVec3.set(input.horizontal * 100, input.vertical * 100, 0)
+    const thrust = tmpVec3.set(input.move.x * 100, input.move.y * 100, 0)
 
     body.addForce(thrust, true)
 
     /* Fire? */
     fireCooldown.current -= dt
     if (input.fire && fireCooldown.current <= 0) {
-      player.getWorldQuaternion(tmpQuat)
-
       spawnBullet(
         player
           .getWorldPosition(new Vector3())
@@ -89,7 +97,7 @@ export const Player = () => {
   return (
     <RigidBody
       ref={rb}
-      angularDamping={1}
+      angularDamping={3}
       linearDamping={1}
       enabledTranslations={[true, true, false]}
       enabledRotations={[false, false, true]}
