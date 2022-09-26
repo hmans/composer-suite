@@ -90,6 +90,7 @@ export const Player = () => {
 
         new Vector3(0, 40, 0)
           .applyQuaternion(tmpQuat)
+          .applyAxisAngle(new Vector3(0, 0, 1), plusMinus(0.02))
           .add(body.linvel() as Vector3)
       )
 
@@ -102,6 +103,7 @@ export const Player = () => {
 
         new Vector3(0, 40, 0)
           .applyQuaternion(tmpQuat)
+          .applyAxisAngle(new Vector3(0, 0, 1), plusMinus(0.02))
           .add(body.linvel() as Vector3)
       )
 
