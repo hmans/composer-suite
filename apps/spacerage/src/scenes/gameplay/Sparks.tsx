@@ -19,7 +19,7 @@ export const Sparks = (props: GroupProps) => {
 
   return (
     <group {...props}>
-      <Particles capacity={1000}>
+      <Particles capacity={200}>
         <planeGeometry args={[0.1, 0.1]} />
 
         <Composable.meshStandardMaterial>
@@ -29,7 +29,7 @@ export const Sparks = (props: GroupProps) => {
             time={particles.age}
             space="local"
           />
-          <Modules.Color color={new Color("orange")} />
+          <Modules.Color color={new Color("yellow").multiplyScalar(2)} />
           <Modules.Lifetime {...particles} />
         </Composable.meshStandardMaterial>
 

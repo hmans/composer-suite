@@ -1,3 +1,4 @@
+import { Icosahedron } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { Composable, Modules } from "material-composer-r3f"
 import { createContext } from "react"
@@ -18,8 +19,8 @@ export const Debris = (props: GroupProps) => {
 
   return (
     <group {...props}>
-      <Particles capacity={1000}>
-        <planeGeometry args={[0.3, 0.3]} />
+      <Particles capacity={200}>
+        <icosahedronGeometry args={[0.3]} />
 
         <Composable.meshStandardMaterial color="#666">
           <Modules.Scale scale={OneMinus(particles.progress)} />

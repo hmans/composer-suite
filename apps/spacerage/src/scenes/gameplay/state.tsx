@@ -95,7 +95,7 @@ const SparksEmitter = (props: Object3DProps) => {
       rate={Infinity}
       limit={between(2, 8)}
       setup={({ position }) => {
-        particles.setLifetime(between(0.5, 1.5), upTo(0.1))
+        particles.setLifetime(between(0.2, 0.8), upTo(0.1))
       }}
     />
   )
@@ -118,7 +118,7 @@ const DebrisEmitter = (props: Object3DProps) => {
     <Emitter
       {...props}
       rate={Infinity}
-      limit={between(5, 12)}
+      limit={between(2, 5)}
       setup={({ position }) => {
         particles.setLifetime(between(0.5, 1.5), upTo(0.1))
         position.add(tmpVec3.randomDirection())
