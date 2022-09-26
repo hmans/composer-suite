@@ -40,13 +40,9 @@ const transformInput = ({ keyboard, gamepad }: Input) => ({
 
 export const Player = () => {
   const rb = useRef<RigidBodyEntity>(null!)
-
   const gltf = useGLTF("/models/spaceship25.gltf")
-
   const getInput = useInput()
-
   const { player } = useStore(gameplayStore)
-
   const fireCooldown = useRef(0)
 
   useFrame((_, dt) => {
