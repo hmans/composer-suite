@@ -21,7 +21,13 @@ export const Player = () => {
   const rb = useRef<RigidBodyEntity>(null!)
 
   const gltf = useGLTF("/models/spaceship25.gltf")
-  const getInput = useInput()
+
+  const getInput = useInput((input) => ({
+    horizontal: input.keyboard.axis("KeyA", "KeyD"),
+    vertical: input.keyboard.axis("KeyS", "KeyW"),
+    fire: input.keyboard.key("Space")
+  }))
+
   const { player } = useStore(gameplayStore)
 
   const fireCooldown = useRef(0)
@@ -30,10 +36,6 @@ export const Player = () => {
     if (!player) return
 
     const input = getInput()
-
-    const horizontal = input.keyboard.axis("KeyA", "KeyD")
-    const vertical = input.keyboard.axis("KeyS", "KeyW")
-    const fire = input.keyboard.key("Space")
 
     const { body } = rb.current
 
@@ -44,14 +46,13 @@ export const Player = () => {
     // body.addTorque(tmpVec3.set(0, 0, -40).multiplyScalar(horizontal), true)
 
     /* Thrust */
-    const thrust = tmpVec3.set(horizontal * 100, vertical * 100, 0)
+    const thrust = tmpVec3.set(input.horizontal * 100, input.vertical * 100, 0)
 
     body.addForce(thrust, true)
 
     /* Fire? */
     fireCooldown.current -= dt
-    if (fire && fireCooldown.current <= 0) {
-      const quaternion = new Quaternion()
+    if (input.fire && fireCooldown.current <= 0) {
       player.getWorldQuaternion(tmpQuat)
 
       spawnBullet(

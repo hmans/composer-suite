@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo } from "react"
-import { createInput } from "./vanilla"
+import { createInput, Input } from "./vanilla"
 
-export const useInput = () => {
+export const useInput = <T = Input>(fun?: (input: Input) => T) => {
   const input = useMemo(() => createInput(), [])
 
   useLayoutEffect(() => {
@@ -9,5 +9,8 @@ export const useInput = () => {
     return () => input.stop()
   }, [input])
 
-  return input.get
+  return () => {
+    const currentInput = input.get()
+    return (fun ? fun(currentInput) : currentInput) as T
+  }
 }

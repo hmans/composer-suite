@@ -1,7 +1,6 @@
-type KeyboardDriver = ReturnType<typeof createKeyboard>
-type GamepadDriver = ReturnType<typeof createGamepad>
-
-type Input = { keyboard: KeyboardDriver; gamepad: GamepadDriver }
+export type KeyboardDriver = ReturnType<typeof createKeyboard>
+export type GamepadDriver = ReturnType<typeof createGamepad>
+export type Input = { keyboard: KeyboardDriver; gamepad: GamepadDriver }
 
 const createKeyboard = () => {
   const keys = new Set<string>()
