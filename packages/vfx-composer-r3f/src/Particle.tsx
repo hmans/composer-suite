@@ -10,8 +10,6 @@ import { useParticlesContext } from "./Particles"
 
 const hideMatrix = new Matrix4().makeScale(0, 0, 0)
 
-const tmpMatrix = new Matrix4()
-
 /**
  * Use `<Particle>` to emit a single particle that remains CPU-controlled, meaning
  * that it will continuously update its instance matrix to match its transform
