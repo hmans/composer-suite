@@ -41,6 +41,12 @@ export const BulletSystem = () => {
 
       if (hit) {
         const point = ray.pointAt(hit.toi)
+        const otherBody = hit.collider.parent()
+
+        const otherEntity = ECS.world.entities.find(
+          (e) => e.rigidBody?.body === otherBody
+        )
+        ECS.world.queue.destroyEntity(otherEntity)
 
         /* Destroy bullet */
         ECS.world.queue.destroyEntity(bullet)
