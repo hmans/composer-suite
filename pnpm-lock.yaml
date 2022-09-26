@@ -79,7 +79,7 @@ importers:
       three-stdlib: ^2.15.0
       timeline-composer: workspace:^0.1.7
       typescript: ^4.8.3
-      vfx-composer-r3f: workspace:^0.2.6
+      vfx-composer-r3f: workspace:^0.2.7
       vite: ^3.1.0
     dependencies:
       '@hmans/things': 0.0.6_hutetxkntliphjz5jo5ozlmmu4
@@ -366,7 +366,7 @@ importers:
   apps/spacerage:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
-      '@hmans/physics3d': workspace:^0.1.2
+      '@hmans/physics3d': workspace:^0.1.3
       '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.32.1
@@ -400,7 +400,7 @@ importers:
       timeline-composer: ^0.1.7
       typescript: ^4.8.3
       vfx-composer: ^0.2.4
-      vfx-composer-r3f: ^0.2.6
+      vfx-composer-r3f: ^0.2.7
       vite: ^3.1.3
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
@@ -530,7 +530,7 @@ importers:
       timeline-composer: ^0.1.7
       typescript: ^4.8.3
       vfx-composer: ^0.2.4
-      vfx-composer-r3f: ^0.2.6
+      vfx-composer-r3f: ^0.2.7
       vite: ^3.1.0
       wouter: ^2.8.0-alpha.2
     dependencies:

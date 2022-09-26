@@ -1,5 +1,12 @@
 # vfx-composer-r3f
 
+## 0.2.7
+
+### Patch Changes
+
+- bb7e585: **Fixed:** Minor performance tweaks around controlled particles.
+- 8376e3e: **Fixed:** When a controlled particle is unmounted, it will now automatically mark the particle system's instance matrix for reupload (fixing a bug where the last controller particle would never disappear because nobody would trigger matrix uploads anymore. Woops!)
+
 ## 0.2.6
 
 ### Patch Changes

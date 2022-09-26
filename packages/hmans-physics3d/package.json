@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/hmans-physics3d.cjs.js",
   "module": "dist/hmans-physics3d.esm.js",
   "files": [
