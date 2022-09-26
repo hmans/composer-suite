@@ -46,7 +46,7 @@ export const Player = () => {
   const { player } = useStore(gameplayStore)
   const fireCooldown = useRef(0)
 
-  useFrame((_, dt) => {
+  useFrame(function playerUpdate(_, dt) {
     if (!player) return
 
     const input = pipe(getInput(), transformInput)

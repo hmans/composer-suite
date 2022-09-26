@@ -107,7 +107,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
       [particlesProp, context?.particles, emitterSetup, rate, limit]
     )
 
-    useFrame((_, dt) => {
+    useFrame(function emitterUpdate(_, dt) {
       if (!rate) return
       emit(dt)
     })

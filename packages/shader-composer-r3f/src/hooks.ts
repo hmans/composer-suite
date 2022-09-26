@@ -10,13 +10,16 @@ import {
 } from "shader-composer"
 
 export const useShader = (ctor: () => Unit, deps?: any) => {
-  const [shader, { update, dispose }] = useMemo(() => compileShader(ctor()), deps)
+  const [shader, { update, dispose }] = useMemo(
+    () => compileShader(ctor()),
+    deps
+  )
 
   /* Dispose of the shader on unmount */
   useEffect(() => () => dispose(), deps)
 
   /* Invoke the shader tree's update functions. */
-  useFrame(({ camera, scene, gl }, dt) => {
+  useFrame(function useShaderUpdate({ camera, scene, gl }, dt) {
     update(dt, camera, scene, gl)
   })
 

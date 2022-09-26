@@ -10,7 +10,7 @@ export function useFrameEffect<T>(
 ) {
   const value = useRef<T>(null!)
 
-  useFrame(() => {
+  useFrame(function useFrameEffectUpdate() {
     const newValue = dependencyCallback()
 
     if (value.current !== newValue) {
