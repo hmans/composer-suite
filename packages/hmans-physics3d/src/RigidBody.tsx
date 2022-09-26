@@ -57,6 +57,7 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
       /* TODO: set these relative to the physics world object! */
 
       /* Make sure the scene object's world matrix is up to date */
+      sceneObject.current.updateMatrix()
       sceneObject.current.updateMatrixWorld()
 
       /* Assign to state */
@@ -90,7 +91,7 @@ export const RigidBody = forwardRef<RigidBodyEntity, RigidBodyProps>(
     useImperativeHandle(ref, () => state)
 
     return (
-      <group ref={sceneObject} {...groupProps}>
+      <group ref={sceneObject} {...groupProps} matrixAutoUpdate={false}>
         <RigidBodyContext.Provider value={state}>
           {children}
         </RigidBodyContext.Provider>

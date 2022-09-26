@@ -53,6 +53,8 @@ export const World = ({
 
       const { body, sceneObject } = entity
 
+      if (body.isSleeping()) continue
+
       /* Get transform from rigidbody */
       const position = new THREE.Vector3().copy(
         body.translation() as THREE.Vector3
@@ -65,6 +67,7 @@ export const World = ({
       /* Apply transform to scene object */
       sceneObject.position.copy(position)
       sceneObject.quaternion.copy(quaternion)
+      sceneObject.updateMatrix()
     }
 
     /* Handle collision events */
