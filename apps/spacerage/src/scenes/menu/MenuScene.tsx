@@ -19,7 +19,10 @@ export const MenuScene = () => {
   const input = useInput()
 
   const processInput = useCallback(
-    flow(() => input.keyboard.key("Space"), createPressInteraction(startGame)),
+    flow(
+      () => input().keyboard.key("Space"),
+      createPressInteraction(startGame)
+    ),
     [input]
   )
 

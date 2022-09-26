@@ -1,0 +1,4 @@
+{
+  "main": "dist/input-composer-vanilla.cjs.js",
+  "module": "dist/input-composer-vanilla.esm.js"
+}

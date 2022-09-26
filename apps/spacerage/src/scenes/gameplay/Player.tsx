@@ -12,7 +12,7 @@ import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
-import { spawnBullet, gameplayStore, Layers } from "./state"
+import { gameplayStore, Layers, spawnBullet } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -21,13 +21,15 @@ export const Player = () => {
   const rb = useRef<RigidBodyEntity>(null!)
 
   const gltf = useGLTF("/models/spaceship25.gltf")
-  const input = useInput()
+  const getInput = useInput()
   const { player } = useStore(gameplayStore)
 
   const fireCooldown = useRef(0)
 
   useFrame((_, dt) => {
     if (!player) return
+
+    const input = getInput()
 
     const horizontal = input.keyboard.axis("KeyA", "KeyD")
     const vertical = input.keyboard.axis("KeyS", "KeyW")
@@ -39,12 +41,10 @@ export const Player = () => {
     body.resetTorques(true)
 
     /* Rotate the player */
-    body.addTorque(tmpVec3.set(0, 0, -40).multiplyScalar(horizontal), true)
+    // body.addTorque(tmpVec3.set(0, 0, -40).multiplyScalar(horizontal), true)
 
     /* Thrust */
-    const thrust = tmpVec3
-      .set(0, vertical * 100, 0)
-      .applyQuaternion(player.getWorldQuaternion(tmpQuat))
+    const thrust = tmpVec3.set(horizontal * 100, vertical * 100, 0)
 
     body.addForce(thrust, true)
 

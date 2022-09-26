@@ -1,9 +1,13 @@
-import { useGamepad } from "./useGamepad"
-import { useKeyboard } from "./useKeyboard"
+import { useLayoutEffect, useMemo } from "react"
+import { createInput } from "./vanilla"
 
 export const useInput = () => {
-  const gamepad = useGamepad()
-  const keyboard = useKeyboard()
+  const input = useMemo(() => createInput(), [])
 
-  return { gamepad, keyboard }
+  useLayoutEffect(() => {
+    input.start()
+    return () => input.stop()
+  }, [input])
+
+  return input.get
 }
