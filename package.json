@@ -56,5 +56,8 @@
   },
   "stackblitz": {
     "startCommand": "cd apps/vfx-composer-examples && pnpm dev"
+  },
+  "devDependencies": {
+    "turbo": "^1.5.3"
   }
 }
