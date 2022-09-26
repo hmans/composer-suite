@@ -21,7 +21,11 @@ export const gameplayStore = makeStore({
 })
 
 export type Entity = {
-  isAsteroid?: Tag
+  asteroid?: {
+    spawnPosition: Vector3
+    scale: number
+  }
+
   isBullet?: Tag
   isDebris?: Tag
   isNebula?: Tag
@@ -39,6 +43,16 @@ export type Entity = {
 }
 
 export const ECS = createECS<Entity>()
+
+export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
+  ECS.world.createEntity({
+    asteroid: {
+      spawnPosition: position,
+      scale
+    },
+    health: 100 * scale
+  })
+}
 
 export const spawnBullet = (
   position: Vector3,

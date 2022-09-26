@@ -44,6 +44,12 @@ export const BulletSystem = () => {
       if (hit) {
         const point = ray.pointAt(hit.toi)
 
+        /* Destroy bullet */
+        ECS.world.queue.destroyEntity(bullet)
+
+        /* Spawn VFX */
+        spawnDebris(bullet.sceneObject.position, bullet.sceneObject.quaternion)
+
         /* Find the entity that was hit */
         const otherBody = hit.collider.parent()
         const otherEntity = hittableEntities.entities.find(
@@ -58,12 +64,6 @@ export const BulletSystem = () => {
             ECS.world.queue.destroyEntity(otherEntity)
           }
         }
-
-        /* Destroy bullet */
-        ECS.world.queue.destroyEntity(bullet)
-
-        /* Spawn VFX */
-        spawnDebris(bullet.sceneObject.position, bullet.sceneObject.quaternion)
 
         /* Push the object we've hit */
         const collider = world.getCollider(hit.collider.handle)
