@@ -379,8 +379,8 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
-      miniplex: 1.0.0-next.1
-      miniplex-react: 1.0.0-next.1
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -411,8 +411,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 1.0.0-next.1
-      miniplex-react: 1.0.0-next.1_2cgy2unvmzj2wtwq7pet7yqg44
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -594,8 +594,8 @@ importers:
       '@types/react': ^18.0.19
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
-      miniplex: 1.0.0-next.1
-      miniplex-react: 1.0.0-next.1
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.144.0
@@ -604,8 +604,8 @@ importers:
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
       '@hmans/use-const': 0.0.1_react@18.2.0
-      miniplex: 1.0.0-next.1
-      miniplex-react: 1.0.0-next.1_2cgy2unvmzj2wtwq7pet7yqg44
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m
       use-asset: 1.0.4_react@18.2.0
     devDependencies:
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
@@ -900,7 +900,7 @@ importers:
       '@hmans/use-version': ^0.0.2
       '@react-three/fiber': ^8.7.0
       material-composer-r3f: ^0.2.2
-      miniplex: 1.0.0-next.1
+      miniplex: 0.0.0-canary-20220926080217
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.1
@@ -912,7 +912,7 @@ importers:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       material-composer-r3f: link:../material-composer-r3f
-      miniplex: 1.0.0-next.1
+      miniplex: 0.0.0-canary-20220926080217
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
@@ -8944,20 +8944,20 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/1.0.0-next.1_2cgy2unvmzj2wtwq7pet7yqg44:
-    resolution: {integrity: sha512-z6izm1cwnGxUrN66q9Cyg4sNmT9dzmqKHY+q6eHNo14vA8EOo+dgwHNFGR0+4ouoBkP7alQ/K7xohrNfIw2Sww==}
+  /miniplex-react/1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m:
+    resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
     peerDependencies:
       miniplex: ^1.0.0-next.1
       react: '>=16.8'
     dependencies:
       '@hmans/react-toolbox': 0.1.4_react@18.2.0
-      miniplex: 1.0.0-next.1
+      miniplex: 0.0.0-canary-20220926080217
       react: 18.2.0
       react-merge-refs: 1.1.0
     dev: false
 
-  /miniplex/1.0.0-next.1:
-    resolution: {integrity: sha512-t2Jvdj5xCCWc7dh4rSIUcajaeKt4O90ULSA7smPNUXvcXS5IT9eopfDI0OtE/1a7/cRLQLHzTfNP+3QC4WQ5lw==}
+  /miniplex/0.0.0-canary-20220926080217:
+    resolution: {integrity: sha512-nu+hz6wAedvex28xNUb+4oWnSmqjaoIP77xHGR1SLYEN3qfNOyG6+cfX6QivaNzaMPW+ncdgl/bSa1CaGeWT9Q==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
