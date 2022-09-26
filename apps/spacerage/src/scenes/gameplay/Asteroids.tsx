@@ -41,14 +41,14 @@ export const Asteroids = () => {
               position={asteroid?.spawnPosition}
               quaternion={tmpQuaterion.random()}
               scale={asteroid!.scale}
-              angularDamping={1}
+              angularDamping={2}
               linearDamping={0.5}
               enabledTranslations={[true, true, false]}
               enabledRotations={[true, true, true]}
             >
               <group>
                 <ConvexHullCollider
-                  density={5}
+                  density={3}
                   collisionGroups={interactionGroups(Layers.Asteroid, [
                     Layers.Asteroid,
                     Layers.Player
