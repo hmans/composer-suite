@@ -48,5 +48,5 @@ export const Particle = forwardRef<Object3D, Object3DProps>((props, ref) => {
   /* Forward the ref */
   useImperativeHandle(ref, () => sceneObject.current)
 
-  return <object3D ref={sceneObject} {...props} />
+  return <object3D ref={sceneObject} matrixAutoUpdate={false} {...props} />
 })
