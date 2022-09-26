@@ -19,10 +19,23 @@ import { gameplayStore, Layers, spawnBullet } from "./state"
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
+let activeDevice: "keyboard" | "gamepad" = "gamepad"
+
 const transformInput = ({ keyboard, gamepad }: Input) => ({
-  horizontal: keyboard.axis("KeyA", "KeyD"),
-  vertical: keyboard.axis("KeyS", "KeyW"),
-  fire: keyboard.key("Space")
+  horizontal:
+    activeDevice === "keyboard"
+      ? keyboard.axis("KeyA", "KeyD")
+      : gamepad.gamepad(0).axis(0),
+
+  vertical:
+    activeDevice === "keyboard"
+      ? keyboard.axis("KeyS", "KeyW")
+      : -gamepad.gamepad(0).axis(1),
+
+  fire:
+    activeDevice === "keyboard"
+      ? keyboard.key("Space")
+      : gamepad.gamepad(0).button(7)
 })
 
 export const Player = () => {
