@@ -385,6 +385,7 @@ importers:
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
+      r3f-perf: ^6.4.4
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -418,6 +419,7 @@ importers:
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
+      r3f-perf: 6.4.4_ygnbhty36f4kueacpdmvag5y7e
       randomish: 0.1.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -9815,6 +9817,27 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.144.0
+      zustand: 3.7.2_react@18.2.0
+    dev: false
+
+  /r3f-perf/6.4.4_ygnbhty36f4kueacpdmvag5y7e:
+    resolution: {integrity: sha512-/z/8pJr3+oUM3+pjybcFJfiNIdFr9yLr0RB3zKVInGDmcJ+yO7jgqOAFlWufJxkZaxUCZK48BbzZ73f+2C+l6w==}
+    peerDependencies:
+      '@react-three/drei': '*'
+      '@react-three/fiber': '*'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+      three: '*'
+      three-stdlib: '*'
+    dependencies:
+      '@radix-ui/react-icons': 1.1.1_react@18.2.0
+      '@react-three/drei': 9.32.1_vaa6rxjdfgseriicqray5aarwu
+      '@react-three/fiber': 8.8.3_ww22p6cticflcq7fk2rysgxj34
+      '@stitches/react': 1.2.8_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.144.0
+      three-stdlib: 2.16.1_three@0.144.0
       zustand: 3.7.2_react@18.2.0
     dev: false
 

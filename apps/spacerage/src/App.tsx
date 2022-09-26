@@ -7,6 +7,7 @@ import { useCapture } from "./lib/useCapture"
 import { GameplayScene } from "./scenes/gameplay/GameplayScene"
 import { MenuScene } from "./scenes/menu/MenuScene"
 import { GameState, store } from "./state"
+import { Perf } from "r3f-perf"
 
 export const App = () => (
   <>
@@ -30,6 +31,8 @@ export const App = () => (
           <GameState.Match state="gameplay">
             <GameplayScene />
           </GameState.Match>
+
+          <Perf matrixUpdate />
         </Suspense>
       </RC.RenderPipeline>
     </RC.Canvas>
