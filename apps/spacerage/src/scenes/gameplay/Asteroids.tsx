@@ -48,6 +48,7 @@ export const Asteroids = () => {
             >
               <group>
                 <ConvexHullCollider
+                  density={5}
                   collisionGroups={interactionGroups(Layers.Asteroid, [
                     Layers.Asteroid,
                     Layers.Player
