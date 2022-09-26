@@ -16,6 +16,8 @@ import { useFrameEffect } from "./lib/useFrameEffect"
 
 const tmpMatrix = new Matrix4()
 
+const invertedParticlesMatrix = new Matrix4()
+
 export type ParticlesProps = Omit<
   InstancedMeshProps,
   "material" | "args" | "ref"
@@ -80,8 +82,10 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
     useFrame(() => {
       if (ecs.entities.length === 0) return
 
-      /* Make sure the effect's world matrix is up to date */
+      /* Make sure the effect's world matrix is up to date. (If we don't do it now,
+      we'd be using a stale matrix.) */
       particles.updateMatrixWorld()
+      invertedParticlesMatrix.copy(particles.matrixWorld).invert()
 
       /* Iterate through entities */
       for (const entity of ecs.entities) {
@@ -93,7 +97,7 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
           id,
           tmpMatrix
             .copy(sceneObject.matrixWorld)
-            .premultiply(particles.matrixWorld.invert())
+            .premultiply(invertedParticlesMatrix)
         )
       }
 
