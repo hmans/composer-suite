@@ -3,12 +3,13 @@ import { Composable, Modules } from "material-composer-r3f"
 import { createContext } from "react"
 import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
+import { Color } from "three"
 import { Particles, useParticles } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
-export const DebrisContext = createContext<{ particles: any }>(null!)
+export const SparksContext = createContext<{ particles: any }>(null!)
 
-export const Debris = (props: GroupProps) => {
+export const Sparks = (props: GroupProps) => {
   const particles = useParticles()
 
   const random = (offset: Input<"float">) =>
@@ -19,24 +20,24 @@ export const Debris = (props: GroupProps) => {
   return (
     <group {...props}>
       <Particles capacity={1000}>
-        <planeGeometry args={[0.3, 0.3]} />
+        <planeGeometry args={[0.1, 0.1]} />
 
-        <Composable.meshStandardMaterial color="#666">
+        <Composable.meshStandardMaterial>
           <Modules.Scale scale={OneMinus(particles.progress)} />
           <Modules.Velocity
             direction={Mul(direction, 5)}
             time={particles.age}
             space="local"
           />
-          <Modules.Color color={(c) => Mul(c, random(123))} />
+          <Modules.Color color={new Color("orange")} />
           <Modules.Lifetime {...particles} />
         </Composable.meshStandardMaterial>
 
-        <DebrisContext.Provider value={{ particles }}>
-          <ECS.ManagedEntities tag="isDebris">
+        <SparksContext.Provider value={{ particles }}>
+          <ECS.ManagedEntities tag="isSparks">
             {(entity) => entity.jsx!}
           </ECS.ManagedEntities>
-        </DebrisContext.Provider>
+        </SparksContext.Provider>
       </Particles>
     </group>
   )

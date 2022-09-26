@@ -10,6 +10,7 @@ import { Bullets } from "./Bullets"
 import { Debris } from "./Debris"
 import { FollowCamera } from "./FollowCamera"
 import { Player } from "./Player"
+import { Sparks } from "./Sparks"
 import { AgeSystem } from "./systems/AgeSystem"
 import { BulletSystem } from "./systems/BulletSystem"
 import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
@@ -46,6 +47,7 @@ export const GameplayScene = () => {
         <Asteroids initial={1000} />
         <Bullets />
         <Debris />
+        <Sparks />
 
         <AgeSystem />
         <DestroyAfterSystem />
