@@ -41,7 +41,32 @@ const createKeyboard = () => {
   return { start, stop, key, axis, vector }
 }
 
-const createGamepad = () => {}
+const createGamepad = () => {
+  const state = {
+    gamepads: navigator.getGamepads()
+  }
+
+  return {
+    update: () => {
+      state.gamepads = navigator.getGamepads()
+    },
+
+    gamepad: (index: number) => {
+      const gamepad = state.gamepads[index]
+
+      return {
+        axis: (index: number) => gamepad?.axes[index] ?? 0,
+
+        vector: (horizontalAxis: number, verticalAxis: number) => ({
+          x: gamepad?.axes[horizontalAxis] ?? 0,
+          y: gamepad?.axes[verticalAxis] ?? 0
+        }),
+
+        button: (index: number) => gamepad?.buttons[index].value ?? 0
+      }
+    }
+  }
+}
 
 export const createInput = () => {
   const keyboard = createKeyboard()
@@ -57,6 +82,9 @@ export const createInput = () => {
       keyboard.stop()
     },
 
-    get: () => input
+    get: (): Input => {
+      gamepad.update()
+      return input
+    }
   }
 }
