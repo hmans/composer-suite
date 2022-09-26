@@ -6,7 +6,9 @@ import {
 } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
+import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
+import { Input } from "input-composer/vanilla"
 import { useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
@@ -17,16 +19,18 @@ import { gameplayStore, Layers, spawnBullet } from "./state"
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
+const transformInput = ({ keyboard, gamepad }: Input) => ({
+  horizontal: keyboard.axis("KeyA", "KeyD"),
+  vertical: keyboard.axis("KeyS", "KeyW"),
+  fire: keyboard.key("Space")
+})
+
 export const Player = () => {
   const rb = useRef<RigidBodyEntity>(null!)
 
   const gltf = useGLTF("/models/spaceship25.gltf")
 
-  const getInput = useInput((input) => ({
-    horizontal: input.keyboard.axis("KeyA", "KeyD"),
-    vertical: input.keyboard.axis("KeyS", "KeyW"),
-    fire: input.keyboard.key("Space")
-  }))
+  const getInput = useInput()
 
   const { player } = useStore(gameplayStore)
 
@@ -35,7 +39,7 @@ export const Player = () => {
   useFrame((_, dt) => {
     if (!player) return
 
-    const input = getInput()
+    const input = pipe(getInput(), transformInput)
 
     const { body } = rb.current
 
