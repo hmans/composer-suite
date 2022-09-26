@@ -1,9 +1,10 @@
 import { useFrame } from "@react-three/fiber"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { ECS, Layers, spawnDebris } from "../state"
+import { ECS, Layers, spawnAsteroid, spawnDebris } from "../state"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { interactionGroups, usePhysicsWorld } from "@hmans/physics3d"
+import { plusMinus } from "randomish"
 
 const hittableEntities = ECS.world.archetype("health", "rigidBody")
 
@@ -62,6 +63,28 @@ export const BulletSystem = () => {
           /* TODO: move this into a separate system */
           if (otherEntity.health <= 0) {
             ECS.world.queue.destroyEntity(otherEntity)
+
+            if (otherEntity.asteroid) {
+              const { scale } = otherEntity.asteroid
+
+              if (scale > 0.5) {
+                const position = otherEntity.rigidBody!.body.translation()
+
+                const step = (Math.PI * 2) / 3
+                for (let i = 0; i < 3; i++) {
+                  const angle = step * i
+
+                  spawnAsteroid(
+                    new Vector3(
+                      position.x + Math.cos(angle),
+                      position.y + Math.sin(angle),
+                      0
+                    ),
+                    scale / 2
+                  )
+                }
+              }
+            }
           }
         }
 
