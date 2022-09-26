@@ -112,7 +112,7 @@ export const Player = () => {
 
       fireCooldown.current = 0.065
     }
-  })
+  }, Stage.Normal)
 
   return (
     <RigidBody
