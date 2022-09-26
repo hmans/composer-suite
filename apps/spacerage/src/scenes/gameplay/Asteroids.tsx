@@ -18,34 +18,43 @@ export const Asteroids = () => {
   return (
     <Particles geometry={mesh.geometry} material={mesh.material as Material}>
       <ECS.ManagedEntities initial={200} tag="isAsteroid">
-        {() => (
-          <ECS.Component name="rigidBody">
-            <RigidBody
-              position={[plusMinus(100), plusMinus(100), 0]}
-              quaternion={tmpQuaterion.random()}
-              scale={between(0.8, 2)}
-              angularDamping={1}
-              linearDamping={0.5}
-              enabledTranslations={[true, true, false]}
-              enabledRotations={[true, true, true]}
-            >
-              <ECS.Component name="sceneObject">
-                <group>
-                  <ConvexHullCollider
-                    collisionGroups={interactionGroups(Layers.Asteroid, [
-                      Layers.Asteroid,
-                      Layers.Player
-                    ])}
-                    points={
-                      mesh.geometry.attributes.position.array as Float32Array
-                    }
-                  />
-                  <Particle />
-                </group>
+        {() => {
+          const scale = between(0.8, 2)
+
+          return (
+            <>
+              <ECS.Component name="health" data={100 * scale} />
+
+              <ECS.Component name="rigidBody">
+                <RigidBody
+                  position={[plusMinus(100), plusMinus(100), 0]}
+                  quaternion={tmpQuaterion.random()}
+                  scale={scale}
+                  angularDamping={1}
+                  linearDamping={0.5}
+                  enabledTranslations={[true, true, false]}
+                  enabledRotations={[true, true, true]}
+                >
+                  <ECS.Component name="sceneObject">
+                    <group>
+                      <ConvexHullCollider
+                        collisionGroups={interactionGroups(Layers.Asteroid, [
+                          Layers.Asteroid,
+                          Layers.Player
+                        ])}
+                        points={
+                          mesh.geometry.attributes.position
+                            .array as Float32Array
+                        }
+                      />
+                      <Particle />
+                    </group>
+                  </ECS.Component>
+                </RigidBody>
               </ECS.Component>
-            </RigidBody>
-          </ECS.Component>
-        )}
+            </>
+          )
+        }}
       </ECS.ManagedEntities>
     </Particles>
   )

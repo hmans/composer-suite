@@ -27,6 +27,7 @@ export type Entity = {
   isNebula?: Tag
 
   velocity?: Vector3
+  health?: number
 
   jsx?: JSX.Element
 

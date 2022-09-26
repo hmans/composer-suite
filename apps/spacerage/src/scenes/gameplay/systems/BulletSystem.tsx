@@ -5,6 +5,8 @@ import { ECS, Layers, spawnDebris } from "../state"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { interactionGroups, usePhysicsWorld } from "@hmans/physics3d"
 
+const hittableEntities = ECS.world.archetype("health", "rigidBody")
+
 const tmpVec3 = new Vector3()
 
 const ray = new RAPIER.Ray(
@@ -41,12 +43,21 @@ export const BulletSystem = () => {
 
       if (hit) {
         const point = ray.pointAt(hit.toi)
-        const otherBody = hit.collider.parent()
 
-        const otherEntity = ECS.world.entities.find(
-          (e) => e.rigidBody?.body === otherBody
+        /* Find the entity that was hit */
+        const otherBody = hit.collider.parent()
+        const otherEntity = hittableEntities.entities.find(
+          (e) => e.rigidBody.body === otherBody
         )
-        ECS.world.queue.destroyEntity(otherEntity)
+
+        if (otherEntity) {
+          otherEntity.health -= 10
+
+          /* TODO: move this into a separate system */
+          if (otherEntity.health <= 0) {
+            ECS.world.queue.destroyEntity(otherEntity)
+          }
+        }
 
         /* Destroy bullet */
         ECS.world.queue.destroyEntity(bullet)
