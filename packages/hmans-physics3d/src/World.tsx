@@ -1,6 +1,7 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { useConst } from "@hmans/use-const"
 import { useFrame } from "@react-three/fiber"
+import { logDOM } from "@testing-library/react"
 import * as Miniplex from "miniplex"
 import React, { ReactNode, useContext, useRef } from "react"
 import * as THREE from "three"
@@ -31,6 +32,7 @@ export const World = ({
   useAsset(importRapier)
 
   const ecs = useConst(() => new Miniplex.World<PhysicsEntity>())
+  const eventQueue = useConst(() => new RAPIER.EventQueue(false))
 
   const world = useConst(() => new RAPIER.World(new RAPIER.Vector3(...gravity)))
 
@@ -41,7 +43,7 @@ export const World = ({
     acc.current += dt
     world.timestep = dt
     while (acc.current >= world.timestep) {
-      world.step()
+      world.step(eventQueue)
       acc.current -= world.timestep
     }
 
@@ -64,6 +66,11 @@ export const World = ({
       sceneObject.position.copy(position)
       sceneObject.quaternion.copy(quaternion)
     }
+
+    /* Handle collision events */
+    eventQueue.drainCollisionEvents((event) => {
+      console.log(event)
+    })
   }, updatePriority)
 
   return (

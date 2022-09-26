@@ -53,7 +53,7 @@ function ConvexHullCollider(
     /* Create the collider */
     const collider = world.createCollider(desc, rb.body)
 
-    collider.setCollisionGroups(collisionGroups)
+    if (collisionGroups) collider.setCollisionGroups(collisionGroups)
 
     /* Destroy the collider on unmount */
     return () => world.removeCollider(collider, true)
