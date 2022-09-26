@@ -1,16 +1,32 @@
 import { PerspectiveCamera } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
+import { flow } from "fp-ts/lib/function"
+import { createPressInteraction, useInput } from "input-composer"
 import { composable, modules } from "material-composer-r3f"
+import { useCallback } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
 import { store } from "../../common/PostProcessing"
 import { Skybox } from "../../common/Skybox"
 import { useCapture } from "../../lib/useCapture"
+import { startGame } from "../../state"
 import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
 export const MenuScene = () => {
+  const input = useInput()
+
+  const processInput = useCallback(
+    flow(() => input.keyboard.key("Space"), createPressInteraction(startGame)),
+    [input]
+  )
+
+  useFrame(() => {
+    processInput()
+  })
+
   return (
     <group>
       <ambientLight
@@ -22,8 +38,6 @@ export const MenuScene = () => {
         intensity={2}
         layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
       />
-
-      <PerspectiveCamera position={[0, 0, 20]} rotation-y={-0.8} makeDefault />
 
       <Dust />
       <Skybox />

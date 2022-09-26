@@ -27,7 +27,7 @@
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "material-composer-r3f": "^0.2.2",
-    "miniplex": "^0.10.5",
+    "miniplex": "0.0.0-canary-20220926080217",
     "shader-composer": "^0.4.1",
     "shader-composer-r3f": "^0.4.0",
     "vfx-composer": "^0.2.4"

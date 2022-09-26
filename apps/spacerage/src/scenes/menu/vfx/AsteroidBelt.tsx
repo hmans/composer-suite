@@ -1,10 +1,9 @@
-import { Instance, useGLTF } from "@react-three/drei"
+import { useGLTF } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
 import {
   $,
   Add,
-  Float,
   GlobalTime,
   Input,
   InstanceID,
@@ -65,7 +64,7 @@ const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
 
   return (
     <Particles geometry={mesh.geometry} capacity={amount}>
-      <composable.material instance={mesh.material as Material}>
+      <composable.material instance={(mesh.material as Material).clone()}>
         <RotateOverTime
           axis={rotationAxis}
           speed={ScaleAndOffset(random(-5), 2, -1)}

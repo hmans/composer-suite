@@ -365,6 +365,9 @@ importers:
 
   apps/spacerage:
     specifiers:
+      '@dimforge/rapier3d-compat': ^0.9.0
+      '@hmans/physics3d': workspace:^0.1.2
+      '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.31.1
       '@react-three/fiber': ^8.7.4
@@ -374,9 +377,11 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
-      input-composer: ^0.0.1
+      input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
+      miniplex: ^1.0.0-next.1
+      miniplex-react: 1.0.0-next.2
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -384,26 +389,32 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       render-composer: ^0.2.4
-      shader-composer: ^0.4.4
+      shader-composer: workspace:^0.4.4
       shader-composer-r3f: ^0.4.0
       shader-composer-toybox: ^0.1.3
       state-composer: ^0.1.0
       statery: ^0.6.2
       three: ^0.144.0
+      three-stdlib: ^2.16.1
       timeline-composer: ^0.1.7
       typescript: ^4.8.3
       vfx-composer: ^0.2.4
       vfx-composer-r3f: ^0.2.6
       vite: ^3.1.3
     dependencies:
+      '@dimforge/rapier3d-compat': 0.9.0
+      '@hmans/physics3d': link:../../packages/hmans-physics3d
+      '@hmans/r3f-shared-resource': 0.1.0_op7v6ruth4e32jzobd2a22vqqm
       '@hmans/things': 0.0.6_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/drei': 9.31.1_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
-      input-composer: 0.0.1
+      input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
+      miniplex: 1.0.0-next.1
+      miniplex-react: 1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -417,6 +428,7 @@ importers:
       state-composer: link:../../packages/state-composer
       statery: 0.6.2_react@18.2.0
       three: 0.144.0
+      three-stdlib: 2.16.1_three@0.144.0
       timeline-composer: link:../../packages/timeline-composer
       vfx-composer: link:../../packages/vfx-composer
       vfx-composer-r3f: link:../../packages/vfx-composer-r3f
@@ -575,6 +587,37 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.144.0
+
+  packages/hmans-physics3d:
+    specifiers:
+      '@dimforge/rapier3d-compat': ^0.9.0
+      '@hmans/use-const': ^0.0.1
+      '@react-three/fiber': ^8.7.0
+      '@types/react': ^18.0.19
+      '@types/react-dom': ^18.0.6
+      '@types/three': ^0.144.0
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      three: ^0.144.0
+      typescript: ^4.8.3
+      use-asset: ^1.0.4
+    dependencies:
+      '@dimforge/rapier3d-compat': 0.9.0
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      miniplex: 0.0.0-canary-20220926080217
+      miniplex-react: 1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m
+      use-asset: 1.0.4_react@18.2.0
+    devDependencies:
+      '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
+      '@types/react': 18.0.20
+      '@types/react-dom': 18.0.6
+      '@types/three': 0.144.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.144.0
+      typescript: 4.8.3
 
   packages/hmans-use-mutable-list:
     specifiers:
@@ -859,7 +902,7 @@ importers:
       '@hmans/use-version': ^0.0.2
       '@react-three/fiber': ^8.7.0
       material-composer-r3f: ^0.2.2
-      miniplex: ^0.10.5
+      miniplex: 0.0.0-canary-20220926080217
       react: ^18.2.0
       react-dom: ^18.2.0
       shader-composer: ^0.4.1
@@ -871,7 +914,7 @@ importers:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
       '@hmans/use-version': 0.0.2_react@18.2.0
       material-composer-r3f: link:../material-composer-r3f
-      miniplex: 0.10.5
+      miniplex: 0.0.0-canary-20220926080217
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
@@ -2708,6 +2751,14 @@ packages:
       three: 0.144.0
     dev: false
 
+  /@hmans/react-toolbox/0.1.4_react@18.2.0:
+    resolution: {integrity: sha512-PmhaalZ70hSfIX7AUgWO9gVhKkWH8cbZXxGzmjgJ+46sw6cJUlnawkc/WlIxtUro+TTW61YG1i+18QD0zsvF+Q==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@hmans/signal/0.1.8:
     resolution: {integrity: sha512-jhTe89A0Fzp0aRcQdB1F9Z1gDqFNFS5kZohbk/EiQqvcVJqfJ5XG0IsSEZiyAT7RuiLXupwbAn7MxXVL+iZZIA==}
     dev: false
@@ -3788,7 +3839,7 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.144.0
       three-mesh-bvh: 0.5.15_three@0.144.0
-      three-stdlib: 2.15.0_three@0.144.0
+      three-stdlib: 2.16.1_three@0.144.0
       troika-three-text: 0.46.4_three@0.144.0
       utility-types: 3.10.0
       zustand: 3.7.2_react@18.2.0
@@ -3891,7 +3942,6 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.144.0
       zustand: 3.7.2_react@18.2.0
-    dev: false
 
   /@react-three/rapier/0.6.8_twpnzck546a4mcvf3j3rupzz5e:
     resolution: {integrity: sha512-GP9GGvcD9Lii4zeXrZcb9TCuJATiCuY3C9yL77iv0QlpMeZbupXH+e3+NMMj+042yauuABcfWlYVUXxt35uPaA==}
@@ -4270,7 +4320,7 @@ packages:
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
-      '@types/react': 18.0.19
+      '@types/react': 18.0.20
 
   /@types/react-reconciler/0.26.7:
     resolution: {integrity: sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ==}
@@ -7017,12 +7067,6 @@ packages:
   /inline-style-parser/0.1.1:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
 
-  /input-composer/0.0.1:
-    resolution: {integrity: sha512-Q4a6KtJsW8PjmC9PFga3A3es4qZX0e2zcpGotKHfA3Tg5OHrkgaE8hbRwL1bNmLoukTB9iKpwbmTtrZaLvUEZw==}
-    dependencies:
-      '@hmans/signal': 0.1.8
-    dev: false
-
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
     engines: {node: '>= 0.4'}
@@ -8902,8 +8946,38 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex/0.10.5:
-    resolution: {integrity: sha512-ldfZHviVJ9uJfp0UriVXlO+6iv4u+j5oQPltLKpAjuQK0xShssRG14JEoDJRz4CV+st7rw6krc2lvY4m3452Cg==}
+  /miniplex-react/1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44:
+    resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
+    peerDependencies:
+      miniplex: ^1.0.0-next.1
+      react: '>=16.8'
+    dependencies:
+      '@hmans/react-toolbox': 0.1.4_react@18.2.0
+      miniplex: 1.0.0-next.1
+      react: 18.2.0
+      react-merge-refs: 1.1.0
+    dev: false
+
+  /miniplex-react/1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m:
+    resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
+    peerDependencies:
+      miniplex: ^1.0.0-next.1
+      react: '>=16.8'
+    dependencies:
+      '@hmans/react-toolbox': 0.1.4_react@18.2.0
+      miniplex: 0.0.0-canary-20220926080217
+      react: 18.2.0
+      react-merge-refs: 1.1.0
+    dev: false
+
+  /miniplex/0.0.0-canary-20220926080217:
+    resolution: {integrity: sha512-nu+hz6wAedvex28xNUb+4oWnSmqjaoIP77xHGR1SLYEN3qfNOyG6+cfX6QivaNzaMPW+ncdgl/bSa1CaGeWT9Q==}
+    dependencies:
+      '@hmans/signal': 0.2.2
+    dev: false
+
+  /miniplex/1.0.0-next.1:
+    resolution: {integrity: sha512-t2Jvdj5xCCWc7dh4rSIUcajaeKt4O90ULSA7smPNUXvcXS5IT9eopfDI0OtE/1a7/cRLQLHzTfNP+3QC4WQ5lw==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
@@ -10776,6 +10850,25 @@ packages:
 
   /three-stdlib/2.15.0_three@0.144.0:
     resolution: {integrity: sha512-81jgpEajYB1HczIKAqcG8oEgRPbKJr/8KfxMY3xIHe9kDNw426PckStLt+GVmV15ezOS+QlUFVSuyjSRPpSLsg==}
+    peerDependencies:
+      three: '>=0.122.0'
+    dependencies:
+      '@babel/runtime': 7.18.9
+      '@types/offscreencanvas': 2019.7.0
+      '@webgpu/glslang': 0.0.15
+      chevrotain: 10.3.0
+      draco3d: 1.5.3
+      fflate: 0.6.10
+      ktx-parse: 0.4.5
+      mmd-parser: 1.0.4
+      opentype.js: 1.3.4
+      potpack: 1.0.2
+      three: 0.144.0
+      zstddec: 0.0.2
+    dev: false
+
+  /three-stdlib/2.16.1_three@0.144.0:
+    resolution: {integrity: sha512-AuWs5OFOQfrSYYg49DF2driU9OI9AG8vS1/KBrKjQnJqW5vyn8WvhePexcSmDKgsBfAsxcXk8W/tR9uOESnr3w==}
     peerDependencies:
       three: '>=0.122.0'
     dependencies:
