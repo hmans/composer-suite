@@ -34,24 +34,15 @@ export const GameplayScene = () => {
           layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
         />
 
-        <ECS.ManagedEntities initial={20} tag="isNebula">
-          {() => (
-            <Nebula
-              position={[plusMinus(300), plusMinus(300), 0]}
-              dimensions={Vec3([
-                between(20, 80),
-                between(20, 80),
-                between(30, 50)
-              ])}
-              amount={between(10, 80)}
-              opacity={between(0.05, 0.1)}
-              minSize={8}
-              maxSize={30}
-              rotationSpeed={0.1}
-              color={new Color(random(), random(), random()).multiplyScalar(3)}
-            />
-          )}
-        </ECS.ManagedEntities>
+        <Nebula
+          dimensions={Vec3([50, 50, 15])}
+          amount={80}
+          opacity={0.05}
+          minSize={8}
+          maxSize={30}
+          rotationSpeed={0.1}
+          color={new Color("#fff")}
+        />
 
         <Player />
         <Asteroids />
