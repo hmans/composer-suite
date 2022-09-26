@@ -19,6 +19,7 @@
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.9.0",
     "@hmans/physics3d": "workspace:^0.1.2",
+    "@hmans/r3f-shared-resource": "^0.1.0",
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.31.1",
     "@react-three/fiber": "^8.7.4",
@@ -27,7 +28,7 @@
     "input-composer": "^0.0.2",
     "material-composer": "^0.2.2",
     "material-composer-r3f": "^0.2.4",
-    "miniplex": "0.0.0-canary-20220926080217",
+    "miniplex": "^1.0.0-next.1",
     "miniplex-react": "1.0.0-next.2",
     "motion": "^10.14.2",
     "popmotion": "^11.0.5",

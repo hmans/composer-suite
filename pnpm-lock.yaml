@@ -367,6 +367,7 @@ importers:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
       '@hmans/physics3d': workspace:^0.1.2
+      '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
       '@react-three/drei': ^9.31.1
       '@react-three/fiber': ^8.7.4
@@ -379,7 +380,7 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.4
-      miniplex: 0.0.0-canary-20220926080217
+      miniplex: ^1.0.0-next.1
       miniplex-react: 1.0.0-next.2
       motion: ^10.14.2
       popmotion: ^11.0.5
@@ -403,6 +404,7 @@ importers:
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
       '@hmans/physics3d': link:../../packages/hmans-physics3d
+      '@hmans/r3f-shared-resource': 0.1.0_op7v6ruth4e32jzobd2a22vqqm
       '@hmans/things': 0.0.6_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/drei': 9.31.1_op7v6ruth4e32jzobd2a22vqqm
       '@react-three/fiber': 8.7.4_ww22p6cticflcq7fk2rysgxj34
@@ -411,8 +413,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 0.0.0-canary-20220926080217
-      miniplex-react: 1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m
+      miniplex: 1.0.0-next.1
+      miniplex-react: 1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -8944,6 +8946,18 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
+  /miniplex-react/1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44:
+    resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
+    peerDependencies:
+      miniplex: ^1.0.0-next.1
+      react: '>=16.8'
+    dependencies:
+      '@hmans/react-toolbox': 0.1.4_react@18.2.0
+      miniplex: 1.0.0-next.1
+      react: 18.2.0
+      react-merge-refs: 1.1.0
+    dev: false
+
   /miniplex-react/1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m:
     resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
     peerDependencies:
@@ -8958,6 +8972,12 @@ packages:
 
   /miniplex/0.0.0-canary-20220926080217:
     resolution: {integrity: sha512-nu+hz6wAedvex28xNUb+4oWnSmqjaoIP77xHGR1SLYEN3qfNOyG6+cfX6QivaNzaMPW+ncdgl/bSa1CaGeWT9Q==}
+    dependencies:
+      '@hmans/signal': 0.2.2
+    dev: false
+
+  /miniplex/1.0.0-next.1:
+    resolution: {integrity: sha512-t2Jvdj5xCCWc7dh4rSIUcajaeKt4O90ULSA7smPNUXvcXS5IT9eopfDI0OtE/1a7/cRLQLHzTfNP+3QC4WQ5lw==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
