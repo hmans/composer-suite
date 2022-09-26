@@ -27,6 +27,9 @@
   ],
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
   "devDependencies": {
     "three": "^0.144.0"
   },
