@@ -1,5 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { Float } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
 import { pipe } from "fp-ts/function"
@@ -22,7 +20,12 @@ import {
   Vec2,
   VertexPosition
 } from "shader-composer"
-import { useShader, useUniformUnit } from "shader-composer-r3f"
+import {
+  Shader,
+  ShaderMaster,
+  useShader,
+  useUniformUnit
+} from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 
@@ -66,7 +69,7 @@ export default function ForceField() {
       (v) => Smoothstep(0, 1, v)
     )
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       emissiveColor: Mul(color, intensity),
 
       alpha: pipe(
@@ -85,11 +88,9 @@ export default function ForceField() {
       <Float floatIntensity={1} speed={2}>
         <mesh layers-mask={1 << Layers.TransparentFX}>
           <icosahedronGeometry args={[1.3, 8]} />
-          <patched.meshStandardMaterial
-            transparent
-            depthWrite={false}
-            {...shader}
-          />
+          <meshStandardMaterial transparent depthWrite={false}>
+            <Shader {...shader} />
+          </meshStandardMaterial>
         </mesh>
 
         <pointLight

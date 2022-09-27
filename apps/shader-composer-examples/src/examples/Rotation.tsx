@@ -1,5 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import {
   Input,
   Rotate3D,
@@ -7,7 +5,7 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Vector3 } from "three"
 
 export default function MatrixTransformations() {
@@ -19,7 +17,7 @@ export default function MatrixTransformations() {
 
     /* Rotate both the position and the normal using our rotation function.
     It's important to also update the normal so that the lighting is correct. */
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       position: rotate(VertexPosition),
       normal: rotate(VertexNormal)
     })
@@ -28,7 +26,9 @@ export default function MatrixTransformations() {
   return (
     <mesh>
       <boxGeometry />
-      <patched.meshStandardMaterial color="orange" {...shader} />
+      <meshStandardMaterial color="orange">
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }

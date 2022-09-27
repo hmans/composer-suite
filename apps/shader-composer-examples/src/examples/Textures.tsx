@@ -1,5 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import {
   $,
   $vec2,
@@ -12,7 +10,7 @@ import {
   UniformUnit,
   UV
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 
@@ -31,7 +29,7 @@ export default function Textures() {
     /* Define a color to tint the texture with */
     const color = new Color("hotpink")
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       color: $`${color} * ${tex2d.color}`,
       alpha: Add(Fresnel(), 0.1)
     })
@@ -40,7 +38,9 @@ export default function Textures() {
   return (
     <mesh>
       <icosahedronGeometry args={[1, 3]} />
-      <patched.meshStandardMaterial {...shader} transparent />
+      <meshStandardMaterial transparent>
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }
