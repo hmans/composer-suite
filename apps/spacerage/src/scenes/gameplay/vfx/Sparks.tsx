@@ -33,13 +33,11 @@ const SparksLayer = () => {
   )
 }
 
-const SparksMaterial = memo(() => {
-  return (
-    <Composable.MeshStandardMaterial>
-      <SparksLayer />
-    </Composable.MeshStandardMaterial>
-  )
-})
+const SparksMaterial = memo(() => (
+  <Composable.MeshStandardMaterial>
+    <SparksLayer />
+  </Composable.MeshStandardMaterial>
+))
 
 export const Sparks = () => {
   const emitters = ECS.useArchetype("isSparks", "jsx").entities
