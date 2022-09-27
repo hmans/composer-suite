@@ -11,11 +11,11 @@ import {
 import React, {
   cloneElement,
   createContext,
-  FC,
   forwardRef,
   memo,
   ReactElement,
   ReactNode,
+  Ref,
   useContext,
   useEffect,
   useImperativeHandle,
@@ -28,12 +28,12 @@ type EntityChildren<T extends IEntity> =
   | ReactNode
   | ((entity: T) => JSX.Element)
 
-export function createECS<TEntity extends IEntity = UntypedEntity>(
-  inWorld?: World<TEntity>
+export function createECS<Entity extends IEntity = UntypedEntity>(
+  inWorld?: World<Entity>
 ) {
-  const world = inWorld || new World<TEntity>()
+  const world = inWorld || new World<Entity>()
 
-  const EntityContext = createContext<RegisteredEntity<TEntity>>(null!)
+  const EntityContext = createContext<RegisteredEntity<Entity>>(null!)
 
   /**
    * Returns the current entity context.
@@ -44,21 +44,27 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
    * A React component to either create a new entity, or represent an existing entity so
    * it can be enhanced with additional components (see the <Component> component.)
    */
-  const Entity = forwardRef<
-    TEntity,
+  const Entity = forwardRef(function <
+    T extends RegisteredEntity<Entity>,
+    C extends EntityChildren<T>
+  >(
     {
-      children?: EntityChildren<RegisteredEntity<TEntity>>
-      entity?: RegisteredEntity<TEntity>
-    }
-  >(({ entity: existingEntity, children }, ref) => {
-    const [entity, setEntity] = useState<RegisteredEntity<TEntity>>(null!)
+      entity: existingEntity,
+      children
+    }: {
+      entity?: T
+      children?: C
+    },
+    ref: Ref<T>
+  ) {
+    const [entity, setEntity] = useState<T>(null!)
 
     /* Apply ref */
     useImperativeHandle(ref, () => entity)
 
     /* If the entity was freshly created, manage its presence in the ECS world. */
     useEffect(() => {
-      const entity = existingEntity ?? world.createEntity({} as TEntity)
+      const entity = existingEntity ?? world.createEntity({} as T)
       setEntity(entity)
 
       return () => {
@@ -83,23 +89,29 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
    * Takes an array of entities and renders the inner JSX (or function) once per entity,
    * memoizing the results.
    */
-  const Entities: FC<{
-    children: EntityChildren<RegisteredEntity<TEntity>>
-    entities: RegisteredEntity<TEntity>[]
-  }> = ({ entities, ...props }) => (
-    <>
-      {entities.map((entity) => (
-        <MemoizedEntity entity={entity} key={entity.__miniplex.id} {...props} />
-      ))}
-    </>
-  )
+  function Entities<
+    T extends RegisteredEntity<Entity>,
+    C extends EntityChildren<T>
+  >({ entities, children }: { entities: T[]; children: C }) {
+    return (
+      <>
+        {entities.map((entity) => (
+          <MemoizedEntity
+            entity={entity}
+            children={children as any}
+            key={entity.__miniplex.id}
+          />
+        ))}
+      </>
+    )
+  }
 
-  function ManagedEntities<TTag extends keyof TEntity>({
+  function ManagedEntities<TTag extends keyof Entity>({
     initial = 0,
     tag,
     children
   }: {
-    children: EntityChildren<EntityWith<RegisteredEntity<TEntity>, TTag>>
+    children: EntityChildren<EntityWith<RegisteredEntity<Entity>, TTag>>
     initial?: number
     tag: TTag
   }) {
@@ -108,7 +120,7 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
     useEffect(() => {
       /* When firing up, create the requested number of entities. */
       for (let i = 0; i < initial; i++) {
-        world.createEntity({ [tag]: Tag } as TEntity)
+        world.createEntity({ [tag]: Tag } as Entity)
       }
 
       /* When shutting down, purge all entities in this collection. */
@@ -122,7 +134,7 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
     return (
       <Entities
         entities={entities}
-        children={children as EntityChildren<RegisteredEntity<TEntity>>}
+        children={children as EntityChildren<RegisteredEntity<Entity>>}
       ></Entities>
     )
   }
@@ -130,17 +142,17 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
   /**
    * Declaratively add a component to an entity.
    */
-  function Component<K extends keyof TEntity, V = TEntity[K]>({
+  function Component<K extends keyof Entity, V = Entity[K]>({
     name,
     data,
     children
   }: {
     name: K
     data?: V
-    children?: ReactElement | ((entity: TEntity) => ReactElement)
+    children?: ReactElement | ((entity: Entity) => ReactElement)
   }) {
     const entity = useEntity()
-    const ref = useRef<TEntity[K]>(null!)
+    const ref = useRef<Entity[K]>(null!)
 
     /* Warn the user that passing multiple children is not allowed. */
     if (children && Array.isArray(children)) {
@@ -174,7 +186,7 @@ export function createECS<TEntity extends IEntity = UntypedEntity>(
    * Return the entities of the specified archetype and subscribe this component
    * to it, making it re-render when entities are added to or removed from it.
    */
-  function useArchetype<Q extends Query<TEntity>>(...query: Q) {
+  function useArchetype<Q extends Query<Entity>>(...query: Q) {
     const rerender = useRerender()
     const archetype = useConst(() => world.archetype(...query))
 

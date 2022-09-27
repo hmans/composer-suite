@@ -46,7 +46,7 @@ export const Sparks = () => {
     <InstancedParticles>
       <planeGeometry args={[0.1, 0.1]} />
       <SparksMaterial />
-      <ECS.Entities entities={emitters}>{(entity) => entity.jsx!}</ECS.Entities>
+      <ECS.Entities entities={emitters}>{(entity) => entity.jsx}</ECS.Entities>
     </InstancedParticles>
   )
 }
