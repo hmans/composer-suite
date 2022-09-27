@@ -8,7 +8,8 @@ export type WorldArgs<T extends IEntity> = {
 
 export class World<Entity extends IEntity> {
   entities: Set<Entity> = new Set()
-  indices: Set<Index<Entity>> = new Set()
+
+  indices: Map<IndexFunction<Entity>, Set<Entity>> = new Map()
 
   constructor({ entities }: WorldArgs<Entity> = {}) {
     if (entities) {
@@ -20,11 +21,13 @@ export class World<Entity extends IEntity> {
 
   add(entity: Entity) {
     this.entities.add(entity)
+    this.update(entity)
     return entity
   }
 
   remove(entity: Entity) {
     this.entities.delete(entity)
+    this.update(entity)
   }
 
   update(
@@ -34,46 +37,26 @@ export class World<Entity extends IEntity> {
     if (typeof update === "function") Object.assign(entity, update(entity))
     else if (typeof update === "object") Object.assign(entity, update)
 
-    this.reindex(entity)
-  }
+    /* Update indices */
+    for (const [fun, entities] of this.indices) {
+      const inIndex = entities.has(entity)
+      const shouldIndex = fun(entity)
 
-  private reindex(entity: Entity) {
-    for (const index of this.indices) {
-      index.indexEntity(entity)
-    }
-  }
-}
-
-export class Index<Entity extends IEntity> {
-  private entities: Set<Entity> = new Set()
-
-  constructor(
-    private world: World<Entity>,
-    private fun: IndexFunction<Entity>
-  ) {
-    world.indices.add(this)
-    this.rebuild()
-  }
-
-  [Symbol.iterator]() {
-    return this.entities[Symbol.iterator]()
-  }
-
-  indexEntity(entity: Entity) {
-    const shouldHave = this.fun(entity)
-    const have = this.entities.has(entity)
-
-    if (!have && shouldHave) {
-      this.entities.add(entity)
-    } else if (have && !shouldHave) {
-      this.entities.delete(entity)
+      if (inIndex && !shouldIndex) entities.delete(entity)
+      else if (!inIndex && shouldIndex) entities.add(entity)
     }
   }
 
-  rebuild() {
-    this.entities.clear()
-    for (const entity of this.world.entities) {
-      this.indexEntity(entity)
+  index(fun: IndexFunction<Entity>) {
+    if (!this.indices.has(fun)) {
+      const entities = new Set<Entity>()
+      this.indices.set(fun, entities)
+
+      for (const entity of this.entities) {
+        if (fun(entity)) entities.add(entity)
+      }
     }
+
+    return this.indices.get(fun)!
   }
 }

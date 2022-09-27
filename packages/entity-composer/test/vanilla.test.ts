@@ -60,47 +60,25 @@ describe("World", () => {
     it("reindex the entity after updating", () => {
       const world = new World<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
-      const almostDead = new Index(world, almostDeadFun)
+
+      const almostDead = world.index(almostDeadFun)
+      expect(almostDead).not.toContain(entity)
 
       world.update(entity, { health: 10 })
-
       expect(almostDead).toContain(entity)
     })
 
     it("reindexes the entity even when no update is given", () => {
       const world = new World<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
-      const almostDead = new Index(world, almostDeadFun)
+      const almostDead = world.index(almostDeadFun)
+      expect(almostDead).not.toContain(entity)
 
       /* Now we can change the entity directly */
       entity.health = 10
       world.update(entity)
 
       expect(almostDead).toContain(entity)
-    })
-  })
-})
-
-describe("Index", () => {
-  describe("instantiation", () => {
-    it("adds the index to the world", () => {
-      const world = new World<Entity>()
-      const index = new Index(world, () => true)
-      expect(world.indices).toContain(index)
-    })
-  })
-
-  describe("indexing", () => {
-    it("indexes entities that match the index function", () => {
-      const world = new World<Entity>()
-      const withHealth = new Index(world, (e) => e.health !== undefined)
-      const entity = world.add({ position: { x: 0, y: 0 } })
-
-      expect(withHealth).not.toContain(entity)
-
-      world.update(entity, { health: 100 })
-
-      expect(withHealth).toContain(entity)
     })
   })
 })
