@@ -4,7 +4,8 @@ import { useFrame } from "@react-three/fiber"
 import { between } from "randomish"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { ECS, Layers, spawnAsteroid, spawnDebris, spawnSparks } from "../state"
+import { spawnAsteroid, spawnDebris, spawnSparks } from "../actions"
+import { ECS, Layers } from "../state"
 
 const hittableEntities = ECS.world.archetype("health", "rigidBody")
 
