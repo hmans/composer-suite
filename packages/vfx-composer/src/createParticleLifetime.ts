@@ -1,4 +1,4 @@
-import { Div, GlobalTime, Input, Sub, Vec2 } from "shader-composer"
+import { Div, GlobalTime, Sub, Vec2 } from "shader-composer"
 import { Vector2 } from "three"
 import { ParticleAttribute } from "./ParticleAttribute"
 
