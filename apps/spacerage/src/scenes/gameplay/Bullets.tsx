@@ -1,5 +1,6 @@
 import { Color } from "three"
 import { InstancedParticles } from "vfx-composer-r3f"
+import { JSXEntities } from "../../lib/JSXEntities"
 import { ECS } from "./state"
 
 export const Bullets = () => {
@@ -9,12 +10,7 @@ export const Bullets = () => {
     <InstancedParticles>
       <planeGeometry args={[0.1, 0.8]} />
       <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
-
-      <ECS.Entities entities={entities}>
-        {(entity) => (
-          <ECS.Component name="sceneObject">{entity.jsx}</ECS.Component>
-        )}
-      </ECS.Entities>
+      <JSXEntities entities={entities} />
     </InstancedParticles>
   )
 }

@@ -6,6 +6,7 @@ import { Color } from "three"
 import { createParticleLifetime, ParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
+import { JSXEntities } from "../../../lib/JSXEntities"
 import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
@@ -53,7 +54,7 @@ export const Sparks = () => {
         <SparksMaterialLayer lifetime={lifetime} />
       </Composable.MeshStandardMaterial>
 
-      <ECS.Entities entities={emitters}>{(entity) => entity.jsx}</ECS.Entities>
+      <JSXEntities entities={emitters} />
     </InstancedParticles>
   )
 }

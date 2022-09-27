@@ -26,7 +26,13 @@ export const spawnBullet = (
     velocity,
 
     jsx: (
-      <Particle position={position} quaternion={quaternion} matrixAutoUpdate />
+      <ECS.Component name="sceneObject">
+        <Particle
+          position={position}
+          quaternion={quaternion}
+          matrixAutoUpdate
+        />
+      </ECS.Component>
     )
   })
 }
