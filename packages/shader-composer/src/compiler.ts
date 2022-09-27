@@ -1,4 +1,5 @@
 import { Camera, Scene, WebGLRenderer } from "three"
+import { DEBUG } from "./debug"
 import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 import { isSnippet, renameSnippet, Snippet } from "./snippets"
@@ -280,6 +281,10 @@ export const compileShader = (root: Unit) => {
   const meta = {
     update,
     dispose
+  }
+
+  if (DEBUG) {
+    console.debug("[SC] Compiled shader")
   }
 
   return [shader, meta] as const

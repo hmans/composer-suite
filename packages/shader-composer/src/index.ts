@@ -1,4 +1,5 @@
 export { compileShader } from "./compiler"
+export { disableDebugging, enableDebugging } from "./debug"
 export * from "./expressions"
 export * from "./glslType"
 export * from "./snippets"
