@@ -48,6 +48,15 @@ describe("World", () => {
       expect(entity.position).toEqual({ x: 1, y: 1 })
     })
 
+    it("accepts a function that returns a partial update", () => {
+      const world = new World<Entity>()
+      const entity = world.add({ position: { x: 0, y: 0 } })
+
+      world.update(entity, (e) => ({ position: { x: e.position.x + 1, y: 1 } }))
+
+      expect(entity.position).toEqual({ x: 1, y: 1 })
+    })
+
     it("reindex the entity after updating", () => {
       const world = new World<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })

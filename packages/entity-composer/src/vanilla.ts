@@ -27,8 +27,13 @@ export class World<Entity extends IEntity> {
     this.entities.delete(entity)
   }
 
-  update(entity: Entity, update?: Partial<Entity>) {
-    if (update) Object.assign(entity, update)
+  update(
+    entity: Entity,
+    update?: Partial<Entity> | ((e: Entity) => Partial<Entity>)
+  ) {
+    if (typeof update === "function") Object.assign(entity, update(entity))
+    else if (typeof update === "object") Object.assign(entity, update)
+
     this.reindex(entity)
   }
 
