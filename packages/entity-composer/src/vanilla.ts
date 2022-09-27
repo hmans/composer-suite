@@ -49,9 +49,11 @@ export class World<Entity extends IEntity> {
 
   index(fun: IndexFunction<Entity>) {
     if (!this.indices.has(fun)) {
+      /* Create the new index */
       const entities = new Set<Entity>()
       this.indices.set(fun, entities)
 
+      /* Populate the index */
       for (const entity of this.entities) {
         if (fun(entity)) entities.add(entity)
       }
