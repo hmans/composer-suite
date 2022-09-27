@@ -8,7 +8,8 @@ import { between, plusMinus } from "randomish"
 import { useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { Particle, Particles } from "vfx-composer-r3f"
-import { ECS, Layers, spawnAsteroid } from "./state"
+import { spawnAsteroid } from "./actions"
+import { ECS, Layers } from "./state"
 
 const tmpQuaterion = new Quaternion()
 

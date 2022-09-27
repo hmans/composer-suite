@@ -5,12 +5,12 @@ import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { AdditiveBlending, Color, DoubleSide, Euler, Vector3 } from "three"
-import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
+import { Emitter, Particles, useParticleLifetime } from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
 export default function MagicWellExample() {
   const texture = useTexture(particleUrl)
-  const particles = useParticles()
+  const lifetime = useParticleLifetime()
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
@@ -25,12 +25,12 @@ export default function MagicWellExample() {
           side={DoubleSide}
           color={new Color(0, 3, 2)}
         >
-          <modules.Scale scale={OneMinus(particles.progress)} />
+          <modules.Scale scale={OneMinus(lifetime.progress)} />
           <modules.Acceleration
             direction={new Vector3(0, 1.2, 0)}
-            time={particles.age}
+            time={lifetime.age}
           />
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime {...lifetime} />
           <modules.Softness softness={5} depthTexture={depth} />
         </composable.meshStandardMaterial>
 
@@ -44,7 +44,7 @@ export default function MagicWellExample() {
 
             rotation.setFromEuler(new Euler(0, plusMinus(Math.PI), 0))
 
-            particles.setLifetime(between(1, 5))
+            lifetime.setLifetime(between(1, 5))
           }}
         />
       </Particles>

@@ -8,13 +8,13 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles
+  useParticleLifetime
 } from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)
-  const particles = useParticles()
+  const lifetime = useParticleLifetime()
   const velocity = useParticleAttribute(() => new Vector3())
 
   return (
@@ -30,13 +30,13 @@ export const Simple = () => {
           blending={AdditiveBlending}
         >
           <modules.Billboard />
-          <modules.Scale scale={OneMinus(particles.progress)} />
-          <modules.Velocity direction={velocity} time={particles.age} />
+          <modules.Scale scale={OneMinus(lifetime.progress)} />
+          <modules.Velocity direction={velocity} time={lifetime.age} />
           <modules.Acceleration
             direction={new Vector3(0, -2, 0)}
-            time={particles.age}
+            time={lifetime.age}
           />
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime progress={lifetime.progress} />
         </composable.meshStandardMaterial>
 
         {/* The other important component here is the emitter, which will, as you
@@ -49,7 +49,7 @@ export const Simple = () => {
           rate={100}
           setup={() => {
             /* Set a particle lifetime: */
-            particles.setLifetime(between(1, 3))
+            lifetime.setLifetime(between(1, 3))
 
             /* Let's configure a per-particle velocity! */
             velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))

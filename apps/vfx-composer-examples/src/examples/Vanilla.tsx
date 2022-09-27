@@ -4,7 +4,7 @@ import * as Modules from "material-composer/modules"
 import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { compileShader, GlobalTime, OneMinus } from "shader-composer"
+import { compileShader, OneMinus } from "shader-composer"
 import {
   BoxGeometry,
   Color,
@@ -14,11 +14,14 @@ import {
   PerspectiveCamera,
   Scene,
   SphereGeometry,
-  Vector2,
   Vector3,
   WebGLRenderer
 } from "three"
-import { createParticleUnits, ParticleAttribute, Particles } from "vfx-composer"
+import {
+  createParticleLifetime,
+  ParticleAttribute,
+  Particles
+} from "vfx-composer"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (
@@ -29,14 +32,12 @@ const vanillaCode = (
 ) => {
   /* Define a few variables (attributes, uniforms, etc.) we'll use in our effect. */
   const variables = {
-    lifetime: ParticleAttribute(new Vector2()),
     velocity: ParticleAttribute(new Vector3()),
     color: ParticleAttribute(new Color())
   }
 
   /* Create a Lifetime module. */
-  const time = GlobalTime
-  const particleUnits = createParticleUnits(variables.lifetime, time)
+  const lifetime = createParticleLifetime()
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -46,16 +47,16 @@ const vanillaCode = (
   */
   const modules = [
     Modules.Color({ color: variables.color }),
-    Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
+    Modules.Scale({ scale: OneMinus(lifetime.progress) }),
     Modules.Velocity({
       direction: variables.velocity,
-      time: particleUnits.age
+      time: lifetime.age
     }),
     Modules.Acceleration({
       direction: new Vector3(0, -10, 0),
-      time: particleUnits.age
+      time: lifetime.age
     }),
-    Modules.Lifetime(particleUnits)
+    Modules.Lifetime(lifetime)
   ]
 
   /*
@@ -84,8 +85,8 @@ const vanillaCode = (
   const stopLoop = loop((dt) => {
     shaderMeta.update(dt, camera, scene, renderer)
 
-    const { lifetime, velocity, color } = variables
-    const t = time.value
+    const { velocity, color } = variables
+    const t = lifetime.time.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
@@ -98,7 +99,7 @@ const vanillaCode = (
       rotation.random()
 
       /* Write values into the instanced attributes */
-      lifetime.value.set(t, t + between(1, 2))
+      lifetime.setLifetime(between(1, 2))
       velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })

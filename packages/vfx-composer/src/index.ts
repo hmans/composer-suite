@@ -1,3 +1,3 @@
-export * from "./createParticleUnits"
+export * from "./createParticleLifetime"
 export * from "./ParticleAttribute"
 export * from "./Particles"

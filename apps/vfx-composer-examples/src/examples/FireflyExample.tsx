@@ -9,7 +9,7 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles
+  useParticleLifetime
 } from "vfx-composer-r3f"
 
 const tmpVec3 = new Vector3()
@@ -17,7 +17,7 @@ const tmpVec3 = new Vector3()
 export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
 
-  const particles = useParticles()
+  const lifetime = useParticleLifetime()
   const velocity = useParticleAttribute(() => new Vector3())
   const color = useParticleAttribute(() => new Color())
 
@@ -41,14 +41,14 @@ export const FireflyExample = () => {
           transparent
         >
           <modules.Billboard />
-          <modules.Velocity direction={velocity} time={particles.age} />
+          <modules.Velocity direction={velocity} time={lifetime.age} />
           <modules.Acceleration
             direction={new Vector3(0, -10, 0)}
-            time={particles.age}
+            time={lifetime.age}
           />
-          <modules.Alpha alpha={OneMinus(particles.progress)} />
+          <modules.Alpha alpha={OneMinus(lifetime.progress)} />
           <modules.Color color={color} />
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime {...lifetime} />
         </composable.meshStandardMaterial>
 
         <mesh ref={mesh} castShadow>
@@ -68,7 +68,7 @@ export const FireflyExample = () => {
                 ? color.value.setRGB(3, 1, 3)
                 : color.value.setRGB(1, 3, 3)
 
-              particles.setLifetime(1)
+              lifetime.setLifetime(1)
               velocity.value.randomDirection().multiplyScalar(upTo(2))
             }}
           />
