@@ -1,10 +1,10 @@
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
-import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
-import { Random } from "shader-composer-toybox"
+import { Mul, OneMinus, Vec3 } from "shader-composer"
 import { Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, Particles } from "vfx-composer-r3f"
+import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { ECS } from "../state"
 
 const tmpVec3 = new Vector3()
@@ -12,10 +12,9 @@ const tmpVec3 = new Vector3()
 const lifetime = createParticleLifetime()
 
 export const Debris = () => {
-  const random = (offset: Input<"float">) =>
-    Random($`${offset} + float(${InstanceID}) * 1.1005`)
+  const rng = InstanceRNG()
 
-  const direction = Vec3([random(12), random(84), random(1)])
+  const direction = Vec3([rng(12), rng(84), rng(1)])
 
   return (
     <Particles capacity={200}>
@@ -28,7 +27,7 @@ export const Debris = () => {
           time={lifetime.age}
           space="local"
         />
-        <Modules.Color color={(c) => Mul(c, random(123))} />
+        <Modules.Color color={(c) => Mul(c, rng(123))} />
         <Modules.Lifetime {...lifetime} />
       </Composable.meshStandardMaterial>
 
