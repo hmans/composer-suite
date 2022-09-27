@@ -99,7 +99,7 @@ const vanillaCode = (
       rotation.random()
 
       /* Write values into the instanced attributes */
-      lifetime.lifetime.value.set(t, t + between(1, 2))
+      lifetime.setLifetime(between(1, 2))
       velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })
