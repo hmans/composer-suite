@@ -23,7 +23,7 @@ export const Asteroids = (props: { initial: number }) => {
     /* Spawn a bunch of asteroids */
     for (let i = 0; i < props.initial; i++) {
       spawnAsteroid(
-        new Vector3(plusMinus(300), plusMinus(300), 0),
+        new Vector3(plusMinus(100), plusMinus(100), 0),
         between(0.8, 2)
       )
     }

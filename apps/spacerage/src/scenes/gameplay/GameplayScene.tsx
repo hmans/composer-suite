@@ -44,7 +44,7 @@ export const GameplayScene = () => {
         />
 
         <Player />
-        <Asteroids initial={1000} />
+        <Asteroids initial={100} />
         <Bullets />
         <Debris />
         <Sparks />
