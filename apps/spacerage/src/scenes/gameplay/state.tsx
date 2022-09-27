@@ -3,6 +3,7 @@ import { Tag } from "miniplex"
 import { makeStore } from "statery"
 import { Object3D, Vector3 } from "three"
 import { createECS } from "../../vendor/miniplex-react/createECS"
+import { World } from "entity-composer/vanilla"
 
 export enum Layers {
   Player,
@@ -37,3 +38,19 @@ export type Entity = {
 }
 
 export const ECS = createECS<Entity>()
+
+/* Entity Composer */
+
+export type AsteroidEntity = {
+  asteroid: true
+}
+
+export type VelocityComponent = {
+  velocity: Vector3
+}
+
+export type BulletEntity = {
+  bullet: true
+} & VelocityComponent
+
+export const world = new World<AsteroidEntity | BulletEntity>()
