@@ -4,6 +4,7 @@ import React, {
   MutableRefObject,
   RefObject,
   useCallback,
+  useContext,
   useImperativeHandle,
   useLayoutEffect,
   useRef
@@ -11,7 +12,7 @@ import React, {
 import { Matrix4, Object3D } from "three"
 import { clamp } from "three/src/math/MathUtils"
 import { InstancedParticles, InstanceSetupCallback } from "vfx-composer"
-import { useParticlesContext } from "./context"
+import { DefaultContext, ParticlesContext } from "./context"
 import { useFrameEffect } from "./lib/useFrameEffect"
 
 export type EmitterProps = Object3DProps & {
@@ -21,17 +22,25 @@ export type EmitterProps = Object3DProps & {
   limit?: number
   rate?: number | (() => number)
   setup?: InstanceSetupCallback
+  context?: ParticlesContext
 }
 
 const tmpMatrix = new Matrix4()
 
 export const Emitter = forwardRef<Object3D, EmitterProps>(
   (
-    { particles: particlesProp, limit = Infinity, rate = 10, setup, ...props },
+    {
+      particles: particlesProp,
+      limit = Infinity,
+      rate = 10,
+      setup,
+      context = DefaultContext,
+      ...props
+    },
     ref
   ) => {
     const origin = useRef<Object3D>(null!)
-    const context = useParticlesContext()
+    const ctx = useContext(context)
     const queuedParticles = useRef(0)
     const remainingParticles = useRef(limit)
     const particlesMatrix = useRef(new Matrix4())
@@ -60,7 +69,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
     /* When the particle material has changed, reset this emitter. (HMR) */
     useFrameEffect(
       () => {
-        const particles = particlesProp?.current || context.particles
+        const particles = particlesProp?.current || ctx.particles
         return particles?.material
       },
       () => {
@@ -79,7 +88,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
         if (remainingParticles.current <= 0) return
 
         /* Grab a reference to the particles mesh */
-        const particles = particlesProp?.current || context.particles
+        const particles = particlesProp?.current || ctx.particles
         if (!particles) return
 
         /* Increase the accumulated number of particles we're supposed to emit. */
@@ -107,7 +116,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
           remainingParticles.current -= amount
         }
       },
-      [particlesProp, context?.particles, emitterSetup, rate, limit]
+      [particlesProp, ctx?.particles, emitterSetup, rate, limit]
     )
 
     useFrame(function emitterUpdate(_, dt) {

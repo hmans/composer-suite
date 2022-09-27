@@ -12,5 +12,3 @@ export const createParticlesContext = () =>
 export type ParticlesContext = ReturnType<typeof createParticlesContext>
 
 export const DefaultContext = createParticlesContext()
-
-export const useParticlesContext = () => useContext(DefaultContext)

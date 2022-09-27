@@ -47,7 +47,7 @@ export const InstancedParticles = forwardRef<
       geometry,
       material,
       updatePriority,
-      context: Context = DefaultContext,
+      context = DefaultContext,
       ...props
     },
     ref
@@ -113,9 +113,9 @@ export const InstancedParticles = forwardRef<
 
     return (
       <primitive object={particles} {...props}>
-        <Context.Provider value={{ particles, ecs }}>
+        <context.Provider value={{ particles, ecs }}>
           {children}
-        </Context.Provider>
+        </context.Provider>
       </primitive>
     )
   }
