@@ -26,9 +26,7 @@ export const spawnBullet = (
     velocity,
 
     jsx: (
-      <group position={position} quaternion={quaternion}>
-        <Particle />
-      </group>
+      <Particle position={position} quaternion={quaternion} matrixAutoUpdate />
     )
   })
 }
