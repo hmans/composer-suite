@@ -41,13 +41,20 @@ export const ECS = createECS<Entity>()
 
 /* Entity Composer */
 
-export type AsteroidEntity = {
-  asteroid: true
-}
-
 export type VelocityComponent = {
   velocity: Vector3
 }
+
+export type HealthComponent = {
+  health: {
+    max: number
+    current: number
+  }
+}
+
+export type AsteroidEntity = {
+  asteroid: true
+} & HealthComponent
 
 export type BulletEntity = {
   bullet: true
