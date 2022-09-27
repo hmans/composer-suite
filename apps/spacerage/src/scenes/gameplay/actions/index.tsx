@@ -1,7 +1,8 @@
-import { Color, Quaternion, Vector3 } from "three"
+import { Quaternion, Vector3 } from "three"
+import { Particle } from "vfx-composer-r3f"
+import { ECS } from "../state"
 import { DebrisEmitter } from "../vfx/Debris"
 import { SparksEmitter } from "../vfx/Sparks"
-import { ECS } from "../state"
 
 export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
   ECS.world.createEntity({
@@ -25,10 +26,9 @@ export const spawnBullet = (
     velocity,
 
     jsx: (
-      <mesh position={position} quaternion={quaternion}>
-        <planeGeometry args={[0.1, 0.8]} />
-        <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
-      </mesh>
+      <group position={position} quaternion={quaternion}>
+        <Particle />
+      </group>
     )
   })
 }
