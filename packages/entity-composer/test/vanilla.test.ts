@@ -37,8 +37,7 @@ describe("World", () => {
   })
 
   describe("update", () => {
-    const almostDeadFun = (entity: Entity) =>
-      entity.health !== undefined && entity.health < 25
+    const almostDeadFun = (e: Entity) => e.health !== undefined && e.health < 25
 
     it("updates the given entity", () => {
       const world = new World<Entity>()
