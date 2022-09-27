@@ -1,4 +1,4 @@
-import { World } from "../src/vanilla"
+import { Index, World } from "../src/vanilla"
 
 type Entity = {
   position: { x: number; y: number }
@@ -33,6 +33,16 @@ describe("World", () => {
       expect(world.entities).toContain(entity)
       world.remove(entity)
       expect(world.entities).not.toContain(entity)
+    })
+  })
+})
+
+describe("Index", () => {
+  describe("instantiation", () => {
+    it("adds the index to the world", () => {
+      const world = new World<Entity>()
+      const index = new Index(world, () => true)
+      expect(world.indices).toContain(index)
     })
   })
 })

@@ -32,12 +32,6 @@ export class World<Entity extends IEntity> {
     this.reindex(entity)
   }
 
-  createIndex(fun: IndexFunction<Entity>) {
-    const index = new Index(fun)
-    this.indices.add(index)
-    return index
-  }
-
   private reindex(entity: Entity) {
     for (const index of this.indices) {
       index.indexEntity(entity)
@@ -48,7 +42,13 @@ export class World<Entity extends IEntity> {
 export class Index<Entity extends IEntity> {
   private entities: Set<Entity> = new Set()
 
-  constructor(private fun: IndexFunction<Entity>) {}
+  constructor(
+    private world: World<Entity>,
+    private fun: IndexFunction<Entity>
+  ) {
+    world.indices.add(this)
+    this.rebuild()
+  }
 
   [Symbol.iterator]() {
     return this.entities[Symbol.iterator]()
@@ -62,6 +62,13 @@ export class Index<Entity extends IEntity> {
       this.entities.add(entity)
     } else if (have && !shouldHave) {
       this.entities.delete(entity)
+    }
+  }
+
+  rebuild() {
+    this.entities.clear()
+    for (const entity of this.world.entities) {
+      this.indexEntity(entity)
     }
   }
 }
