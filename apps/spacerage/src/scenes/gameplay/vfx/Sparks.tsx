@@ -15,7 +15,7 @@ const SparksLayer = () => {
 
   const direction = Vec3([
     Mix(-0.5, 0.5, rng(12)),
-    rng(84),
+    Mul(rng(84), -1),
     Mix(-0.5, 0.5, rng(1))
   ])
 
