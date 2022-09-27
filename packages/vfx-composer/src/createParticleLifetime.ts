@@ -5,26 +5,34 @@ import { ParticleAttribute } from "./ParticleAttribute"
 export type ParticleUnits = ReturnType<typeof createParticleLifetime>
 
 export const createParticleLifetime = () => {
-  const lifetime = ParticleAttribute(new Vector2())
+  const attribute = ParticleAttribute(new Vector2())
+  const { x: startTime, y: endTime } = Vec2(attribute)
   const time = GlobalTime
-
-  const { x: startTime, y: endTime } = Vec2(lifetime)
-
-  const maxAge = Sub(endTime, startTime)
   const age = Sub(time, startTime)
-  const progress = Div(age, maxAge)
-
-  const setLifetime = (duration: number, offset: number = 0) =>
-    lifetime.value.set(time.value + offset, time.value + offset + duration)
+  const maxAge = Sub(endTime, startTime)
 
   return {
-    setLifetime,
-    lifetime,
+    /** The time uniform used by the particle system. */
     time,
+
+    /** Sets the current value of the lifetime attribute. The value will be read
+    by the particle system once the particle is spawned. */
+    setLifetime: (duration: number, offset: number = 0) =>
+      attribute.value.set(time.value + offset, time.value + offset + duration),
+
+    /** The absolute age, in seconds, of the particle. */
     age,
+
+    /** The maximum age, in seconds, of the particle. */
     maxAge,
+
+    /** The absolute time value at which the particle's life span begins. */
     startTime,
+
+    /** The absolute time value at which the particle's life span ends. */
     endTime,
-    progress
+
+    /** The individual particle's progress (from 0 to 1) across its life span. */
+    progress: Div(age, maxAge)
   }
 }

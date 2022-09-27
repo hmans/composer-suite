@@ -36,7 +36,7 @@ export const Simple = () => {
             direction={new Vector3(0, -2, 0)}
             time={lifetime.age}
           />
-          <modules.Lifetime {...lifetime} />
+          <modules.Lifetime progress={lifetime.progress} />
         </composable.meshStandardMaterial>
 
         {/* The other important component here is the emitter, which will, as you
