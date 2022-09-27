@@ -1,8 +1,8 @@
 import { RigidBodyEntity } from "@hmans/physics3d"
 import { Tag } from "miniplex"
-import { createECS } from "miniplex-react"
 import { makeStore } from "statery"
 import { Object3D, Vector3 } from "three"
+import { createECS } from "../../vendor/miniplex-react/createECS"
 
 export enum Layers {
   Player,
