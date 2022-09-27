@@ -1,4 +1,4 @@
-import { World } from "../src/vanilla"
+import { createWorld } from "../src/vanilla"
 
 type Entity = {
   position: { x: number; y: number }
@@ -13,14 +13,14 @@ describe("World", () => {
         { position: { x: 0, y: 0 } },
         { position: { x: 1, y: 1 } }
       ]
-      const world = new World({ entities })
+      const world = createWorld<Entity>({ entities })
       expect([...world.entities]).toEqual(entities)
     })
   })
 
   describe("add", () => {
     it("adds the entity to the world index", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 } })
       expect(world.entities).toContain(entity)
     })
@@ -28,7 +28,7 @@ describe("World", () => {
 
   describe("remove", () => {
     it("removes the entity from the world index", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 } })
       expect(world.entities).toContain(entity)
       world.remove(entity)
@@ -40,7 +40,7 @@ describe("World", () => {
     const almostDeadFun = (e: Entity) => e.health !== undefined && e.health < 25
 
     it("updates the given entity", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 } })
 
       world.update(entity, { position: { x: 1, y: 1 } })
@@ -49,7 +49,7 @@ describe("World", () => {
     })
 
     it("accepts a function that returns a partial update", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 } })
 
       world.update(entity, (e) => ({ position: { x: e.position.x + 1, y: 1 } }))
@@ -58,7 +58,7 @@ describe("World", () => {
     })
 
     it("reindex the entity after updating", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
 
       const almostDead = world.index(almostDeadFun)
@@ -69,7 +69,7 @@ describe("World", () => {
     })
 
     it("reindexes the entity even when no update is given", () => {
-      const world = new World<Entity>()
+      const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
       const almostDead = world.index(almostDeadFun)
       expect(almostDead).not.toContain(entity)

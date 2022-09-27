@@ -6,31 +6,30 @@ export type WorldArgs<T extends IEntity> = {
   entities?: T[]
 }
 
-export class World<Entity extends IEntity> {
-  entities: Set<Entity> = new Set()
+export function createWorld<Entity extends IEntity>({
+  entities: initialEntities
+}: WorldArgs<Entity> = {}) {
+  const entities: Set<Entity> = new Set()
+  const indices: Map<IndexFunction<Entity>, Set<Entity>> = new Map()
 
-  indices: Map<IndexFunction<Entity>, Set<Entity>> = new Map()
-
-  constructor({ entities }: WorldArgs<Entity> = {}) {
-    if (entities) {
-      for (const entity of entities) {
-        this.add(entity)
-      }
+  if (initialEntities) {
+    for (const entity of initialEntities) {
+      add(entity)
     }
   }
 
-  add(entity: Entity) {
-    this.entities.add(entity)
-    this.update(entity)
+  function add(entity: Entity) {
+    entities.add(entity)
+    update(entity)
     return entity
   }
 
-  remove(entity: Entity) {
-    this.entities.delete(entity)
-    this.update(entity)
+  function remove(entity: Entity) {
+    entities.delete(entity)
+    update(entity)
   }
 
-  update(
+  function update(
     entity: Entity,
     update?: Partial<Entity> | ((e: Entity) => Partial<Entity>)
   ) {
@@ -40,7 +39,7 @@ export class World<Entity extends IEntity> {
     }
 
     /* Update indices */
-    for (const [fun, entities] of this.indices) {
+    for (const [fun, entities] of indices) {
       const inIndex = entities.has(entity)
       const shouldIndex = fun(entity)
 
@@ -49,18 +48,26 @@ export class World<Entity extends IEntity> {
     }
   }
 
-  index(fun: IndexFunction<Entity>) {
-    if (!this.indices.has(fun)) {
+  function index(fun: IndexFunction<Entity>) {
+    if (!indices.has(fun)) {
       /* Create the new index */
       const entities = new Set<Entity>()
-      this.indices.set(fun, entities)
+      indices.set(fun, entities)
 
       /* Populate the index */
-      for (const entity of this.entities) {
+      for (const entity of entities) {
         if (fun(entity)) entities.add(entity)
       }
     }
 
-    return this.indices.get(fun)!
+    return indices.get(fun)!
+  }
+
+  return {
+    entities,
+    add,
+    remove,
+    update,
+    index
   }
 }
