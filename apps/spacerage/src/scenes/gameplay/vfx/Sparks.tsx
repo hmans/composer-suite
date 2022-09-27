@@ -1,37 +1,46 @@
 import { Composable, Layer, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { memo } from "react"
-import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
+import { Input, Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Color } from "three"
-import { createParticleLifetime } from "vfx-composer"
+import { createParticleLifetime, ParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
-const SparksMaterialLayer = memo(() => {
-  const rng = InstanceRNG()
+const defaultSparksColor = new Color("yellow").multiplyScalar(4)
 
-  const direction = Vec3([
-    Mix(-0.5, 0.5, rng(12)),
-    Mul(rng(84), -1),
-    Mix(-0.5, 0.5, rng(1))
-  ])
+type SparksLayerProps = {
+  lifetime: ParticleLifetime
+  color?: Input<"vec3">
+}
 
-  return (
-    <Layer>
-      <Modules.Scale scale={OneMinus(lifetime.progress)} />
-      <Modules.Velocity
-        direction={Mul(direction, 5)}
-        time={lifetime.age}
-        space="local"
-      />
-      <Modules.Color color={new Color("yellow").multiplyScalar(4)} />
-      <Modules.Lifetime {...lifetime} />
-    </Layer>
-  )
-})
+const SparksMaterialLayer = memo(
+  ({ color = defaultSparksColor, lifetime }: SparksLayerProps) => {
+    const rng = InstanceRNG()
+
+    const direction = Vec3([
+      Mix(-0.5, 0.5, rng(12)),
+      Mul(rng(84), -1),
+      Mix(-0.5, 0.5, rng(1))
+    ])
+
+    return (
+      <Layer>
+        <Modules.Scale scale={OneMinus(lifetime.progress)} />
+        <Modules.Velocity
+          direction={Mul(direction, 5)}
+          time={lifetime.age}
+          space="local"
+        />
+        <Modules.Color color={color} />
+        <Modules.Lifetime {...lifetime} />
+      </Layer>
+    )
+  }
+)
 
 export const Sparks = () => {
   const emitters = ECS.useArchetype("isSparks", "jsx").entities
@@ -41,7 +50,7 @@ export const Sparks = () => {
       <planeGeometry args={[0.1, 0.1]} />
 
       <Composable.MeshStandardMaterial>
-        <SparksMaterialLayer />
+        <SparksMaterialLayer lifetime={lifetime} />
       </Composable.MeshStandardMaterial>
 
       <ECS.Entities entities={emitters}>{(entity) => entity.jsx}</ECS.Entities>
