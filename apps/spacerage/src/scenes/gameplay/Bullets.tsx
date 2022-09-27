@@ -39,6 +39,8 @@ export const spawnBullet = (
 
   /* Entity Composer */
   ECS2.add({
+    age: 0,
+    destroyAfter: 1,
     bullet: true,
     velocity,
     jsx: <Bullet position={position} quaternion={quaternion} />

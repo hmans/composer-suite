@@ -42,6 +42,14 @@ export const ECS = createECS<Entity>()
 
 /* Entity Composer */
 
+export type AgeComponent = {
+  age: number
+}
+
+export type DestroyAfterComponent = {
+  destroyAfter: number
+}
+
 export type VelocityComponent = {
   velocity: Vector3
 }
@@ -69,6 +77,8 @@ export type BulletEntity = {
   bullet: true
 } & VelocityComponent &
   JSXComponent &
+  DestroyAfterComponent &
+  AgeComponent &
   Partial<TransformComponent>
 
 export type GameEntity = AsteroidEntity | BulletEntity
