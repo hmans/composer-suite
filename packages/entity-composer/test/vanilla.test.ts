@@ -45,4 +45,18 @@ describe("Index", () => {
       expect(world.indices).toContain(index)
     })
   })
+
+  describe("indexing", () => {
+    it("indexes entities that match the index function", () => {
+      const world = new World<Entity>()
+      const withHealth = new Index(world, (e) => e.health !== undefined)
+      const entity = world.add({ position: { x: 0, y: 0 } })
+
+      expect(withHealth).not.toContain(entity)
+
+      world.update(entity, { health: 100 })
+
+      expect(withHealth).toContain(entity)
+    })
+  })
 })
