@@ -1,7 +1,7 @@
-import { Composable, Modules } from "material-composer-r3f"
+import { Composable, Layer, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { memo } from "react"
-import { Mul, OneMinus, Vec3 } from "shader-composer"
+import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
@@ -10,20 +10,33 @@ import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
-const SparksMaterial = memo(() => {
+const SparksLayer = () => {
   const rng = InstanceRNG()
-  const direction = Vec3([rng(12), rng(84), rng(1)])
+
+  const direction = Vec3([
+    Mix(-0.5, 0.5, rng(12)),
+    rng(84),
+    Mix(-0.5, 0.5, rng(1))
+  ])
 
   return (
-    <Composable.MeshStandardMaterial>
+    <Layer>
       <Modules.Scale scale={OneMinus(lifetime.progress)} />
       <Modules.Velocity
         direction={Mul(direction, 5)}
         time={lifetime.age}
         space="local"
       />
-      <Modules.Color color={new Color("yellow").multiplyScalar(2)} />
+      <Modules.Color color={new Color("yellow").multiplyScalar(4)} />
       <Modules.Lifetime {...lifetime} />
+    </Layer>
+  )
+}
+
+const SparksMaterial = memo(() => {
+  return (
+    <Composable.MeshStandardMaterial>
+      <SparksLayer />
     </Composable.MeshStandardMaterial>
   )
 })
