@@ -1,5 +1,5 @@
 import { RigidBodyEntity } from "@hmans/physics3d"
-import { GroupProps, Object3DProps } from "@react-three/fiber"
+import { Object3DProps } from "@react-three/fiber"
 import { Tag } from "miniplex"
 import { createECS } from "miniplex-react"
 import { between, upTo } from "randomish"
@@ -7,8 +7,8 @@ import { useContext } from "react"
 import { makeStore } from "statery"
 import { Color, Object3D, Quaternion, Vector3 } from "three"
 import { Emitter } from "vfx-composer-r3f"
-import { Debris, DebrisContext } from "./Debris"
-import { SparksContext, SparksEmitter } from "./Sparks"
+import { DebrisContext } from "./Debris"
+import { SparksEmitter } from "./Sparks"
 
 const tmpVec3 = new Vector3()
 
