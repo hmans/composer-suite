@@ -138,7 +138,7 @@ const OuterAura = () => (
 )
 
 const Sparks = () => {
-  const particles = useParticleLifetime()
+  const lifetime = useParticleLifetime()
   const getNoise = (offset: Input<"float">) =>
     PSRDNoise2D(Vec2([offset, InstanceID]))
   const clock = useThree((s) => s.clock)
@@ -157,7 +157,7 @@ const Sparks = () => {
           )}
         />
 
-        <modules.Lifetime {...particles} />
+        <modules.Lifetime {...lifetime} />
 
         <modules.Scale scale={Add(2, getNoise(123))} />
 
@@ -177,16 +177,16 @@ const Sparks = () => {
             Mul(getNoise(278499), 2)
           ])}
           space="local"
-          time={particles.age}
+          time={lifetime.age}
         />
 
-        <modules.Scale scale={particles.age} />
+        <modules.Scale scale={lifetime.age} />
       </composable.meshBasicMaterial>
 
       <Emitter
         rate={() => 80 + Math.sin(clock.elapsedTime * 2) * 40}
         setup={({ position }) => {
-          particles.setLifetime(4)
+          lifetime.setLifetime(4)
           const theta = plusMinus(Math.PI)
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
         }}
@@ -196,7 +196,7 @@ const Sparks = () => {
 }
 
 const RockSplitters = () => {
-  const particles = useParticleLifetime()
+  const lifetime = useParticleLifetime()
   const getNoise = (offset: Input<"float">) =>
     PSRDNoise2D(Vec2([offset, InstanceID]))
 
@@ -205,7 +205,7 @@ const RockSplitters = () => {
       <icosahedronGeometry />
 
       <composable.meshStandardMaterial color="#222">
-        <modules.Lifetime {...particles} />
+        <modules.Lifetime {...lifetime} />
 
         <modules.Translate
           offset={Vec3([Mul(getNoise(99), 5), getNoise(67), getNoise(567)])}
@@ -218,13 +218,13 @@ const RockSplitters = () => {
             Mul(getNoise(278499), 2)
           ])}
           space="local"
-          time={particles.age}
+          time={lifetime.age}
         />
 
         <modules.Acceleration
           direction={Vec3([0, -60, 0])}
           space="world"
-          time={particles.age}
+          time={lifetime.age}
         />
 
         <modules.Scale scale={Add(2, getNoise(123))} />
@@ -233,7 +233,7 @@ const RockSplitters = () => {
       <Emitter
         rate={10}
         setup={({ position, scale }) => {
-          particles.setLifetime(10)
+          lifetime.setLifetime(10)
           position.setScalar(plusMinus(0.5))
           scale.setScalar(between(0.1, 0.2))
         }}
@@ -245,7 +245,7 @@ const RockSplitters = () => {
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
 
-  const particles = useParticleLifetime()
+  const lifetime = useParticleLifetime()
   const color = useParticleAttribute(() => new Color())
 
   return (
@@ -261,26 +261,24 @@ const SmokeTrail = () => {
         >
           <modules.Color color={color} />
           <modules.Billboard />
-          <modules.Scale scale={Add(Mul(particles.progress, 3), 0.5)} />
-          <modules.Scale scale={Smoothstep(-0.5, 0.1, particles.progress)} />
+          <modules.Scale scale={Add(Mul(lifetime.progress, 3), 0.5)} />
+          <modules.Scale scale={Smoothstep(-0.5, 0.1, lifetime.progress)} />
           <modules.Alpha
-            alpha={(alpha) =>
-              Mul(alpha, Smoothstep(1, 0.8, particles.progress))
-            }
+            alpha={(alpha) => Mul(alpha, Smoothstep(1, 0.8, lifetime.progress))}
           />
 
           <modules.Velocity
             direction={Vec3([0, 10, 0])}
-            time={particles.age}
+            time={lifetime.age}
             space="local"
           />
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime {...lifetime} />
         </composable.meshStandardMaterial>
 
         <Emitter
           rate={100}
           setup={({ position, scale }) => {
-            particles.setLifetime(between(1, 2))
+            lifetime.setLifetime(between(1, 2))
             position.set(plusMinus(1), 3 + plusMinus(1), plusMinus(1))
             scale.setScalar(between(1, 3))
             color.value.set("#666").multiplyScalar(Math.random())
@@ -294,7 +292,7 @@ const SmokeTrail = () => {
 const Clouds = () => {
   const texture = useTexture(smokeUrl)
 
-  const particles = useParticleLifetime()
+  const lifetime = useParticleLifetime()
 
   return (
     <group>
@@ -306,13 +304,13 @@ const Clouds = () => {
           transparent
           depthWrite={false}
         >
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime {...lifetime} />
 
           <modules.Billboard />
 
           <modules.Velocity
             direction={Vec3([0, 10, 0])}
-            time={particles.age}
+            time={lifetime.age}
             space="local"
           />
         </composable.meshStandardMaterial>
@@ -320,7 +318,7 @@ const Clouds = () => {
         <Emitter
           rate={10}
           setup={({ position, scale }) => {
-            particles.setLifetime(10)
+            lifetime.setLifetime(10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(5, 20))
           }}
@@ -331,7 +329,7 @@ const Clouds = () => {
 }
 
 const WindLines = () => {
-  const particles = useParticleLifetime()
+  const lifetime = useParticleLifetime()
 
   return (
     <group>
@@ -341,16 +339,16 @@ const WindLines = () => {
         <composable.meshBasicMaterial color="#555" side={DoubleSide}>
           <modules.Velocity
             direction={Vec3([0, 100, 0])}
-            time={particles.age}
+            time={lifetime.age}
             space="local"
           />
-          <modules.Lifetime {...particles} />
+          <modules.Lifetime {...lifetime} />
         </composable.meshBasicMaterial>
 
         <Emitter
           rate={30}
           setup={({ position, scale }) => {
-            particles.setLifetime(10)
+            lifetime.setLifetime(10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(1, 2))
           }}

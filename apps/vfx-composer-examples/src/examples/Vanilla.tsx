@@ -37,7 +37,7 @@ const vanillaCode = (
   }
 
   /* Create a Lifetime module. */
-  const particleUnits = createParticleLifetime()
+  const lifetime = createParticleLifetime()
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each
@@ -47,16 +47,16 @@ const vanillaCode = (
   */
   const modules = [
     Modules.Color({ color: variables.color }),
-    Modules.Scale({ scale: OneMinus(particleUnits.progress) }),
+    Modules.Scale({ scale: OneMinus(lifetime.progress) }),
     Modules.Velocity({
       direction: variables.velocity,
-      time: particleUnits.age
+      time: lifetime.age
     }),
     Modules.Acceleration({
       direction: new Vector3(0, -10, 0),
-      time: particleUnits.age
+      time: lifetime.age
     }),
-    Modules.Lifetime(particleUnits)
+    Modules.Lifetime(lifetime)
   ]
 
   /*
@@ -86,7 +86,7 @@ const vanillaCode = (
     shaderMeta.update(dt, camera, scene, renderer)
 
     const { velocity, color } = variables
-    const t = particleUnits.time.value
+    const t = lifetime.time.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
@@ -99,7 +99,7 @@ const vanillaCode = (
       rotation.random()
 
       /* Write values into the instanced attributes */
-      particleUnits.lifetime.value.set(t, t + between(1, 2))
+      lifetime.lifetime.value.set(t, t + between(1, 2))
       velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
       color.value.setRGB(Math.random(), Math.random(), Math.random())
     })
