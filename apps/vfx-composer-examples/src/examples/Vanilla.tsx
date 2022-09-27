@@ -4,7 +4,7 @@ import * as Modules from "material-composer/modules"
 import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { compileShader, GlobalTime, OneMinus } from "shader-composer"
+import { compileShader, OneMinus } from "shader-composer"
 import {
   BoxGeometry,
   Color,
@@ -14,7 +14,6 @@ import {
   PerspectiveCamera,
   Scene,
   SphereGeometry,
-  Vector2,
   Vector3,
   WebGLRenderer
 } from "three"
