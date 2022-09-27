@@ -10,7 +10,7 @@ import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
-const SparksLayer = () => {
+const SparksMaterialLayer = memo(() => {
   const rng = InstanceRNG()
 
   const direction = Vec3([
@@ -31,13 +31,7 @@ const SparksLayer = () => {
       <Modules.Lifetime {...lifetime} />
     </Layer>
   )
-}
-
-const SparksMaterial = memo(() => (
-  <Composable.MeshStandardMaterial>
-    <SparksLayer />
-  </Composable.MeshStandardMaterial>
-))
+})
 
 export const Sparks = () => {
   const emitters = ECS.useArchetype("isSparks", "jsx").entities
@@ -45,7 +39,11 @@ export const Sparks = () => {
   return (
     <InstancedParticles>
       <planeGeometry args={[0.1, 0.1]} />
-      <SparksMaterial />
+
+      <Composable.MeshStandardMaterial>
+        <SparksMaterialLayer />
+      </Composable.MeshStandardMaterial>
+
       <ECS.Entities entities={emitters}>{(entity) => entity.jsx}</ECS.Entities>
     </InstancedParticles>
   )
