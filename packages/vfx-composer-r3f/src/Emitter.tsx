@@ -10,12 +10,14 @@ import React, {
 } from "react"
 import { Matrix4, Object3D } from "three"
 import { clamp } from "three/src/math/MathUtils"
-import { InstanceSetupCallback, Particles } from "vfx-composer"
+import { InstanceSetupCallback, InstancedParticles } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
-import { useParticlesContext } from "./Particles"
+import { useParticlesContext } from "./InstancedParticles"
 
 export type EmitterProps = Object3DProps & {
-  particles?: MutableRefObject<Particles> | RefObject<Particles>
+  particles?:
+    | MutableRefObject<InstancedParticles>
+    | RefObject<InstancedParticles>
   limit?: number
   rate?: number | (() => number)
   setup?: InstanceSetupCallback

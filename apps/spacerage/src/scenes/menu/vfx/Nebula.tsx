@@ -18,7 +18,7 @@ import {
 import { useUniformUnit } from "shader-composer-r3f"
 import { Random } from "shader-composer-toybox"
 import { Color } from "three"
-import { Emitter, Particles } from "vfx-composer-r3f"
+import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
 export type NebulaProps = {
   dimensions?: Input<"vec3">
@@ -49,7 +49,10 @@ export const Nebula = ({
 
   return (
     <group {...props}>
-      <Particles layers-mask={bitmask(Layers.TransparentFX)} capacity={amount}>
+      <InstancedParticles
+        layers-mask={bitmask(Layers.TransparentFX)}
+        capacity={amount}
+      >
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -99,7 +102,7 @@ export const Nebula = ({
         </composable.meshStandardMaterial>
 
         <Emitter limit={amount} rate={Infinity} />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

@@ -7,7 +7,7 @@ import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
-import { Particle, Particles } from "vfx-composer-r3f"
+import { Particle, InstancedParticles } from "vfx-composer-r3f"
 import { spawnAsteroid } from "./actions"
 import { ECS, Layers } from "./state"
 
@@ -30,7 +30,7 @@ export const Asteroids = (props: { initial: number }) => {
   }, [])
 
   return (
-    <Particles
+    <InstancedParticles
       capacity={10000}
       geometry={mesh.geometry}
       material={mesh.material as Material}
@@ -65,6 +65,6 @@ export const Asteroids = (props: { initial: number }) => {
           </ECS.Component>
         )}
       </ECS.Entities>
-    </Particles>
+    </InstancedParticles>
   )
 }

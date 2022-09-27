@@ -16,7 +16,7 @@ import {
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { Random } from "shader-composer-toybox"
-import { Emitter, Particles } from "vfx-composer-r3f"
+import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 import smokeUrl from "../../assets/smoke.png"
 
 export const GroundFog = () => (
@@ -44,7 +44,7 @@ export const Fog = ({
 
   return (
     <group>
-      <Particles capacity={amount}>
+      <InstancedParticles capacity={amount}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -83,7 +83,7 @@ export const Fog = ({
         </composable.meshStandardMaterial>
 
         <Emitter limit={amount} rate={Infinity} />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

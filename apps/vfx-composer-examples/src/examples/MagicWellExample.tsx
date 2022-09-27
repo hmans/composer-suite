@@ -5,7 +5,11 @@ import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { AdditiveBlending, Color, DoubleSide, Euler, Vector3 } from "three"
-import { Emitter, Particles, useParticleLifetime } from "vfx-composer-r3f"
+import {
+  Emitter,
+  InstancedParticles,
+  useParticleLifetime
+} from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
 export default function MagicWellExample() {
@@ -15,7 +19,7 @@ export default function MagicWellExample() {
 
   return (
     <FlatStage>
-      <Particles capacity={5_000}>
+      <InstancedParticles capacity={5_000}>
         <planeGeometry args={[0.15, 2]} />
 
         <composable.meshStandardMaterial
@@ -47,7 +51,7 @@ export default function MagicWellExample() {
             lifetime.setLifetime(between(1, 5))
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </FlatStage>
   )
 }

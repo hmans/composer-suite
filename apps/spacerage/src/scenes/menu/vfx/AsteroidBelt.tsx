@@ -18,7 +18,7 @@ import {
 import { Random } from "shader-composer-toybox"
 import { DoubleSide, Material, Mesh } from "three"
 import { InstanceSetupCallback } from "vfx-composer"
-import { Emitter, Particles } from "vfx-composer-r3f"
+import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
 export const AsteroidBelt = (props: GroupProps) => (
   <group {...props}>
@@ -33,7 +33,7 @@ const SmallAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
   const setup: InstanceSetupCallback = () => {}
 
   return (
-    <Particles capacity={amount}>
+    <InstancedParticles capacity={amount}>
       <planeGeometry />
 
       <composable.meshStandardMaterial side={DoubleSide} color="#000">
@@ -43,7 +43,7 @@ const SmallAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
 
       {/* Spawn 10.000 of them! */}
       <Emitter limit={amount} rate={Infinity} setup={setup} />
-    </Particles>
+    </InstancedParticles>
   )
 }
 
@@ -63,7 +63,7 @@ const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
   )
 
   return (
-    <Particles geometry={mesh.geometry} capacity={amount}>
+    <InstancedParticles geometry={mesh.geometry} capacity={amount}>
       <composable.material instance={(mesh.material as Material).clone()}>
         <RotateOverTime
           axis={rotationAxis}
@@ -75,7 +75,7 @@ const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
       </composable.material>
 
       <Emitter limit={amount} rate={Infinity} setup={setup} />
-    </Particles>
+    </InstancedParticles>
   )
 }
 

@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Group } from "three"
-import { Particle, Particles } from "vfx-composer-r3f"
+import { Particle, InstancedParticles } from "vfx-composer-r3f"
 
 export default function ControlledParticlesExample() {
   const group = useRef<Group>(null!)
@@ -16,7 +16,7 @@ export default function ControlledParticlesExample() {
 
   return (
     <group>
-      <Particles>
+      <InstancedParticles>
         <sphereGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial color="hotpink" />
 
@@ -28,7 +28,7 @@ export default function ControlledParticlesExample() {
 
           <Particle />
         </group>
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

@@ -26,7 +26,7 @@ import { PSRDNoise2D } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 import {
   Emitter,
-  Particles,
+  InstancedParticles,
   useParticleAttribute,
   useParticleLifetime
 } from "vfx-composer-r3f"
@@ -144,7 +144,7 @@ const Sparks = () => {
   const clock = useThree((s) => s.clock)
 
   return (
-    <Particles capacity={200}>
+    <InstancedParticles capacity={200}>
       <planeGeometry args={[0.2, 0.2]} />
       <composable.meshBasicMaterial side={DoubleSide}>
         <modules.Color
@@ -191,7 +191,7 @@ const Sparks = () => {
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
         }}
       />
-    </Particles>
+    </InstancedParticles>
   )
 }
 
@@ -201,7 +201,7 @@ const RockSplitters = () => {
     PSRDNoise2D(Vec2([offset, InstanceID]))
 
   return (
-    <Particles capacity={100} safetyCapacity={10}>
+    <InstancedParticles capacity={100} safetyCapacity={10}>
       <icosahedronGeometry />
 
       <composable.meshStandardMaterial color="#222">
@@ -238,7 +238,7 @@ const RockSplitters = () => {
           scale.setScalar(between(0.1, 0.2))
         }}
       />
-    </Particles>
+    </InstancedParticles>
   )
 }
 
@@ -250,7 +250,7 @@ const SmokeTrail = () => {
 
   return (
     <group>
-      <Particles capacity={150} safetyCapacity={10}>
+      <InstancedParticles capacity={150} safetyCapacity={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -284,7 +284,7 @@ const SmokeTrail = () => {
             color.value.set("#666").multiplyScalar(Math.random())
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }
@@ -296,7 +296,7 @@ const Clouds = () => {
 
   return (
     <group>
-      <Particles capacity={100} safetyCapacity={10}>
+      <InstancedParticles capacity={100} safetyCapacity={10}>
         <planeGeometry />
         <composable.meshStandardMaterial
           map={texture}
@@ -323,7 +323,7 @@ const Clouds = () => {
             scale.setScalar(between(5, 20))
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }
@@ -333,7 +333,7 @@ const WindLines = () => {
 
   return (
     <group>
-      <Particles>
+      <InstancedParticles>
         <planeGeometry args={[0.1, 3.2]} />
 
         <composable.meshBasicMaterial color="#555" side={DoubleSide}>
@@ -353,7 +353,7 @@ const WindLines = () => {
             scale.setScalar(between(1, 2))
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

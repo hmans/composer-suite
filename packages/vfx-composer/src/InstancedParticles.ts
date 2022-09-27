@@ -24,7 +24,7 @@ const tmpRotation = new Quaternion()
 const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
-export class Particles extends InstancedMesh<BufferGeometry> {
+export class InstancedParticles extends InstancedMesh<BufferGeometry> {
   public cursor: number = 0
   public capacity: number
   public safetyCapacity: number

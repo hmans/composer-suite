@@ -3,7 +3,7 @@ import { between, upTo } from "randomish"
 import { Mul, OneMinus, Vec3 } from "shader-composer"
 import { Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
-import { Emitter, EmitterProps, Particles } from "vfx-composer-r3f"
+import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { ECS } from "../state"
 
@@ -17,7 +17,7 @@ export const Debris = () => {
   const direction = Vec3([rng(12), rng(84), rng(1)])
 
   return (
-    <Particles capacity={200}>
+    <InstancedParticles capacity={200}>
       <icosahedronGeometry args={[0.3]} />
 
       <Composable.meshStandardMaterial color="#666">
@@ -34,7 +34,7 @@ export const Debris = () => {
       <ECS.ManagedEntities tag="isDebris">
         {(entity) => entity.jsx!}
       </ECS.ManagedEntities>
-    </Particles>
+    </InstancedParticles>
   )
 }
 

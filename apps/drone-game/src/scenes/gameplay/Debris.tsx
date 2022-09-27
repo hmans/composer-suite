@@ -14,7 +14,11 @@ import {
 } from "shader-composer"
 import { PSRDNoise2D } from "shader-composer-toybox"
 import { DoubleSide } from "three"
-import { Emitter, Particles, useParticleAttribute } from "vfx-composer-r3f"
+import {
+  Emitter,
+  InstancedParticles,
+  useParticleAttribute
+} from "vfx-composer-r3f"
 
 export const Debris = () => {
   const time = useConst(() => Time())
@@ -26,7 +30,7 @@ export const Debris = () => {
 
   return (
     <group>
-      <Particles>
+      <InstancedParticles>
         <planeGeometry />
 
         <composable.meshStandardMaterial
@@ -52,7 +56,7 @@ export const Debris = () => {
             scale.value = between(0.01, 0.05)
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

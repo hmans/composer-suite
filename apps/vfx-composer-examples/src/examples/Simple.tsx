@@ -6,7 +6,7 @@ import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
 import {
   Emitter,
-  Particles,
+  InstancedParticles,
   useParticleAttribute,
   useParticleLifetime
 } from "vfx-composer-r3f"
@@ -19,8 +19,8 @@ export const Simple = () => {
 
   return (
     <FlatStage>
-      {/* All particle effects are driven by instances of <Particles>. */}
-      <Particles>
+      {/* All particle effects are driven by instances of <InstancedParticles>. */}
+      <InstancedParticles>
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />
 
@@ -55,7 +55,7 @@ export const Simple = () => {
             velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </FlatStage>
   )
 }

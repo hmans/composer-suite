@@ -1,6 +1,6 @@
 import { Attribute, glslType, Input } from "shader-composer"
-import { Color, InstancedMesh, Vector2, Vector3, Vector4 } from "three"
-import { Particles } from "./Particles"
+import { Color, Vector2, Vector3, Vector4 } from "three"
+import { InstancedParticles } from "./InstancedParticles"
 import { makeAttribute } from "./util/makeAttribute"
 
 /* TODO: promote this into Shader Composer */
@@ -36,7 +36,7 @@ export const ParticleAttribute = <
 
     isParticleAttribute: true,
 
-    setupMesh: ({ geometry, capacity, safetyCapacity }: Particles) => {
+    setupMesh: ({ geometry, capacity, safetyCapacity }: InstancedParticles) => {
       const itemSize =
         type === "float"
           ? 1
@@ -62,7 +62,7 @@ export const ParticleAttribute = <
       value = v
     },
 
-    setupParticle: ({ geometry, cursor }: Particles) => {
+    setupParticle: ({ geometry, cursor }: InstancedParticles) => {
       const attribute = geometry.attributes[name]
 
       if (typeof value === "number") {
