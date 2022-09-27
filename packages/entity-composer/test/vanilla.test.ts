@@ -61,7 +61,7 @@ describe("World", () => {
       const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
 
-      const almostDead = world.index(almostDeadFun)
+      const almostDead = world.index(almostDeadFun).entities
       expect(almostDead).not.toContain(entity)
 
       world.update(entity, { health: 10 })
@@ -71,7 +71,7 @@ describe("World", () => {
     it("reindexes the entity even when no update is given", () => {
       const world = createWorld<Entity>()
       const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
-      const almostDead = world.index(almostDeadFun)
+      const almostDead = world.index(almostDeadFun).entities
       expect(almostDead).not.toContain(entity)
 
       /* Now we can change the entity directly */

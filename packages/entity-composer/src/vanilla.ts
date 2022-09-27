@@ -1,3 +1,5 @@
+import { createEvent, Event } from "./lib/event"
+
 export interface IEntity extends Record<string, any> {}
 
 export type IndexFunction<Entity extends IEntity> = (entity: Entity) => boolean
@@ -6,11 +8,22 @@ export type WorldArgs<T extends IEntity> = {
   entities?: T[]
 }
 
+export type World<Entity extends IEntity> = ReturnType<
+  typeof createWorld<Entity>
+>
+
 export function createWorld<Entity extends IEntity>({
   entities: initialEntities
 }: WorldArgs<Entity> = {}) {
   const entities: Set<Entity> = new Set()
-  const indices: Map<IndexFunction<Entity>, Set<Entity>> = new Map()
+  const indices: Map<
+    IndexFunction<Entity>,
+    {
+      entities: Set<Entity>
+      onEntityAdded: Event<Entity>
+      onEntityRemoved: Event<Entity>
+    }
+  > = new Map()
 
   if (initialEntities) {
     for (const entity of initialEntities) {
@@ -39,12 +52,17 @@ export function createWorld<Entity extends IEntity>({
     }
 
     /* Update indices */
-    for (const [fun, entities] of indices) {
-      const inIndex = entities.has(entity)
+    for (const [fun, index] of indices) {
+      const inIndex = index.entities.has(entity)
       const shouldIndex = fun(entity)
 
-      if (inIndex && !shouldIndex) entities.delete(entity)
-      else if (!inIndex && shouldIndex) entities.add(entity)
+      if (inIndex && !shouldIndex) {
+        index.entities.delete(entity)
+        index.onEntityRemoved.emit(entity)
+      } else if (!inIndex && shouldIndex) {
+        index.entities.add(entity)
+        index.onEntityAdded.emit(entity)
+      }
     }
   }
 
@@ -52,7 +70,11 @@ export function createWorld<Entity extends IEntity>({
     if (!indices.has(fun)) {
       /* Create the new index */
       const entities = new Set<Entity>()
-      indices.set(fun, entities)
+      indices.set(fun, {
+        entities,
+        onEntityAdded: createEvent(),
+        onEntityRemoved: createEvent()
+      })
 
       /* Populate the index */
       for (const entity of entities) {
