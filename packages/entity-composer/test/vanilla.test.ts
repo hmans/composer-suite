@@ -1,4 +1,4 @@
-import { Index, World } from "../src/vanilla"
+import { World } from "../src/vanilla"
 
 type Entity = {
   position: { x: number; y: number }

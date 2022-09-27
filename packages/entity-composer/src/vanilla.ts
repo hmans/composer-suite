@@ -34,8 +34,10 @@ export class World<Entity extends IEntity> {
     entity: Entity,
     update?: Partial<Entity> | ((e: Entity) => Partial<Entity>)
   ) {
-    if (typeof update === "function") Object.assign(entity, update(entity))
-    else if (typeof update === "object") Object.assign(entity, update)
+    if (update) {
+      if (typeof update === "function") Object.assign(entity, update(entity))
+      else Object.assign(entity, update)
+    }
 
     /* Update indices */
     for (const [fun, entities] of this.indices) {
