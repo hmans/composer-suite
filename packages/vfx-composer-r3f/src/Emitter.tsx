@@ -10,9 +10,9 @@ import React, {
 } from "react"
 import { Matrix4, Object3D } from "three"
 import { clamp } from "three/src/math/MathUtils"
-import { InstanceSetupCallback, InstancedParticles } from "vfx-composer"
+import { InstancedParticles, InstanceSetupCallback } from "vfx-composer"
+import { useParticlesContext } from "./context"
 import { useFrameEffect } from "./lib/useFrameEffect"
-import { useParticlesContext } from "./InstancedParticles"
 
 export type EmitterProps = Object3DProps & {
   particles?:

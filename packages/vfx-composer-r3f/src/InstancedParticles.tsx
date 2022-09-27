@@ -3,20 +3,24 @@ import { InstancedMeshProps, useFrame } from "@react-three/fiber"
 import { getShaderRootForMaterial } from "material-composer-r3f"
 import { World } from "miniplex"
 import React, {
-  createContext,
   forwardRef,
   Ref,
-  useContext,
   useImperativeHandle,
   useLayoutEffect
 } from "react"
 import { Material, Matrix4, Object3D } from "three"
 import { InstancedParticles as InstancedParticlesImpl } from "vfx-composer"
+import { DefaultContext, ParticlesContext } from "./context"
 import { useFrameEffect } from "./lib/useFrameEffect"
 
 const tmpMatrix = new Matrix4()
 
 const invertedParticlesMatrix = new Matrix4()
+
+export type Entity = {
+  id: number
+  sceneObject: Object3D
+}
 
 export type InstancedParticlesProps = Omit<
   InstancedMeshProps,
@@ -28,19 +32,8 @@ export type InstancedParticlesProps = Omit<
   capacity?: number
   safetyCapacity?: number
   updatePriority?: number
+  context?: ParticlesContext
 }
-
-export type Entity = {
-  id: number
-  sceneObject: Object3D
-}
-
-const Context = createContext<{
-  particles: InstancedParticlesImpl
-  ecs: World<Entity>
-}>(null!)
-
-export const useParticlesContext = () => useContext(Context)
 
 export const InstancedParticles = forwardRef<
   InstancedParticlesImpl,
@@ -54,6 +47,7 @@ export const InstancedParticles = forwardRef<
       geometry,
       material,
       updatePriority,
+      context: Context = DefaultContext,
       ...props
     },
     ref
