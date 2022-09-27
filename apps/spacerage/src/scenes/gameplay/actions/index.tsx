@@ -1,7 +1,7 @@
 import { Color, Quaternion, Vector3 } from "three"
-import { DebrisEmitter } from "./vfx/Debris"
-import { SparksEmitter } from "./vfx/Sparks"
-import { ECS } from "./state"
+import { DebrisEmitter } from "../vfx/Debris"
+import { SparksEmitter } from "../vfx/Sparks"
+import { ECS } from "../state"
 
 export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
   ECS.world.createEntity({
