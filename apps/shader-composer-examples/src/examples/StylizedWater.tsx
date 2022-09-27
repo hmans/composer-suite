@@ -1,6 +1,5 @@
 import { Animate, float, rotate } from "@hmans/r3f-animate"
 import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
 import { pipe } from "fp-ts/function"
@@ -25,7 +24,7 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { useShader, useUniformUnit } from "shader-composer-r3f"
+import { Shader, useShader, useUniformUnit } from "shader-composer-r3f"
 import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -171,11 +170,9 @@ const Water = (props: MeshProps) => {
       rotation-x={-Math.PI / 2}
     >
       <planeGeometry args={[100, 100, 137, 137]} />
-      <patched.meshStandardMaterial
-        metalness={0.5}
-        roughness={0.1}
-        {...shader}
-      />
+      <meshStandardMaterial metalness={0.5} roughness={0.1}>
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }

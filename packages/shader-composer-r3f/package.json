@@ -33,6 +33,8 @@
     "three": ">=0.143.0"
   },
   "dependencies": {
+    "@hmans/use-const": "^0.0.1",
+    "@material-composer/patch-material": "workspace:^0.1.3",
     "shader-composer": "^0.4.0"
   }
 }

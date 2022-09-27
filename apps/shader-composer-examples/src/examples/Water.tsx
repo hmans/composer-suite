@@ -1,9 +1,8 @@
 import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { add } from "shader-composer/fun"
 import { Color, DoubleSide } from "three"
@@ -58,12 +57,9 @@ function Water() {
   return (
     <mesh position-y={-12}>
       <boxGeometry args={[70, 16, 70, 120, 1, 120]} />
-      <patched.meshPhysicalMaterial
-        {...shader}
-        roughness={0.1}
-        metalness={0.5}
-        side={DoubleSide}
-      />
+      <meshPhysicalMaterial roughness={0.1} metalness={0.5} side={DoubleSide}>
+        <Shader {...shader} />
+      </meshPhysicalMaterial>
     </mesh>
   )
 }

@@ -1,5 +1,4 @@
 import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import {
   Input,
   Rotate3D,
@@ -7,7 +6,7 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, useShader } from "shader-composer-r3f"
 import { Vector3 } from "three"
 
 export default function MatrixTransformations() {
@@ -28,7 +27,9 @@ export default function MatrixTransformations() {
   return (
     <mesh>
       <boxGeometry />
-      <patched.meshStandardMaterial color="orange" {...shader} />
+      <meshStandardMaterial color="orange">
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }

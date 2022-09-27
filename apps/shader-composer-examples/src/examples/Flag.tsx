@@ -1,5 +1,4 @@
 import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { useTexture } from "@react-three/drei"
 import {
   Add,
@@ -10,7 +9,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, useShader } from "shader-composer-r3f"
 import { DoubleSide } from "three"
 import textureUrl from "./textures/shader-composer-logo.jpg"
 
@@ -32,11 +31,9 @@ export default function Flag() {
   return (
     <mesh>
       <planeGeometry args={[4, 2, 40, 20]} />
-      <patched.meshStandardMaterial
-        map={texture}
-        side={DoubleSide}
-        {...shader}
-      />
+      <meshStandardMaterial map={texture} side={DoubleSide}>
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }

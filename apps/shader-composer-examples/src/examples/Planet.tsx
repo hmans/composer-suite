@@ -1,5 +1,4 @@
 import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { pipe } from "fp-ts/function"
 import {
   Add,
@@ -17,7 +16,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, useShader } from "shader-composer-r3f"
 import { Simplex3DNoise } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -81,7 +80,9 @@ function Planet() {
   return (
     <mesh>
       <icosahedronGeometry args={[1, 12]} />
-      <patched.meshStandardMaterial {...shader} />
+      <meshStandardMaterial>
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }
@@ -120,7 +121,9 @@ function Atmosphere() {
   return (
     <mesh>
       <icosahedronGeometry args={[1.15, 12]} />
-      <patched.meshStandardMaterial color="white" {...shader} transparent />
+      <meshStandardMaterial color="white" transparent>
+        <Shader {...shader} />
+      </meshStandardMaterial>
     </mesh>
   )
 }

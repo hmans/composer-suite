@@ -16,7 +16,7 @@ import {
   Sub,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { Shader, useShader } from "shader-composer-r3f"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color, Mesh } from "three"
 
@@ -57,7 +57,9 @@ export default function DiscoCube() {
       <Environment preset="city" />
       <mesh ref={mesh}>
         <boxGeometry args={[1.5, 1.5, 1.5]} />
-        <patched.meshPhysicalMaterial clearcoat={0.2} {...shader} />
+        <meshPhysicalMaterial clearcoat={0.2}>
+          <Shader {...shader} />
+        </meshPhysicalMaterial>
       </mesh>
     </>
   )
