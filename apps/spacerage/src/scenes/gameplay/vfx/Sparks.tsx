@@ -3,7 +3,7 @@ import { between, upTo } from "randomish"
 import { Mul, OneMinus, Vec3 } from "shader-composer"
 import { Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
-import { Emitter, EmitterProps, Particles } from "vfx-composer-r3f"
+import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { ECS } from "../state"
 
@@ -15,7 +15,7 @@ export const Sparks = () => {
   const direction = Vec3([rng(12), rng(84), rng(1)])
 
   return (
-    <Particles capacity={200}>
+    <InstancedParticles capacity={200}>
       <planeGeometry args={[0.1, 0.1]} />
 
       <Composable.meshStandardMaterial>
@@ -32,7 +32,7 @@ export const Sparks = () => {
       <ECS.ManagedEntities tag="isSparks">
         {(entity) => entity.jsx!}
       </ECS.ManagedEntities>
-    </Particles>
+    </InstancedParticles>
   )
 }
 

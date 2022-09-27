@@ -1,7 +1,7 @@
 import { useGLTF } from "@react-three/drei"
-import { between, insideSphere, power } from "randomish"
+import { insideSphere, power } from "randomish"
 import { Material, Mesh, Vector3 } from "three"
-import { Emitter, Particles } from "vfx-composer-r3f"
+import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
 export const AsteroidField = () => {
   const gltf = useGLTF("/models/asteroid03.gltf")
@@ -9,7 +9,7 @@ export const AsteroidField = () => {
 
   return (
     <group>
-      <Particles
+      <InstancedParticles
         geometry={mesh.geometry}
         material={mesh.material as Material}
         capacity={30000}
@@ -24,7 +24,7 @@ export const AsteroidField = () => {
             rotation.random()
           }}
         />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }

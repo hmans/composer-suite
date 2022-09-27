@@ -19,7 +19,7 @@ export const Simple = () => {
 
   return (
     <FlatStage>
-      {/* All particle effects are driven by instances of <Particles>. */}
+      {/* All particle effects are driven by instances of <InstancedParticles>. */}
       <InstancedParticles>
         {/* Any geometry can be used, but here, we'll go with something simple. */}
         <planeGeometry args={[0.2, 0.2]} />

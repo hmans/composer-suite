@@ -16,7 +16,11 @@ import {
 import { Random } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 import { InstanceSetupCallback } from "vfx-composer"
-import { Emitter, Particles, useParticleLifetime } from "vfx-composer-r3f"
+import {
+  Emitter,
+  InstancedParticles,
+  useParticleLifetime
+} from "vfx-composer-r3f"
 
 /* TODO: extract this into vfx-composer */
 
@@ -41,7 +45,7 @@ export const Dust = ({ lifetime = 60, rate = 50 }: DustProps) => {
 
   return (
     <group>
-      <Particles capacity={2 * rate * lifetime}>
+      <InstancedParticles capacity={2 * rate * lifetime}>
         <planeGeometry args={[0.5, 0.5]} />
 
         <composable.meshBasicMaterial
@@ -71,7 +75,7 @@ export const Dust = ({ lifetime = 60, rate = 50 }: DustProps) => {
 
         <Emitter limit={rate * lifetime} rate={Infinity} setup={setup} />
         <Emitter rate={rate} setup={setup} />
-      </Particles>
+      </InstancedParticles>
     </group>
   )
 }
