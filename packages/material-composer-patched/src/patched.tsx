@@ -4,7 +4,7 @@ import {
   patchMaterial
 } from "@material-composer/patch-material"
 import { MaterialNode, Node } from "@react-three/fiber"
-import React, { forwardRef, useLayoutEffect } from "react"
+import React, { forwardRef, useImperativeHandle, useLayoutEffect } from "react"
 import * as THREE from "three"
 import { useManagedPrimitive } from "./lib/useManagedInstance"
 
@@ -44,6 +44,30 @@ export const makePatchedMaterialComponent = <
     }
   )
 
+type MaterialInstanceProps<M extends THREE.Material> = {
+  instance: M
+} & Node<M, any> &
+  PatchedMaterialOptions
+
+function Material<M extends THREE.Material>(
+  {
+    instance,
+    vertexShader,
+    fragmentShader,
+    uniforms,
+    ...props
+  }: MaterialInstanceProps<M>,
+  ref: React.Ref<M>
+) {
+  useLayoutEffect(() => {
+    patchMaterial(instance, { vertexShader, fragmentShader, uniforms })
+  }, [instance, vertexShader, fragmentShader, uniforms])
+
+  useImperativeHandle(ref, () => instance)
+
+  return <primitive object={instance} {...props} />
+}
+
 /* Here's our fake proxy. We'll eventually replace it with a real proxy! */
 export const Patched = {
   LineBasicMaterial: makePatchedMaterialComponent(THREE.LineBasicMaterial),
@@ -78,22 +102,7 @@ export const Patched = {
    * <patched.Material instance={myMaterial} {...shader} />
    * ```
    */
-  Material: <M extends THREE.Material>({
-    instance,
-    vertexShader,
-    fragmentShader,
-    uniforms,
-    ...props
-  }: {
-    instance: M
-  } & Node<M, any> &
-    PatchedMaterialOptions) => {
-    useLayoutEffect(() => {
-      patchMaterial(instance, { vertexShader, fragmentShader, uniforms })
-    }, [instance, vertexShader, fragmentShader, uniforms])
-
-    return <primitive object={instance} {...props} />
-  },
+  Material: forwardRef(Material),
 
   /*
   LEGACY API
@@ -131,20 +140,5 @@ export const Patched = {
    * <patched.Material instance={myMaterial} {...shader} />
    * ```
    */
-  material: <M extends THREE.Material>({
-    instance,
-    vertexShader,
-    fragmentShader,
-    uniforms,
-    ...props
-  }: {
-    instance: M
-  } & Node<M, any> &
-    PatchedMaterialOptions) => {
-    useLayoutEffect(() => {
-      patchMaterial(instance, { vertexShader, fragmentShader, uniforms })
-    }, [instance, vertexShader, fragmentShader, uniforms])
-
-    return <primitive object={instance} {...props} />
-  }
+  material: forwardRef(Material)
 } as const
