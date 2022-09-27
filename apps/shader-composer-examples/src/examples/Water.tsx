@@ -1,8 +1,7 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
-import { Shader, useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { add } from "shader-composer/fun"
 import { Color, DoubleSide } from "three"
@@ -47,7 +46,7 @@ function Water() {
       )
     })
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       position,
       normal,
       color

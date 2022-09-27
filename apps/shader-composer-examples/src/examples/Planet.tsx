@@ -1,4 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { pipe } from "fp-ts/function"
 import {
   Add,
@@ -16,7 +15,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Shader, useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Simplex3DNoise } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -58,7 +57,7 @@ function Planet() {
       (color: Color, height: Input<"float">) => (v: Input<"vec3">) =>
         Mix(v, color, Step(height, totalHeight))
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       position: pipe(
         totalHeight,
         (v) => Add(1.0, v),
@@ -109,7 +108,7 @@ function Atmosphere() {
 
     const fresnel = Mul(Fresnel(), 0.3)
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       alpha: pipe(
         Float(atmosphereDensity),
         (v) => Add(v, clouds),

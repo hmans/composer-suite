@@ -1,5 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
-import { patched } from "@material-composer/patched"
 import { useTexture } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
@@ -15,7 +13,12 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { Shader, useShader, useUniformUnit } from "shader-composer-r3f"
+import {
+  Shader,
+  ShaderMaster,
+  useShader,
+  useUniformUnit
+} from "shader-composer-r3f"
 import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 import textureUrl from "./textures/explosion.png"
 
@@ -64,7 +67,7 @@ export default function Fireball() {
       (v) => Texture2D(sampler2D, Vec2([0, v])).color
     )
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       /* Modify the vertex position based on the displacement value. */
       position: pipe(
         displacement,

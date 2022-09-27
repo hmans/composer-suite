@@ -1,5 +1,4 @@
 import { Animate, float, rotate } from "@hmans/r3f-animate"
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { Environment } from "@react-three/drei"
 import { MeshProps } from "@react-three/fiber"
 import { pipe } from "fp-ts/function"
@@ -24,7 +23,12 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { Shader, useShader, useUniformUnit } from "shader-composer-r3f"
+import {
+  Shader,
+  ShaderMaster,
+  useShader,
+  useUniformUnit
+} from "shader-composer-r3f"
 import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -134,7 +138,7 @@ const Water = (props: MeshProps) => {
       return Add(position, Mul(normal, scaledNoise))
     }
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       /* Lerp between the new and the original position based on
       the value in the calmness variable. */
       position: Mix(

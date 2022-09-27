@@ -1,4 +1,3 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
 import { useTexture } from "@react-three/drei"
 import {
   Add,
@@ -9,7 +8,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Shader, useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { DoubleSide } from "three"
 import textureUrl from "./textures/shader-composer-logo.jpg"
 
@@ -19,7 +18,7 @@ export default function Flag() {
   const shader = useShader(() => {
     const time = GlobalTime
 
-    return PatchedMaterialMaster({
+    return ShaderMaster({
       position: Vec3([
         VertexPosition.x,
         VertexPosition.y,

@@ -1,10 +1,11 @@
 import { useConst } from "@hmans/use-const"
-import { patchMaterial } from "@material-composer/patch-material"
+import {
+  PatchedMaterialMaster,
+  patchMaterial
+} from "@material-composer/patch-material"
 import { useInstanceHandle } from "@react-three/fiber"
 import React, { useLayoutEffect, useRef } from "react"
-import { Unit } from "shader-composer"
 import { IUniform, Material } from "three"
-import { useShader } from "./hooks"
 
 export type ShaderProps = {
   vertexShader?: string
@@ -35,3 +36,5 @@ export const Shader = ({
 
   return <primitive object={object} ref={ref} />
 }
+
+export const ShaderMaster = PatchedMaterialMaster
