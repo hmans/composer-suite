@@ -5,13 +5,13 @@ import { Color, Vector3 } from "three"
 import {
   makeParticles,
   useParticleAttribute,
-  useParticles
+  useParticleLifetime
 } from "vfx-composer-r3f"
 
 const Effect = makeParticles()
 
 export const Stress = () => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const velocity = useParticleAttribute(() => new Vector3())
   const color = useParticleAttribute(() => new Color())
 

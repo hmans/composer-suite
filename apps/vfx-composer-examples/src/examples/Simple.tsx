@@ -4,12 +4,12 @@ import { FlatStage } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
-import { createParticles, ParticleAttribute } from "vfx-composer"
+import { createParticleLifetime, ParticleAttribute } from "vfx-composer"
 import { Emitter, Particles } from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
 const velocity = ParticleAttribute(new Vector3())
-const particles = createParticles()
+const particles = createParticleLifetime()
 
 export const Simple = () => {
   const texture = useTexture(particleUrl)

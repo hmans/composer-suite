@@ -28,7 +28,7 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles
+  useParticleLifetime
 } from "vfx-composer-r3f"
 import { SphericalAura } from "./effects/Aura"
 import { Lava } from "./modules/Lava"
@@ -138,7 +138,7 @@ const OuterAura = () => (
 )
 
 const Sparks = () => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const getNoise = (offset: Input<"float">) =>
     PSRDNoise2D(Vec2([offset, InstanceID]))
   const clock = useThree((s) => s.clock)
@@ -196,7 +196,7 @@ const Sparks = () => {
 }
 
 const RockSplitters = () => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const getNoise = (offset: Input<"float">) =>
     PSRDNoise2D(Vec2([offset, InstanceID]))
 
@@ -245,7 +245,7 @@ const RockSplitters = () => {
 const SmokeTrail = () => {
   const texture = useTexture(smokeUrl)
 
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const color = useParticleAttribute(() => new Color())
 
   return (
@@ -294,7 +294,7 @@ const SmokeTrail = () => {
 const Clouds = () => {
   const texture = useTexture(smokeUrl)
 
-  const particles = useParticles()
+  const particles = useParticleLifetime()
 
   return (
     <group>
@@ -331,7 +331,7 @@ const Clouds = () => {
 }
 
 const WindLines = () => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
 
   return (
     <group>

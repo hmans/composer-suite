@@ -17,7 +17,11 @@ import {
   Vector3,
   WebGLRenderer
 } from "three"
-import { createParticles, ParticleAttribute, Particles } from "vfx-composer"
+import {
+  createParticleLifetime,
+  ParticleAttribute,
+  Particles
+} from "vfx-composer"
 import { loop } from "./lib/loop"
 
 const vanillaCode = (
@@ -33,7 +37,7 @@ const vanillaCode = (
   }
 
   /* Create a Lifetime module. */
-  const particleUnits = createParticles()
+  const particleUnits = createParticleLifetime()
 
   /*
   The behavior of your particle effects is defined by a series of modules. Each

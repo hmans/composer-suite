@@ -16,7 +16,7 @@ import {
 import { Random } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 import { InstanceSetupCallback } from "vfx-composer"
-import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
+import { Emitter, Particles, useParticleLifetime } from "vfx-composer-r3f"
 
 /* TODO: extract this into vfx-composer */
 
@@ -31,7 +31,7 @@ export const Dust = ({ lifetime = 60, rate = 50 }: DustProps) => {
 
   const getRandom = (offset: Input<"float">) => Random(Add(Mul(id, 50), offset))
 
-  const particles = useParticles()
+  const particles = useParticleLifetime()
 
   const setup: InstanceSetupCallback = ({ position, rotation, scale }) => {
     position.set(plusMinus(10), plusMinus(10), plusMinus(10))

@@ -4,13 +4,13 @@ import { createContext } from "react"
 import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
 import { Color } from "three"
-import { Particles, useParticles } from "vfx-composer-r3f"
+import { Particles, useParticleLifetime } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
 export const SparksContext = createContext<{ particles: any }>(null!)
 
 export const Sparks = (props: GroupProps) => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
 
   const random = (offset: Input<"float">) =>
     Random($`${offset} + float(${InstanceID}) * 1.1005`)

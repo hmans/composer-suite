@@ -9,7 +9,7 @@ import {
   Emitter,
   Particles,
   useParticleAttribute,
-  useParticles
+  useParticleLifetime
 } from "vfx-composer-r3f"
 
 const tmpVec3 = new Vector3()
@@ -17,7 +17,7 @@ const tmpVec3 = new Vector3()
 export const FireflyExample = () => {
   const mesh = useRef<Mesh>(null!)
 
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const velocity = useParticleAttribute(() => new Vector3())
   const color = useParticleAttribute(() => new Color())
 

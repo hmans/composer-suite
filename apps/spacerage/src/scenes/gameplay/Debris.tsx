@@ -1,16 +1,15 @@
-import { Icosahedron } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { Composable, Modules } from "material-composer-r3f"
 import { createContext } from "react"
 import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
-import { Particles, useParticles } from "vfx-composer-r3f"
+import { Particles, useParticleLifetime } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
 export const DebrisContext = createContext<{ particles: any }>(null!)
 
 export const Debris = (props: GroupProps) => {
-  const particles = useParticles()
+  const particles = useParticleLifetime()
 
   const random = (offset: Input<"float">) =>
     Random($`${offset} + float(${InstanceID}) * 1.1005`)

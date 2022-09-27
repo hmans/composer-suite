@@ -5,12 +5,12 @@ import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { AdditiveBlending, Color, DoubleSide, Euler, Vector3 } from "three"
-import { Emitter, Particles, useParticles } from "vfx-composer-r3f"
+import { Emitter, Particles, useParticleLifetime } from "vfx-composer-r3f"
 import { particleUrl } from "./textures"
 
 export default function MagicWellExample() {
   const texture = useTexture(particleUrl)
-  const particles = useParticles()
+  const particles = useParticleLifetime()
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 
   return (
