@@ -15,7 +15,7 @@ import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
-import { spawnBullet } from "./actions"
+import { spawnBullet } from "./Bullets"
 import { gameplayStore, Layers } from "./state"
 
 const tmpVec3 = new Vector3()

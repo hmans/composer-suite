@@ -1,5 +1,6 @@
 import { Quaternion, Vector3 } from "three"
 import { Particle } from "vfx-composer-r3f"
+import { Bullet } from "../Bullets"
 import { ECS } from "../state"
 import { DebrisEmitter } from "../vfx/Debris"
 import { SparksEmitter } from "../vfx/Sparks"
@@ -11,29 +12,6 @@ export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
       scale
     },
     health: 100 * scale
-  })
-}
-
-export const spawnBullet = (
-  position: Vector3,
-  quaternion: Quaternion,
-  velocity: Vector3
-) => {
-  ECS.world.createEntity({
-    isBullet: true,
-    age: 0,
-    destroyAfter: 1,
-    velocity,
-
-    jsx: (
-      <ECS.Component name="sceneObject">
-        <Particle
-          position={position}
-          quaternion={quaternion}
-          matrixAutoUpdate
-        />
-      </ECS.Component>
-    )
   })
 }
 

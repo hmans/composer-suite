@@ -7,7 +7,6 @@ import { createParticleLifetime, ParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { JSXEntities } from "../../../lib/JSXEntities"
-import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -43,21 +42,17 @@ const SparksMaterialLayer = memo(
   }
 )
 
-export const Sparks = () => {
-  const emitters = ECS.useArchetype("isSparks", "jsx").entities
+export const Sparks = () => (
+  <InstancedParticles>
+    <planeGeometry args={[0.1, 0.1]} />
 
-  return (
-    <InstancedParticles>
-      <planeGeometry args={[0.1, 0.1]} />
+    <Composable.MeshStandardMaterial>
+      <SparksMaterialLayer lifetime={lifetime} />
+    </Composable.MeshStandardMaterial>
 
-      <Composable.MeshStandardMaterial>
-        <SparksMaterialLayer lifetime={lifetime} />
-      </Composable.MeshStandardMaterial>
-
-      <JSXEntities entities={emitters} />
-    </InstancedParticles>
-  )
-}
+    <JSXEntities archetype={["isSparks"]} />
+  </InstancedParticles>
+)
 
 export const SparksEmitter = (props: EmitterProps) => (
   <Emitter
