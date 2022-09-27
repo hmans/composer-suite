@@ -20,7 +20,7 @@ import {
 import {
   createParticleLifetime,
   ParticleAttribute,
-  Particles
+  InstancedParticles
 } from "vfx-composer"
 import { loop } from "./lib/loop"
 
@@ -68,7 +68,7 @@ const vanillaCode = (
   patchMaterial(material, shader)
 
   /* Create mesh and add it to the scene. */
-  const particles = new Particles(
+  const particles = new InstancedParticles(
     new BoxGeometry(0.2, 0.2, 0.2),
     material,
     1000
@@ -77,7 +77,11 @@ const vanillaCode = (
   parent.add(particles)
   particles.setupParticles(root)
 
-  const particles2 = new Particles(new SphereGeometry(0.2), material, 1000)
+  const particles2 = new InstancedParticles(
+    new SphereGeometry(0.2),
+    material,
+    1000
+  )
   particles2.position.set(-2, 0, 0)
   parent.add(particles2)
   particles2.setupParticles(root)

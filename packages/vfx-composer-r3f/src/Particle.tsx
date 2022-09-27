@@ -6,7 +6,7 @@ import React, {
   useRef
 } from "react"
 import { Matrix4, Object3D } from "three"
-import { useParticlesContext } from "./Particles"
+import { useParticlesContext } from "./InstancedParticles"
 
 const hideMatrix = new Matrix4().makeScale(0, 0, 0)
 

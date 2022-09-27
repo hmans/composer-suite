@@ -12,7 +12,11 @@ import {
   $vec3
 } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
-import { Emitter, Particles, ParticlesProps } from "vfx-composer-r3f"
+import {
+  Emitter,
+  InstancedParticles,
+  InstancedParticlesProps
+} from "vfx-composer-r3f"
 
 export default function SharedResourceExample() {
   return (
@@ -33,8 +37,8 @@ export default function SharedResourceExample() {
   )
 }
 
-const Blobs = (props: ParticlesProps) => (
-  <Particles
+const Blobs = (props: InstancedParticlesProps) => (
+  <InstancedParticles
     capacity={1_000}
     safetyCapacity={0}
     castShadow
@@ -52,7 +56,7 @@ const Blobs = (props: ParticlesProps) => (
         scale.multiplyScalar(between(0.5, 1.5))
       }}
     />
-  </Particles>
+  </InstancedParticles>
 )
 
 const BlobMaterial = () => {

@@ -1,13 +1,18 @@
 import React, { createRef } from "react"
-import { Particles, ParticlesProps } from "./Particles"
-import { Particles as ParticlesImpl } from "vfx-composer"
+import {
+  InstancedParticles,
+  InstancedParticlesProps
+} from "./InstancedParticles"
+import { InstancedParticles as InstancedParticlesImpl } from "vfx-composer"
 import { Emitter, EmitterProps } from "./Emitter"
 
 export const makeParticles = () => {
-  const particles = createRef<ParticlesImpl>()
+  const particles = createRef<InstancedParticlesImpl>()
 
   return {
-    Root: (props: ParticlesProps) => <Particles {...props} ref={particles} />,
+    Root: (props: InstancedParticlesProps) => (
+      <InstancedParticles {...props} ref={particles} />
+    ),
 
     Emitter: (props: Omit<EmitterProps, "particles">) => (
       <Emitter {...props} particles={particles} />

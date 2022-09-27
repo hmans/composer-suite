@@ -7,7 +7,7 @@ import { OneMinus } from "shader-composer"
 import { Color, Mesh, NormalBlending, Vector3 } from "three"
 import {
   Emitter,
-  Particles,
+  InstancedParticles,
   useParticleAttribute,
   useParticleLifetime
 } from "vfx-composer-r3f"
@@ -32,7 +32,7 @@ export const FireflyExample = () => {
 
   return (
     <FlatStage>
-      <Particles>
+      <InstancedParticles>
         <planeGeometry args={[0.05, 0.05]} />
 
         <composable.meshStandardMaterial
@@ -73,7 +73,7 @@ export const FireflyExample = () => {
             }}
           />
         </mesh>
-      </Particles>
+      </InstancedParticles>
     </FlatStage>
   )
 }

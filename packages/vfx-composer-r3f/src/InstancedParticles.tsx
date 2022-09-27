@@ -11,19 +11,19 @@ import React, {
   useLayoutEffect
 } from "react"
 import { Material, Matrix4, Object3D } from "three"
-import { Particles as ParticlesImpl } from "vfx-composer"
+import { InstancedParticles as InstancedParticlesImpl } from "vfx-composer"
 import { useFrameEffect } from "./lib/useFrameEffect"
 
 const tmpMatrix = new Matrix4()
 
 const invertedParticlesMatrix = new Matrix4()
 
-export type ParticlesProps = Omit<
+export type InstancedParticlesProps = Omit<
   InstancedMeshProps,
   "material" | "args" | "ref"
 > & {
-  ref?: Ref<ParticlesImpl>
-  args?: ConstructorParameters<typeof ParticlesImpl>
+  ref?: Ref<InstancedParticlesImpl>
+  args?: ConstructorParameters<typeof InstancedParticlesImpl>
   material?: Material
   capacity?: number
   safetyCapacity?: number
@@ -35,13 +35,17 @@ export type Entity = {
   sceneObject: Object3D
 }
 
-const Context = createContext<{ particles: ParticlesImpl; ecs: World<Entity> }>(
-  null!
-)
+const Context = createContext<{
+  particles: InstancedParticlesImpl
+  ecs: World<Entity>
+}>(null!)
 
 export const useParticlesContext = () => useContext(Context)
 
-export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
+export const InstancedParticles = forwardRef<
+  InstancedParticlesImpl,
+  InstancedParticlesProps
+>(
   (
     {
       children,
@@ -56,7 +60,8 @@ export const Particles = forwardRef<ParticlesImpl, ParticlesProps>(
   ) => {
     /* The Particles instance this component is managing. */
     const particles = useConst(
-      () => new ParticlesImpl(geometry, material, capacity, safetyCapacity)
+      () =>
+        new InstancedParticlesImpl(geometry, material, capacity, safetyCapacity)
     )
 
     /* A small ECS world for controlled particles. */
