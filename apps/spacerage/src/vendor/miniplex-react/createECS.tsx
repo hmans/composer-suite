@@ -1,4 +1,5 @@
-import { useConst, useRerender } from "@hmans/things"
+import { useConst } from "@hmans/use-const"
+import { useRerender } from "@hmans/use-rerender"
 import {
   EntityWith,
   IEntity,
@@ -22,7 +23,7 @@ import React, {
   useRef,
   useState
 } from "react"
-import { mergeRefs } from "react-merge-refs"
+import mergeRefs from "react-merge-refs"
 
 type EntityChildren<T extends IEntity> =
   | ReactNode
@@ -169,15 +170,17 @@ export function createECS<Entity extends IEntity = UntypedEntity>(
       }
     }, [entity, name, data])
 
+    /* If no children are passed, we're done. */
+    if (!children) return null
+
     const childElement =
-      children && (typeof children === "function" ? children(entity) : children)
+      typeof children === "function" ? children(entity) : children
 
     return (
       <>
-        {childElement &&
-          cloneElement(childElement, {
-            ref: mergeRefs([ref, (childElement as any).ref])
-          })}
+        {cloneElement(childElement, {
+          ref: mergeRefs([ref, (childElement as any).ref])
+        })}
       </>
     )
   }
