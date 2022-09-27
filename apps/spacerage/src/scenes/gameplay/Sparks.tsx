@@ -1,17 +1,16 @@
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, Object3DProps } from "@react-three/fiber"
 import { Composable, Modules } from "material-composer-r3f"
-import { createContext } from "react"
+import { between, upTo } from "randomish"
 import { $, Input, InstanceID, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
 import { Color } from "three"
-import { Particles, useParticleLifetime } from "vfx-composer-r3f"
+import { createParticleLifetime } from "vfx-composer"
+import { Emitter, Particles } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
-export const SparksContext = createContext<{ particles: any }>(null!)
+const lifetime = createParticleLifetime()
 
 export const Sparks = (props: GroupProps) => {
-  const particles = useParticleLifetime()
-
   const random = (offset: Input<"float">) =>
     Random($`${offset} + float(${InstanceID}) * 1.1005`)
 
@@ -23,22 +22,31 @@ export const Sparks = (props: GroupProps) => {
         <planeGeometry args={[0.1, 0.1]} />
 
         <Composable.meshStandardMaterial>
-          <Modules.Scale scale={OneMinus(particles.progress)} />
+          <Modules.Scale scale={OneMinus(lifetime.progress)} />
           <Modules.Velocity
             direction={Mul(direction, 5)}
-            time={particles.age}
+            time={lifetime.age}
             space="local"
           />
           <Modules.Color color={new Color("yellow").multiplyScalar(2)} />
-          <Modules.Lifetime {...particles} />
+          <Modules.Lifetime {...lifetime} />
         </Composable.meshStandardMaterial>
 
-        <SparksContext.Provider value={{ particles }}>
-          <ECS.ManagedEntities tag="isSparks">
-            {(entity) => entity.jsx!}
-          </ECS.ManagedEntities>
-        </SparksContext.Provider>
+        <ECS.ManagedEntities tag="isSparks">
+          {(entity) => entity.jsx!}
+        </ECS.ManagedEntities>
       </Particles>
     </group>
   )
 }
+
+export const SparksEmitter = (props: Object3DProps) => (
+  <Emitter
+    {...props}
+    rate={Infinity}
+    limit={between(2, 8)}
+    setup={() => {
+      lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
+    }}
+  />
+)

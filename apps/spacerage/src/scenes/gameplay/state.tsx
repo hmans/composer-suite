@@ -8,7 +8,7 @@ import { makeStore } from "statery"
 import { Color, Object3D, Quaternion, Vector3 } from "three"
 import { Emitter } from "vfx-composer-r3f"
 import { Debris, DebrisContext } from "./Debris"
-import { SparksContext } from "./Sparks"
+import { SparksContext, SparksEmitter } from "./Sparks"
 
 const tmpVec3 = new Vector3()
 
@@ -84,21 +84,6 @@ export const spawnSparks = (position: Vector3, quaternion: Quaternion) => {
 
     jsx: <SparksEmitter position={position} quaternion={quaternion} />
   })
-}
-
-const SparksEmitter = (props: Object3DProps) => {
-  const { particles } = useContext(SparksContext)
-
-  return (
-    <Emitter
-      {...props}
-      rate={Infinity}
-      limit={between(2, 8)}
-      setup={({ position }) => {
-        particles.setLifetime(between(0.2, 0.8), upTo(0.1))
-      }}
-    />
-  )
 }
 
 export const spawnDebris = (position: Vector3, quaternion: Quaternion) => {
