@@ -19,7 +19,7 @@ export function createWorldComponents<Entity extends IEntity>(
       }
     }, [fun])
 
-    return index
+    return index.entities
   }
 
   return {
