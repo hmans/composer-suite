@@ -2,9 +2,9 @@ import { Div, GlobalTime, Input, Sub, Vec2 } from "shader-composer"
 import { Vector2 } from "three"
 import { ParticleAttribute } from "./ParticleAttribute"
 
-export type ParticleUnits = ReturnType<typeof createParticleUnits>
+export type ParticleUnits = ReturnType<typeof createParticles>
 
-export const createParticleUnits = () => {
+export const createParticles = () => {
   const lifetime = ParticleAttribute(new Vector2())
   const time = GlobalTime
 
