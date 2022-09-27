@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "@hmans/controlfreak": "^0.2.0",
-    "@react-three/drei": "^9.29.1",
-    "@react-three/fiber": "^8.7.0",
+    "@react-three/drei": "^9.32.3",
+    "@react-three/fiber": "^8.8.6",
     "fp-ts": "^2.12.3",
     "gsap": "^3.10.4",
     "postprocessing": "^6.28.7",
-    "r3f-perf": "^6.4.4",
+    "r3f-perf": "^6.5.0",
     "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,6 +43,6 @@
     "@types/three": "^0.144.0",
     "@vitejs/plugin-react": "^2.0.1",
     "typescript": "^4.8.3",
-    "vite": "^3.1.0"
+    "vite": "^3.1.3"
   }
 }
