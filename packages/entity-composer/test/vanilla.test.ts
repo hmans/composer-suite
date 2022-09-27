@@ -35,6 +35,42 @@ describe("World", () => {
       expect(world.entities).not.toContain(entity)
     })
   })
+
+  describe("update", () => {
+    const almostDeadFun = (entity: Entity) =>
+      entity.health !== undefined && entity.health < 25
+
+    it("updates the given entity", () => {
+      const world = new World<Entity>()
+      const entity = world.add({ position: { x: 0, y: 0 } })
+
+      world.update(entity, { position: { x: 1, y: 1 } })
+
+      expect(entity.position).toEqual({ x: 1, y: 1 })
+    })
+
+    it("reindex the entity after updating", () => {
+      const world = new World<Entity>()
+      const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
+      const almostDead = new Index(world, almostDeadFun)
+
+      world.update(entity, { health: 10 })
+
+      expect(almostDead).toContain(entity)
+    })
+
+    it("reindexes the entity even when no update is given", () => {
+      const world = new World<Entity>()
+      const entity = world.add({ position: { x: 0, y: 0 }, health: 100 })
+      const almostDead = new Index(world, almostDeadFun)
+
+      /* Now we can change the entity directly */
+      entity.health = 10
+      world.update(entity)
+
+      expect(almostDead).toContain(entity)
+    })
+  })
 })
 
 describe("Index", () => {
