@@ -96,11 +96,14 @@ export const BulletSystem = () => {
         const collider = world.getCollider(hit.collider.handle)
         const rigidBody = world.getRigidBody(collider.handle)
 
-        rigidBody.applyImpulseAtPoint(
-          tmpVec3.set(0, 20, 0).applyQuaternion(bullet.sceneObject.quaternion),
-          point,
-          true
-        )
+        if (rigidBody)
+          rigidBody.applyImpulseAtPoint(
+            tmpVec3
+              .set(0, 20, 0)
+              .applyQuaternion(bullet.sceneObject.quaternion),
+            point,
+            true
+          )
       }
     }
   }, Stage.Normal)
