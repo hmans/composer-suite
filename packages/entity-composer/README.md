@@ -1,1 +1,3 @@
-# Input Composer
+# Entity Composer
+
+Experimental functional-leaning ECS library.
