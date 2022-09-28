@@ -28,7 +28,6 @@ export const PositionalAudio = React.forwardRef(
     const sound = React.useRef<PositionalAudioImpl>(null!)
     const buffer = useLoader(AudioLoader, url)
     const { listener } = useStore(gameplayStore)
-    console.log("PositionalAudio", url, listener)
 
     React.useEffect(() => {
       if (!sound.current || !buffer) return
