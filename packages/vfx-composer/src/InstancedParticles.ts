@@ -3,7 +3,6 @@ import {
   BufferAttribute,
   BufferGeometry,
   InstancedMesh,
-  InterleavedBufferAttribute,
   Material,
   Matrix4,
   Quaternion,
@@ -31,11 +30,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
 
   private attributeUnits: ParticleAttribute[] = []
 
-  private uploadableAttributes: (
-    | BufferAttribute
-    | InterleavedBufferAttribute
-  )[] = []
-
   private lastCursor = 0
 
   constructor(
@@ -56,7 +50,12 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
       this.count = Math.max(this.count, this.cursor)
 
       if (emitted > 0) {
-        this.uploadableAttributes.forEach((attribute) => {
+        const attrs = [
+          this.instanceMatrix,
+          ...Object.values(this.geometry.attributes)
+        ]
+
+        attrs.forEach((attribute) => {
           attribute.needsUpdate = true
 
           if (attribute instanceof BufferAttribute) {
@@ -76,9 +75,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
   }
 
   public setupParticles(shaderRoot: Unit) {
-    /* Let's go! */
-    this.uploadableAttributes = []
-
     /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
     this.attributeUnits = collectFromTree(
       shaderRoot,
@@ -89,13 +85,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     for (const unit of this.attributeUnits) {
       unit.setupMesh(this)
     }
-
-    /* Build a list of attributes we will upload every frame. */
-    const userAttributes = this.attributeUnits.map(
-      (unit) => this.geometry.attributes[unit.name]
-    )
-
-    this.uploadableAttributes = [this.instanceMatrix, ...userAttributes]
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
