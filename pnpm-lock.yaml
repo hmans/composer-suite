@@ -592,6 +592,17 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       three: 0.144.0
 
+  packages/entity-composer:
+    specifiers:
+      '@hmans/use-rerender': ^0.0.2
+      '@react-three/fiber': ^8.8.6
+      react: ^18.2.0
+    dependencies:
+      '@hmans/use-rerender': 0.0.2_react@18.2.0
+    devDependencies:
+      '@react-three/fiber': 8.8.6_react@18.2.0
+      react: 18.2.0
+
   packages/hmans-physics3d:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
