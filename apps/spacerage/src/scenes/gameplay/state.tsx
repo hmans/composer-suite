@@ -24,6 +24,8 @@ export type Entity = {
   isSparks?: Tag
   isNebula?: Tag
 
+  sound?: JSX.Element
+
   velocity?: Vector3
   health?: number
 
