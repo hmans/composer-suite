@@ -1,6 +1,6 @@
 import { Color, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle, ParticleProps } from "vfx-composer-r3f"
-import { ECS } from "./state"
+import { autoDestroy, ECS } from "./state"
 
 export const Bullets = () => (
   /* InstancedParticles is VFX Composer's wrapper around InstancedMesh. */
@@ -30,10 +30,11 @@ export const spawnBullet = (
   quaternion: Quaternion,
   velocity: Vector3
 ) =>
+  /* Create an ECS entity. In Miniplex, entities are just normal objects, so we can use
+  all the usual object composition tools at our disposal. */
   ECS.world.createEntity({
     isBullet: true,
-    age: 0,
-    destroyAfter: 1,
     velocity,
+    ...autoDestroy(1),
     jsx: <Bullet position={position} quaternion={quaternion} />
   })
