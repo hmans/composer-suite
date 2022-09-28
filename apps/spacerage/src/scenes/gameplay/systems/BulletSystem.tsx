@@ -20,16 +20,11 @@ const ray = new RAPIER.Ray(
 )
 
 export const BulletSystem = () => {
-  const bullets = ECS.world.archetype("isBullet", "sceneObject", "velocity")
+  const bullets = ECS.world.archetype("isBullet", "sceneObject")
   const { world } = usePhysicsWorld()
 
   useFrame(function bulletSystem(_, dt) {
     for (const bullet of bullets) {
-      const { sceneObject } = bullet
-      if (!sceneObject) return
-
-      sceneObject.position.addScaledVector(bullet.velocity, dt)
-
       /* COLLISIONS */
       /* Perform hit test */
       ray.origin = bullet.sceneObject.position
