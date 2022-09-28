@@ -15,14 +15,10 @@ export const Bullets = () => (
   </InstancedParticles>
 )
 
+/* The actual scene object. This is a controlled particle, ie. a scene object
+that will continuously update the matrix of a specific instance. */
 export const Bullet = (props: ParticleProps) => (
-  /* When the bullet renders, it adds a `sceneObject` component to the entity.
-        The systems that simulates velocity needs this in order to move the bullet. */
-  <ECS.Component name="sceneObject">
-    {/* The actual scene object. This is a controlled particle, ie. a scene object
-          that will continuously update the matrix of a specific instance. */}
-    <Particle {...props} matrixAutoUpdate />
-  </ECS.Component>
+  <Particle {...props} matrixAutoUpdate />
 )
 
 export const spawnBullet = (
@@ -31,13 +27,17 @@ export const spawnBullet = (
   velocity: Vector3
 ) =>
   /* Create an ECS entity. In Miniplex, entities are just normal objects, so we can use
-        all the usual object composition tools at our disposal. */
+  all the usual object composition tools at our disposal. */
   ECS.world.createEntity({
     ...autoDestroy(1),
     isBullet: true,
     velocity,
 
     /* In this project, entities may have a `jsx` component containing a JSX element.
-          This is what we use to "render" the entity above. */
-    jsx: <Bullet position={position} quaternion={quaternion} />
+    This is what we use to "render" the entity above. */
+    jsx: (
+      <ECS.Component name="sceneObject">
+        <Bullet position={position} quaternion={quaternion} />
+      </ECS.Component>
+    )
   })
