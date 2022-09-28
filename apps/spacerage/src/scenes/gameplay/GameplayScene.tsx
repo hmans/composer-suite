@@ -16,6 +16,7 @@ import { BulletSystem } from "./systems/BulletSystem"
 import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
 import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 import { Sounds } from "./Sounds"
+import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 
 export const GameplayScene = () => {
   return (
@@ -49,6 +50,7 @@ export const GameplayScene = () => {
         <Bullets />
         <Debris />
         <Sparks />
+        <AsteroidExplosions />
         <Sounds />
 
         <AgeSystem />

@@ -1,6 +1,8 @@
-import { PositionalAudio } from "@react-three/drei"
-import { PositionalAudioProps } from "@react-three/fiber"
 import { between } from "randomish"
+import {
+  PositionalAudio,
+  PositionalAudioProps
+} from "../../lib/PositionalAudio"
 import { ECS } from "./state"
 
 export const Sounds = () => {
@@ -11,7 +13,7 @@ export const Sounds = () => {
   )
 }
 
-export const spawnSound = (props: PositionalAudioProps & { url: string }) =>
+export const spawnSound = (props: PositionalAudioProps) =>
   ECS.world.createEntity({
     age: 0,
     destroyAfter: 1,
@@ -27,4 +29,4 @@ export const spawnSound = (props: PositionalAudioProps & { url: string }) =>
   })
 
 export const spawnFireSound = (props: PositionalAudioProps) =>
-  spawnSound({ ...props, url: "/sounds/pew.mp3" })
+  spawnSound({ ...props, url: "/sounds/pew.mp3", volume: 0.1 })

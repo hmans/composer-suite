@@ -138,6 +138,8 @@ export const Player = () => {
           />
           <primitive object={gltf.scene} />
         </group>
+
+        <audioListener ref={useCapture(gameplayStore, "listener")} />
       </group>
     </RigidBody>
   )

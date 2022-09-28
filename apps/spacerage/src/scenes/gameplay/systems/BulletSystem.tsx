@@ -7,6 +7,7 @@ import { Stage } from "../../../configuration"
 import { spawnDebris } from "../actions"
 import { spawnAsteroid } from "../Asteroids"
 import { ECS, Layers } from "../state"
+import { spawnAsteroidExplosion } from "../vfx/AsteroidExplosions"
 import { spawnSparks } from "../vfx/Sparks"
 
 const hittableEntities = ECS.world.archetype("health", "rigidBody")
@@ -73,10 +74,16 @@ export const BulletSystem = () => {
 
             if (otherEntity.asteroid) {
               const { scale } = otherEntity.asteroid
+              const position =
+                otherEntity.rigidBody!.body.translation() as Vector3
+
+              console.log("explosion!", position)
+
+              spawnAsteroidExplosion({
+                position: new Vector3(position.x, position.y, position.z)
+              })
 
               if (scale > 0.5) {
-                const position = otherEntity.rigidBody!.body.translation()
-
                 const number = between(3, 8)
                 const step = (Math.PI * 2) / number
 

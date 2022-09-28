@@ -1,7 +1,7 @@
 import { RigidBodyEntity } from "@hmans/physics3d"
 import { Tag } from "miniplex"
 import { makeStore } from "statery"
-import { Object3D, Vector3 } from "three"
+import { Object3D, Vector3, AudioListener } from "three"
 import { createECS } from "../../vendor/miniplex-react/createECS"
 
 export enum Layers {
@@ -10,7 +10,8 @@ export enum Layers {
 }
 
 export const gameplayStore = makeStore({
-  player: null as Object3D | null
+  player: null as Object3D | null,
+  listener: null as AudioListener | null
 })
 
 export type Entity = {
@@ -23,6 +24,7 @@ export type Entity = {
   isDebris?: Tag
   isSparks?: Tag
   isNebula?: Tag
+  asteroidExplosion?: JSX.Element
 
   sound?: JSX.Element
 
