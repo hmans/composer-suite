@@ -1,6 +1,8 @@
 import { useConst } from "@hmans/use-const"
 import { useRerender } from "@hmans/use-rerender"
 import {
+  ArchetypeEntity,
+  ComponentName,
   EntityWith,
   IEntity,
   Query,
@@ -107,21 +109,15 @@ export function createECS<Entity extends IEntity = UntypedEntity>(
     )
   }
 
-  function ArchetypeEntities<T extends Entity, C extends EntityChildren<T>>({
-    archetype,
-    children
-  }: {
-    archetype: Query<T>
-    children: C
-  }) {
-    const { entities } = useArchetype(archetype as any)
-
-    return (
-      <Entities
-        entities={entities}
-        children={children as EntityChildren<RegisteredEntity<Entity>>}
-      ></Entities>
-    )
+  /**
+   * Reactively renders all entities that match the given archetype.
+   */
+  function ArchetypeEntities<
+    Q extends Query<Entity>,
+    C extends EntityChildren<ArchetypeEntity<Entity, Q>>
+  >({ archetype, children }: { archetype: Q; children: C }) {
+    const { entities } = useArchetype(...archetype)
+    return <Entities entities={entities} children={children} />
   }
 
   function ManagedEntities<TTag extends keyof Entity>({
