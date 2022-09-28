@@ -5,7 +5,7 @@ import { Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { destroyAfter, ECS } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -55,9 +55,9 @@ export const SparksEmitter = (props: EmitterProps) => (
 
 export const spawnSparks = (props: EmitterProps) =>
   ECS.world.createEntity({
-    ...destroyAfter(3),
     isSparks: true,
     age: 0,
+    destroyAfter: 3,
 
     jsx: <SparksEmitter {...props} />
   })
