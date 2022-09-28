@@ -10,7 +10,7 @@ import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
 import { plusMinus } from "randomish"
-import { useRef } from "react"
+import { useImperativeHandle, useLayoutEffect, useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
@@ -142,8 +142,30 @@ export const Player = () => {
 
         <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
-        <audioListener ref={useCapture(gameplayStore, "listener")} />
+        <Listener />
       </group>
     </RigidBody>
   )
+}
+
+const Listener = () => {
+  const listener = useRef<THREE.AudioListener>(null!)
+
+  useLayoutEffect(() => {
+    const { context } = listener.current
+    const compressor = context.createDynamicsCompressor()
+    compressor.threshold.setValueAtTime(-50, context.currentTime)
+    compressor.knee.setValueAtTime(40, context.currentTime)
+    compressor.ratio.setValueAtTime(12, context.currentTime)
+    compressor.attack.setValueAtTime(0, context.currentTime)
+    compressor.release.setValueAtTime(0.25, context.currentTime)
+    listener.current.setFilter(compressor)
+  }, [])
+
+  useImperativeHandle(
+    useCapture(gameplayStore, "listener"),
+    () => listener.current
+  )
+
+  return <audioListener ref={listener} />
 }
