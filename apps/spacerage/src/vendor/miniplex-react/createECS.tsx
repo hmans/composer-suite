@@ -107,6 +107,23 @@ export function createECS<Entity extends IEntity = UntypedEntity>(
     )
   }
 
+  function ArchetypeEntities<T extends Entity, C extends EntityChildren<T>>({
+    archetype,
+    children
+  }: {
+    archetype: Query<T>
+    children: C
+  }) {
+    const { entities } = useArchetype(archetype as any)
+
+    return (
+      <Entities
+        entities={entities}
+        children={children as EntityChildren<RegisteredEntity<Entity>>}
+      ></Entities>
+    )
+  }
+
   function ManagedEntities<TTag extends keyof Entity>({
     initial = 0,
     tag,
@@ -214,6 +231,7 @@ export function createECS<Entity extends IEntity = UntypedEntity>(
     Component,
     Entity,
     Entities,
+    ArchetypeEntities,
     ManagedEntities,
     MemoizedEntity,
     useArchetype,
