@@ -5,6 +5,7 @@ import { Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
+import { PositionalAudio } from "../../../lib/PositionalAudio"
 import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
@@ -50,7 +51,15 @@ export const SparksEmitter = (props: EmitterProps) => (
     setup={() => {
       lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
     }}
-  />
+  >
+    <PositionalAudio
+      url="/sounds/blurp2.wav"
+      volume={0.1}
+      distance={10}
+      autoplay
+      loop={false}
+    />
+  </Emitter>
 )
 
 export const spawnSparks = (props: EmitterProps) =>
