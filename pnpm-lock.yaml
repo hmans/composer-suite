@@ -576,13 +576,19 @@ importers:
   packages/audio-composer:
     specifiers:
       '@react-three/fiber': ^8.8.6
+      '@types/react': ^18.0.21
+      '@types/three': ^0.144.0
       react: ^18.2.0
       statery: ^0.6.2
+      three: ^0.144.0
     dependencies:
       statery: 0.6.2_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.8.6_react@18.2.0
+      '@react-three/fiber': 8.8.6_react@18.2.0+three@0.144.0
+      '@types/react': 18.0.21
+      '@types/three': 0.144.0
       react: 18.2.0
+      three: 0.144.0
 
   packages/camera-composer:
     specifiers:
@@ -3906,6 +3912,40 @@ packages:
       react-use-measure: 2.1.1_react@18.2.0
       scheduler: 0.21.0
       suspend-react: 0.0.8_react@18.2.0
+      zustand: 3.7.2_react@18.2.0
+    dev: true
+
+  /@react-three/fiber/8.8.6_react@18.2.0+three@0.144.0:
+    resolution: {integrity: sha512-K9yRqe72yGttNSzbz9v5rAveoRHD4sg3e1DBYc0H3bOnlotn1QaWdBECLnh5ve+HndidwKi4mRCY6hiz6+KqFg==}
+    peerDependencies:
+      expo: '>=43.0'
+      expo-asset: '>=8.4'
+      expo-gl: '>=11.0'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+      react-native: '>=0.64'
+      three: '>=0.133'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+      expo-asset:
+        optional: true
+      expo-gl:
+        optional: true
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@types/react-reconciler': 0.26.7
+      its-fine: 1.0.4_react@18.2.0
+      react: 18.2.0
+      react-reconciler: 0.27.0_react@18.2.0
+      react-use-measure: 2.1.1_react@18.2.0
+      scheduler: 0.21.0
+      suspend-react: 0.0.8_react@18.2.0
+      three: 0.144.0
       zustand: 3.7.2_react@18.2.0
     dev: true
 
