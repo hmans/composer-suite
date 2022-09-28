@@ -1,5 +1,5 @@
 import { Color, Quaternion, Vector3 } from "three"
-import { InstancedParticles, Particle, ParticleProps } from "vfx-composer-r3f"
+import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
 export const Bullets = () => (
