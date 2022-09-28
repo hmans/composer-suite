@@ -75,7 +75,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
   }
 
   public setupParticles(shaderRoot: Unit) {
-    /* TODO: hopefully this can live in SC at some point. https://github.com/hmans/shader-composer/issues/60 */
     this.attributeUnits = collectFromTree(
       shaderRoot,
       "any",
