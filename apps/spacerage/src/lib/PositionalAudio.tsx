@@ -9,6 +9,7 @@ export type PositionalAudioProps = JSX.IntrinsicElements["positionalAudio"] & {
   distance?: number
   loop?: boolean
   volume?: number
+  rate?: number
 }
 
 export const PositionalAudio = React.forwardRef(
@@ -17,6 +18,7 @@ export const PositionalAudio = React.forwardRef(
       url,
       distance = 1,
       volume = 1,
+      rate = 1,
       loop = false,
       autoplay = true,
       ...props
@@ -35,6 +37,7 @@ export const PositionalAudio = React.forwardRef(
       sound.current.setRefDistance(distance)
       sound.current.setLoop(loop)
       sound.current.setVolume(volume)
+      sound.current.setPlaybackRate(rate)
 
       if (autoplay && !sound.current.isPlaying) {
         sound.current.play()

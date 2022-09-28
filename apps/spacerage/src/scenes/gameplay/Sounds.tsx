@@ -29,4 +29,9 @@ export const spawnSound = (props: PositionalAudioProps) =>
   })
 
 export const spawnFireSound = (props: PositionalAudioProps) =>
-  spawnSound({ ...props, url: "/sounds/pew.mp3", volume: 0.1 })
+  spawnSound({
+    ...props,
+    url: "/sounds/pew.mp3",
+    volume: 0.05,
+    rate: between(0.5, 0.6)
+  })
