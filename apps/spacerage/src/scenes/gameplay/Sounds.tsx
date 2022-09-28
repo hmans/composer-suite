@@ -1,8 +1,5 @@
+import { PositionalAudio, PositionalAudioProps } from "audio-composer"
 import { between } from "randomish"
-import {
-  PositionalAudio,
-  PositionalAudioProps
-} from "../../lib/PositionalAudio"
 import { ECS } from "./state"
 
 export const Sounds = () => {
@@ -28,7 +25,7 @@ export const spawnSound = (props: PositionalAudioProps) =>
     )
   })
 
-export const spawnFireSound = (props: PositionalAudioProps) =>
+export const spawnFireSound = (props: Omit<PositionalAudioProps, "url">) =>
   spawnSound({
     ...props,
     url: "/sounds/pew.mp3",

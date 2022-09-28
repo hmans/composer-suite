@@ -1,3 +1,4 @@
+import { PositionalAudio } from "audio-composer"
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
@@ -5,7 +6,6 @@ import { Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { PositionalAudio } from "../../../lib/PositionalAudio"
 import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()

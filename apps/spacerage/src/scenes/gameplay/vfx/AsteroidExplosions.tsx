@@ -1,9 +1,8 @@
 import { GroupProps } from "@react-three/fiber"
-import { between, upTo } from "randomish"
+import { PositionalAudio } from "audio-composer"
 import { useLayoutEffect } from "react"
 import { createParticleLifetime } from "vfx-composer"
-import { Emitter, InstancedParticles } from "vfx-composer-r3f"
-import { PositionalAudio } from "../../../lib/PositionalAudio"
+import { InstancedParticles } from "vfx-composer-r3f"
 import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()

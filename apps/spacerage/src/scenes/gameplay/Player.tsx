@@ -6,15 +6,15 @@ import {
 } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
+import { AudioListener, PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
 import { plusMinus } from "randomish"
-import { useImperativeHandle, useLayoutEffect, useRef } from "react"
+import { useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
-import { PositionalAudio } from "../../lib/PositionalAudio"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
 import { spawnFireSound } from "./Sounds"
@@ -142,30 +142,8 @@ export const Player = () => {
 
         <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
-        <Listener />
+        <AudioListener />
       </group>
     </RigidBody>
   )
-}
-
-const Listener = () => {
-  const listener = useRef<THREE.AudioListener>(null!)
-
-  useLayoutEffect(() => {
-    const { context } = listener.current
-    const compressor = context.createDynamicsCompressor()
-    compressor.threshold.setValueAtTime(-10, context.currentTime)
-    compressor.knee.setValueAtTime(10, context.currentTime)
-    compressor.ratio.setValueAtTime(12, context.currentTime)
-    compressor.attack.setValueAtTime(0, context.currentTime)
-    compressor.release.setValueAtTime(0.25, context.currentTime)
-    listener.current.setFilter(compressor)
-  }, [])
-
-  useImperativeHandle(
-    useCapture(gameplayStore, "listener"),
-    () => listener.current
-  )
-
-  return <audioListener ref={listener} />
 }

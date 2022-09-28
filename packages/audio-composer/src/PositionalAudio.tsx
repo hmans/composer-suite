@@ -2,7 +2,7 @@ import { useLoader } from "@react-three/fiber"
 import * as React from "react"
 import { useStore } from "statery"
 import { AudioLoader, PositionalAudio as PositionalAudioImpl } from "three"
-import { gameplayStore } from "../scenes/gameplay/state"
+import { store } from "./store"
 
 export type PositionalAudioProps = JSX.IntrinsicElements["positionalAudio"] & {
   url: string
@@ -27,7 +27,7 @@ export const PositionalAudio = React.forwardRef(
   ) => {
     const sound = React.useRef<PositionalAudioImpl>(null!)
     const buffer = useLoader(AudioLoader, url)
-    const { listener } = useStore(gameplayStore)
+    const { listener } = useStore(store)
 
     React.useEffect(() => {
       if (!sound.current || !buffer) return
