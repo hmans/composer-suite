@@ -2,7 +2,6 @@ import { useConst } from "@hmans/use-const"
 import { useRerender } from "@hmans/use-rerender"
 import {
   ArchetypeEntity,
-  ComponentName,
   EntityWith,
   IEntity,
   Query,
