@@ -1,5 +1,15 @@
 # Audio Composer
 
+## Summary
+
+High-level audio composition primitives for games built with React-Three-Fiber. Heavily WIP!
+
+## Goals / Roadmap
+
+- [ ] Wrappers for the basic Three.js audio primitives (`AudioListener`, `PositionalAudio`, `Audio`)
+- [ ] Primitives for procedurally generating sound effects
+- [ ] A JSX API for composing filter chains et al
+
 ## License
 
 ```
