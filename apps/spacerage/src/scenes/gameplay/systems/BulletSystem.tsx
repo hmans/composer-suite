@@ -4,8 +4,9 @@ import { useFrame } from "@react-three/fiber"
 import { between } from "randomish"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { spawnAsteroid, spawnDebris, spawnSparks } from "../actions"
+import { spawnAsteroid, spawnDebris } from "../actions"
 import { ECS, Layers } from "../state"
+import { spawnSparks } from "../vfx/Sparks"
 
 const hittableEntities = ECS.world.archetype("health", "rigidBody")
 
@@ -51,7 +52,10 @@ export const BulletSystem = () => {
 
         /* Spawn VFX */
         spawnDebris(bullet.sceneObject.position, bullet.sceneObject.quaternion)
-        spawnSparks(bullet.sceneObject.position, bullet.sceneObject.quaternion)
+        spawnSparks({
+          position: bullet.sceneObject.position,
+          quaternion: bullet.sceneObject.quaternion
+        })
 
         /* Find the entity that was hit */
         const otherBody = hit.collider.parent()

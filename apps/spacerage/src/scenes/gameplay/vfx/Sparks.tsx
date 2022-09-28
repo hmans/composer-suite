@@ -1,60 +1,46 @@
-import { Composable, Layer, Modules } from "material-composer-r3f"
+import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
-import { memo } from "react"
-import { Input, Mix, Mul, OneMinus, Vec3 } from "shader-composer"
+import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { Color } from "three"
-import { createParticleLifetime, ParticleLifetime } from "vfx-composer"
+import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { ECS } from "../state"
+import { autoDestroy, ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
-const defaultSparksColor = new Color("yellow").multiplyScalar(4)
+export const Sparks = () => {
+  const rng = InstanceRNG()
 
-type SparksLayerProps = {
-  lifetime: ParticleLifetime
-  color?: Input<"vec3">
-}
+  const direction = Vec3([
+    Mix(-0.5, 0.5, rng(12)),
+    Mul(rng(84), -1),
+    Mix(-0.5, 0.5, rng(1))
+  ])
 
-const SparksMaterialLayer = memo(
-  ({ color = defaultSparksColor, lifetime }: SparksLayerProps) => {
-    const rng = InstanceRNG()
+  return (
+    <InstancedParticles>
+      <planeGeometry args={[0.1, 0.1]} />
 
-    const direction = Vec3([
-      Mix(-0.5, 0.5, rng(12)),
-      Mul(rng(84), -1),
-      Mix(-0.5, 0.5, rng(1))
-    ])
-
-    return (
-      <Layer>
+      {/* A composable material that animates the sparks */}
+      <Composable.MeshStandardMaterial>
         <Modules.Scale scale={OneMinus(lifetime.progress)} />
         <Modules.Velocity
           direction={Mul(direction, 5)}
           time={lifetime.age}
           space="local"
         />
-        <Modules.Color color={color} />
+        <Modules.Color color={new Color("yellow").multiplyScalar(4)} />
         <Modules.Lifetime {...lifetime} />
-      </Layer>
-    )
-  }
-)
+      </Composable.MeshStandardMaterial>
 
-export const Sparks = () => (
-  <InstancedParticles>
-    <planeGeometry args={[0.1, 0.1]} />
-
-    <Composable.MeshStandardMaterial>
-      <SparksMaterialLayer lifetime={lifetime} />
-    </Composable.MeshStandardMaterial>
-
-    <ECS.ArchetypeEntities archetype={["isSparks", "jsx"]}>
-      {(entity) => entity.jsx}
-    </ECS.ArchetypeEntities>
-  </InstancedParticles>
-)
+      {/* Render all the sparks entities */}
+      <ECS.ArchetypeEntities archetype={["isSparks", "jsx"]}>
+        {(entity) => entity.jsx}
+      </ECS.ArchetypeEntities>
+    </InstancedParticles>
+  )
+}
 
 export const SparksEmitter = (props: EmitterProps) => (
   <Emitter
@@ -66,3 +52,12 @@ export const SparksEmitter = (props: EmitterProps) => (
     }}
   />
 )
+
+export const spawnSparks = (props: EmitterProps) =>
+  ECS.world.createEntity({
+    ...autoDestroy(3),
+    isSparks: true,
+    age: 0,
+
+    jsx: <SparksEmitter {...props} />
+  })

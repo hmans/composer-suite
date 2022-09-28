@@ -18,7 +18,9 @@ export const Bullets = () => (
 /* The actual scene object. This is a controlled particle, ie. a scene object
 that will continuously update the matrix of a specific instance. */
 export const Bullet = (props: ParticleProps) => (
-  <Particle {...props} matrixAutoUpdate />
+  <ECS.Component name="sceneObject">
+    <Particle {...props} matrixAutoUpdate />
+  </ECS.Component>
 )
 
 export const spawnBullet = (
@@ -35,9 +37,5 @@ export const spawnBullet = (
 
     /* In this project, entities may have a `jsx` component containing a JSX element.
     This is what we use to "render" the entity above. */
-    jsx: (
-      <ECS.Component name="sceneObject">
-        <Bullet position={position} quaternion={quaternion} />
-      </ECS.Component>
-    )
+    jsx: <Bullet position={position} quaternion={quaternion} />
   })
