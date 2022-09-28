@@ -1,5 +1,17 @@
 # vfx-composer
 
+## 0.3.0
+
+### Minor Changes
+
+- 8519e17: **Mega Breaking Change:** `Particles` and `<Particles>` have been renamed to `InstancedParticles` and `<InstancedParticles>`, respectively. Functionality remains the same. This is to prepare the library for additional future particle types (like `PointParticles`).
+- e699129: **Breaking Change:** `createParticleUnits` has been renamed to `createParticleLifetime`, and the `useParticles` hook has been renamed to `useParticleLifetime`. Both of these will now wrap their own lifetime attributes and return an API for setting the lifetime of newly spawned particles as well as using it in shaders and VFX modules. Please refer to the examples for details.
+
+### Patch Changes
+
+- Updated dependencies [a962a31]
+  - shader-composer@0.4.5
+
 ## 0.2.4
 
 ### Patch Changes

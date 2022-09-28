@@ -1,5 +1,17 @@
 # material-composer-r3f
 
+## 0.2.5
+
+### Patch Changes
+
+- a09a755: **Fixed:** Fixed a very silly programming error that was causing a potentially high number of unintended recompilations of materials. Woops!
+- Updated dependencies [d3e2b88]
+- Updated dependencies [a962a31]
+- Updated dependencies [3b5fb87]
+  - shader-composer-r3f@0.4.5
+  - shader-composer@0.4.5
+  - @material-composer/patched@0.1.3
+
 ## 0.2.4
 
 ### Patch Changes
