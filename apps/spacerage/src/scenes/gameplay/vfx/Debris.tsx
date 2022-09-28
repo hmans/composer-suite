@@ -6,7 +6,7 @@ import { Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { JSXEntities } from "../../../lib/JSXEntities"
+import { ECS } from "../state"
 
 const tmpVec3 = new Vector3()
 
@@ -35,7 +35,10 @@ export const Debris = () => {
     <InstancedParticles capacity={200}>
       <icosahedronGeometry args={[0.3]} />
       <DebrisMaterial />
-      <JSXEntities archetype={["isDebris"]} />
+
+      <ECS.ArchetypeEntities archetype={["isDebris", "jsx"]}>
+        {(entity) => entity.jsx}
+      </ECS.ArchetypeEntities>
     </InstancedParticles>
   )
 }

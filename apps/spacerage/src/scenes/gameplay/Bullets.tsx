@@ -8,7 +8,7 @@ export const Bullets = () => (
     <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
 
     <ECS.ArchetypeEntities archetype={["isBullet", "jsx"]}>
-      {(entity) => <>{entity.jsx}</>}
+      {(entity) => entity.jsx}
     </ECS.ArchetypeEntities>
   </InstancedParticles>
 )
