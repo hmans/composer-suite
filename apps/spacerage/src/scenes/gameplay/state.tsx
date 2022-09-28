@@ -38,7 +38,7 @@ export type Entity = {
 
 export const ECS = createECS<Entity>()
 
-export const autoDestroy = (time: number) => ({
+export const destroyAfter = (time: number): Partial<Entity> => ({
   age: 0,
-  autoDestroy: time
+  destroyAfter: time
 })

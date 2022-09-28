@@ -5,10 +5,9 @@ import {
 } from "@hmans/physics3d"
 import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
-import { useLayoutEffect } from "react"
+import { startTransition, useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { Particle, InstancedParticles } from "vfx-composer-r3f"
-import { spawnAsteroid } from "./actions"
 import { ECS, Layers } from "./state"
 
 const tmpQuaterion = new Quaternion()
@@ -21,11 +20,20 @@ export const Asteroids = (props: { initial: number }) => {
 
   useLayoutEffect(() => {
     /* Spawn a bunch of asteroids */
-    for (let i = 0; i < props.initial; i++) {
-      spawnAsteroid(
-        new Vector3(plusMinus(100), plusMinus(100), 0),
-        between(0.8, 2)
-      )
+    startTransition(() => {
+      for (let i = 0; i < props.initial; i++) {
+        spawnAsteroid(
+          new Vector3(plusMinus(100), plusMinus(100), 0),
+          between(0.8, 2)
+        )
+      }
+    })
+
+    return () => {
+      /* Destroy all asteroids */
+      startTransition(() => {
+        for (const entity of entities) ECS.world.destroyEntity(entity)
+      })
     }
   }, [])
 
@@ -67,4 +75,14 @@ export const Asteroids = (props: { initial: number }) => {
       </ECS.Entities>
     </InstancedParticles>
   )
+}
+
+export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
+  ECS.world.createEntity({
+    asteroid: {
+      spawnPosition: position,
+      scale
+    },
+    health: 100 * scale
+  })
 }
