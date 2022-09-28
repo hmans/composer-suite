@@ -14,6 +14,7 @@ import { useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
+import { PositionalAudio } from "../../lib/PositionalAudio"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
 import { spawnFireSound } from "./Sounds"
@@ -138,6 +139,8 @@ export const Player = () => {
           />
           <primitive object={gltf.scene} />
         </group>
+
+        <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
         <audioListener ref={useCapture(gameplayStore, "listener")} />
       </group>

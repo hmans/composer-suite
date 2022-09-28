@@ -39,7 +39,7 @@ export const PositionalAudio = React.forwardRef(
       if (autoplay && !sound.current.isPlaying) {
         sound.current.play()
       }
-    }, [buffer, distance, loop])
+    }, [buffer, distance, loop, listener])
 
     React.useImperativeHandle(ref, () => sound.current)
 
