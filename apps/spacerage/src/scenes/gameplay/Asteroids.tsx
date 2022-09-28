@@ -7,42 +7,28 @@ import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { startTransition, useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
-import { Particle, InstancedParticles } from "vfx-composer-r3f"
+import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
 
 const tmpQuaterion = new Quaternion()
 
-export const Asteroids = (props: { initial: number }) => {
+export const Asteroids = ({
+  initial,
+  capacity = initial * 10
+}: {
+  initial: number
+  capacity?: number
+}) => {
   const gltf = useGLTF("/models/asteroid03.gltf")
   const mesh = gltf.scene.children[0] as Mesh
 
-  const { entities } = ECS.useArchetype("asteroid")
-
-  useLayoutEffect(() => {
-    /* Spawn a bunch of asteroids */
-    startTransition(() => {
-      for (let i = 0; i < props.initial; i++) {
-        spawnAsteroid(
-          new Vector3(plusMinus(100), plusMinus(100), 0),
-          between(0.8, 2)
-        )
-      }
-    })
-
-    return () => {
-      /* Destroy all asteroids */
-      startTransition(() => {
-        for (const entity of entities) ECS.world.destroyEntity(entity)
-      })
-    }
-  }, [])
+  const entities = useLotsOfAsteroidsAndAlsoCleanThemUp(initial)
 
   return (
     <InstancedParticles
-      capacity={10000}
+      capacity={capacity}
       geometry={mesh.geometry}
       material={mesh.material as Material}
-      matrixAutoUpdate={false}
     >
       <ECS.Entities entities={entities}>
         {({ asteroid }) => (
@@ -85,4 +71,29 @@ export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
     },
     health: 100 * scale
   })
+}
+
+const useLotsOfAsteroidsAndAlsoCleanThemUp = (count: number) => {
+  const { entities } = ECS.useArchetype("asteroid")
+
+  useLayoutEffect(() => {
+    /* Spawn a bunch of asteroids */
+    startTransition(() => {
+      for (let i = 0; i < count; i++) {
+        spawnAsteroid(
+          new Vector3(plusMinus(100), plusMinus(100), 0),
+          between(0.8, 2)
+        )
+      }
+    })
+
+    return () => {
+      /* Destroy all asteroids */
+      startTransition(() => {
+        for (const entity of entities) ECS.world.destroyEntity(entity)
+      })
+    }
+  }, [])
+
+  return entities
 }
