@@ -6,7 +6,7 @@
     "url": "https://hendrik.mans.de"
   },
   "description": "Composable, GPU-driven Visual Effects for Three.js and React-Three-Fiber.",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "main": "dist/vfx-composer.cjs.js",
   "module": "dist/vfx-composer.esm.js",
   "files": [
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "material-composer": "^0.2.2",
-    "shader-composer": "^0.4.1"
+    "shader-composer": "^0.4.5"
   },
   "peerDependencies": {
     "three": ">=0.141.0"

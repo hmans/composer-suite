@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.5
+
+### Patch Changes
+
+- a962a31: **New:** `enabledDebugging()` and `disableDebugging()` to toggle some extra console output when new shaders are being compiled.
+
 ## 0.4.4
 
 ### Patch Changes

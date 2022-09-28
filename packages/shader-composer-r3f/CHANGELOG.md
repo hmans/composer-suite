@@ -1,5 +1,36 @@
 # shader-composer-r3f
 
+## 0.4.5
+
+### Patch Changes
+
+- d3e2b88: **New:** `shader-composer-r3f` now provides its own mechanism for patching Three.js materials through its new `ShaderMaster` master unit and `<Shader>` React component:
+
+  ```tsx
+  function MyShadedThingy() {
+    const shader = useShader(() => {
+      return ShaderMaster({
+        color: /* ... */
+        position: /* ... */
+        /* etc. */
+      })
+    }, [])
+
+    return (
+      <mesh>
+        <boxGeometry />
+
+        <meshStandardMaterial>
+          <Shader {...shader} />
+        </meshStandardMaterial>
+      </mesh>
+    )
+  }
+  ```
+
+- Updated dependencies [a962a31]
+  - shader-composer@0.4.5
+
 ## 0.4.0
 
 ### Minor Changes
