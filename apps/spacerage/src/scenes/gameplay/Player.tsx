@@ -154,8 +154,8 @@ const Listener = () => {
   useLayoutEffect(() => {
     const { context } = listener.current
     const compressor = context.createDynamicsCompressor()
-    compressor.threshold.setValueAtTime(-50, context.currentTime)
-    compressor.knee.setValueAtTime(40, context.currentTime)
+    compressor.threshold.setValueAtTime(-10, context.currentTime)
+    compressor.knee.setValueAtTime(10, context.currentTime)
     compressor.ratio.setValueAtTime(12, context.currentTime)
     compressor.attack.setValueAtTime(0, context.currentTime)
     compressor.release.setValueAtTime(0.25, context.currentTime)
