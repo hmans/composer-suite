@@ -26,7 +26,6 @@
     "@react-three/drei": "^9.32.3",
     "@react-three/fiber": "^8.8.6",
     "camera-composer": "^0.0.1",
-    "entity-composer": "workspace:^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",
     "material-composer": "^0.2.2",

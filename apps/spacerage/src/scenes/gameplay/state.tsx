@@ -3,8 +3,6 @@ import { Tag } from "miniplex"
 import { makeStore } from "statery"
 import { Object3D, Vector3 } from "three"
 import { createECS } from "../../vendor/miniplex-react/createECS"
-import { createWorld } from "entity-composer/vanilla"
-import { createWorldComponents } from "entity-composer"
 
 export enum Layers {
   Player,
@@ -39,60 +37,3 @@ export type Entity = {
 }
 
 export const ECS = createECS<Entity>()
-
-/* Entity Composer */
-
-export type AgeComponent = {
-  age: number
-}
-
-export type DestroyAfterComponent = {
-  destroyAfter: number
-}
-
-export type VelocityComponent = {
-  velocity: Vector3
-}
-
-export type HealthComponent = {
-  health: {
-    max: number
-    current: number
-  }
-}
-
-export type TransformComponent = {
-  transform: Object3D
-}
-
-export type JSXComponent = {
-  jsx: JSX.Element
-}
-
-export type AsteroidEntity = {
-  asteroid: true
-} & HealthComponent
-
-export type BulletEntity = {
-  bullet: true
-} & VelocityComponent &
-  JSXComponent &
-  DestroyAfterComponent &
-  AgeComponent &
-  Partial<TransformComponent>
-
-export type GameEntity = AsteroidEntity | BulletEntity
-
-export function isBullet(entity: GameEntity): entity is BulletEntity {
-  return "bullet" in entity
-}
-
-export function isAsteroid(entity: GameEntity): entity is AsteroidEntity {
-  return "asteroid" in entity
-}
-
-export const world = createWorld<AsteroidEntity | BulletEntity>()
-
-export const ECS2 = createWorldComponents(world)
-
-export const bullets = world.index(isBullet)
