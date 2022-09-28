@@ -1,5 +1,11 @@
 # @material-composer/patched
 
+## 0.1.3
+
+### Patch Changes
+
+- 3b5fb87: **Fixed:** `Patched.Material` now correctly forwards refs.
+
 ## 0.1.2
 
 ### Patch Changes

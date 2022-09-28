@@ -1,5 +1,26 @@
 # vfx-composer-r3f
 
+## 0.3.0
+
+### Minor Changes
+
+- 8519e17: **Mega Breaking Change:** `Particles` and `<Particles>` have been renamed to `InstancedParticles` and `<InstancedParticles>`, respectively. Functionality remains the same. This is to prepare the library for additional future particle types (like `PointParticles`).
+- e699129: **Breaking Change:** `createParticleUnits` has been renamed to `createParticleLifetime`, and the `useParticles` hook has been renamed to `useParticleLifetime`. Both of these will now wrap their own lifetime attributes and return an API for setting the lifetime of newly spawned particles as well as using it in shaders and VFX modules. Please refer to the examples for details.
+- 18fe663: **Breaking Change:** The `makeParticles` API has been removed. You were probably not using it. If you were, I'm sorry, because it was largely broken, _and_ a bad idea.
+
+### Patch Changes
+
+- 18853ba: **Fixed:** Emitters will now clamp their deltaTime to 100ms max in order to not spam the scene with lots of particles after the user returns to a background-suspended tab.
+- Updated dependencies [d3e2b88]
+- Updated dependencies [a09a755]
+- Updated dependencies [a962a31]
+- Updated dependencies [8519e17]
+- Updated dependencies [e699129]
+  - shader-composer-r3f@0.4.5
+  - material-composer-r3f@0.2.5
+  - shader-composer@0.4.5
+  - vfx-composer@0.3.0
+
 ## 0.2.7
 
 ### Patch Changes
