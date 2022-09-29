@@ -19,7 +19,7 @@ import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
-import { EngineHum } from "./EngineHum"
+import { EngineHum } from "./sfx/EngineHum"
 import { spawnFireSound } from "./Sounds"
 import { gameplayStore, Layers } from "./state"
 
