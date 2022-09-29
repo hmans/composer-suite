@@ -1,16 +1,17 @@
-import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
+import React, { forwardRef, ReactNode, useLayoutEffect, useMemo } from "react"
 import { AudioNodeContext } from "./AudioContext"
-import { useAudioNode } from "./hooks"
+import { useAudioContext, useAudioNode } from "./hooks"
 
 export type ReverbProps = {
   children?: ReactNode
   seconds?: number
   decay?: number
   reverse?: boolean
+  wet?: number
 }
 
 export const Reverb = forwardRef<ConvolverNode, ReverbProps>(
-  ({ seconds = 3, decay = 2, reverse = false, children }, ref) => {
+  ({ wet = 0.5, seconds = 3, decay = 2, reverse = false, children }, ref) => {
     const node = useAudioNode((ctx) => ctx.createConvolver(), ref)
 
     /* Build the reverb buffer */
@@ -30,8 +31,21 @@ export const Reverb = forwardRef<ConvolverNode, ReverbProps>(
       node.buffer = impulse
     }, [seconds, decay, reverse])
 
+    /* For now, also connect the input to our own output */
+    const input = useMemo(() => {
+      const input = node.context.createGain()
+      input.connect(node)
+      return input
+    }, [node])
+
+    /* Connect input to parent, too */
+    const parent = useAudioContext()
+    useLayoutEffect(() => {
+      input.connect(parent)
+    }, [input, parent])
+
     return (
-      <AudioNodeContext.Provider value={node}>
+      <AudioNodeContext.Provider value={input}>
         {children}
       </AudioNodeContext.Provider>
     )

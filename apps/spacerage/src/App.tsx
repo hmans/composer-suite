@@ -16,7 +16,7 @@ export const App = () => (
     <RC.RenderPipeline updatePriority={Stage.Render}>
       <AC.AudioContext>
         <AC.Compressor>
-          <AC.Reverb seconds={2} decay={5}>
+          <AC.Reverb seconds={2} decay={5} wet={1}>
             <PostProcessing />
             <Suspense>
               <PerspectiveCamera
