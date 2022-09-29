@@ -1,4 +1,3 @@
-import * as Physics from "@hmans/physics3d"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
@@ -18,11 +17,17 @@ import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 import { Sounds } from "./Sounds"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
+import { Debug, Physics } from "@react-three/rapier"
 
 export const GameplayScene = () => {
   return (
     <group>
-      <Physics.World updatePriority={Stage.Physics} gravity={[0, 0, 0]}>
+      <Physics
+        updatePriority={Stage.Physics}
+        gravity={[0, 0, 0]}
+        colliders={false}
+      >
+        {/* <Debug /> */}
         <Skybox />
         <FollowCamera />
 
@@ -59,7 +64,7 @@ export const GameplayScene = () => {
         <VelocitySystem />
         <BulletSystem />
         <ECSFlushSystem />
-      </Physics.World>
+      </Physics>
     </group>
   )
 }

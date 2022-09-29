@@ -1,6 +1,6 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { interactionGroups, usePhysicsWorld } from "@hmans/physics3d"
 import { useFrame } from "@react-three/fiber"
+import { interactionGroups, useRapier } from "@react-three/rapier"
 import { between } from "randomish"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
@@ -21,7 +21,10 @@ const ray = new RAPIER.Ray(
 
 export const BulletSystem = () => {
   const bullets = ECS.world.archetype("isBullet", "sceneObject")
-  const { world } = usePhysicsWorld()
+
+  const context = useRapier()
+
+  const world = context.world.raw()
 
   useFrame(function bulletSystem(_, dt) {
     for (const bullet of bullets) {
@@ -57,7 +60,7 @@ export const BulletSystem = () => {
         /* Find the entity that was hit */
         const otherBody = hit.collider.parent()
         const otherEntity = hittableEntities.entities.find(
-          (e) => e.rigidBody.body === otherBody
+          (e) => e.rigidBody.raw() === otherBody
         )
 
         if (otherEntity) {
@@ -69,10 +72,9 @@ export const BulletSystem = () => {
 
             if (otherEntity.asteroid) {
               const { scale } = otherEntity.asteroid
-              const position =
-                otherEntity.rigidBody!.body.translation() as Vector3
-
-              console.log("explosion!", position)
+              const position = otherEntity
+                .rigidBody!.raw()
+                .translation() as Vector3
 
               spawnAsteroidExplosion({
                 position: new Vector3(position.x, position.y, position.z)

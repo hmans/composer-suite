@@ -1,11 +1,13 @@
+import { useGLTF } from "@react-three/drei"
 import {
+  BallCollider,
   ConvexHullCollider,
   interactionGroups,
-  RigidBody
-} from "@hmans/physics3d"
-import { useGLTF } from "@react-three/drei"
+  RigidBody,
+  RigidBodyApi
+} from "@react-three/rapier"
 import { between, plusMinus } from "randomish"
-import { startTransition, useLayoutEffect } from "react"
+import { startTransition, useLayoutEffect, useRef } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
@@ -34,27 +36,27 @@ export const Asteroids = ({
         {({ asteroid }) => (
           <ECS.Component name="rigidBody">
             <RigidBody
-              position={asteroid?.spawnPosition}
+              position={[
+                asteroid.spawnPosition.x,
+                asteroid.spawnPosition.y,
+                asteroid.spawnPosition.z
+              ]}
+              scale={asteroid.scale}
               quaternion={tmpQuaterion.random()}
-              scale={asteroid!.scale}
               angularDamping={2}
               linearDamping={0.5}
               enabledTranslations={[true, true, false]}
               enabledRotations={[true, true, true]}
             >
-              <group matrixAutoUpdate={false}>
-                <ConvexHullCollider
-                  density={3}
-                  collisionGroups={interactionGroups(Layers.Asteroid, [
-                    Layers.Asteroid,
-                    Layers.Player
-                  ])}
-                  points={
-                    mesh.geometry.attributes.position.array as Float32Array
-                  }
-                />
-                <Particle />
-              </group>
+              <ConvexHullCollider
+                density={3}
+                collisionGroups={interactionGroups(Layers.Asteroid, [
+                  Layers.Asteroid,
+                  Layers.Player
+                ])}
+                args={[mesh.geometry.attributes.position.array as Float32Array]}
+              />
+              <Particle />
             </RigidBody>
           </ECS.Component>
         )}

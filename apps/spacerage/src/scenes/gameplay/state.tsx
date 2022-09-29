@@ -1,7 +1,7 @@
-import { RigidBodyEntity } from "@hmans/physics3d"
+import { RigidBodyApi } from "@react-three/rapier"
 import { Tag } from "miniplex"
 import { makeStore } from "statery"
-import { Object3D, Vector3, AudioListener } from "three"
+import { AudioListener, Object3D, Vector3 } from "three"
 import { createECS } from "../../vendor/miniplex-react/createECS"
 
 export enum Layers {
@@ -34,7 +34,7 @@ export type Entity = {
   jsx?: JSX.Element
 
   sceneObject?: Object3D
-  rigidBody?: RigidBodyEntity
+  rigidBody?: RigidBodyApi
 
   age?: number
   destroyAfter?: number

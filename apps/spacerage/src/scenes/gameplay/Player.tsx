@@ -1,11 +1,12 @@
+import { useGLTF } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
 import {
+  BallCollider,
   ConvexHullCollider,
   interactionGroups,
   RigidBody,
-  RigidBodyEntity
-} from "@hmans/physics3d"
-import { useGLTF } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+  RigidBodyApi
+} from "@react-three/rapier"
 import { AudioListener, PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
@@ -43,7 +44,7 @@ const transformInput = ({ keyboard, gamepad }: Input) => ({
 })
 
 export const Player = () => {
-  const rb = useRef<RigidBodyEntity>(null!)
+  const rb = useRef<RigidBodyApi>(null!)
   const gltf = useGLTF("/models/spaceship25.gltf")
   const getInput = useInput()
   const { player } = useStore(gameplayStore)
@@ -54,7 +55,7 @@ export const Player = () => {
 
     const input = pipe(getInput(), transformInput)
 
-    const { body } = rb.current
+    const body = rb.current.raw()
 
     body.resetForces(true)
     body.resetTorques(true)
@@ -79,7 +80,7 @@ export const Player = () => {
 
   useFrame(function playerShootingUpdate(_, dt) {
     if (!player) return
-    const { body } = rb.current
+    const body = rb.current.raw()
 
     /* Fire? */
     fireCooldown.current -= dt
@@ -127,18 +128,17 @@ export const Player = () => {
       linearDamping={1}
       enabledTranslations={[true, true, false]}
       enabledRotations={[false, false, true]}
+      scale={0.5}
     >
       <group ref={useCapture(gameplayStore, "player")}>
-        <group scale={0.5}>
-          <ConvexHullCollider
-            collisionGroups={interactionGroups(Layers.Player, Layers.Asteroid)}
-            points={
-              (gltf.scene.children[0] as Mesh).geometry.attributes.position
-                .array as Float32Array
-            }
-          />
-          <primitive object={gltf.scene} />
-        </group>
+        <ConvexHullCollider
+          args={[
+            (gltf.scene.children[0] as Mesh).geometry.attributes.position
+              .array as Float32Array
+          ]}
+          collisionGroups={interactionGroups(Layers.Player, Layers.Asteroid)}
+        />
+        <primitive object={gltf.scene} />
 
         <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
