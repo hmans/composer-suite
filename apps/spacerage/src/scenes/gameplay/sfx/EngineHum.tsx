@@ -14,65 +14,6 @@ import { useStore } from "statery"
 import { AudioContext } from "three"
 import { ECS, gameplayStore } from "../state"
 
-const nodeContext = createContext<AudioNode>(null!)
-
-export type OscillatorProps = {
-  children?: ReactNode
-  frequency?: number
-  type?: OscillatorType
-}
-
-export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
-  ({ type = "sine", frequency = 440, children }, ref) => {
-    const audioCtx = AudioContext.getContext()
-
-    const parent = useContext(nodeContext)
-
-    const oscillator = useMemo(() => {
-      const time = audioCtx.currentTime
-
-      const oscillator = audioCtx.createOscillator()
-      oscillator.type = type
-      oscillator.frequency.setValueAtTime(frequency, time)
-      oscillator.connect(parent || audioCtx.destination)
-
-      return oscillator
-    }, [audioCtx])
-
-    useLayoutEffect(() => {
-      oscillator.start()
-
-      return () => {
-        oscillator.stop()
-      }
-    }, [])
-
-    useImperativeHandle(ref, () => oscillator)
-
-    return <>{children}</>
-  }
-)
-
-export type GainNodeProps = {
-  children?: ReactNode
-}
-
-export const Gain = forwardRef<GainNode, GainNodeProps>(({ children }, ref) => {
-  const audioCtx = AudioContext.getContext()
-
-  const gainNode = useMemo(() => {
-    const gainNode = audioCtx.createGain()
-    gainNode.connect(audioCtx.destination)
-    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime)
-
-    return gainNode
-  }, [audioCtx])
-
-  return (
-    <nodeContext.Provider value={gainNode}>{children}</nodeContext.Provider>
-  )
-})
-
 export const EngineHum = () => {
   const osc1 = useRef<OscillatorNode>(null!)
   const osc2 = useRef<OscillatorNode>(null!)

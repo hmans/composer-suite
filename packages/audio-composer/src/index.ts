@@ -1,3 +1,6 @@
+export * from "./AudioContext"
 export * from "./AudioListener"
 export * from "./hooks"
+export * from "./OscillatorNode"
 export * from "./PositionalAudio"
+export * from "./GainNode"

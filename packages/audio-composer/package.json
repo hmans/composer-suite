@@ -29,6 +29,7 @@
     "three": "^0.144.0"
   },
   "dependencies": {
+    "@hmans/use-const": "^0.0.1",
     "statery": "^0.6.2"
   }
 }

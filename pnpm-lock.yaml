@@ -516,6 +516,7 @@ importers:
 
   packages/audio-composer:
     specifiers:
+      '@hmans/use-const': ^0.0.1
       '@react-three/fiber': ^8.8.7
       '@types/react': ^18.0.21
       '@types/three': ^0.144.0
@@ -523,6 +524,7 @@ importers:
       statery: ^0.6.2
       three: ^0.144.0
     dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
       statery: 0.6.2_react@18.2.0
     devDependencies:
       '@react-three/fiber': 8.8.7_react@18.2.0+three@0.144.0
