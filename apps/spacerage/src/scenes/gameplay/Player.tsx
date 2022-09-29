@@ -142,8 +142,14 @@ export const Player = () => {
 
         {/* <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay /> */}
 
+        <EngineHum />
+
         <AudioListener />
       </group>
     </RigidBody>
   )
+}
+
+const EngineHum = () => {
+  return null
 }
