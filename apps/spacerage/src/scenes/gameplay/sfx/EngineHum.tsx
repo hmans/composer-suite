@@ -6,9 +6,12 @@ import {
   OscillatorNode
 } from "audio-composer"
 import { useRef } from "react"
+import { AudioContext } from "three"
 import { ECS } from "../state"
 
 export const EngineHum = ({ baseFrequency = 22 }) => {
+  const context = AudioContext.getContext()
+
   const osc1 = useRef<OscillatorNode>(null!)
   const osc2 = useRef<OscillatorNode>(null!)
   const osc3 = useRef<OscillatorNode>(null!)
@@ -20,11 +23,24 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
     if (!player) return
     const velocity = player.rigidBody.linvel().length()
 
-    osc1.current.frequency.value = baseFrequency * 0.2 + velocity
-    osc2.current.frequency.value = baseFrequency * 2 + velocity * 1.3
-    osc3.current.frequency.value = baseFrequency * 1.1 + velocity * 2
+    const t = context.currentTime
+    osc1.current.frequency.setTargetAtTime(
+      baseFrequency * 0.2 + velocity,
+      t,
+      0.1
+    )
+    osc2.current.frequency.setTargetAtTime(
+      baseFrequency * 2 + velocity * 1.3,
+      t,
+      0.1
+    )
+    osc3.current.frequency.setTargetAtTime(
+      baseFrequency * 1.1 + velocity * 2,
+      t,
+      0.1
+    )
 
-    gain.current.gain.value = 0.2 + velocity * 0.02
+    gain.current.gain.setTargetAtTime(0.2 + velocity * 0.02, t, 0.1)
   })
 
   return (
