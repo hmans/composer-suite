@@ -23,7 +23,6 @@ export const BulletSystem = () => {
   const bullets = ECS.world.archetype("isBullet", "sceneObject")
 
   const context = useRapier()
-
   const world = context.world.raw()
 
   useFrame(function bulletSystem(_, dt) {
