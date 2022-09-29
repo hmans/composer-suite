@@ -24,7 +24,7 @@
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@react-three/drei": "^9.32.3",
-    "@react-three/fiber": "^8.8.6",
+    "@react-three/fiber": "^8.8.7",
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",

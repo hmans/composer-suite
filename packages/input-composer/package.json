@@ -29,7 +29,7 @@
     "fp-ts": "^2.12.3"
   },
   "devDependencies": {
-    "@react-three/fiber": "^8.8.6",
+    "@react-three/fiber": "^8.8.7",
     "react": "^18.2.0"
   },
   "peerDependencies": {

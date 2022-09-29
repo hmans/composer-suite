@@ -21,7 +21,7 @@
     "readmeFile": "./README.md"
   },
   "devDependencies": {
-    "@react-three/fiber": "^8.8.6",
+    "@react-three/fiber": "^8.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.144.0"

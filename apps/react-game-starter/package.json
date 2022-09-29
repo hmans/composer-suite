@@ -20,7 +20,7 @@
   "dependencies": {
     "@hmans/controlfreak": "^0.2.0",
     "@react-three/drei": "^9.32.3",
-    "@react-three/fiber": "^8.8.6",
+    "@react-three/fiber": "^8.8.7",
     "fp-ts": "^2.12.3",
     "gsap": "^3.10.4",
     "postprocessing": "^6.28.7",
