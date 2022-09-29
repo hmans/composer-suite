@@ -12,11 +12,12 @@ export const Compressor = React.forwardRef<
 >(({ children, ...props }, ref) => {
   const node = useAudioNode((ctx) => ctx.createDynamicsCompressor(), ref)
 
-  node.threshold.setValueAtTime(-50, node.context.currentTime)
-  node.knee.setValueAtTime(40, node.context.currentTime)
-  node.ratio.setValueAtTime(12, node.context.currentTime)
-  node.attack.setValueAtTime(0, node.context.currentTime)
-  node.release.setValueAtTime(0.25, node.context.currentTime)
+  const t = node.context.currentTime
+  node.threshold.setValueAtTime(-50, t)
+  node.knee.setValueAtTime(40, t)
+  node.ratio.setValueAtTime(12, t)
+  node.attack.setValueAtTime(0, t)
+  node.release.setValueAtTime(0.25, t)
 
   return (
     <AudioNodeContext.Provider value={node}>
