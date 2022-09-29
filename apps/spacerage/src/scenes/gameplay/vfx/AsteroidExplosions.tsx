@@ -19,15 +19,9 @@ export const AsteroidExplosions = () => {
   )
 }
 
-export const AsteroidExplosion = (props: GroupProps) => {
-  useLayoutEffect(() => {
-    console.log("hellO!")
-    return () => console.log("bye!")
-  }, [])
-
-  return (
-    <group {...props}>
-      {/* <Emitter
+export const AsteroidExplosion = (props: GroupProps) => (
+  <group {...props}>
+    {/* <Emitter
         rate={Infinity}
         limit={between(2, 8)}
         setup={() => {
@@ -35,15 +29,14 @@ export const AsteroidExplosion = (props: GroupProps) => {
         }}
       /> */}
 
-      <PositionalAudio
-        url="/sounds/explosion.wav"
-        distance={5}
-        autoplay
-        loop={false}
-      />
-    </group>
-  )
-}
+    <PositionalAudio
+      url="/sounds/explosion.wav"
+      distance={5}
+      autoplay
+      loop={false}
+    />
+  </group>
+)
 
 export const spawnAsteroidExplosion = (props: GroupProps) =>
   ECS.world.createEntity({
