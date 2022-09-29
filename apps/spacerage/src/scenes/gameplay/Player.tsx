@@ -130,7 +130,7 @@ export const Player = () => {
         />
         <primitive object={gltf.scene} />
 
-        <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
+        {/* <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay /> */}
 
         <AudioListener />
       </group>
