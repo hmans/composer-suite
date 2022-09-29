@@ -1,18 +1,7 @@
 import { useFrame } from "@react-three/fiber"
-import { useAudioComposer } from "audio-composer"
-import {
-  createContext,
-  forwardRef,
-  ReactNode,
-  useContext,
-  useImperativeHandle,
-  useLayoutEffect,
-  useMemo,
-  useRef
-} from "react"
-import { useStore } from "statery"
-import { AudioContext } from "three"
-import { ECS, gameplayStore } from "../state"
+import { GainNode, OscillatorNode } from "audio-composer"
+import { useRef } from "react"
+import { ECS } from "../state"
 
 export const EngineHum = () => {
   const osc1 = useRef<OscillatorNode>(null!)
@@ -37,10 +26,10 @@ export const EngineHum = () => {
   })
 
   return (
-    <Gain>
-      <Oscillator type="triangle" frequency={baseFrequency} ref={osc1} />
-      <Oscillator type="triangle" frequency={88} ref={osc2} />
-      <Oscillator type="triangle" frequency={40} ref={osc3} />
-    </Gain>
+    <GainNode>
+      <OscillatorNode type="triangle" frequency={baseFrequency} ref={osc1} />
+      <OscillatorNode type="triangle" frequency={88} ref={osc2} />
+      <OscillatorNode type="triangle" frequency={40} ref={osc3} />
+    </GainNode>
   )
 }
