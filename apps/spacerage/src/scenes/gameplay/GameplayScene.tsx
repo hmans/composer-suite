@@ -26,6 +26,7 @@ export const GameplayScene = () => {
         updatePriority={Stage.Physics}
         gravity={[0, 0, 0]}
         colliders={false}
+        timeStep="vary"
       >
         {/* <Debug /> */}
         <Skybox />
