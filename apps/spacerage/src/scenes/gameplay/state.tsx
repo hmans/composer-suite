@@ -1,5 +1,4 @@
 import { RigidBodyApi } from "@react-three/rapier"
-import { Tag } from "miniplex"
 import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
 import { createECS } from "../../vendor/miniplex-react/createECS"
@@ -23,7 +22,6 @@ export type Entity = {
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
-  isNebula?: Tag
   asteroidExplosion?: JSX.Element
 
   sound?: JSX.Element
