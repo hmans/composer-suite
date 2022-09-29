@@ -26,7 +26,7 @@ export const EngineHum = () => {
   })
 
   return (
-    <GainNode>
+    <GainNode volume={0.4}>
       <OscillatorNode type="triangle" frequency={baseFrequency} ref={osc1} />
       <OscillatorNode type="triangle" frequency={88} ref={osc2} />
       <OscillatorNode type="triangle" frequency={40} ref={osc3} />

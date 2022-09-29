@@ -3,6 +3,7 @@ import React, {
   ReactNode,
   useContext,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo
 } from "react"
 import { AudioContext } from "three"
@@ -10,20 +11,24 @@ import { AudioNodeContext } from "./AudioContext"
 
 export type GainNodeProps = {
   children?: ReactNode
+  volume?: number
 }
 
 export const GainNode = forwardRef<GainNode, GainNodeProps>(
-  ({ children }, ref) => {
+  ({ volume = 0.5, children }, ref) => {
     const audioCtx = AudioContext.getContext()
     const parent = useContext(AudioNodeContext)
 
     const gainNode = useMemo(() => {
       const gainNode = audioCtx.createGain()
       gainNode.connect(parent)
-      gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime)
 
       return gainNode
     }, [audioCtx])
+
+    useLayoutEffect(() => {
+      gainNode.gain.setValueAtTime(volume, audioCtx.currentTime)
+    }, [volume])
 
     useImperativeHandle(ref, () => gainNode)
 
