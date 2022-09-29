@@ -1,6 +1,5 @@
-import { Gain, Oscillator, useAudioContext } from "audio-composer"
+import { Gain, LinearRamp, Oscillator } from "audio-composer"
 import { between } from "randomish"
-import { useLayoutEffect } from "react"
 
 export const PewPewSFX = () => (
   <Gain volume={0.1}>
@@ -17,29 +16,3 @@ export const PewPewSFX = () => (
     </Gain>
   </Gain>
 )
-
-type LinearRampProps = {
-  property: string
-  value: number
-  duration: number
-}
-
-const LinearRamp = ({ value, duration, property }: LinearRampProps) => {
-  const parent = useAudioContext()
-
-  useLayoutEffect(() => {
-    if (!parent) return
-
-    const t = parent.context.currentTime
-    const prop = parent[property] as AudioParam
-
-    if (!prop) {
-      console.error("Invalid property", property)
-      return
-    }
-
-    prop.linearRampToValueAtTime(value, t + duration)
-  }, [parent])
-
-  return null
-}
