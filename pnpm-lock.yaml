@@ -373,7 +373,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
-      audio-composer: workspace:^0.0.1
+      audio-composer: workspace:^0.0.2
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
