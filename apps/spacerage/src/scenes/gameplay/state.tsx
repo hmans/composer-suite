@@ -22,7 +22,7 @@ export type Entity = {
 
   isBullet?: Tag
   isDebris?: Tag
-  isSparks?: Tag
+  sparks?: JSX.Element
   isNebula?: Tag
   asteroidExplosion?: JSX.Element
 

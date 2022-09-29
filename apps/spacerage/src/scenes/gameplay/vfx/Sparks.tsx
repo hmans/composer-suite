@@ -36,8 +36,8 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <ECS.ArchetypeEntities archetype={["isSparks", "jsx"]}>
-        {(entity) => entity.jsx}
+      <ECS.ArchetypeEntities archetype={["sparks"]}>
+        {({ sparks }) => sparks}
       </ECS.ArchetypeEntities>
     </InstancedParticles>
   )
@@ -64,9 +64,8 @@ export const SparksEmitter = (props: EmitterProps) => (
 
 export const spawnSparks = (props: EmitterProps) =>
   ECS.world.createEntity({
-    isSparks: true,
     age: 0,
     destroyAfter: 3,
-
-    jsx: <SparksEmitter {...props} />
+    fsfsdfsf: 123,
+    sparks: <SparksEmitter {...props} />
   })
