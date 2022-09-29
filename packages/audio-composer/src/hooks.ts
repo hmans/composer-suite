@@ -24,13 +24,13 @@ export const useAudioNode = <T extends AudioNode>(
   /* Create node */
   const node = useMemo(() => {
     return ctor(audioCtx)
-  }, [audioCtx])
+  }, [])
 
   /* Wire up to parent */
   useLayoutEffect(() => {
     node.connect(parent)
-    // return () => node.disconnect(parent)
-  }, [parent])
+    return () => node.disconnect(parent)
+  }, [node, parent])
 
   useImperativeHandle(ref, () => node)
 
