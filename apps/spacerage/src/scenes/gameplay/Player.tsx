@@ -1,6 +1,7 @@
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import {
+  BallCollider,
   ConvexHullCollider,
   interactionGroups,
   RigidBody,
@@ -61,10 +62,19 @@ export const Player = () => {
     player.getWorldQuaternion(tmpQuat)
 
     /* Rotate the player */
-    body.addTorque(tmpVec3.set(0, 0, input.aim.x * -50), true)
+    const lookDirection = new Vector3(0, 1, 0).applyQuaternion(tmpQuat)
+    const aimDirection = new Vector3(input.aim.x, input.aim.y, 0).normalize()
+    const angle = lookDirection.angleTo(aimDirection)
+    const cross = lookDirection.cross(aimDirection)
+    if (cross.z) {
+      const delta = angle / Math.PI
+      const torque = Math.sign(cross.z) * Math.pow(delta, 2) * 300
+      body.addTorque(tmpVec3.set(0, 0, torque), true)
+    }
 
     /* Thrust */
     const thrust = tmpVec3.set(input.move.x * 100, input.move.y * 100, 0)
+
     body.addForce(thrust, true)
   }, Stage.Early)
 
