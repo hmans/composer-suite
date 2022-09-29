@@ -11,7 +11,7 @@
   "dependencies": {
     "@hmans/things": "^0.0.6",
     "@react-three/drei": "^9.32.3",
-    "@react-three/fiber": "^8.8.6",
+    "@react-three/fiber": "^8.8.7",
     "@stitches/react": "^1.2.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
