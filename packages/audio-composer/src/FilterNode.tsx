@@ -24,6 +24,7 @@ export const FilterNode = forwardRef<BiquadFilterNode, FilterNodeProps>(
 
     useLayoutEffect(() => {
       node.connect(parent)
+      // return () => node.disconnect(parent)
     }, [parent])
 
     useLayoutEffect(() => {

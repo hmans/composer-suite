@@ -1,5 +1,6 @@
 export * from "./AudioContext"
 export * from "./AudioListener"
+export * from "./CompressorNode"
 export * from "./FilterNode"
 export * from "./GainNode"
 export * from "./hooks"
