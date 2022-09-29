@@ -1,5 +1,8 @@
 import { Gain, Oscillator } from "audio-composer"
+import { between, random } from "randomish"
+import { useLayoutEffect, useRef } from "react"
 import { Color, Quaternion, Vector3 } from "three"
+import { OrbitControlsExp } from "three-stdlib"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
@@ -40,9 +43,27 @@ export const spawnBullet = (
   })
 
 const PewPewSFX = () => {
+  const osc1 = useRef<OscillatorNode>(null!)
+  const osc2 = useRef<OscillatorNode>(null!)
+  const gain2 = useRef<GainNode>(null!)
+
+  useLayoutEffect(() => {
+    const t = osc1.current.context.currentTime
+
+    osc1.current.frequency.linearRampToValueAtTime(20, t + 0.3)
+    osc1.current.stop(t + 0.3)
+
+    osc2.current.frequency.linearRampToValueAtTime(2000, t + 0.2)
+    osc2.current.stop(t + 0.2)
+    gain2.current.gain.linearRampToValueAtTime(0, t + 0.2)
+  }, [])
+
   return (
-    <Gain volume={0.3}>
-      <Oscillator frequency={220} />
+    <Gain volume={0.1}>
+      <Oscillator type="sine" frequency={between(1500, 1900)} ref={osc1} />
+      <Gain volume={0.4} ref={gain2}>
+        <Oscillator type="sawtooth" frequency={between(500, 1500)} ref={osc2} />
+      </Gain>
     </Gain>
   )
 }
