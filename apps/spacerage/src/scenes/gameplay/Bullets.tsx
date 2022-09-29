@@ -1,3 +1,4 @@
+import { Gain, Oscillator } from "audio-composer"
 import { Color, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS } from "./state"
@@ -24,12 +25,24 @@ export const spawnBullet = (
     velocity,
 
     bullet: (
-      <ECS.Component name="sceneObject">
-        <Particle
-          position={position}
-          quaternion={quaternion}
-          matrixAutoUpdate
-        />
-      </ECS.Component>
+      <>
+        <ECS.Component name="sceneObject">
+          <Particle
+            position={position}
+            quaternion={quaternion}
+            matrixAutoUpdate
+          />
+        </ECS.Component>
+
+        <PewPewSFX />
+      </>
     )
   })
+
+const PewPewSFX = () => {
+  return (
+    <Gain volume={0.3}>
+      <Oscillator frequency={220} />
+    </Gain>
+  )
+}
