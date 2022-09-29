@@ -379,7 +379,7 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.5
-      miniplex: ^1.0.0-next.1
+      miniplex: ^1.0.0-next.5
       miniplex-react: 1.0.0-next.2
       motion: ^10.14.2
       popmotion: ^11.0.5
@@ -417,8 +417,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 1.0.0-next.1
-      miniplex-react: 1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44
+      miniplex: 1.0.0-next.5
+      miniplex-react: 1.0.0-next.2_kvvbnowslxeibhajvzmesqeiea
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -9038,14 +9038,14 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/1.0.0-next.2_2cgy2unvmzj2wtwq7pet7yqg44:
+  /miniplex-react/1.0.0-next.2_kvvbnowslxeibhajvzmesqeiea:
     resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
     peerDependencies:
       miniplex: ^1.0.0-next.1
       react: '>=16.8'
     dependencies:
       '@hmans/react-toolbox': 0.1.4_react@18.2.0
-      miniplex: 1.0.0-next.1
+      miniplex: 1.0.0-next.5
       react: 18.2.0
       react-merge-refs: 1.1.0
     dev: false
@@ -9068,8 +9068,8 @@ packages:
       '@hmans/signal': 0.2.2
     dev: false
 
-  /miniplex/1.0.0-next.1:
-    resolution: {integrity: sha512-t2Jvdj5xCCWc7dh4rSIUcajaeKt4O90ULSA7smPNUXvcXS5IT9eopfDI0OtE/1a7/cRLQLHzTfNP+3QC4WQ5lw==}
+  /miniplex/1.0.0-next.5:
+    resolution: {integrity: sha512-seBJ8+Aplm65JpB6DFC9hSbjK8OxcUexGobYRLMCb/3J8ohBzFnD+hLDIYjhhYzziVtMuBbmYOcdo2iyjjMQWA==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false

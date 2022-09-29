@@ -21,7 +21,7 @@ export type Entity = {
   }
 
   isBullet?: Tag
-  isDebris?: Tag
+  debris?: JSX.Element
   sparks?: JSX.Element
   isNebula?: Tag
   asteroidExplosion?: JSX.Element

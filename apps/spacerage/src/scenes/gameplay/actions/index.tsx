@@ -4,10 +4,8 @@ import { DebrisEmitter } from "../vfx/Debris"
 
 export const spawnDebris = (position: Vector3, quaternion: Quaternion) => {
   ECS.world.createEntity({
-    isDebris: true,
     age: 0,
     destroyAfter: 3,
-
-    jsx: <DebrisEmitter position={position} quaternion={quaternion} />
+    debris: <DebrisEmitter position={position} quaternion={quaternion} />
   })
 }
