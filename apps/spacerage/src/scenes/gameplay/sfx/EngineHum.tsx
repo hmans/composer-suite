@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
 import { useRef } from "react"
 import { AudioContext } from "three"
+import { smoothstep } from "three/src/math/MathUtils"
 import { ECS } from "../state"
 
 export const EngineHum = ({ baseFrequency = 22 }) => {
@@ -20,7 +21,7 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
 
     const t = context.currentTime
     osc1.current.frequency.setTargetAtTime(
-      baseFrequency * 0.2 + velocity,
+      baseFrequency * 0.2 + smoothstep(velocity, 10, 30) * 150,
       t,
       0.1
     )
@@ -30,7 +31,7 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
       0.1
     )
     osc3.current.frequency.setTargetAtTime(
-      baseFrequency * 1.1 + velocity * 2,
+      baseFrequency * 1.1 + velocity * 3,
       t,
       0.1
     )
@@ -40,8 +41,8 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
 
   return (
     <AC.Gain volume={0.4} ref={gain}>
-      <AC.Filter type="lowpass" frequency={150}>
-        <AC.Oscillator type="sawtooth" ref={osc1} />
+      <AC.Filter type="lowpass" frequency={800}>
+        <AC.Oscillator type="triangle" ref={osc1} />
         <AC.Oscillator type="triangle" ref={osc2} />
         <AC.Oscillator type="triangle" ref={osc3} />
       </AC.Filter>
