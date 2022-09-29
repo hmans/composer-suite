@@ -15,7 +15,7 @@ import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
-export const MenuScene = () => {
+const MenuScene = () => {
   const input = useInput()
 
   const processInput = useCallback(
@@ -79,3 +79,5 @@ export const MenuScene = () => {
     </group>
   )
 }
+
+export default MenuScene

@@ -19,7 +19,7 @@ import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
 
-export const GameplayScene = () => {
+const GameplayScene = () => {
   return (
     <group>
       <Physics
@@ -69,3 +69,5 @@ export const GameplayScene = () => {
     </group>
   )
 }
+
+export default GameplayScene
