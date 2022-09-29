@@ -16,6 +16,10 @@ A pre-configured react-three-fiber environment for demos and examples.
 
 ## Usage
 
+### CodeSandbox Quickstart
+
+You may use [this CodeSandbox](https://codesandbox.io/s/r3f-stage-fvqlkd?file=/src/App.tsx) to get started.
+
 ### Installing the Library
 
 In your freshly created Vite/CRA React app:
@@ -64,7 +68,8 @@ function App() {
       </mesh>
 
       <Description>
-        This is a really simple example. Let's move on to more interesting things!
+        This is a really simple example. Let's move on to more interesting
+        things!
       </Description>
     </Application>
   )
@@ -116,8 +121,8 @@ function App() {
     <Application>
       <Example path="huge" title="Huge Example">
         <Description>
-          This is an example that uses a lot of resources and uses a long time to load,
-          which is why we're loading it lazily.
+          This is an example that uses a lot of resources and uses a long time
+          to load, which is why we're loading it lazily.
         </Description>
 
         <HugeExample />
