@@ -1,13 +1,11 @@
 import { useGLTF } from "@react-three/drei"
 import {
-  BallCollider,
   ConvexHullCollider,
   interactionGroups,
-  RigidBody,
-  RigidBodyApi
+  RigidBody
 } from "@react-three/rapier"
 import { between, plusMinus } from "randomish"
-import { startTransition, useLayoutEffect, useRef } from "react"
+import { startTransition, useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
@@ -36,11 +34,7 @@ export const Asteroids = ({
         {({ asteroid }) => (
           <ECS.Component name="rigidBody">
             <RigidBody
-              position={[
-                asteroid.spawnPosition.x,
-                asteroid.spawnPosition.y,
-                asteroid.spawnPosition.z
-              ]}
+              position={asteroid.spawnPosition as any}
               scale={asteroid.scale}
               quaternion={tmpQuaterion.random()}
               angularDamping={2}
