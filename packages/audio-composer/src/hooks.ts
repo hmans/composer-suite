@@ -12,6 +12,8 @@ import { store } from "./store"
 
 export const useAudioComposer = () => useStore(store)
 
+export const useAudioContext = () => useContext(AudioNodeContext)
+
 export const useAudioNode = <T extends AudioNode>(
   ctor: (audioContext: AudioContext) => T,
   ref: Ref<T>

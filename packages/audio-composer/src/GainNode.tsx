@@ -1,13 +1,6 @@
-import React, {
-  forwardRef,
-  ReactNode,
-  useContext,
-  useImperativeHandle,
-  useLayoutEffect,
-  useMemo
-} from "react"
-import { AudioContext } from "three"
+import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
 import { AudioNodeContext } from "./AudioContext"
+import { useAudioNode } from "./hooks"
 
 export type GainNodeProps = {
   children?: ReactNode
@@ -16,24 +9,14 @@ export type GainNodeProps = {
 
 export const GainNode = forwardRef<GainNode, GainNodeProps>(
   ({ volume = 0.5, children }, ref) => {
-    const audioCtx = AudioContext.getContext()
-    const parent = useContext(AudioNodeContext)
-
-    const gainNode = useMemo(() => {
-      const gainNode = audioCtx.createGain()
-      gainNode.connect(parent)
-
-      return gainNode
-    }, [audioCtx])
+    const node = useAudioNode((ctx) => ctx.createGain(), ref)
 
     useLayoutEffect(() => {
-      gainNode.gain.setValueAtTime(volume, audioCtx.currentTime)
+      node.gain.value = volume
     }, [volume])
 
-    useImperativeHandle(ref, () => gainNode)
-
     return (
-      <AudioNodeContext.Provider value={gainNode}>
+      <AudioNodeContext.Provider value={node}>
         {children}
       </AudioNodeContext.Provider>
     )
