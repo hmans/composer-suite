@@ -40,11 +40,11 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
   })
 
   return (
-    <AC.Gain volume={0.4} ref={gain}>
+    <AC.Gain volume={0} ref={gain}>
       <AC.Filter type="lowpass" frequency={800}>
-        <AC.Oscillator type="triangle" ref={osc1} />
-        <AC.Oscillator type="triangle" ref={osc2} />
-        <AC.Oscillator type="triangle" ref={osc3} />
+        <AC.Oscillator type="triangle" frequency={0} ref={osc1} />
+        <AC.Oscillator type="triangle" frequency={0} ref={osc2} />
+        <AC.Oscillator type="triangle" frequency={0} ref={osc3} />
       </AC.Filter>
     </AC.Gain>
   )
