@@ -1,15 +1,14 @@
-import React, { useImperativeHandle } from "react"
-import { AudioContext } from "three"
+import React from "react"
 import { AudioNodeContext } from "./AudioContext"
 import { useAudioNode } from "./hooks"
 
-export type CompressorNodeProps = {
+export type CompressorProps = {
   children?: React.ReactNode
 } & DynamicsCompressorOptions
 
-export const CompressorNode = React.forwardRef<
+export const Compressor = React.forwardRef<
   DynamicsCompressorNode,
-  CompressorNodeProps
+  CompressorProps
 >(({ children, ...props }, ref) => {
   const node = useAudioNode((ctx) => ctx.createDynamicsCompressor(), ref)
 

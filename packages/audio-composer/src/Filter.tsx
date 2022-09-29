@@ -2,13 +2,13 @@ import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
 import { AudioNodeContext } from "./AudioContext"
 import { useAudioNode } from "./hooks"
 
-export type FilterNodeProps = {
+export type FilterProps = {
   children?: ReactNode
   type?: BiquadFilterType
   frequency?: number
 }
 
-export const FilterNode = forwardRef<BiquadFilterNode, FilterNodeProps>(
+export const Filter = forwardRef<BiquadFilterNode, FilterProps>(
   ({ children, type = "allpass", frequency = 2000 }, ref) => {
     const node = useAudioNode((ctx) => ctx.createBiquadFilter(), ref)
 

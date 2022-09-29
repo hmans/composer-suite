@@ -2,12 +2,12 @@ import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
 import { AudioNodeContext } from "./AudioContext"
 import { useAudioNode } from "./hooks"
 
-export type GainNodeProps = {
+export type GainProps = {
   children?: ReactNode
   volume?: number
 }
 
-export const GainNode = forwardRef<GainNode, GainNodeProps>(
+export const Gain = forwardRef<GainNode, GainProps>(
   ({ volume = 0.5, children }, ref) => {
     const node = useAudioNode((ctx) => ctx.createGain(), ref)
 

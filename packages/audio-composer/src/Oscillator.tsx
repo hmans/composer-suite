@@ -7,7 +7,7 @@ export type OscillatorProps = {
   type?: OscillatorType
 }
 
-export const OscillatorNode = forwardRef<OscillatorNode, OscillatorProps>(
+export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
   ({ type = "sine", frequency = 440, children }, ref) => {
     const node = useAudioNode((ctx) => ctx.createOscillator(), ref)
 

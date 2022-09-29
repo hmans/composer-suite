@@ -1,5 +1,5 @@
 import { PerspectiveCamera } from "@react-three/drei"
-import { AudioContext, CompressorNode } from "audio-composer"
+import * as AC from "audio-composer"
 import { Perf } from "r3f-perf"
 import { lazy, Suspense } from "react"
 import * as RC from "render-composer"
@@ -14,8 +14,8 @@ const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 export const App = () => (
   <RC.Canvas dpr={1}>
     <RC.RenderPipeline updatePriority={Stage.Render}>
-      <AudioContext>
-        <CompressorNode>
+      <AC.AudioContext>
+        <AC.Compressor>
           <PostProcessing />
           <Suspense>
             <PerspectiveCamera
@@ -35,8 +35,8 @@ export const App = () => (
 
             <Perf matrixUpdate />
           </Suspense>
-        </CompressorNode>
-      </AudioContext>
+        </AC.Compressor>
+      </AC.AudioContext>
     </RC.RenderPipeline>
   </RC.Canvas>
 )
