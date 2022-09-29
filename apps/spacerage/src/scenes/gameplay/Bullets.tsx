@@ -51,18 +51,26 @@ const PewPewSFX = () => {
     const t = osc1.current.context.currentTime
 
     osc1.current.frequency.linearRampToValueAtTime(20, t + 0.3)
-    osc1.current.stop(t + 0.3)
 
     osc2.current.frequency.linearRampToValueAtTime(2000, t + 0.2)
-    osc2.current.stop(t + 0.2)
     gain2.current.gain.linearRampToValueAtTime(0, t + 0.2)
   }, [])
 
   return (
     <Gain volume={0.1}>
-      <Oscillator type="sine" frequency={between(1500, 1900)} ref={osc1} />
+      <Oscillator
+        type="sine"
+        frequency={between(1500, 1900)}
+        duration={0.3}
+        ref={osc1}
+      />
       <Gain volume={0.4} ref={gain2}>
-        <Oscillator type="sawtooth" frequency={between(500, 1500)} ref={osc2} />
+        <Oscillator
+          type="sawtooth"
+          frequency={between(500, 1500)}
+          duration={0.2}
+          ref={osc2}
+        />
       </Gain>
     </Gain>
   )
