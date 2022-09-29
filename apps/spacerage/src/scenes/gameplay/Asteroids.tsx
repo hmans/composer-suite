@@ -34,7 +34,7 @@ export const Asteroids = ({
         {({ asteroid }) => (
           <ECS.Component name="rigidBody">
             <RigidBody
-              position={asteroid.spawnPosition as any}
+              position={asteroid.spawnPosition}
               scale={asteroid.scale}
               quaternion={tmpQuaterion.random()}
               angularDamping={2}
