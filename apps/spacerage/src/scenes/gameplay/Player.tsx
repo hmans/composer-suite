@@ -1,3 +1,4 @@
+import { PhysicsPipeline } from "@dimforge/rapier3d-compat"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import {
@@ -18,6 +19,7 @@ import { Mesh, Quaternion, Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
+import { EngineHum } from "./EngineHum"
 import { spawnFireSound } from "./Sounds"
 import { gameplayStore, Layers } from "./state"
 
@@ -148,8 +150,4 @@ export const Player = () => {
       </group>
     </RigidBody>
   )
-}
-
-const EngineHum = () => {
-  return null
 }
