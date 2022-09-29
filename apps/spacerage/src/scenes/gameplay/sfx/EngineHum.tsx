@@ -1,7 +1,14 @@
 import { useFrame } from "@react-three/fiber"
 import { useAudioComposer } from "audio-composer"
-import { useLayoutEffect, useRef } from "react"
+import {
+  forwardRef,
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useRef
+} from "react"
 import { useStore } from "statery"
+import { AudioContext } from "three"
 import { ECS, gameplayStore } from "../state"
 
 export type OscillatorProps = {
@@ -10,48 +17,62 @@ export type OscillatorProps = {
   type?: OscillatorType
 }
 
-export const Oscillator = ({
-  type = "sine",
-  frequency = 440,
-  children
-}: OscillatorProps) => {
-  const { listener } = useAudioComposer()
+export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
+  ({ type = "sine", frequency = 440, children }, ref) => {
+    const audioCtx = AudioContext.getContext()
 
-  const oscillator = useRef<OscillatorNode>()
+    const oscillator = useMemo(() => {
+      const time = audioCtx.currentTime
 
-  useLayoutEffect(() => {
-    if (!listener) return
-    const audioCtx = listener.context
-    const time = audioCtx.currentTime
+      const oscillator = audioCtx.createOscillator()
+      oscillator.type = type
+      oscillator.frequency.setValueAtTime(frequency, time)
+      oscillator.connect(audioCtx.destination)
 
-    const o = audioCtx.createOscillator()
-    o.type = type
-    o.frequency.setValueAtTime(frequency, time)
+      return oscillator
+    }, [audioCtx])
 
-    o.connect(audioCtx.destination)
-    o.start(time)
+    useLayoutEffect(() => {
+      oscillator.start()
 
-    oscillator.current = o
+      return () => {
+        oscillator.stop()
+      }
+    }, [])
 
-    return () => {
-      o.stop()
-      oscillator.current = undefined
-    }
-  }, [listener])
+    useImperativeHandle(ref, () => oscillator)
 
-  return children as JSX.Element
-}
+    return children as JSX.Element
+  }
+)
 
 export const EngineHum = () => {
-  const { listener } = useAudioComposer()
+  const osc1 = useRef<OscillatorNode>(null!)
+  const osc2 = useRef<OscillatorNode>(null!)
+  const osc3 = useRef<OscillatorNode>(null!)
 
-  const [player] = ECS.useArchetype("player")
+  const baseFrequency = 44
+
+  const [player] = ECS.useArchetype("player", "rigidBody")
+
+  useFrame(() => {
+    if (!player || !osc1.current) return
+
+    osc1.current.frequency.value =
+      baseFrequency + player.rigidBody.linvel().length() * 2
+
+    osc2.current.frequency.value =
+      baseFrequency * 2 + player.rigidBody.linvel().length() * 3
+
+    osc3.current.frequency.value =
+      baseFrequency * 1.1 + player.rigidBody.linvel().length() * 4
+  })
 
   return (
     <>
-      <Oscillator type="sine" frequency={44} />
-      <Oscillator type="sine" frequency={88} />
-      <Oscillator type="sine" frequency={40} />
+      <Oscillator type="triangle" frequency={baseFrequency} ref={osc1} />
+      <Oscillator type="triangle" frequency={88} ref={osc2} />
+      <Oscillator type="triangle" frequency={40} ref={osc3} />
     </>
   )
 }
