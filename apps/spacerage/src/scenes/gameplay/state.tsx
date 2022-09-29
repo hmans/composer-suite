@@ -1,7 +1,7 @@
 import { RigidBodyApi } from "@react-three/rapier"
 import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
-import { createECS } from "../../vendor/miniplex-react/createECS"
+import { createECS } from "miniplex-react"
 
 export enum Layers {
   Player,

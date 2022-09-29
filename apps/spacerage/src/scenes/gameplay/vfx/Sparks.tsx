@@ -66,6 +66,5 @@ export const spawnSparks = (props: EmitterProps) =>
   ECS.world.createEntity({
     age: 0,
     destroyAfter: 3,
-    fsfsdfsf: 123,
     sparks: <SparksEmitter {...props} />
   })
