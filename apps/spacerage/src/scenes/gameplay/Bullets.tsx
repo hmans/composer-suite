@@ -3,12 +3,10 @@ import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS } from "./state"
 
 export const Bullets = () => (
-  /* InstancedParticles is VFX Composer's wrapper around InstancedMesh. */
   <InstancedParticles capacity={200}>
     <planeGeometry args={[0.1, 0.8]} />
     <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
 
-    {/* This will automatically render the JSX of all bullets tagged with `isBullet`. */}
     <ECS.ArchetypeEntities archetype={["bullet"]}>
       {({ bullet }) => bullet}
     </ECS.ArchetypeEntities>

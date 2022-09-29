@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { GainNode, OscillatorNode } from "audio-composer"
+import { FilterNode, GainNode, OscillatorNode } from "audio-composer"
 import { useRef } from "react"
 import { ECS } from "../state"
 
@@ -24,9 +24,11 @@ export const EngineHum = ({ baseFrequency = 22 }) => {
 
   return (
     <GainNode volume={0.4} ref={gain}>
-      <OscillatorNode type="triangle" ref={osc1} />
-      <OscillatorNode type="triangle" ref={osc2} />
-      <OscillatorNode type="triangle" ref={osc3} />
+      <FilterNode type="lowpass" frequency={200}>
+        <OscillatorNode type="triangle" ref={osc1} />
+        <OscillatorNode type="triangle" ref={osc2} />
+        <OscillatorNode type="triangle" ref={osc3} />
+      </FilterNode>
     </GainNode>
   )
 }
