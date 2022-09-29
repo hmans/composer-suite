@@ -6,9 +6,13 @@ High-level audio composition primitives for games built with React-Three-Fiber. 
 
 ## Goals / Roadmap
 
-- [ ] Wrappers for the basic Three.js audio primitives (`AudioListener`, `PositionalAudio`, `Audio`)
-- [ ] Primitives for procedurally generating sound effects
-- [ ] A JSX API for composing filter chains et al
+- [x] Wrappers for the basic Three.js audio primitives (`AudioListener`, `PositionalAudio`, `Audio`)
+- [x] Primitives for procedurally generating sound effects
+- [x] A JSX API for composing filter chains et al
+- [ ] A nice API or pattern for wet/dry in effects
+- [ ] Integrate/rebuild Three's positional audio primitives to be integrated with our setup a little closer
+- [ ] Find a nice JSX API for ramping values
+- [ ] Find a nice JSX API for controlling what a node connects to
 
 ## License
 
