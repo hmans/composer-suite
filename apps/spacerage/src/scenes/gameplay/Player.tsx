@@ -1,8 +1,6 @@
-import { PhysicsPipeline } from "@dimforge/rapier3d-compat"
 import { useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import {
-  BallCollider,
   ConvexHullCollider,
   interactionGroups,
   RigidBody,

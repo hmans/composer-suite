@@ -1,8 +1,7 @@
 import { Gain, Oscillator } from "audio-composer"
-import { between, random } from "randomish"
+import { between } from "randomish"
 import { useLayoutEffect, useRef } from "react"
 import { Color, Quaternion, Vector3 } from "three"
-import { OrbitControlsExp } from "three-stdlib"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS } from "./state"
 

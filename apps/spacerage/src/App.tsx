@@ -16,25 +16,27 @@ export const App = () => (
     <RC.RenderPipeline updatePriority={Stage.Render}>
       <AC.AudioContext>
         <AC.Compressor>
-          <PostProcessing />
-          <Suspense>
-            <PerspectiveCamera
-              position={[0, 0, 20]}
-              rotation-y={-0.8}
-              makeDefault
-              ref={useCapture(store, "camera")}
-            />
+          <AC.Reverb seconds={2} decay={5}>
+            <PostProcessing />
+            <Suspense>
+              <PerspectiveCamera
+                position={[0, 0, 20]}
+                rotation-y={-0.8}
+                makeDefault
+                ref={useCapture(store, "camera")}
+              />
 
-            <GameState.Match state="menu">
-              <MenuScene />
-            </GameState.Match>
+              <GameState.Match state="menu">
+                <MenuScene />
+              </GameState.Match>
 
-            <GameState.Match state="gameplay">
-              <GameplayScene />
-            </GameState.Match>
+              <GameState.Match state="gameplay">
+                <GameplayScene />
+              </GameState.Match>
 
-            <Perf matrixUpdate />
-          </Suspense>
+              <Perf matrixUpdate />
+            </Suspense>
+          </AC.Reverb>
         </AC.Compressor>
       </AC.AudioContext>
     </RC.RenderPipeline>
