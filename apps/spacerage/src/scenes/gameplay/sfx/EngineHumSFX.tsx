@@ -5,7 +5,7 @@ import { AudioContext } from "three"
 import { smoothstep } from "three/src/math/MathUtils"
 import { ECS } from "../state"
 
-export const EngineHum = ({ baseFrequency = 22 }) => {
+export const EngineHumSFX = ({ baseFrequency = 22 }) => {
   const context = AudioContext.getContext()
 
   const osc1 = useRef<OscillatorNode>(null!)
