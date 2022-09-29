@@ -1,4 +1,5 @@
 import React, { forwardRef, ReactNode, useLayoutEffect } from "react"
+import { AudioNodeContext } from "./AudioContext"
 import { useAudioNode } from "./hooks"
 
 export type OscillatorProps = {
@@ -24,6 +25,10 @@ export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
       return () => node.stop()
     }, [node])
 
-    return <>{children}</>
+    return (
+      <AudioNodeContext.Provider value={node}>
+        {children}
+      </AudioNodeContext.Provider>
+    )
   }
 )
