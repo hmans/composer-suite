@@ -14,7 +14,6 @@ import { AgeSystem } from "./systems/AgeSystem"
 import { BulletSystem } from "./systems/BulletSystem"
 import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
 import { ECSFlushSystem } from "./systems/ECSFlushSystem"
-import { Sounds } from "./Sounds"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
@@ -58,7 +57,6 @@ const GameplayScene = () => {
         <Debris />
         <Sparks />
         <AsteroidExplosions />
-        <Sounds />
 
         <AgeSystem />
         <DestroyAfterSystem />

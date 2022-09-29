@@ -21,7 +21,6 @@ import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
 import { EngineHum } from "./sfx/EngineHum"
-import { spawnFireSound } from "./Sounds"
 import { ECS, gameplayStore, Layers } from "./state"
 
 const tmpVec3 = new Vector3()
@@ -92,8 +91,6 @@ export const Player = () => {
 
     if (input.fire && fireCooldown.current <= 0) {
       const worldPosition = player.getWorldPosition(new Vector3())
-
-      spawnFireSound({ position: worldPosition })
 
       spawnBullet(
         player
