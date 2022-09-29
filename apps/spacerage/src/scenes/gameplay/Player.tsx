@@ -12,6 +12,7 @@ import { AudioListener, PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
+import { Tag } from "miniplex"
 import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { useStore } from "statery"
@@ -21,7 +22,7 @@ import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
 import { EngineHum } from "./sfx/EngineHum"
 import { spawnFireSound } from "./Sounds"
-import { gameplayStore, Layers } from "./state"
+import { ECS, gameplayStore, Layers } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -124,30 +125,38 @@ export const Player = () => {
   }, Stage.Normal)
 
   return (
-    <RigidBody
-      ref={rb}
-      angularDamping={3}
-      linearDamping={1}
-      enabledTranslations={[true, true, false]}
-      enabledRotations={[false, false, true]}
-      scale={0.5}
-    >
-      <group ref={useCapture(gameplayStore, "player")}>
-        <ConvexHullCollider
-          args={[
-            (gltf.scene.children[0] as Mesh).geometry.attributes.position
-              .array as Float32Array
-          ]}
-          collisionGroups={interactionGroups(Layers.Player, Layers.Asteroid)}
-        />
-        <primitive object={gltf.scene} />
+    <ECS.Entity>
+      <ECS.Component name="player" data={Tag} />
+      <ECS.Component name="rigidBody">
+        <RigidBody
+          ref={rb}
+          angularDamping={3}
+          linearDamping={1}
+          enabledTranslations={[true, true, false]}
+          enabledRotations={[false, false, true]}
+          scale={0.5}
+        >
+          <group ref={useCapture(gameplayStore, "player")}>
+            <ConvexHullCollider
+              args={[
+                (gltf.scene.children[0] as Mesh).geometry.attributes.position
+                  .array as Float32Array
+              ]}
+              collisionGroups={interactionGroups(
+                Layers.Player,
+                Layers.Asteroid
+              )}
+            />
+            <primitive object={gltf.scene} />
 
-        {/* <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay /> */}
+            {/* <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay /> */}
 
-        <EngineHum />
+            <EngineHum />
 
-        <AudioListener />
-      </group>
-    </RigidBody>
+            <AudioListener />
+          </group>
+        </RigidBody>
+      </ECS.Component>
+    </ECS.Entity>
   )
 }

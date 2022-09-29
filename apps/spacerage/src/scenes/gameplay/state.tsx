@@ -2,6 +2,7 @@ import { RigidBodyApi } from "@react-three/rapier"
 import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
 import { createECS } from "miniplex-react"
+import { Tag } from "miniplex"
 
 export enum Layers {
   Player,
@@ -19,6 +20,7 @@ export type Entity = {
     scale: number
   }
 
+  player?: Tag
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
