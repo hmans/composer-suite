@@ -20,7 +20,7 @@ const ray = new RAPIER.Ray(
 )
 
 export const BulletSystem = () => {
-  const bullets = ECS.world.archetype("isBullet", "sceneObject")
+  const bullets = ECS.world.archetype("bullet", "sceneObject")
 
   const context = useRapier()
   const world = context.world.raw()

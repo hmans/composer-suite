@@ -20,7 +20,7 @@ export type Entity = {
     scale: number
   }
 
-  isBullet?: Tag
+  bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
   isNebula?: Tag
