@@ -1,5 +1,4 @@
-import { useGLTF } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+import { useFrame, useLoader } from "@react-three/fiber"
 import {
   ConvexHullCollider,
   interactionGroups,
@@ -15,6 +14,7 @@ import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { useStore } from "statery"
 import { Mesh, Quaternion, Vector3 } from "three"
+import { GLTFLoader } from "three-stdlib"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
@@ -45,7 +45,7 @@ const transformInput = ({ keyboard, gamepad }: Input) => ({
 
 export const Player = () => {
   const rb = useRef<RigidBodyApi>(null!)
-  const gltf = useGLTF("/models/spaceship25.gltf")
+  const gltf = useLoader(GLTFLoader, "/models/spaceship25.gltf")
   const getInput = useInput()
   const { player } = useStore(gameplayStore)
   const fireCooldown = useRef(0)

@@ -1,4 +1,4 @@
-import { useGLTF } from "@react-three/drei"
+import { useLoader } from "@react-three/fiber"
 import {
   ConvexHullCollider,
   interactionGroups,
@@ -7,6 +7,7 @@ import {
 import { between, plusMinus } from "randomish"
 import { startTransition, useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
+import { GLTFLoader } from "three-stdlib"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
 
@@ -19,7 +20,7 @@ export const Asteroids = ({
   initial: number
   capacity?: number
 }) => {
-  const gltf = useGLTF("/models/asteroid03.gltf")
+  const gltf = useLoader(GLTFLoader, "/models/asteroid03.gltf")
   const mesh = gltf.scene.children[0] as Mesh
 
   const entities = useLotsOfAsteroidsAndAlsoCleanThemUp(initial)
