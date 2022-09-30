@@ -4,7 +4,7 @@ import { Delay, Repeat } from "timeline-composer"
 export const MenuDroneSFX = () => (
   <Gain volume={0.1}>
     <Reverb>
-      <Filter type="lowpass" frequency={100}>
+      <Filter type="lowpass" frequency={200}>
         <Oscillator type="sawtooth" frequency={55} />
         <Oscillator type="sawtooth" frequency={55} detune={10} />
         <Oscillator type="sawtooth" frequency={55} detune={-10} />
