@@ -18,10 +18,12 @@ import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
 import { Suspense } from "react"
+import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 
 const GameplayScene = () => {
   return (
     <Suspense>
+      <fog attach="fog" args={["#000000", 30, 300]} />
       <group>
         <Physics
           updatePriority={Stage.Physics}
@@ -59,6 +61,7 @@ const GameplayScene = () => {
           <Debris />
           <Sparks />
           <AsteroidExplosions />
+          <BackgroundAsteroids />
 
           <AgeSystem />
           <DestroyAfterSystem />
