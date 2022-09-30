@@ -310,6 +310,7 @@ importers:
       '@react-three/drei': ^9.32.3
       '@react-three/fiber': ^8.8.7
       '@react-three/rapier': ^0.7.2
+      '@stitches/react': ^1.2.8
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
@@ -352,6 +353,7 @@ importers:
       '@react-three/drei': 9.32.3_253pbs26olfmm6wual3fypsuge
       '@react-three/fiber': 8.8.7_ww22p6cticflcq7fk2rysgxj34
       '@react-three/rapier': 0.7.2_3oidgwub6o75tmjnbpe4oewdqa
+      '@stitches/react': 1.2.8_react@18.2.0
       audio-composer: link:../../packages/audio-composer
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
