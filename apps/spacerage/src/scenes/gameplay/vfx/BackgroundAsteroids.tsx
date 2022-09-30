@@ -22,11 +22,11 @@ export const BackgroundAsteroids = ({
   }
 
   return (
-    <InstancedParticles geometry={mesh.geometry.clone()} capacity={amount}>
-      <composable.material
-        instance={(mesh.material as Material).clone()}
-      ></composable.material>
-
+    <InstancedParticles
+      geometry={mesh.geometry.clone()}
+      material={mesh.material as Material}
+      capacity={amount}
+    >
       <Emitter limit={amount} rate={Infinity} setup={setup} />
     </InstancedParticles>
   )
