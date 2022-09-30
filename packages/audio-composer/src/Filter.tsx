@@ -6,19 +6,24 @@ export type FilterProps = {
   children?: ReactNode
   type?: BiquadFilterType
   frequency?: number
+  Q?: number
 }
 
 export const Filter = forwardRef<BiquadFilterNode, FilterProps>(
-  ({ children, type = "allpass", frequency = 2000 }, ref) => {
+  ({ children, type = "allpass", frequency = 2000, Q }, ref) => {
     const node = useAudioNode((ctx) => ctx.createBiquadFilter(), ref)
 
     useLayoutEffect(() => {
       node.type = type
-    }, [type])
+    }, [node, type])
 
     useLayoutEffect(() => {
       node.frequency.setTargetAtTime(frequency, node.context.currentTime, 0.1)
-    }, [frequency])
+    }, [node, frequency])
+
+    useLayoutEffect(() => {
+      if (Q !== undefined) node.Q.value = Q
+    }, [node, Q])
 
     return (
       <AudioNodeContext.Provider value={node}>

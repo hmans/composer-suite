@@ -5,11 +5,12 @@ import { useAudioNode } from "./hooks"
 export type GainProps = {
   children?: ReactNode
   volume?: number
+  target?: string
 }
 
 export const Gain = forwardRef<GainNode, GainProps>(
-  ({ volume = 0.5, children }, ref) => {
-    const node = useAudioNode((ctx) => ctx.createGain(), ref)
+  ({ volume = 0.5, children, target }, ref) => {
+    const node = useAudioNode((ctx) => ctx.createGain(), ref, target)
 
     useLayoutEffect(() => {
       node.gain.value = volume

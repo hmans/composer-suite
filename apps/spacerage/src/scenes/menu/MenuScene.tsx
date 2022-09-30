@@ -1,4 +1,3 @@
-import { PerspectiveCamera } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { flow } from "fp-ts/lib/function"
 import { createPressInteraction, useInput } from "input-composer"
@@ -11,6 +10,7 @@ import { store } from "../../common/PostProcessing"
 import { Skybox } from "../../common/Skybox"
 import { useCapture } from "../../lib/useCapture"
 import { startGame } from "../../state"
+import { MenuDroneSFX } from "./sfx/MenuDroneSFX"
 import { AsteroidBelt } from "./vfx/AsteroidBelt"
 import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
@@ -76,6 +76,8 @@ const MenuScene = () => {
 
         <AsteroidBelt />
       </group>
+
+      <MenuDroneSFX />
     </group>
   )
 }

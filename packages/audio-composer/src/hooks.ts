@@ -16,7 +16,8 @@ export const useAudioContext = () => useContext(AudioNodeContext)
 
 export const useAudioNode = <T extends AudioNode>(
   ctor: (audioContext: AudioContext) => T,
-  ref: Ref<T>
+  ref: Ref<T>,
+  target?: string
 ) => {
   const audioCtx = AudioContext.getContext()
   const parent = useContext(AudioNodeContext)
@@ -28,9 +29,11 @@ export const useAudioNode = <T extends AudioNode>(
 
   /* Wire up to parent */
   useLayoutEffect(() => {
-    node.connect(parent)
-    return () => node.disconnect(parent)
-  }, [node, parent])
+    const t = target ? parent[target as keyof typeof parent] : parent
+
+    node.connect(t as any)
+    return () => node.disconnect(t as any)
+  }, [node, parent, target])
 
   useImperativeHandle(ref, () => node)
 

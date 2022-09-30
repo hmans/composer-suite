@@ -3,17 +3,17 @@ import { useAudioContext } from "./hooks"
 
 export type LinearRampProps = {
   property: string
-  value: number
+  to: number
   duration: number
 }
 
-export const LinearRamp = ({ value, duration, property }: LinearRampProps) => {
+export const LinearRamp = ({ to, duration, property }: LinearRampProps) => {
   const parent = useAudioContext() as any
 
   useLayoutEffect(() => {
     if (!parent) return
 
-    const t = parent.context.currentTime
+    const time = parent.context.currentTime
     const prop = parent[property] as AudioParam
 
     if (!prop) {
@@ -21,7 +21,7 @@ export const LinearRamp = ({ value, duration, property }: LinearRampProps) => {
       return
     }
 
-    prop.linearRampToValueAtTime(value, t + duration)
+    prop.linearRampToValueAtTime(to, time + duration)
   }, [parent])
 
   return null

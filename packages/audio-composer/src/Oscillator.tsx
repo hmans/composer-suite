@@ -8,11 +8,15 @@ export type OscillatorProps = {
   type?: OscillatorType
   start?: number
   duration?: number
+  target?: string
 }
 
 export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
-  ({ type = "sine", frequency = 440, start = 0, duration, children }, ref) => {
-    const node = useAudioNode((ctx) => ctx.createOscillator(), ref)
+  (
+    { type = "sine", frequency = 440, start = 0, duration, target, children },
+    ref
+  ) => {
+    const node = useAudioNode((ctx) => ctx.createOscillator(), ref, target)
 
     /* Apply props */
     node.type = type
