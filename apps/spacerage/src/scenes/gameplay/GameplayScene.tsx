@@ -17,54 +17,57 @@ import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
+import { Suspense } from "react"
 
 const GameplayScene = () => {
   return (
-    <group>
-      <Physics
-        updatePriority={Stage.Physics}
-        gravity={[0, 0, 0]}
-        colliders={false}
-        timeStep="vary"
-      >
-        {/* <Debug /> */}
-        <Skybox />
-        <FollowCamera />
+    <Suspense>
+      <group>
+        <Physics
+          updatePriority={Stage.Physics}
+          gravity={[0, 0, 0]}
+          colliders={false}
+          timeStep="vary"
+        >
+          {/* <Debug /> */}
+          <Skybox />
+          <FollowCamera />
 
-        <ambientLight
-          intensity={0.1}
-          layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
-        />
-        <directionalLight
-          position={[30, 0, 30]}
-          intensity={1}
-          layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
-        />
+          <ambientLight
+            intensity={0.1}
+            layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
+          />
+          <directionalLight
+            position={[30, 0, 30]}
+            intensity={1}
+            layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
+          />
 
-        <Nebula
-          dimensions={Vec3([50, 50, 15])}
-          amount={80}
-          opacity={0.05}
-          minSize={8}
-          maxSize={30}
-          rotationSpeed={0.1}
-          color={new Color("#fff")}
-        />
+          <Nebula
+            dimensions={Vec3([50, 50, 15])}
+            amount={80}
+            opacity={0.05}
+            minSize={8}
+            maxSize={30}
+            rotationSpeed={0.1}
+            color={new Color("#fff")}
+          />
 
-        <Player />
-        <Asteroids initial={100} />
-        <Bullets />
-        <Debris />
-        <Sparks />
-        <AsteroidExplosions />
+          <Player />
+          <Asteroids initial={100} />
+          <Bullets />
+          <Debris />
+          <Sparks />
+          <AsteroidExplosions />
 
-        <AgeSystem />
-        <DestroyAfterSystem />
-        <VelocitySystem />
-        <BulletSystem />
-        <ECSFlushSystem />
-      </Physics>
-    </group>
+          <AgeSystem />
+          <DestroyAfterSystem />
+          <VelocitySystem />
+          <BulletSystem />
+          <ECSFlushSystem />
+        </Physics>
+      </group>
+    </Suspense>
   )
 }
 
