@@ -6,7 +6,7 @@ import {
   RigidBody,
   RigidBodyApi
 } from "@react-three/rapier"
-import { AudioListener, PositionalAudio } from "audio-composer"
+import { PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
@@ -147,8 +147,6 @@ export const Player = () => {
             <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
             <EngineHumSFX />
-
-            <AudioListener />
           </group>
         </RigidBody>
       </ECS.Component>

@@ -1,5 +1,6 @@
 import { PerspectiveCamera } from "@react-three/drei"
 import * as AC from "audio-composer"
+import { AudioListener } from "audio-composer"
 import { Perf } from "r3f-perf"
 import { lazy, Suspense } from "react"
 import * as RC from "render-composer"
@@ -26,7 +27,9 @@ export const App = () => (
                 rotation-y={-0.8}
                 makeDefault
                 ref={useCapture(store, "camera")}
-              />
+              >
+                <AudioListener />
+              </PerspectiveCamera>
 
               <GameState.Match state="menu">
                 <MenuScene />
