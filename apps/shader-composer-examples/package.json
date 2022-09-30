@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hmans/r3f-animate": "^0.0.5",
-    "@react-three/drei": "^9.32.3",
+    "@react-three/drei": "^9.32.4",
     "@react-three/fiber": "^8.8.7",
     "fp-ts": "^2.12.3",
     "leva": "^0.9.31",
