@@ -8,10 +8,12 @@ import { PostProcessing } from "./common/PostProcessing"
 import { Stage } from "./configuration"
 import { StartScreen } from "./lib/StartScreen"
 import { useCapture } from "./lib/useCapture"
+import GameplayScene from "./scenes/gameplay/GameplayScene"
+import MenuScene from "./scenes/menu/MenuScene"
 import { GameState, store } from "./state"
 
-const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
-const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
+// const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
+// const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 
 export const App = () => (
   <StartScreen>
@@ -32,11 +34,15 @@ export const App = () => (
               </PerspectiveCamera>
 
               <GameState.Match state="menu">
-                <MenuScene />
+                <Suspense>
+                  <MenuScene />
+                </Suspense>
               </GameState.Match>
 
               <GameState.Match state="gameplay">
-                <GameplayScene />
+                <Suspense>
+                  <GameplayScene />
+                </Suspense>
               </GameState.Match>
 
               <Perf matrixUpdate />
