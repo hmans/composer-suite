@@ -1,8 +1,9 @@
+import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
-import { Color } from "three"
+import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
@@ -52,13 +53,13 @@ export const SparksEmitter = (props: EmitterProps) => (
       lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
     }}
   >
-    {/* <PositionalAudio
+    <PositionalAudio
       url="/sounds/blurp2.wav"
       volume={0.1}
       distance={10}
       autoplay
       loop={false}
-    /> */}
+    />
   </Emitter>
 )
 
@@ -68,3 +69,5 @@ export const spawnSparks = (props: EmitterProps) =>
     destroyAfter: 3,
     sparks: <SparksEmitter {...props} />
   })
+
+useLoader.preload(AudioLoader, "/sounds/blurp2.wav")

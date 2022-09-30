@@ -1,6 +1,7 @@
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
 import { useLayoutEffect } from "react"
+import { AudioLoader } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { InstancedParticles } from "vfx-composer-r3f"
 import { ECS } from "../state"
@@ -29,12 +30,12 @@ export const AsteroidExplosion = (props: GroupProps) => (
         }}
       /> */}
 
-    {/* <PositionalAudio
+    <PositionalAudio
       url="/sounds/explosion.wav"
       distance={5}
       autoplay
       loop={false}
-    /> */}
+    />
   </group>
 )
 
@@ -44,3 +45,5 @@ export const spawnAsteroidExplosion = (props: GroupProps) =>
     destroyAfter: 5,
     asteroidExplosion: <AsteroidExplosion {...props} />
   })
+
+useLoader.preload(AudioLoader, "/sounds/explosion.wav")
