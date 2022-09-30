@@ -322,7 +322,7 @@ importers:
       material-composer: ^0.2.2
       material-composer-r3f: ^0.2.5
       miniplex: 1.0.0-next.6
-      miniplex-react: 1.0.0-next.7
+      miniplex-react: 1.0.0-next.8
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -361,7 +361,7 @@ importers:
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
       miniplex: 1.0.0-next.6
-      miniplex-react: 1.0.0-next.7_nuqej6qk7y3re67kt6cgrzqw3a
+      miniplex-react: 1.0.0-next.8_nuqej6qk7y3re67kt6cgrzqw3a
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.144.0
@@ -8523,8 +8523,8 @@ packages:
       react-merge-refs: 1.1.0
     dev: false
 
-  /miniplex-react/1.0.0-next.7_nuqej6qk7y3re67kt6cgrzqw3a:
-    resolution: {integrity: sha512-QFTKg0LQo/oVjpX1qV3YYEe+AFbRRIoxRKGWq6CAA+/JFAWprMDqIhviqGr3rA2g4olJwk/3+coUO8nCst6gJA==}
+  /miniplex-react/1.0.0-next.8_nuqej6qk7y3re67kt6cgrzqw3a:
+    resolution: {integrity: sha512-8Aqy8bmprXsIj33ECNGG+uCv0kSW5s9oXw7kv7hyIXI2/ROt3Rx8He1Aj4GhjfKYbwjJ5Z0UypmjZnDDG5z6Gw==}
     peerDependencies:
       miniplex: ^1.0.0-next.1
       react: '>=16.8'

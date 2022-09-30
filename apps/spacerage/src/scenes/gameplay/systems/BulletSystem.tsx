@@ -76,7 +76,8 @@ export const BulletSystem = () => {
                 .translation() as Vector3
 
               spawnAsteroidExplosion({
-                position: new Vector3(position.x, position.y, position.z)
+                position: new Vector3(position.x, position.y, position.z),
+                scale: otherEntity.asteroid.scale
               })
 
               if (scale > 0.5) {
