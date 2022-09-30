@@ -43,8 +43,6 @@ const transformInput = ({ keyboard, gamepad }: Input) => ({
       : gamepad.gamepad(0).button(7)
 })
 
-useGLTF.preload("/models/spaceship25.gltf")
-
 export const Player = () => {
   const rb = useRef<RigidBodyApi>(null!)
   const gltf = useGLTF("/models/spaceship25.gltf")

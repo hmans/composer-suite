@@ -12,8 +12,6 @@ import { ECS, Layers } from "./state"
 
 const tmpQuaterion = new Quaternion()
 
-useGLTF.preload("/models/asteroid03.gltf")
-
 export const Asteroids = ({
   initial,
   capacity = initial * 10

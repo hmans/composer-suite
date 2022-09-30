@@ -7,8 +7,6 @@ export const store = makeStore({
   sun: null as Mesh | null
 })
 
-useTexture.preload("/textures/lensdirt.jpg")
-
 export const PostProcessing = () => {
   const { sun } = useStore(store)
   const texture = useTexture("/textures/lensdirt.jpg")
