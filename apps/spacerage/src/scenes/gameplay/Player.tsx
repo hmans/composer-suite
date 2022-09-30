@@ -13,7 +13,7 @@ import { Tag } from "miniplex"
 import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { useStore } from "statery"
-import { Mesh, Quaternion, Vector3 } from "three"
+import { AudioLoader, Mesh, Quaternion, Vector3 } from "three"
 import { GLTFLoader } from "three-stdlib"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
@@ -144,7 +144,7 @@ export const Player = () => {
             />
             <primitive object={gltf.scene} />
 
-            {/* <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay /> */}
+            <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
 
             <EngineHumSFX />
           </group>
@@ -153,3 +153,5 @@ export const Player = () => {
     </ECS.Entity>
   )
 }
+
+useLoader.preload(AudioLoader, "/sounds/taikobeat.mp3")
