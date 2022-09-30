@@ -1,7 +1,7 @@
 import { collectFromTree, Unit } from "shader-composer"
 import {
-  BufferAttribute,
   BufferGeometry,
+  InstancedBufferAttribute,
   InstancedMesh,
   Material,
   Matrix4,
@@ -58,7 +58,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
         attrs.forEach((attribute) => {
           attribute.needsUpdate = true
 
-          if (attribute instanceof BufferAttribute) {
+          if (attribute instanceof InstancedBufferAttribute) {
             attribute.updateRange.offset = this.lastCursor * attribute.itemSize
             attribute.updateRange.count = emitted * attribute.itemSize
           }
