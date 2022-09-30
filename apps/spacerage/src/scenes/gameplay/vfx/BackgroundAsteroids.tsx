@@ -1,5 +1,4 @@
 import { useGLTF } from "@react-three/drei"
-import { composable } from "material-composer-r3f"
 import { between, plusMinus } from "randomish"
 import { Material, Mesh } from "three"
 import { InstanceSetupCallback } from "vfx-composer"
