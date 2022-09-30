@@ -29,12 +29,12 @@ export const AsteroidExplosion = (props: GroupProps) => (
         }}
       /> */}
 
-    <PositionalAudio
+    {/* <PositionalAudio
       url="/sounds/explosion.wav"
       distance={5}
       autoplay
       loop={false}
-    />
+    /> */}
   </group>
 )
 

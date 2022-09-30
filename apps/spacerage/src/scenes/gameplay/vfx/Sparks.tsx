@@ -52,13 +52,13 @@ export const SparksEmitter = (props: EmitterProps) => (
       lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
     }}
   >
-    <PositionalAudio
+    {/* <PositionalAudio
       url="/sounds/blurp2.wav"
       volume={0.1}
       distance={10}
       autoplay
       loop={false}
-    />
+    /> */}
   </Emitter>
 )
 
