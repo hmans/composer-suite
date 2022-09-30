@@ -63,7 +63,7 @@ const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
   )
 
   return (
-    <InstancedParticles geometry={mesh.geometry} capacity={amount}>
+    <InstancedParticles geometry={mesh.geometry.clone()} capacity={amount}>
       <composable.material instance={(mesh.material as Material).clone()}>
         <RotateOverTime
           axis={rotationAxis}

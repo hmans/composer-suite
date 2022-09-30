@@ -28,8 +28,8 @@ export const Asteroids = ({
   return (
     <InstancedParticles
       capacity={capacity}
-      geometry={mesh.geometry}
-      material={mesh.material as Material}
+      geometry={mesh.geometry.clone()}
+      material={(mesh.material as Material).clone()}
     >
       <ECS.Entities entities={entities}>
         {({ asteroid }) => (
