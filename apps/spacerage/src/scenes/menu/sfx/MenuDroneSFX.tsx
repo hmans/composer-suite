@@ -1,4 +1,5 @@
-import { Filter, Gain, Oscillator } from "audio-composer"
+import { Filter, Gain, LinearRamp, Oscillator } from "audio-composer"
+import { Delay, Repeat } from "timeline-composer"
 
 export const MenuDroneSFX = () => (
   <Gain volume={0.2}>
@@ -14,7 +15,25 @@ export const MenuDroneSFX = () => (
       </Gain>
 
       {/* The actual sound. */}
-      <Oscillator frequency={220} type="sine" />
+      <Oscillator frequency={55} type="sawtooth" />
+
+      <Oscillator frequency={440} type="sawtooth" detune={50}>
+        <Repeat seconds={20}>
+          <LinearRamp property="frequency" duration={10} to={110} />
+          <Delay seconds={10}>
+            <LinearRamp property="frequency" duration={10} to={440} />
+          </Delay>
+        </Repeat>
+      </Oscillator>
+
+      <Oscillator frequency={110} type="sawtooth" detune={-50}>
+        <Repeat seconds={20}>
+          <LinearRamp property="frequency" duration={10} to={440} />
+          <Delay seconds={10}>
+            <LinearRamp property="frequency" duration={10} to={110} />
+          </Delay>
+        </Repeat>
+      </Oscillator>
     </Filter>
   </Gain>
 )

@@ -5,6 +5,7 @@ import { useAudioNode } from "./hooks"
 export type OscillatorProps = {
   children?: ReactNode
   frequency?: number
+  detune?: number
   type?: OscillatorType
   start?: number
   duration?: number
@@ -13,7 +14,15 @@ export type OscillatorProps = {
 
 export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
   (
-    { type = "sine", frequency = 440, start = 0, duration, target, children },
+    {
+      type = "sine",
+      frequency = 440,
+      detune = 0,
+      start = 0,
+      duration,
+      target,
+      children
+    },
     ref
   ) => {
     const node = useAudioNode((ctx) => ctx.createOscillator(), ref, target)
@@ -21,6 +30,7 @@ export const Oscillator = forwardRef<OscillatorNode, OscillatorProps>(
     /* Apply props */
     node.type = type
     node.frequency.value = frequency
+    node.detune.value = detune
 
     useLayoutEffect(() => {
       const t = node.context.currentTime
