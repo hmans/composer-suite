@@ -31,17 +31,9 @@ export const App = () => (
                 <AudioListener />
               </PerspectiveCamera>
 
-              <GameState.Match state="menu">
-                <Suspense>
-                  <MenuScene />
-                </Suspense>
-              </GameState.Match>
-
-              <GameState.Match state="gameplay">
-                <Suspense>
-                  <GameplayScene />
-                </Suspense>
-              </GameState.Match>
+              <Suspense>
+                <GameplayScene />
+              </Suspense>
 
               <Perf matrixUpdate />
             </Suspense>
