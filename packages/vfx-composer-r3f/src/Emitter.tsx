@@ -10,7 +10,7 @@ import React, {
   useRef
 } from "react"
 import { Matrix4, Object3D } from "three"
-import { clamp } from "three/src/math/MathUtils"
+import { MathUtils } from "three"
 import { InstancedParticles, InstanceSetupCallback } from "vfx-composer"
 import { DefaultContext, ParticlesContext } from "./context"
 import { useFrameEffect } from "./lib/useFrameEffect"
@@ -121,7 +121,7 @@ export const Emitter = forwardRef<Object3D, EmitterProps>(
 
     useFrame(function emitterUpdate(_, dt) {
       if (!rate) return
-      emit(clamp(dt, 0, 0.1))
+      emit(MathUtils.clamp(dt, 0, 0.1))
     })
 
     useImperativeHandle(ref, () => origin.current)

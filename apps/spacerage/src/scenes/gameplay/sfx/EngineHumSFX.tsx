@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
 import { useRef } from "react"
 import { AudioContext } from "three"
-import { smoothstep } from "three/src/math/MathUtils"
+import { MathUtils } from "three"
 import { ECS } from "../state"
 
 export const EngineHumSFX = ({ baseFrequency = 22 }) => {
@@ -21,7 +21,7 @@ export const EngineHumSFX = ({ baseFrequency = 22 }) => {
 
     const t = context.currentTime
     osc1.current.frequency.setTargetAtTime(
-      baseFrequency * 0.2 + smoothstep(velocity, 10, 30) * 150,
+      baseFrequency * 0.2 + MathUtils.smoothstep(velocity, 10, 30) * 150,
       t,
       0.1
     )
