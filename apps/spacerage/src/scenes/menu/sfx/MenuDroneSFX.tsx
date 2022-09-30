@@ -1,5 +1,4 @@
-import { Filter, Gain, LinearRamp, Oscillator, Reverb } from "audio-composer"
-import { Delay, Repeat } from "timeline-composer"
+import { Filter, Gain, Oscillator, Reverb } from "audio-composer"
 
 export const MenuDroneSFX = () => (
   <Gain volume={0.1}>
