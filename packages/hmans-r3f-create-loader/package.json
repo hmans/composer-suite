@@ -1,0 +1,25 @@
+{
+  "name": "@hmans/r3f-create-loader",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "",
+  "version": "0.0.1",
+  "main": "dist/hmans-r3f-create-loader.cjs.js",
+  "module": "dist/hmans-r3f-create-loader.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "devDependencies": {
+    "@react-three/fiber": "^8.8.7"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": "^8.8.7"
+  }
+}

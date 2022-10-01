@@ -1,12 +1,10 @@
-import { useGLTF } from "@react-three/drei"
-import { Loader, useLoader } from "@react-three/fiber"
-import { Mesh } from "three"
+import { AudioLoader } from "three"
 import { GLTFLoader } from "three-stdlib"
+import { createLoader } from "@hmans/r3f-create-loader"
 
-export const useLoadedResource = <L extends new () => Loader<any>>(
-  loader: L,
-  url: string
-) => {
-  useLoader.preload(loader, url)
-  return () => useLoader(loader, url)
+/* Use in project, in eg. `assets.ts` */
+export const useAsset = {
+  asteroid: createLoader(GLTFLoader, "/models/asteroid03.gltf"),
+  playerShip: createLoader(GLTFLoader, "/models/ship01.gltf"),
+  music: createLoader(AudioLoader, "/sounds/taikobeat.mp3")
 }

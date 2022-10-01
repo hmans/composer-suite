@@ -1,19 +1,15 @@
-import { useGLTF } from "@react-three/drei"
 import { between, plusMinus } from "randomish"
 import { Material, Mesh } from "three"
-import { GLTFLoader } from "three-stdlib"
 import { InstanceSetupCallback } from "vfx-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
-import { useLoadedResource } from "../assets"
-
-const useAsteroid = useLoadedResource(GLTFLoader, "/models/asteroid03.gltf")
+import { useAsset } from "../assets"
 
 export const BackgroundAsteroids = ({
   amount = 10_000
 }: {
   amount?: number
 }) => {
-  const gltf = useAsteroid()
+  const gltf = useAsset.asteroid()
   const mesh = gltf.scene.children[0] as Mesh
 
   const setup: InstanceSetupCallback = ({ position, rotation, scale }) => {
