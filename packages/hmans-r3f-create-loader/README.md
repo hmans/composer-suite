@@ -1,6 +1,9 @@
 # createLoader
 
-# tl;dr
+`createLoader` creates a loader hook for a resource served through HTTP,
+and will automatically queue it for preloading. This allows you to create bundles of assets that are preloaded in one go, at the time of import, rather than at the time of first use, while also simplifying your code by moving the assets' URL strings to a central module.
+
+## Example
 
 In a module in your project (eg. `assets.ts`):
 
