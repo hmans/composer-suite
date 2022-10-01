@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.9.0",
-    "@hmans/r3f-create-loader": "workspace:^0.0.1",
+    "@hmans/r3f-create-loader": "workspace:^0.0.2",
     "@hmans/r3f-shared-resource": "^0.1.0",
     "@hmans/things": "^0.0.6",
     "@hmans/use-const": "^0.0.1",
@@ -31,7 +31,7 @@
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",
-    "material-composer": "^0.2.2",
+    "material-composer": "^0.2.6",
     "material-composer-r3f": "^0.2.5",
     "miniplex": "1.0.0-next.6",
     "miniplex-react": "1.0.0-next.8",
@@ -52,7 +52,7 @@
     "three": "^0.144.0",
     "three-stdlib": "^2.17.0",
     "timeline-composer": "workspace:^0.1.7",
-    "vfx-composer": "^0.3.0",
+    "vfx-composer": "^0.3.1",
     "vfx-composer-r3f": "^0.3.0"
   },
   "devDependencies": {

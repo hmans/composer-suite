@@ -1,5 +1,11 @@
 # material-composer
 
+## 0.2.6
+
+### Patch Changes
+
+- 0dee294: **Improved:** Added `frequency` prop to `SurfaceWobble` module. Please note that this module is still very much WIP and will likely change significantly in future releases.
+
 ## 0.2.2
 
 ### Patch Changes

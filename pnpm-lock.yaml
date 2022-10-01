@@ -66,7 +66,7 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       leva: ^0.9.31
-      material-composer: ^0.2.2
+      material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
       r3f-perf: ^6.5.0
       r3f-stage: ^0.3.5
@@ -303,7 +303,7 @@ importers:
   apps/spacerage:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
-      '@hmans/r3f-create-loader': workspace:^0.0.1
+      '@hmans/r3f-create-loader': workspace:^0.0.2
       '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
       '@hmans/use-const': ^0.0.1
@@ -320,7 +320,7 @@ importers:
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
-      material-composer: ^0.2.2
+      material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
       miniplex: 1.0.0-next.6
       miniplex-react: 1.0.0-next.8
@@ -342,7 +342,7 @@ importers:
       three-stdlib: ^2.17.0
       timeline-composer: workspace:^0.1.7
       typescript: ^4.8.4
-      vfx-composer: ^0.3.0
+      vfx-composer: ^0.3.1
       vfx-composer-r3f: ^0.3.0
       vite: ^3.1.4
     dependencies:
@@ -462,7 +462,7 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       fp-ts: ^2.12.3
       leva: ^0.9.31
-      material-composer: ^0.2.2
+      material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
       r3f-perf: ^6.5.0
       r3f-stage: ^0.3.5
@@ -478,7 +478,7 @@ importers:
       three-stdlib: ^2.17.0
       timeline-composer: ^0.1.7
       typescript: ^4.8.4
-      vfx-composer: ^0.3.0
+      vfx-composer: ^0.3.1
       vfx-composer-r3f: ^0.3.0
       vite: ^3.1.4
       wouter: ^2.8.0-alpha.2
@@ -599,12 +599,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       three: 0.144.0
       typescript: 4.8.4
-
-  packages/hmans-r3f-create-loader:
-    specifiers:
-      '@react-three/fiber': ^8.8.7
-    devDependencies:
-      '@react-three/fiber': 8.8.7
 
   packages/hmans-r3f-create-loader:
     specifiers:
@@ -883,7 +877,7 @@ importers:
 
   packages/vfx-composer:
     specifiers:
-      material-composer: ^0.2.2
+      material-composer: ^0.2.6
       shader-composer: ^0.4.5
       three: ^0.144.0
     dependencies:
