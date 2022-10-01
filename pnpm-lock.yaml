@@ -606,6 +606,12 @@ importers:
     devDependencies:
       '@react-three/fiber': 8.8.7
 
+  packages/hmans-r3f-create-loader:
+    specifiers:
+      '@react-three/fiber': ^8.8.7
+    devDependencies:
+      '@react-three/fiber': 8.8.7
+
   packages/hmans-use-mutable-list:
     specifiers:
       react: ^18.2.0
