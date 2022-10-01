@@ -1,5 +1,13 @@
 # vfx-composer
 
+## 0.3.1
+
+### Patch Changes
+
+- ee1bed4: **Fixed:** A recent change caused non-instanced buffer attributes to also be subjected to the smart upload batching mechanism of `InstancedParticles`. This has been fixed.
+- Updated dependencies [0dee294]
+  - material-composer@0.2.6
+
 ## 0.3.0
 
 ### Minor Changes
