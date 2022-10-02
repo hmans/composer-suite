@@ -71,6 +71,39 @@ function App() {
 }
 ```
 
+## Enabling React's StrictMode
+
+During development of your application, it is recommended to use React's [Strict Mode](https://reactjs.org/docs/strict-mode.html). Unfortunately, enabling `<StrictMode>` at the root of your application will not enable it for any react-three-fiber canvases (one of which we're wrapping in `<RC.Canvas>`.) To enable StrictMode for your application, you either need to wrap the children of your canvas inside `<StrictMode>`, like so:
+
+```tsx
+import { StrictMode } from "react"
+import * as RC from "render-composer"
+
+function App() {
+  return (
+    <RC.Canvas>
+      <StrictMode>
+        <RC.RenderPipeline>{/* etc. */}</RC.RenderPipeline>
+      </StrictMode>
+    </RC.Canvas>
+  )
+}
+```
+
+Or, alternatively, use the `strict` prop on `<RC.Canvas>`, which will set up the StrictMode wrapper for you:
+
+```tsx
+import * as RC from "render-composer"
+
+function App() {
+  return (
+    <RC.Canvas strict>
+      <RC.RenderPipeline>{/* etc. */}</RC.RenderPipeline>
+    </RC.Canvas>
+  )
+}
+```
+
 ## Adding full-screen post-processing effects
 
 Render Composer provides React component wrappers around (some of) the post-processing effects from [postprocessing]. In your project, just create additional effect passes as you see fit:
