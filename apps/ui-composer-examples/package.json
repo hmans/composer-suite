@@ -15,7 +15,7 @@
     "@stitches/react": "^1.2.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render-composer": "workspace:^0.2.4",
+    "render-composer": "workspace:^0.2.5",
     "three": "^0.144.0",
     "ui-composer": "workspace:^0.0.1"
   },

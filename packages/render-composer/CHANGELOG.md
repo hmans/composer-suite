@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.2.5
+
+### Patch Changes
+
+- b318f26: **New:** `RenderComposer.Canvas` now offers an optional `strict` prop that, when set to true, will enable React's Strict Mode for its children. This is to counter the fact that a `<StrictMode>` declared outside of a React-Three-Fiber Canvas will not automatically apply to it (since it's rendered using an entirely separate React renderer.)
+
 ## 0.2.4
 
 ### Patch Changes
