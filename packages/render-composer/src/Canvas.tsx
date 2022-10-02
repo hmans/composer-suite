@@ -1,9 +1,12 @@
 import * as R3F from "@react-three/fiber"
-import React from "react"
+import React, { StrictMode } from "react"
 
-export type CanvasProps = R3F.Props
+export type CanvasProps = R3F.Props & {
+  /** When true, enables React's StrictMode. */
+  strict?: boolean
+}
 
-export const Canvas = (props: CanvasProps) => (
+export const Canvas = ({ strict = false, children, ...props }: CanvasProps) => (
   <R3F.Canvas
     shadows
     flat
@@ -14,6 +17,7 @@ export const Canvas = (props: CanvasProps) => (
       stencil: false,
       antialias: false
     }}
+    children={strict ? <StrictMode>{children}</StrictMode> : children}
     {...props}
   />
 )
