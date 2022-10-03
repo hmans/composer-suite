@@ -98,15 +98,13 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
   }
 
   public setupParticles(shaderRoot: Unit) {
+    /* Collect all shader units that have a `setupParticle` method. We will need to call
+    that every time a particle is emitted. */
     this.attributeUnits = collectFromTree(
       shaderRoot,
       "any",
-      (item) => item.setupMesh
+      (item) => item.setupParticle
     )
-
-    for (const unit of this.attributeUnits) {
-      unit.setupMesh(this)
-    }
   }
 
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {

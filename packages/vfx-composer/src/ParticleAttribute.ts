@@ -34,24 +34,6 @@ export const ParticleAttribute = <
 
     name,
 
-    setupMesh: ({ geometry, capacity, safetyCapacity }: InstancedParticles) => {
-      const itemSize =
-        type === "float"
-          ? 1
-          : type === "vec2"
-          ? 2
-          : type === "vec3"
-          ? 3
-          : type === "vec4"
-          ? 4
-          : 4
-
-      geometry.setAttribute(
-        name,
-        makeAttribute(capacity + safetyCapacity, itemSize)
-      )
-    },
-
     get value() {
       return value
     },
@@ -60,7 +42,29 @@ export const ParticleAttribute = <
       value = v
     },
 
-    setupParticle: ({ geometry, cursor }: InstancedParticles) => {
+    setupParticle: (mesh: InstancedParticles) => {
+      const { geometry, cursor } = mesh
+
+      if (!mesh.geometry.attributes[name]) {
+        console.log("lazy-creating attribute", name)
+
+        const itemSize =
+          type === "float"
+            ? 1
+            : type === "vec2"
+            ? 2
+            : type === "vec3"
+            ? 3
+            : type === "vec4"
+            ? 4
+            : 4
+
+        geometry.setAttribute(
+          name,
+          makeAttribute(mesh.capacity + mesh.safetyCapacity, itemSize)
+        )
+      }
+
       const attribute = geometry.attributes[name]
 
       if (typeof value === "number") {
