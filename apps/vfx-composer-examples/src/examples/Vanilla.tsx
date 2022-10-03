@@ -75,7 +75,6 @@ const vanillaCode = (
   )
   particles.position.set(2, 0, 0)
   parent.add(particles)
-  particles.setupParticles(root)
 
   const particles2 = new InstancedParticles(
     new SphereGeometry(0.2),
@@ -84,37 +83,46 @@ const vanillaCode = (
   )
   particles2.position.set(-2, 0, 0)
   parent.add(particles2)
-  particles2.setupParticles(root)
 
   const stopLoop = loop((dt) => {
     shaderMeta.update(dt, camera, scene, renderer)
 
     const { velocity, color } = variables
-    const t = lifetime.time.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
     per spawned particle, and is used to set up per-particle data that needs
     to be provided from JavaScript. (The nature of this data is up to you.)
     */
-    particles.emit(between(1, 5), ({ position, rotation }) => {
+    particles.emit(between(1, 5), ({ mesh, position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(2))
       rotation.random()
 
       /* Write values into the instanced attributes */
-      lifetime.setLifetime(between(1, 2))
-      velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
-      color.value.setRGB(Math.random(), Math.random(), Math.random())
+      lifetime.write(mesh, between(1, 2))
+
+      velocity.write(mesh, (value) =>
+        value.set(plusMinus(2), between(2, 8), plusMinus(2))
+      )
+      color.write(mesh, (value) =>
+        value.setRGB(Math.random(), Math.random(), Math.random())
+      )
     })
 
-    particles2.emit(between(1, 5), ({ position, rotation }) => {
+    particles2.emit(between(1, 5), ({ mesh, position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(0.5))
       rotation.random()
 
-      velocity.value.set(plusMinus(2), between(2, 4), plusMinus(2))
-      color.value.setRGB(Math.random(), Math.random(), Math.random())
+      lifetime.write(mesh, between(1, 2))
+
+      velocity.write(mesh, (value) =>
+        value.set(plusMinus(2), between(2, 4), plusMinus(2))
+      )
+      color.write(mesh, (value) =>
+        value.setRGB(Math.random(), Math.random(), Math.random())
+      )
     })
   })
 

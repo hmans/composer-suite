@@ -185,8 +185,8 @@ const Sparks = () => {
 
       <Emitter
         rate={() => 80 + Math.sin(clock.elapsedTime * 2) * 40}
-        setup={({ position }) => {
-          lifetime.setLifetime(4)
+        setup={({ mesh, position }) => {
+          lifetime.write(mesh, 4)
           const theta = plusMinus(Math.PI)
           position.set(Math.cos(theta) * 1.5, 0, Math.sin(theta) * 1.5)
         }}
@@ -232,8 +232,8 @@ const RockSplitters = () => {
 
       <Emitter
         rate={10}
-        setup={({ position, scale }) => {
-          lifetime.setLifetime(10)
+        setup={({ mesh, position, scale }) => {
+          lifetime.write(mesh, 10)
           position.setScalar(plusMinus(0.5))
           scale.setScalar(between(0.1, 0.2))
         }}
@@ -277,11 +277,13 @@ const SmokeTrail = () => {
 
         <Emitter
           rate={100}
-          setup={({ position, scale }) => {
-            lifetime.setLifetime(between(1, 2))
+          setup={({ mesh, position, scale }) => {
+            lifetime.write(mesh, between(1, 2))
             position.set(plusMinus(1), 3 + plusMinus(1), plusMinus(1))
             scale.setScalar(between(1, 3))
-            color.value.set("#666").multiplyScalar(Math.random())
+            color.write(mesh, (v) =>
+              v.set("#666").multiplyScalar(Math.random())
+            )
           }}
         />
       </InstancedParticles>
@@ -317,8 +319,8 @@ const Clouds = () => {
 
         <Emitter
           rate={10}
-          setup={({ position, scale }) => {
-            lifetime.setLifetime(10)
+          setup={({ mesh, position, scale }) => {
+            lifetime.write(mesh, 10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(5, 20))
           }}
@@ -347,8 +349,8 @@ const WindLines = () => {
 
         <Emitter
           rate={30}
-          setup={({ position, scale }) => {
-            lifetime.setLifetime(10)
+          setup={({ mesh, position, scale }) => {
+            lifetime.write(mesh, 10)
             position.set(plusMinus(20), -40 + plusMinus(1), plusMinus(4))
             scale.setScalar(between(1, 2))
           }}

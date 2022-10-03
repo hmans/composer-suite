@@ -1,4 +1,3 @@
-import { collectFromTree, Unit } from "shader-composer"
 import {
   BufferGeometry,
   InstancedBufferAttribute,
@@ -8,13 +7,13 @@ import {
   Quaternion,
   Vector3
 } from "three"
-import { ParticleAttribute } from "./ParticleAttribute"
 
 export type InstanceSetupCallback = (config: {
   index: number
   position: Vector3
   rotation: Quaternion
   scale: Vector3
+  mesh: InstancedParticles
 }) => void
 
 /* A couple of temporary variables to avoid allocations */
@@ -52,8 +51,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
    */
   public cursor: number = 0
   private lastCursor = 0
-
-  private attributeUnits: ParticleAttribute[] = []
 
   constructor(
     geometry: BufferGeometry | undefined,
@@ -97,18 +94,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     }
   }
 
-  public setupParticles(shaderRoot: Unit) {
-    this.attributeUnits = collectFromTree(
-      shaderRoot,
-      "any",
-      (item) => item.setupMesh
-    )
-
-    for (const unit of this.attributeUnits) {
-      unit.setupMesh(this)
-    }
-  }
-
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
     /* Emit the requested number of particles. */
     for (let i = 0; i < count; i++) {
@@ -119,6 +104,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
 
       /* Invoke setup callback, if given */
       setupInstance?.({
+        mesh: this,
         index: this.cursor,
         position: tmpPosition,
         rotation: tmpRotation,
@@ -130,11 +116,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
         this.cursor,
         tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
       )
-
-      /* Write all known attributes */
-      for (const unit of this.attributeUnits) {
-        unit.setupParticle(this)
-      }
 
       /* Advance cursor */
       this.cursor++

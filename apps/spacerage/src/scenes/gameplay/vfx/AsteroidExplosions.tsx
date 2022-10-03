@@ -66,8 +66,8 @@ export const AsteroidExplosion = (props: GroupProps) => (
     <Emitter
       rate={Infinity}
       limit={between(10, 20)}
-      setup={() => {
-        lifetime.setLifetime(between(2, 5))
+      setup={({ mesh }) => {
+        lifetime.write(mesh, between(2, 5))
       }}
     />
 
