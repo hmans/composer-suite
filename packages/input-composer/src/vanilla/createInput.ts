@@ -1,6 +1,7 @@
 export type KeyboardDriver = ReturnType<typeof createKeyboard>
 export type GamepadDriver = ReturnType<typeof createGamepad>
-export type Input = { keyboard: KeyboardDriver; gamepad: GamepadDriver }
+export type InputState = { keyboard: KeyboardDriver; gamepad: GamepadDriver }
+export type Input = ReturnType<typeof createInput>
 
 const createKeyboard = () => {
   const keys = new Set<string>()
@@ -81,7 +82,7 @@ export const createInput = () => {
       keyboard.stop()
     },
 
-    get: (): Input => {
+    get: (): InputState => {
       gamepad.update()
       return input
     }
