@@ -38,8 +38,6 @@ export const ParticleAttribute = <
       /* Check if the geometry attribute exists on the given mesh. If not,
       create it and add it to the mesh. */
       if (!mesh.geometry.attributes[name]) {
-        console.log("lazy-creating attribute", name)
-
         const itemSize =
           type === "float"
             ? 1
