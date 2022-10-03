@@ -87,7 +87,8 @@ const useLotsOfAsteroidsAndAlsoCleanThemUp = (count: number) => {
     return () => {
       /* Destroy all asteroids */
       startTransition(() => {
-        for (const entity of entities) ECS.world.destroyEntity(entity)
+        for (let i = entities.length; i > 0; i--)
+          ECS.world.destroyEntity(entities[i - 1])
       })
     }
   }, [])
