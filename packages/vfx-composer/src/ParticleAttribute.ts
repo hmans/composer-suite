@@ -34,8 +34,6 @@ export const ParticleAttribute = <
 
     name,
 
-    isParticleAttribute: true,
-
     setupMesh: ({ geometry, capacity, safetyCapacity }: InstancedParticles) => {
       const itemSize =
         type === "float"
