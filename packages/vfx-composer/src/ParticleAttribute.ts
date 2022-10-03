@@ -1,20 +1,7 @@
-import { Attribute, glslType, Input } from "shader-composer"
+import { Attribute, glslType, GLSLTypeFor, Input } from "shader-composer"
 import { Color, Vector2, Vector3, Vector4 } from "three"
 import { InstancedParticles } from "./InstancedParticles"
 import { makeAttribute } from "./util/makeAttribute"
-
-/* TODO: promote this into Shader Composer */
-export type GLSLTypeFor<J> = J extends number
-  ? "float"
-  : J extends Vector2
-  ? "vec2"
-  : J extends Vector3
-  ? "vec3"
-  : J extends Vector4
-  ? "vec4"
-  : J extends Color
-  ? "vec3"
-  : never
 
 export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
 
