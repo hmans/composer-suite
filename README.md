@@ -134,6 +134,12 @@ _TODO_
 
 ## Development 🛠
 
+### Repository Structure
+
+The repository is structured as a monorepo. You will find all packages that are part of the Composer Suite inside the `packages` directory, and a collection of applications (examples and otherwise) inside `apps`.
+
+Most development happens on the `dev` branch, with the `main` branches mostly being used for releases.
+
 ### Core Tenets
 
 All of the libraries in the Composer Suite are aiming for the following:
