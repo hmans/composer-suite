@@ -37,7 +37,7 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <ECS.ArchetypeEntities archetype={["sparks"]}>
+      <ECS.ArchetypeEntities archetype="sparks">
         {({ sparks }) => sparks}
       </ECS.ArchetypeEntities>
     </InstancedParticles>

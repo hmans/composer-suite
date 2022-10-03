@@ -54,7 +54,7 @@ export const AsteroidExplosions = () => {
         <Modules.Lifetime {...lifetime} />
       </Composable.MeshBasicMaterial>
 
-      <ECS.ArchetypeEntities archetype={["asteroidExplosion"]}>
+      <ECS.ArchetypeEntities archetype="asteroidExplosion">
         {(entity) => entity.asteroidExplosion}
       </ECS.ArchetypeEntities>
     </InstancedParticles>

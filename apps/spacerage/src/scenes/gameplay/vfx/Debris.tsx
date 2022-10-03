@@ -36,7 +36,7 @@ export const Debris = () => {
       <icosahedronGeometry args={[0.3]} />
       <DebrisMaterial />
 
-      <ECS.ArchetypeEntities archetype={["debris"]}>
+      <ECS.ArchetypeEntities archetype="debris">
         {({ debris }) => debris}
       </ECS.ArchetypeEntities>
     </InstancedParticles>
