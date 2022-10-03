@@ -94,14 +94,35 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
   return (
     <UI.Panel>
       <UI.Heading>ECS</UI.Heading>
-      <p>Number of entities: {world.entities.length}</p>
-      {[...world.archetypes].map(([name, archetype]) => (
-        <p>
-          Entities: {archetype.entities.length}
-          <br />
-          Components: {archetype.query.join(" ")}
-        </p>
-      ))}
+      <p>Total number of entities: {world.entities.length}</p>
+
+      <UI.Heading>Archetypes</UI.Heading>
+      <table cellPadding={3}>
+        <tbody>
+          {[...world.archetypes].map(([name, archetype]) => (
+            <tr>
+              <td width={60} align="right">
+                {archetype.entities.length}
+              </td>
+              <td>
+                {archetype.query.map((component) => (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      backgroundColor: "#555",
+                      borderRadius: "3px",
+                      padding: "0 6px",
+                      marginRight: "3px"
+                    }}
+                  >
+                    {component}
+                  </span>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </UI.Panel>
   )
 }
