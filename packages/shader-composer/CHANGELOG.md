@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.6
+
+### Patch Changes
+
+- d4df511: **New:** Shader Composer now provides a `GLSLTypeFor<J>` utility type that will return the equivalent `GLSLType` for the specified `J` JavaScript type.
+
 ## 0.4.5
 
 ### Patch Changes
