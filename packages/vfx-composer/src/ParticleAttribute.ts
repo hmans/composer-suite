@@ -42,7 +42,7 @@ export const ParticleAttribute = <
       value = v
     },
 
-    setupParticle: (mesh: InstancedParticles) => {
+    write: (mesh: InstancedParticles) => {
       const { geometry, cursor } = mesh
 
       if (!mesh.geometry.attributes[name]) {

@@ -103,7 +103,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     this.attributeUnits = collectFromTree(
       shaderRoot,
       "any",
-      (item) => item.setupParticle
+      (item) => item.write
     )
   }
 
@@ -131,7 +131,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
 
       /* Write all known attributes */
       for (const unit of this.attributeUnits) {
-        unit.setupParticle(this)
+        unit.write(this)
       }
 
       /* Advance cursor */
