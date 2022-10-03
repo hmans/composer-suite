@@ -21,10 +21,10 @@
     "readmeFile": "./README.md"
   },
   "devDependencies": {
-    "@react-three/fiber": "^8.8.7",
+    "@react-three/fiber": "^8.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.144.0"
+    "three": "^0.145.0"
   },
   "peerDependencies": {
     "@react-three/fiber": "^8.2.0",
