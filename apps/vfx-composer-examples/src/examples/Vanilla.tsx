@@ -100,10 +100,7 @@ const vanillaCode = (
       rotation.random()
 
       /* Write values into the instanced attributes */
-      /* TODO: improve */
-      lifetime.foobar.write(mesh, (v) =>
-        v.set(lifetime.time.value, lifetime.time.value + between(1, 2))
-      )
+      lifetime.write(mesh, between(1, 2))
 
       velocity.write(mesh, (value) =>
         value.set(plusMinus(2), between(2, 8), plusMinus(2))
@@ -118,10 +115,7 @@ const vanillaCode = (
       position.randomDirection().multiplyScalar(upTo(0.5))
       rotation.random()
 
-      /* TODO: improve */
-      lifetime.foobar.write(mesh, (v) =>
-        v.set(lifetime.time.value, lifetime.time.value + between(1, 2))
-      )
+      lifetime.write(mesh, between(1, 2))
 
       velocity.write(mesh, (value) =>
         value.set(plusMinus(2), between(2, 4), plusMinus(2))

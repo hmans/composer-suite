@@ -1,5 +1,6 @@
 import { Div, GlobalTime, Input, Sub, Vec2 } from "shader-composer"
 import { Vector2 } from "three"
+import { InstancedParticles } from "./InstancedParticles"
 import { ParticleAttribute } from "./ParticleAttribute"
 
 export type ParticleLifetime = ReturnType<typeof createParticleLifetime>
@@ -12,14 +13,11 @@ export const createParticleLifetime = () => {
   return {
     ...api,
 
-    foobar: lifetime,
-
     /** Sets the current value of the lifetime attribute. The value will be read
     by the particle system once the particle is spawned. */
-    setLifetime: (duration: number, offset: number = 0) =>
-      lifetime.value.set(
-        api.time.value + offset,
-        api.time.value + offset + duration
+    write: (mesh: InstancedParticles, duration: number, offset: number = 0) =>
+      lifetime.write(mesh, (l) =>
+        l.set(api.time.value + offset, api.time.value + offset + duration)
       )
   }
 }
