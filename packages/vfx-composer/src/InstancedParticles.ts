@@ -98,7 +98,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
   }
 
   public setupParticles(shaderRoot: Unit) {
-    /* Collect all shader units that have a `setupParticle` method. We will need to call
+    /* Collect all shader units that have a `write` method. We will need to call
     that every time a particle is emitted. */
     this.attributeUnits = collectFromTree(
       shaderRoot,
