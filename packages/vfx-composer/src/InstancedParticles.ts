@@ -1,4 +1,3 @@
-import { collectFromTree, Unit } from "shader-composer"
 import {
   BufferGeometry,
   InstancedBufferAttribute,
@@ -8,7 +7,6 @@ import {
   Quaternion,
   Vector3
 } from "three"
-import { ParticleAttribute } from "./ParticleAttribute"
 
 export type InstanceSetupCallback = (config: {
   index: number
