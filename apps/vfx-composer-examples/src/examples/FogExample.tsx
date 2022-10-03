@@ -51,11 +51,13 @@ export const Fog = () => {
         <Emitter
           limit={50}
           rate={Infinity}
-          setup={({ position }) => {
+          setup={({ mesh, position }) => {
             position.set(plusMinus(3), between(-2, 4), plusMinus(3))
-            velocity.value.randomDirection().multiplyScalar(upTo(0.05))
-            rotation.value = plusMinus(0.2)
-            scale.value = between(1, 10)
+            velocity.write(mesh, (v) =>
+              v.randomDirection().multiplyScalar(upTo(0.05))
+            )
+            rotation.write(mesh, plusMinus(0.2))
+            scale.write(mesh, between(1, 10))
           }}
         />
       </InstancedParticles>
