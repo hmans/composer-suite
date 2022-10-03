@@ -40,7 +40,7 @@ export default function MagicWellExample() {
 
         <Emitter
           rate={250}
-          setup={({ position, rotation }) => {
+          setup={({ mesh, position, rotation }) => {
             const theta = plusMinus(Math.PI)
             const power = Math.pow(Math.random(), 3)
             const r = power * 1.2
@@ -48,7 +48,7 @@ export default function MagicWellExample() {
 
             rotation.setFromEuler(new Euler(0, plusMinus(Math.PI), 0))
 
-            lifetime.setLifetime(between(1, 5))
+            lifetime.write(mesh, between(1, 5))
           }}
         />
       </InstancedParticles>
