@@ -24,13 +24,36 @@ const tmpScale = new Vector3(1, 1, 1)
 const tmpMatrix = new Matrix4()
 
 export class InstancedParticles extends InstancedMesh<BufferGeometry> {
-  public cursor: number = 0
+  /**
+   * The total capacity of the particle system. This is the soft limit of
+   * particles supported by this mesh. Once the particles emitted go beyond
+   * this number, the cursor will wrap around to the beginning of the involved
+   * buffer attributes.
+   *
+   * @default 1000
+   */
   public capacity: number
+
+  /**
+   * The number of particles that _may_ be emitted beyond the soft limit defined
+   * by `capacity`. This is used to avoid buffer overflows in situations where
+   * multiple particles are uploaded within a single frame. You should make sure that
+   * the size of this safety capacity is large enough to accommodate the maximum number
+   * of particles you're spawning within a single frame, if this number is expected to
+   * go beyond the particle system's `capacity`.
+   *
+   * @default capacity / 10
+   */
   public safetyCapacity: number
 
-  private attributeUnits: ParticleAttribute[] = []
-
+  /**
+   * The cursor tracking the position within buffers to write into. This
+   * automatically advances every time you emit particles.
+   */
+  public cursor: number = 0
   private lastCursor = 0
+
+  private attributeUnits: ParticleAttribute[] = []
 
   constructor(
     geometry: BufferGeometry | undefined,
