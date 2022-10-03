@@ -16,7 +16,7 @@ export const Stress = () => {
 
   return (
     <group>
-      <InstancedParticles capacity={1_000_000} safetyCapacity={1_000}>
+      <InstancedParticles capacity={1_000_000} safetyCapacity={50_000}>
         <planeGeometry args={[0.1, 0.1]} />
 
         <composable.meshStandardMaterial>
