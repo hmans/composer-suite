@@ -35,17 +35,17 @@ export const Stress = () => {
 
         <Emitter
           rate={100_000}
-          setup={({ position, rotation }) => {
-            const t = lifetime.time.value
-
+          setup={({ mesh, position, rotation }) => {
             /* Randomize the instance transform */
             position.randomDirection().multiplyScalar(upTo(1))
             rotation.random()
 
             /* Write values into the instanced attributes */
-            lifetime.setLifetime(between(1, 3))
-            velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
-            color.value.setScalar(Math.random() * 2)
+            lifetime.write(mesh, between(1, 3))
+            velocity.write(mesh, (v) =>
+              v.set(plusMinus(2), between(2, 8), plusMinus(2))
+            )
+            color.write(mesh, (v) => v.setScalar(Math.random() * 2))
           }}
         />
       </InstancedParticles>
