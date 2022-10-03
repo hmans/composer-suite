@@ -89,12 +89,7 @@ type MiniplexInspectorProps = {
 }
 
 const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
-  const [_, setVersion] = useState(0)
-
-  useEffect(() => {
-    const id = setInterval(() => setVersion((v) => v + 1), 200)
-    return () => clearInterval(id)
-  }, [])
+  useAutoRefresh(1 / 4)
 
   return (
     <UI.Panel>
@@ -109,6 +104,15 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
       ))}
     </UI.Panel>
   )
+}
+
+const useAutoRefresh = (interval = 1) => {
+  const [_, setVersion] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setVersion((v) => v + 1), interval * 1000)
+    return () => clearInterval(id)
+  }, [])
 }
 
 export default GameplayScene
