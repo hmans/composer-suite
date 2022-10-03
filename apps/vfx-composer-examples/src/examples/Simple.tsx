@@ -48,6 +48,8 @@ export const Simple = () => {
         <Emitter
           rate={100}
           setup={({ mesh }) => {
+            /* TODO: find better APIs for the following */
+
             /* Set a particle lifetime: */
             lifetime.foobar.write(mesh, (v) =>
               v.set(lifetime.time.value, lifetime.time.value + between(1, 3))

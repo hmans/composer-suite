@@ -95,15 +95,23 @@ const vanillaCode = (
     per spawned particle, and is used to set up per-particle data that needs
     to be provided from JavaScript. (The nature of this data is up to you.)
     */
-    particles.emit(between(1, 5), ({ position, rotation }) => {
+    particles.emit(between(1, 5), ({ mesh, position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(2))
       rotation.random()
 
       /* Write values into the instanced attributes */
-      lifetime.setLifetime(between(1, 2))
-      velocity.value.set(plusMinus(2), between(2, 8), plusMinus(2))
-      color.value.setRGB(Math.random(), Math.random(), Math.random())
+      /* TODO: improve */
+      lifetime.foobar.write(mesh, (v) =>
+        v.set(lifetime.time.value, lifetime.time.value + between(1, 2))
+      )
+
+      velocity.write(mesh, (value) =>
+        value.set(plusMinus(2), between(2, 8), plusMinus(2))
+      )
+      color.write(mesh, (value) =>
+        value.setRGB(Math.random(), Math.random(), Math.random())
+      )
     })
 
     particles2.emit(between(1, 5), ({ position, rotation }) => {
