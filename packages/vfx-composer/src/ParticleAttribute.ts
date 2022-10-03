@@ -18,8 +18,11 @@ export const ParticleAttribute = <
   let value = initialValue
   const type = glslType(value as Input<T>)
 
+  /* Create the actual attribute unit */
+  const attribute = Attribute<T>(type, name)
+
   return {
-    ...Attribute<T>(type, name),
+    ...attribute,
 
     write: (mesh: InstancedParticles, getValue: J | ((value: J) => J)) => {
       const { geometry, cursor } = mesh
@@ -44,13 +47,11 @@ export const ParticleAttribute = <
         )
       }
 
-      /* Write the current value to the attribute. */
-      const attribute = geometry.attributes[name]
-
       /* Execute the user-provided value getter. */
       const v = typeof getValue === "function" ? getValue(value) : getValue
 
       /* Write the value to the attribute. */
+      const attribute = geometry.attributes[name]
       if (typeof v === "number") {
         attribute.setX(cursor, v)
       } else if (v instanceof Vector2) {
