@@ -100,6 +100,13 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
     <UI.Panel>
       <UI.Heading>ECS</UI.Heading>
       <p>Number of entities: {world.entities.length}</p>
+      {[...world.archetypes].map(([name, archetype]) => (
+        <p>
+          Entities: {archetype.entities.length}
+          <br />
+          Components: {archetype.query.join(" ")}
+        </p>
+      ))}
     </UI.Panel>
   )
 }
