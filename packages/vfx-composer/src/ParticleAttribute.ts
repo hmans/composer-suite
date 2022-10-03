@@ -45,6 +45,8 @@ export const ParticleAttribute = <
     write: (mesh: InstancedParticles) => {
       const { geometry, cursor } = mesh
 
+      /* Check if the geometry attribute exists on the given mesh. If not,
+      create it and add it to the mesh. */
       if (!mesh.geometry.attributes[name]) {
         console.log("lazy-creating attribute", name)
 
@@ -65,6 +67,7 @@ export const ParticleAttribute = <
         )
       }
 
+      /* Write the current value to the attribute. */
       const attribute = geometry.attributes[name]
 
       if (typeof value === "number") {
