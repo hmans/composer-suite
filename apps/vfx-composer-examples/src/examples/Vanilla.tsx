@@ -88,7 +88,6 @@ const vanillaCode = (
     shaderMeta.update(dt, camera, scene, renderer)
 
     const { velocity, color } = variables
-    const t = lifetime.time.value
 
     /*
     Spawn a bunch of particles. The callback function will be invoked once
