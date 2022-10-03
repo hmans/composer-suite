@@ -75,7 +75,6 @@ const vanillaCode = (
   )
   particles.position.set(2, 0, 0)
   parent.add(particles)
-  particles.setupParticles(root)
 
   const particles2 = new InstancedParticles(
     new SphereGeometry(0.2),
@@ -84,7 +83,6 @@ const vanillaCode = (
   )
   particles2.position.set(-2, 0, 0)
   parent.add(particles2)
-  particles2.setupParticles(root)
 
   const stopLoop = loop((dt) => {
     shaderMeta.update(dt, camera, scene, renderer)
