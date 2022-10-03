@@ -118,6 +118,7 @@ const vanillaCode = (
       position.randomDirection().multiplyScalar(upTo(0.5))
       rotation.random()
 
+      /* TODO: improve */
       lifetime.foobar.write(mesh, (v) =>
         v.set(lifetime.time.value, lifetime.time.value + between(1, 2))
       )
