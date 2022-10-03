@@ -34,7 +34,7 @@ export const ParticleAttribute = <
   return {
     ...Attribute<T>(type, name),
 
-    write: (mesh: InstancedParticles, getValue: (value: J) => J) => {
+    write: (mesh: InstancedParticles, getValue: J | ((value: J) => J)) => {
       const { geometry, cursor } = mesh
 
       /* Check if the geometry attribute exists on the given mesh. If not,
@@ -61,7 +61,7 @@ export const ParticleAttribute = <
       const attribute = geometry.attributes[name]
 
       /* Execute the user-provided value getter. */
-      const v = getValue(value)
+      const v = typeof getValue === "function" ? getValue(value) : getValue
 
       /* Write the value to the attribute. */
       if (typeof v === "number") {
