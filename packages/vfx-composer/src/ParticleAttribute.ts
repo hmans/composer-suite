@@ -17,6 +17,8 @@ export type GLSLTypeFor<J> = J extends number
   : never
 
 export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
+
+/* TODO: move this into Shader Composer */
 let nextAttributeId = 1
 
 export const ParticleAttribute = <
