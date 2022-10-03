@@ -1,7 +1,7 @@
 import { Animate, useAnimationFrame } from "@hmans/things"
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
-import { MutableRefObject, useRef } from "react"
-import { RenderCanvas, RenderPipeline } from "render-composer"
+import { MutableRefObject, Suspense, useRef } from "react"
+import { Canvas, RenderPipeline } from "render-composer"
 import { Group } from "three"
 import * as UI from "ui-composer"
 
@@ -65,25 +65,27 @@ const App = () => {
     <UI.Root>
       <UI.HorizontalGroup>
         <div style={{ flex: 2 }}>
-          <RenderCanvas>
-            <RenderPipeline bloom antiAliasing vignette>
-              <Environment preset="sunset" />
-              <Sky />
-              <OrbitControls />
+          <Canvas>
+            <RenderPipeline>
+              <Suspense>
+                <Environment preset="sunset" />
+                <Sky />
+                <OrbitControls />
 
-              <Animate
-                ref={mesh}
-                fun={(mesh, dt) =>
-                  (mesh.rotation.x = mesh.rotation.y += 2 * dt)
-                }
-              >
-                <mesh>
-                  <dodecahedronGeometry />
-                  <meshStandardMaterial color="hotpink" />
-                </mesh>
-              </Animate>
+                <Animate
+                  ref={mesh}
+                  fun={(mesh, dt) =>
+                    (mesh.rotation.x = mesh.rotation.y += 2 * dt)
+                  }
+                >
+                  <mesh>
+                    <dodecahedronGeometry />
+                    <meshStandardMaterial color="hotpink" />
+                  </mesh>
+                </Animate>
+              </Suspense>
             </RenderPipeline>
-          </RenderCanvas>
+          </Canvas>
         </div>
 
         <UI.HorizontalResizer />
