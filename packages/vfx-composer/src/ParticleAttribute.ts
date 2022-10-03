@@ -32,16 +32,6 @@ export const ParticleAttribute = <
   return {
     ...Attribute<T>(type, name),
 
-    name,
-
-    get value() {
-      return value
-    },
-
-    set value(v: J) {
-      value = v
-    },
-
     write: (mesh: InstancedParticles, fun: (value: J) => J) => {
       const { geometry, cursor } = mesh
 

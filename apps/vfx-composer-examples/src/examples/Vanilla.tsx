@@ -113,13 +113,21 @@ const vanillaCode = (
       )
     })
 
-    particles2.emit(between(1, 5), ({ position, rotation }) => {
+    particles2.emit(between(1, 5), ({ mesh, position, rotation }) => {
       /* Randomize the instance transform */
       position.randomDirection().multiplyScalar(upTo(0.5))
       rotation.random()
 
-      velocity.value.set(plusMinus(2), between(2, 4), plusMinus(2))
-      color.value.setRGB(Math.random(), Math.random(), Math.random())
+      lifetime.foobar.write(mesh, (v) =>
+        v.set(lifetime.time.value, lifetime.time.value + between(1, 2))
+      )
+
+      velocity.write(mesh, (value) =>
+        value.set(plusMinus(2), between(2, 4), plusMinus(2))
+      )
+      color.write(mesh, (value) =>
+        value.setRGB(Math.random(), Math.random(), Math.random())
+      )
     })
   })
 

@@ -56,6 +56,10 @@ export const Simple = () => {
             )
 
             /* Let's configure a per-particle velocity! */
+
+            /* This is already quite good. We pass the mesh in, which feels like an extra step,
+            but this just means that we can use the same callback function for multiple meshes,
+            which is good! */
             velocity.write(mesh, (v) =>
               v.set(plusMinus(1), between(1, 3), plusMinus(1))
             )
