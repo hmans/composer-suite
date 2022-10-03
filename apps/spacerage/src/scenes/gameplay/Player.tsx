@@ -8,7 +8,6 @@ import {
 import { PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
-import { Input } from "input-composer/vanilla"
 import { Tag } from "miniplex"
 import { plusMinus } from "randomish"
 import { useRef } from "react"
@@ -16,6 +15,7 @@ import { useStore } from "statery"
 import { AudioLoader, Mesh, Quaternion, Vector3 } from "three"
 import { GLTFLoader } from "three-stdlib"
 import { Stage } from "../../configuration"
+import { input, getControls } from "../../input"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
 import { EngineHumSFX } from "./sfx/EngineHumSFX"
@@ -24,36 +24,16 @@ import { ECS, gameplayStore, Layers } from "./state"
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
 
-let activeDevice: "keyboard" | "gamepad" = "gamepad"
-
-const transformInput = ({ keyboard, gamepad }: Input) => ({
-  move:
-    activeDevice === "keyboard"
-      ? keyboard.vector("KeyW", "KeyS", "KeyA", "KeyD")
-      : gamepad.gamepad(0).vector(0, 1),
-
-  aim:
-    activeDevice === "keyboard"
-      ? keyboard.vector("ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight")
-      : gamepad.gamepad(0).vector(2, 3),
-
-  fire:
-    activeDevice === "keyboard"
-      ? keyboard.key("Space")
-      : gamepad.gamepad(0).button(7)
-})
-
 export const Player = () => {
   const rb = useRef<RigidBodyApi>(null!)
   const gltf = useLoader(GLTFLoader, "/models/spaceship25.gltf")
-  const getInput = useInput()
   const { player } = useStore(gameplayStore)
   const fireCooldown = useRef(0)
 
   useFrame(function playerUpdate(_, dt) {
     if (!player) return
 
-    const input = pipe(getInput(), transformInput)
+    const { aim, move } = getControls()
 
     const body = rb.current.raw()
 
@@ -63,7 +43,7 @@ export const Player = () => {
 
     /* Rotate the player */
     const lookDirection = new Vector3(0, 1, 0).applyQuaternion(tmpQuat)
-    const aimDirection = new Vector3(input.aim.x, input.aim.y, 0).normalize()
+    const aimDirection = new Vector3(aim.x, aim.y, 0).normalize()
     const angle = lookDirection.angleTo(aimDirection)
     const cross = lookDirection.cross(aimDirection)
     if (cross.z) {
@@ -73,7 +53,7 @@ export const Player = () => {
     }
 
     /* Thrust */
-    const thrust = tmpVec3.set(input.move.x * 100, input.move.y * 100, 0)
+    const thrust = tmpVec3.set(move.x * 100, move.y * 100, 0)
 
     body.addForce(thrust, true)
   }, Stage.Early)
@@ -85,9 +65,9 @@ export const Player = () => {
     /* Fire? */
     fireCooldown.current -= dt
 
-    const input = pipe(getInput(), transformInput)
+    const { fire } = getControls()
 
-    if (input.fire && fireCooldown.current <= 0) {
+    if (fire && fireCooldown.current <= 0) {
       const worldPosition = player.getWorldPosition(new Vector3())
 
       spawnBullet(
