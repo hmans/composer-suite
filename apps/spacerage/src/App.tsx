@@ -10,7 +10,7 @@ import { Stage } from "./configuration"
 import { input } from "./input"
 import { StartScreen } from "./lib/StartScreen"
 import { useCapture } from "./lib/useCapture"
-import { GameState, store } from "./state"
+import { GameState, SidebarTunnel, store } from "./state"
 import * as UI from "ui-composer"
 
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
@@ -76,6 +76,8 @@ export const App = () => {
                 </UI.Button>
               </UI.VerticalGroup>
             </UI.Panel>
+
+            <SidebarTunnel.Out />
           </UI.VerticalGroup>
         </UI.HorizontalGroup>
       </UI.Root>

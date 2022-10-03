@@ -17,9 +17,13 @@ import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { PlayerSystem } from "./systems/PlayerSystem"
+import { SidebarTunnel } from "../../state"
+import * as UI from "ui-composer"
+import { World } from "miniplex"
+import { ECS } from "./state"
 
 const GameplayScene = () => {
   return (
@@ -64,6 +68,10 @@ const GameplayScene = () => {
           <AsteroidExplosions />
           <BackgroundAsteroids />
 
+          <SidebarTunnel.In>
+            <MiniplexInspector world={ECS.world} />
+          </SidebarTunnel.In>
+
           <AgeSystem />
           <DestroyAfterSystem />
           <PlayerSystem />
@@ -73,6 +81,26 @@ const GameplayScene = () => {
         </Physics>
       </group>
     </Suspense>
+  )
+}
+
+type MiniplexInspectorProps = {
+  world: World
+}
+
+const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
+  const [_, setVersion] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setVersion((v) => v + 1), 200)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <UI.Panel>
+      <UI.Heading>ECS</UI.Heading>
+      <p>Number of entities: {world.entities.length}</p>
+    </UI.Panel>
   )
 }
 
