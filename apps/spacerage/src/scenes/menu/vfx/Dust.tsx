@@ -37,10 +37,15 @@ export const Dust = ({ lifetime = 60, rate = 50 }: DustProps) => {
 
   const particles = useParticleLifetime()
 
-  const setup: InstanceSetupCallback = ({ position, rotation, scale }) => {
+  const setup: InstanceSetupCallback = ({
+    mesh,
+    position,
+    rotation,
+    scale
+  }) => {
     position.set(plusMinus(10), plusMinus(10), plusMinus(10))
     rotation.random()
-    particles.setLifetime(lifetime, plusMinus(lifetime))
+    particles.write(mesh, lifetime, plusMinus(lifetime))
   }
 
   return (

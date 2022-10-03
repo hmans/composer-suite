@@ -49,8 +49,8 @@ export const SparksEmitter = (props: EmitterProps) => (
     {...props}
     rate={Infinity}
     limit={between(2, 8)}
-    setup={() => {
-      lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
+    setup={({ mesh }) => {
+      lifetime.write(mesh, between(0.2, 0.8), upTo(0.1))
     }}
   >
     <PositionalAudio

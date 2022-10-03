@@ -48,9 +48,9 @@ export const DebrisEmitter = (props: EmitterProps) => (
     {...props}
     rate={Infinity}
     limit={between(2, 5)}
-    setup={({ position, scale }) => {
+    setup={({ mesh, position, scale }) => {
       scale.setScalar(between(0.5, 2))
-      lifetime.setLifetime(between(0.5, 1.5), upTo(0.1))
+      lifetime.write(mesh, between(0.5, 1.5), upTo(0.1))
       position.add(tmpVec3.randomDirection())
     }}
   />
