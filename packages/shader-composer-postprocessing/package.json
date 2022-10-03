@@ -19,7 +19,7 @@
   "devDependencies": {
     "postprocessing": "^6.28.7",
     "shader-composer": "workspace:^0.4.3",
-    "three": "^0.144.0"
+    "three": "^0.145.0"
   },
   "peerDependencies": {
     "postprocessing": "^6.28.7",
