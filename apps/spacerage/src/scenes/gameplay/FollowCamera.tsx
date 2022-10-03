@@ -4,14 +4,15 @@ import { useStore } from "statery"
 import { Vector3 } from "three"
 import { Stage } from "../../configuration"
 import { store } from "../../state"
-import { gameplayStore } from "./state"
+import { ECS } from "./state"
 
 const offset = new Vector3(0, 0, 40)
 const playerPos = new Vector3()
 const tmpVec3 = new Vector3()
 
 export const FollowCamera = () => {
-  const { player } = useStore(gameplayStore)
+  const [player] = ECS.useArchetype("player", "sceneObject")
+
   const { camera } = useStore(store)
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export const FollowCamera = () => {
 
   useFrame((_, dt) => {
     if (camera && player) {
-      player.getWorldPosition(playerPos)
+      player.sceneObject.getWorldPosition(playerPos)
       const cameraTarget = tmpVec3.copy(playerPos).add(offset)
       camera.position.lerp(cameraTarget, 2 * dt)
     }

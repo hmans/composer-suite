@@ -19,6 +19,7 @@ import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
 import { Suspense } from "react"
 import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
+import { PlayerSystem } from "./systems/PlayerSystem"
 
 const GameplayScene = () => {
   return (
@@ -65,6 +66,7 @@ const GameplayScene = () => {
 
           <AgeSystem />
           <DestroyAfterSystem />
+          <PlayerSystem />
           <VelocitySystem />
           <BulletSystem />
           <ECSFlushSystem />

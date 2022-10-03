@@ -10,7 +10,6 @@ export enum Layers {
 }
 
 export const gameplayStore = makeStore({
-  player: null as Object3D | null,
   listener: null as AudioListener | null
 })
 
