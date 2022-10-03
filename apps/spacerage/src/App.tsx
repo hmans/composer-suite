@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "@react-three/drei"
+import { Loader, PerspectiveCamera } from "@react-three/drei"
 import * as AC from "audio-composer"
 import { AudioListener } from "audio-composer"
 import { useInput } from "input-composer"
@@ -21,6 +21,7 @@ export const App = () => {
 
   return (
     <StartScreen>
+      <Loader />
       <RC.Canvas dpr={1}>
         <RC.RenderPipeline updatePriority={Stage.Render}>
           <AC.AudioContext>
