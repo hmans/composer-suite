@@ -5,21 +5,34 @@ export const input = createInput()
 
 let activeDevice: "keyboard" | "gamepad" = "gamepad"
 
-const transformControls = ({ keyboard, gamepad }: InputState) => ({
-  move:
-    activeDevice === "keyboard"
-      ? keyboard.vector("KeyW", "KeyS", "KeyA", "KeyD")
-      : gamepad.gamepad(0).vector(0, 1),
+export const getControls = () => {
+  const { keyboard, gamepad } = input.get()
 
-  aim:
-    activeDevice === "keyboard"
-      ? keyboard.vector("ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight")
-      : gamepad.gamepad(0).vector(2, 3),
+  return {
+    move:
+      activeDevice === "keyboard"
+        ? keyboard.vector("KeyW", "KeyS", "KeyA", "KeyD")
+        : gamepad.gamepad(0).vector(0, 1),
 
-  fire:
-    activeDevice === "keyboard"
-      ? keyboard.key("Space")
-      : gamepad.gamepad(0).button(7)
-})
+    aim:
+      activeDevice === "keyboard"
+        ? keyboard.vector("ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight")
+        : gamepad.gamepad(0).vector(2, 3),
 
-export const getControls = () => pipe(input.get(), transformControls)
+    fire:
+      activeDevice === "keyboard"
+        ? keyboard.key("Space")
+        : gamepad.gamepad(0).button(7)
+  }
+}
+
+export const getUIControls = () => {
+  const { keyboard, gamepad } = input.get()
+
+  return {
+    select:
+      activeDevice === "keyboard"
+        ? keyboard.key("Enter")
+        : gamepad.gamepad(0).button(0)
+  }
+}

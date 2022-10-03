@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber"
 import { flow } from "fp-ts/lib/function"
-import { createPressInteraction, useInput } from "input-composer"
+import { createPressInteraction } from "input-composer"
 import { composable, modules } from "material-composer-r3f"
 import { Suspense, useCallback } from "react"
 import { bitmask, Layers } from "render-composer"
@@ -8,6 +8,7 @@ import { Vec3 } from "shader-composer"
 import { Color } from "three"
 import { store } from "../../common/PostProcessing"
 import { Skybox } from "../../common/Skybox"
+import { getUIControls } from "../../input"
 import { useCapture } from "../../lib/useCapture"
 import { startGame } from "../../state"
 import { MenuDroneSFX } from "./sfx/MenuDroneSFX"
@@ -16,14 +17,9 @@ import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
 const MenuScene = () => {
-  const input = useInput()
-
   const processInput = useCallback(
-    flow(
-      () => input().keyboard.key("Space"),
-      createPressInteraction(startGame)
-    ),
-    [input]
+    flow(getUIControls, (c) => c.select, createPressInteraction(startGame)),
+    []
   )
 
   useFrame(() => {
