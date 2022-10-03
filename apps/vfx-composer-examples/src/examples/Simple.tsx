@@ -47,12 +47,16 @@ export const Simple = () => {
         customize each particle's behavior as needed. */}
         <Emitter
           rate={100}
-          setup={() => {
+          setup={({ mesh }) => {
             /* Set a particle lifetime: */
-            lifetime.setLifetime(between(1, 3))
+            lifetime.foobar.write(mesh, (v) =>
+              v.set(lifetime.time.value, lifetime.time.value + between(1, 3))
+            )
 
             /* Let's configure a per-particle velocity! */
-            velocity.value.set(plusMinus(1), between(1, 3), plusMinus(1))
+            velocity.write(mesh, (v) =>
+              v.set(plusMinus(1), between(1, 3), plusMinus(1))
+            )
           }}
         />
       </InstancedParticles>

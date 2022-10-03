@@ -42,7 +42,7 @@ export const ParticleAttribute = <
       value = v
     },
 
-    write: (mesh: InstancedParticles) => {
+    write: (mesh: InstancedParticles, fun: (value: J) => J) => {
       const { geometry, cursor } = mesh
 
       /* Check if the geometry attribute exists on the given mesh. If not,
@@ -70,16 +70,18 @@ export const ParticleAttribute = <
       /* Write the current value to the attribute. */
       const attribute = geometry.attributes[name]
 
-      if (typeof value === "number") {
-        attribute.setX(cursor, value)
-      } else if (value instanceof Vector2) {
-        attribute.setXY(cursor, value.x, value.y)
-      } else if (value instanceof Vector3) {
-        attribute.setXYZ(cursor, value.x, value.y, value.z)
-      } else if (value instanceof Color) {
-        attribute.setXYZ(cursor, value.r, value.g, value.b)
-      } else if (value instanceof Vector4) {
-        attribute.setXYZW(cursor, value.x, value.y, value.z, value.w)
+      const v = fun(value)
+
+      if (typeof v === "number") {
+        attribute.setX(cursor, v)
+      } else if (v instanceof Vector2) {
+        attribute.setXY(cursor, v.x, v.y)
+      } else if (v instanceof Vector3) {
+        attribute.setXYZ(cursor, v.x, v.y, v.z)
+      } else if (v instanceof Color) {
+        attribute.setXYZ(cursor, v.r, v.g, v.b)
+      } else if (v instanceof Vector4) {
+        attribute.setXYZW(cursor, v.x, v.y, v.z, v.w)
       }
     }
   }

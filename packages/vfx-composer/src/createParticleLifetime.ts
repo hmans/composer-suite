@@ -12,6 +12,8 @@ export const createParticleLifetime = () => {
   return {
     ...api,
 
+    foobar: lifetime,
+
     /** Sets the current value of the lifetime attribute. The value will be read
     by the particle system once the particle is spawned. */
     setLifetime: (duration: number, offset: number = 0) =>

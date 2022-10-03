@@ -15,6 +15,7 @@ export type InstanceSetupCallback = (config: {
   position: Vector3
   rotation: Quaternion
   scale: Vector3
+  mesh: InstancedParticles
 }) => void
 
 /* A couple of temporary variables to avoid allocations */
@@ -52,8 +53,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
    */
   public cursor: number = 0
   private lastCursor = 0
-
-  private attributeUnits: ParticleAttribute[] = []
 
   constructor(
     geometry: BufferGeometry | undefined,
@@ -97,16 +96,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     }
   }
 
-  public setupParticles(shaderRoot: Unit) {
-    /* Collect all shader units that have a `write` method. We will need to call
-    that every time a particle is emitted. */
-    this.attributeUnits = collectFromTree(
-      shaderRoot,
-      "any",
-      (item) => item.write
-    )
-  }
-
   public emit(count: number = 1, setupInstance?: InstanceSetupCallback) {
     /* Emit the requested number of particles. */
     for (let i = 0; i < count; i++) {
@@ -117,6 +106,7 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
 
       /* Invoke setup callback, if given */
       setupInstance?.({
+        mesh: this,
         index: this.cursor,
         position: tmpPosition,
         rotation: tmpRotation,
@@ -128,11 +118,6 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
         this.cursor,
         tmpMatrix.compose(tmpPosition, tmpRotation, tmpScale)
       )
-
-      /* Write all known attributes */
-      for (const unit of this.attributeUnits) {
-        unit.write(this)
-      }
 
       /* Advance cursor */
       this.cursor++
