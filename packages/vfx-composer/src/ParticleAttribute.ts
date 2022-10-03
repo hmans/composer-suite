@@ -18,50 +18,41 @@ export const ParticleAttribute = <
   let value = initialValue
   const type = glslType(value as Input<T>)
 
-  /* Create the actual attribute unit */
-  const attribute = Attribute<T>(type, name)
+  const attribute = (
+    mesh: InstancedParticles,
+    name: string,
+    itemSize: number
+  ) => {
+    /* Check if the attribute exists. If it doesn't, create it. */
+    if (!mesh.geometry.attributes[name]) {
+      mesh.geometry.setAttribute(
+        name,
+        makeAttribute(mesh.capacity + mesh.safetyCapacity, itemSize)
+      )
+    }
+
+    /* Return the attribute. */
+    return mesh.geometry.attributes[name]
+  }
 
   return {
-    ...attribute,
+    ...Attribute<T>(type, name),
 
     write: (mesh: InstancedParticles, getValue: J | ((value: J) => J)) => {
-      const { geometry, cursor } = mesh
-
-      /* Check if the geometry attribute exists on the given mesh. If not,
-      create it and add it to the mesh. */
-      if (!mesh.geometry.attributes[name]) {
-        const itemSize =
-          type === "float"
-            ? 1
-            : type === "vec2"
-            ? 2
-            : type === "vec3"
-            ? 3
-            : type === "vec4"
-            ? 4
-            : 4
-
-        geometry.setAttribute(
-          name,
-          makeAttribute(mesh.capacity + mesh.safetyCapacity, itemSize)
-        )
-      }
-
       /* Execute the user-provided value getter. */
       const v = typeof getValue === "function" ? getValue(value) : getValue
 
       /* Write the value to the attribute. */
-      const attribute = geometry.attributes[name]
       if (typeof v === "number") {
-        attribute.setX(cursor, v)
+        attribute(mesh, name, 1).setX(mesh.cursor, v)
       } else if (v instanceof Vector2) {
-        attribute.setXY(cursor, v.x, v.y)
+        attribute(mesh, name, 2).setXY(mesh.cursor, v.x, v.y)
       } else if (v instanceof Vector3) {
-        attribute.setXYZ(cursor, v.x, v.y, v.z)
+        attribute(mesh, name, 3).setXYZ(mesh.cursor, v.x, v.y, v.z)
       } else if (v instanceof Color) {
-        attribute.setXYZ(cursor, v.r, v.g, v.b)
+        attribute(mesh, name, 3).setXYZ(mesh.cursor, v.r, v.g, v.b)
       } else if (v instanceof Vector4) {
-        attribute.setXYZW(cursor, v.x, v.y, v.z, v.w)
+        attribute(mesh, name, 4).setXYZW(mesh.cursor, v.x, v.y, v.z, v.w)
       }
     }
   }
