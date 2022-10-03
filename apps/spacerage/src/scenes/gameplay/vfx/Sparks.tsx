@@ -1,58 +1,48 @@
-import { Composable, Layer, Modules } from "material-composer-r3f"
+import { useLoader } from "@react-three/fiber"
+import { PositionalAudio } from "audio-composer"
+import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
-import { memo } from "react"
-import { Input, Mix, Mul, OneMinus, Vec3 } from "shader-composer"
-import { Color } from "three"
-import { createParticleLifetime, ParticleLifetime } from "vfx-composer"
+import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
+import { AudioLoader, Color } from "three"
+import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { JSXEntities } from "../../../lib/JSXEntities"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
-const defaultSparksColor = new Color("yellow").multiplyScalar(4)
+export const Sparks = () => {
+  const rng = InstanceRNG()
 
-type SparksLayerProps = {
-  lifetime: ParticleLifetime
-  color?: Input<"vec3">
-}
+  const direction = Vec3([
+    Mix(-0.5, 0.5, rng(12)),
+    Mul(rng(84), -1),
+    Mix(-0.5, 0.5, rng(1))
+  ])
 
-const SparksMaterialLayer = memo(
-  ({ color = defaultSparksColor, lifetime }: SparksLayerProps) => {
-    const rng = InstanceRNG()
+  return (
+    <InstancedParticles>
+      <planeGeometry args={[0.1, 0.1]} />
 
-    const direction = Vec3([
-      Mix(-0.5, 0.5, rng(12)),
-      Mul(rng(84), -1),
-      Mix(-0.5, 0.5, rng(1))
-    ])
-
-    return (
-      <Layer>
+      {/* A composable material that animates the sparks */}
+      <Composable.MeshStandardMaterial>
         <Modules.Scale scale={OneMinus(lifetime.progress)} />
         <Modules.Velocity
           direction={Mul(direction, 5)}
           time={lifetime.age}
           space="local"
         />
-        <Modules.Color color={color} />
+        <Modules.Color color={new Color("yellow").multiplyScalar(4)} />
         <Modules.Lifetime {...lifetime} />
-      </Layer>
-    )
-  }
-)
+      </Composable.MeshStandardMaterial>
 
-export const Sparks = () => (
-  <InstancedParticles>
-    <planeGeometry args={[0.1, 0.1]} />
-
-    <Composable.MeshStandardMaterial>
-      <SparksMaterialLayer lifetime={lifetime} />
-    </Composable.MeshStandardMaterial>
-
-    <JSXEntities archetype={["isSparks"]} />
-  </InstancedParticles>
-)
+      {/* Render all the sparks entities */}
+      <ECS.ArchetypeEntities archetype={["sparks"]}>
+        {({ sparks }) => sparks}
+      </ECS.ArchetypeEntities>
+    </InstancedParticles>
+  )
+}
 
 export const SparksEmitter = (props: EmitterProps) => (
   <Emitter
@@ -62,5 +52,22 @@ export const SparksEmitter = (props: EmitterProps) => (
     setup={() => {
       lifetime.setLifetime(between(0.2, 0.8), upTo(0.1))
     }}
-  />
+  >
+    <PositionalAudio
+      url="/sounds/blurp2.wav"
+      volume={0.1}
+      distance={10}
+      autoplay
+      loop={false}
+    />
+  </Emitter>
 )
+
+export const spawnSparks = (props: EmitterProps) =>
+  ECS.world.createEntity({
+    age: 0,
+    destroyAfter: 3,
+    sparks: <SparksEmitter {...props} />
+  })
+
+useLoader.preload(AudioLoader, "/sounds/blurp2.wav")

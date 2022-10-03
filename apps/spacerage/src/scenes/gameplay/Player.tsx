@@ -1,22 +1,25 @@
+import { useFrame, useLoader } from "@react-three/fiber"
 import {
   ConvexHullCollider,
   interactionGroups,
   RigidBody,
-  RigidBodyEntity
-} from "@hmans/physics3d"
-import { useGLTF } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+  RigidBodyApi
+} from "@react-three/rapier"
+import { PositionalAudio } from "audio-composer"
 import { pipe } from "fp-ts/lib/function"
 import { useInput } from "input-composer"
 import { Input } from "input-composer/vanilla"
+import { Tag } from "miniplex"
 import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { useStore } from "statery"
-import { Mesh, Quaternion, Vector3 } from "three"
+import { AudioLoader, Mesh, Quaternion, Vector3 } from "three"
+import { GLTFLoader } from "three-stdlib"
 import { Stage } from "../../configuration"
 import { useCapture } from "../../lib/useCapture"
 import { spawnBullet } from "./Bullets"
-import { gameplayStore, Layers } from "./state"
+import { EngineHumSFX } from "./sfx/EngineHumSFX"
+import { ECS, gameplayStore, Layers } from "./state"
 
 const tmpVec3 = new Vector3()
 const tmpQuat = new Quaternion()
@@ -41,8 +44,8 @@ const transformInput = ({ keyboard, gamepad }: Input) => ({
 })
 
 export const Player = () => {
-  const rb = useRef<RigidBodyEntity>(null!)
-  const gltf = useGLTF("/models/spaceship25.gltf")
+  const rb = useRef<RigidBodyApi>(null!)
+  const gltf = useLoader(GLTFLoader, "/models/spaceship25.gltf")
   const getInput = useInput()
   const { player } = useStore(gameplayStore)
   const fireCooldown = useRef(0)
@@ -52,7 +55,7 @@ export const Player = () => {
 
     const input = pipe(getInput(), transformInput)
 
-    const { body } = rb.current
+    const body = rb.current.raw()
 
     body.resetForces(true)
     body.resetTorques(true)
@@ -77,7 +80,7 @@ export const Player = () => {
 
   useFrame(function playerShootingUpdate(_, dt) {
     if (!player) return
-    const { body } = rb.current
+    const body = rb.current.raw()
 
     /* Fire? */
     fireCooldown.current -= dt
@@ -85,6 +88,8 @@ export const Player = () => {
     const input = pipe(getInput(), transformInput)
 
     if (input.fire && fireCooldown.current <= 0) {
+      const worldPosition = player.getWorldPosition(new Vector3())
+
       spawnBullet(
         player
           .getWorldPosition(new Vector3())
@@ -115,25 +120,38 @@ export const Player = () => {
   }, Stage.Normal)
 
   return (
-    <RigidBody
-      ref={rb}
-      angularDamping={3}
-      linearDamping={1}
-      enabledTranslations={[true, true, false]}
-      enabledRotations={[false, false, true]}
-    >
-      <group ref={useCapture(gameplayStore, "player")}>
-        <group scale={0.5}>
-          <ConvexHullCollider
-            collisionGroups={interactionGroups(Layers.Player, Layers.Asteroid)}
-            points={
-              (gltf.scene.children[0] as Mesh).geometry.attributes.position
-                .array as Float32Array
-            }
-          />
-          <primitive object={gltf.scene} />
-        </group>
-      </group>
-    </RigidBody>
+    <ECS.Entity>
+      <ECS.Component name="player" data={Tag} />
+      <ECS.Component name="rigidBody">
+        <RigidBody
+          ref={rb}
+          angularDamping={3}
+          linearDamping={1}
+          enabledTranslations={[true, true, false]}
+          enabledRotations={[false, false, true]}
+          scale={0.5}
+        >
+          <group ref={useCapture(gameplayStore, "player")}>
+            <ConvexHullCollider
+              args={[
+                (gltf.scene.children[0] as Mesh).geometry.attributes.position
+                  .array as Float32Array
+              ]}
+              collisionGroups={interactionGroups(
+                Layers.Player,
+                Layers.Asteroid
+              )}
+            />
+            <primitive object={gltf.scene} />
+
+            <PositionalAudio url="/sounds/taikobeat.mp3" loop autoplay />
+
+            <EngineHumSFX />
+          </group>
+        </RigidBody>
+      </ECS.Component>
+    </ECS.Entity>
   )
 }
+
+useLoader.preload(AudioLoader, "/sounds/taikobeat.mp3")

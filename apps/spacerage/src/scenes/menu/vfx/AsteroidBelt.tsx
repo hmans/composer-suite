@@ -1,5 +1,4 @@
-import { useGLTF } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, useLoader } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
 import {
   $,
@@ -17,6 +16,7 @@ import {
 } from "shader-composer"
 import { Random } from "shader-composer-toybox"
 import { DoubleSide, Material, Mesh } from "three"
+import { GLTFLoader } from "three-stdlib"
 import { InstanceSetupCallback } from "vfx-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
@@ -48,7 +48,7 @@ const SmallAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
 }
 
 const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
-  const gltf = useGLTF("/models/asteroid03.gltf")
+  const gltf = useLoader(GLTFLoader, "/models/asteroid03.gltf")
   const mesh = gltf.scene.children[0] as Mesh
 
   const random = (offset: Input<"float">) =>
@@ -63,7 +63,7 @@ const LargeAsteroids = ({ amount = 10_000 }: { amount?: number }) => {
   )
 
   return (
-    <InstancedParticles geometry={mesh.geometry} capacity={amount}>
+    <InstancedParticles geometry={mesh.geometry.clone()} capacity={amount}>
       <composable.material instance={(mesh.material as Material).clone()}>
         <RotateOverTime
           axis={rotationAxis}

@@ -1,20 +1,17 @@
 import { Color, Quaternion, Vector3 } from "three"
-import { InstancedParticles, Particle, ParticleProps } from "vfx-composer-r3f"
-import { JSXEntities } from "../../lib/JSXEntities"
+import { InstancedParticles, Particle } from "vfx-composer-r3f"
+import { PewPewSFX } from "./sfx/PewPewSFX"
 import { ECS } from "./state"
 
 export const Bullets = () => (
   <InstancedParticles capacity={200}>
     <planeGeometry args={[0.1, 0.8]} />
     <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
-    <JSXEntities archetype={["isBullet"]} />
-  </InstancedParticles>
-)
 
-export const Bullet = (props: ParticleProps) => (
-  <ECS.Component name="sceneObject">
-    <Particle {...props} matrixAutoUpdate />
-  </ECS.Component>
+    <ECS.ArchetypeEntities archetype={["bullet"]}>
+      {({ bullet }) => bullet}
+    </ECS.ArchetypeEntities>
+  </InstancedParticles>
 )
 
 export const spawnBullet = (
@@ -23,9 +20,21 @@ export const spawnBullet = (
   velocity: Vector3
 ) =>
   ECS.world.createEntity({
-    isBullet: true,
     age: 0,
     destroyAfter: 1,
     velocity,
-    jsx: <Bullet position={position} quaternion={quaternion} />
+
+    bullet: (
+      <>
+        <ECS.Component name="sceneObject">
+          <Particle
+            position={position}
+            quaternion={quaternion}
+            matrixAutoUpdate
+          />
+        </ECS.Component>
+
+        <PewPewSFX />
+      </>
+    )
   })
