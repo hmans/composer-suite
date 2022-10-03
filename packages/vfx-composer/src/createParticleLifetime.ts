@@ -32,20 +32,17 @@ export const createParticleLifetimeAPI = (lifetime: Input<"vec2">) => {
     /** The time uniform used by the particle system. */
     time,
 
-    /** The actual lifetime attribute. */
-    lifetime,
+    /** The absolute time value at which the particle's life span begins. */
+    startTime,
+
+    /** The absolute time value at which the particle's life span ends. */
+    endTime,
 
     /** The absolute age, in seconds, of the particle. */
     age,
 
     /** The maximum age, in seconds, of the particle. */
     maxAge,
-
-    /** The absolute time value at which the particle's life span begins. */
-    startTime,
-
-    /** The absolute time value at which the particle's life span ends. */
-    endTime,
 
     /** The individual particle's progress (from 0 to 1) across its life span. */
     progress: Div(age, maxAge)
