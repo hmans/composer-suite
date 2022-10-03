@@ -66,62 +66,15 @@ export const App = () => {
 
           <UI.VerticalGroup css={{ flex: 1 }}>
             <UI.Panel>
-              <UI.Heading>Welcome!</UI.Heading>
-              <p>
-                This is a panel. It displays things. Amazing! Many curious,
-                interesting things, that hopefully will make building editor UIs
-                really useful. (This is just a slightly longer paragraph to see
-                how it renders.)
-              </p>
-              <p>Like text.</p>
-              <p>Or even more text.</p>
-            </UI.Panel>
-
-            <UI.Panel>
-              <UI.Heading>Buttons</UI.Heading>
-              <p>Buttonnnnssss, they're amazing!</p>
-
+              <UI.Heading>Scenes</UI.Heading>
               <UI.VerticalGroup>
-                <UI.Button>Click me</UI.Button>
-                <UI.Button>Or click this one</UI.Button>
-                <UI.HorizontalGroup gap>
-                  <UI.Button>Left</UI.Button>
-                  <UI.Button>Right</UI.Button>
-                </UI.HorizontalGroup>
+                <UI.Button onClick={() => GameState.enter("menu")}>
+                  Menu Scene
+                </UI.Button>
+                <UI.Button onClick={() => GameState.enter("gameplay")}>
+                  Gameplay Scene
+                </UI.Button>
               </UI.VerticalGroup>
-            </UI.Panel>
-
-            <UI.Panel>
-              <UI.Heading>Inputs</UI.Heading>
-              <p>We should try some inputs. Inputs are really cool.</p>
-
-              <UI.Control>
-                <UI.Label>Text</UI.Label>
-                <UI.Input type="text" spellCheck="false" />
-              </UI.Control>
-
-              <UI.Control>
-                <UI.Label>Number</UI.Label>
-                <UI.Input type="number" />
-              </UI.Control>
-
-              <UI.Control>
-                <UI.Label>Range</UI.Label>
-                <UI.Input type="range" />
-              </UI.Control>
-
-              <UI.Control>
-                <UI.Label>Vector</UI.Label>
-
-                <UI.HorizontalGroup align={"center"} gap>
-                  X
-                  <UI.Input type="number" />
-                  Y
-                  <UI.Input type="number" />
-                  Z
-                  <UI.Input type="number" />
-                </UI.HorizontalGroup>
-              </UI.Control>
             </UI.Panel>
           </UI.VerticalGroup>
         </UI.HorizontalGroup>
