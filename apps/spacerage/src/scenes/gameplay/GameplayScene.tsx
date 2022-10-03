@@ -93,12 +93,14 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
 
   return (
     <UI.Panel>
-      <UI.Heading>ECS</UI.Heading>
-      <p>Total number of entities: {world.entities.length}</p>
+      <UI.Heading>Miniplex ECS World</UI.Heading>
 
-      <UI.Heading>Archetypes</UI.Heading>
       <table cellPadding={3}>
         <tbody>
+          <tr>
+            <td align="right">{world.entities.length}</td>
+            <td>Total Entities</td>
+          </tr>
           {[...world.archetypes].map(([name, archetype]) => (
             <tr>
               <td width={60} align="right">
