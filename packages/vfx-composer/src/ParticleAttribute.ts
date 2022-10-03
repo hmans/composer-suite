@@ -1,4 +1,10 @@
-import { Attribute, glslType, GLSLTypeFor, Input } from "shader-composer"
+import {
+  Attribute,
+  glslType,
+  GLSLTypeFor,
+  injectAPI,
+  Input
+} from "shader-composer"
 import { Color, Vector2, Vector3, Vector4 } from "three"
 import { InstancedParticles } from "./InstancedParticles"
 import { makeAttribute } from "./util/makeAttribute"
@@ -22,9 +28,7 @@ export const ParticleAttribute = <
   const itemSize =
     type === "float" ? 1 : type === "vec2" ? 2 : type === "vec3" ? 3 : 4
 
-  return {
-    ...Attribute<T>(type, name),
-
+  return injectAPI(Attribute<T>(type, name), () => ({
     write: (mesh: InstancedParticles, getValue: J | ((value: J) => J)) => {
       /* Execute the user-provided value getter. */
       const v = typeof getValue === "function" ? getValue(value) : getValue
@@ -43,7 +47,7 @@ export const ParticleAttribute = <
         attribute.setXYZW(mesh.cursor, v.x, v.y, v.z, v.w)
       }
     }
-  }
+  }))
 }
 
 const getAttribute = (
