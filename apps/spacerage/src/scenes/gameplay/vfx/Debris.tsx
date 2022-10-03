@@ -1,7 +1,7 @@
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { memo } from "react"
-import { Mul, OneMinus, Vec3 } from "shader-composer"
+import { Mul, OneMinus, ScaleAndOffset, Vec3 } from "shader-composer"
 import { Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
@@ -14,7 +14,7 @@ const lifetime = createParticleLifetime()
 
 const DebrisMaterial = memo(() => {
   const rng = InstanceRNG()
-  const direction = Vec3([rng(12), rng(84), rng(1)])
+  const direction = Vec3([ScaleAndOffset(rng(12), 1, -0.5), rng(84), 0])
 
   return (
     <Composable.meshStandardMaterial color="#666">
