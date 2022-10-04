@@ -214,6 +214,7 @@ class Button extends AbstractControl implements IButton {
 abstract class AbstractController {
   abstract devices: Record<string, IDevice>
   abstract controls: Record<string, AbstractControl>
+  abstract schemes: Record<string, Function>
 
   start() {
     Object.values(this.devices).forEach((d) => d.start())
@@ -244,34 +245,43 @@ class Controller extends AbstractController {
     select: new Button()
   }
 
+  schemes = {
+    gamepad: () => {
+      const {
+        controls: { move, aim, fire, select },
+        devices: { gamepad }
+      } = this
+
+      move.apply(gamepad.getVector(0, 1))
+      aim.apply(gamepad.getVector(2, 3))
+      fire.apply(gamepad.getButton(7))
+      select.apply(gamepad.getButton(0))
+    },
+
+    keyboard: () => {
+      const {
+        controls: { move, aim, fire, select },
+        devices: { keyboard }
+      } = this
+
+      move.apply(keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
+      aim.apply(
+        keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
+      )
+      fire.apply(keyboard.getKey("Space"))
+      select.apply(keyboard.getKey("Enter"))
+    }
+  }
+
   update() {
     super.update()
 
-    const { move, aim, fire, select } = this.controls
-    const { keyboard, gamepad } = this.devices
-
     /* Gather input, depending on active control scheme */
-    switch (this.scheme) {
-      case "keyboard":
-        move.apply(keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
-        aim.apply(
-          keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
-        )
-        fire.apply(keyboard.getKey("Space"))
-        select.apply(keyboard.getKey("Enter"))
-        break
-
-      case "gamepad":
-        move.apply(gamepad.getVector(0, 1))
-        aim.apply(gamepad.getVector(2, 3))
-        fire.apply(gamepad.getButton(7))
-        select.apply(gamepad.getButton(0))
-        break
-    }
+    this.schemes[this.scheme]()
 
     /* Do additional processing */
-    move.clampLength().deadzone(0.1)
-    aim.clampLength().deadzone(0.1)
+    this.controls.move.clampLength().deadzone(0.1)
+    this.controls.aim.clampLength().deadzone(0.1)
   }
 }
 
