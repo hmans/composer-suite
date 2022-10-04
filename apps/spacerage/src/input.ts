@@ -147,6 +147,15 @@ class Stick extends AbstractControl implements IVector {
     return this
   }
 
+  clampLength() {
+    const length = Math.sqrt(this.x * this.x + this.y * this.y)
+    if (length > 1) {
+      this.x /= length
+      this.y /= length
+    }
+    return this
+  }
+
   updateEvents() {}
 }
 
@@ -242,8 +251,8 @@ class Controller extends AbstractController {
     }
 
     /* Do additional processing */
-    move.normalize()
-    aim.normalize()
+    move.clampLength()
+    aim.clampLength()
   }
 }
 
