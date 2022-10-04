@@ -35,6 +35,8 @@ interface IButton {
 }
 
 abstract class AbstractDevice {
+  onActivity = new Event()
+
   abstract start(): void
   abstract stop(): void
   abstract update(): void
@@ -83,6 +85,7 @@ class KeyboardDevice extends AbstractDevice {
 
   private keydown(e: KeyboardEvent) {
     this.keys.add(e.code)
+    this.onActivity.emit()
   }
 
   private keyup(e: KeyboardEvent) {
@@ -103,7 +106,13 @@ class GamepadDevice extends AbstractDevice {
   stop() {}
 
   update() {
-    this.state = navigator.getGamepads()[this.index]
+    const state = navigator.getGamepads()[this.index]
+
+    if (state?.timestamp !== this.state?.timestamp) {
+      this.onActivity.emit()
+    }
+
+    this.state = state
   }
 
   isActive() {
@@ -277,6 +286,18 @@ class Controller extends AbstractController {
       fire.apply(keyboard.getKey("Space"))
       select.apply(keyboard.getKey("Enter"))
     }
+  }
+
+  constructor() {
+    super()
+
+    this.devices.keyboard.onActivity.addListener(() => {
+      this.scheme = "keyboard"
+    })
+
+    this.devices.gamepad.onActivity.addListener(() => {
+      this.scheme = "gamepad"
+    })
   }
 
   process() {
