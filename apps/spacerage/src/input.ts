@@ -1,4 +1,25 @@
-import { flow, pipe } from "fp-ts/lib/function"
+/* TODO: extract into @hmans/things */
+
+export type Listener<P> = (payload: P) => void
+
+class Event<P = void> {
+  listeners = new Set<Listener<P>>()
+
+  addListener(listener: Listener<P>) {
+    this.listeners.add(listener)
+    return () => this.removeListener(listener)
+  }
+
+  removeListener(listener: Listener<P>) {
+    this.listeners.delete(listener)
+  }
+
+  emit(payload: P) {
+    for (const listener of this.listeners) {
+      listener(payload)
+    }
+  }
+}
 
 interface IVector {
   x: number
@@ -13,10 +34,6 @@ interface IDevice {
   start: () => void
   stop: () => void
   update: () => void
-}
-
-interface IControl {
-  update: Function
 }
 
 class KeyboardDevice implements IDevice {
@@ -83,9 +100,7 @@ class GamepadDevice implements IDevice {
   }
 }
 
-abstract class AbstractControl implements IControl {
-  update() {}
-}
+abstract class AbstractControl {}
 
 class Stick extends AbstractControl implements IVector {
   x = 0
@@ -120,14 +135,21 @@ class Button extends AbstractControl implements IButton {
     return this
   }
 
-  isPressed() {
+  get isPressed() {
     return this.value > 0.5
+  }
+
+  onPress(listener: Listener<void>) {
+    if (this.isPressed) {
+      listener()
+    }
   }
 }
 
 abstract class AbstractController {
   abstract devices: Record<string, IDevice>
-  abstract controls: Record<string, IControl>
+  abstract controls: Record<string, AbstractControl>
+  abstract events: Record<string, Event>
 
   start() {
     Object.values(this.devices).forEach((d) => d.start())
@@ -139,7 +161,6 @@ abstract class AbstractController {
 
   update() {
     Object.values(this.devices).forEach((d) => d.update())
-    Object.values(this.controls).forEach((c) => c.update())
   }
 }
 
@@ -150,24 +171,29 @@ class Controller extends AbstractController {
   }
 
   controls = {
-    leftStick: new Stick(),
-    rightStick: new Stick(),
-    rightTrigger: new Button(),
-    a: new Button()
+    move: new Stick(),
+    aim: new Stick(),
+    fire: new Button(),
+    select: new Button()
+  }
+
+  events = {
+    onSelect: new Event()
   }
 
   update() {
-    this.controls.leftStick
-      .apply(this.devices.gamepad.getVector(0, 1))
-      .normalize()
+    super.update()
 
-    this.controls.rightStick
-      .apply(this.devices.gamepad.getVector(2, 3))
-      .normalize()
+    this.controls.move.apply(this.devices.gamepad.getVector(0, 1)).normalize()
 
-    this.controls.rightTrigger.apply(this.devices.gamepad.getButton(5)).clamp()
+    this.controls.aim.apply(this.devices.gamepad.getVector(2, 3)).normalize()
 
-    this.controls.a.apply(this.devices.gamepad.getButton(0)).clamp()
+    this.controls.fire.apply(this.devices.gamepad.getButton(7)).clamp()
+
+    this.controls.select
+      .apply(this.devices.gamepad.getButton(0))
+      .clamp()
+      .onPress(() => this.events.onSelect.emit())
   }
 }
 

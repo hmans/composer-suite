@@ -18,8 +18,7 @@ export const PlayerSystem = () => {
     const [player] = entities
     if (!player) return
 
-    const move = controller.controls.leftStick
-    const aim = controller.controls.rightStick
+    const { move, aim } = controller.controls
     const rb = player.rigidBody
 
     const body = rb.raw()
@@ -54,9 +53,9 @@ export const PlayerSystem = () => {
     /* Fire? */
     fireCooldown.current -= dt
 
-    const fire = controller.controls.rightTrigger.value
+    const { fire } = controller.controls
 
-    if (fire && fireCooldown.current <= 0) {
+    if (fire.isPressed && fireCooldown.current <= 0) {
       const worldPosition = player.sceneObject.getWorldPosition(new Vector3())
 
       spawnBullet(
