@@ -149,6 +149,8 @@ class Stick extends AbstractControl implements IVector {
 class Button extends AbstractControl implements IButton {
   value = 0
 
+  private lastValue = 0
+
   apply(value: number) {
     this.value = value
     return this
@@ -165,7 +167,12 @@ class Button extends AbstractControl implements IButton {
 
   onPress(listener: Listener<void>) {
     if (this.isPressed) {
-      listener()
+      if (this.lastValue == 0) {
+        this.lastValue = this.value
+        listener()
+      }
+    } else {
+      this.lastValue = 0
     }
   }
 }
