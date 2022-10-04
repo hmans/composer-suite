@@ -147,9 +147,9 @@ class Stick extends AbstractControl implements IVector {
     return this
   }
 
-  clampLength() {
+  clampLength(limit = 1) {
     const length = Math.sqrt(this.x * this.x + this.y * this.y)
-    if (length > 1) {
+    if (length > limit) {
       this.x /= length
       this.y /= length
     }
