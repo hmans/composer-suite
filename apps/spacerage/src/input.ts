@@ -138,27 +138,34 @@ class Controller extends AbstractController {
     this.controls.a.update(applyButton(this.devices.gamepad.getButton(0)))
 
     this.controls.rightTrigger.update(
-      applyButton(this.devices.gamepad.getButton(7))
+      applyButton(() => this.devices.gamepad.getButton(7))
     )
 
     this.controls.leftStick.update(
-      flow(applyVector(this.devices.gamepad.getVector(0, 1)), normalize)
+      flow(
+        applyVector(() => this.devices.gamepad.getVector(0, 1)),
+        normalize
+      )
     )
 
     this.controls.rightStick.update(
-      flow(applyVector(this.devices.gamepad.getVector(2, 3)), normalize)
+      flow(
+        applyVector(() => this.devices.gamepad.getVector(2, 3)),
+        normalize
+      )
     )
   }
 }
 
-const applyButton = (value: number) => (control: IButton) => {
-  control.value = value
+const applyButton = (v: number | (() => number)) => (control: IButton) => {
+  control.value = typeof v === "function" ? v() : v
   return control
 }
 
-const applyVector = (v: IVector) => (control: IVector) => {
-  control.x = v.x
-  control.y = v.y
+const applyVector = (v: IVector | (() => IVector)) => (control: IVector) => {
+  const vector = typeof v === "function" ? v() : v
+  control.x = vector.x
+  control.y = vector.y
   return control
 }
 
