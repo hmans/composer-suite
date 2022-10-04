@@ -124,7 +124,9 @@ class GamepadDevice implements IDevice {
   }
 }
 
-abstract class AbstractControl {}
+abstract class AbstractControl {
+  abstract updateEvents(): void
+}
 
 class Stick extends AbstractControl implements IVector {
   x = 0
@@ -144,12 +146,27 @@ class Stick extends AbstractControl implements IVector {
     }
     return this
   }
+
+  updateEvents() {}
 }
 
 class Button extends AbstractControl implements IButton {
   value = 0
 
+  onPress = new Event()
+
   private lastValue = 0
+
+  updateEvents() {
+    if (this.isPressed) {
+      if (this.lastValue == 0) {
+        this.lastValue = this.value
+        this.onPress.emit()
+      }
+    } else {
+      this.lastValue = 0
+    }
+  }
 
   apply(value: number) {
     this.value = value
@@ -164,23 +181,11 @@ class Button extends AbstractControl implements IButton {
   get isPressed() {
     return this.value > 0.5
   }
-
-  onPress(listener: Listener<void>) {
-    if (this.isPressed) {
-      if (this.lastValue == 0) {
-        this.lastValue = this.value
-        listener()
-      }
-    } else {
-      this.lastValue = 0
-    }
-  }
 }
 
 abstract class AbstractController {
   abstract devices: Record<string, IDevice>
   abstract controls: Record<string, AbstractControl>
-  abstract events: Record<string, Event>
 
   start() {
     Object.values(this.devices).forEach((d) => d.start())
@@ -192,6 +197,7 @@ abstract class AbstractController {
 
   update() {
     Object.values(this.devices).forEach((d) => d.update())
+    Object.values(this.controls).forEach((c) => c.updateEvents())
   }
 }
 
@@ -208,10 +214,6 @@ class Controller extends AbstractController {
     aim: new Stick(),
     fire: new Button(),
     select: new Button()
-  }
-
-  events = {
-    onSelect: new Event()
   }
 
   update() {
@@ -242,7 +244,6 @@ class Controller extends AbstractController {
     /* Do additional processing */
     move.normalize()
     aim.normalize()
-    select.onPress(this.events.onSelect.emit)
   }
 }
 

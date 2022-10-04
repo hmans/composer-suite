@@ -14,7 +14,7 @@ import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
 const MenuScene = () => {
-  useEffect(() => controller.events.onSelect.addListener(startGame), [])
+  useEffect(() => controller.controls.select.onPress.addListener(startGame), [])
 
   return (
     <Suspense>
