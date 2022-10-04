@@ -88,7 +88,7 @@ type ControlUpdateFunction<T> = (control: T) => void
 abstract class AbstractControl implements IControl {
   private updateFuns: ControlUpdateFunction<this>[] = []
 
-  configure(...funs: ControlUpdateFunction<this>[]) {
+  with(...funs: ControlUpdateFunction<this>[]) {
     this.updateFuns = funs
     return this
   }
@@ -136,20 +136,21 @@ class Controller extends AbstractController {
   }
 
   controls = {
-    leftStick: new Stick().configure(
+    leftStick: new Stick().with(
       applyVector(() => this.devices.gamepad.getVector(0, 1)),
       normalize
     ),
 
-    rightStick: new Stick().configure(
+    rightStick: new Stick().with(
       applyVector(() => this.devices.gamepad.getVector(2, 3)),
       normalize
     ),
 
-    rightTrigger: new Button().configure(
+    rightTrigger: new Button().with(
       applyButton(() => this.devices.gamepad.getButton(7))
     ),
-    a: new Button().configure(applyButton(this.devices.gamepad.getButton(0)))
+
+    a: new Button().with(applyButton(this.devices.gamepad.getButton(0)))
   }
 }
 
