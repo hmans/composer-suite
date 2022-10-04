@@ -101,12 +101,23 @@ class GamepadDevice extends AbstractDevice {
     this.update = this.update.bind(this)
   }
 
-  start() {}
+  start() {
+    window.addEventListener("gamepadconnected", this.onGamepadConnected)
+    window.addEventListener("gamepaddisconnected", this.onGamepadDisconnected)
+  }
 
-  stop() {}
+  stop() {
+    window.removeEventListener("gamepadconnected", this.onGamepadConnected)
+    window.removeEventListener(
+      "gamepaddisconnected",
+      this.onGamepadDisconnected
+    )
+  }
 
   update() {
-    const state = navigator.getGamepads()[this.index]
+    const allGamepads = navigator.getGamepads()
+    // console.log(allGamepads)
+    const state = allGamepads[this.index]
 
     if (state?.timestamp !== this.state?.timestamp) {
       this.onActivity.emit()
@@ -133,6 +144,10 @@ class GamepadDevice extends AbstractDevice {
       y: -this.getAxis(vertical) || 0
     }
   }
+
+  private onGamepadConnected(e: GamepadEvent) {}
+
+  private onGamepadDisconnected(e: GamepadEvent) {}
 }
 
 abstract class AbstractControl {
