@@ -7,7 +7,7 @@ interface IDevice {
 }
 
 interface IControl {
-  update: () => void
+  update: Function
 }
 
 class KeyboardDevice implements IDevice {
@@ -61,17 +61,12 @@ class GamepadDevice implements IDevice {
   getAxis(index: number) {
     return this.state?.axes[index]
   }
-
-  getVector(horizontalAxis: number, verticalAxis: number) {
-    return {
-      x: this.getAxis(horizontalAxis),
-      y: this.getAxis(verticalAxis)
-    }
-  }
 }
 
 abstract class AbstractControl implements IControl {
-  update() {}
+  update(fun: (control: typeof this) => void) {
+    fun(this)
+  }
 }
 
 class Stick extends AbstractControl {
@@ -120,13 +115,23 @@ class Controller extends AbstractController {
   update() {
     super.update()
 
-    this.controls.leftStick.x = this.devices.gamepad.getAxis(0) || 0
-    this.controls.leftStick.y = -(this.devices.gamepad.getAxis(1) || 0)
-    this.controls.rightStick.x = this.devices.gamepad.getAxis(2) || 0
-    this.controls.rightStick.y = -(this.devices.gamepad.getAxis(3) || 0)
+    this.controls.a.update(
+      (c) => (c.value = this.devices.gamepad.getButton(0) || 0)
+    )
 
-    this.controls.rightTrigger.value = this.devices.gamepad.getButton(7) || 0
-    this.controls.a.value = this.devices.gamepad.getButton(0) || 0
+    this.controls.rightTrigger.update(
+      (c) => (c.value = this.devices.gamepad.getButton(7) || 0)
+    )
+
+    this.controls.leftStick.update((c) => {
+      c.x = this.devices.gamepad.getAxis(0) || 0
+      c.y = -(this.devices.gamepad.getAxis(1) || 0)
+    })
+
+    this.controls.rightStick.update((c) => {
+      c.x = this.devices.gamepad.getAxis(2) || 0
+      c.y = -(this.devices.gamepad.getAxis(3) || 0)
+    })
   }
 }
 
