@@ -155,14 +155,12 @@ class Controller extends AbstractController {
 
 const applyButton = (v: number | (() => number)) => (control: IButton) => {
   control.value = typeof v === "function" ? v() : v
-  return control
 }
 
 const applyVector = (v: IVector | (() => IVector)) => (control: IVector) => {
   const vector = typeof v === "function" ? v() : v
   control.x = vector.x
   control.y = vector.y
-  return control
 }
 
 const normalize = (control: IVector) => {
@@ -172,8 +170,6 @@ const normalize = (control: IVector) => {
     control.x /= length
     control.y /= length
   }
-
-  return control
 }
 
 export const controller = new Controller()
