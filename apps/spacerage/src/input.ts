@@ -216,6 +216,8 @@ abstract class AbstractController {
   abstract controls: Record<string, AbstractControl>
   abstract schemes: Record<string, Function>
 
+  scheme: "gamepad" | "keyboard" = "gamepad"
+
   start() {
     Object.values(this.devices).forEach((d) => d.start())
   }
@@ -224,15 +226,17 @@ abstract class AbstractController {
     Object.values(this.devices).forEach((d) => d.stop())
   }
 
+  process() {}
+
   update() {
     Object.values(this.devices).forEach((d) => d.update())
+    this.schemes[this.scheme]()
+    this.process()
     Object.values(this.controls).forEach((c) => c.updateEvents())
   }
 }
 
 class Controller extends AbstractController {
-  scheme: "gamepad" | "keyboard" = "gamepad"
-
   devices = {
     keyboard: new KeyboardDevice(),
     gamepad: new GamepadDevice(0)
@@ -273,13 +277,7 @@ class Controller extends AbstractController {
     }
   }
 
-  update() {
-    super.update()
-
-    /* Gather input, depending on active control scheme */
-    this.schemes[this.scheme]()
-
-    /* Do additional processing */
+  process() {
     this.controls.move.clampLength().deadzone(0.1)
     this.controls.aim.clampLength().deadzone(0.1)
   }
