@@ -3,11 +3,11 @@
 export type Listener<P> = (payload: P) => void
 
 class Event<P = void> {
+  listeners = new Set<Listener<P>>()
+
   constructor() {
     this.emit = this.emit.bind(this)
   }
-
-  listeners = new Set<Listener<P>>()
 
   addListener(listener: Listener<P>) {
     this.listeners.add(listener)
