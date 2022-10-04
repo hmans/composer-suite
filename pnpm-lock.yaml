@@ -322,8 +322,8 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
-      miniplex: 0.0.0-canary-20221004084019
-      miniplex-react: 0.0.0-canary-20221004084019
+      miniplex: 1.0.0
+      miniplex-react: 1.0.0
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -364,8 +364,8 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 0.0.0-canary-20221004084019
-      miniplex-react: 0.0.0-canary-20221004084019_zneoxdlw2sdhczi3wzby5vsoz4
+      miniplex: 1.0.0
+      miniplex-react: 1.0.0_xoispwq2anf3ood54gyy5oqdre
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.145.0
@@ -8564,19 +8564,6 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/0.0.0-canary-20221004084019_zneoxdlw2sdhczi3wzby5vsoz4:
-    resolution: {integrity: sha512-Jkh6k6ux5g9lLvl6ZGOINi0bh/GpC04b6VHecTRZMb92IV/VbJ/sXOi6Qlmcusx+8lvFwOHWY7dFR89bl5lZ6g==}
-    peerDependencies:
-      miniplex: 0.0.0-canary-20221004084019
-      react: '>=16.8'
-    dependencies:
-      '@hmans/use-const': 0.0.1_react@18.2.0
-      '@hmans/use-rerender': 0.0.2_react@18.2.0
-      miniplex: 0.0.0-canary-20221004084019
-      react: 18.2.0
-      react-merge-refs: 1.1.0
-    dev: false
-
   /miniplex-react/1.0.0-next.2_lfwuw7o3xyxkwimhviro6tz72m:
     resolution: {integrity: sha512-eUXLQw8UHT+MIgLD+nErZvamuyuBlbDZdGkWDjjtF/So5+53aAARyc1j1bl5xd4mSyJYFlZR9ocQgyoTVlisiQ==}
     peerDependencies:
@@ -8589,14 +8576,27 @@ packages:
       react-merge-refs: 1.1.0
     dev: false
 
+  /miniplex-react/1.0.0_xoispwq2anf3ood54gyy5oqdre:
+    resolution: {integrity: sha512-QjuO1YB5eCle+p9t7Zd9o+ppvqIkHMAvgM9l8RSL4Kjvzp1fTas9e4hqXcWBVF8ElPORpeE8gu3NEC97fdD3Yg==}
+    peerDependencies:
+      miniplex: ^1.0.0-next.1
+      react: '>=16.8'
+    dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      '@hmans/use-rerender': 0.0.2_react@18.2.0
+      miniplex: 1.0.0
+      react: 18.2.0
+      react-merge-refs: 1.1.0
+    dev: false
+
   /miniplex/0.0.0-canary-20220926080217:
     resolution: {integrity: sha512-nu+hz6wAedvex28xNUb+4oWnSmqjaoIP77xHGR1SLYEN3qfNOyG6+cfX6QivaNzaMPW+ncdgl/bSa1CaGeWT9Q==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
 
-  /miniplex/0.0.0-canary-20221004084019:
-    resolution: {integrity: sha512-8AJTd54Nq+Yf8kX2Ln7gWeYLHQkf2qA9Yp7Mjwi5dqJ47+85PtnFv0JiihuDsCj0go+H1Nd0MYMGRZvhuB8NGg==}
+  /miniplex/1.0.0:
+    resolution: {integrity: sha512-cGVpcR8BpPLn3cH3qE1yWOKo/Sll30777+c8jLBcyhvahNgauJ1pFDRxfDoWumnAYgmBZ0JE1HoQxXHSmO8lPQ==}
     dependencies:
       '@hmans/signal': 0.2.2
     dev: false
