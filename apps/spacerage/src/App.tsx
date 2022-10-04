@@ -1,31 +1,42 @@
 import { PerspectiveCamera } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
 import { AudioListener } from "audio-composer"
-import { useInput } from "input-composer"
-import { Perf } from "r3f-perf"
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import * as RC from "render-composer"
+import * as UI from "ui-composer"
 import { PostProcessing } from "./common/PostProcessing"
 import { Stage } from "./configuration"
-import { input } from "./input"
+import { controller } from "./input"
 import { StartScreen } from "./lib/StartScreen"
 import { useCapture } from "./lib/useCapture"
 import { GameState, SidebarTunnel, store } from "./state"
-import * as UI from "ui-composer"
 
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 
-export const App = () => {
-  /* Mount input */
-  useInput(input)
+const Controls = () => {
+  useEffect(() => {
+    controller.start()
+    return () => controller.stop()
+  })
 
+  useFrame(() => {
+    controller.update()
+  }, Stage.Early)
+
+  return null
+}
+
+export const App = () => {
   return (
     <StartScreen>
       <UI.Root>
         <UI.HorizontalGroup>
           <div style={{ flex: 2 }}>
             <RC.Canvas dpr={1}>
+              <Controls />
+
               <RC.RenderPipeline updatePriority={Stage.Render}>
                 <AC.AudioContext>
                   <AC.Compressor>

@@ -3,7 +3,7 @@ import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { Quaternion, Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { getControls } from "../../../input"
+import { controller } from "../../../input"
 import { spawnBullet } from "../Bullets"
 import { ECS } from "../state"
 
@@ -14,11 +14,12 @@ export const PlayerSystem = () => {
   const entities = ECS.world.archetype("player", "rigidBody", "sceneObject")
   const fireCooldown = useRef(0)
 
-  useFrame((_, dt) => {
+  useFrame(() => {
     const [player] = entities
     if (!player) return
 
-    const { aim, move } = getControls()
+    const move = controller.controls.leftStick
+    const aim = controller.controls.rightStick
     const rb = player.rigidBody
 
     const body = rb.raw()
@@ -53,7 +54,7 @@ export const PlayerSystem = () => {
     /* Fire? */
     fireCooldown.current -= dt
 
-    const { fire } = getControls()
+    const fire = controller.controls.rightTrigger.value
 
     if (fire && fireCooldown.current <= 0) {
       const worldPosition = player.sceneObject.getWorldPosition(new Vector3())
