@@ -3,6 +3,10 @@
 export type Listener<P> = (payload: P) => void
 
 class Event<P = void> {
+  constructor() {
+    this.emit = this.emit.bind(this)
+  }
+
   listeners = new Set<Listener<P>>()
 
   addListener(listener: Listener<P>) {
@@ -193,7 +197,7 @@ class Controller extends AbstractController {
     this.controls.select
       .apply(this.devices.gamepad.getButton(0))
       .clamp()
-      .onPress(() => this.events.onSelect.emit())
+      .onPress(this.events.onSelect.emit)
   }
 }
 
