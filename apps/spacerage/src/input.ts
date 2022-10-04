@@ -1,4 +1,4 @@
-import { pipe } from "fp-ts/lib/function"
+import { flow, pipe } from "fp-ts/lib/function"
 
 interface IVector {
   x: number
@@ -68,17 +68,17 @@ class GamepadDevice implements IDevice {
   }
 
   getButton(index: number) {
-    return this.state?.buttons[index].value
+    return this.state?.buttons[index].value || 0
   }
 
   getAxis(index: number) {
-    return this.state?.axes[index]
+    return this.state?.axes[index] || 0
   }
 
   getVector(horizontal: number, vertical: number) {
     return {
-      x: this.getAxis(horizontal),
-      y: this.getAxis(vertical)
+      x: this.getAxis(horizontal) || 0,
+      y: -this.getAxis(vertical) || 0
     }
   }
 }
@@ -135,33 +135,42 @@ class Controller extends AbstractController {
   update() {
     super.update()
 
-    this.controls.a.update(
-      (c) => (c.value = this.devices.gamepad.getButton(0) || 0)
-    )
+    this.controls.a.update(applyButton(this.devices.gamepad.getButton(0)))
 
     this.controls.rightTrigger.update(
-      (c) => (c.value = this.devices.gamepad.getButton(7) || 0)
+      applyButton(this.devices.gamepad.getButton(7))
     )
 
     this.controls.leftStick.update(
-      applyVector({
-        x: this.devices.gamepad.getAxis(0) || 0,
-        y: -(this.devices.gamepad.getAxis(1) || 0)
-      })
+      flow(applyVector(this.devices.gamepad.getVector(0, 1)), normalize)
     )
 
     this.controls.rightStick.update(
-      applyVector({
-        x: this.devices.gamepad.getAxis(2) || 0,
-        y: -(this.devices.gamepad.getAxis(3) || 0)
-      })
+      flow(applyVector(this.devices.gamepad.getVector(2, 3)), normalize)
     )
   }
+}
+
+const applyButton = (value: number) => (control: IButton) => {
+  control.value = value
+  return control
 }
 
 const applyVector = (v: IVector) => (control: IVector) => {
   control.x = v.x
   control.y = v.y
+  return control
+}
+
+const normalize = (control: IVector) => {
+  const length = Math.sqrt(control.x * control.x + control.y * control.y)
+
+  if (length > 1) {
+    control.x /= length
+    control.y /= length
+  }
+
+  return control
 }
 
 export const controller = new Controller()
