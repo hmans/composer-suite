@@ -60,11 +60,31 @@ class KeyboardDevice implements IDevice {
 
   update() {}
 
-  keydown(e: KeyboardEvent) {
+  getKey(code: string) {
+    return this.keys.has(code) ? 1 : 0
+  }
+
+  getAxis(minKey: string, maxKey: string) {
+    return this.getKey(maxKey) - this.getKey(minKey)
+  }
+
+  getVector(
+    xMinKey: string,
+    xMaxKey: string,
+    yMinKey: string,
+    yMaxKey: string
+  ) {
+    return {
+      x: this.getAxis(xMinKey, xMaxKey),
+      y: this.getAxis(yMinKey, yMaxKey)
+    }
+  }
+
+  private keydown(e: KeyboardEvent) {
     this.keys.add(e.code)
   }
 
-  keyup(e: KeyboardEvent) {
+  private keyup(e: KeyboardEvent) {
     this.keys.delete(e.code)
   }
 }
@@ -169,6 +189,8 @@ abstract class AbstractController {
 }
 
 class Controller extends AbstractController {
+  scheme: "gamepad" | "keyboard" = "keyboard"
+
   devices = {
     keyboard: new KeyboardDevice(),
     gamepad: new GamepadDevice(0)
@@ -188,11 +210,34 @@ class Controller extends AbstractController {
   update() {
     super.update()
 
-    this.controls.move.apply(this.devices.gamepad.getVector(0, 1)).normalize()
+    this.controls.move
+      .apply(
+        this.scheme === "keyboard"
+          ? this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
+          : this.devices.gamepad.getVector(0, 1)
+      )
+      .normalize()
 
-    this.controls.aim.apply(this.devices.gamepad.getVector(2, 3)).normalize()
+    this.controls.aim
+      .apply(
+        this.scheme === "keyboard"
+          ? this.devices.keyboard.getVector(
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowDown",
+              "ArrowUp"
+            )
+          : this.devices.gamepad.getVector(2, 3)
+      )
+      .normalize()
 
-    this.controls.fire.apply(this.devices.gamepad.getButton(7)).clamp()
+    this.controls.fire
+      .apply(
+        this.scheme === "keyboard"
+          ? this.devices.keyboard.getKey("Space")
+          : this.devices.gamepad.getButton(7)
+      )
+      .clamp()
 
     this.controls.select
       .apply(this.devices.gamepad.getButton(0))
