@@ -29,6 +29,7 @@ const MenuScene = () => {
   return (
     <Suspense>
       <group>
+        {/* Lights */}
         <ambientLight
           intensity={0.1}
           layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}

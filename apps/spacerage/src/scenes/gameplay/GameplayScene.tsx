@@ -40,6 +40,7 @@ const GameplayScene = () => {
           <Skybox />
           <FollowCamera />
 
+          {/* Lights */}
           <ambientLight
             intensity={0.1}
             layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}
