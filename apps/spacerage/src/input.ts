@@ -34,16 +34,17 @@ interface IButton {
   value: number
 }
 
-interface IDevice {
-  start: () => void
-  stop: () => void
-  update: () => void
+abstract class AbstractDevice {
+  abstract start(): void
+  abstract stop(): void
+  abstract update(): void
 }
 
-class KeyboardDevice implements IDevice {
+class KeyboardDevice extends AbstractDevice {
   keys = new Set<string>()
 
   constructor() {
+    super()
     this.keydown = this.keydown.bind(this)
     this.keyup = this.keyup.bind(this)
   }
@@ -89,10 +90,11 @@ class KeyboardDevice implements IDevice {
   }
 }
 
-class GamepadDevice implements IDevice {
+class GamepadDevice extends AbstractDevice {
   state: Gamepad | null = null
 
   constructor(public index: number) {
+    super()
     this.update = this.update.bind(this)
   }
 
@@ -212,7 +214,7 @@ class Button extends AbstractControl implements IButton {
 }
 
 abstract class AbstractController {
-  abstract devices: Record<string, IDevice>
+  abstract devices: Record<string, AbstractDevice>
   abstract controls: Record<string, AbstractControl>
   abstract schemes: Record<string, Function>
 
