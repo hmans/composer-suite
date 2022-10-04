@@ -136,7 +136,7 @@ class GamepadDevice extends AbstractDevice {
 }
 
 abstract class AbstractControl {
-  abstract updateEvents(): void
+  abstract update(): void
 }
 
 class Stick extends AbstractControl implements IVector {
@@ -186,7 +186,7 @@ class Stick extends AbstractControl implements IVector {
     return this
   }
 
-  updateEvents() {}
+  update() {}
 }
 
 class Button extends AbstractControl implements IButton {
@@ -196,7 +196,7 @@ class Button extends AbstractControl implements IButton {
 
   private lastValue = 0
 
-  updateEvents() {
+  update() {
     if (this.isPressed) {
       if (this.lastValue == 0) {
         this.lastValue = this.value
@@ -240,10 +240,17 @@ abstract class AbstractController {
   process() {}
 
   update() {
+    /* Update devices */
     Object.values(this.devices).forEach((d) => d.update())
-    this.schemes[this.scheme]()
+
+    /* Execute control scheme */
+    this.schemes[this.scheme]?.()
+
+    /* Process controls */
     this.process()
-    Object.values(this.controls).forEach((c) => c.updateEvents())
+
+    /* Update control events */
+    Object.values(this.controls).forEach((c) => c.update())
   }
 }
 
