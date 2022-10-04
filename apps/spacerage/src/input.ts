@@ -83,28 +83,42 @@ class GamepadDevice implements IDevice {
   }
 }
 
-type ControlUpdateFunction<T> = (control: T) => void
-
 abstract class AbstractControl implements IControl {
-  private updateFuns: ControlUpdateFunction<this>[] = []
-
-  with(...funs: ControlUpdateFunction<this>[]) {
-    this.updateFuns = funs
-    return this
-  }
-
-  update() {
-    this.updateFuns.forEach((fun) => fun(this))
-  }
+  update() {}
 }
 
 class Stick extends AbstractControl implements IVector {
   x = 0
   y = 0
+
+  apply(vector: IVector) {
+    this.x = vector.x
+    this.y = vector.y
+    return this
+  }
+
+  normalize() {
+    const length = Math.sqrt(this.x * this.x + this.y * this.y)
+    if (length > 0) {
+      this.x /= length
+      this.y /= length
+    }
+    return this
+  }
 }
 
 class Button extends AbstractControl implements IButton {
   value = 0
+
+  apply(value: number) {
+    this.value = value
+    return this
+  }
+
+  clamp(min = 0, max = 1) {
+    this.value = Math.max(min, Math.min(max, this.value))
+    return this
+  }
 
   isPressed() {
     return this.value > 0.5
@@ -136,40 +150,24 @@ class Controller extends AbstractController {
   }
 
   controls = {
-    leftStick: new Stick().with(
-      applyVector(() => this.devices.gamepad.getVector(0, 1)),
-      normalize
-    ),
-
-    rightStick: new Stick().with(
-      applyVector(() => this.devices.gamepad.getVector(2, 3)),
-      normalize
-    ),
-
-    rightTrigger: new Button().with(
-      applyButton(() => this.devices.gamepad.getButton(7))
-    ),
-
-    a: new Button().with(applyButton(this.devices.gamepad.getButton(0)))
+    leftStick: new Stick(),
+    rightStick: new Stick(),
+    rightTrigger: new Button(),
+    a: new Button()
   }
-}
 
-const applyButton = (v: number | (() => number)) => (control: IButton) => {
-  control.value = typeof v === "function" ? v() : v
-}
+  update() {
+    this.controls.leftStick
+      .apply(this.devices.gamepad.getVector(0, 1))
+      .normalize()
 
-const applyVector = (v: IVector | (() => IVector)) => (control: IVector) => {
-  const vector = typeof v === "function" ? v() : v
-  control.x = vector.x
-  control.y = vector.y
-}
+    this.controls.rightStick
+      .apply(this.devices.gamepad.getVector(2, 3))
+      .normalize()
 
-const normalize = (control: IVector) => {
-  const length = Math.sqrt(control.x * control.x + control.y * control.y)
+    this.controls.rightTrigger.apply(this.devices.gamepad.getButton(5)).clamp()
 
-  if (length > 1) {
-    control.x /= length
-    control.y /= length
+    this.controls.a.apply(this.devices.gamepad.getButton(0)).clamp()
   }
 }
 
