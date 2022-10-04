@@ -269,29 +269,29 @@ class Controller extends AbstractController {
 
   schemes = {
     gamepad: () => {
-      const {
-        controls: { move, aim, fire, select },
-        devices: { gamepad }
-      } = this
-
-      move.apply(gamepad.getVector(0, 1))
-      aim.apply(gamepad.getVector(2, 3))
-      fire.apply(gamepad.getButton(7))
-      select.apply(gamepad.getButton(0))
+      this.controls.move.apply(this.devices.gamepad.getVector(0, 1))
+      this.controls.aim.apply(this.devices.gamepad.getVector(2, 3))
+      this.controls.fire.apply(this.devices.gamepad.getButton(7))
+      this.controls.select.apply(this.devices.gamepad.getButton(0))
     },
 
     keyboard: () => {
-      const {
-        controls: { move, aim, fire, select },
-        devices: { keyboard }
-      } = this
-
-      move.apply(keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
-      aim.apply(
-        keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
+      this.controls.move.apply(
+        this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
       )
-      fire.apply(keyboard.getKey("Space"))
-      select.apply(keyboard.getKey("Enter"))
+
+      this.controls.aim.apply(
+        this.devices.keyboard.getVector(
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowDown",
+          "ArrowUp"
+        )
+      )
+
+      this.controls.fire.apply(this.devices.keyboard.getKey("Space"))
+
+      this.controls.select.apply(this.devices.keyboard.getKey("Enter"))
     }
   }
 
