@@ -83,9 +83,18 @@ class GamepadDevice implements IDevice {
   }
 }
 
+type ControlUpdateFunction<T> = (control: T) => void
+
 abstract class AbstractControl implements IControl {
-  update(fun: (control: typeof this) => void) {
-    fun(this)
+  private updateFuns: ControlUpdateFunction<this>[] = []
+
+  configure(...funs: ControlUpdateFunction<this>[]) {
+    this.updateFuns = funs
+    return this
+  }
+
+  update() {
+    this.updateFuns.forEach((fun) => fun(this))
   }
 }
 
@@ -116,6 +125,7 @@ abstract class AbstractController {
 
   update() {
     Object.values(this.devices).forEach((d) => d.update())
+    Object.values(this.controls).forEach((c) => c.update())
   }
 }
 
@@ -126,34 +136,20 @@ class Controller extends AbstractController {
   }
 
   controls = {
-    leftStick: new Stick(),
-    rightStick: new Stick(),
-    rightTrigger: new Button(),
-    a: new Button()
-  }
+    leftStick: new Stick().configure(
+      applyVector(() => this.devices.gamepad.getVector(0, 1)),
+      normalize
+    ),
 
-  update() {
-    super.update()
+    rightStick: new Stick().configure(
+      applyVector(() => this.devices.gamepad.getVector(2, 3)),
+      normalize
+    ),
 
-    this.controls.a.update(applyButton(this.devices.gamepad.getButton(0)))
-
-    this.controls.rightTrigger.update(
+    rightTrigger: new Button().configure(
       applyButton(() => this.devices.gamepad.getButton(7))
-    )
-
-    this.controls.leftStick.update(
-      flow(
-        applyVector(() => this.devices.gamepad.getVector(0, 1)),
-        normalize
-      )
-    )
-
-    this.controls.rightStick.update(
-      flow(
-        applyVector(() => this.devices.gamepad.getVector(2, 3)),
-        normalize
-      )
-    )
+    ),
+    a: new Button().configure(applyButton(this.devices.gamepad.getButton(0)))
   }
 }
 
