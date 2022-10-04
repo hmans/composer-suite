@@ -1,5 +1,14 @@
 import { pipe } from "fp-ts/lib/function"
 
+interface IVector {
+  x: number
+  y: number
+}
+
+interface IButton {
+  value: number
+}
+
 interface IDevice {
   start: () => void
   stop: () => void
@@ -54,12 +63,23 @@ class GamepadDevice implements IDevice {
     this.state = navigator.getGamepads()[this.index]
   }
 
+  isActive() {
+    return !!this.state
+  }
+
   getButton(index: number) {
     return this.state?.buttons[index].value
   }
 
   getAxis(index: number) {
     return this.state?.axes[index]
+  }
+
+  getVector(horizontal: number, vertical: number) {
+    return {
+      x: this.getAxis(horizontal),
+      y: this.getAxis(vertical)
+    }
   }
 }
 
@@ -69,12 +89,12 @@ abstract class AbstractControl implements IControl {
   }
 }
 
-class Stick extends AbstractControl {
+class Stick extends AbstractControl implements IVector {
   x = 0
   y = 0
 }
 
-class Button extends AbstractControl {
+class Button extends AbstractControl implements IButton {
   value = 0
 
   isPressed() {
@@ -123,16 +143,25 @@ class Controller extends AbstractController {
       (c) => (c.value = this.devices.gamepad.getButton(7) || 0)
     )
 
-    this.controls.leftStick.update((c) => {
-      c.x = this.devices.gamepad.getAxis(0) || 0
-      c.y = -(this.devices.gamepad.getAxis(1) || 0)
-    })
+    this.controls.leftStick.update(
+      applyVector({
+        x: this.devices.gamepad.getAxis(0) || 0,
+        y: -(this.devices.gamepad.getAxis(1) || 0)
+      })
+    )
 
-    this.controls.rightStick.update((c) => {
-      c.x = this.devices.gamepad.getAxis(2) || 0
-      c.y = -(this.devices.gamepad.getAxis(3) || 0)
-    })
+    this.controls.rightStick.update(
+      applyVector({
+        x: this.devices.gamepad.getAxis(2) || 0,
+        y: -(this.devices.gamepad.getAxis(3) || 0)
+      })
+    )
   }
+}
+
+const applyVector = (v: IVector) => (control: IVector) => {
+  control.x = v.x
+  control.y = v.y
 }
 
 export const controller = new Controller()
