@@ -222,10 +222,16 @@ class Button extends AbstractControl implements IButton {
   }
 }
 
+class Scheme {
+  constructor(public devices: AbstractDevice[], public update: () => void) {
+    this.update = update.bind(this)
+  }
+}
+
 abstract class AbstractController {
   abstract devices: Record<string, AbstractDevice>
   abstract controls: Record<string, AbstractControl>
-  abstract schemes: Record<string, Function>
+  abstract schemes: Record<string, Scheme>
 
   scheme: "gamepad" | "keyboard" = "gamepad"
 
@@ -244,7 +250,7 @@ abstract class AbstractController {
     Object.values(this.devices).forEach((d) => d.update())
 
     /* Execute control scheme */
-    this.schemes[this.scheme]?.()
+    this.schemes[this.scheme]?.update()
 
     /* Process controls */
     this.process()
@@ -268,14 +274,14 @@ class Controller extends AbstractController {
   }
 
   schemes = {
-    gamepad: () => {
+    gamepad: new Scheme([this.devices.gamepad], () => {
       this.controls.move.apply(this.devices.gamepad.getVector(0, 1))
       this.controls.aim.apply(this.devices.gamepad.getVector(2, 3))
       this.controls.fire.apply(this.devices.gamepad.getButton(7))
       this.controls.select.apply(this.devices.gamepad.getButton(0))
-    },
+    }),
 
-    keyboard: () => {
+    keyboard: new Scheme([this.devices.keyboard], () => {
       this.controls.move.apply(
         this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
       )
@@ -292,7 +298,7 @@ class Controller extends AbstractController {
       this.controls.fire.apply(this.devices.keyboard.getKey("Space"))
 
       this.controls.select.apply(this.devices.keyboard.getKey("Enter"))
-    }
+    })
   }
 
   constructor() {
