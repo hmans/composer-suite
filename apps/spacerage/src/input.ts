@@ -189,7 +189,7 @@ abstract class AbstractController {
 }
 
 class Controller extends AbstractController {
-  scheme: "gamepad" | "keyboard" = "keyboard"
+  scheme: "gamepad" | "keyboard" = "gamepad"
 
   devices = {
     keyboard: new KeyboardDevice(),
@@ -210,39 +210,32 @@ class Controller extends AbstractController {
   update() {
     super.update()
 
-    this.controls.move
-      .apply(
-        this.scheme === "keyboard"
-          ? this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
-          : this.devices.gamepad.getVector(0, 1)
-      )
-      .normalize()
+    const { move, aim, fire, select } = this.controls
+    const { keyboard, gamepad } = this.devices
 
-    this.controls.aim
-      .apply(
-        this.scheme === "keyboard"
-          ? this.devices.keyboard.getVector(
-              "ArrowLeft",
-              "ArrowRight",
-              "ArrowDown",
-              "ArrowUp"
-            )
-          : this.devices.gamepad.getVector(2, 3)
-      )
-      .normalize()
+    /* Gather input, depending on active control scheme */
+    switch (this.scheme) {
+      case "keyboard":
+        move.apply(keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
+        aim.apply(
+          keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
+        )
+        fire.apply(keyboard.getKey("Space"))
+        select.apply(keyboard.getKey("Enter"))
+        break
 
-    this.controls.fire
-      .apply(
-        this.scheme === "keyboard"
-          ? this.devices.keyboard.getKey("Space")
-          : this.devices.gamepad.getButton(7)
-      )
-      .clamp()
+      case "gamepad":
+        move.apply(gamepad.getVector(0, 1))
+        aim.apply(gamepad.getVector(2, 3))
+        fire.apply(gamepad.getButton(7))
+        select.apply(gamepad.getButton(0))
+        break
+    }
 
-    this.controls.select
-      .apply(this.devices.gamepad.getButton(0))
-      .clamp()
-      .onPress(this.events.onSelect.emit)
+    /* Do additional processing */
+    move.normalize()
+    aim.normalize()
+    select.onPress(this.events.onSelect.emit)
   }
 }
 
