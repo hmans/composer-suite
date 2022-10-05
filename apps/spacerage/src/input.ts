@@ -116,7 +116,6 @@ class GamepadDevice extends AbstractDevice {
 
   update() {
     const allGamepads = navigator.getGamepads()
-    // console.log(allGamepads)
     const state = allGamepads[this.index]
 
     if (state?.timestamp !== this.state?.timestamp) {
@@ -145,7 +144,9 @@ class GamepadDevice extends AbstractDevice {
     }
   }
 
-  private onGamepadConnected(e: GamepadEvent) {}
+  private onGamepadConnected(e: GamepadEvent) {
+    console.log("New gamepad connected:", e.gamepad)
+  }
 
   private onGamepadDisconnected(e: GamepadEvent) {}
 }
