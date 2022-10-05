@@ -1,5 +1,5 @@
-import { Event } from "../../lib/event"
-import { IButton } from "../../types"
+import { Event } from "../lib/event"
+import { IButton } from "../types"
 import { AbstractControl } from "./AbstractControl"
 
 export class Button extends AbstractControl implements IButton {

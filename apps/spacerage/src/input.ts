@@ -1,3 +1,12 @@
+import {
+  AbstractController,
+  Button,
+  KeyboardDevice,
+  NormalizedGamepadDevice,
+  Scheme,
+  Stick
+} from "input-composer"
+
 class Controller extends AbstractController {
   devices = {
     keyboard: new KeyboardDevice(),

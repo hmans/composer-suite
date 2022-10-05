@@ -1,4 +1,4 @@
-import { Event } from "../../lib/event"
+import { Event } from "../lib/event"
 
 export abstract class AbstractDevice {
   onActivity = new Event()

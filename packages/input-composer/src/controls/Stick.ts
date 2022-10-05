@@ -1,4 +1,4 @@
-import { IVector } from "../../types"
+import { IVector } from "../types"
 import { AbstractControl } from "./AbstractControl"
 
 export class Stick extends AbstractControl implements IVector {

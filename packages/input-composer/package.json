@@ -12,11 +12,11 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "vanilla/index.ts"
+      "react.tsx"
     ]
   },
   "files": [
-    "vanilla/**",
+    "react/**",
     "dist/**",
     "LICENSE",
     "README.md"
