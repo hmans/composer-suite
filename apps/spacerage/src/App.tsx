@@ -11,6 +11,7 @@ import { controller } from "./input"
 import { StartScreen } from "./lib/StartScreen"
 import { useCapture } from "./lib/useCapture"
 import { GameState, SidebarTunnel, store } from "./state"
+import "@react-three/fiber"
 
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
