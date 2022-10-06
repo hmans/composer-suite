@@ -45,11 +45,13 @@ class Controller extends AbstractController {
     super()
 
     this.schemes.gamepad.onActivity.addListener(() => {
-      this.scheme = "gamepad"
+      console.log("Switching to gamepad")
+      this.scheme = this.schemes.gamepad
     })
 
     this.schemes.keyboard.onActivity.addListener(() => {
-      this.scheme = "keyboard"
+      console.log("Switching to keyboard")
+      this.scheme = this.schemes.keyboard
     })
   }
 

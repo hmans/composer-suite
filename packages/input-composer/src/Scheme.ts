@@ -6,8 +6,8 @@ export type DeviceMap = { [key: string]: AbstractDevice }
 export class Scheme<D extends DeviceMap> {
   onActivity = new Event()
 
-  constructor(public devices: D, public updateFun: (devices: D) => void) {
-    this.updateFun = updateFun.bind(this)
+  constructor(public devices: D, public process: (devices: D) => void) {
+    this.process = process.bind(this)
 
     Object.values(devices).forEach((device) => {
       device.onActivity.addListener(() => {
@@ -25,10 +25,6 @@ export class Scheme<D extends DeviceMap> {
   }
 
   update() {
-    /* Update devices */
     Object.values(this.devices).forEach((d) => d.update())
-
-    /* Execute update function */
-    this.updateFun?.(this.devices)
   }
 }

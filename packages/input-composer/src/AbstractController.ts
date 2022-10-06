@@ -10,8 +10,7 @@ export abstract class AbstractController implements IController {
   abstract controls: Record<string, AbstractControl>
   abstract schemes: Record<string, Scheme<any>>
 
-  /* FIXME */
-  scheme: "gamepad" | "keyboard" = "gamepad"
+  scheme: Scheme<any> | undefined
 
   process() {}
 
@@ -24,8 +23,11 @@ export abstract class AbstractController implements IController {
   }
 
   update() {
-    /* Execute control scheme */
-    this.schemes[this.scheme]?.update()
+    /* Update all schemes */
+    Object.values(this.schemes).forEach((s) => s.update())
+
+    /* Update active scheme */
+    this.scheme?.process(this.scheme.devices)
 
     /* Process controls */
     this.process()
