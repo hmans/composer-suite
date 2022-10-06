@@ -42,20 +42,21 @@ export const createKeyboardDevice = () => {
 
   const getKey = (key: string) => (keys.has(key) ? 1 : 0)
 
-  return { dispose, getKey }
-}
+  const getAxis = (positive: string, negative: string) =>
+    getKey(positive) - getKey(negative)
 
-export const getKeyboardAxis =
-  (minKey: string, maxKey: string) =>
-  ({ getKey }: KeyboardDevice) =>
-    getKey(maxKey) - getKey(minKey)
-
-export const getKeyboardVector =
-  (leftKey: string, rightKey: string, upKey: string, downKey: string) =>
-  (keyboard: KeyboardDevice) => ({
-    x: getKeyboardAxis(leftKey, rightKey)(keyboard),
-    y: getKeyboardAxis(downKey, upKey)(keyboard)
+  const getVector = (
+    positiveX: string,
+    negativeX: string,
+    positiveY: string,
+    negativeY: string
+  ) => ({
+    x: getAxis(positiveX, negativeX),
+    y: getAxis(positiveY, negativeY)
   })
+
+  return { dispose, getKey, getAxis, getVector }
+}
 
 const createSpaceRageController = () => {
   const devices = {
@@ -74,18 +75,13 @@ const createSpaceRageController = () => {
 
     const schemes = {
       keyboard: {
-        move: getKeyboardVector(
-          "KeyA",
-          "KeyD",
-          "KeyW",
-          "KeyS"
-        )(devices.keyboard),
-        aim: getKeyboardVector(
-          "ArrowLeft",
+        move: devices.keyboard.getVector("KeyD", "KeyA", "KeyW", "KeyS"),
+        aim: devices.keyboard.getVector(
           "ArrowRight",
+          "ArrowLeft",
           "ArrowUp",
           "ArrowDown"
-        )(devices.keyboard),
+        ),
         fire: devices.keyboard.getKey("Space")
       }
     }
