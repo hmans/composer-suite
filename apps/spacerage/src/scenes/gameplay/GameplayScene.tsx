@@ -17,13 +17,14 @@ import { ECSFlushSystem } from "./systems/ECSFlushSystem"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { VelocitySystem } from "./systems/VelocitySystem"
 import { Debug, Physics } from "@react-three/rapier"
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { PlayerSystem } from "./systems/PlayerSystem"
 import { SidebarTunnel } from "../../state"
 import * as UI from "ui-composer"
 import { World } from "miniplex"
 import { ECS } from "./state"
+import { useAutoRefresh } from "../../lib/useAutoRefresh"
 
 const GameplayScene = () => {
   return (
@@ -129,15 +130,6 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
       </table>
     </UI.Panel>
   )
-}
-
-const useAutoRefresh = (interval = 1) => {
-  const [_, setVersion] = useState(0)
-
-  useEffect(() => {
-    const id = setInterval(() => setVersion((v) => v + 1), interval * 1000)
-    return () => clearInterval(id)
-  }, [])
 }
 
 export default GameplayScene
