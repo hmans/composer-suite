@@ -12,13 +12,13 @@ export const App = () => {
     <StartScreen>
       <UI.Root>
         <UI.HorizontalGroup>
-          <div style={{ flex: 2 }}>
+          <div style={{ flex: 4 }}>
             <Game />
           </div>
 
           <UI.HorizontalResizer />
 
-          <UI.VerticalGroup css={{ flex: 1 }}>
+          <UI.VerticalGroup css={{ flex: "1 1 auto" }}>
             <UI.Panel>
               <UI.Heading>Scenes</UI.Heading>
               <UI.VerticalGroup>
