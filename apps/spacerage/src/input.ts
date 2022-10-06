@@ -8,11 +8,6 @@ import {
 } from "input-composer"
 
 class Controller extends AbstractController {
-  devices = {
-    keyboard: new KeyboardDevice(),
-    gamepad: new NormalizedGamepadDevice(0)
-  }
-
   controls = {
     move: new Stick(),
     aim: new Stick(),
@@ -21,30 +16,28 @@ class Controller extends AbstractController {
   }
 
   schemes = {
-    gamepad: new Scheme({ gamepad: this.devices.gamepad }, () => {
-      this.controls.move.apply(this.devices.gamepad.stickLeft)
-      this.controls.aim.apply(this.devices.gamepad.stickRight)
-      this.controls.fire.apply(this.devices.gamepad.triggerRight)
-      this.controls.select.apply(this.devices.gamepad.buttonA)
-    }),
+    gamepad: new Scheme(
+      { gamepad: new NormalizedGamepadDevice(0) },
+      ({ gamepad }) => {
+        this.controls.move.apply(gamepad.stickLeft)
+        this.controls.aim.apply(gamepad.stickRight)
+        this.controls.fire.apply(gamepad.triggerRight)
+        this.controls.select.apply(gamepad.buttonA)
+      }
+    ),
 
-    keyboard: new Scheme({ keyboard: this.devices.keyboard }, () => {
+    keyboard: new Scheme({ keyboard: new KeyboardDevice() }, ({ keyboard }) => {
       this.controls.move.apply(
-        this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
+        keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
       )
 
       this.controls.aim.apply(
-        this.devices.keyboard.getVector(
-          "ArrowLeft",
-          "ArrowRight",
-          "ArrowDown",
-          "ArrowUp"
-        )
+        keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
       )
 
-      this.controls.fire.apply(this.devices.keyboard.getKey("Space"))
+      this.controls.fire.apply(keyboard.getKey("Space"))
 
-      this.controls.select.apply(this.devices.keyboard.getKey("Enter"))
+      this.controls.select.apply(keyboard.getKey("Enter"))
     })
   }
 
