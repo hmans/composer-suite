@@ -1,5 +1,7 @@
-import { apply, pipe } from "fp-ts/lib/function"
+import { pipe } from "fp-ts/lib/function"
 import { Event } from "input-composer"
+
+/* Experimentation for a future Input Composer */
 
 export interface IVector {
   x: number
