@@ -18,9 +18,9 @@ export const StartScreen = ({ children }: StartScreenProps) => {
       <Button
         onClick={() => {
           /* Make sure audio context is resumed within click event, for Safari */
-          const audioContext = THREE.AudioContext.getContext()
-          audioContext.resume()
+          THREE.AudioContext.getContext().resume()
 
+          /* Start application */
           setStarted(true)
         }}
       >
