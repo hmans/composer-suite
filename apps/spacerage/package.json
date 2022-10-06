@@ -23,9 +23,9 @@
     "@hmans/things": "^0.0.6",
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
-    "@react-three/drei": "^9.32.7",
-    "@react-three/fiber": "^8.8.8",
-    "@react-three/rapier": "^0.7.3",
+    "@react-three/drei": "^9.34.1",
+    "@react-three/fiber": "^8.8.9",
+    "@react-three/rapier": "^0.7.6",
     "@stitches/react": "^1.2.8",
     "audio-composer": "workspace:^0.0.2",
     "camera-composer": "^0.0.1",
@@ -63,6 +63,6 @@
     "@types/three": "^0.144.0",
     "@vitejs/plugin-react": "^2.1.0",
     "typescript": "^4.8.4",
-    "vite": "^3.1.4"
+    "vite": "^3.1.6"
   }
 }
