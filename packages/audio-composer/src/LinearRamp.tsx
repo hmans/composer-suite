@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react"
+import { useLayoutEffect as useEffect } from "react"
 import { useAudioContext } from "./hooks"
 
 export type LinearRampProps = {
@@ -10,7 +10,7 @@ export type LinearRampProps = {
 export const LinearRamp = ({ to, duration, property }: LinearRampProps) => {
   const parent = useAudioContext() as any
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!parent) return
 
     const time = parent.context.currentTime
@@ -21,6 +21,7 @@ export const LinearRamp = ({ to, duration, property }: LinearRampProps) => {
       return
     }
 
+    prop.setValueAtTime(prop.value, time)
     prop.linearRampToValueAtTime(to, time + duration)
   }, [parent])
 
