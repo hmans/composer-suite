@@ -1,3 +1,4 @@
+import { useFrame } from "@react-three/fiber"
 import { composable, modules } from "material-composer-r3f"
 import { Suspense, useEffect } from "react"
 import { bitmask, Layers } from "render-composer"
@@ -14,7 +15,13 @@ import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
 const MenuScene = () => {
-  useEffect(() => controller.controls.select.onPress.addListener(startGame), [])
+  // useEffect(() => controller.controls.select.onPress.addListener(startGame), [])
+
+  useFrame(() => {
+    if (controller.controls.fire) {
+      startGame()
+    }
+  })
 
   return (
     <Suspense>

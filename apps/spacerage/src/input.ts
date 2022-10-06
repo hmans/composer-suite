@@ -1,64 +1,76 @@
-import {
-  AbstractController,
-  Button,
-  KeyboardDevice,
-  NormalizedGamepadDevice,
-  Scheme,
-  Stick
-} from "input-composer"
+import { pipe } from "fp-ts/lib/function"
 
-class Controller extends AbstractController {
-  controls = {
-    move: new Stick(),
-    aim: new Stick(),
-    fire: new Button(),
-    select: new Button()
-  }
-
-  schemes = {
-    gamepad: new Scheme(
-      { gamepad: new NormalizedGamepadDevice(0) },
-      ({ gamepad }) => {
-        this.controls.move.apply(gamepad.stickLeft)
-        this.controls.aim.apply(gamepad.stickRight)
-        this.controls.fire.apply(gamepad.triggerRight)
-        this.controls.select.apply(gamepad.buttonA)
-      }
-    ),
-
-    keyboard: new Scheme({ keyboard: new KeyboardDevice() }, ({ keyboard }) => {
-      this.controls.move.apply(
-        keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
-      )
-
-      this.controls.aim.apply(
-        keyboard.getVector("ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp")
-      )
-
-      this.controls.fire.apply(keyboard.getKey("Space"))
-
-      this.controls.select.apply(keyboard.getKey("Enter"))
-    })
-  }
-
-  constructor() {
-    super()
-
-    this.schemes.gamepad.onActivity.addListener(() => {
-      console.log("Switching to gamepad")
-      this.scheme = this.schemes.gamepad
-    })
-
-    this.schemes.keyboard.onActivity.addListener(() => {
-      console.log("Switching to keyboard")
-      this.scheme = this.schemes.keyboard
-    })
-  }
-
-  process() {
-    this.controls.move.clampLength().deadzone(0.1)
-    this.controls.aim.clampLength().deadzone(0.1)
-  }
+export interface IVector {
+  x: number
+  y: number
 }
 
-export const controller = new Controller()
+type KeyboardDevice = ReturnType<typeof createKeyboardDevice>
+
+export const createKeyboardDevice = () => {
+  const keys = new Set()
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    keys.add(e.code)
+  }
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    keys.delete(e.code)
+  }
+
+  window.addEventListener("keydown", onKeyDown)
+  window.addEventListener("keyup", onKeyUp)
+
+  const dispose = () => {
+    window.removeEventListener("keydown", onKeyDown)
+    window.removeEventListener("keyup", onKeyUp)
+  }
+
+  const getKey = (key: string) => (keys.has(key) ? 1 : 0)
+
+  return { dispose, getKey }
+}
+
+export const getKeyboardAxis =
+  (minKey: string, maxKey: string) =>
+  ({ getKey }: KeyboardDevice) =>
+    getKey(maxKey) - getKey(minKey)
+
+export const getKeyboardVector =
+  (leftKey: string, rightKey: string, upKey: string, downKey: string) =>
+  (keyboard: KeyboardDevice) => ({
+    x: getKeyboardAxis(leftKey, rightKey)(keyboard),
+    y: getKeyboardAxis(downKey, upKey)(keyboard)
+  })
+
+const createSpaceRageController = () => {
+  const devices = {
+    keyboard: createKeyboardDevice()
+  }
+
+  const controls = {
+    move: { x: 0, y: 0 },
+    aim: { x: 0, y: 0 },
+    fire: 0
+  }
+
+  const update = () => {
+    controls.move = pipe(
+      devices.keyboard,
+      getKeyboardVector("KeyA", "KeyD", "KeyW", "KeyS")
+    )
+
+    controls.aim = pipe(
+      devices.keyboard,
+      getKeyboardVector("ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown")
+    )
+
+    controls.fire = devices.keyboard.getKey("Space")
+  }
+
+  const dispose = () => {}
+
+  return { controls, update, dispose }
+}
+
+export const controller = createSpaceRageController()

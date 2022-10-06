@@ -1,7 +1,6 @@
 import { PerspectiveCamera } from "@react-three/drei"
 import * as AC from "audio-composer"
 import { AudioListener } from "audio-composer"
-import { Controller } from "input-composer/react"
 import { lazy, Suspense } from "react"
 import * as RC from "render-composer"
 import * as UI from "ui-composer"
@@ -15,9 +14,18 @@ import { GameState, SidebarTunnel, store } from "./state"
 /* We need to make sure that this file imports _something_ from @react-three/fiber
 because otherwise Vite gets confused. :( */
 import "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
+
+const Controller = () => {
+  useFrame(() => {
+    controller.update()
+  }, Stage.Early)
+
+  return null
+}
 
 export const App = () => {
   return (
@@ -26,10 +34,7 @@ export const App = () => {
         <UI.HorizontalGroup>
           <div style={{ flex: 2 }}>
             <RC.Canvas dpr={1}>
-              <Controller
-                controller={controller}
-                updatePriority={Stage.Early}
-              />
+              <Controller />
               <RC.RenderPipeline updatePriority={Stage.Render}>
                 <AC.AudioContext>
                   <AC.Compressor>
