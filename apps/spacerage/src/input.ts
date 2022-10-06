@@ -72,6 +72,18 @@ export const createGamepadDevice = (index: number) => {
   return { getButton, getAxis, getVector, update, onActivity }
 }
 
+export const createNormalizedGamepadDevice = (index: number) => {
+  const gamepad = createGamepadDevice(index)
+
+  return {
+    ...gamepad,
+
+    get rightTrigger() {
+      return gamepad.getButton(7)
+    }
+  }
+}
+
 export const createKeyboardDevice = () => {
   const onActivity = new Event()
   const keys = new Set()
@@ -116,7 +128,7 @@ const createSpaceRageController = () => {
 
   const devices = {
     keyboard: createKeyboardDevice(),
-    gamepad: createGamepadDevice(0)
+    gamepad: createNormalizedGamepadDevice(0)
   }
 
   const controls = {
@@ -162,7 +174,7 @@ const createSpaceRageController = () => {
       case "gamepad":
         controls.move = devices.gamepad.getVector(0, 1)!
         controls.aim = devices.gamepad.getVector(2, 3)!
-        controls.fire = devices.gamepad.getButton(7)!
+        controls.fire = devices.gamepad.rightTrigger!
         break
     }
 
