@@ -54,7 +54,6 @@ export const createGamepadDevice = (index: number) => {
 
     if (lastTimestamp !== state.gamepad?.timestamp) {
       onActivity.emit()
-      console.log(state.gamepad)
     }
   }
 
