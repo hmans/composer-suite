@@ -45,14 +45,16 @@ export const applyDeadzone =
 export const createGamepadDevice = (index: number) => {
   const onActivity = new Event()
 
-  const state = { gamepad: navigator.getGamepads()[index] }
+  const state = {
+    lastTimestamp: undefined as number | undefined,
+    gamepad: navigator.getGamepads()[index]
+  }
 
   const update = () => {
-    const lastTimestamp = state.gamepad?.timestamp
-
     state.gamepad = navigator.getGamepads()[index]
 
-    if (lastTimestamp !== state.gamepad?.timestamp) {
+    if (state.lastTimestamp !== state.gamepad?.timestamp) {
+      state.lastTimestamp = state.gamepad?.timestamp
       onActivity.emit()
     }
   }
