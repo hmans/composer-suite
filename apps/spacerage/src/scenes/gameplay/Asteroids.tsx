@@ -51,7 +51,9 @@ export const Asteroids = ({
                 ])}
                 args={[mesh.geometry.attributes.position.array as Float32Array]}
               />
-              <Particle />
+              <ECS.Component name="sceneObject">
+                <Particle matrixAutoUpdate={false} />
+              </ECS.Component>
             </RigidBody>
           </ECS.Component>
         )}

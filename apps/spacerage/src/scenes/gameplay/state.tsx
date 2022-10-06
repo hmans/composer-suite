@@ -23,6 +23,7 @@ export type Entity = {
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
+  pickup?: JSX.Element
   asteroidExplosion?: JSX.Element
 
   sound?: JSX.Element

@@ -14,6 +14,7 @@ import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
+import { Pickups } from "./Pickups"
 import { Player } from "./Player"
 import { ECS } from "./state"
 import { AgeSystem } from "./systems/AgeSystem"
@@ -65,6 +66,7 @@ const GameplayScene = () => {
 
           <Player />
           <Asteroids initial={100} />
+          <Pickups />
           <Bullets />
           <Debris />
           <Sparks />
