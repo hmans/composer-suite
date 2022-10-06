@@ -18,6 +18,7 @@ import { Pickups } from "./Pickups"
 import { Player } from "./Player"
 import { ECS } from "./state"
 import { AgeSystem } from "./systems/AgeSystem"
+import { AttractorSystem } from "./systems/AttractorSystem"
 import { BulletSystem } from "./systems/BulletSystem"
 import { DestroyAfterSystem } from "./systems/DestroyAfterSystem"
 import { ECSFlushSystem } from "./systems/ECSFlushSystem"
@@ -80,6 +81,7 @@ const GameplayScene = () => {
 
           <AgeSystem />
           <DestroyAfterSystem />
+          <AttractorSystem />
           <PlayerSystem />
           <VelocitySystem />
           <BulletSystem />
