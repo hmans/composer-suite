@@ -1,6 +1,12 @@
-import { Color } from "three"
+import {
+  BallCollider,
+  interactionGroups,
+  RigidBody,
+  RigidBodyProps
+} from "@react-three/rapier"
+import { Color, Vector3 } from "three"
 import { InstancedParticles, Particle, ParticleProps } from "vfx-composer-r3f"
-import { ECS } from "./state"
+import { ECS, Layers } from "./state"
 
 export const Pickups = () => (
   <InstancedParticles>
@@ -13,7 +19,30 @@ export const Pickups = () => (
   </InstancedParticles>
 )
 
-export const spawnPickup = (props: ParticleProps) =>
+export type PickupProps = { position: Vector3 }
+
+export const Pickup = (props: PickupProps) => (
+  <ECS.Component name="rigidBody">
+    <RigidBody
+      {...props}
+      enabledTranslations={[true, true, false]}
+      angularDamping={2}
+      linearDamping={0.5}
+      collisionGroups={interactionGroups(Layers.Pickup, [
+        Layers.Pickup,
+        Layers.Player
+      ])}
+    >
+      <ECS.Component name="sceneObject">
+        <BallCollider args={[0.5]}>
+          <Particle />
+        </BallCollider>
+      </ECS.Component>
+    </RigidBody>
+  </ECS.Component>
+)
+
+export const spawnPickup = (props: PickupProps) =>
   ECS.world.createEntity({
-    pickup: <Particle {...props} />
+    pickup: <Pickup {...props} />
   })

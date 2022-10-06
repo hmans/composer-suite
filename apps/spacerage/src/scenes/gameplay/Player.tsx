@@ -24,6 +24,10 @@ export const Player = () => {
           enabledTranslations={[true, true, false]}
           enabledRotations={[false, false, true]}
           scale={0.5}
+          collisionGroups={interactionGroups(Layers.Player, [
+            Layers.Asteroid,
+            Layers.Pickup
+          ])}
         >
           <ECS.Component name="sceneObject">
             <group>
@@ -32,10 +36,6 @@ export const Player = () => {
                   (gltf.scene.children[0] as Mesh).geometry.attributes.position
                     .array as Float32Array
                 ]}
-                collisionGroups={interactionGroups(
-                  Layers.Player,
-                  Layers.Asteroid
-                )}
               />
               <primitive object={gltf.scene} />
 

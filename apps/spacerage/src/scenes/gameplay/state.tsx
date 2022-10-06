@@ -6,7 +6,9 @@ import { Tag } from "miniplex"
 
 export enum Layers {
   Player,
-  Asteroid
+  Bullet,
+  Asteroid,
+  Pickup
 }
 
 export const gameplayStore = makeStore({

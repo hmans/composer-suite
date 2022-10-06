@@ -47,7 +47,8 @@ export const Asteroids = ({
                 density={3}
                 collisionGroups={interactionGroups(Layers.Asteroid, [
                   Layers.Asteroid,
-                  Layers.Player
+                  Layers.Player,
+                  Layers.Bullet
                 ])}
                 args={[mesh.geometry.attributes.position.array as Float32Array]}
               />

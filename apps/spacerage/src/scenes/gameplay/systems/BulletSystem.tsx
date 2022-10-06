@@ -1,4 +1,5 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
+import { QueryFilterFlags } from "@dimforge/rapier3d-compat"
 import { useFrame } from "@react-three/fiber"
 import { interactionGroups, useRapier } from "@react-three/rapier"
 import { between, chance } from "randomish"
@@ -41,7 +42,7 @@ export const BulletSystem = () => {
         10,
         true,
         undefined,
-        interactionGroups(Layers.Player)
+        interactionGroups(Layers.Bullet, Layers.Asteroid)
       )
 
       if (hit) {
