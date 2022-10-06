@@ -19,7 +19,6 @@ export const SmokeVFX = () => {
     Mix(-0.5, 0.5, rng(1))
   ])
 
-  /* TODO: why is this typed "any"? */
   const texture = useAsset.textures.smoke()
 
   return (
@@ -37,7 +36,6 @@ export const SmokeVFX = () => {
         />
       </Composable.MeshStandardMaterial>
 
-      {/* Render all the sparks entities */}
       <ECS.ArchetypeEntities archetype="smoke">
         {({ smoke }) => smoke}
       </ECS.ArchetypeEntities>
@@ -45,20 +43,18 @@ export const SmokeVFX = () => {
   )
 }
 
-export const SmokeVFXEmitter = (props: EmitterProps) => (
-  <Emitter
-    {...props}
-    rate={Infinity}
-    limit={between(10, 30)}
-    setup={({ mesh }) => {
-      lifetime.write(mesh, between(0.5, 2), upTo(0.3))
-    }}
-  />
-)
-
 export const spawnSmokeVFX = (props: EmitterProps) =>
   ECS.world.createEntity({
     age: 0,
     destroyAfter: 5,
-    smoke: <SmokeVFXEmitter {...props} />
+    smoke: (
+      <Emitter
+        {...props}
+        rate={Infinity}
+        limit={between(10, 30)}
+        setup={({ mesh }) => {
+          lifetime.write(mesh, between(0.5, 2), upTo(0.3))
+        }}
+      />
+    )
   })
