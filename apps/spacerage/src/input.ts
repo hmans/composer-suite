@@ -54,6 +54,7 @@ export const createGamepadDevice = (index: number) => {
 
     if (lastTimestamp !== state.gamepad?.timestamp) {
       onActivity.emit()
+      console.log(state.gamepad)
     }
   }
 
@@ -69,7 +70,7 @@ export const createGamepadDevice = (index: number) => {
         }
       : undefined
 
-  return { getButton, getAxis, getVector, update, onActivity }
+  return { state, getButton, getAxis, getVector, update, onActivity }
 }
 
 export const createNormalizedGamepadDevice = (index: number) => {
@@ -79,7 +80,14 @@ export const createNormalizedGamepadDevice = (index: number) => {
     ...gamepad,
 
     get rightTrigger() {
-      return gamepad.getButton(7)
+      if (!gamepad.state.gamepad) return
+      const state = gamepad.state.gamepad
+
+      if (state.mapping === "standard") {
+        return gamepad.getButton(7)
+      } else if (state.id === "45e-b13-Xbox Wireless Controller") {
+        return gamepad.getButton(16)
+      }
     }
   }
 }
