@@ -7,6 +7,20 @@ export interface IVector {
 
 type KeyboardDevice = ReturnType<typeof createKeyboardDevice>
 
+export const createGamepadDevice = (index: number) => {
+  const state = { gamepad: navigator.getGamepads()[index] }
+
+  const update = () => {
+    state.gamepad = navigator.getGamepads()[index]
+  }
+
+  const getButton = (button: number) => state.gamepad?.buttons[button].value
+
+  const getAxis = (axis: number) => state.gamepad?.axes[axis]
+
+  return { getButton, getAxis, update }
+}
+
 export const createKeyboardDevice = () => {
   const keys = new Set()
 
@@ -45,7 +59,8 @@ export const getKeyboardVector =
 
 const createSpaceRageController = () => {
   const devices = {
-    keyboard: createKeyboardDevice()
+    keyboard: createKeyboardDevice(),
+    gamepad: createGamepadDevice(0)
   }
 
   const controls = {
@@ -55,6 +70,8 @@ const createSpaceRageController = () => {
   }
 
   const update = () => {
+    devices.gamepad.update()
+
     controls.move = pipe(
       devices.keyboard,
       getKeyboardVector("KeyA", "KeyD", "KeyW", "KeyS")
