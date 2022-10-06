@@ -21,14 +21,14 @@ class Controller extends AbstractController {
   }
 
   schemes = {
-    gamepad: new Scheme([this.devices.gamepad], () => {
+    gamepad: new Scheme({ gamepad: this.devices.gamepad }, () => {
       this.controls.move.apply(this.devices.gamepad.stickLeft)
       this.controls.aim.apply(this.devices.gamepad.stickRight)
       this.controls.fire.apply(this.devices.gamepad.triggerRight)
       this.controls.select.apply(this.devices.gamepad.buttonA)
     }),
 
-    keyboard: new Scheme([this.devices.keyboard], () => {
+    keyboard: new Scheme({ keyboard: this.devices.keyboard }, () => {
       this.controls.move.apply(
         this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW")
       )
@@ -51,12 +51,12 @@ class Controller extends AbstractController {
   constructor() {
     super()
 
-    this.devices.keyboard.onActivity.addListener(() => {
-      this.scheme = "keyboard"
+    this.schemes.gamepad.onActivity.addListener(() => {
+      this.scheme = "gamepad"
     })
 
-    this.devices.gamepad.onActivity.addListener(() => {
-      this.scheme = "gamepad"
+    this.schemes.keyboard.onActivity.addListener(() => {
+      this.scheme = "keyboard"
     })
   }
 

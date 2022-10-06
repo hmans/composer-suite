@@ -2,7 +2,13 @@ import { AbstractControl } from "./controls/AbstractControl"
 import { AbstractDevice } from "./devices/AbstractDevice"
 import { Scheme } from "./Scheme"
 
-export abstract class AbstractController {
+export interface IController {
+  devices: Record<string, AbstractDevice>
+  controls: Record<string, AbstractControl>
+  schemes: Record<string, Scheme>
+}
+
+export abstract class AbstractController implements IController {
   abstract devices: Record<string, AbstractDevice>
   abstract controls: Record<string, AbstractControl>
   abstract schemes: Record<string, Scheme>
