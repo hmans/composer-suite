@@ -1,11 +1,6 @@
-import {
-  BallCollider,
-  interactionGroups,
-  RigidBody,
-  RigidBodyProps
-} from "@react-three/rapier"
+import { BallCollider, interactionGroups, RigidBody } from "@react-three/rapier"
 import { Color, Vector3 } from "three"
-import { InstancedParticles, Particle, ParticleProps } from "vfx-composer-r3f"
+import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
 
 export const Pickups = () => (
@@ -19,30 +14,50 @@ export const Pickups = () => (
   </InstancedParticles>
 )
 
-export type PickupProps = { position: Vector3 }
+export type PickupProps = { position: Vector3; onPickup?: () => void }
 
-export const Pickup = (props: PickupProps) => (
-  <ECS.Component name="rigidBody">
-    <RigidBody
-      {...props}
-      enabledTranslations={[true, true, false]}
-      angularDamping={2}
-      linearDamping={0.5}
-      collisionGroups={interactionGroups(Layers.Pickup, [
-        Layers.Pickup,
-        Layers.Player
-      ])}
-    >
-      <ECS.Component name="sceneObject">
-        <BallCollider args={[0.5]}>
-          <Particle />
-        </BallCollider>
-      </ECS.Component>
-    </RigidBody>
-  </ECS.Component>
-)
+export const Pickup = ({ onPickup, ...props }: PickupProps) => {
+  const [player] = ECS.useArchetype("player")
 
-export const spawnPickup = (props: PickupProps) =>
-  ECS.world.createEntity({
-    pickup: <Pickup {...props} />
+  return (
+    <ECS.Component name="rigidBody">
+      <RigidBody
+        {...props}
+        enabledTranslations={[true, true, false]}
+        angularDamping={2}
+        linearDamping={0.5}
+        collisionGroups={interactionGroups(Layers.Pickup, [
+          Layers.Pickup,
+          Layers.Player
+        ])}
+        onCollisionEnter={({ collider }) => {
+          const rigidBody = collider.parent()
+          if (rigidBody && rigidBody === player.rigidBody?.raw()) {
+            onPickup?.()
+          }
+        }}
+      >
+        <ECS.Component name="sceneObject">
+          <BallCollider args={[0.5]}>
+            <Particle />
+          </BallCollider>
+        </ECS.Component>
+      </RigidBody>
+    </ECS.Component>
+  )
+}
+
+export const spawnPickup = (props: PickupProps) => {
+  const entity = ECS.world.createEntity({
+    pickup: (
+      <Pickup
+        {...props}
+        onPickup={() => {
+          ECS.world.queue.destroyEntity(entity)
+        }}
+      />
+    )
   })
+
+  return entity
+}
