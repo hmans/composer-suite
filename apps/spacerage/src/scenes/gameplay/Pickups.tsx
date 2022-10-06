@@ -1,4 +1,5 @@
 import { BallCollider, interactionGroups, RigidBody } from "@react-three/rapier"
+import { plusMinus } from "randomish"
 import { Color, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
@@ -23,6 +24,7 @@ export const Pickup = ({ onPickup, ...props }: PickupProps) => {
     <ECS.Component name="rigidBody">
       <RigidBody
         {...props}
+        linearVelocity={[plusMinus(4), plusMinus(4), 0]}
         enabledTranslations={[true, true, false]}
         angularDamping={2}
         linearDamping={0.5}
