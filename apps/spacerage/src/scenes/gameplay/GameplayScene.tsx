@@ -27,6 +27,7 @@ import { VelocitySystem } from "./systems/VelocitySystem"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { Debris } from "./vfx/Debris"
+import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
 
 const GameplayScene = () => {
@@ -71,6 +72,7 @@ const GameplayScene = () => {
           <Bullets />
           <Debris />
           <Sparks />
+          <SmokeVFX />
           <AsteroidExplosions />
           <BackgroundAsteroids />
 

@@ -25,6 +25,7 @@ export type Entity = {
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
+  smoke?: JSX.Element
   pickup?: JSX.Element
   asteroidExplosion?: JSX.Element
 

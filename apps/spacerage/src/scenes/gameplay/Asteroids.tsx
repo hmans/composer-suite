@@ -69,7 +69,7 @@ export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
       spawnPosition: position,
       scale
     },
-    health: 100 * scale
+    health: 250 * scale
   })
 }
 

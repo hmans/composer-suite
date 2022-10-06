@@ -1,5 +1,4 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { QueryFilterFlags } from "@dimforge/rapier3d-compat"
 import { useFrame } from "@react-three/fiber"
 import { interactionGroups, useRapier } from "@react-three/rapier"
 import { between, chance } from "randomish"
@@ -10,6 +9,7 @@ import { spawnAsteroid } from "../Asteroids"
 import { spawnPickup } from "../Pickups"
 import { ECS, Layers } from "../state"
 import { spawnAsteroidExplosion } from "../vfx/AsteroidExplosions"
+import { spawnSmokeVFX } from "../vfx/SmokeVFX"
 import { spawnSparks } from "../vfx/Sparks"
 
 const hittableEntities = ECS.world.archetype("health", "rigidBody")
@@ -56,6 +56,9 @@ export const BulletSystem = () => {
         spawnSparks({
           position: bullet.sceneObject.position,
           quaternion: bullet.sceneObject.quaternion
+        })
+        spawnSmokeVFX({
+          position: bullet.sceneObject.position
         })
 
         /* Find the entity that was hit */
