@@ -1,5 +1,12 @@
 # react-game-starter
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [1ae718d]
+  - vfx-composer@0.4.0
+
 ## 0.0.2
 
 ### Patch Changes

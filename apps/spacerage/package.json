@@ -30,7 +30,7 @@
     "audio-composer": "workspace:^0.0.2",
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
-    "input-composer": "^0.0.2",
+    "input-composer": "^0.0.3",
     "material-composer": "^0.2.6",
     "material-composer-r3f": "^0.2.5",
     "miniplex": "1.0.0",
@@ -54,8 +54,8 @@
     "timeline-composer": "workspace:^0.1.7",
     "tunnel-rat": "^0.1.0",
     "ui-composer": "workspace:^0.0.1",
-    "vfx-composer": "^0.3.1",
-    "vfx-composer-r3f": "^0.3.0"
+    "vfx-composer": "^0.4.0",
+    "vfx-composer-r3f": "^0.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.21",
