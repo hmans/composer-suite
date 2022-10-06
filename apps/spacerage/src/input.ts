@@ -72,17 +72,18 @@ const createSpaceRageController = () => {
   const update = () => {
     devices.gamepad.update()
 
-    controls.move = pipe(
-      devices.keyboard,
-      getKeyboardVector("KeyA", "KeyD", "KeyW", "KeyS")
-    )
+    const keyboardInput = {
+      move: getKeyboardVector("KeyA", "KeyD", "KeyS", "KeyW")(devices.keyboard),
+      aim: getKeyboardVector(
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowDown",
+        "ArrowUp"
+      )(devices.keyboard),
+      fire: devices.keyboard.getKey("Space")
+    }
 
-    controls.aim = pipe(
-      devices.keyboard,
-      getKeyboardVector("ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown")
-    )
-
-    controls.fire = devices.keyboard.getKey("Space")
+    Object.assign(controls, keyboardInput)
   }
 
   const dispose = () => {}
