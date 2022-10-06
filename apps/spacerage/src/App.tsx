@@ -1,11 +1,11 @@
 import * as UI from "ui-composer"
 import { StartScreen } from "./lib/StartScreen"
-import { GameState, SidebarTunnel } from "./state"
 
 /* We need to make sure that this file imports _something_ from @react-three/fiber
 because otherwise Vite gets confused. :( */
 import "@react-three/fiber"
 import { Game } from "./Game"
+import { Sidebar } from "./editor/Sidebar"
 
 export const App = () => {
   return (
@@ -15,23 +15,9 @@ export const App = () => {
           <div style={{ flex: 4 }}>
             <Game />
           </div>
-
           <UI.HorizontalResizer />
-
           <UI.VerticalGroup css={{ flex: "1 1 auto" }}>
-            <UI.Panel>
-              <UI.Heading>Scenes</UI.Heading>
-              <UI.VerticalGroup>
-                <UI.Button onClick={() => GameState.enter("menu")}>
-                  Menu Scene
-                </UI.Button>
-                <UI.Button onClick={() => GameState.enter("gameplay")}>
-                  Gameplay Scene
-                </UI.Button>
-              </UI.VerticalGroup>
-            </UI.Panel>
-
-            <SidebarTunnel.Out />
+            <Sidebar />
           </UI.VerticalGroup>
         </UI.HorizontalGroup>
       </UI.Root>
