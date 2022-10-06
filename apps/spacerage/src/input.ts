@@ -1,9 +1,44 @@
+import { apply, pipe } from "fp-ts/lib/function"
 import { Event } from "input-composer"
 
 export interface IVector {
   x: number
   y: number
 }
+
+export const normalizeVector = (v: IVector) => {
+  const length = Math.sqrt(v.x * v.x + v.y * v.y)
+
+  if (length > 0) {
+    v.x /= length
+    v.y /= length
+  }
+
+  return v
+}
+
+export const copyVector = (source: IVector) => (v: IVector) => {
+  v.x = source.x
+  v.y = source.y
+  return v
+}
+
+export const applyDeadzone =
+  (threshold = 0.1) =>
+  (v: IVector) => {
+    const length = Math.sqrt(v.x * v.x + v.y * v.y)
+
+    if (length < threshold) {
+      v.x = 0
+      v.y = 0
+    } else {
+      normalizeVector(v)
+      v.x = (v.x * (length - threshold)) / (1 - threshold)
+      v.y = (v.y * (length - threshold)) / (1 - threshold)
+    }
+
+    return v
+  }
 
 export const createGamepadDevice = (index: number) => {
   const onActivity = new Event()
@@ -128,6 +163,10 @@ const createSpaceRageController = () => {
         controls.fire = devices.gamepad.getButton(7)!
         break
     }
+
+    /* Apply some processing */
+    pipe(controls.move, applyDeadzone(0.3))
+    pipe(controls.aim, applyDeadzone(0.3))
   }
 
   const dispose = () => {}
