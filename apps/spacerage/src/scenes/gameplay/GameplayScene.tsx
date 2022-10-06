@@ -102,14 +102,15 @@ const MiniplexInspector = ({ world }: MiniplexInspectorProps) => {
             <td align="right">{world.entities.length}</td>
             <td>Total Entities</td>
           </tr>
-          {[...world.archetypes].map(([name, archetype]) => (
-            <tr>
+          {[...world.archetypes].map(([name, archetype], i) => (
+            <tr key={i}>
               <td width={60} align="right">
                 {archetype.entities.length}
               </td>
               <td>
-                {archetype.query.map((component) => (
+                {archetype.query.map((component, i) => (
                   <span
+                    key={i}
                     style={{
                       display: "inline-block",
                       backgroundColor: "#555",
