@@ -11,6 +11,9 @@ import { controller } from "./input"
 import { StartScreen } from "./lib/StartScreen"
 import { useCapture } from "./lib/useCapture"
 import { GameState, SidebarTunnel, store } from "./state"
+
+/* We need to make sure that this file imports _something_ from @react-three/fiber
+because otherwise Vite gets confused. :( */
 import "@react-three/fiber"
 
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
