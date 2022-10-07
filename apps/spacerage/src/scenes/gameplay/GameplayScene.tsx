@@ -31,6 +31,7 @@ import { VelocitySystem } from "./systems/VelocitySystem"
 import { AsteroidExplosions } from "./vfx/AsteroidExplosions"
 import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { Debris } from "./vfx/Debris"
+import { DustVFX } from "./vfx/DustVFX"
 import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
 
@@ -77,6 +78,7 @@ const GameplayScene = () => {
           <Debris />
           <Sparks />
           <SmokeVFX />
+          <DustVFX capacity={25000} />
           <AsteroidExplosions />
           <BackgroundAsteroids />
 
