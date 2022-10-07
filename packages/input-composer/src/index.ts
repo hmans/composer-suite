@@ -79,6 +79,12 @@ export class ValueControl extends Control implements IValue {
 
 export abstract class Device {
   abstract update(): void
+
+  onActivity = new Event()
+
+  dispose() {
+    this.onActivity.clear()
+  }
 }
 
 export class KeyboardDevice extends Device {
@@ -92,6 +98,7 @@ export class KeyboardDevice extends Device {
   }
 
   dispose() {
+    super.dispose()
     window.removeEventListener("keydown", this.onKeyDown)
     window.removeEventListener("keyup", this.onKeyUp)
   }
@@ -122,6 +129,7 @@ export class KeyboardDevice extends Device {
 
   private onKeyDown = (e: KeyboardEvent) => {
     this.keys.add(e.code)
+    this.onActivity.emit()
   }
 
   private onKeyUp = (e: KeyboardEvent) => {
@@ -137,14 +145,12 @@ export class GamepadDevice extends Device {
   lastTimestamp: number = 0
   gamepad: Gamepad | null = null
 
-  onActivity = new Event()
-
   update() {
     this.gamepad = navigator.getGamepads()[this.index]
 
     if (this.gamepad && this.gamepad.timestamp !== this.lastTimestamp) {
-      this.onActivity.emit()
       this.lastTimestamp = this.gamepad.timestamp
+      this.onActivity.emit()
     }
   }
 

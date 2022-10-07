@@ -19,6 +19,16 @@ class Controller {
 
   activeScheme: "keyboard" | "gamepad" = "gamepad"
 
+  constructor() {
+    this.devices.gamepad.onActivity.addListener(() => {
+      this.activeScheme = "gamepad"
+    })
+
+    this.devices.keyboard.onActivity.addListener(() => {
+      this.activeScheme = "keyboard"
+    })
+  }
+
   update() {
     this.devices.keyboard.update()
     this.devices.gamepad.update()

@@ -7,6 +7,10 @@ export class Event<P = void> {
     this.emit = this.emit.bind(this)
   }
 
+  clear() {
+    this.listeners.clear()
+  }
+
   addListener(listener: Listener<P>) {
     this.listeners.add(listener)
     return () => this.removeListener(listener)
