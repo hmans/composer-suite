@@ -29,6 +29,16 @@ class Controller {
     })
   }
 
+  start() {
+    this.devices.keyboard.start()
+    this.devices.gamepad.start()
+  }
+
+  stop() {
+    this.devices.keyboard.stop()
+    this.devices.gamepad.stop()
+  }
+
   update() {
     this.devices.keyboard.update()
     this.devices.gamepad.update()

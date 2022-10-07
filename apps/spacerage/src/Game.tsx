@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect, useLayoutEffect } from "react"
 import * as RC from "render-composer"
 import { PostProcessing } from "./common/PostProcessing"
 import { Stage } from "./configuration"
@@ -12,6 +12,11 @@ const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 
 const Controller = () => {
+  useEffect(() => {
+    controller.start()
+    return () => controller.stop()
+  })
+
   useFrame(() => {
     controller.update()
   }, Stage.Early)
