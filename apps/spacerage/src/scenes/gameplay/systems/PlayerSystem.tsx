@@ -55,7 +55,7 @@ export const PlayerSystem = () => {
 
     const { fire } = controller.controls
 
-    if (fire && fireCooldown.current <= 0) {
+    if (fire.value && fireCooldown.current <= 0) {
       const worldPosition = player.sceneObject.getWorldPosition(new Vector3())
 
       spawnBullet(
