@@ -69,23 +69,33 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     this.onBeforeRender = () => {
       const emitted = this.cursor - this.lastCursor
 
-      /* Increase total count of particles if we haven't done so before. */
-      this.count = Math.max(this.count, this.cursor)
-
       if (emitted > 0) {
-        const attrs = [
-          this.instanceMatrix,
-          ...Object.values(this.geometry.attributes)
-        ]
+        const overdraft =
+          this.lastCursor + emitted - (this.capacity + this.safetyCapacity)
 
-        attrs.forEach((attribute) => {
-          attribute.needsUpdate = true
+        if (overdraft > 0) {
+          console.error(
+            `Tried to emit ${emitted} particles, which were ${overdraft} too many. Please increase the capacity (currently ${this.capacity}) and/or safety capacity (currently ${this.safetyCapacity}) of this particle system, or emit fewer particles. (name: "${this.name}")`
+          )
+        } else {
+          /* Increase total count of particles if we haven't done so before. */
+          this.count = Math.max(this.count, this.cursor)
 
-          if (attribute instanceof InstancedBufferAttribute) {
-            attribute.updateRange.offset = this.lastCursor * attribute.itemSize
-            attribute.updateRange.count = emitted * attribute.itemSize
-          }
-        })
+          const attrs = [
+            this.instanceMatrix,
+            ...Object.values(this.geometry.attributes)
+          ]
+
+          attrs.forEach((attribute) => {
+            attribute.needsUpdate = true
+
+            if (attribute instanceof InstancedBufferAttribute) {
+              attribute.updateRange.offset =
+                this.lastCursor * attribute.itemSize
+              attribute.updateRange.count = emitted * attribute.itemSize
+            }
+          })
+        }
 
         /* If we've gone past the safe limit, go back to the beginning. */
         if (this.cursor >= this.capacity) {
