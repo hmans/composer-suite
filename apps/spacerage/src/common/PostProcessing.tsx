@@ -1,17 +1,15 @@
-import { useTexture } from "@react-three/drei"
 import * as RC from "render-composer"
 import { makeStore, useStore } from "statery"
 import { Mesh } from "three"
+import { useAsset } from "../assets"
 
 export const store = makeStore({
   sun: null as Mesh | null
 })
 
-useTexture.preload("/textures/lensdirt.jpg")
-
 export const PostProcessing = () => {
   const { sun } = useStore(store)
-  const texture = useTexture("/textures/lensdirt.jpg")
+  const texture = useAsset.textures.lensdirt()
 
   return (
     <RC.EffectPass>

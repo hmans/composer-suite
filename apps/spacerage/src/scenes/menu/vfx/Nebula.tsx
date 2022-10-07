@@ -1,4 +1,4 @@
-import { useTexture } from "@react-three/drei"
+import { createLoader } from "@hmans/r3f-create-loader"
 import { GroupProps } from "@react-three/fiber"
 import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
@@ -17,7 +17,7 @@ import {
 } from "shader-composer"
 import { useUniformUnit } from "shader-composer-r3f"
 import { Random } from "shader-composer-toybox"
-import { Color } from "three"
+import { Color, TextureLoader } from "three"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
 export type NebulaProps = {
@@ -30,6 +30,8 @@ export type NebulaProps = {
   color?: Input<"vec3">
 } & GroupProps
 
+const useSmokeTexture = createLoader(TextureLoader, "/textures/smoke.png")
+
 export const Nebula = ({
   amount = 25,
   dimensions = Vec3([10, 10, 10]),
@@ -40,7 +42,7 @@ export const Nebula = ({
   color = new Color("#ccc"),
   ...props
 }: NebulaProps) => {
-  const texture = useTexture("/textures/smoke.png")
+  const texture = useSmokeTexture()
 
   const depth = useUniformUnit("sampler2D", useRenderPipeline().depth)
 

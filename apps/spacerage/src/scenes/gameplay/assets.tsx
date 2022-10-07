@@ -8,6 +8,7 @@ export const useAsset = {
   playerShip: createLoader(GLTFLoader, "/models/ship01.gltf"),
   music: createLoader(AudioLoader, "/sounds/taikobeat.mp3"),
   textures: {
-    smoke: createLoader(TextureLoader, "/textures/smoke.png")
+    smoke: createLoader(TextureLoader, "/textures/smoke.png"),
+    particle: createLoader(TextureLoader, "/textures/particle.png")
   }
 }
