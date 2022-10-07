@@ -14,8 +14,8 @@ importers:
       '@react-three/fiber': ^8.8.9
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.4.0
-      '@types/jest': ^29.1.1
-      '@types/node': ^18.8.0
+      '@types/jest': ^29.1.2
+      '@types/node': ^18.8.3
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       '@types/three': ^0.144.0
@@ -41,12 +41,12 @@ importers:
       '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
-      '@types/jest': 29.1.1
-      '@types/node': 18.8.0
+      '@types/jest': 29.1.2
+      '@types/node': 18.8.3
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       '@types/three': 0.144.0
-      jest: 28.1.3_@types+node@18.8.0
+      jest: 28.1.3_@types+node@18.8.3
       jest-environment-jsdom: 29.1.2
       postprocessing: 6.28.7_three@0.145.0
       react: 18.2.0
@@ -344,7 +344,7 @@ importers:
       state-composer: ^0.1.0
       statery: ^0.6.2
       three: ^0.145.0
-      three-stdlib: ^2.17.0
+      three-stdlib: ^2.17.2
       timeline-composer: workspace:^0.1.7
       tunnel-rat: ^0.1.0
       typescript: ^4.8.4
@@ -385,7 +385,7 @@ importers:
       state-composer: link:../../packages/state-composer
       statery: 0.6.2_react@18.2.0
       three: 0.145.0
-      three-stdlib: 2.17.0_three@0.145.0
+      three-stdlib: 2.17.2_three@0.145.0
       timeline-composer: link:../../packages/timeline-composer
       tunnel-rat: 0.1.0_react@18.2.0
       ui-composer: link:../../packages/ui-composer
@@ -483,7 +483,7 @@ importers:
       shader-composer-toybox: ^0.1.3
       statery: 0.6.2
       three: ^0.145.0
-      three-stdlib: ^2.17.0
+      three-stdlib: ^2.17.2
       timeline-composer: ^0.1.7
       typescript: ^4.8.4
       vfx-composer: ^0.3.2
@@ -502,7 +502,7 @@ importers:
       leva: 0.9.31_biqbaboplfbrettd7655fr4n2y
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      r3f-perf: 6.5.0_6fm7dslyodeujkg7gecxjexnzy
+      r3f-perf: 6.5.0_ynhdtezu4pmj6cbhiewptx4wdi
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -512,7 +512,7 @@ importers:
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       statery: 0.6.2_react@18.2.0
       three: 0.145.0
-      three-stdlib: 2.17.0_three@0.145.0
+      three-stdlib: 2.17.2_three@0.145.0
       timeline-composer: link:../../packages/timeline-composer
       vfx-composer: link:../../packages/vfx-composer
       vfx-composer-r3f: link:../../packages/vfx-composer-r3f
@@ -639,16 +639,16 @@ importers:
       postprocessing: ^6.28.7
       r3f-perf: ^6.5.0
       render-composer: ^0.2.0
-      three-stdlib: ^2.17.0
+      three-stdlib: ^2.17.2
       wouter: ^2.8.0-alpha.2
       zustand: ^3.6.9
     dependencies:
       '@react-three/drei': 9.34.3
       leva: 0.9.31
       postprocessing: 6.28.7
-      r3f-perf: 6.5.0_3uokrjxn3vafusn2exgtum3q2i
+      r3f-perf: 6.5.0_r27acuqni3gu434hni32bzbuf4
       render-composer: link:../render-composer
-      three-stdlib: 2.17.0
+      three-stdlib: 2.17.2
       wouter: 2.8.0-alpha.2
       zustand: 3.7.2
 
@@ -2699,7 +2699,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       jest-message-util: 28.1.3
       jest-util: 28.1.3
@@ -2720,14 +2720,14 @@ packages:
       '@jest/test-result': 28.1.3
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.3.2
       exit: 0.1.2
       graceful-fs: 4.2.10
       jest-changed-files: 28.1.3
-      jest-config: 28.1.3_@types+node@18.8.0
+      jest-config: 28.1.3_@types+node@18.8.3
       jest-haste-map: 28.1.3
       jest-message-util: 28.1.3
       jest-regex-util: 28.0.2
@@ -2755,7 +2755,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-mock: 28.1.3
     dev: false
 
@@ -2765,7 +2765,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.1.2
       '@jest/types': 29.1.2
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-mock: 29.1.2
     dev: false
 
@@ -2799,7 +2799,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@sinonjs/fake-timers': 9.1.2
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-message-util: 28.1.3
       jest-mock: 28.1.3
       jest-util: 28.1.3
@@ -2811,7 +2811,7 @@ packages:
     dependencies:
       '@jest/types': 29.1.2
       '@sinonjs/fake-timers': 9.1.2
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-message-util: 29.1.2
       jest-mock: 29.1.2
       jest-util: 29.1.2
@@ -2843,7 +2843,7 @@ packages:
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
       '@jridgewell/trace-mapping': 0.3.15
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -2870,7 +2870,7 @@ packages:
     resolution: {integrity: sha512-/l/VWsdt/aBXgjshLWOFyFt3IVdYypu5y2Wn2rOO1un6nkqIn8SLXzgIMYXFyYsRWDyF5EthmKJMIdJvk08grg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@sinclair/typebox': 0.24.32
+      '@sinclair/typebox': 0.24.44
     dev: false
 
   /@jest/schemas/29.0.0:
@@ -2939,7 +2939,7 @@ packages:
       '@jest/schemas': 28.1.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       '@types/yargs': 17.0.12
       chalk: 4.1.2
     dev: false
@@ -2951,7 +2951,7 @@ packages:
       '@jest/schemas': 29.0.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       '@types/yargs': 17.0.13
       chalk: 4.1.2
     dev: false
@@ -3913,7 +3913,7 @@ packages:
       '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
       react: 18.2.0
       three: 0.145.0
-      three-stdlib: 2.17.0_three@0.145.0
+      three-stdlib: 2.17.2_three@0.145.0
       use-asset: 1.0.4_react@18.2.0
     dev: false
 
@@ -3996,10 +3996,6 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: true
-
-  /@sinclair/typebox/0.24.32:
-    resolution: {integrity: sha512-NWNTW284AOFhxgYofPef5IqDq6Y7ghZkZAkWJcUBp1r9ljfrFOKBDsiQJnLNp9tLcaSXFK9OgsS72W4RXe0jvw==}
-    dev: false
 
   /@sinclair/typebox/0.24.44:
     resolution: {integrity: sha512-ka0W0KN5i6LfrSocduwliMMpqVgohtPFidKdMEOUjoOFCHcOOYkKsPRxfs5f15oPNHTm6ERAm0GV/+/LTKeiWg==}
@@ -4175,7 +4171,7 @@ packages:
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
     dev: false
 
   /@types/hast/2.3.4:
@@ -4209,8 +4205,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: false
 
-  /@types/jest/29.1.1:
-    resolution: {integrity: sha512-U9Ey07dGWl6fUFaIaUQUKWG5NoKi/zizeVQCGV8s4nSU0jPgqphVZvS64+8BtWYvrc3ZGw6wo943NSYPxkrp/g==}
+  /@types/jest/29.1.2:
+    resolution: {integrity: sha512-y+nlX0h87U0R+wsGn6EBuoRWYyv3KFtwRNP3QWp9+k2tJ2/bqcGS3UxD7jgT+tiwJWWq3UsyV4Y+T6rsMT4XMg==}
     dependencies:
       expect: 29.1.2
       pretty-format: 29.1.2
@@ -4219,7 +4215,7 @@ packages:
   /@types/jsdom/20.0.0:
     resolution: {integrity: sha512-YfAchFs0yM1QPDrLm2VHe+WHGtqms3NXnXAMolrgrVP6fgBHHXy1ozAbo/dFtPNtZC/m66bPiCTWYmqp1F14gA==}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       '@types/tough-cookie': 4.0.2
       parse5: 7.1.1
     dev: false
@@ -4231,7 +4227,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
     dev: false
 
   /@types/mdast/3.0.10:
@@ -4262,8 +4258,8 @@ packages:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: false
 
-  /@types/node/18.8.0:
-    resolution: {integrity: sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==}
+  /@types/node/18.8.3:
+    resolution: {integrity: sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==}
     dev: false
 
   /@types/normalize-package-data/2.4.1:
@@ -4311,7 +4307,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
     dev: false
 
   /@types/resolve/1.20.2:
@@ -4321,7 +4317,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
     dev: false
 
   /@types/scheduler/0.16.2:
@@ -4338,7 +4334,7 @@ packages:
   /@types/testing-library__jest-dom/5.14.5:
     resolution: {integrity: sha512-SBwbxYoyPIvxHbeHxTZX2Pe/74F/tX2/D3mMvzabdeJ25bBojfW0TyB8BHrbq/9zaaKICJZjLP+8r6AeZMFCuQ==}
     dependencies:
-      '@types/jest': 29.1.1
+      '@types/jest': 29.1.2
     dev: false
 
   /@types/three/0.144.0:
@@ -7196,7 +7192,7 @@ packages:
       '@jest/expect': 28.1.3
       '@jest/test-result': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -7215,7 +7211,7 @@ packages:
       - supports-color
     dev: false
 
-  /jest-cli/28.1.3_@types+node@18.8.0:
+  /jest-cli/28.1.3_@types+node@18.8.3:
     resolution: {integrity: sha512-roY3kvrv57Azn1yPgdTebPAXvdR2xfezaKKYzVxZ6It/5NCxzJym6tUI5P1zkdWhfUYkxEI9uZWcQdaFLo8mJQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -7232,7 +7228,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.10
       import-local: 3.1.0
-      jest-config: 28.1.3_@types+node@18.8.0
+      jest-config: 28.1.3_@types+node@18.8.3
       jest-util: 28.1.3
       jest-validate: 28.1.3
       prompts: 2.4.2
@@ -7243,7 +7239,7 @@ packages:
       - ts-node
     dev: false
 
-  /jest-config/28.1.3_@types+node@18.8.0:
+  /jest-config/28.1.3_@types+node@18.8.3:
     resolution: {integrity: sha512-MG3INjByJ0J4AsNBm7T3hsuxKQqFIiRo/AUqb1q9LRKI5UU6Aar9JHbr9Ivn1TVwfUD9KirRoM/T6u8XlcQPHQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     peerDependencies:
@@ -7258,7 +7254,7 @@ packages:
       '@babel/core': 7.19.3
       '@jest/test-sequencer': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       babel-jest: 28.1.3_@babel+core@7.19.3
       chalk: 4.1.2
       ci-info: 3.3.2
@@ -7328,7 +7324,7 @@ packages:
       '@jest/fake-timers': 29.1.2
       '@jest/types': 29.1.2
       '@types/jsdom': 20.0.0
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-mock: 29.1.2
       jest-util: 29.1.2
       jsdom: 20.0.0
@@ -7346,7 +7342,7 @@ packages:
       '@jest/environment': 28.1.3
       '@jest/fake-timers': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-mock: 28.1.3
       jest-util: 28.1.3
     dev: false
@@ -7367,7 +7363,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.3
       '@types/graceful-fs': 4.1.5
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       anymatch: 3.1.2
       fb-watchman: 2.0.1
       graceful-fs: 4.2.10
@@ -7443,7 +7439,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
     dev: false
 
   /jest-mock/29.1.2:
@@ -7451,7 +7447,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.1.2
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       jest-util: 29.1.2
     dev: false
 
@@ -7506,7 +7502,7 @@ packages:
       '@jest/test-result': 28.1.3
       '@jest/transform': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       emittery: 0.10.2
       graceful-fs: 4.2.10
@@ -7592,7 +7588,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       ci-info: 3.3.2
       graceful-fs: 4.2.10
@@ -7604,7 +7600,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.1.2
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       chalk: 4.1.2
       ci-info: 3.4.0
       graceful-fs: 4.2.10
@@ -7629,7 +7625,7 @@ packages:
     dependencies:
       '@jest/test-result': 28.1.3
       '@jest/types': 28.1.3
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.10.2
@@ -7641,7 +7637,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: false
@@ -7650,12 +7646,12 @@ packages:
     resolution: {integrity: sha512-CqRA220YV/6jCo8VWvAt1KKx6eek1VIHMPeLEbpcfSfkEeWyBNppynM/o6q+Wmw+sOhos2ml34wZbSX3G13//g==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@types/node': 18.8.0
+      '@types/node': 18.8.3
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
 
-  /jest/28.1.3_@types+node@18.8.0:
+  /jest/28.1.3_@types+node@18.8.3:
     resolution: {integrity: sha512-N4GT5on8UkZgH0O5LUavMRV1EDEhNTL0KEfRmDIeZHSV7p2XgLoY9t9VDUgL6o+yfdgYHVxuz81G8oB9VG5uyA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -7668,7 +7664,7 @@ packages:
       '@jest/core': 28.1.3
       '@jest/types': 28.1.3
       import-local: 3.1.0
-      jest-cli: 28.1.3_@types+node@18.8.0
+      jest-cli: 28.1.3_@types+node@18.8.3
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -9292,44 +9288,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /r3f-perf/6.5.0_3uokrjxn3vafusn2exgtum3q2i:
-    resolution: {integrity: sha512-6hT9V5ihOOv2g/zyOpMGviiqxW9SKFX6AMfcAMnFz3S74M5WNjfAWx4D54Cd89O+5hrcj5Pa69/piGZEKmWPeg==}
-    peerDependencies:
-      '@react-three/drei': '*'
-      '@react-three/fiber': '*'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      three: '*'
-      three-stdlib: '*'
-    dependencies:
-      '@radix-ui/react-icons': 1.1.1
-      '@react-three/drei': 9.34.3
-      '@stitches/react': 1.2.8
-      three-stdlib: 2.17.0
-      zustand: 3.7.2
-    dev: false
-
-  /r3f-perf/6.5.0_6fm7dslyodeujkg7gecxjexnzy:
-    resolution: {integrity: sha512-6hT9V5ihOOv2g/zyOpMGviiqxW9SKFX6AMfcAMnFz3S74M5WNjfAWx4D54Cd89O+5hrcj5Pa69/piGZEKmWPeg==}
-    peerDependencies:
-      '@react-three/drei': '*'
-      '@react-three/fiber': '*'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      three: '*'
-      three-stdlib: '*'
-    dependencies:
-      '@radix-ui/react-icons': 1.1.1_react@18.2.0
-      '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
-      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
-      '@stitches/react': 1.2.8_react@18.2.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      three: 0.145.0
-      three-stdlib: 2.17.0_three@0.145.0
-      zustand: 3.7.2_react@18.2.0
-    dev: false
-
   /r3f-perf/6.5.0_ny5uxnjsoo4utzatxmqr3osbea:
     resolution: {integrity: sha512-6hT9V5ihOOv2g/zyOpMGviiqxW9SKFX6AMfcAMnFz3S74M5WNjfAWx4D54Cd89O+5hrcj5Pa69/piGZEKmWPeg==}
     peerDependencies:
@@ -9347,6 +9305,44 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.145.0
+      zustand: 3.7.2_react@18.2.0
+    dev: false
+
+  /r3f-perf/6.5.0_r27acuqni3gu434hni32bzbuf4:
+    resolution: {integrity: sha512-6hT9V5ihOOv2g/zyOpMGviiqxW9SKFX6AMfcAMnFz3S74M5WNjfAWx4D54Cd89O+5hrcj5Pa69/piGZEKmWPeg==}
+    peerDependencies:
+      '@react-three/drei': '*'
+      '@react-three/fiber': '*'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+      three: '*'
+      three-stdlib: '*'
+    dependencies:
+      '@radix-ui/react-icons': 1.1.1
+      '@react-three/drei': 9.34.3
+      '@stitches/react': 1.2.8
+      three-stdlib: 2.17.2
+      zustand: 3.7.2
+    dev: false
+
+  /r3f-perf/6.5.0_ynhdtezu4pmj6cbhiewptx4wdi:
+    resolution: {integrity: sha512-6hT9V5ihOOv2g/zyOpMGviiqxW9SKFX6AMfcAMnFz3S74M5WNjfAWx4D54Cd89O+5hrcj5Pa69/piGZEKmWPeg==}
+    peerDependencies:
+      '@react-three/drei': '*'
+      '@react-three/fiber': '*'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+      three: '*'
+      three-stdlib: '*'
+    dependencies:
+      '@radix-ui/react-icons': 1.1.1_react@18.2.0
+      '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
+      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
+      '@stitches/react': 1.2.8_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.145.0
+      three-stdlib: 2.17.2_three@0.145.0
       zustand: 3.7.2_react@18.2.0
     dev: false
 
@@ -10468,43 +10464,6 @@ packages:
       three: 0.145.0
     dev: false
 
-  /three-stdlib/2.17.0:
-    resolution: {integrity: sha512-m19X4+ajh+2EJIVcjB288LgbqTli5b8kFahJlg9oNCBfaL8geCgEoM4OUirgV0Ez6Lr58N1MPBR6LjJt7ALfKQ==}
-    peerDependencies:
-      three: '>=0.122.0'
-    dependencies:
-      '@babel/runtime': 7.19.0
-      '@types/offscreencanvas': 2019.7.0
-      '@webgpu/glslang': 0.0.15
-      chevrotain: 10.3.0
-      draco3d: 1.5.3
-      fflate: 0.6.10
-      ktx-parse: 0.4.5
-      mmd-parser: 1.0.4
-      opentype.js: 1.3.4
-      potpack: 1.0.2
-      zstddec: 0.0.2
-    dev: false
-
-  /three-stdlib/2.17.0_three@0.145.0:
-    resolution: {integrity: sha512-m19X4+ajh+2EJIVcjB288LgbqTli5b8kFahJlg9oNCBfaL8geCgEoM4OUirgV0Ez6Lr58N1MPBR6LjJt7ALfKQ==}
-    peerDependencies:
-      three: '>=0.122.0'
-    dependencies:
-      '@babel/runtime': 7.19.0
-      '@types/offscreencanvas': 2019.7.0
-      '@webgpu/glslang': 0.0.15
-      chevrotain: 10.3.0
-      draco3d: 1.5.3
-      fflate: 0.6.10
-      ktx-parse: 0.4.5
-      mmd-parser: 1.0.4
-      opentype.js: 1.3.4
-      potpack: 1.0.2
-      three: 0.145.0
-      zstddec: 0.0.2
-    dev: false
-
   /three-stdlib/2.17.2:
     resolution: {integrity: sha512-7ZLCJJogtn1D1MlUi7q0iLUbrxj7K++YxjHIIz5AZ4wX4E137BgiiTmhH4XhAuvXGRk9ph3ZtoHTfJBXhqDX3w==}
     peerDependencies:
@@ -10688,7 +10647,7 @@ packages:
       '@babel/core': 7.19.3
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.3_@types+node@18.8.0
+      jest: 28.1.3_@types+node@18.8.3
       jest-util: 28.1.3
       json5: 2.2.1
       lodash.memoize: 4.1.2
