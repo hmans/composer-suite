@@ -1,5 +1,5 @@
 import { Physics } from "@react-three/rapier"
-import { Suspense, useRef, useState } from "react"
+import { Suspense, useLayoutEffect, useRef, useState } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color, PerspectiveCamera, Scene } from "three"
@@ -30,7 +30,7 @@ import { Debris } from "./vfx/Debris"
 import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
 import * as RC from "render-composer"
-import { createPortal } from "@react-three/fiber"
+import { createPortal, useThree } from "@react-three/fiber"
 
 const GameplayScene = () => {
   return (
@@ -98,13 +98,13 @@ const GameplayScene = () => {
   )
 }
 
-const HUDScene = () => {
+export const HUDScene = () => {
   const [scene] = useState(() => new Scene())
   const [camera, setCamera] = useState<PerspectiveCamera | null>()
 
   const portal = createPortal(
     <group>
-      <perspectiveCamera position={[0, 0, 10]} ref={setCamera} />
+      <perspectiveCamera position={[0, 0, 20]} ref={setCamera} />
       <mesh>
         <icosahedronGeometry />
         <meshBasicMaterial color="red" />
@@ -117,7 +117,17 @@ const HUDScene = () => {
   return (
     <>
       {portal}
-      {camera && scene && <RC.RenderPass camera={camera} scene={scene} />}
+      {camera && scene && (
+        <>
+          <RC.RenderPass
+            camera={camera}
+            scene={scene}
+            clear={false}
+            ignoreBackground
+          />
+          <RC.EffectPass />
+        </>
+      )}
     </>
   )
 }
