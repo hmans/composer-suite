@@ -15,12 +15,37 @@ interface IValue {
 class VectorControl extends Control implements IVector {
   constructor(public x = 0, public y = 0) {
     super()
-    this.apply = this.apply.bind(this)
   }
 
-  apply(v: IVector) {
+  length = () => Math.sqrt(this.x * this.x + this.y * this.y)
+
+  apply = (v: IVector) => {
     this.x = v.x
     this.y = v.y
+    return this
+  }
+
+  normalize = () => {
+    const length = this.length()
+    if (length > 0) {
+      this.x /= length
+      this.y /= length
+    }
+    return this
+  }
+
+  deadzone = (threshold = 0.2) => {
+    const length = this.length()
+
+    if (length < threshold) {
+      this.x = 0
+      this.y = 0
+    } else {
+      this.normalize()
+      this.x = (this.x * (length - threshold)) / (1 - threshold)
+      this.y = (this.y * (length - threshold)) / (1 - threshold)
+    }
+
     return this
   }
 }
@@ -28,10 +53,9 @@ class VectorControl extends Control implements IVector {
 class ValueControl extends Control implements IValue {
   constructor(public value = 0) {
     super()
-    this.apply = this.apply.bind(this)
   }
 
-  apply(v: number) {
+  apply = (v: number) => {
     this.value = v
     return this
   }
@@ -46,9 +70,6 @@ class KeyboardDevice extends Device {
 
   constructor() {
     super()
-
-    this.onKeyDown = this.onKeyDown.bind(this)
-    this.onKeyUp = this.onKeyUp.bind(this)
 
     window.addEventListener("keydown", this.onKeyDown)
     window.addEventListener("keyup", this.onKeyUp)
@@ -81,11 +102,11 @@ class KeyboardDevice extends Device {
     }
   }
 
-  private onKeyDown(e: KeyboardEvent) {
+  private onKeyDown = (e: KeyboardEvent) => {
     this.keys.add(e.code)
   }
 
-  private onKeyUp(e: KeyboardEvent) {
+  private onKeyUp = (e: KeyboardEvent) => {
     this.keys.delete(e.code)
   }
 }
@@ -104,22 +125,22 @@ class Controller {
   update() {
     this.devices.keyboard.update()
 
-    pipe(
-      this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"),
-      this.controls.move.apply
-    )
+    this.controls.move
+      .apply(this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
+      .deadzone(0.2)
 
-    pipe(
-      this.devices.keyboard.getVector(
-        "ArrowLeft",
-        "ArrowRight",
-        "ArrowDown",
-        "ArrowUp"
-      ),
-      this.controls.aim.apply
-    )
+    this.controls.aim
+      .apply(
+        this.devices.keyboard.getVector(
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowDown",
+          "ArrowUp"
+        )
+      )
+      .deadzone(0.2)
 
-    pipe(this.devices.keyboard.getKey("Space"), this.controls.fire.apply)
+    this.controls.fire.apply(this.devices.keyboard.getKey("Space"))
   }
 }
 
