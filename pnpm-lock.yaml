@@ -346,6 +346,8 @@ importers:
       three: ^0.145.0
       three-stdlib: ^2.17.2
       timeline-composer: workspace:^0.1.7
+      troika-3d-text: ^0.46.4
+      troika-three-text: ^0.46.4
       tunnel-rat: ^0.1.0
       typescript: ^4.8.4
       ui-composer: workspace:^0.0.1
@@ -387,6 +389,8 @@ importers:
       three: 0.145.0
       three-stdlib: 2.17.2_three@0.145.0
       timeline-composer: link:../../packages/timeline-composer
+      troika-3d-text: 0.46.4_ee34sidbpuk5ebd4phepfgxxdi
+      troika-three-text: 0.46.4_three@0.145.0
       tunnel-rat: 0.1.0_react@18.2.0
       ui-composer: link:../../packages/ui-composer
       vfx-composer: link:../../packages/vfx-composer
@@ -10577,6 +10581,54 @@ packages:
   /trim-newlines/3.0.1:
     resolution: {integrity: sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==}
     engines: {node: '>=8'}
+    dev: false
+
+  /troika-3d-text/0.46.4_ee34sidbpuk5ebd4phepfgxxdi:
+    resolution: {integrity: sha512-BKdss19dFKruXeDyCIou4rgG1jEY54vuxU3R0FNd2IKzFhfx50UdqAykg/vrmKmN6kQrvRplcjYvtMrui9Q8bw==}
+    peerDependencies:
+      three: '>=0.103.0'
+    dependencies:
+      three: 0.145.0
+      troika-3d: 0.46.0_ee34sidbpuk5ebd4phepfgxxdi
+      troika-three-text: 0.46.4_three@0.145.0
+      troika-three-utils: 0.46.0_three@0.145.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  /troika-3d/0.46.0_ee34sidbpuk5ebd4phepfgxxdi:
+    resolution: {integrity: sha512-mzOTcB8OOpvZIoKvbwLLmJ1Elj5jt51jZveT5QZ7HSdlSoSEV7EilYorT1s6qtVl/FX/LCBi8s2ACD8adubuyg==}
+    peerDependencies:
+      three: '>=0.103.0'
+    dependencies:
+      three: 0.145.0
+      troika-core: 0.46.0_biqbaboplfbrettd7655fr4n2y
+      troika-three-utils: 0.46.0_three@0.145.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  /troika-animation/0.46.0:
+    resolution: {integrity: sha512-4Bete4PY/Hfdu1ioHA1XH8uax4Jj14QemwvLWXm2RI4CH5IW5IrXiFBLbnVjWS7sbzK9Aqg2GdcZk6nmT5gtGg==}
+    dev: false
+
+  /troika-core/0.46.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-HQRfXtd9aJeHQpXWMYEswvQYIk5H+Wrk9fFvB9RfCZPLjhRbF8vT3+g5OqfQ5A0zf7OY564hpW68zO+jnYWJQg==}
+    peerDependencies:
+      react: ^16.5.2
+      react-dom: ^16.5.2
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      troika-animation: 0.46.0
     dev: false
 
   /troika-three-text/0.46.4:
