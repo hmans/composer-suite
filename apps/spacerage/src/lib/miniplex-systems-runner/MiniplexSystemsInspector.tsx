@@ -12,8 +12,8 @@ export const MiniplexSystemsInspector = () => {
       <UI.Heading>Systems</UI.Heading>
       <table>
         <tbody>
-          {systems.map((system) => (
-            <tr>
+          {systems.map((system, i) => (
+            <tr key={i}>
               <td width={120}>{system.name}</td>
               <td
                 width={100}

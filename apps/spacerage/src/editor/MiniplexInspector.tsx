@@ -60,11 +60,11 @@ export const MiniplexEntityInspector = <E extends IEntity>({
 
   return (
     <>
-      {Object.entries(entity).map(([name, value]) => {
+      {Object.entries(entity).map(([name, value], i) => {
         switch (name) {
           case "player":
             return (
-              <UI.Panel>
+              <UI.Panel key={i}>
                 <UI.Heading>Player (Tag)</UI.Heading>
               </UI.Panel>
             )
@@ -74,7 +74,7 @@ export const MiniplexEntityInspector = <E extends IEntity>({
               new Quaternion()
             )
             return (
-              <UI.Panel>
+              <UI.Panel key={i}>
                 <UI.Heading>Scene Object</UI.Heading>
                 <UI.Control>
                   <UI.Label>Position</UI.Label>
@@ -128,7 +128,7 @@ export const MiniplexEntityInspector = <E extends IEntity>({
             const velocity = (value as RigidBodyApi).linvel()
 
             return (
-              <UI.Panel>
+              <UI.Panel key={i}>
                 <UI.Heading>RigidBody</UI.Heading>
                 <UI.Control>
                   <UI.Label>Velocity</UI.Label>
