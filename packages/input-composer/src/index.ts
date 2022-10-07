@@ -163,8 +163,12 @@ export class GamepadDevice extends Device {
     new VectorControl(this.getAxis(xAxis).value, this.getAxis(yAxis).value)
 
   get rightTrigger() {
-    return this.gamepad?.id === "45e-b13-Xbox Wireless Controller"
-      ? this.getButton(16)
-      : this.getButton(7)
+    return this.getButton(mappings.rightTrigger[this.gamepad?.id as any] ?? 7)
+  }
+}
+
+const mappings: any = {
+  rightTrigger: {
+    "45e-b13-Xbox Wireless Controller": 16
   }
 }
