@@ -342,7 +342,7 @@ importers:
       three-stdlib: ^2.17.0
       timeline-composer: workspace:^0.1.7
       typescript: ^4.8.4
-      vfx-composer: ^0.3.1
+      vfx-composer: ^0.3.2
       vfx-composer-r3f: ^0.3.0
       vite: ^3.1.4
     dependencies:
@@ -478,7 +478,7 @@ importers:
       three-stdlib: ^2.17.0
       timeline-composer: ^0.1.7
       typescript: ^4.8.4
-      vfx-composer: ^0.3.1
+      vfx-composer: ^0.3.2
       vfx-composer-r3f: ^0.3.0
       vite: ^3.1.4
       wouter: ^2.8.0-alpha.2
