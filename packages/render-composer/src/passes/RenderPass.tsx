@@ -1,8 +1,7 @@
 import { useThree } from "@react-three/fiber"
 import * as PP from "postprocessing"
-import React, {
+import {
   forwardRef,
-  ReactNode,
   useContext,
   useImperativeHandle,
   useLayoutEffect,
@@ -12,7 +11,6 @@ import * as THREE from "three"
 import { EffectComposerContext } from "../EffectComposer"
 
 export type RenderPassProps = {
-  children?: ReactNode
   camera?: THREE.Camera
   scene?: THREE.Scene
   ignoreBackground?: boolean
@@ -20,10 +18,7 @@ export type RenderPassProps = {
 }
 
 export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
-  (
-    { children, camera, scene, ignoreBackground = false, clear = false },
-    ref
-  ) => {
+  ({ camera, scene, ignoreBackground = false, clear = false }, ref) => {
     const r3fCamera = useThree((state) => state.camera)
     const r3fScene = useThree((state) => state.scene)
 
@@ -41,6 +36,6 @@ export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
 
     useContext(EffectComposerContext).useItem(pass)
 
-    return <>{children}</>
+    return null
   }
 )
