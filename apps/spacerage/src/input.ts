@@ -55,8 +55,13 @@ class ValueControl extends Control implements IValue {
     super()
   }
 
-  apply = (v: number) => {
+  apply(v: number) {
     this.value = v
+    return this
+  }
+
+  clamp(min = 0, max = 1) {
+    this.value = Math.min(Math.max(this.value, min), max)
     return this
   }
 }
