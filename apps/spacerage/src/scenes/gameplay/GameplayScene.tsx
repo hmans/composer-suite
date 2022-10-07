@@ -1,8 +1,8 @@
 import { Physics } from "@react-three/rapier"
-import { ReactNode, Suspense, useLayoutEffect, useRef, useState } from "react"
+import { Suspense, useLayoutEffect, useRef } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
-import { Color, Scene } from "three"
+import { Color } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import {
@@ -29,9 +29,9 @@ import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { Debris } from "./vfx/Debris"
 import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
-import * as RC from "render-composer"
-import { createPortal, useThree } from "@react-three/fiber"
+import { useThree } from "@react-three/fiber"
 import { PerspectiveCamera } from "@react-three/drei"
+import { ScenePass } from "../../lib/ScenePass"
 
 const GameplayScene = () => {
   return (
@@ -94,28 +94,20 @@ const GameplayScene = () => {
         </Physics>
       </group>
 
-      <RenderPass>
-        <PerspectiveCamera position={[0, 0, 20]} makeDefault />
-        <mesh>
-          <icosahedronGeometry />
-          <meshBasicMaterial color="yellow" />
-        </mesh>
-      </RenderPass>
+      <HUD />
     </Suspense>
   )
 }
 
-export const RenderPass = ({ children }: { children?: ReactNode }) => {
-  const [scene] = useState(() => new Scene())
-
-  return createPortal(
-    <>
-      {children}
-      <RC.RenderPass clear={false} ignoreBackground />
-      <RC.EffectPass />
-    </>,
-    scene,
-    {}
+const HUD = () => {
+  return (
+    <ScenePass>
+      <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+      <mesh>
+        <icosahedronGeometry />
+        <meshBasicMaterial color="yellow" />
+      </mesh>
+    </ScenePass>
   )
 }
 
