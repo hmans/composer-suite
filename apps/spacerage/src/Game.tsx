@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
-import { lazy, Suspense, useEffect, useLayoutEffect } from "react"
+import { Controller } from "input-composer/react"
+import { lazy, Suspense } from "react"
 import * as RC from "render-composer"
 import { PostProcessing } from "./common/PostProcessing"
 import { Stage } from "./configuration"
@@ -11,23 +11,11 @@ import { GameState, store } from "./state"
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 
-const Controller = () => {
-  useEffect(() => {
-    controller.start()
-    return () => controller.stop()
-  })
-
-  useFrame(() => {
-    controller.update()
-  }, Stage.Early)
-
-  return null
-}
-
 export const Game = () => {
   return (
     <RC.Canvas dpr={1}>
-      <Controller />
+      <Controller controller={controller} updatePriority={Stage.Early} />
+
       <RC.RenderPipeline updatePriority={Stage.Render}>
         <AC.AudioContext>
           <AC.Compressor>

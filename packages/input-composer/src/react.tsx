@@ -1,9 +1,9 @@
 import { useFrame } from "@react-three/fiber"
 import { useEffect } from "react"
-import { AbstractController } from "./AbstractController"
+import { Controller as ControllerImpl } from "./index"
 
 export const useController = (
-  controller: AbstractController,
+  controller: ControllerImpl,
   renderPriority?: number
 ) => {
   useEffect(() => {
@@ -20,7 +20,7 @@ export const Controller = ({
   controller,
   updatePriority
 }: {
-  controller: AbstractController
+  controller: ControllerImpl
   updatePriority?: number
 }) => {
   useController(controller, updatePriority)

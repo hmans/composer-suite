@@ -170,3 +170,20 @@ const mappings: any = {
     "45e-b13-Xbox Wireless Controller": 16
   }
 }
+
+export abstract class Controller {
+  abstract devices: Record<string, Device>
+  abstract controls: Record<string, Control>
+
+  start() {
+    Object.values(this.devices).forEach((device) => device.start())
+  }
+
+  stop() {
+    Object.values(this.devices).forEach((device) => device.stop())
+  }
+
+  update() {
+    Object.values(this.devices).forEach((device) => device.update())
+  }
+}

@@ -1,11 +1,12 @@
 import {
+  Controller,
   GamepadDevice,
   KeyboardDevice,
   ValueControl,
   VectorControl
 } from "input-composer"
 
-class Controller {
+class SpaceRageController extends Controller {
   devices = {
     keyboard: new KeyboardDevice(),
     gamepad: new GamepadDevice(0)
@@ -20,6 +21,8 @@ class Controller {
   activeScheme: "keyboard" | "gamepad" = "gamepad"
 
   constructor() {
+    super()
+
     this.devices.gamepad.onActivity.addListener(() => {
       this.activeScheme = "gamepad"
     })
@@ -29,19 +32,8 @@ class Controller {
     })
   }
 
-  start() {
-    this.devices.keyboard.start()
-    this.devices.gamepad.start()
-  }
-
-  stop() {
-    this.devices.keyboard.stop()
-    this.devices.gamepad.stop()
-  }
-
   update() {
-    this.devices.keyboard.update()
-    this.devices.gamepad.update()
+    super.update()
 
     const move = {
       keyboard: this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"),
@@ -71,4 +63,4 @@ class Controller {
   }
 }
 
-export const controller = new Controller()
+export const controller = new SpaceRageController()
