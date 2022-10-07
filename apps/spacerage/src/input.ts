@@ -1,8 +1,14 @@
-import { KeyboardDevice, ValueControl, VectorControl } from "input-composer"
+import {
+  GamepadDevice,
+  KeyboardDevice,
+  ValueControl,
+  VectorControl
+} from "input-composer"
 
 class Controller {
   devices = {
-    keyboard: new KeyboardDevice()
+    keyboard: new KeyboardDevice(),
+    gamepad: new GamepadDevice(0)
   }
 
   controls = {
@@ -11,25 +17,37 @@ class Controller {
     fire: new ValueControl()
   }
 
+  activeScheme: "keyboard" | "gamepad" = "gamepad"
+
   update() {
     this.devices.keyboard.update()
+    this.devices.gamepad.update()
 
-    this.controls.move
-      .apply(this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"))
-      .deadzone(0.2)
+    const move = {
+      keyboard: this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"),
+      gamepad: this.devices.gamepad.getVector(0, 1)
+    }
 
-    this.controls.aim
-      .apply(
-        this.devices.keyboard.getVector(
-          "ArrowLeft",
-          "ArrowRight",
-          "ArrowDown",
-          "ArrowUp"
-        )
-      )
-      .deadzone(0.2)
+    const aim = {
+      keyboard: this.devices.keyboard.getVector(
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowDown",
+        "ArrowUp"
+      ),
+      gamepad: this.devices.gamepad.getVector(2, 3)
+    }
 
-    this.controls.fire.apply(this.devices.keyboard.getKey("Space"))
+    const fire = {
+      keyboard: this.devices.keyboard.getKey("Space"),
+      gamepad: this.devices.gamepad.getButton(7)
+    }
+
+    this.controls.move.apply(move[this.activeScheme]).deadzone(0.2)
+
+    this.controls.aim.apply(aim[this.activeScheme]).deadzone(0.2)
+
+    this.controls.fire.apply(fire[this.activeScheme])
   }
 }
 

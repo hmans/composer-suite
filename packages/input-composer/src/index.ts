@@ -1,3 +1,5 @@
+import { Event } from "./lib/event"
+
 export * from "./lib/event"
 
 export abstract class Control {}
@@ -113,4 +115,33 @@ export class KeyboardDevice extends Device {
   private onKeyUp = (e: KeyboardEvent) => {
     this.keys.delete(e.code)
   }
+}
+
+export class GamepadDevice extends Device {
+  constructor(public index: number) {
+    super()
+  }
+
+  lastTimestamp: number = 0
+  gamepad: Gamepad | null = null
+
+  onActivity = new Event()
+
+  update() {
+    this.gamepad = navigator.getGamepads()[this.index]
+
+    if (this.gamepad && this.gamepad.timestamp !== this.lastTimestamp) {
+      this.onActivity.emit()
+      this.lastTimestamp = this.gamepad.timestamp
+    }
+  }
+
+  getButton = (index: number) => this.gamepad?.buttons[index].value ?? 0
+
+  getAxis = (index: number) => this.gamepad?.axes[index] ?? 0
+
+  getVector = (xAxis: number, yAxis: number) => ({
+    x: this.getAxis(xAxis),
+    y: this.getAxis(yAxis)
+  })
 }
