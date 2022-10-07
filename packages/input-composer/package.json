@@ -23,18 +23,13 @@
   ],
   "license": "MIT",
   "sideEffects": false,
-  "dependencies": {
-    "@hmans/use-animation-frame": "^0.0.2",
-    "@hmans/use-const": "^0.0.1",
-    "fp-ts": "^2.12.3"
-  },
   "devDependencies": {
     "@react-three/fiber": "^8.8.9",
     "react": "^18.2.0"
   },
   "peerDependencies": {
-    "@react-three/fiber": "^8.7.0",
-    "react": "^18.2.0"
+    "@react-three/fiber": ">=8.7.0",
+    "react": ">=18.2.0"
   },
   "peerDependenciesMeta": {
     "@react-three/fiber": {
