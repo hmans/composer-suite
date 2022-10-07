@@ -10,8 +10,10 @@ import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { GLTFLoader } from "three-stdlib"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
+import { spawnSmokeVFX } from "./vfx/SmokeVFX"
 
 const tmpQuaterion = new Quaternion()
+const tmpVec3 = new Vector3()
 
 export const Asteroids = ({
   initial,
@@ -51,6 +53,14 @@ export const Asteroids = ({
                   Layers.Bullet
                 ])}
                 args={[mesh.geometry.attributes.position.array as Float32Array]}
+                onCollisionEnter={(e) => {
+                  const position = tmpVec3
+                    .copy(e.manifold.localContactPoint1(0) as Vector3)
+                    .applyQuaternion(e.collider.rotation() as Quaternion)
+                    .add(e.collider.translation() as Vector3)
+
+                  spawnSmokeVFX({ position })
+                }}
               />
               <ECS.Component name="sceneObject">
                 <Particle matrixAutoUpdate={false} />
