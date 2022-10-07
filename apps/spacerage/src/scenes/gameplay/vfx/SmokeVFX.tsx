@@ -24,6 +24,7 @@ export const SmokeVFX = () => {
   return (
     <InstancedParticles
       name="SmokeVFX"
+      capacity={2000}
       layers-mask={bitmask(Layers.TransparentFX)}
     >
       <planeGeometry />
