@@ -25,17 +25,27 @@
   "sideEffects": false,
   "devDependencies": {
     "@react-three/fiber": "^8.8.9",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.145.0"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.7.0",
-    "react": ">=18.2.0"
+    "react": ">=18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.145.0"
   },
   "peerDependenciesMeta": {
     "@react-three/fiber": {
       "optional": true
     },
     "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "three": {
       "optional": true
     }
   }

@@ -527,16 +527,18 @@ importers:
       '@types/react': ^18.0.21
       '@types/three': ^0.144.0
       react: ^18.2.0
+      react-dom: ^18.2.0
       statery: ^0.6.2
       three: ^0.145.0
     dependencies:
       '@hmans/use-const': 0.0.1_react@18.2.0
       statery: 0.6.2_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.8.9_react@18.2.0+three@0.145.0
+      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
       '@types/react': 18.0.21
       '@types/three': 0.144.0
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       three: 0.145.0
 
   packages/camera-composer:
@@ -565,11 +567,15 @@ importers:
       '@hmans/use-rerender': ^0.0.2
       '@react-three/fiber': ^8.8.9
       react: ^18.2.0
+      react-dom: ^18.2.0
+      three: ^0.145.0
     dependencies:
       '@hmans/use-rerender': 0.0.2_react@18.2.0
     devDependencies:
-      '@react-three/fiber': 8.8.9_react@18.2.0
+      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.145.0
 
   packages/hmans-physics3d:
     specifiers:
@@ -624,9 +630,13 @@ importers:
     specifiers:
       '@react-three/fiber': ^8.8.9
       react: ^18.2.0
+      react-dom: ^18.2.0
+      three: ^0.145.0
     devDependencies:
-      '@react-three/fiber': 8.8.9_react@18.2.0
+      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      three: 0.145.0
 
   packages/material-composer:
     specifiers:
@@ -3776,73 +3786,6 @@ packages:
       suspend-react: 0.0.8_react@18.2.0
       three: 0.145.0
       zustand: 3.7.2_react@18.2.0
-
-  /@react-three/fiber/8.8.9_react@18.2.0:
-    resolution: {integrity: sha512-TGeDm6EieaQ/ckRPC0rbG0ntHjWO7xp7eLRh4ZFqQ5BzCqIO+mA3QXLzAuVItL1Y32OuBdXC28iqVHWOw2AWCw==}
-    peerDependencies:
-      expo: '>=43.0'
-      expo-asset: '>=8.4'
-      expo-gl: '>=11.0'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      react-native: '>=0.64'
-      three: '>=0.133'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      expo-asset:
-        optional: true
-      expo-gl:
-        optional: true
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.19.0
-      '@types/react-reconciler': 0.26.7
-      its-fine: 1.0.5_react@18.2.0
-      react: 18.2.0
-      react-reconciler: 0.27.0_react@18.2.0
-      react-use-measure: 2.1.1_react@18.2.0
-      scheduler: 0.21.0
-      suspend-react: 0.0.8_react@18.2.0
-      zustand: 3.7.2_react@18.2.0
-    dev: true
-
-  /@react-three/fiber/8.8.9_react@18.2.0+three@0.145.0:
-    resolution: {integrity: sha512-TGeDm6EieaQ/ckRPC0rbG0ntHjWO7xp7eLRh4ZFqQ5BzCqIO+mA3QXLzAuVItL1Y32OuBdXC28iqVHWOw2AWCw==}
-    peerDependencies:
-      expo: '>=43.0'
-      expo-asset: '>=8.4'
-      expo-gl: '>=11.0'
-      react: '>=18.0'
-      react-dom: '>=18.0'
-      react-native: '>=0.64'
-      three: '>=0.133'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      expo-asset:
-        optional: true
-      expo-gl:
-        optional: true
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.19.0
-      '@types/react-reconciler': 0.26.7
-      its-fine: 1.0.5_react@18.2.0
-      react: 18.2.0
-      react-reconciler: 0.27.0_react@18.2.0
-      react-use-measure: 2.1.1_react@18.2.0
-      scheduler: 0.21.0
-      suspend-react: 0.0.8_react@18.2.0
-      three: 0.145.0
-      zustand: 3.7.2_react@18.2.0
-    dev: true
 
   /@react-three/rapier/0.7.6_k5pegjx3tqnzostq4vmydzrkya:
     resolution: {integrity: sha512-z6dPitlJ9QiXGLZ8DQxWiNhJkM1yBl/23L3fA8G1yjOB1L0GJW+Qht0GxbaOpPGpuku/cdOXVwTstLOMjaVmCA==}
@@ -9343,16 +9286,6 @@ packages:
       debounce: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-
-  /react-use-measure/2.1.1_react@18.2.0:
-    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
-    peerDependencies:
-      react: '>=16.13'
-      react-dom: '>=16.13'
-    dependencies:
-      debounce: 1.2.1
-      react: 18.2.0
-    dev: true
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
