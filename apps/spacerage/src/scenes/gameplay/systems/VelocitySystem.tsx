@@ -1,15 +1,18 @@
-import { useFrame } from "@react-three/fiber"
 import { Stage } from "../../../configuration"
+import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS } from "../state"
 
-export const VelocitySystem = () => {
-  const entities = ECS.world.archetype("sceneObject", "velocity")
+const entities = ECS.world.archetype("sceneObject", "velocity")
 
-  useFrame((_, dt) => {
-    for (const { sceneObject, velocity } of entities) {
-      sceneObject.position.addScaledVector(velocity, dt)
-    }
-  }, Stage.Early)
-
-  return null
-}
+export const VelocitySystem = () => (
+  <System
+    name="VelocitySystem"
+    world={ECS.world}
+    updatePriority={Stage.Early}
+    fun={(dt) => {
+      for (const { sceneObject, velocity } of entities) {
+        sceneObject.position.addScaledVector(velocity, dt)
+      }
+    }}
+  />
+)

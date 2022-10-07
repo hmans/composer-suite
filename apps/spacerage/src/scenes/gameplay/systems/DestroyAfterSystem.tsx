@@ -1,17 +1,20 @@
-import { useFrame } from "@react-three/fiber"
 import { Stage } from "../../../configuration"
+import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS } from "../state"
 
-export const DestroyAfterSystem = () => {
-  const entities = ECS.world.archetype("age", "destroyAfter")
+const entities = ECS.world.archetype("age", "destroyAfter")
 
-  useFrame(() => {
-    for (const entity of entities) {
-      if (entity.age >= entity.destroyAfter) {
-        ECS.world.queue.destroyEntity(entity)
+export const DestroyAfterSystem = () => (
+  <System
+    name="DestroyAfterSystem"
+    world={ECS.world}
+    updatePriority={Stage.Early}
+    fun={(dt) => {
+      for (const entity of entities) {
+        if (entity.age >= entity.destroyAfter) {
+          ECS.world.queue.destroyEntity(entity)
+        }
       }
-    }
-  }, Stage.Early)
-
-  return null
-}
+    }}
+  />
+)
