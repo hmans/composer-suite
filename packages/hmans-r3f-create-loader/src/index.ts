@@ -1,4 +1,4 @@
-import { Loader, useLoader } from "@react-three/fiber"
+import { LoaderResult, useLoader } from "@react-three/fiber"
 
 /**
  * Creates and returns a loader hook for the given asset, and immediately
@@ -8,8 +8,8 @@ import { Loader, useLoader } from "@react-three/fiber"
  * @param url The URL of the asset.
  * @returns The loader hook you can use in your component to access the asset.
  */
-export const createLoader = <L extends new () => Loader<any>>(
-  loader: L,
+export const createLoader = <R>(
+  loader: new () => LoaderResult<R>,
   url: string
 ) => {
   useLoader.preload(loader, url)
