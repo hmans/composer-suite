@@ -1,6 +1,7 @@
 import * as PP from "postprocessing"
-import {
+import React, {
   forwardRef,
+  ReactNode,
   useContext,
   useImperativeHandle,
   useLayoutEffect,
@@ -10,6 +11,7 @@ import * as THREE from "three"
 import { EffectComposerContext } from "../EffectComposer"
 
 export type RenderPassProps = {
+  children?: ReactNode
   camera: THREE.Camera
   scene: THREE.Scene
   ignoreBackground?: boolean
@@ -17,7 +19,10 @@ export type RenderPassProps = {
 }
 
 export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
-  ({ camera, scene, ignoreBackground = false, clear = false }, ref) => {
+  (
+    { children, camera, scene, ignoreBackground = false, clear = false },
+    ref
+  ) => {
     const pass = useMemo(
       () => new PP.RenderPass(scene, camera),
       [scene, camera]
@@ -32,6 +37,6 @@ export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
 
     useContext(EffectComposerContext).useItem(pass)
 
-    return null
+    return <>{children}</>
   }
 )

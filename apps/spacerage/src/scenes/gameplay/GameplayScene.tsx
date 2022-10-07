@@ -1,8 +1,8 @@
 import { Physics } from "@react-three/rapier"
-import { Suspense } from "react"
+import { Suspense, useRef, useState } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
-import { Color } from "three"
+import { Color, PerspectiveCamera, Scene } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import {
@@ -29,6 +29,8 @@ import { BackgroundAsteroids } from "./vfx/BackgroundAsteroids"
 import { Debris } from "./vfx/Debris"
 import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
+import * as RC from "render-composer"
+import { createPortal } from "@react-three/fiber"
 
 const GameplayScene = () => {
   return (
@@ -90,7 +92,33 @@ const GameplayScene = () => {
           <ECSFlushSystem />
         </Physics>
       </group>
+
+      <HUDScene />
     </Suspense>
+  )
+}
+
+const HUDScene = () => {
+  const [scene] = useState(() => new Scene())
+  const [camera, setCamera] = useState<PerspectiveCamera | null>()
+
+  const portal = createPortal(
+    <group>
+      <perspectiveCamera position={[0, 0, 10]} ref={setCamera} />
+      <mesh>
+        <icosahedronGeometry />
+        <meshBasicMaterial color="red" />
+      </mesh>
+    </group>,
+    scene,
+    {}
+  )
+
+  return (
+    <>
+      {portal}
+      {camera && scene && <RC.RenderPass camera={camera} scene={scene} />}
+    </>
   )
 }
 
