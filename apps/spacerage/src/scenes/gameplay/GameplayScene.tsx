@@ -1,8 +1,8 @@
 import { Physics } from "@react-three/rapier"
-import { Suspense, useLayoutEffect, useRef, useState } from "react"
+import { ReactNode, Suspense, useLayoutEffect, useRef, useState } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
-import { Color, PerspectiveCamera, Scene } from "three"
+import { Color, Scene } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import {
@@ -31,6 +31,7 @@ import { SmokeVFX } from "./vfx/SmokeVFX"
 import { Sparks } from "./vfx/Sparks"
 import * as RC from "render-composer"
 import { createPortal, useThree } from "@react-three/fiber"
+import { PerspectiveCamera } from "@react-three/drei"
 
 const GameplayScene = () => {
   return (
@@ -93,42 +94,28 @@ const GameplayScene = () => {
         </Physics>
       </group>
 
-      <HUDScene />
+      <RenderPass>
+        <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+        <mesh>
+          <icosahedronGeometry />
+          <meshBasicMaterial color="yellow" />
+        </mesh>
+      </RenderPass>
     </Suspense>
   )
 }
 
-export const HUDScene = () => {
+export const RenderPass = ({ children }: { children?: ReactNode }) => {
   const [scene] = useState(() => new Scene())
-  const [camera, setCamera] = useState<PerspectiveCamera | null>()
 
-  const portal = createPortal(
-    <group>
-      <perspectiveCamera position={[0, 0, 20]} ref={setCamera} />
-      <mesh>
-        <icosahedronGeometry />
-        <meshBasicMaterial color="red" />
-      </mesh>
-    </group>,
+  return createPortal(
+    <>
+      {children}
+      <RC.RenderPass clear={false} ignoreBackground />
+      <RC.EffectPass />
+    </>,
     scene,
     {}
-  )
-
-  return (
-    <>
-      {portal}
-      {camera && scene && (
-        <>
-          <RC.RenderPass
-            camera={camera}
-            scene={scene}
-            clear={false}
-            ignoreBackground
-          />
-          <RC.EffectPass />
-        </>
-      )}
-    </>
   )
 }
 
