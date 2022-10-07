@@ -50,7 +50,7 @@ class Controller {
 
     const fire = {
       keyboard: this.devices.keyboard.getKey("Space"),
-      gamepad: this.devices.gamepad.getButton(7)
+      gamepad: this.devices.gamepad.rightTrigger
     }
 
     this.controls.move.apply(move[this.activeScheme]).deadzone(0.2)
