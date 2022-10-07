@@ -18,7 +18,7 @@ const MenuScene = () => {
   // useEffect(() => controller.controls.select.onPress.addListener(startGame), [])
 
   useFrame(() => {
-    if (controller.controls.fire) {
+    if (controller.controls.fire.value > 0.5) {
       startGame()
     }
   })

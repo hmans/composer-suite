@@ -20,7 +20,7 @@ export const PlayerSystem = () => {
         name="Player Movement"
         world={ECS.world}
         updatePriority={Stage.Early}
-        fun={(dt) => {
+        fun={() => {
           const [player] = entities
           if (!player) return
 
@@ -50,6 +50,7 @@ export const PlayerSystem = () => {
           body.addForce(thrust, true)
         }}
       />
+
       <System
         name="Player Firing"
         world={ECS.world}
@@ -65,7 +66,7 @@ export const PlayerSystem = () => {
 
           const { fire } = controller.controls
 
-          if (fire.value && fireCooldown.current <= 0) {
+          if (fire.value > 0.2 && fireCooldown.current <= 0) {
             const worldPosition = player.sceneObject.getWorldPosition(
               new Vector3()
             )
