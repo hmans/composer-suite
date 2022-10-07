@@ -1,5 +1,11 @@
 # vfx-composer
 
+## 0.3.2
+
+### Patch Changes
+
+- 78ceea2: **Fixed:** When accidentally going past the allocated buffer size for particles, `InstancedParticles` will now log a detailed error message instead of crashing the entire effect.
+
 ## 0.3.1
 
 ### Patch Changes

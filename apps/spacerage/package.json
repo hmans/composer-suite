@@ -54,7 +54,7 @@
     "timeline-composer": "workspace:^0.1.7",
     "tunnel-rat": "^0.1.0",
     "ui-composer": "workspace:^0.0.1",
-    "vfx-composer": "^0.3.1",
+    "vfx-composer": "^0.3.2",
     "vfx-composer-r3f": "^0.3.0"
   },
   "devDependencies": {
