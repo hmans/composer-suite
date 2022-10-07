@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@hmans/controlfreak": "^0.2.0",
-    "@react-three/drei": "^9.32.7",
-    "@react-three/fiber": "^8.8.8",
+    "@react-three/drei": "^9.34.3",
+    "@react-three/fiber": "^8.8.9",
     "fp-ts": "^2.12.3",
     "gsap": "^3.11.2",
     "postprocessing": "^6.28.7",
@@ -43,6 +43,6 @@
     "@types/three": "^0.144.0",
     "@vitejs/plugin-react": "^2.1.0",
     "typescript": "^4.8.4",
-    "vite": "^3.1.4"
+    "vite": "^3.1.6"
   }
 }

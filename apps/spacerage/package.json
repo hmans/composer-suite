@@ -23,7 +23,7 @@
     "@hmans/things": "^0.0.6",
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
-    "@react-three/drei": "^9.34.1",
+    "@react-three/drei": "^9.34.3",
     "@react-three/fiber": "^8.8.9",
     "@react-three/rapier": "^0.7.6",
     "@stitches/react": "^1.2.8",
