@@ -8,6 +8,8 @@ import { Stage } from "./configuration"
 import { controller } from "./input"
 import { useCapture } from "./lib/useCapture"
 import { GameState, store } from "./state"
+
+/* Lazy load our scenes */
 const MenuScene = lazy(() => import("./scenes/menu/MenuScene"))
 const GameplayScene = lazy(() => import("./scenes/gameplay/GameplayScene"))
 
