@@ -26,6 +26,16 @@ export class VectorControl extends Control implements IVector {
     return this
   }
 
+  invertVertical() {
+    this.y *= -1
+    return this
+  }
+
+  invertHorizontal() {
+    this.x *= -1
+    return this
+  }
+
   normalize = () => {
     const length = this.length()
     if (length > 0) {
@@ -56,8 +66,8 @@ export class ValueControl extends Control implements IValue {
     super()
   }
 
-  apply(v: number) {
-    this.value = v
+  apply(v: number | ValueControl) {
+    this.value = v instanceof ValueControl ? v.value : v
     return this
   }
 
@@ -89,11 +99,13 @@ export class KeyboardDevice extends Device {
   update() {}
 
   getKey(code: string) {
-    return this.keys.has(code) ? 1 : 0
+    return new ValueControl(this.keys.has(code) ? 1 : 0)
   }
 
   getAxis(minKey: string, maxKey: string) {
-    return this.getKey(maxKey) - this.getKey(minKey)
+    return new ValueControl(
+      this.getKey(maxKey).value - this.getKey(minKey).value
+    )
   }
 
   getVector(
@@ -102,10 +114,10 @@ export class KeyboardDevice extends Device {
     yMinKey: string,
     yMaxKey: string
   ) {
-    return {
-      x: this.getAxis(xMinKey, xMaxKey),
-      y: this.getAxis(yMinKey, yMaxKey)
-    }
+    return new VectorControl(
+      this.getAxis(xMinKey, xMaxKey).value,
+      this.getAxis(yMinKey, yMaxKey).value
+    )
   }
 
   private onKeyDown = (e: KeyboardEvent) => {
@@ -136,12 +148,11 @@ export class GamepadDevice extends Device {
     }
   }
 
-  getButton = (index: number) => this.gamepad?.buttons[index].value ?? 0
+  getButton = (index: number) =>
+    new ValueControl(this.gamepad?.buttons[index].value ?? 0)
 
-  getAxis = (index: number) => this.gamepad?.axes[index] ?? 0
+  getAxis = (index: number) => new ValueControl(this.gamepad?.axes[index] ?? 0)
 
-  getVector = (xAxis: number, yAxis: number) => ({
-    x: this.getAxis(xAxis),
-    y: this.getAxis(yAxis)
-  })
+  getVector = (xAxis: number, yAxis: number) =>
+    new VectorControl(this.getAxis(xAxis).value, this.getAxis(yAxis).value)
 }

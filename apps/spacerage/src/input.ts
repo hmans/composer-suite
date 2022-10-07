@@ -25,7 +25,7 @@ class Controller {
 
     const move = {
       keyboard: this.devices.keyboard.getVector("KeyA", "KeyD", "KeyS", "KeyW"),
-      gamepad: this.devices.gamepad.getVector(0, 1)
+      gamepad: this.devices.gamepad.getVector(0, 1).invertVertical()
     }
 
     const aim = {
@@ -35,7 +35,7 @@ class Controller {
         "ArrowDown",
         "ArrowUp"
       ),
-      gamepad: this.devices.gamepad.getVector(2, 3)
+      gamepad: this.devices.gamepad.getVector(2, 3).invertVertical()
     }
 
     const fire = {
