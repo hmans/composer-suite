@@ -66,10 +66,10 @@ export class InstancedParticles extends InstancedMesh<BufferGeometry> {
     this.onBeforeRender = () => {
       const emitted = this.cursor - this.lastCursor
 
-      /* Increase total count of particles if we haven't done so before. */
-      this.count = Math.max(this.count, this.cursor)
-
       if (emitted > 0) {
+        /* Increase total count of particles if we haven't done so before. */
+        this.count = Math.max(this.count, this.cursor)
+
         const attrs = [
           this.instanceMatrix,
           ...Object.values(this.geometry.attributes)
