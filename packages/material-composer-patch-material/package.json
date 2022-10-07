@@ -17,10 +17,7 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
-    "@types/three": "^0.144.0",
-    "shader-composer": "^0.4.0",
-    "three": "^0.145.0",
-    "typescript": "^4.8.4"
+    "shader-composer": "workspace:^0.4.0"
   },
   "peerDependencies": {
     "shader-composer": ">=0.3.4",

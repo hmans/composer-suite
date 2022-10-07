@@ -27,9 +27,6 @@
   ],
   "license": "MIT",
   "sideEffects": false,
-  "devDependencies": {
-    "three": "^0.145.0"
-  },
   "peerDependencies": {
     "three": ">=0.141.0"
   },
