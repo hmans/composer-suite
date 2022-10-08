@@ -1,6 +1,5 @@
-import { PerspectiveCamera, Text } from "@react-three/drei"
-import { GroupProps, MeshProps } from "@react-three/fiber"
-import { Color } from "three"
+import { PerspectiveCamera } from "@react-three/drei"
+import { GroupProps } from "@react-three/fiber"
 import { ScenePass } from "../../lib/ScenePass"
 
 export const HUD = () => {
@@ -8,15 +7,8 @@ export const HUD = () => {
     <ScenePass>
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
 
-      <UICanvas width={4} height={3} x={0} y={0}>
-        <UICanvas
-          width={1}
-          height={1}
-          x={0}
-          y={0}
-          position-x={0.2}
-          position-y={-0.2}
-        >
+      <UICanvas width={4} height={3}>
+        <UICanvas width={1} height={1} position-x={0.2} position-y={-0.2}>
           {/* <Text color="black" fontSize={1} anchorX={0} anchorY={0}>
             723.389.150
           </Text> */}
@@ -27,8 +19,6 @@ export const HUD = () => {
 }
 
 export type UICanvasProps = GroupProps & {
-  x: number
-  y: number
   width: number
   height: number
 }
