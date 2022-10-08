@@ -8,7 +8,7 @@ export const HUD = () => {
     <ScenePass>
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
       <OrbitControls />
-      <UIPanel width={4} height={2}>
+      <UIPanel width={5} height={3}>
         <UIPanel
           width={1}
           height={1}
@@ -22,9 +22,36 @@ export const HUD = () => {
           position-x={0.1}
           position-y={-0.1}
           {...Anchor.TopLeft}
-        >
-          {/* <Button3D /> */}
-        </UIPanel>
+        />
+        <UIPanel
+          width={3}
+          height={3}
+          position-x={0.1}
+          position-y={-0.1}
+          {...Anchor.TopLeft}
+        />
+
+        <UIPanel
+          width={1}
+          height={1}
+          position-x={-0.1}
+          position-y={0.1}
+          {...Anchor.BottomRight}
+        />
+        <UIPanel
+          width={2}
+          height={2}
+          position-x={-0.1}
+          position-y={0.1}
+          {...Anchor.BottomRight}
+        />
+        <UIPanel
+          width={3}
+          height={3}
+          position-x={-0.1}
+          position-y={0.1}
+          {...Anchor.BottomRight}
+        />
       </UIPanel>
     </ScenePass>
   )
@@ -58,32 +85,33 @@ export const UIPanel = ({
   const offsetX = parent ? parent.width * (anchorX - 0.5) : 0
   const offsetY = parent ? parent.height * (anchorY - 0.5) : 0
 
+  const fixX = parent ? width / 2 - 1 + pivotX * (2 - width) : 0
+  const fixY = parent ? height / 2 - 1 + pivotY * (2 - height) : 0
+
   return (
     <group {...props}>
-      {/* Prevent z-fighting */}
-      <group position-z={0.0001}>
-        {/* Apply anchor offset */}
-        <group position={[offsetX, offsetY, 0]}>
-          <OriginMarker />
+      {/* Apply anchor offset */}
+      <group position={[offsetX, offsetY, 0.0001]}>
+        <OriginMarker />
 
-          {/* Apply pivot */}
-          <group position={[1 - anchorX - pivotX, 1 - anchorY - pivotY, 0]}>
-            <group position={[0, 0, 0]}>
-              {/* Visualize the canvas */}
-              <mesh scale={[width, height, 1]}>
-                <planeGeometry />
-                <meshBasicMaterial
-                  color="white"
-                  transparent
-                  opacity={0.2}
-                  depthTest={false}
-                />
-              </mesh>
+        {/* Apply pivot */}
+        <group position={[1 - anchorX - pivotX, 1 - anchorY - pivotY, 0]}>
+          {/* Apply hack */}
+          <group position={[fixX, fixY, 0]}>
+            {/* Visualize the canvas */}
+            <mesh scale={[width, height, 1]}>
+              <planeGeometry />
+              <meshBasicMaterial
+                color="white"
+                transparent
+                opacity={0.2}
+                depthTest={false}
+              />
+            </mesh>
 
-              <PanelContext.Provider value={{ width, height }}>
-                {children}
-              </PanelContext.Provider>
-            </group>
+            <PanelContext.Provider value={{ width, height }}>
+              {children}
+            </PanelContext.Provider>
           </group>
         </group>
       </group>
@@ -113,6 +141,12 @@ const Anchor = {
     pivotX: 0,
     anchorY: 1,
     pivotY: 1
+  },
+  BottomRight: {
+    anchorX: 1,
+    pivotX: 1,
+    anchorY: 0,
+    pivotY: 0
   },
   Left: {
     anchorX: 0,
