@@ -11,38 +11,32 @@ export const HUD = () => {
         <PerspectiveCamera position={[0, 0, 20]} makeDefault />
         <directionalLight position={[20, 40, 40]} />
         <OrbitControls />
-        <UIPanel width={15} height={15} debug>
-          <UIPanel
-            width={8}
-            height={3}
-            anchorY={1}
-            pivotY={1}
-            position-y={-0.5}
-          >
+        <UIRect width={15} height={15} debug>
+          <UIRect width={8} height={3} anchorY={1} pivotY={1} position-y={-0.5}>
             <Text maxWidth={8} fontSize={0.6} textAlign="center">
               Did I build a world-space UI layout engine? Maybe I did!
             </Text>
-          </UIPanel>
+          </UIRect>
 
-          <UIPanel width={3} height={1} anchorY={0} pivotY={0} position-y={0.5}>
+          <UIRect width={3} height={1} anchorY={0} pivotY={0} position-y={0.5}>
             <Button3D />
-          </UIPanel>
+          </UIRect>
 
-          <UIPanel
+          <UIRect
             width={1}
             height={1}
             position-x={0.1}
             position-y={-0.1}
             {...Anchor.TopLeft}
           />
-          <UIPanel
+          <UIRect
             width={2}
             height={2}
             position-x={0.1}
             position-y={-0.1}
             {...Anchor.TopLeft}
           />
-          <UIPanel
+          <UIRect
             width={3}
             height={3}
             position-x={0.1}
@@ -50,28 +44,28 @@ export const HUD = () => {
             {...Anchor.TopLeft}
           />
 
-          <UIPanel
+          <UIRect
             width={1}
             height={1}
             position-x={-0.1}
             position-y={0.1}
             {...Anchor.BottomRight}
           />
-          <UIPanel
+          <UIRect
             width={2}
             height={2}
             position-x={-0.1}
             position-y={0.1}
             {...Anchor.BottomRight}
           />
-          <UIPanel
+          <UIRect
             width={3}
             height={3}
             position-x={-0.1}
             position-y={0.1}
             {...Anchor.BottomRight}
           />
-        </UIPanel>
+        </UIRect>
       </ScenePass>
       <RC.EffectPass>
         <RC.SMAAEffect />
@@ -80,13 +74,13 @@ export const HUD = () => {
   )
 }
 
-export const PanelContext = createContext<{
+export const RectContext = createContext<{
   width: number
   height: number
   debug: boolean
 }>(null!)
 
-export type UIPanelProps = GroupProps & {
+export type UIRectProps = GroupProps & {
   anchorX?: number
   anchorY?: number
   pivotX?: number
@@ -96,7 +90,7 @@ export type UIPanelProps = GroupProps & {
   debug?: boolean
 }
 
-export const UIPanel = ({
+export const UIRect = ({
   anchorX = 0.5,
   anchorY = 0.5,
   pivotX = 0.5,
@@ -106,8 +100,8 @@ export const UIPanel = ({
   children,
   debug: _debug,
   ...props
-}: UIPanelProps) => {
-  const parent = useContext(PanelContext)
+}: UIRectProps) => {
+  const parent = useContext(RectContext)
 
   const debug = _debug ?? parent?.debug ?? false
 
@@ -140,9 +134,9 @@ export const UIPanel = ({
             </mesh>
           )}
 
-          <PanelContext.Provider value={{ width, height, debug }}>
+          <RectContext.Provider value={{ width, height, debug }}>
             <group position-z={0.0001}>{children}</group>
-          </PanelContext.Provider>
+          </RectContext.Provider>
         </group>
       </group>
     </group>
