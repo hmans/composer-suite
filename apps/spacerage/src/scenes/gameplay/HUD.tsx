@@ -87,6 +87,7 @@ export const UIPanel = ({
   const offsetX = parent ? parent.width * (anchorX - 0.5) : 0
   const offsetY = parent ? parent.height * (anchorY - 0.5) : 0
 
+  /* This works, but it can probably be written smarter? */
   const fixX = parent ? width / 2 - 1 + pivotX * (2 - width) : 0
   const fixY = parent ? height / 2 - 1 + pivotY * (2 - height) : 0
 
