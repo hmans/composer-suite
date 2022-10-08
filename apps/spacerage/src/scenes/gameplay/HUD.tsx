@@ -7,9 +7,11 @@ export const HUD = () => {
   return (
     <ScenePass>
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+      <directionalLight position={[20, 40, 40]} />
       <OrbitControls />
       <UIPanel width={5} height={3}>
-        <UIPanel
+        <Button3D />
+        {/* <UIPanel
           width={1}
           height={1}
           position-x={0.1}
@@ -51,7 +53,7 @@ export const HUD = () => {
           position-x={-0.1}
           position-y={0.1}
           {...Anchor.BottomRight}
-        />
+        /> */}
       </UIPanel>
     </ScenePass>
   )
@@ -105,7 +107,7 @@ export const UIPanel = ({
                 color="white"
                 transparent
                 opacity={0.2}
-                depthTest={false}
+                depthWrite={false}
               />
             </mesh>
 
@@ -122,8 +124,13 @@ export const UIPanel = ({
 const Button3D = () => {
   return (
     <mesh>
-      <boxGeometry />
-      <meshBasicMaterial color="#ccc" />
+      <boxGeometry args={[3, 1, 0.5]} />
+      <meshStandardMaterial
+        color="red"
+        metalness={0.5}
+        roughness={0.5}
+        depthWrite={false}
+      />
     </mesh>
   )
 }
