@@ -11,7 +11,7 @@ export const HUD = () => {
         <PerspectiveCamera position={[0, 0, 20]} makeDefault />
         <directionalLight position={[20, 40, 40]} />
         <OrbitControls />
-        <UIPanel width={10} height={6} debug>
+        <UIPanel width={15} height={15} debug>
           <UIPanel
             debug
             width={8}
