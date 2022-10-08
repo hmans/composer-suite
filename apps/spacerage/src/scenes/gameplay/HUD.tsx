@@ -124,7 +124,7 @@ export const UIPanel = ({
   return (
     <group {...props}>
       {/* Apply anchor offset */}
-      <group position={[offsetX, offsetY, 0.0001]}>
+      <group position={[offsetX, offsetY, 0]}>
         {debug && <OriginMarker />}
 
         {/* Apply pivot */}
@@ -149,7 +149,7 @@ export const UIPanel = ({
           )}
 
           <PanelContext.Provider value={{ width, height }}>
-            {children}
+            <group position-z={0.0001}>{children}</group>
           </PanelContext.Provider>
         </group>
       </group>
@@ -164,7 +164,7 @@ const Button3D = () => {
         <boxGeometry args={[4, 1, 0.5]} />
         <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
       </mesh>
-      <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25}>
+      <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25001}>
         COOL
       </Text>
     </group>
