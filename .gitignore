@@ -27,3 +27,6 @@ apps/website/docs/reference/
 *.njsproj
 *.sln
 *.sw?
+
+# Turborepo
+.turbo
