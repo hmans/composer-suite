@@ -20,6 +20,7 @@ import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
 import { Pickups } from "./Pickups"
 import { Player } from "./Player"
+import { PostProcessing } from "./PostProcessing"
 import { ECS } from "./state"
 import { AgeSystem } from "./systems/AgeSystem"
 import { AttractorSystem } from "./systems/AttractorSystem"
@@ -38,6 +39,8 @@ import { Sparks } from "./vfx/Sparks"
 const GameplayScene = () => {
   return (
     <Suspense>
+      <PostProcessing />
+
       <fog attach="fog" args={["#000000", 30, 300]} />
       <group>
         <Physics
@@ -125,9 +128,9 @@ const HUD = () => {
         </Text>
       </ScenePass>
 
-      <RC.EffectPass>
+      {/* <RC.EffectPass>
         <RC.SelectiveBloomEffect intensity={4} luminanceThreshold={1} />
-      </RC.EffectPass>
+      </RC.EffectPass> */}
     </>
   )
 }

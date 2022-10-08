@@ -3,7 +3,6 @@ import * as AC from "audio-composer"
 import { Controller } from "input-composer/react"
 import { lazy, Suspense } from "react"
 import * as RC from "render-composer"
-import { PostProcessing } from "./common/PostProcessing"
 import { Stage } from "./configuration"
 import { controller } from "./input"
 import { useCapture } from "./lib/useCapture"
@@ -22,7 +21,6 @@ export const Game = () => {
         <AC.AudioContext>
           <AC.Compressor>
             {/* <AC.Reverb seconds={2} decay={5}> */}
-            <PostProcessing />
             <Suspense>
               <PerspectiveCamera
                 position={[0, 0, 20]}

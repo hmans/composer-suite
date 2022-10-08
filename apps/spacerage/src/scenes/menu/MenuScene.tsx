@@ -4,7 +4,7 @@ import { Suspense, useEffect } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
-import { store } from "../../common/PostProcessing"
+import { PostProcessing, store } from "./PostProcessing"
 import { Skybox } from "../../common/Skybox"
 import { controller } from "../../input"
 import { useCapture } from "../../lib/useCapture"
@@ -25,6 +25,8 @@ const MenuScene = () => {
 
   return (
     <Suspense>
+      <PostProcessing />
+
       <group>
         {/* Lights */}
         <ambientLight

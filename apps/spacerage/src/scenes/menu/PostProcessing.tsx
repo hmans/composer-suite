@@ -1,7 +1,7 @@
 import * as RC from "render-composer"
 import { makeStore, useStore } from "statery"
 import { Mesh } from "three"
-import { useAsset } from "../assets"
+import { useAsset } from "../../assets"
 
 export const store = makeStore({
   sun: null as Mesh | null
