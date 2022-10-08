@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/hmans-r3f-create-loader.cjs.js",
   "module": "dist/hmans-r3f-create-loader.esm.js",
   "files": [
