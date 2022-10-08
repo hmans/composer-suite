@@ -1,17 +1,20 @@
 import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { GroupProps, useThree } from "@react-three/fiber"
 import { createContext, useContext } from "react"
-import * as RC from "render-composer"
+import { Vector3 } from "three"
 import { ScenePass } from "../../lib/ScenePass"
 
 export const HUD = () => {
+  const camera = useThree((state) => state.camera)
+
   return (
     <>
-      <ScenePass>
-        <PerspectiveCamera position={[0, 0, 20]} makeDefault />
-        <directionalLight position={[20, 40, 40]} />
-        <OrbitControls />
-        <UIRect width={15} height={15} debug>
+      <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+      <directionalLight position={[20, 40, 40]} />
+      <OrbitControls />
+
+      {camera && (
+        <UIRect width={15} height={15} position={[1, 0, 1]} debug>
           <UIRect width={8} height={3} anchorY={1} pivotY={1} position-y={-0.5}>
             <Text maxWidth={8} fontSize={0.6} textAlign="center">
               Did I build a world-space UI layout engine? Maybe I did!
@@ -66,10 +69,7 @@ export const HUD = () => {
             {...Anchor.BottomRight}
           />
         </UIRect>
-      </ScenePass>
-      <RC.EffectPass>
-        <RC.SMAAEffect />
-      </RC.EffectPass>
+      )}
     </>
   )
 }

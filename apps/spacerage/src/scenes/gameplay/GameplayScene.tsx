@@ -1,11 +1,13 @@
 import { Physics } from "@react-three/rapier"
 import { Suspense } from "react"
+import * as RC from "render-composer"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
 import { MiniplexInspector } from "../../editor/MiniplexInspector"
+import { ScenePass } from "../../lib/ScenePass"
 import { SidebarTunnel } from "../../state"
 import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
@@ -95,7 +97,13 @@ const GameplayScene = () => {
         </Physics>
       </group>
 
-      <HUD />
+      <ScenePass>
+        <HUD />
+      </ScenePass>
+
+      <RC.EffectPass>
+        <RC.SMAAEffect />
+      </RC.EffectPass>
     </Suspense>
   )
 }
