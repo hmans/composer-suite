@@ -15,10 +15,24 @@ export type RenderPassProps = {
   scene?: THREE.Scene
   ignoreBackground?: boolean
   clear?: boolean
+  clearColor?: boolean
+  clearDepth?: boolean
+  clearStencil?: boolean
 }
 
 export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
-  ({ camera, scene, ignoreBackground = false, clear = false }, ref) => {
+  (
+    {
+      camera,
+      scene,
+      ignoreBackground = false,
+      clear = false,
+      clearColor = true,
+      clearDepth = true,
+      clearStencil = true
+    },
+    ref
+  ) => {
     const r3fCamera = useThree((state) => state.camera)
     const r3fScene = useThree((state) => state.scene)
 
@@ -30,6 +44,7 @@ export const RenderPass = forwardRef<PP.RenderPass, RenderPassProps>(
     useLayoutEffect(() => {
       pass.ignoreBackground = ignoreBackground
       pass.clearPass.enabled = clear
+      pass.clearPass.setClearFlags(clearColor, clearDepth, clearStencil)
     })
 
     useImperativeHandle(ref, () => pass)
