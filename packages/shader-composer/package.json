@@ -28,7 +28,8 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "build": "preconstruct build"
+    "build": "preconstruct build",
+    "test": "jest"
   },
   "babel": {
     "presets": [
