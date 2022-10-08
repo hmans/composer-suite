@@ -1,4 +1,4 @@
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { createContext, useContext } from "react"
 import * as RC from "render-composer"
@@ -12,8 +12,23 @@ export const HUD = () => {
         <directionalLight position={[20, 40, 40]} />
         <OrbitControls />
         <UIPanel width={10} height={6}>
-          <Button3D />
           <UIPanel
+            width={8}
+            height={3}
+            anchorY={1}
+            pivotY={1}
+            position-y={-0.5}
+          >
+            <Text maxWidth={8} fontSize={0.6} textAlign="center">
+              Did I build a world-space UI layout engine? Maybe I did!
+            </Text>
+          </UIPanel>
+
+          <UIPanel width={3} height={1} anchorY={0} pivotY={0} position-y={0.5}>
+            <Button3D />
+          </UIPanel>
+
+          {/* <UIPanel
             width={1}
             height={1}
             position-x={0.1}
@@ -55,7 +70,7 @@ export const HUD = () => {
             position-x={-0.1}
             position-y={0.1}
             {...Anchor.BottomRight}
-          />
+          /> */}
         </UIPanel>
       </ScenePass>
       <RC.EffectPass>
@@ -76,6 +91,7 @@ export type UIPanelProps = GroupProps & {
   pivotY?: number
   width: number
   height: number
+  debug?: boolean
 }
 
 export const UIPanel = ({
@@ -86,6 +102,7 @@ export const UIPanel = ({
   width,
   height,
   children,
+  debug = false,
   ...props
 }: UIPanelProps) => {
   const parent = useContext(PanelContext)
@@ -101,22 +118,24 @@ export const UIPanel = ({
     <group {...props}>
       {/* Apply anchor offset */}
       <group position={[offsetX, offsetY, 0.0001]}>
-        <OriginMarker />
+        {debug && <OriginMarker />}
 
         {/* Apply pivot */}
         <group position={[1 - anchorX - pivotX, 1 - anchorY - pivotY, 0]}>
           {/* Apply hack */}
           <group position={[fixX, fixY, 0]}>
             {/* Visualize the canvas */}
-            <mesh scale={[width, height, 1]}>
-              <planeGeometry />
-              <meshBasicMaterial
-                color="white"
-                transparent
-                opacity={0.2}
-                // depthWrite={false}
-              />
-            </mesh>
+            {debug && (
+              <mesh scale={[width, height, 1]}>
+                <planeGeometry />
+                <meshBasicMaterial
+                  color="white"
+                  transparent
+                  opacity={0.2}
+                  // depthWrite={false}
+                />
+              </mesh>
+            )}
 
             <PanelContext.Provider value={{ width, height }}>
               {children}
@@ -130,10 +149,15 @@ export const UIPanel = ({
 
 const Button3D = () => {
   return (
-    <mesh position-z={0.25}>
-      <boxGeometry args={[3, 1, 0.5]} />
-      <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
-    </mesh>
+    <group position-z={0.25}>
+      <mesh>
+        <boxGeometry args={[4, 1, 0.5]} />
+        <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
+      </mesh>
+      <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25}>
+        COOL
+      </Text>
+    </group>
   )
 }
 
