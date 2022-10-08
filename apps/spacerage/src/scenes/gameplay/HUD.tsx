@@ -11,8 +11,9 @@ export const HUD = () => {
         <PerspectiveCamera position={[0, 0, 20]} makeDefault />
         <directionalLight position={[20, 40, 40]} />
         <OrbitControls />
-        <UIPanel width={10} height={6}>
+        <UIPanel width={10} height={6} debug>
           <UIPanel
+            debug
             width={8}
             height={3}
             anchorY={1}
@@ -28,7 +29,8 @@ export const HUD = () => {
             <Button3D />
           </UIPanel>
 
-          {/* <UIPanel
+          <UIPanel
+            debug
             width={1}
             height={1}
             position-x={0.1}
@@ -36,6 +38,7 @@ export const HUD = () => {
             {...Anchor.TopLeft}
           />
           <UIPanel
+            debug
             width={2}
             height={2}
             position-x={0.1}
@@ -43,6 +46,7 @@ export const HUD = () => {
             {...Anchor.TopLeft}
           />
           <UIPanel
+            debug
             width={3}
             height={3}
             position-x={0.1}
@@ -51,6 +55,7 @@ export const HUD = () => {
           />
 
           <UIPanel
+            debug
             width={1}
             height={1}
             position-x={-0.1}
@@ -58,6 +63,7 @@ export const HUD = () => {
             {...Anchor.BottomRight}
           />
           <UIPanel
+            debug
             width={2}
             height={2}
             position-x={-0.1}
@@ -65,12 +71,13 @@ export const HUD = () => {
             {...Anchor.BottomRight}
           />
           <UIPanel
+            debug
             width={3}
             height={3}
             position-x={-0.1}
             position-y={0.1}
             {...Anchor.BottomRight}
-          /> */}
+          />
         </UIPanel>
       </ScenePass>
       <RC.EffectPass>
@@ -121,26 +128,29 @@ export const UIPanel = ({
         {debug && <OriginMarker />}
 
         {/* Apply pivot */}
-        <group position={[1 - anchorX - pivotX, 1 - anchorY - pivotY, 0]}>
-          {/* Apply hack */}
-          <group position={[fixX, fixY, 0]}>
-            {/* Visualize the canvas */}
-            {debug && (
-              <mesh scale={[width, height, 1]}>
-                <planeGeometry />
-                <meshBasicMaterial
-                  color="white"
-                  transparent
-                  opacity={0.2}
-                  // depthWrite={false}
-                />
-              </mesh>
-            )}
+        <group
+          position={[
+            fixX + 1 - anchorX - pivotX,
+            fixY + 1 - anchorY - pivotY,
+            0
+          ]}
+        >
+          {/* Visualize the canvas */}
+          {debug && (
+            <mesh scale={[width, height, 1]}>
+              <planeGeometry />
+              <meshBasicMaterial
+                color="white"
+                transparent
+                opacity={0.2}
+                // depthWrite={false}
+              />
+            </mesh>
+          )}
 
-            <PanelContext.Provider value={{ width, height }}>
-              {children}
-            </PanelContext.Provider>
-          </group>
+          <PanelContext.Provider value={{ width, height }}>
+            {children}
+          </PanelContext.Provider>
         </group>
       </group>
     </group>
