@@ -53,12 +53,13 @@ jobs:
         with:
           version: pnpm ci:version
           publish: pnpm ci:release
-          title: "[Changesets] Pending Releases in Development"
+          title: "[Changesets] [DEV] Pending Releases in Development"
           # commit: "chore: update versions"
           # title: "chore: update versions"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Specifically disabled the NPM token on purpose in case we ever accidentally merge this PR :-)
+          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Send a Slack notification if a publish happens
       #   if: steps.changesets.outputs.published == 'true'
       #   # You can do something when a publish happens.
