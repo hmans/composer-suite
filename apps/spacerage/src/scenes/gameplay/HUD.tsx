@@ -1,6 +1,5 @@
 import { PerspectiveCamera } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
-import { number } from "randomish"
 import { createContext, useContext } from "react"
 import { ScenePass } from "../../lib/ScenePass"
 
@@ -15,10 +14,7 @@ export const HUD = () => {
           height={1}
           position-x={0.1}
           position-y={-0.1}
-          pivotX={0}
-          anchorX={0}
-          pivotY={1}
-          anchorY={1}
+          {...Anchor.TopLeft}
         />
       </UIPanel>
     </ScenePass>
@@ -82,3 +78,36 @@ const OriginMarker = () => (
     <meshBasicMaterial color="red" />
   </mesh>
 )
+
+const Anchor = {
+  TopLeft: {
+    anchorX: 0,
+    pivotX: 0,
+    anchorY: 1,
+    pivotY: 1
+  },
+  Left: {
+    anchorX: 0,
+    pivotX: 0
+  },
+  Center: {
+    anchorX: 0.5,
+    pivotX: 0.5
+  },
+  Right: {
+    anchorX: 1,
+    pivotX: 1
+  },
+  Top: {
+    anchorY: 1,
+    pivotY: 1
+  },
+  Middle: {
+    anchorY: 0.5,
+    pivotY: 0.5
+  },
+  Bottom: {
+    anchorY: 0,
+    pivotY: 0
+  }
+}
