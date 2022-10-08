@@ -13,7 +13,6 @@ export const HUD = () => {
         <OrbitControls />
         <UIPanel width={15} height={15} debug>
           <UIPanel
-            debug
             width={8}
             height={3}
             anchorY={1}
@@ -30,7 +29,6 @@ export const HUD = () => {
           </UIPanel>
 
           <UIPanel
-            debug
             width={1}
             height={1}
             position-x={0.1}
@@ -38,7 +36,6 @@ export const HUD = () => {
             {...Anchor.TopLeft}
           />
           <UIPanel
-            debug
             width={2}
             height={2}
             position-x={0.1}
@@ -46,7 +43,6 @@ export const HUD = () => {
             {...Anchor.TopLeft}
           />
           <UIPanel
-            debug
             width={3}
             height={3}
             position-x={0.1}
@@ -55,7 +51,6 @@ export const HUD = () => {
           />
 
           <UIPanel
-            debug
             width={1}
             height={1}
             position-x={-0.1}
@@ -63,7 +58,6 @@ export const HUD = () => {
             {...Anchor.BottomRight}
           />
           <UIPanel
-            debug
             width={2}
             height={2}
             position-x={-0.1}
@@ -71,7 +65,6 @@ export const HUD = () => {
             {...Anchor.BottomRight}
           />
           <UIPanel
-            debug
             width={3}
             height={3}
             position-x={-0.1}
@@ -87,9 +80,11 @@ export const HUD = () => {
   )
 }
 
-export const PanelContext = createContext<{ width: number; height: number }>(
-  null!
-)
+export const PanelContext = createContext<{
+  width: number
+  height: number
+  debug: boolean
+}>(null!)
 
 export type UIPanelProps = GroupProps & {
   anchorX?: number
@@ -109,10 +104,12 @@ export const UIPanel = ({
   width,
   height,
   children,
-  debug = false,
+  debug: _debug,
   ...props
 }: UIPanelProps) => {
   const parent = useContext(PanelContext)
+
+  const debug = _debug ?? parent?.debug ?? false
 
   const offsetX = parent ? parent.width * (anchorX - 0.5) : 0
   const offsetY = parent ? parent.height * (anchorY - 0.5) : 0
@@ -139,16 +136,11 @@ export const UIPanel = ({
           {debug && (
             <mesh scale={[width, height, 1]}>
               <planeGeometry />
-              <meshBasicMaterial
-                color="white"
-                transparent
-                opacity={0.2}
-                // depthWrite={false}
-              />
+              <meshBasicMaterial color="white" transparent opacity={0.2} />
             </mesh>
           )}
 
-          <PanelContext.Provider value={{ width, height }}>
+          <PanelContext.Provider value={{ width, height, debug }}>
             <group position-z={0.0001}>{children}</group>
           </PanelContext.Provider>
         </group>
