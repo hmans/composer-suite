@@ -9,7 +9,7 @@ export const ScenePass = ({ children }: { children?: ReactNode }) => {
   return createPortal(
     <>
       {children}
-      <RC.RenderPass clear={false} ignoreBackground />
+      <RC.RenderPass clear={true} clearColor={false} ignoreBackground />
       <RC.EffectPass />
     </>,
     scene,
