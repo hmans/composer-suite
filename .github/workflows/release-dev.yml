@@ -53,7 +53,7 @@ jobs:
         with:
           version: pnpm ci:version
           publish: pnpm ci:release
-          title: "[Changesets] Development Version Update"
+          title: "[Changesets] Pending Releases in Development"
           # commit: "chore: update versions"
           # title: "chore: update versions"
         env:
