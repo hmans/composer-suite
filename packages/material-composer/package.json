@@ -29,6 +29,22 @@
   },
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  },
   "dependencies": {
     "@material-composer/patch-material": "^0.1.2",
     "fp-ts": "^2.12.3",

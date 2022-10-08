@@ -16,6 +16,22 @@
   ],
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  },
   "dependencies": {
     "fp-ts": "^2.12.3",
     "shader-composer": "^0.4.0"
