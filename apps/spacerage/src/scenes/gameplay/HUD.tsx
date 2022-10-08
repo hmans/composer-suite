@@ -24,8 +24,6 @@ export type UICanvasProps = GroupProps & {
 }
 
 export const UICanvas = ({
-  x,
-  y,
   width,
   height,
   children,
