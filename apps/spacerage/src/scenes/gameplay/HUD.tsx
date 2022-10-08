@@ -7,14 +7,14 @@ export const HUD = () => {
     <ScenePass>
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
 
-      <UICanvas width={4} height={2}>
-        <UICanvas width={1} height={1} pivotY={0.5} />
-      </UICanvas>
+      <UIPanel width={4} height={2}>
+        <UIPanel width={1} height={1} pivotY={0.5} />
+      </UIPanel>
     </ScenePass>
   )
 }
 
-export type UICanvasProps = GroupProps & {
+export type UIPanelProps = GroupProps & {
   anchorX?: number
   anchorY?: number
   pivotX?: number
@@ -23,7 +23,7 @@ export type UICanvasProps = GroupProps & {
   height: number
 }
 
-export const UICanvas = ({
+export const UIPanel = ({
   anchorX = 0.5,
   anchorY = 0.5,
   pivotX = 0.5,
@@ -32,7 +32,7 @@ export const UICanvas = ({
   height,
   children,
   ...props
-}: UICanvasProps) => {
+}: UIPanelProps) => {
   return (
     <group {...props}>
       <OriginMarker />
