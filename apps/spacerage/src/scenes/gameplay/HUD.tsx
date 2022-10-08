@@ -15,6 +15,8 @@ export const HUD = () => {
 }
 
 export type UICanvasProps = GroupProps & {
+  anchorX?: number
+  anchorY?: number
   pivotX?: number
   pivotY?: number
   width: number
@@ -22,6 +24,8 @@ export type UICanvasProps = GroupProps & {
 }
 
 export const UICanvas = ({
+  anchorX = 0.5,
+  anchorY = 0.5,
   pivotX = 0.5,
   pivotY = 0.5,
   width,
