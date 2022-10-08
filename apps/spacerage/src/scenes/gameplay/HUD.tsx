@@ -9,9 +9,9 @@ export const HUD = () => {
       <PerspectiveCamera position={[0, 0, 20]} makeDefault />
       <directionalLight position={[20, 40, 40]} />
       <OrbitControls />
-      <UIPanel width={5} height={3}>
+      <UIPanel width={10} height={6}>
         <Button3D />
-        {/* <UIPanel
+        <UIPanel
           width={1}
           height={1}
           position-x={0.1}
@@ -53,7 +53,7 @@ export const HUD = () => {
           position-x={-0.1}
           position-y={0.1}
           {...Anchor.BottomRight}
-        /> */}
+        />
       </UIPanel>
     </ScenePass>
   )
