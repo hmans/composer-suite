@@ -52,7 +52,7 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm ci:version
-          publish: pnpm ci:release
+          # publish: pnpm ci:release
           title: "[Changesets] [DEV] Pending Releases in Development"
           # commit: "chore: update versions"
           # title: "chore: update versions"
