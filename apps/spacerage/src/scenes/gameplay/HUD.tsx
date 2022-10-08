@@ -1,61 +1,67 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import { createContext, useContext } from "react"
+import * as RC from "render-composer"
 import { ScenePass } from "../../lib/ScenePass"
 
 export const HUD = () => {
   return (
-    <ScenePass>
-      <PerspectiveCamera position={[0, 0, 20]} makeDefault />
-      <directionalLight position={[20, 40, 40]} />
-      <OrbitControls />
-      <UIPanel width={10} height={6}>
-        <Button3D />
-        <UIPanel
-          width={1}
-          height={1}
-          position-x={0.1}
-          position-y={-0.1}
-          {...Anchor.TopLeft}
-        />
-        <UIPanel
-          width={2}
-          height={2}
-          position-x={0.1}
-          position-y={-0.1}
-          {...Anchor.TopLeft}
-        />
-        <UIPanel
-          width={3}
-          height={3}
-          position-x={0.1}
-          position-y={-0.1}
-          {...Anchor.TopLeft}
-        />
+    <>
+      <ScenePass>
+        <PerspectiveCamera position={[0, 0, 20]} makeDefault />
+        <directionalLight position={[20, 40, 40]} />
+        <OrbitControls />
+        <UIPanel width={10} height={6}>
+          <Button3D />
+          <UIPanel
+            width={1}
+            height={1}
+            position-x={0.1}
+            position-y={-0.1}
+            {...Anchor.TopLeft}
+          />
+          <UIPanel
+            width={2}
+            height={2}
+            position-x={0.1}
+            position-y={-0.1}
+            {...Anchor.TopLeft}
+          />
+          <UIPanel
+            width={3}
+            height={3}
+            position-x={0.1}
+            position-y={-0.1}
+            {...Anchor.TopLeft}
+          />
 
-        <UIPanel
-          width={1}
-          height={1}
-          position-x={-0.1}
-          position-y={0.1}
-          {...Anchor.BottomRight}
-        />
-        <UIPanel
-          width={2}
-          height={2}
-          position-x={-0.1}
-          position-y={0.1}
-          {...Anchor.BottomRight}
-        />
-        <UIPanel
-          width={3}
-          height={3}
-          position-x={-0.1}
-          position-y={0.1}
-          {...Anchor.BottomRight}
-        />
-      </UIPanel>
-    </ScenePass>
+          <UIPanel
+            width={1}
+            height={1}
+            position-x={-0.1}
+            position-y={0.1}
+            {...Anchor.BottomRight}
+          />
+          <UIPanel
+            width={2}
+            height={2}
+            position-x={-0.1}
+            position-y={0.1}
+            {...Anchor.BottomRight}
+          />
+          <UIPanel
+            width={3}
+            height={3}
+            position-x={-0.1}
+            position-y={0.1}
+            {...Anchor.BottomRight}
+          />
+        </UIPanel>
+      </ScenePass>
+      <RC.EffectPass>
+        <RC.SMAAEffect />
+      </RC.EffectPass>
+    </>
   )
 }
 
@@ -108,7 +114,7 @@ export const UIPanel = ({
                 color="white"
                 transparent
                 opacity={0.2}
-                depthWrite={false}
+                // depthWrite={false}
               />
             </mesh>
 
@@ -124,14 +130,9 @@ export const UIPanel = ({
 
 const Button3D = () => {
   return (
-    <mesh>
+    <mesh position-z={0.25}>
       <boxGeometry args={[3, 1, 0.5]} />
-      <meshStandardMaterial
-        color="red"
-        metalness={0.5}
-        roughness={0.5}
-        depthWrite={false}
-      />
+      <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
     </mesh>
   )
 }
