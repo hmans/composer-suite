@@ -22,6 +22,8 @@ If you'd like to give this stuff a try today, the easiest way would be to either
 
 ## Space Rage 2
 
+![spacerage-banner](https://user-images.githubusercontent.com/1061/194765077-4e1e1086-6596-474a-aab0-aec9d92f8fbd.jpg)
+
 The development of the Composer Suite is primarily driven by that of **Space Rage 2**, an open-source top-down twin-stick shooter game that is also intended to be a showcase for the libraries here.
 
 - [Play Space Rage 2 on Vercel](https://spacerage2.vercel.app/)
