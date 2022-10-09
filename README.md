@@ -14,6 +14,19 @@ This project wouldn't be possible without the support from its lovely [sponsors]
 
 <!-- sponsors --><a href="https://github.com/kenjinp"><img src="https://github.com/kenjinp.png" width="60px" alt="Kenneth Pirman" /></a><a href="https://github.com/czottmann"><img src="https://github.com/czottmann.png" width="60px" alt="Carlo Zottmann" /></a><a href="https://github.com/verekia"><img src="https://github.com/verekia.png" width="60px" alt="Jonathan Verrecchia" /></a><a href="https://github.com/djradon"><img src="https://github.com/djradon.png" width="60px" alt="Dave Richardson" /></a><a href="https://github.com/souporserious"><img src="https://github.com/souporserious.png" width="60px" alt="Travis Arnold" /></a><a href="https://github.com/MSNexploder"><img src="https://github.com/MSNexploder.png" width="60px" alt="Stefan Stüben" /></a><a href="https://github.com/jorgenbuilder"><img src="https://github.com/jorgenbuilder.png" width="60px" alt="Jorgen Hookham" /></a><a href="https://github.com/perplex-gg"><img src="https://github.com/perplex-gg.png" width="60px" alt="perplex.gg" /></a><a href="https://github.com/darrinm"><img src="https://github.com/darrinm.png" width="60px" alt="Darrin Massena" /></a><a href="https://github.com/DennisSmolek"><img src="https://github.com/DennisSmolek.png" width="60px" alt="Dennis Smolek" /></a><a href="https://github.com/gsimone"><img src="https://github.com/gsimone.png" width="60px" alt="Gianmarco" /></a><a href="https://github.com/zklain"><img src="https://github.com/zklain.png" width="60px" alt="Zdenko Klain" /></a><a href="https://github.com/chasedavis"><img src="https://github.com/chasedavis.png" width="60px" alt="Chase Davis" /></a><a href="https://github.com/chrisco255"><img src="https://github.com/chrisco255.png" width="60px" alt="Chris Cordle" /></a><a href="https://github.com/EngynWuck"><img src="https://github.com/EngynWuck.png" width="60px" alt="" /></a><a href="https://github.com/lazy1523"><img src="https://github.com/lazy1523.png" width="60px" alt="zisu" /></a><a href="https://github.com/DevMartinese"><img src="https://github.com/DevMartinese.png" width="60px" alt="Gonzalo Martinese" /></a><!-- sponsors -->
 
+## Getting Started
+
+**Most of the packages in this repository are under heavy development**, and even though I regularly [push new bits to NPM](https://github.com/hmans/composer-suite/releases), expect much of it to be largely undocumented and unstable, particularly anything that has yet to reach version 1.0.0.
+
+If you'd like to give this stuff a try today, the easiest way would be to either clone this repository to your local computer and run one of the many example apps (or the demo game, Space Rage 2; see below). Alternatively, you can also [open this repository on CodeSandbox](https://codesandbox.io/p/github/hmans/composer-suite/main?file=%2FREADME.md) and play with the code there!
+
+## Space Rage 2
+
+The development of the Composer Suite is primarily driven by that of **Space Rage 2**, an open-source top-down twin-stick shooter game that is also intended to be a showcase for the libraries here.
+
+- [Play Space Rage 2 on Vercel](https://spacerage2.vercel.app/)
+- [Source code](https://github.com/hmans/composer-suite/tree/main/apps/spacerage) (latest bits are in the `dev` branch!)
+
 ## Packages 📦
 
 [![Shader Composer](https://user-images.githubusercontent.com/1061/187867434-1e8bc952-8fed-4e17-afc6-fca97951ba1a.jpg)](https://github.com/hmans/composer-suite/tree/main/packages/shader-composer)  
