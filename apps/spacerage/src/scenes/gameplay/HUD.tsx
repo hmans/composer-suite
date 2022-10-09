@@ -1,6 +1,6 @@
 import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
 import { GroupProps, useThree } from "@react-three/fiber"
-import { createContext, useContext } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { Vector3 } from "three"
 import { ScenePass } from "../../lib/ScenePass"
 
@@ -143,9 +143,31 @@ export const UIRect = ({
   )
 }
 
+type MouseCursorProps = GroupProps & { active?: string; inactive?: string }
+
+const MouseCursor = ({
+  active = "pointer",
+  inactive = "auto",
+  ...props
+}: MouseCursorProps) => {
+  const [hovered, setHovered] = useState(false)
+
+  useEffect(() => {
+    document.body.style.cursor = hovered ? "pointer" : "auto"
+  }, [hovered])
+
+  return (
+    <group
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+      {...props}
+    />
+  )
+}
+
 const Button3D = () => {
   return (
-    <group position-z={0.25}>
+    <MouseCursor position-z={0.25}>
       <mesh>
         <boxGeometry args={[4, 1, 0.5]} />
         <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
@@ -153,7 +175,7 @@ const Button3D = () => {
       <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25001}>
         COOL
       </Text>
-    </group>
+    </MouseCursor>
   )
 }
 
