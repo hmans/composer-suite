@@ -63,16 +63,26 @@ importers:
 
   apps/entity-composer-examples:
     specifiers:
+      '@hmans/use-const': ^0.0.1
+      '@react-three/drei': ^9.34.3
+      '@react-three/fiber': ^8.8.9
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.1.0
+      entity-composer: workspace:^0.0.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      three: ^0.145.0
       typescript: ^4.6.4
       vite: ^3.1.0
     dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
+      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
+      entity-composer: link:../../packages/entity-composer
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      three: 0.145.0
     devDependencies:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -484,8 +494,10 @@ importers:
 
   packages/entity-composer:
     specifiers:
+      '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
     dependencies:
+      '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2
 
   packages/hmans-physics3d:

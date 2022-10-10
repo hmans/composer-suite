@@ -4,6 +4,10 @@ export interface IEntity {
   [key: string]: any
 }
 
+type CreateBucket<E extends IEntity> = typeof createBucket<E>
+
+export type Bucket<E extends IEntity> = ReturnType<CreateBucket<E>>
+
 export const createBucket = <E extends IEntity>() => {
   const entities = new Array<E>()
 
