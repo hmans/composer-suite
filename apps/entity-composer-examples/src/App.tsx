@@ -3,6 +3,7 @@ import { Suspense, useEffect } from "react"
 import * as RC from "render-composer"
 import "./App.css"
 import { ECS, world } from "./state"
+import { Systems } from "./Systems"
 
 function App() {
   useEffect(() => {
@@ -15,6 +16,7 @@ function App() {
         <Suspense>
           <Environment preset="sunset" />
           <OrbitControls />
+          <Systems />
 
           <ECS.Entity health={95}>
             <ECS.Property name="transform">
