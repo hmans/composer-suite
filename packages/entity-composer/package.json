@@ -11,12 +11,10 @@
   "module": "dist/entity-composer.esm.js",
   "preconstruct": {
     "entrypoints": [
-      "index.ts",
-      "vanilla.ts"
+      "index.ts"
     ]
   },
   "files": [
-    "vanilla/**",
     "dist/**",
     "LICENSE",
     "README.md"
