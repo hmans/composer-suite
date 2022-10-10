@@ -59,9 +59,8 @@ export const createBucket = <E extends IEntity>() => {
   }
 
   const derive = <D extends E = E>(
-    predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = (
-      entity
-    ) => true
+    predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = () =>
+      true
   ) => {
     /* Create bucket */
     const bucket = createBucket<D>()
