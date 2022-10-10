@@ -66,9 +66,8 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
       ? React.cloneElement(
           React.Children.only(props.children) as ReactElement,
           {
-            ref: (ref: E[P]) => {
-              bucket.write(entity, { [props.name]: ref })
-            }
+            ref: (ref: E[P]) =>
+              bucket.write(entity, { [props.name]: ref } as any)
           }
         )
       : null
