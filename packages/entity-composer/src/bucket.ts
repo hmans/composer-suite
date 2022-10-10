@@ -54,9 +54,13 @@ export const createBucket = <E extends IEntity>() => {
     onEntityRemoved.emit(entity)
   }
 
-  const derive = (predicate: (entity: E) => boolean = (entity: E) => true) => {
+  const derive = <D extends E = E>(
+    predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = (
+      entity
+    ) => true
+  ) => {
     /* Create bucket */
-    const bucket = createBucket<E>()
+    const bucket = createBucket<D>()
 
     /* Add entities that match the predicate */
     for (const entity of entities) if (predicate(entity)) bucket.write(entity)
@@ -68,13 +72,13 @@ export const createBucket = <E extends IEntity>() => {
 
     /* Listen for removed entities */
     onEntityRemoved.addListener((entity) => {
-      bucket.remove(entity)
+      bucket.remove(entity as D)
     })
 
     /* Listen for changed entities */
     onEntityChanged.addListener((entity) => {
       if (predicate(entity)) bucket.write(entity)
-      else bucket.remove(entity)
+      else bucket.remove(entity as D)
     })
 
     return bucket
