@@ -7,8 +7,27 @@ import { Systems } from "./Systems"
 
 function App() {
   useEffect(() => {
-    console.log(world.entities)
-  })
+    /* Create a few entities */
+    for (let i = 0; i < 10; i++) {
+      world.write({
+        health: 100,
+        jsx: (
+          <ECS.Property name="transform">
+            <mesh>
+              <icosahedronGeometry />
+              <meshStandardMaterial color="red" />
+            </mesh>
+          </ECS.Property>
+        )
+      })
+    }
+
+    return () => {
+      for (let i = world.entities.length - 1; i >= 0; i--) {
+        world.remove(world.entities[i])
+      }
+    }
+  }, [])
 
   return (
     <RC.Canvas>
@@ -17,18 +36,19 @@ function App() {
           <Environment preset="sunset" />
           <OrbitControls />
           <Systems />
-
-          <ECS.Entity health={95}>
-            <ECS.Property name="transform">
-              <mesh>
-                <icosahedronGeometry />
-                <meshStandardMaterial color="red" />
-              </mesh>
-            </ECS.Property>
-          </ECS.Entity>
         </Suspense>
       </RC.RenderPipeline>
     </RC.Canvas>
+  )
+}
+
+const RenderEntities = () => {
+  return (
+    <>
+      {world.entities.map((entity) => (
+        <ECS.Entity entity={entity}>{entity.jsx}</ECS.Entity>
+      ))}
+    </>
   )
 }
 

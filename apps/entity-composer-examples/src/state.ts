@@ -3,6 +3,7 @@ import { createComponents } from "entity-composer/react"
 import { Object3D } from "three"
 
 export type Entity = {
+  jsx?: JSX.Element
   health?: number
   transform?: Object3D
 }
