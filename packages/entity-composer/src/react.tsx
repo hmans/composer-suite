@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  memo,
   ReactElement,
   ReactNode,
   useContext,
@@ -45,6 +46,8 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     )
   }
 
+  const MemoizedEntity = memo(Entity)
+
   const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
     const entity = useContext(EntityContext)
 
@@ -75,7 +78,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     return <>{children}</>
   }
 
-  return { Entity, Property, useBucket }
+  return { Entity, MemoizedEntity, Property }
 }
 
 export const useBucket = <E extends IEntity>(bucket: Bucket<E>) => {
