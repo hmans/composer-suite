@@ -6,7 +6,6 @@ export const isArchetype = <E extends IEntity, P extends keyof E>(
   entity: E,
   ...properties: P[]
 ): entity is EntityWith<E, P> => {
-  console.log(entity, properties)
   for (const key of properties) if (!(key in entity)) return false
   return true
 }
