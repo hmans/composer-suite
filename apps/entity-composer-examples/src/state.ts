@@ -1,4 +1,4 @@
-import { archetype, createBucket, EntityWith } from "entity-composer"
+import { archetype, createBucket } from "entity-composer"
 import { createComponents } from "entity-composer/react"
 import { Object3D } from "three"
 
