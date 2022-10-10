@@ -1,18 +1,28 @@
-import { useState } from "react"
+import { Environment, OrbitControls } from "@react-three/drei"
+import { Suspense } from "react"
+import * as RC from "render-composer"
 import "./App.css"
 import { ECS } from "./state"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <ECS.Entity>
-        <ECS.Property name="health" value={count} />
-      </ECS.Entity>
+    <RC.Canvas>
+      <RC.RenderPipeline>
+        <Suspense>
+          <Environment preset="sunset" />
+          <OrbitControls />
 
-      <button onClick={() => setCount((c) => c + 1)}>Increase</button>
-    </div>
+          <ECS.Entity>
+            <ECS.Property name="health" value={100} />
+
+            <mesh>
+              <icosahedronGeometry />
+              <meshStandardMaterial color="red" />
+            </mesh>
+          </ECS.Entity>
+        </Suspense>
+      </RC.RenderPipeline>
+    </RC.Canvas>
   )
 }
 
