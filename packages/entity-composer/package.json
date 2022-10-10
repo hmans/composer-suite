@@ -11,11 +11,13 @@
   "module": "dist/entity-composer.esm.js",
   "preconstruct": {
     "entrypoints": [
-      "index.ts"
+      "index.ts",
+      "react.tsx"
     ]
   },
   "files": [
     "dist/**",
+    "react/**",
     "LICENSE",
     "README.md"
   ],
