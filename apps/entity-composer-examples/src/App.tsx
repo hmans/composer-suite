@@ -16,9 +16,7 @@ function App() {
           <Environment preset="sunset" />
           <OrbitControls />
 
-          <ECS.Entity>
-            <ECS.Property name="health" value={100} />
-
+          <ECS.Entity health={95}>
             <ECS.Property name="transform">
               <mesh>
                 <icosahedronGeometry />

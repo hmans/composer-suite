@@ -12,7 +12,7 @@ import { useConst } from "@hmans/use-const"
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
-export type EntityProps<E extends IEntity> = {
+export type EntityProps<E extends IEntity> = Partial<E> & {
   children?: ReactNode
 }
 
@@ -25,11 +25,11 @@ export type PropertyProps<E extends IEntity, P extends keyof E> = {
 export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
   const EntityContext = createContext<E | null>(null)
 
-  const Entity = ({ children }: EntityProps<E>) => {
+  const Entity = ({ children, ...props }: EntityProps<E>) => {
     const entity = useConst(() => ({} as E))
 
     useIsomorphicLayoutEffect(() => {
-      bucket.write(entity)
+      bucket.write(entity, props as Partial<E>)
       return () => bucket.remove(entity)
     })
 
