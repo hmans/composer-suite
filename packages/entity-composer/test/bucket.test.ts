@@ -132,9 +132,12 @@ describe("derive", () => {
 
   it("if a predicate is given the derived bucket will only receive entities that match the predicate", () => {
     const bucket = createBucket<{ count: number }>()
+
     const derivedBucket = bucket.derive((entity) => entity.count > 1)
+
     bucket.write({ count: 1 })
     expect(derivedBucket.entities).toEqual([])
+
     bucket.write({ count: 2 })
     expect(derivedBucket.entities).toEqual([{ count: 2 }])
   })
