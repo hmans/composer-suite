@@ -10,8 +10,8 @@ describe("createBucket", () => {
 describe("write", () => {
   it("writes an entity into the bucket", () => {
     const bucket = createBucket()
-    bucket.write(1)
-    expect(bucket.entities).toEqual([1])
+    bucket.write({ count: 1 })
+    expect(bucket.entities).toEqual([{ count: 1 }])
   })
 
   it("returns the object that is passed in to it", () => {
@@ -28,9 +28,10 @@ describe("write", () => {
 
   it("is idempotent", () => {
     const bucket = createBucket()
-    bucket.write(1)
-    bucket.write(1)
-    expect(bucket.entities).toEqual([1])
+    const entity = { count: 1 }
+    bucket.write(entity)
+    bucket.write(entity)
+    expect(bucket.entities).toEqual([entity])
   })
 
   it("emits an event when an entity is added", () => {

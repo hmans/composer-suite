@@ -1,6 +1,10 @@
 import { Event } from "./lib/event"
 
-export const createBucket = <E>() => {
+export interface IEntity {
+  [key: string]: any
+}
+
+export const createBucket = <E extends IEntity>() => {
   const entities = new Array<E>()
 
   const onEntityAdded = new Event<E>()
