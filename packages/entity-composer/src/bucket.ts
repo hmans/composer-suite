@@ -11,7 +11,10 @@ export const createBucket = <E extends IEntity>() => {
   const onEntityRemoved = new Event<E>()
   const onEntityChanged = new Event<E>()
 
-  const write = (entity: E, update?: Partial<E> | ((entity: E) => E)) => {
+  const write = (
+    entity: E,
+    update?: Partial<E> | ((entity: E) => Partial<E>)
+  ) => {
     const index = entities.indexOf(entity)
 
     /* Add the entity if we don't already have it */
