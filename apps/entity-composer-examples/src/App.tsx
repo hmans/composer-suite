@@ -46,11 +46,11 @@ function App() {
 }
 
 const RenderEntities = () => {
-  const { entities } = useBucket(world)
+  const bucket = useBucket(world)
 
   return (
     <>
-      {entities.map((entity, i) => (
+      {bucket.entities.map((entity, i) => (
         <ECS.Entity key={i} entity={entity}>
           {entity.jsx}
         </ECS.Entity>

@@ -89,6 +89,10 @@ export const createBucket = <E extends IEntity>() => {
   }
 
   return {
+    [Symbol.iterator]() {
+      return entities[Symbol.iterator]()
+    },
+
     entities,
     onEntityAdded,
     onEntityRemoved,

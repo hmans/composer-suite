@@ -3,10 +3,10 @@ import { useBucket } from "entity-composer/react"
 import { withTransform } from "./state"
 
 export const Systems = () => {
-  useBucket(withTransform)
+  const { entities } = useBucket(withTransform)
 
   useFrame((_, dt) => {
-    for (const { transform } of withTransform.entities) {
+    for (const { transform } of entities) {
       transform.rotation.x = transform.rotation.y += 2 * dt
     }
   })
