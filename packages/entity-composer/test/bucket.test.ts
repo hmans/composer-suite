@@ -115,3 +115,27 @@ describe("remove", () => {
     expect(listener).toHaveBeenCalledWith(entity)
   })
 })
+
+describe("derive", () => {
+  it("creates a new bucket", () => {
+    const bucket = createBucket()
+    const derivedBucket = bucket.derive()
+    expect(derivedBucket).toBeDefined()
+  })
+
+  it("if no predicate is given the derived bucket will receive the same entities", () => {
+    const bucket = createBucket()
+    const derivedBucket = bucket.derive()
+    bucket.write({ count: 1 })
+    expect(derivedBucket.entities).toEqual([{ count: 1 }])
+  })
+
+  it("if a predicate is given the derived bucket will only receive entities that match the predicate", () => {
+    const bucket = createBucket<{ count: number }>()
+    const derivedBucket = bucket.derive((entity) => entity.count > 1)
+    bucket.write({ count: 1 })
+    expect(derivedBucket.entities).toEqual([])
+    bucket.write({ count: 2 })
+    expect(derivedBucket.entities).toEqual([{ count: 2 }])
+  })
+})
