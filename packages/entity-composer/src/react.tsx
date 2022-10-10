@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  ReactElement,
   ReactNode,
   useContext,
   useEffect,
@@ -17,7 +18,8 @@ export type EntityProps<E extends IEntity> = {
 
 export type PropertyProps<E extends IEntity, P extends keyof E> = {
   name: P
-  value: E[P]
+  value?: E[P]
+  children?: ReactNode
 }
 
 export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
@@ -36,18 +38,16 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     )
   }
 
-  const Property = <P extends keyof E>({
-    name,
-    value
-  }: PropertyProps<E, P>) => {
+  const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
     const entity = useContext(EntityContext)
 
     useIsomorphicLayoutEffect(() => {
       if (!entity) return
+      if (props.value === undefined) return
 
-      entity[name] = value
+      entity[props.name] = props.value
       bucket.write(entity)
-    }, [entity, name, value])
+    }, [entity, props.name, props.value])
 
     return null
   }

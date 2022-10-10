@@ -7,6 +7,6 @@ export type Entity = {
   transform?: Object3D
 }
 
-export const world = createBucket()
+export const world = createBucket<Entity>()
 
 export const ECS = createComponents(world)

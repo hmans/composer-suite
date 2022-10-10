@@ -15,10 +15,12 @@ function App() {
           <ECS.Entity>
             <ECS.Property name="health" value={100} />
 
-            <mesh>
-              <icosahedronGeometry />
-              <meshStandardMaterial color="red" />
-            </mesh>
+            <ECS.Property name="transform">
+              <mesh>
+                <icosahedronGeometry />
+                <meshStandardMaterial color="red" />
+              </mesh>
+            </ECS.Property>
           </ECS.Entity>
         </Suspense>
       </RC.RenderPipeline>
