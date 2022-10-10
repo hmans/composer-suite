@@ -49,7 +49,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
       bucket.write(entity)
     }, [entity, props.name, props.value])
 
-    return null
+    return <>{props.children}</>
   }
 
   return { Entity, Property }
