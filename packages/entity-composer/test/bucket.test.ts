@@ -1,4 +1,4 @@
-import { createBucket } from "../src"
+import { archetype, createBucket, isArchetype } from "../src"
 
 describe("createBucket", () => {
   it("creates a bucket", () => {
@@ -140,5 +140,18 @@ describe("derive", () => {
 
     bucket.write({ count: 2 })
     expect(derivedBucket.entities).toEqual([{ count: 2 }])
+  })
+
+  it("it properly captures predicate type guards", () => {
+    type Entity = { name?: string; age?: number }
+
+    const world = createBucket<Entity>()
+    const withName = world.derive(archetype("name"))
+
+    const entity = world.write({ name: "Bob", age: 20 })
+    expect(withName.entities).toEqual([entity])
+
+    console.log(withName.entities[0].name.length)
+    /* No real test, just making sure the type is correct */
   })
 })
