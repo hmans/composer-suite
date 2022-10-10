@@ -1,14 +1,29 @@
 import { Environment, OrbitControls } from "@react-three/drei"
 import { useBucket } from "entity-composer/react"
 import { plusMinus } from "randomish"
-import { Suspense, useEffect } from "react"
+import { Suspense, useLayoutEffect } from "react"
 import * as RC from "render-composer"
 import "./App.css"
-import { ECS, withTransform, world } from "./state"
+import { ECS, withJSX, world } from "./state"
 import { Systems } from "./Systems"
 
 function App() {
-  useEffect(() => {
+  return (
+    <RC.Canvas>
+      <RC.RenderPipeline>
+        <Suspense>
+          <Environment preset="sunset" />
+          <OrbitControls />
+          <Systems />
+          <RenderEntities />
+        </Suspense>
+      </RC.RenderPipeline>
+    </RC.Canvas>
+  )
+}
+
+const RenderEntities = () => {
+  useLayoutEffect(() => {
     /* Create a few entities */
     for (let i = 0; i < 10; i++) {
       world.write({
@@ -25,35 +40,24 @@ function App() {
     }
 
     return () => {
-      for (let i = world.entities.length - 1; i >= 0; i--) {
-        world.remove(world.entities[i])
+      console.log("removing entities", world.entities.length)
+      while (world.entities.length > 0) {
+        world.remove(world.entities[0])
       }
+
+      console.log("After deletion:", world.entities.length)
     }
   }, [])
 
-  return (
-    <RC.Canvas>
-      <RC.RenderPipeline>
-        <Suspense>
-          <Environment preset="sunset" />
-          <OrbitControls />
-          <Systems />
-          <RenderEntities />
-        </Suspense>
-      </RC.RenderPipeline>
-    </RC.Canvas>
-  )
-}
-
-const RenderEntities = () => {
-  const bucket = useBucket(world)
+  const bucket = useBucket(withJSX)
+  console.log("rendering entities:", bucket.entities.length)
 
   return (
     <>
       {bucket.entities.map((entity, i) => (
-        <ECS.Entity key={i} entity={entity}>
+        <ECS.MemoizedEntity key={Math.random()} entity={entity}>
           {entity.jsx}
-        </ECS.Entity>
+        </ECS.MemoizedEntity>
       ))}
     </>
   )

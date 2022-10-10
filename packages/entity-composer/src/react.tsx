@@ -38,6 +38,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     useIsomorphicLayoutEffect(() => {
       bucket.write(entity, props as Partial<E>)
       if (existingEntity) return
+
       return () => bucket.remove(entity)
     }, [])
 
@@ -93,6 +94,8 @@ export const useBucket = <E extends IEntity>(bucket: Bucket<E>) => {
       bucket.onEntityRemoved.removeListener(rerender)
     }
   }, [])
+
+  useIsomorphicLayoutEffect(rerender, [])
 
   return bucket
 }

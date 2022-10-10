@@ -10,4 +10,5 @@ export type Entity = {
 
 export const world = createBucket<Entity>()
 export const withTransform = world.derive(archetype("transform"))
+export const withJSX = world.derive(archetype("jsx"))
 export const ECS = createComponents(world)
