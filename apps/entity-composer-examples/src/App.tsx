@@ -1,10 +1,14 @@
 import { Environment, OrbitControls } from "@react-three/drei"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import * as RC from "render-composer"
 import "./App.css"
-import { ECS } from "./state"
+import { ECS, world } from "./state"
 
 function App() {
+  useEffect(() => {
+    console.log(world.entities)
+  })
+
   return (
     <RC.Canvas>
       <RC.RenderPipeline>

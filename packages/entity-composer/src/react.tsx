@@ -41,6 +41,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
   const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
     const entity = useContext(EntityContext)
 
+    /* Handle setting of value */
     useIsomorphicLayoutEffect(() => {
       if (!entity) return
       if (props.value === undefined) return
@@ -49,7 +50,15 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
       bucket.write(entity)
     }, [entity, props.name, props.value])
 
-    return <>{props.children}</>
+    /* Handle setting of child value */
+    const children = props.children
+      ? React.cloneElement(
+          React.Children.only(props.children) as ReactElement,
+          { ref: (ref: E[P]) => (entity![props.name] = ref) }
+        )
+      : null
+
+    return <>{children}</>
   }
 
   return { Entity, Property }
