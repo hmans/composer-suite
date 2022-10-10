@@ -13,6 +13,7 @@
     "@react-three/drei": "^9.34.3",
     "@react-three/fiber": "^8.8.9",
     "entity-composer": "workspace:^0.0.1",
+    "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "render-composer": "workspace:^0.2.5",

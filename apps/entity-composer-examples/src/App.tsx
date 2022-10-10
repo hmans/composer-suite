@@ -1,8 +1,10 @@
 import { Environment, OrbitControls } from "@react-three/drei"
+import { useBucket } from "entity-composer/react"
+import { plusMinus } from "randomish"
 import { Suspense, useEffect } from "react"
 import * as RC from "render-composer"
 import "./App.css"
-import { ECS, world } from "./state"
+import { ECS, withTransform, world } from "./state"
 import { Systems } from "./Systems"
 
 function App() {
@@ -13,7 +15,7 @@ function App() {
         health: 100,
         jsx: (
           <ECS.Property name="transform">
-            <mesh>
+            <mesh position={[plusMinus(4), plusMinus(4), plusMinus(2)]}>
               <icosahedronGeometry />
               <meshStandardMaterial color="red" />
             </mesh>
@@ -36,6 +38,7 @@ function App() {
           <Environment preset="sunset" />
           <OrbitControls />
           <Systems />
+          <RenderEntities />
         </Suspense>
       </RC.RenderPipeline>
     </RC.Canvas>
@@ -43,10 +46,14 @@ function App() {
 }
 
 const RenderEntities = () => {
+  const { entities } = useBucket(world)
+
   return (
     <>
-      {world.entities.map((entity) => (
-        <ECS.Entity entity={entity}>{entity.jsx}</ECS.Entity>
+      {entities.map((entity, i) => (
+        <ECS.Entity key={i} entity={entity}>
+          {entity.jsx}
+        </ECS.Entity>
       ))}
     </>
   )
