@@ -26,6 +26,13 @@ describe("write", () => {
     expect(bucket.entities).toEqual([{ count: 1 }])
   })
 
+  it("is idempotent", () => {
+    const bucket = createBucket()
+    bucket.write(1)
+    bucket.write(1)
+    expect(bucket.entities).toEqual([1])
+  })
+
   it("emits an event when an entity is added", () => {
     const bucket = createBucket<{ count: number }>()
     const listener = jest.fn()
@@ -33,5 +40,16 @@ describe("write", () => {
 
     const entity = bucket.write({ count: 1 })
     expect(listener).toHaveBeenCalledWith(entity)
+  })
+
+  it("does not emit an event when an entity is added twice", () => {
+    const entity = { count: 1 }
+    const bucket = createBucket<{ count: number }>()
+    const listener = jest.fn()
+    bucket.onEntityAdded.addListener(listener)
+
+    bucket.write(entity)
+    bucket.write(entity)
+    expect(listener).toHaveBeenCalledTimes(1)
   })
 })
