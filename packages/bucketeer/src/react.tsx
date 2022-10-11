@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useLayoutEffect
 } from "react"
-import { Bucket, IEntity } from "./bucket"
+import { Bucket, IEntity } from "./index"
 import { useConst } from "@hmans/use-const"
 import { useRerender } from "@hmans/use-rerender"
 

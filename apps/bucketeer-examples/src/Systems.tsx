@@ -1,6 +1,9 @@
 import { useFrame } from "@react-three/fiber"
+import { archetype } from "bucketeer"
 import { useBucket } from "bucketeer/react"
-import { withTransform } from "./state"
+import { world } from "./state"
+
+const withTransform = world.derive(archetype("transform"))
 
 export const Systems = () => {
   const { entities } = useBucket(withTransform)
