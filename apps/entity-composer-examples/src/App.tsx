@@ -26,7 +26,7 @@ const RenderEntities = () => {
   useLayoutEffect(() => {
     /* Create a few entities */
     for (let i = 0; i < 10; i++) {
-      world.write({
+      world.add({
         health: 100,
         jsx: (
           <ECS.Property name="transform">

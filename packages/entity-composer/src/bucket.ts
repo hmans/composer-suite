@@ -15,10 +15,7 @@ export const createBucket = <E extends IEntity>() => {
   const onEntityRemoved = new Event<E>()
   const onEntityChanged = new Event<E>()
 
-  const write = (
-    entity: E,
-    update?: Partial<E> | ((entity: E) => Partial<E>)
-  ) => {
+  const add = (entity: E) => {
     const index = entities.indexOf(entity)
 
     /* Add the entity if we don't already have it */
@@ -27,19 +24,23 @@ export const createBucket = <E extends IEntity>() => {
       onEntityAdded.emit(entity)
     }
 
-    if (update) {
-      const changes = typeof update === "function" ? update(entity) : update
+    return entity
+  }
 
-      /* Check if the update actually changed anything */
-      let updated = false
-      for (const key in changes)
-        if (entity[key] !== changes[key]) updated = true
+  const update = (
+    entity: E,
+    update?: Partial<E> | ((entity: E) => Partial<E>)
+  ) => {
+    const index = entities.indexOf(entity)
 
-      /* Update the entity */
-      Object.assign(entity, changes)
+    if (index !== -1) {
+      if (update) {
+        const changes = typeof update === "function" ? update(entity) : update
+        Object.assign(entity, changes)
+      }
 
       /* Emit an event if the entity changed */
-      if (updated) onEntityChanged.emit(entity)
+      onEntityChanged.emit(entity)
     }
 
     return entity
@@ -66,11 +67,11 @@ export const createBucket = <E extends IEntity>() => {
     const bucket = createBucket<D>()
 
     /* Add entities that match the predicate */
-    for (const entity of entities) if (predicate(entity)) bucket.write(entity)
+    for (const entity of entities) if (predicate(entity)) bucket.add(entity)
 
     /* Listen for new entities */
     onEntityAdded.addListener((entity) => {
-      if (predicate(entity)) bucket.write(entity)
+      if (predicate(entity)) bucket.add(entity)
     })
 
     /* Listen for removed entities */
@@ -80,7 +81,7 @@ export const createBucket = <E extends IEntity>() => {
 
     /* Listen for changed entities */
     onEntityChanged.addListener((entity) => {
-      if (predicate(entity)) bucket.write(entity)
+      if (predicate(entity)) bucket.add(entity) && bucket.update(entity)
       else bucket.remove(entity as D)
     })
 
@@ -96,7 +97,8 @@ export const createBucket = <E extends IEntity>() => {
     onEntityAdded,
     onEntityRemoved,
     onEntityChanged,
-    write,
+    add,
+    update,
     remove,
     derive
   }

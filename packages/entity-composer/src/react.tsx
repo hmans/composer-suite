@@ -38,7 +38,8 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     useIsomorphicLayoutEffect(() => {
       if (existingEntity) return
 
-      bucket.write(entity, props as Partial<E>)
+      bucket.add(entity)
+      bucket.update(entity, props as Partial<E>)
       return () => bucket.remove(entity)
     }, [])
 
@@ -59,7 +60,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     /* Handle setting of value */
     useIsomorphicLayoutEffect(() => {
       if (props.value === undefined) return
-      bucket.write(entity, { [props.name]: props.value } as any)
+      bucket.update(entity, { [props.name]: props.value } as any)
     }, [entity, props.name, props.value])
 
     /* Handle setting of child value */
@@ -68,7 +69,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
           React.Children.only(props.children) as ReactElement,
           {
             ref: (ref: E[P]) =>
-              bucket.write(entity, { [props.name]: ref } as any)
+              bucket.update(entity, { [props.name]: ref } as any)
           }
         )
       : null
