@@ -1,6 +1,6 @@
 import { Environment, OrbitControls } from "@react-three/drei"
 import { useBucket } from "entity-composer/react"
-import { plusMinus } from "randomish"
+import { between, plusMinus } from "randomish"
 import { Suspense, useLayoutEffect } from "react"
 import * as RC from "render-composer"
 import "./App.css"
@@ -56,6 +56,7 @@ const RenderEntities = () => {
     <>
       {bucket.entities.map((entity, i) => (
         <ECS.MemoizedEntity key={Math.random()} entity={entity}>
+          <ECS.Property name="health" value={between(100, 200)} />
           {entity.jsx}
         </ECS.MemoizedEntity>
       ))}
