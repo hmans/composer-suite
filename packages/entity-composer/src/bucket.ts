@@ -59,6 +59,12 @@ export const createBucket = <E extends IEntity>() => {
     onEntityRemoved.emit(entity)
   }
 
+  const clear = () => {
+    for (let i = entities.length - 1; i >= 0; i--) {
+      remove(entities[i])
+    }
+  }
+
   const derive = <D extends E = E>(
     predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = () =>
       true
@@ -100,6 +106,7 @@ export const createBucket = <E extends IEntity>() => {
     add,
     update,
     remove,
+    clear,
     derive
   }
 }

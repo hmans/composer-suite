@@ -39,14 +39,7 @@ const RenderEntities = () => {
       })
     }
 
-    return () => {
-      console.log("removing entities", world.entities.length)
-      while (world.entities.length > 0) {
-        world.remove(world.entities[0])
-      }
-
-      console.log("After deletion:", world.entities.length)
-    }
+    return () => world.clear()
   }, [])
 
   const bucket = useBucket(withJSX)
