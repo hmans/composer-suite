@@ -6,7 +6,7 @@ import { ECS } from "./state"
 export const Bullets = () => (
   <InstancedParticles capacity={200}>
     <planeGeometry args={[0.1, 0.8]} />
-    <meshBasicMaterial color={new Color("cyan").multiplyScalar(2)} />
+    <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
 
     <ECS.ArchetypeEntities archetype="bullet">
       {({ bullet }) => bullet}
