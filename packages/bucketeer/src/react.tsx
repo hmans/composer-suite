@@ -14,17 +14,6 @@ import { useRerender } from "@hmans/use-rerender"
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
-export type EntityProps<E extends IEntity> = Partial<E> & {
-  entity?: E
-  children?: ReactNode
-}
-
-export type PropertyProps<E extends IEntity, P extends keyof E> = {
-  name: P
-  value?: E[P]
-  children?: ReactNode
-}
-
 export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
   const EntityContext = createContext<E | null>(null)
 
@@ -32,7 +21,10 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     children,
     entity: existingEntity,
     ...props
-  }: EntityProps<E>) => {
+  }: Partial<E> & {
+    entity?: E
+    children?: ReactNode
+  }) => {
     const entity = useConst(() => existingEntity ?? ({} as E))
 
     useIsomorphicLayoutEffect(() => {
@@ -70,7 +62,11 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     )
   }
 
-  const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
+  const Property = <P extends keyof E>(props: {
+    name: P
+    value?: E[P]
+    children?: ReactNode
+  }) => {
     const entity = useContext(EntityContext)
 
     if (!entity) {
