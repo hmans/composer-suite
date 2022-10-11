@@ -65,35 +65,6 @@ export const createBucket = <E extends IEntity>() => {
     }
   }
 
-  const derive = <D extends E = E>(
-    predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = () =>
-      true
-  ) => {
-    /* Create bucket */
-    const bucket = createBucket<D>()
-
-    /* Add entities that match the predicate */
-    for (const entity of entities) if (predicate(entity)) bucket.add(entity)
-
-    /* Listen for new entities */
-    onEntityAdded.addListener((entity) => {
-      if (predicate(entity)) bucket.add(entity)
-    })
-
-    /* Listen for removed entities */
-    onEntityRemoved.addListener((entity) => {
-      bucket.remove(entity as D)
-    })
-
-    /* Listen for changed entities */
-    onEntityUpdated.addListener((entity) => {
-      if (predicate(entity)) bucket.add(entity) && bucket.update(entity)
-      else bucket.remove(entity as D)
-    })
-
-    return bucket
-  }
-
   return {
     [Symbol.iterator]() {
       return entities[Symbol.iterator]()
@@ -102,11 +73,41 @@ export const createBucket = <E extends IEntity>() => {
     entities,
     onEntityAdded,
     onEntityRemoved,
-    onEntityChanged: onEntityUpdated,
+    onEntityUpdated,
     add,
     update,
     remove,
-    clear,
-    derive
+    clear
   }
+}
+
+export const createDerivedBucket = <E extends IEntity, D extends E = E>(
+  source: Bucket<E>,
+  predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = () =>
+    true
+) => {
+  /* Create bucket */
+  const bucket = createBucket<D>()
+
+  /* Add entities that match the predicate */
+  for (const entity of source.entities)
+    if (predicate(entity)) bucket.add(entity)
+
+  /* Listen for new entities */
+  source.onEntityAdded.addListener((entity) => {
+    if (predicate(entity)) bucket.add(entity)
+  })
+
+  /* Listen for removed entities */
+  source.onEntityRemoved.addListener((entity) => {
+    bucket.remove(entity as D)
+  })
+
+  /* Listen for changed entities */
+  source.onEntityUpdated.addListener((entity) => {
+    if (predicate(entity)) bucket.add(entity) && bucket.update(entity)
+    else bucket.remove(entity as D)
+  })
+
+  return bucket
 }

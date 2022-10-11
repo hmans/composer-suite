@@ -1,4 +1,4 @@
-import { archetype, createBucket } from "../src"
+import { archetype, createBucket, createDerivedBucket } from "../src"
 
 describe("createBucket", () => {
   it("creates a bucket", () => {
@@ -66,7 +66,7 @@ describe("update", () => {
   it("emits an event when an entity is updated", () => {
     const bucket = createBucket<{ count: number }>()
     const listener = jest.fn()
-    bucket.onEntityChanged.addListener(listener)
+    bucket.onEntityUpdated.addListener(listener)
 
     const entity = bucket.add({ count: 1 })
     bucket.update(entity, { count: 2 })
@@ -76,7 +76,7 @@ describe("update", () => {
   it("even emits an event when an entity is updated with the same values", () => {
     const bucket = createBucket<{ count: number }>()
     const listener = jest.fn()
-    bucket.onEntityChanged.addListener(listener)
+    bucket.onEntityUpdated.addListener(listener)
 
     const entity = bucket.add({ count: 1 })
     bucket.update(entity, { count: 1 })
@@ -116,16 +116,16 @@ describe("remove", () => {
   })
 })
 
-describe("derive", () => {
+describe("createDerivedBucket", () => {
   it("creates a new bucket", () => {
     const bucket = createBucket()
-    const derivedBucket = bucket.derive()
+    const derivedBucket = createDerivedBucket(bucket)
     expect(derivedBucket).toBeDefined()
   })
 
   it("if no predicate is given the derived bucket will receive the same entities", () => {
     const bucket = createBucket()
-    const derivedBucket = bucket.derive()
+    const derivedBucket = createDerivedBucket(bucket)
     bucket.add({ count: 1 })
     expect(derivedBucket.entities).toEqual([{ count: 1 }])
   })
@@ -133,7 +133,10 @@ describe("derive", () => {
   it("if a predicate is given the derived bucket will only receive entities that match the predicate", () => {
     const bucket = createBucket<{ count: number }>()
 
-    const derivedBucket = bucket.derive((entity) => entity.count > 1)
+    const derivedBucket = createDerivedBucket(
+      bucket,
+      (entity) => entity.count > 1
+    )
 
     bucket.add({ count: 1 })
     expect(derivedBucket.entities).toEqual([])
@@ -146,7 +149,7 @@ describe("derive", () => {
     type Entity = { name?: string; age?: number }
 
     const world = createBucket<Entity>()
-    const withName = world.derive(archetype("name"))
+    const withName = createDerivedBucket(world, archetype("name"))
 
     const entity = world.add({ name: "Bob", age: 20 })
     expect(withName.entities).toEqual([entity])
