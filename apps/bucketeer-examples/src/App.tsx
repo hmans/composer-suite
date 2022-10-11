@@ -1,5 +1,5 @@
 import { Environment, OrbitControls } from "@react-three/drei"
-import { useBucket } from "entity-composer/react"
+import { useBucket } from "bucketeer/react"
 import { between, plusMinus } from "randomish"
 import { Suspense, useLayoutEffect } from "react"
 import * as RC from "render-composer"

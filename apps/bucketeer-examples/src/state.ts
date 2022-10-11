@@ -1,5 +1,5 @@
-import { archetype, createBucket } from "entity-composer"
-import { createComponents } from "entity-composer/react"
+import { archetype, createBucket } from "bucketeer"
+import { createComponents } from "bucketeer/react"
 import { Object3D } from "three"
 
 export type Entity = {

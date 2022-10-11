@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { useBucket } from "entity-composer/react"
+import { useBucket } from "bucketeer/react"
 import { withTransform } from "./state"
 
 export const Systems = () => {
