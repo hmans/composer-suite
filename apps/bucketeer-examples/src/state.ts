@@ -1,5 +1,5 @@
 import { archetype, createBucket, createDerivedBucket } from "bucketeer"
-import { createComponents } from "bucketeer/react"
+import { createBucketComponents } from "bucketeer/react"
 import { Object3D } from "three"
 
 export type Entity = {
@@ -11,4 +11,4 @@ export type Entity = {
 export const world = createBucket<Entity>()
 export const withTransform = createDerivedBucket(world, archetype("transform"))
 export const withJSX = createDerivedBucket(world, archetype("jsx"))
-export const ECS = createComponents(world)
+export const ECS = createBucketComponents(world)

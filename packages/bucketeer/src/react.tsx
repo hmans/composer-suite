@@ -14,7 +14,9 @@ import { useRerender } from "@hmans/use-rerender"
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
-export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
+export const createBucketComponents = <E extends IEntity>(
+  bucket: Bucket<E>
+) => {
   const EntityContext = createContext<E | null>(null)
 
   const Entity = ({
