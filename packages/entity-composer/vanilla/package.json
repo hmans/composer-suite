@@ -1,4 +1,0 @@
-{
-  "main": "dist/entity-composer-vanilla.cjs.js",
-  "module": "dist/entity-composer-vanilla.esm.js"
-}
