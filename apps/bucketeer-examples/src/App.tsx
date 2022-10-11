@@ -15,6 +15,8 @@ function App() {
     <RC.Canvas>
       <RC.RenderPipeline>
         <Suspense>
+          <ECS.Entity health={100} />
+
           <Environment preset="sunset" />
           <OrbitControls />
           <Systems />

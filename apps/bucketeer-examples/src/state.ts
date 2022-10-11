@@ -4,7 +4,7 @@ import { Object3D } from "three"
 
 export type Entity = {
   jsx?: JSX.Element
-  health?: number
+  health: number
   transform?: Object3D
 }
 
