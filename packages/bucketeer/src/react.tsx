@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useLayoutEffect
 } from "react"
-import { Bucket, IEntity } from "./index"
+import { Bucket, id, IEntity } from "./index"
 import { useConst } from "@hmans/use-const"
 import { useRerender } from "@hmans/use-rerender"
 
@@ -51,19 +51,19 @@ export const createBucketComponents = <E extends IEntity>(
 
   const MemoizedExistingEntity = memo(ExistingEntity)
 
-  const Bucket = ({
+  const Bucket = <D extends E>({
     bucket,
     children
   }: {
-    bucket: Bucket<E>
-    children?: ReactNode | ((entity: E) => ReactNode)
+    bucket: Bucket<D>
+    children?: ReactNode | ((entity: D) => ReactNode)
   }) => {
     useBucket(bucket)
 
     return (
       <>
         {bucket.entities.map((entity, i) => (
-          <MemoizedExistingEntity key={i} entity={entity}>
+          <MemoizedExistingEntity key={id(entity)} entity={entity}>
             {typeof children === "function" ? children(entity) : children}
           </MemoizedExistingEntity>
         ))}
