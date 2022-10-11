@@ -51,10 +51,10 @@ const RenderThings = () => {
   return (
     <>
       {bucket.entities.map((entity, i) => (
-        <ECS.MemoizedEntity key={Math.random()} entity={entity}>
+        <ECS.ExistingEntity key={Math.random()} entity={entity}>
           <ECS.Property name="health" value={between(100, 200)} />
           {entity.jsx}
-        </ECS.MemoizedEntity>
+        </ECS.ExistingEntity>
       ))}
     </>
   )

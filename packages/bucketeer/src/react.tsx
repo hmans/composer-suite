@@ -21,19 +21,14 @@ export const createBucketComponents = <E extends IEntity>(
 
   const Entity = ({
     children,
-    entity: existingEntity,
     ...props
-  }: Partial<E> & {
-    entity?: E
+  }: {
     children?: ReactNode
-  }) => {
-    const entity = useConst(() => existingEntity ?? ({} as E))
+  } & E) => {
+    const entity = useConst(() => props as E)
 
     useIsomorphicLayoutEffect(() => {
-      if (existingEntity) return
-
       bucket.add(entity)
-      bucket.update(entity, props as Partial<E>)
       return () => bucket.remove(entity)
     }, [])
 
@@ -42,7 +37,19 @@ export const createBucketComponents = <E extends IEntity>(
     )
   }
 
-  const MemoizedEntity = memo(Entity)
+  const ExistingEntity = ({
+    children,
+    entity
+  }: {
+    entity: E
+    children?: ReactNode
+  }) => {
+    return (
+      <EntityContext.Provider value={entity}>{children}</EntityContext.Provider>
+    )
+  }
+
+  const MemoizedExistingEntity = memo(ExistingEntity)
 
   const Bucket = ({
     bucket,
@@ -56,9 +63,9 @@ export const createBucketComponents = <E extends IEntity>(
     return (
       <>
         {bucket.entities.map((entity, i) => (
-          <MemoizedEntity key={i} entity={entity}>
+          <MemoizedExistingEntity key={i} entity={entity}>
             {typeof children === "function" ? children(entity) : children}
-          </MemoizedEntity>
+          </MemoizedExistingEntity>
         ))}
       </>
     )
@@ -95,7 +102,7 @@ export const createBucketComponents = <E extends IEntity>(
     return <>{children}</>
   }
 
-  return { Entity, MemoizedEntity, Property, Bucket }
+  return { Entity, ExistingEntity, Property, Bucket }
 }
 
 export const useBucket = <E extends IEntity>(bucket: Bucket<E>) => {
