@@ -1,5 +1,5 @@
 {
-  "name": "entity-composer-examples",
+  "name": "bucketeer-examples",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,7 @@
     "@hmans/use-const": "^0.0.1",
     "@react-three/drei": "^9.34.3",
     "@react-three/fiber": "^8.8.9",
-    "entity-composer": "workspace:^0.0.1",
+    "bucketeer": "workspace:^0.0.1",
     "randomish": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

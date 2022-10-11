@@ -61,7 +61,7 @@ importers:
     devDependencies:
       turbo: 1.5.5
 
-  apps/entity-composer-examples:
+  apps/bucketeer-examples:
     specifiers:
       '@hmans/use-const': ^0.0.1
       '@react-three/drei': ^9.34.3
@@ -69,7 +69,7 @@ importers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.1.0
-      entity-composer: workspace:^0.0.1
+      bucketeer: workspace:^0.0.1
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -81,7 +81,7 @@ importers:
       '@hmans/use-const': 0.0.1_react@18.2.0
       '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
       '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
-      entity-composer: link:../../packages/entity-composer
+      bucketeer: link:../../packages/bucketeer
       randomish: 0.1.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -490,19 +490,19 @@ importers:
       '@hmans/use-const': 0.0.1
       statery: 0.6.2
 
-  packages/camera-composer:
-    specifiers:
-      fp-ts: ^2.12.3
-    dependencies:
-      fp-ts: 2.12.3
-
-  packages/entity-composer:
+  packages/bucketeer:
     specifiers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
     dependencies:
       '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2
+
+  packages/camera-composer:
+    specifiers:
+      fp-ts: ^2.12.3
+    dependencies:
+      fp-ts: 2.12.3
 
   packages/hmans-physics3d:
     specifiers:
