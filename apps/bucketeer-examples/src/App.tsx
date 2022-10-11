@@ -1,4 +1,4 @@
-import { Environment, OrbitControls } from "@react-three/drei"
+import { OrbitControls } from "@react-three/drei"
 import { id } from "bucketeer"
 import { useBucket } from "bucketeer/react"
 import { between, plusMinus } from "randomish"
@@ -15,9 +15,11 @@ function App() {
     <RC.Canvas>
       <RC.RenderPipeline>
         <Suspense>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[40, 30, 10]} intensity={0.7} />
+
           <ECS.Entity health={100} />
 
-          <Environment preset="sunset" />
           <OrbitControls />
           <Systems />
           <RenderThings />
