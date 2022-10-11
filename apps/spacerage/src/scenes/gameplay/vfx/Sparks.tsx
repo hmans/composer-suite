@@ -1,13 +1,25 @@
+import { RawJointAxis } from "@dimforge/rapier3d-compat/rapier_wasm3d"
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
+import { Bucket, createBucket } from "bucketeer"
+import { createComponents, useBucket } from "bucketeer/react"
 import { Composable, Modules } from "material-composer-r3f"
-import { between, upTo } from "randomish"
+import { IEntity } from "miniplex"
+import { between, number, upTo } from "randomish"
+import { ReactNode } from "react"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { ECS } from "../state"
+
+const sparks = createBucket<{
+  age: number
+  destroyAfter: number
+  sparks: JSX.Element
+}>()
+const BECS = createComponents(sparks)
 
 const lifetime = createParticleLifetime()
 
@@ -37,9 +49,7 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <ECS.ArchetypeEntities archetype="sparks">
-        {({ sparks }) => sparks}
-      </ECS.ArchetypeEntities>
+      <BECS.Bucket bucket={sparks}>{(entity) => entity.sparks}</BECS.Bucket>
     </InstancedParticles>
   )
 }
@@ -64,7 +74,7 @@ export const SparksEmitter = (props: EmitterProps) => (
 )
 
 export const spawnSparks = (props: EmitterProps) =>
-  ECS.world.createEntity({
+  sparks.add({
     age: 0,
     destroyAfter: 3,
     sparks: <SparksEmitter {...props} />

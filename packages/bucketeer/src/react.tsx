@@ -50,6 +50,26 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
 
   const MemoizedEntity = memo(Entity)
 
+  const Bucket = ({
+    bucket,
+    children
+  }: {
+    bucket: Bucket<E>
+    children?: ReactNode | ((entity: E) => ReactNode)
+  }) => {
+    useBucket(bucket)
+
+    return (
+      <>
+        {bucket.entities.map((entity, i) => (
+          <MemoizedEntity key={i} entity={entity}>
+            {typeof children === "function" ? children(entity) : children}
+          </MemoizedEntity>
+        ))}
+      </>
+    )
+  }
+
   const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
     const entity = useContext(EntityContext)
 
@@ -77,7 +97,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     return <>{children}</>
   }
 
-  return { Entity, MemoizedEntity, Property }
+  return { Entity, MemoizedEntity, Property, Bucket }
 }
 
 export const useBucket = <E extends IEntity>(bucket: Bucket<E>) => {
