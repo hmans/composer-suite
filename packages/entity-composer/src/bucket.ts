@@ -13,7 +13,7 @@ export const createBucket = <E extends IEntity>() => {
 
   const onEntityAdded = new Event<E>()
   const onEntityRemoved = new Event<E>()
-  const onEntityChanged = new Event<E>()
+  const onEntityUpdated = new Event<E>()
 
   const add = (entity: E) => {
     const index = entities.indexOf(entity)
@@ -40,7 +40,7 @@ export const createBucket = <E extends IEntity>() => {
       }
 
       /* Emit an event if the entity changed */
-      onEntityChanged.emit(entity)
+      onEntityUpdated.emit(entity)
     }
 
     return entity
@@ -80,7 +80,7 @@ export const createBucket = <E extends IEntity>() => {
     })
 
     /* Listen for changed entities */
-    onEntityChanged.addListener((entity) => {
+    onEntityUpdated.addListener((entity) => {
       if (predicate(entity)) bucket.add(entity) && bucket.update(entity)
       else bucket.remove(entity as D)
     })
@@ -96,7 +96,7 @@ export const createBucket = <E extends IEntity>() => {
     entities,
     onEntityAdded,
     onEntityRemoved,
-    onEntityChanged,
+    onEntityChanged: onEntityUpdated,
     add,
     update,
     remove,
