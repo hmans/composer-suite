@@ -8,6 +8,8 @@ import { ECS, withJSX, world } from "./state"
 import { Systems } from "./Systems"
 
 function App() {
+  useThings()
+
   return (
     <RC.Canvas>
       <RC.RenderPipeline>
@@ -15,14 +17,14 @@ function App() {
           <Environment preset="sunset" />
           <OrbitControls />
           <Systems />
-          <RenderEntities />
+          <RenderThings />
         </Suspense>
       </RC.RenderPipeline>
     </RC.Canvas>
   )
 }
 
-const RenderEntities = () => {
+const useThings = () => {
   useLayoutEffect(() => {
     /* Create a few entities */
     for (let i = 0; i < 10; i++) {
@@ -41,9 +43,10 @@ const RenderEntities = () => {
 
     return () => world.clear()
   }, [])
+}
 
+const RenderThings = () => {
   const bucket = useBucket(withJSX)
-  console.log("rendering entities:", bucket.entities.length)
 
   return (
     <>
