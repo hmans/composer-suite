@@ -1,4 +1,4 @@
 {
-  "main": "dist/entity-composer-react.cjs.js",
-  "module": "dist/entity-composer-react.esm.js"
+  "main": "dist/bucketeer-react.cjs.js",
+  "module": "dist/bucketeer-react.esm.js"
 }

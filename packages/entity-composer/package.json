@@ -1,5 +1,5 @@
 {
-  "name": "entity-composer",
+  "name": "bucketeer",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "An entity store that loves objects and functions.",
   "version": "0.0.1",
-  "main": "dist/entity-composer.cjs.js",
-  "module": "dist/entity-composer.esm.js",
+  "main": "dist/bucketeer.cjs.js",
+  "module": "dist/bucketeer.esm.js",
   "preconstruct": {
     "entrypoints": [
       "index.ts",
