@@ -1,25 +1,21 @@
-import { RawJointAxis } from "@dimforge/rapier3d-compat/rapier_wasm3d"
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
-import { Bucket, createBucket } from "bucketeer"
-import { createComponents, useBucket } from "bucketeer/react"
+import { createBucket } from "bucketeer"
+import { createBucketComponents } from "bucketeer/react"
 import { Composable, Modules } from "material-composer-r3f"
-import { IEntity } from "miniplex"
-import { between, number, upTo } from "randomish"
-import { ReactNode } from "react"
+import { between, upTo } from "randomish"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { ECS } from "../state"
 
 const sparks = createBucket<{
   age: number
   destroyAfter: number
   sparks: JSX.Element
 }>()
-const BECS = createComponents(sparks)
+const BECS = createBucketComponents(sparks)
 
 const lifetime = createParticleLifetime()
 
