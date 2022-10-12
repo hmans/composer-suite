@@ -1,4 +1,4 @@
-import { archetype, createBucket, createDerivedBucket } from "../src"
+import { archetype, createBucket, id } from "../src"
 
 describe("createBucket", () => {
   it("creates a bucket", () => {
@@ -116,16 +116,16 @@ describe("remove", () => {
   })
 })
 
-describe("createDerivedBucket", () => {
+describe("derive", () => {
   it("creates a new bucket", () => {
     const bucket = createBucket()
-    const derivedBucket = createDerivedBucket(bucket)
+    const derivedBucket = bucket.derive()
     expect(derivedBucket).toBeDefined()
   })
 
   it("if no predicate is given the derived bucket will receive the same entities", () => {
     const bucket = createBucket()
-    const derivedBucket = createDerivedBucket(bucket)
+    const derivedBucket = bucket.derive()
     bucket.add({ count: 1 })
     expect(derivedBucket.entities).toEqual([{ count: 1 }])
   })
@@ -133,10 +133,7 @@ describe("createDerivedBucket", () => {
   it("if a predicate is given the derived bucket will only receive entities that match the predicate", () => {
     const bucket = createBucket<{ count: number }>()
 
-    const derivedBucket = createDerivedBucket(
-      bucket,
-      (entity) => entity.count > 1
-    )
+    const derivedBucket = bucket.derive((entity) => entity.count > 1)
 
     bucket.add({ count: 1 })
     expect(derivedBucket.entities).toEqual([])
@@ -149,12 +146,61 @@ describe("createDerivedBucket", () => {
     type Entity = { name?: string; age?: number }
 
     const world = createBucket<Entity>()
-    const withName = createDerivedBucket(world, archetype("name"))
+    const withName = world.derive(archetype("name"))
 
     const entity = world.add({ name: "Bob", age: 20 })
     expect(withName.entities).toEqual([entity])
 
     console.log(withName.entities[0].name.length)
     /* No real test, just making sure the type is correct */
+  })
+
+  it("given equal predicates, it returns the same bucket", () => {
+    type Entity = { count: number }
+
+    const bucket = createBucket<Entity>()
+    const predicate = (entity: Entity) => entity.count > 1
+
+    const derivedBucket = bucket.derive(predicate)
+    const derivedBucket2 = bucket.derive(predicate)
+    expect(derivedBucket).toBe(derivedBucket2)
+  })
+
+  it("given different predicates, it returns different buckets", () => {
+    type Entity = { count: number }
+
+    const bucket = createBucket<Entity>()
+    const derivedBucket = bucket.derive((entity) => entity.count > 1)
+    const derivedBucket2 = bucket.derive((entity) => entity.count > 2)
+
+    expect(derivedBucket).not.toBe(derivedBucket2)
+  })
+
+  it("given the same two archetype predicates, it returns the same bucket", () => {
+    type Entity = { count: number }
+
+    const bucket = createBucket<Entity>()
+    const derivedBucket = bucket.derive(archetype("count"))
+    const derivedBucket2 = bucket.derive(archetype("count"))
+
+    expect(derivedBucket).toBe(derivedBucket2)
+  })
+})
+
+describe("id", () => {
+  it("returns a numerical ID for the specified entity", () => {
+    const entity = {}
+    expect(id(entity)).toBe(0)
+  })
+
+  it("returns the same ID for the same entity", () => {
+    const entity = {}
+    expect(id(entity)).toBe(id(entity))
+  })
+
+  it("returns a different ID for different entities", () => {
+    const entity1 = {}
+    const entity2 = {}
+    expect(id(entity1)).not.toBe(id(entity2))
   })
 })

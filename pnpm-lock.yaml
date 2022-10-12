@@ -275,6 +275,7 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       audio-composer: workspace:^0.0.2
+      bucketeer: workspace:^0.0.1
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
@@ -318,6 +319,7 @@ importers:
       '@react-three/rapier': 0.7.6_k5pegjx3tqnzostq4vmydzrkya
       '@stitches/react': 1.2.8_react@18.2.0
       audio-composer: link:../../packages/audio-composer
+      bucketeer: link:../../packages/bucketeer
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
@@ -492,9 +494,11 @@ importers:
 
   packages/bucketeer:
     specifiers:
+      '@hmans/event': workspace:^0.0.1
       '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
     dependencies:
+      '@hmans/event': link:../hmans-event
       '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2
 
@@ -503,6 +507,9 @@ importers:
       fp-ts: ^2.12.3
     dependencies:
       fp-ts: 2.12.3
+
+  packages/hmans-event:
+    specifiers: {}
 
   packages/hmans-physics3d:
     specifiers:

@@ -7,39 +7,30 @@ import React, {
   useEffect,
   useLayoutEffect
 } from "react"
-import { Bucket, IEntity } from "./bucket"
+import { Bucket, id, IEntity } from "./index"
 import { useConst } from "@hmans/use-const"
 import { useRerender } from "@hmans/use-rerender"
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
-export type EntityProps<E extends IEntity> = Partial<E> & {
-  entity?: E
-  children?: ReactNode
-}
-
-export type PropertyProps<E extends IEntity, P extends keyof E> = {
-  name: P
-  value?: E[P]
-  children?: ReactNode
-}
-
-export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
+export const createBucketComponents = <E extends IEntity>(
+  bucket: Bucket<E>
+) => {
   const EntityContext = createContext<E | null>(null)
+
+  /* TODO: Do we really want/need two separate components for "new entities" and "existing entities"? */
 
   const Entity = ({
     children,
-    entity: existingEntity,
     ...props
-  }: EntityProps<E>) => {
-    const entity = useConst(() => existingEntity ?? ({} as E))
+  }: {
+    children?: ReactNode
+  } & E) => {
+    const entity = useConst(() => props as E)
 
     useIsomorphicLayoutEffect(() => {
-      if (existingEntity) return
-
       bucket.add(entity)
-      bucket.update(entity, props as Partial<E>)
       return () => bucket.remove(entity)
     }, [])
 
@@ -48,9 +39,45 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     )
   }
 
-  const MemoizedEntity = memo(Entity)
+  const ExistingEntity = ({
+    children,
+    entity
+  }: {
+    entity: E
+    children?: ReactNode
+  }) => {
+    return (
+      <EntityContext.Provider value={entity}>{children}</EntityContext.Provider>
+    )
+  }
 
-  const Property = <P extends keyof E>(props: PropertyProps<E, P>) => {
+  const MemoizedExistingEntity = memo(ExistingEntity)
+
+  const Bucket = <D extends E>({
+    bucket,
+    children
+  }: {
+    bucket: Bucket<D>
+    children?: ReactNode | ((entity: D) => ReactNode)
+  }) => {
+    useBucket(bucket)
+
+    return (
+      <>
+        {bucket.entities.map((entity, i) => (
+          <MemoizedExistingEntity key={id(entity)} entity={entity}>
+            {typeof children === "function" ? children(entity) : children}
+          </MemoizedExistingEntity>
+        ))}
+      </>
+    )
+  }
+
+  const Property = <P extends keyof E>(props: {
+    name: P
+    value?: E[P]
+    children?: ReactNode
+  }) => {
     const entity = useContext(EntityContext)
 
     if (!entity) {
@@ -77,7 +104,7 @@ export const createComponents = <E extends IEntity>(bucket: Bucket<E>) => {
     return <>{children}</>
   }
 
-  return { Entity, MemoizedEntity, Property }
+  return { Entity, ExistingEntity, Property, Bucket }
 }
 
 export const useBucket = <E extends IEntity>(bucket: Bucket<E>) => {

@@ -1,5 +1,6 @@
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
+import { archetype } from "bucketeer"
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
@@ -7,9 +8,11 @@ import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { ECS } from "../state"
+import { BECS, worldBucket } from "../state"
 
 const lifetime = createParticleLifetime()
+
+const sparksBucket = worldBucket.derive(archetype("isSparks"))
 
 export const Sparks = () => {
   const rng = InstanceRNG()
@@ -37,9 +40,7 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <ECS.ArchetypeEntities archetype="sparks">
-        {({ sparks }) => sparks}
-      </ECS.ArchetypeEntities>
+      <BECS.Bucket bucket={sparksBucket}>{(entity) => entity.jsx}</BECS.Bucket>
     </InstancedParticles>
   )
 }
@@ -64,10 +65,11 @@ export const SparksEmitter = (props: EmitterProps) => (
 )
 
 export const spawnSparks = (props: EmitterProps) =>
-  ECS.world.createEntity({
+  worldBucket.add({
+    isSparks: true,
     age: 0,
-    destroyAfter: 3,
-    sparks: <SparksEmitter {...props} />
+    destroyAfter: 0.1,
+    jsx: <SparksEmitter {...props} />
   })
 
 useLoader.preload(AudioLoader, "/sounds/blurp2.wav")
