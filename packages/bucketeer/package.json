@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "An entity store that loves objects and functions.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/bucketeer.cjs.js",
   "module": "dist/bucketeer.esm.js",
   "preconstruct": {

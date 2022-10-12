@@ -4,42 +4,43 @@ export interface IEntity {
   [key: string]: any
 }
 
-type CreateBucket<E extends IEntity> = typeof createBucket<E>
-
-export type Bucket<E extends IEntity> = ReturnType<CreateBucket<E>>
-
 export type EntityWith<E, P extends keyof E> = E & { [K in P]-?: E[K] }
 
 export type EntityPredicate<E, D extends E> = (entity: E) => entity is D
 
-export const createBucket = <E extends IEntity>() => {
-  const entities = new Array<E>()
+export const createBucket = <E extends IEntity>() => new Bucket<E>()
 
-  const onEntityAdded = new Event<E>()
-  const onEntityRemoved = new Event<E>()
-  const onEntityUpdated = new Event<E>()
+export class Bucket<E extends IEntity> {
+  entities = new Array<E>()
 
-  const derivedBuckets = new WeakMap()
+  onEntityAdded = new Event<E>()
+  onEntityRemoved = new Event<E>()
+  onEntityUpdated = new Event<E>()
 
-  const has = (entity: E) => entities.includes(entity)
+  derivedBuckets = new WeakMap()
 
-  const add = (entity: E) => {
-    const index = entities.indexOf(entity)
+  get [Symbol.iterator]() {
+    return this.entities[Symbol.iterator]()
+  }
+
+  has(entity: E) {
+    return this.entities.includes(entity)
+  }
+
+  add(entity: E) {
+    const index = this.entities.indexOf(entity)
 
     /* Add the entity if we don't already have it */
     if (index === -1) {
-      entities.push(entity)
-      onEntityAdded.emit(entity)
+      this.entities.push(entity)
+      this.onEntityAdded.emit(entity)
     }
 
     return entity
   }
 
-  const update = (
-    entity: E,
-    update?: Partial<E> | ((entity: E) => Partial<E>)
-  ) => {
-    const index = entities.indexOf(entity)
+  update(entity: E, update?: Partial<E> | ((entity: E) => Partial<E>)) {
+    const index = this.entities.indexOf(entity)
 
     if (index !== -1) {
       if (update) {
@@ -48,83 +49,67 @@ export const createBucket = <E extends IEntity>() => {
       }
 
       /* Emit an event if the entity changed */
-      onEntityUpdated.emit(entity)
+      this.onEntityUpdated.emit(entity)
     }
 
     return entity
   }
 
-  const remove = (entity: E) => {
+  remove(entity: E) {
     /* Only act if we know about the entity */
-    const index = entities.indexOf(entity)
+    const index = this.entities.indexOf(entity)
     if (index === -1) return
 
     /* Remove entity from our list */
-    entities[index] = entities[entities.length - 1]
-    entities.pop()
+    this.entities[index] = this.entities[this.entities.length - 1]
+    this.entities.pop()
 
     /* Emit event */
-    onEntityRemoved.emit(entity)
+    this.onEntityRemoved.emit(entity)
   }
 
-  const clear = () => {
-    for (let i = entities.length - 1; i >= 0; i--) {
-      remove(entities[i])
+  clear() {
+    for (let i = this.entities.length - 1; i >= 0; i--) {
+      this.remove(this.entities[i])
     }
   }
 
-  const derive = <D extends E = E>(
+  derive<D extends E = E>(
     predicate: ((entity: E) => entity is D) | ((entity: E) => boolean) = () =>
       true
-  ) => {
+  ): Bucket<D> {
     /* Check if we already have a derived bucket for this predicate */
-    if (derivedBuckets.has(predicate)) {
-      return derivedBuckets.get(predicate) as Bucket<D>
+    if (this.derivedBuckets.has(predicate)) {
+      return this.derivedBuckets.get(predicate)
     }
 
     /* Create bucket */
-    const bucket = createBucket<D>()
+    const bucket = new Bucket<D>()
 
     /* Add to cache */
-    derivedBuckets.set(predicate, bucket)
+    this.derivedBuckets.set(predicate, bucket)
 
     /* Add entities that match the predicate */
-    for (const entity of entities) if (predicate(entity)) bucket.add(entity)
+    for (const entity of this.entities)
+      if (predicate(entity)) bucket.add(entity)
 
     /* Listen for new entities */
-    onEntityAdded.addListener((entity) => {
+    this.onEntityAdded.addListener((entity) => {
       if (predicate(entity)) bucket.add(entity)
     })
 
     /* Listen for removed entities */
-    onEntityRemoved.addListener((entity) => {
+    this.onEntityRemoved.addListener((entity) => {
       bucket.remove(entity as D)
     })
 
     /* Listen for changed entities */
-    onEntityUpdated.addListener((entity) => {
+    this.onEntityUpdated.addListener((entity) => {
       if (predicate(entity)) bucket.add(entity) && bucket.update(entity)
       else bucket.remove(entity as D)
     })
 
     return bucket as Bucket<D>
-  }
-
-  return {
-    [Symbol.iterator]() {
-      return entities[Symbol.iterator]()
-    },
-
-    entities,
-    onEntityAdded,
-    onEntityRemoved,
-    onEntityUpdated,
-    has,
-    add,
-    update,
-    remove,
-    clear,
-    derive
   }
 }
 
