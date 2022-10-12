@@ -51,6 +51,7 @@ export const worldBucket = new Bucket<{
   isSparks?: true
   isDebris?: true
   isAsteroidExplosion?: true
+  isSmokeVFX?: true
 
   age?: number
   destroyAfter?: number
