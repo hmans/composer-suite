@@ -2,7 +2,6 @@ import { useFrame } from "@react-three/fiber"
 import { archetype } from "bucketeer"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS, worldBucket } from "../state"
 
 const tmpVec3 = new Vector3()
