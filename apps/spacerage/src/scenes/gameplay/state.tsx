@@ -52,10 +52,13 @@ export const worldBucket = new Bucket<{
   isDebris?: true
   isAsteroidExplosion?: true
   isSmokeVFX?: true
+  isPickup?: true
 
   age?: number
   destroyAfter?: number
   jsx?: JSX.Element
+  rigidBody?: RigidBodyApi
+  sceneObject?: Object3D
 }>()
 
 export const BECS = createBucketComponents(worldBucket)

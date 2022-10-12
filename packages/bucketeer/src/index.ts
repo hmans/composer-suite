@@ -17,9 +17,9 @@ export class Bucket<E extends IEntity> {
   onEntityRemoved = new Event<E>()
   onEntityUpdated = new Event<E>()
 
-  derivedBuckets = new WeakMap()
+  derivedBuckets = new WeakMap();
 
-  get [Symbol.iterator]() {
+  [Symbol.iterator]() {
     return this.entities[Symbol.iterator]()
   }
 
