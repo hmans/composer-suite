@@ -16,18 +16,28 @@
   ],
   "license": "MIT",
   "sideEffects": false,
-  "devDependencies": {
-    "@react-three/fiber": "^8.8.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "three": "^0.145.0"
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
   },
   "dependencies": {
     "@hmans/use-const": "^0.0.1",
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "material-composer-r3f": "^0.2.5",
-    "miniplex": "0.0.0-canary-20220926080217",
+    "miniplex": "1.0.0",
     "shader-composer": "^0.4.5",
     "shader-composer-r3f": "^0.4.5",
     "vfx-composer": "^0.3.0"

@@ -3,14 +3,17 @@ import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
 import { createECS } from "miniplex-react"
 import { Tag } from "miniplex"
+import { createBucket } from "bucketeer"
+import { createBucketComponents } from "bucketeer/react"
 
 export enum Layers {
   Player,
-  Asteroid
+  Bullet,
+  Asteroid,
+  Pickup
 }
 
 export const gameplayStore = makeStore({
-  player: null as Object3D | null,
   listener: null as AudioListener | null
 })
 
@@ -24,6 +27,8 @@ export type Entity = {
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
+  smoke?: JSX.Element
+  pickup?: JSX.Element
   asteroidExplosion?: JSX.Element
 
   sound?: JSX.Element
@@ -41,3 +46,12 @@ export type Entity = {
 }
 
 export const ECS = createECS<Entity>()
+
+export const worldBucket = createBucket<{
+  age?: number
+  destroyAfter?: number
+  isSparks?: true
+  jsx?: JSX.Element
+}>()
+
+export const BECS = createBucketComponents(worldBucket)

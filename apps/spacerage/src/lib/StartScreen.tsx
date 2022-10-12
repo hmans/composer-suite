@@ -1,5 +1,6 @@
 import React from "react"
 import { styled } from "@stitches/react"
+import * as THREE from "three"
 
 export type StartScreenProps = {
   children?: React.ReactNode
@@ -14,7 +15,17 @@ export const StartScreen = ({ children }: StartScreenProps) => {
 
   return (
     <Screen>
-      <Button onClick={() => setStarted(true)}>START</Button>
+      <Button
+        onClick={() => {
+          /* Make sure audio context is resumed within click event, for Safari */
+          THREE.AudioContext.getContext().resume()
+
+          /* Start application */
+          setStarted(true)
+        }}
+      >
+        START
+      </Button>
     </Screen>
   )
 }

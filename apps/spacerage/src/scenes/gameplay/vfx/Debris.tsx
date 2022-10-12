@@ -1,7 +1,7 @@
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
 import { memo } from "react"
-import { Mul, OneMinus, Vec3 } from "shader-composer"
+import { Mul, OneMinus, ScaleAndOffset, Vec3 } from "shader-composer"
 import { Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
@@ -14,7 +14,7 @@ const lifetime = createParticleLifetime()
 
 const DebrisMaterial = memo(() => {
   const rng = InstanceRNG()
-  const direction = Vec3([rng(12), rng(84), rng(1)])
+  const direction = Vec3([ScaleAndOffset(rng(12), 1, -0.5), rng(84), 0])
 
   return (
     <Composable.meshStandardMaterial color="#666">
@@ -36,7 +36,7 @@ export const Debris = () => {
       <icosahedronGeometry args={[0.3]} />
       <DebrisMaterial />
 
-      <ECS.ArchetypeEntities archetype={["debris"]}>
+      <ECS.ArchetypeEntities archetype="debris">
         {({ debris }) => debris}
       </ECS.ArchetypeEntities>
     </InstancedParticles>
@@ -48,9 +48,9 @@ export const DebrisEmitter = (props: EmitterProps) => (
     {...props}
     rate={Infinity}
     limit={between(2, 5)}
-    setup={({ position, scale }) => {
+    setup={({ mesh, position, scale }) => {
       scale.setScalar(between(0.5, 2))
-      lifetime.setLifetime(between(0.5, 1.5), upTo(0.1))
+      lifetime.write(mesh, between(0.5, 1.5), upTo(0.1))
       position.add(tmpVec3.randomDirection())
     }}
   />

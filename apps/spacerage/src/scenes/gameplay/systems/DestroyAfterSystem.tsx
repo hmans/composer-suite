@@ -1,17 +1,31 @@
-import { useFrame } from "@react-three/fiber"
+import { archetype } from "bucketeer"
 import { Stage } from "../../../configuration"
-import { ECS } from "../state"
+import { System } from "../../../lib/miniplex-systems-runner/System"
+import { ECS, worldBucket } from "../state"
 
-export const DestroyAfterSystem = () => {
-  const entities = ECS.world.archetype("age", "destroyAfter")
+const entities = ECS.world.archetype("age", "destroyAfter")
 
-  useFrame(() => {
-    for (const entity of entities) {
-      if (entity.age >= entity.destroyAfter) {
-        ECS.world.queue.destroyEntity(entity)
+const withDestroyAfter = worldBucket.derive(archetype("destroyAfter", "age"))
+
+export const DestroyAfterSystem = () => (
+  <System
+    name="DestroyAfterSystem"
+    world={ECS.world}
+    updatePriority={Stage.Early}
+    fun={() => {
+      for (const entity of entities) {
+        if (entity.age >= entity.destroyAfter) {
+          ECS.world.queue.destroyEntity(entity)
+        }
       }
-    }
-  }, Stage.Early)
 
-  return null
-}
+      /* Squeeze Bucketeer in */
+      for (let i = withDestroyAfter.entities.length - 1; i >= 0; i--) {
+        const entity = withDestroyAfter.entities[i]
+        if (entity.age >= entity.destroyAfter) {
+          worldBucket.remove(entity)
+        }
+      }
+    }}
+  />
+)

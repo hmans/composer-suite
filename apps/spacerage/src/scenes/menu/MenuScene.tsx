@@ -1,13 +1,12 @@
 import { useFrame } from "@react-three/fiber"
-import { flow } from "fp-ts/lib/function"
-import { createPressInteraction, useInput } from "input-composer"
 import { composable, modules } from "material-composer-r3f"
-import { Suspense, useCallback } from "react"
+import { Suspense, useEffect } from "react"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
-import { store } from "../../common/PostProcessing"
+import { PostProcessing, store } from "./PostProcessing"
 import { Skybox } from "../../common/Skybox"
+import { controller } from "../../input"
 import { useCapture } from "../../lib/useCapture"
 import { startGame } from "../../state"
 import { MenuDroneSFX } from "./sfx/MenuDroneSFX"
@@ -16,23 +15,20 @@ import { Dust } from "./vfx/Dust"
 import { Nebula } from "./vfx/Nebula"
 
 const MenuScene = () => {
-  const input = useInput()
-
-  const processInput = useCallback(
-    flow(
-      () => input().keyboard.key("Space"),
-      createPressInteraction(startGame)
-    ),
-    [input]
-  )
+  // useEffect(() => controller.controls.select.onPress.addListener(startGame), [])
 
   useFrame(() => {
-    processInput()
+    if (controller.controls.fire.value > 0.5) {
+      startGame()
+    }
   })
 
   return (
     <Suspense>
+      <PostProcessing />
+
       <group>
+        {/* Lights */}
         <ambientLight
           intensity={0.1}
           layers-mask={bitmask(Layers.Default, Layers.TransparentFX)}

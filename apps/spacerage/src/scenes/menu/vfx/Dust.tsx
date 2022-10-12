@@ -1,4 +1,3 @@
-import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
 import { plusMinus } from "randomish"
 import {
@@ -8,7 +7,6 @@ import {
   Input,
   InstanceID,
   Mul,
-  Rotation3DZ,
   ScaleAndOffset,
   Smoothstep,
   Vec3
@@ -21,6 +19,7 @@ import {
   InstancedParticles,
   useParticleLifetime
 } from "vfx-composer-r3f"
+import { useAsset } from "../../gameplay/assets"
 
 /* TODO: extract this into vfx-composer */
 
@@ -31,16 +30,21 @@ export type DustProps = {
 
 export const Dust = ({ lifetime = 60, rate = 50 }: DustProps) => {
   const id = Float(InstanceID, { varying: true })
-  const texture = useTexture("/textures/particle.png")
+  const texture = useAsset.textures.particle()
 
   const getRandom = (offset: Input<"float">) => Random(Add(Mul(id, 50), offset))
 
   const particles = useParticleLifetime()
 
-  const setup: InstanceSetupCallback = ({ position, rotation, scale }) => {
+  const setup: InstanceSetupCallback = ({
+    mesh,
+    position,
+    rotation,
+    scale
+  }) => {
     position.set(plusMinus(10), plusMinus(10), plusMinus(10))
     rotation.random()
-    particles.setLifetime(lifetime, plusMinus(lifetime))
+    particles.write(mesh, lifetime, plusMinus(lifetime))
   }
 
   return (

@@ -1,11 +1,12 @@
-import { useFrame } from "@react-three/fiber"
 import { Stage } from "../../../configuration"
+import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS } from "../state"
 
-export const ECSFlushSystem = () => {
-  useFrame(() => {
-    ECS.world.queue.flush()
-  }, Stage.Late)
-
-  return null
-}
+export const ECSFlushSystem = () => (
+  <System
+    world={ECS.world}
+    name="ECSFlushSystem"
+    updatePriority={Stage.Late}
+    fun={() => ECS.world.queue.flush()}
+  />
+)

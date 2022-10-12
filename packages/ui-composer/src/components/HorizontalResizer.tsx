@@ -2,7 +2,22 @@ import { styled } from "../styles"
 import React from "react"
 
 export const HorizontalResizer = () => {
-  return <HorizontalResizerDiv />
+  const [dragging, setDragging] = React.useState(false)
+
+  const handleMouseDown = React.useCallback(() => {
+    setDragging(true)
+  }, [])
+
+  const handleMouseUp = React.useCallback(() => {
+    setDragging(false)
+  }, [])
+
+  return (
+    <HorizontalResizerDiv
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    />
+  )
 }
 
 const HorizontalResizerDiv = styled("div", {

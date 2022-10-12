@@ -149,7 +149,7 @@ export type UnitAPI<T extends GLSLType> = T extends "vec2"
       readonly z: Unit<"float">
       readonly w: Unit<"float">
     }
-  : API
+  : {}
 
 const unitAPI = <T extends GLSLType>(unit: IUnit<T>): UnitAPI<T> => {
   if (isUnitOfType(unit, "vec2")) {
@@ -249,15 +249,14 @@ export const isUnitInProgram = (unit: Unit, program: Program) =>
 export const uniformName = (unit: Unit) =>
   unit._unitConfig.uniformName ?? `u_${unit._unitConfig.variableName}`
 
-export type API = Record<string, any>
-export type APIFactory<U extends IUnit, A extends API> = (unit: U) => A
+export type APIFactory<U extends IUnit, A> = (unit: U) => A
 
 /**
  * Given a unit and an API factory function, pass the unit to the factory
  * function and inject its return value into the unit (as to not break
  * object references.)
  */
-export const injectAPI = <U extends IUnit, A extends API>(
+export const injectAPI = <U extends IUnit, A>(
   unit: U,
   factory: APIFactory<U, A>
 ) => {

@@ -13,8 +13,8 @@
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "@material-composer/patch-material": "^0.1.3",
-    "@react-three/drei": "^9.32.7",
-    "@react-three/fiber": "^8.8.8",
+    "@react-three/drei": "^9.34.3",
+    "@react-three/fiber": "^8.8.9",
     "leva": "^0.9.31",
     "material-composer": "^0.2.6",
     "material-composer-r3f": "^0.2.5",
@@ -37,6 +37,6 @@
     "@vitejs/plugin-react": "^2.1.0",
     "randomish": "^0.1.4",
     "typescript": "^4.8.4",
-    "vite": "^3.1.4"
+    "vite": "^3.1.6"
   }
 }

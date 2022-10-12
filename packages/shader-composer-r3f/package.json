@@ -16,15 +16,25 @@
   ],
   "license": "MIT",
   "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  },
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md"
-  },
-  "devDependencies": {
-    "@react-three/fiber": "^8.8.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "three": "^0.145.0"
   },
   "peerDependencies": {
     "@react-three/fiber": "^8.2.0",

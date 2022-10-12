@@ -1,22 +1,17 @@
-import { Attribute, glslType, Input } from "shader-composer"
+import {
+  Attribute,
+  glslType,
+  GLSLTypeFor,
+  injectAPI,
+  Input
+} from "shader-composer"
 import { Color, Vector2, Vector3, Vector4 } from "three"
 import { InstancedParticles } from "./InstancedParticles"
 import { makeAttribute } from "./util/makeAttribute"
 
-/* TODO: promote this into Shader Composer */
-export type GLSLTypeFor<J> = J extends number
-  ? "float"
-  : J extends Vector2
-  ? "vec2"
-  : J extends Vector3
-  ? "vec3"
-  : J extends Vector4
-  ? "vec4"
-  : J extends Color
-  ? "vec3"
-  : never
-
 export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
+
+/* TODO: move this into Shader Composer */
 let nextAttributeId = 1
 
 export const ParticleAttribute = <
@@ -29,53 +24,45 @@ export const ParticleAttribute = <
   let value = initialValue
   const type = glslType(value as Input<T>)
 
-  return {
-    ...Attribute<T>(type, name),
+  /* Determine item size in buffer from type */
+  const itemSize =
+    type === "float" ? 1 : type === "vec2" ? 2 : type === "vec3" ? 3 : 4
 
-    name,
+  return injectAPI(Attribute<T>(type, name), () => ({
+    write: (mesh: InstancedParticles, getValue: J | ((value: J) => J)) => {
+      /* Execute the user-provided value getter. */
+      const v = typeof getValue === "function" ? getValue(value) : getValue
 
-    isParticleAttribute: true,
-
-    setupMesh: ({ geometry, capacity, safetyCapacity }: InstancedParticles) => {
-      const itemSize =
-        type === "float"
-          ? 1
-          : type === "vec2"
-          ? 2
-          : type === "vec3"
-          ? 3
-          : type === "vec4"
-          ? 4
-          : 4
-
-      geometry.setAttribute(
-        name,
-        makeAttribute(capacity + safetyCapacity, itemSize)
-      )
-    },
-
-    get value() {
-      return value
-    },
-
-    set value(v: J) {
-      value = v
-    },
-
-    setupParticle: ({ geometry, cursor }: InstancedParticles) => {
-      const attribute = geometry.attributes[name]
-
-      if (typeof value === "number") {
-        attribute.setX(cursor, value)
-      } else if (value instanceof Vector2) {
-        attribute.setXY(cursor, value.x, value.y)
-      } else if (value instanceof Vector3) {
-        attribute.setXYZ(cursor, value.x, value.y, value.z)
-      } else if (value instanceof Color) {
-        attribute.setXYZ(cursor, value.r, value.g, value.b)
-      } else if (value instanceof Vector4) {
-        attribute.setXYZW(cursor, value.x, value.y, value.z, value.w)
+      /* Write the value to the attribute. */
+      const attribute = getAttribute(mesh, name, itemSize)
+      if (typeof v === "number") {
+        attribute.setX(mesh.cursor, v)
+      } else if (v instanceof Vector2) {
+        attribute.setXY(mesh.cursor, v.x, v.y)
+      } else if (v instanceof Vector3) {
+        attribute.setXYZ(mesh.cursor, v.x, v.y, v.z)
+      } else if (v instanceof Color) {
+        attribute.setXYZ(mesh.cursor, v.r, v.g, v.b)
+      } else if (v instanceof Vector4) {
+        attribute.setXYZW(mesh.cursor, v.x, v.y, v.z, v.w)
       }
     }
+  }))
+}
+
+const getAttribute = (
+  mesh: InstancedParticles,
+  name: string,
+  itemSize: number
+) => {
+  /* Check if the attribute exists. If it doesn't, create it. */
+  if (!mesh.geometry.attributes[name]) {
+    mesh.geometry.setAttribute(
+      name,
+      makeAttribute(mesh.capacity + mesh.safetyCapacity, itemSize)
+    )
   }
+
+  /* Return the attribute. */
+  return mesh.geometry.attributes[name]
 }

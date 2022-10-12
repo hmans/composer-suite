@@ -10,8 +10,10 @@ import { Material, Mesh, Quaternion, Vector3 } from "three"
 import { GLTFLoader } from "three-stdlib"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { ECS, Layers } from "./state"
+import { spawnSmokeVFX } from "./vfx/SmokeVFX"
 
 const tmpQuaterion = new Quaternion()
+const tmpVec3 = new Vector3()
 
 export const Asteroids = ({
   initial,
@@ -47,11 +49,22 @@ export const Asteroids = ({
                 density={3}
                 collisionGroups={interactionGroups(Layers.Asteroid, [
                   Layers.Asteroid,
-                  Layers.Player
+                  Layers.Player,
+                  Layers.Bullet
                 ])}
                 args={[mesh.geometry.attributes.position.array as Float32Array]}
+                onCollisionEnter={(e) => {
+                  const position = tmpVec3
+                    .copy(e.manifold.localContactPoint1(0) as Vector3)
+                    .applyQuaternion(e.collider.rotation() as Quaternion)
+                    .add(e.collider.translation() as Vector3)
+
+                  spawnSmokeVFX({ position })
+                }}
               />
-              <Particle />
+              <ECS.Component name="sceneObject">
+                <Particle matrixAutoUpdate={false} />
+              </ECS.Component>
             </RigidBody>
           </ECS.Component>
         )}
@@ -66,7 +79,7 @@ export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
       spawnPosition: position,
       scale
     },
-    health: 100 * scale
+    health: 250 * scale
   })
 }
 
@@ -87,7 +100,8 @@ const useLotsOfAsteroidsAndAlsoCleanThemUp = (count: number) => {
     return () => {
       /* Destroy all asteroids */
       startTransition(() => {
-        for (const entity of entities) ECS.world.destroyEntity(entity)
+        for (let i = entities.length; i > 0; i--)
+          ECS.world.destroyEntity(entities[i - 1])
       })
     }
   }, [])

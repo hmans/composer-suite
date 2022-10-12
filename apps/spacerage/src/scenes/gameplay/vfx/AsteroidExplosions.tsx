@@ -1,22 +1,9 @@
 import { GroupProps, useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
-import { flow } from "fp-ts/lib/function"
 import { Composable, Modules } from "material-composer-r3f"
-import { ModuleRegistrationContext } from "material-composer-r3f/src/moduleRegistration"
-import { Module } from "module"
-import { between, upTo } from "randomish"
-import { useLayoutEffect } from "react"
-import {
-  Add,
-  Mul,
-  Normalize,
-  Remap,
-  ScaleAndOffset,
-  Smoothstep,
-  Vec3
-} from "shader-composer"
-import { rand } from "shader-composer-toybox/src/noise/random"
-import { AudioLoader, Color } from "three"
+import { between } from "randomish"
+import { Mul, ScaleAndOffset, Smoothstep, Vec3 } from "shader-composer"
+import { AudioLoader } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
@@ -54,7 +41,7 @@ export const AsteroidExplosions = () => {
         <Modules.Lifetime {...lifetime} />
       </Composable.MeshBasicMaterial>
 
-      <ECS.ArchetypeEntities archetype={["asteroidExplosion"]}>
+      <ECS.ArchetypeEntities archetype="asteroidExplosion">
         {(entity) => entity.asteroidExplosion}
       </ECS.ArchetypeEntities>
     </InstancedParticles>
@@ -66,8 +53,8 @@ export const AsteroidExplosion = (props: GroupProps) => (
     <Emitter
       rate={Infinity}
       limit={between(10, 20)}
-      setup={() => {
-        lifetime.setLifetime(between(2, 5))
+      setup={({ mesh }) => {
+        lifetime.write(mesh, between(2, 5))
       }}
     />
 

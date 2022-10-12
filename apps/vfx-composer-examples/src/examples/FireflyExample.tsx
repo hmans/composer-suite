@@ -57,19 +57,20 @@ export const FireflyExample = () => {
 
           <Emitter
             rate={700}
-            setup={({ position }) => {
+            setup={({ mesh, position }) => {
               /*
-            The position automatically inherits the emitter's position, but let's
-            add a little random offset to spice things up!
-            */
+              The position automatically inherits the emitter's position, but let's
+              add a little random offset to spice things up!
+              */
               position.add(tmpVec3.randomDirection().multiplyScalar(upTo(0.4)))
 
-              chance(0.5)
-                ? color.value.setRGB(3, 1, 3)
-                : color.value.setRGB(1, 3, 3)
-
-              lifetime.setLifetime(1)
-              velocity.value.randomDirection().multiplyScalar(upTo(2))
+              color.write(mesh, (v) =>
+                chance(0.5) ? v.setRGB(3, 1, 3) : v.setRGB(1, 3, 3)
+              )
+              lifetime.write(mesh, 1)
+              velocity.write(mesh, (v) =>
+                v.randomDirection().multiplyScalar(upTo(2))
+              )
             }}
           />
         </mesh>

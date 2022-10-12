@@ -11,6 +11,10 @@ jobs:
   release:
     name: Stable Release / Version PR
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -49,6 +53,7 @@ jobs:
         with:
           version: pnpm ci:version
           publish: pnpm ci:release
+          title: "[Changesets] Pending Releases"
           # commit: "chore: update versions"
           # title: "chore: update versions"
         env:
