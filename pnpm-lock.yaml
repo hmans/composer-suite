@@ -71,7 +71,7 @@ importers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.1.0
-      bucketeer: workspace:^0.0.1
+      bucketeer: workspace:^0.0.2
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -277,7 +277,7 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       audio-composer: workspace:^0.0.2
-      bucketeer: workspace:^0.0.1
+      bucketeer: workspace:^0.0.2
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
