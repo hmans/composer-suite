@@ -48,9 +48,11 @@ export type Entity = {
 export const ECS = createECS<Entity>()
 
 export const worldBucket = new Bucket<{
+  isSparks?: true
+  isAsteroidExplosion?: true
+
   age?: number
   destroyAfter?: number
-  isSparks?: true
   jsx?: JSX.Element
 }>()
 
