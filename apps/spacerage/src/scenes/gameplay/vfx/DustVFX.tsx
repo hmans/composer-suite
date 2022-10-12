@@ -1,6 +1,5 @@
 import { flow, pipe } from "fp-ts/lib/function"
 import { Composable, Modules } from "material-composer-r3f"
-import { Module } from "module"
 import { GlobalTime, Mul, ScaleAndOffset, Sin, Vec3 } from "shader-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
