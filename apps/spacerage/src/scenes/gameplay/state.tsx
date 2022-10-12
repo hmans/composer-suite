@@ -49,6 +49,7 @@ export const ECS = createECS<Entity>()
 
 export const worldBucket = new Bucket<{
   isSparks?: true
+  isDebris?: true
   isAsteroidExplosion?: true
 
   age?: number
