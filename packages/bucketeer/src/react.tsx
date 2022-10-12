@@ -19,6 +19,8 @@ export const createBucketComponents = <E extends IEntity>(
 ) => {
   const EntityContext = createContext<E | null>(null)
 
+  /* TODO: Do we really want/need two separate components for "new entities" and "existing entities"? */
+
   const Entity = ({
     children,
     ...props
