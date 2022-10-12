@@ -21,6 +21,8 @@ export const createBucket = <E extends IEntity>() => {
 
   const derivedBuckets = new WeakMap()
 
+  const has = (entity: E) => entities.includes(entity)
+
   const add = (entity: E) => {
     const index = entities.indexOf(entity)
 
@@ -117,6 +119,7 @@ export const createBucket = <E extends IEntity>() => {
     onEntityAdded,
     onEntityRemoved,
     onEntityUpdated,
+    has,
     add,
     update,
     remove,

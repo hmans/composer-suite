@@ -7,6 +7,21 @@ describe("createBucket", () => {
   })
 })
 
+describe("has", () => {
+  it("returns true if the bucket has the entity", () => {
+    const bucket = createBucket()
+    const entity = { id: 1 }
+    bucket.add(entity)
+    expect(bucket.has(entity)).toBe(true)
+  })
+
+  it("returns false if the bucket does not have the entity", () => {
+    const bucket = createBucket()
+    const entity = { id: 1 }
+    expect(bucket.has(entity)).toBe(false)
+  })
+})
+
 describe("add", () => {
   it("writes an entity into the bucket", () => {
     const bucket = createBucket()
