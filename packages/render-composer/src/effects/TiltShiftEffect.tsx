@@ -6,6 +6,7 @@ import {
   Resolution,
   Snippet,
   UV,
+  varying,
   Vec2,
   Vec3,
   Vec4
@@ -52,7 +53,7 @@ const TiltShiftUnit = (
   Vec3(inputColor, {
     fragment: {
       body: $`
-      vec4 color = vec4(0.0);
+      vec3 color = vec3(0.0);
       float total = 0.0;
       vec2 startPixel = vec2(${start}.x * ${Resolution}.x, ${start}.y * ${Resolution}.y);
       vec2 endPixel = vec2(${end}.x * ${Resolution}.x, ${end}.y * ${Resolution}.y);
@@ -62,7 +63,7 @@ const TiltShiftUnit = (
 
       vec2 normal = normalize(vec2(startPixel.y - endPixel.y, endPixel.x - startPixel.x));
       float radius = smoothstep(0.0, 1.0,
-        abs(dot(${UV} * ${Resolution} - startPixel, normal)) / ${gradientRadius}) * ${blurRadius};
+        abs(dot(uv * ${Resolution} - startPixel, normal)) / ${gradientRadius}) * ${blurRadius};
 
       float firstSample = ${sampleCount} / -2.0;
       float lastSample = ${sampleCount} / 2.0;
@@ -77,14 +78,14 @@ const TiltShiftUnit = (
           /* switch to pre-multiplied alpha to correctly blur transparent images */
           sample_t.rgb *= sample_t.a;
 
-          color += sample_t * weight;
+          color += vec3(sample_t) * weight;
           total += weight;
       }
 
       value = color / total;
 
       /* switch back from pre-multiplied alpha */
-      value.rgb /= value.a + 0.00001;
+      // value.rgb /= value.a + 0.00001;
     `
     }
   })
@@ -98,11 +99,11 @@ export class TiltShiftEffectImpl extends ShaderComposerEffect {
       root: PostProcessingEffectMaster({
         color: TiltShiftUnit(
           InputColor,
-          Vec2([0.01, 0.01]),
-          Vec2([1, 1]),
+          Vec2([0, 0.5]),
+          Vec2([1, 0.5]),
           Vec2([1, 1]),
           10,
-          200,
+          400,
           40
         )
       })
