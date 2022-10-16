@@ -1,22 +1,10 @@
-import { pipe } from "fp-ts/function"
 import * as PP from "postprocessing"
-import {
-  $,
-  Input,
-  Resolution,
-  Snippet,
-  UV,
-  varying,
-  Vec2,
-  Vec3,
-  Vec4
-} from "shader-composer"
+import { $, Input, Resolution, Snippet, Vec2, Vec3 } from "shader-composer"
 import {
   InputColor,
   PostProcessingEffectMaster,
   ShaderComposerEffect
 } from "shader-composer-postprocessing"
-import { Color } from "three"
 import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 
 export type TiltShiftEffectProps = ConstructorParameters<
