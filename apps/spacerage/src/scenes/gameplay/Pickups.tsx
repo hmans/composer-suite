@@ -2,16 +2,16 @@ import { BallCollider, interactionGroups, RigidBody } from "@react-three/rapier"
 import { plusMinus } from "randomish"
 import { Color, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
-import { ECS, Layers } from "./state"
+import { BECS, ECS, Layers, worldBucket } from "./state"
 
 export const Pickups = () => (
   <InstancedParticles>
     <icosahedronGeometry args={[0.5]} />
     <meshStandardMaterial color={new Color("hotpink").multiplyScalar(4)} />
 
-    <ECS.ArchetypeEntities archetype="pickup">
-      {({ pickup }) => pickup}
-    </ECS.ArchetypeEntities>
+    <BECS.Archetype properties="isPickup">
+      {({ entity }) => entity.jsx}
+    </BECS.Archetype>
   </InstancedParticles>
 )
 
@@ -21,7 +21,7 @@ export const Pickup = ({ onPickup, ...props }: PickupProps) => {
   const [player] = ECS.useArchetype("player")
 
   return (
-    <ECS.Component name="rigidBody">
+    <BECS.Property name="rigidBody">
       <RigidBody
         {...props}
         linearVelocity={[plusMinus(4), plusMinus(4), 0]}
@@ -39,23 +39,24 @@ export const Pickup = ({ onPickup, ...props }: PickupProps) => {
           }
         }}
       >
-        <ECS.Component name="sceneObject">
+        <BECS.Property name="sceneObject">
           <BallCollider args={[0.5]}>
             <Particle />
           </BallCollider>
-        </ECS.Component>
+        </BECS.Property>
       </RigidBody>
-    </ECS.Component>
+    </BECS.Property>
   )
 }
 
 export const spawnPickup = (props: PickupProps) => {
-  const entity = ECS.world.createEntity({
-    pickup: (
+  const entity = worldBucket.add({
+    isPickup: true,
+    jsx: (
       <Pickup
         {...props}
         onPickup={() => {
-          ECS.world.queue.destroyEntity(entity)
+          worldBucket.remove(entity)
         }}
       />
     )

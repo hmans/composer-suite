@@ -1,8 +1,8 @@
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
-import { archetype } from "bucketeer"
 import { Composable, Modules } from "material-composer-r3f"
 import { between, upTo } from "randomish"
+import { StrictMode } from "react"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
@@ -11,8 +11,6 @@ import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { BECS, worldBucket } from "../state"
 
 const lifetime = createParticleLifetime()
-
-const sparksBucket = worldBucket.derive(archetype("isSparks"))
 
 export const Sparks = () => {
   const rng = InstanceRNG()
@@ -40,7 +38,9 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <BECS.Bucket bucket={sparksBucket}>{(entity) => entity.jsx}</BECS.Bucket>
+      <BECS.Archetype properties="isSparks">
+        {({ entity }) => entity.jsx}
+      </BECS.Archetype>
     </InstancedParticles>
   )
 }

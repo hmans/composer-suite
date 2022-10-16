@@ -19,7 +19,8 @@
     "arrowParens": "always"
   },
   "scripts": {
-    "build": "turbo run build --filter=\"./packages/*\"",
+    "build": "preconstruct build",
+    "build:turbo": "turbo run build --filter=\"./packages/*\"",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "dev:spacerage": "pnpm clean:vite && preconstruct dev && pnpm --filter spacerage dev",
@@ -44,6 +45,7 @@
     "@types/node": "^18.8.3",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@types/three": "^0.144.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^29.1.2",
