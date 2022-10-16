@@ -97,6 +97,7 @@ const PostProcessing = ({ sun }: { sun?: Mesh | null }) => {
       <RC.SelectiveBloomEffect />
       <RC.SMAAEffect />
       {sun && <RC.GodRaysEffect lightSource={sun} />}
+      <RC.TiltShiftEffect />
       <RC.VignetteEffect />
       <RC.LensDirtEffect texture={texture} />
     </RC.EffectPass>
