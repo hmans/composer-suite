@@ -93,13 +93,17 @@ const PostProcessing = ({ sun }: { sun?: Mesh | null }) => {
   const texture = useTexture("/textures/lensdirt.jpg")
 
   return (
-    <RC.EffectPass>
-      <RC.SelectiveBloomEffect />
-      <RC.SMAAEffect />
-      {sun && <RC.GodRaysEffect lightSource={sun} />}
-      <RC.TiltShiftEffect />
-      <RC.VignetteEffect />
-      <RC.LensDirtEffect texture={texture} />
-    </RC.EffectPass>
+    <>
+      <RC.EffectPass>
+        <RC.SelectiveBloomEffect />
+        <RC.SMAAEffect />
+        <RC.TiltShiftEffect />
+      </RC.EffectPass>
+      <RC.EffectPass>
+        {sun && <RC.GodRaysEffect lightSource={sun} />}
+        <RC.VignetteEffect />
+        <RC.LensDirtEffect texture={texture} />
+      </RC.EffectPass>
+    </>
   )
 }

@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.2.7
+
+### Patch Changes
+
+- 4ace8ca: **New:** A first, very basic, very static, very experimental implementation of a `TiltShiftEffect`. Handle with care.
+
 ## 0.2.6
 
 ### Patch Changes
