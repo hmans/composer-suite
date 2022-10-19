@@ -1,5 +1,11 @@
 # render-composer
 
+## 0.2.8
+
+### Patch Changes
+
+- d3959f3: **Changed:** `<TiltShiftEffect>` now uses the tilt shift effect implementation provided by `postprocessing` 6.29.0.
+
 ## 0.2.7
 
 ### Patch Changes
