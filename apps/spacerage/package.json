@@ -28,7 +28,7 @@
     "@react-three/rapier": "^0.7.6",
     "@stitches/react": "^1.2.8",
     "audio-composer": "workspace:^0.0.2",
-    "bucketeer": "workspace:^0.0.2",
+    "bucketeer": "workspace:^0.0.3",
     "camera-composer": "^0.0.1",
     "fp-ts": "^2.12.3",
     "input-composer": "^0.0.2",
