@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.7
+
+### Patch Changes
+
+- 1557936: **New:** `$swizzle(value, swizzle)` returns a GLSL expression that applies swizzling to the given value.
+
 ## 0.4.6
 
 ### Patch Changes
