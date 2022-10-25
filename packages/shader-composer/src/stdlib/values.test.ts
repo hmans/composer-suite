@@ -1,6 +1,15 @@
 import { Color, Vector2, Vector3 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { $float, $mat2, $vec2, $vec3, $vec4, Int, Vec3 } from "./values"
+import {
+  $float,
+  $mat2,
+  $swizzle,
+  $vec2,
+  $vec3,
+  $vec4,
+  Int,
+  Vec3
+} from "./values"
 
 describe("$float", () => {
   it("returns an expression that casts the given value to a float", () => {
@@ -95,5 +104,18 @@ describe("Vec3", () => {
     expect(glslRepresentation(v.x._unitConfig.value)).toBe("foo.x")
     expect(glslRepresentation(v.y._unitConfig.value)).toBe("foo.y")
     expect(glslRepresentation(v.z._unitConfig.value)).toBe("foo.z")
+  })
+})
+
+describe("$swizzle", () => {
+  it("swizzles a value", () => {
+    const swizzled = $swizzle(new Vector3(1, 2, 3), "xyy")
+    expect(glslRepresentation(swizzled)).toEqual("vec3(1.0, 2.0, 3.0).xyy")
+  })
+
+  it("swizzles a unit", () => {
+    const v = Vec3(new Vector3(1, 2, 3))
+    const swizzled = $swizzle(v, "xyy")
+    expect(glslRepresentation(swizzled)).toEqual(`${glslRepresentation(v)}.xyy`)
   })
 })
