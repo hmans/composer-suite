@@ -9,7 +9,7 @@
     ["material-composer", "material-composer-r3f"]
   ],
   "access": "public",
-  "baseBranch": "dev",
+  "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": ["*-examples", "spacerage"],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
