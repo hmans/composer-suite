@@ -28,7 +28,7 @@ The development of the Composer Suite is primarily driven by that of **Space Rag
 
 - **[Play Space Rage](https://spacerage2.vercel.app/)** (development build!)
 - [Play and edit Space Rage in CodeSandbox](https://codesandbox.io/p/github/hmans/composer-suite/dev?selection=%5B%7B%22endColumn%22%3A31%2C%22endLineNumber%22%3A21%2C%22startColumn%22%3A31%2C%22startLineNumber%22%3A21%7D%5D&file=%2Fapps%2Fspacerage%2Fsrc%2FGame.tsx&workspace=%257B%2522activeFileId%2522%253A%2522cl90xdiuf00eblqjedryebrxi%2522%252C%2522openFiles%2522%253A%255B%2522%252Fapps%252Fspacerage%252Fsrc%252FGame.tsx%2522%255D%252C%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522gitSidebarPanel%2522%253A%2522COMMIT%2522%252C%2522sidekickItems%2522%253A%255B%257B%2522type%2522%253A%2522PREVIEW%2522%252C%2522taskId%2522%253A%2522dev%253Aspacerage%2522%252C%2522port%2522%253A5173%252C%2522key%2522%253A%2522cl91i035f01eu3b6me2xd6clq%2522%252C%2522isMinimized%2522%253Afalse%257D%252C%257B%2522type%2522%253A%2522TASK_LOG%2522%252C%2522taskId%2522%253A%2522dev%253Aspacerage%2522%252C%2522key%2522%253A%2522cl91hzzw2018b3b6mno4aayug%2522%252C%2522isMinimized%2522%253Afalse%257D%255D%257D)
-- [Source code](https://github.com/hmans/composer-suite/tree/main/apps/spacerage) (latest bits are in the `dev` branch)
+- [Source code](https://github.com/hmans/composer-suite/tree/main/apps/spacerage)
 
 ## Packages 📦
 
@@ -153,8 +153,6 @@ _TODO_
 ### Repository Structure
 
 The repository is structured as a monorepo. You will find all packages that are part of the Composer Suite inside the `packages` directory, and a collection of applications (examples and otherwise) inside `apps`.
-
-Most development happens on the `dev` branch, with the `main` branches mostly being used for releases.
 
 ### Core Tenets
 
