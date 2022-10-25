@@ -19,7 +19,7 @@
     "arrowParens": "always"
   },
   "scripts": {
-    "build": "turbo run build --filter=\"./packages/*\"",
+    "build": "preconstruct build",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "dev:spacerage": "pnpm clean:vite && preconstruct dev && pnpm --filter spacerage dev",
@@ -60,8 +60,5 @@
   },
   "stackblitz": {
     "startCommand": "cd apps/vfx-composer-examples && pnpm dev"
-  },
-  "devDependencies": {
-    "turbo": "^1.6.1"
   }
 }
