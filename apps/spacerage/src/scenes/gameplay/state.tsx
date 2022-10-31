@@ -1,10 +1,10 @@
 import { RigidBodyApi } from "@react-three/rapier"
-import { Bucket } from "bucketeer"
-import { createBucketComponents } from "bucketeer/react"
-import { Tag } from "miniplex"
-import { createECS } from "miniplex-react"
+import { World } from "miniplex"
+import { createReactAPI } from "miniplex/react"
 import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
+
+export { queue } from "miniplex"
 
 export enum Layers {
   Player,
@@ -23,7 +23,7 @@ export type Entity = {
     scale: number
   }
 
-  player?: Tag
+  player?: true
   bullet?: JSX.Element
   debris?: JSX.Element
   sparks?: JSX.Element
@@ -45,20 +45,19 @@ export type Entity = {
   destroyAfter?: number
 }
 
-export const ECS = createECS<Entity>()
+export const world = new World<Entity>()
+export const ECS = { ...createReactAPI(world), world }
 
-export const worldBucket = new Bucket<{
-  isSparks?: true
-  isDebris?: true
-  isAsteroidExplosion?: true
-  isSmokeVFX?: true
-  isPickup?: true
+// export const worldBucket = new Bucket<{
+//   isSparks?: true
+//   isDebris?: true
+//   isAsteroidExplosion?: true
+//   isSmokeVFX?: true
+//   isPickup?: true
 
-  age?: number
-  destroyAfter?: number
-  jsx?: JSX.Element
-  rigidBody?: RigidBodyApi
-  sceneObject?: Object3D
-}>()
-
-export const BECS = createBucketComponents(worldBucket)
+//   age?: number
+//   destroyAfter?: number
+//   jsx?: JSX.Element
+//   rigidBody?: RigidBodyApi
+//   sceneObject?: Object3D
+// }>()

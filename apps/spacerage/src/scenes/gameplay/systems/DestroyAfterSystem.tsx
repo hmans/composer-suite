@@ -1,11 +1,11 @@
-import { archetype } from "bucketeer"
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
-import { ECS, worldBucket } from "../state"
+import { ECS, queue } from "../state"
+import { archetype } from "miniplex"
 
-const entities = ECS.world.archetype("age", "destroyAfter")
+const entities = ECS.world.where(archetype("age", "destroyAfter"))
 
-const withDestroyAfter = worldBucket.derive(archetype("destroyAfter", "age"))
+const withDestroyAfter = ECS.world.where(archetype("destroyAfter", "age"))
 
 export const DestroyAfterSystem = () => (
   <System
@@ -15,7 +15,7 @@ export const DestroyAfterSystem = () => (
     fun={() => {
       for (const entity of entities) {
         if (entity.age >= entity.destroyAfter) {
-          ECS.world.queue.destroyEntity(entity)
+          queue(() => ECS.world.remove(entity))
         }
       }
 
@@ -23,7 +23,7 @@ export const DestroyAfterSystem = () => (
       for (let i = withDestroyAfter.entities.length - 1; i >= 0; i--) {
         const entity = withDestroyAfter.entities[i]
         if (entity.age >= entity.destroyAfter) {
-          worldBucket.remove(entity)
+          ECS.world.remove(entity)
         }
       }
     }}

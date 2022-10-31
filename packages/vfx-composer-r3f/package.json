@@ -37,7 +37,7 @@
     "@hmans/use-rerender": "^0.0.2",
     "@hmans/use-version": "^0.0.2",
     "material-composer-r3f": "^0.2.5",
-    "miniplex": "1.0.0",
+    "miniplex": "2.0.0-next.16",
     "shader-composer": "^0.4.5",
     "shader-composer-r3f": "^0.4.5",
     "vfx-composer": "^0.4.0"

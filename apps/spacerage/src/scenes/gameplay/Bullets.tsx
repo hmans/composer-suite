@@ -1,3 +1,4 @@
+import { archetype } from "miniplex"
 import { Color, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { PewPewSFX } from "./sfx/PewPewSFX"
@@ -8,9 +9,9 @@ export const Bullets = () => (
     <planeGeometry args={[0.1, 0.8]} />
     <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
 
-    <ECS.ArchetypeEntities archetype="bullet">
+    <ECS.Entities in={archetype("bullet")}>
       {({ bullet }) => bullet}
-    </ECS.ArchetypeEntities>
+    </ECS.Entities>
   </InstancedParticles>
 )
 
@@ -19,7 +20,7 @@ export const spawnBullet = (
   quaternion: Quaternion,
   velocity: Vector3
 ) =>
-  ECS.world.createEntity({
+  ECS.world.add({
     age: 0,
     destroyAfter: 1,
     velocity,

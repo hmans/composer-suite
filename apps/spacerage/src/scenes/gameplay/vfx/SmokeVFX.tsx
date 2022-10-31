@@ -1,4 +1,5 @@
 import { Composable, Modules } from "material-composer-r3f"
+import { tagged } from "miniplex"
 import { between, upTo } from "randomish"
 import { bitmask, Layers } from "render-composer"
 import { Mix, Mul, Smoothstep, Vec3 } from "shader-composer"
@@ -6,7 +7,7 @@ import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { useAsset } from "../assets"
-import { BECS, ECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -40,15 +41,15 @@ export const SmokeVFX = () => {
         />
       </Composable.MeshStandardMaterial>
 
-      <BECS.Archetype properties="isSmokeVFX">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Entities in={tagged("isSmokeVFX")}>
+        {(entity) => entity.jsx}
+      </ECS.Entities>
     </InstancedParticles>
   )
 }
 
 export const spawnSmokeVFX = (props: EmitterProps) =>
-  worldBucket.add({
+  ECS.world.add({
     isSmokeVFX: true,
     age: 0,
     destroyAfter: 5,

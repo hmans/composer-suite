@@ -1,3 +1,4 @@
+import { archetype } from "miniplex"
 import { plusMinus } from "randomish"
 import { useRef } from "react"
 import { Quaternion, Vector3 } from "three"
@@ -11,7 +12,9 @@ const tmpQuat = new Quaternion()
 const tmpVec3 = new Vector3()
 
 export const PlayerSystem = () => {
-  const entities = ECS.world.archetype("player", "rigidBody", "sceneObject")
+  const entities = ECS.world.where(
+    archetype("player", "rigidBody", "sceneObject")
+  )
   const fireCooldown = useRef(0)
 
   return (

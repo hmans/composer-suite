@@ -1,13 +1,14 @@
 import { GroupProps, useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
 import { Composable, Modules } from "material-composer-r3f"
+import { tagged } from "miniplex"
 import { between } from "randomish"
 import { Mul, ScaleAndOffset, Smoothstep, Vec3 } from "shader-composer"
 import { AudioLoader } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { BECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -41,9 +42,9 @@ export const AsteroidExplosions = () => {
         <Modules.Lifetime {...lifetime} />
       </Composable.MeshBasicMaterial>
 
-      <BECS.Archetype properties="isAsteroidExplosion">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Entities in={tagged("isAsteroidExplosion")}>
+        {(entity) => entity.jsx}
+      </ECS.Entities>
     </InstancedParticles>
   )
 }
@@ -68,7 +69,7 @@ export const AsteroidExplosion = (props: GroupProps) => (
 )
 
 export const spawnAsteroidExplosion = (props: GroupProps) =>
-  worldBucket.add({
+  ECS.world.add({
     isAsteroidExplosion: true,
     age: 0,
     destroyAfter: 5,

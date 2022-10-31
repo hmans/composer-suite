@@ -1,3 +1,0 @@
-# BUCKETEER
-
-An experiment.

@@ -1,14 +1,14 @@
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
 import { Composable, Modules } from "material-composer-r3f"
+import { tagged } from "miniplex"
 import { between, upTo } from "randomish"
-import { StrictMode } from "react"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { AudioLoader, Color } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { BECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -38,9 +38,9 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <BECS.Archetype properties="isSparks">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Entities in={tagged("isSparks")}>
+        {(entity) => entity.jsx}
+      </ECS.Entities>
     </InstancedParticles>
   )
 }
@@ -65,7 +65,7 @@ export const SparksEmitter = (props: EmitterProps) => (
 )
 
 export const spawnSparks = (props: EmitterProps) =>
-  worldBucket.add({
+  ECS.world.add({
     isSparks: true,
     age: 0,
     destroyAfter: 0.1,
