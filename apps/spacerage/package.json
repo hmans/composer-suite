@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.9.0",
-    "@hmans/queue": "^0.0.1",
     "@hmans/r3f-create-loader": "workspace:^0.0.3",
     "@hmans/r3f-shared-resource": "^0.1.0",
     "@hmans/things": "^0.0.6",
@@ -34,7 +33,7 @@
     "input-composer": "^0.0.2",
     "material-composer": "^0.2.6",
     "material-composer-r3f": "^0.2.5",
-    "miniplex": "2.0.0-next.16",
+    "miniplex": "2.0.0-next.17",
     "motion": "^10.14.2",
     "popmotion": "^11.0.5",
     "postprocessing": "^6.28.7",

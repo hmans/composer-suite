@@ -60,39 +60,6 @@ importers:
       typedoc: 0.23.18_typescript@4.8.4
       typescript: 4.8.4
 
-  apps/bucketeer-examples:
-    specifiers:
-      '@hmans/use-const': ^0.0.1
-      '@react-three/drei': ^9.34.3
-      '@react-three/fiber': ^8.8.9
-      '@types/react': ^18.0.17
-      '@types/react-dom': ^18.0.6
-      '@vitejs/plugin-react': ^2.1.0
-      bucketeer: workspace:^0.0.3
-      randomish: ^0.1.4
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      render-composer: workspace:^0.2.8
-      three: ^0.145.0
-      typescript: ^4.6.4
-      vite: ^3.1.0
-    dependencies:
-      '@hmans/use-const': 0.0.1_react@18.2.0
-      '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
-      '@react-three/fiber': 8.8.9_ee34sidbpuk5ebd4phepfgxxdi
-      bucketeer: link:../../packages/bucketeer
-      randomish: 0.1.4
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      render-composer: link:../../packages/render-composer
-      three: 0.145.0
-    devDependencies:
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
-      vite: 3.1.6
-
   apps/material-composer-examples:
     specifiers:
       '@hmans/r3f-shared-resource': ^0.1.0
@@ -260,7 +227,6 @@ importers:
   apps/spacerage:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
-      '@hmans/queue': ^0.0.1
       '@hmans/r3f-create-loader': workspace:^0.0.3
       '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
@@ -280,7 +246,7 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
-      miniplex: 2.0.0-next.16
+      miniplex: 2.0.0-next.17
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -307,7 +273,6 @@ importers:
       vite: ^3.1.6
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
-      '@hmans/queue': 0.0.1
       '@hmans/r3f-create-loader': link:../../packages/hmans-r3f-create-loader
       '@hmans/r3f-shared-resource': 0.1.0_zoourtuqs6jpz5hshrv5fac7t4
       '@hmans/things': 0.0.6_zoourtuqs6jpz5hshrv5fac7t4
@@ -323,7 +288,7 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 2.0.0-next.16_react@18.2.0
+      miniplex: 2.0.0-next.17_react@18.2.0
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.145.0
@@ -488,16 +453,6 @@ importers:
     dependencies:
       '@hmans/use-const': 0.0.1
       statery: 0.6.2
-
-  packages/bucketeer:
-    specifiers:
-      '@hmans/event': workspace:^0.0.1
-      '@hmans/use-const': ^0.0.1
-      '@hmans/use-rerender': ^0.0.2
-    dependencies:
-      '@hmans/event': link:../hmans-event
-      '@hmans/use-const': 0.0.1
-      '@hmans/use-rerender': 0.0.2
 
   packages/camera-composer:
     specifiers:
@@ -3056,8 +3011,8 @@ packages:
       react-merge-refs: 1.1.0
     dev: false
 
-  /@miniplex/react/2.0.0-next.15_w5et6odifxjgnijo5wxmi46hre:
-    resolution: {integrity: sha512-bCCMh1XarVidWqdgl7ZWwxYk6hDGXjpG0Ngm63b1UjvpBtTz/L8y27c4UOQeOCM5FssXCkOtnd2luyUGEkqqBw==}
+  /@miniplex/react/2.0.0-next.17_w5et6odifxjgnijo5wxmi46hre:
+    resolution: {integrity: sha512-rfXUiODdOquuoyr7lzeM3tMJ1VjaMb/65J5D/nWBvtLXc+uNwkBKgeWt7pbn00w7qdUd2pnHAXwSG4U98zPNWQ==}
     peerDependencies:
       '@miniplex/core': ^2.0.0-next.0
       react: '>=16.8'
@@ -7279,16 +7234,17 @@ packages:
       '@miniplex/react': 2.0.0-next.15_s7dycpkibx7vro72qsnwjeciae
     dev: false
 
-  /miniplex/2.0.0-next.16_react@18.2.0:
-    resolution: {integrity: sha512-KMZmLrSpEhhXgxt4h7BNbCiYjf2U34oKxjxC6hWNMelkDtslYivAFeBNUe+5YR6zUe6lhwQ1IseekXqOlQOGEA==}
+  /miniplex/2.0.0-next.17_react@18.2.0:
+    resolution: {integrity: sha512-ueU3dLQRXD9RNK0ee4vPSQh8IgeBdNxv9vDz4za5U6TLpDjX+CIHgUWghPGlirjs6Kw2uXgUQrgpvB/v2dPKTw==}
     peerDependencies:
       react: '>=16.8'
     peerDependenciesMeta:
       react:
         optional: true
     dependencies:
+      '@hmans/queue': 0.0.1
       '@miniplex/core': 2.0.0-next.16
-      '@miniplex/react': 2.0.0-next.15_w5et6odifxjgnijo5wxmi46hre
+      '@miniplex/react': 2.0.0-next.17_w5et6odifxjgnijo5wxmi46hre
       react: 18.2.0
     dev: false
 

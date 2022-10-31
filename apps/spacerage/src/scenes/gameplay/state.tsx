@@ -1,10 +1,10 @@
 import { RigidBodyApi } from "@react-three/rapier"
-import { Bucket } from "miniplex"
 import { World } from "miniplex"
 import { createReactAPI } from "miniplex/react"
 import { makeStore } from "statery"
 import { AudioListener, Object3D, Vector3 } from "three"
-import { createQueue } from "@hmans/queue"
+
+export { queue } from "miniplex"
 
 export enum Layers {
   Player,
@@ -47,7 +47,6 @@ export type Entity = {
 
 export const world = new World<Entity>()
 export const ECS = { ...createReactAPI(world), world }
-export const queue = createQueue()
 
 // export const worldBucket = new Bucket<{
 //   isSparks?: true
