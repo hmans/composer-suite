@@ -260,6 +260,7 @@ importers:
   apps/spacerage:
     specifiers:
       '@dimforge/rapier3d-compat': ^0.9.0
+      '@hmans/queue': ^0.0.1
       '@hmans/r3f-create-loader': workspace:^0.0.3
       '@hmans/r3f-shared-resource': ^0.1.0
       '@hmans/things': ^0.0.6
@@ -306,6 +307,7 @@ importers:
       vite: ^3.1.6
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
+      '@hmans/queue': 0.0.1
       '@hmans/r3f-create-loader': link:../../packages/hmans-r3f-create-loader
       '@hmans/r3f-shared-resource': 0.1.0_zoourtuqs6jpz5hshrv5fac7t4
       '@hmans/things': 0.0.6_zoourtuqs6jpz5hshrv5fac7t4
@@ -2501,6 +2503,10 @@ packages:
 
   /@hmans/event/0.2.0:
     resolution: {integrity: sha512-VrDaUafGrcT2yuC59yTxpxT7KsWoST6zNd/JdATgU4y/jEHghL5yqY9sNftNajo5VpzJkF9XxwxBixz6UlGNfg==}
+    dev: false
+
+  /@hmans/queue/0.0.1:
+    resolution: {integrity: sha512-Mm8oQRFRoiEYQ3QD9CD14DTaShd21nzNrUFyBhFxy+TduKf2PdMRfHHx7lDvEpbODGNlj+e8mcWGj/YjWmC3Bw==}
     dev: false
 
   /@hmans/r3f-animate/0.0.5_zoourtuqs6jpz5hshrv5fac7t4:

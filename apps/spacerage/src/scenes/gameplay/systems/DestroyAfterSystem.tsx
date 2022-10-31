@@ -1,6 +1,6 @@
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
-import { ECS } from "../state"
+import { ECS, queue } from "../state"
 import { archetype } from "miniplex"
 
 const entities = ECS.world.where(archetype("age", "destroyAfter"))
@@ -15,7 +15,7 @@ export const DestroyAfterSystem = () => (
     fun={() => {
       for (const entity of entities) {
         if (entity.age >= entity.destroyAfter) {
-          ECS.world.queue.destroyEntity(entity)
+          queue(() => ECS.world.remove(entity))
         }
       }
 
