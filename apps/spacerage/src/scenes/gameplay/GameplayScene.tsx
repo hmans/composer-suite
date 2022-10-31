@@ -9,7 +9,6 @@ import { SidebarTunnel } from "../../state"
 import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
-import { PlayerInspector } from "./editor/PlayerInspector"
 import { FollowCamera } from "./FollowCamera"
 import { HUD } from "./HUD"
 import { Pickups } from "./Pickups"
@@ -78,10 +77,7 @@ const GameplayScene = () => {
           <AsteroidExplosions />
           <BackgroundAsteroids />
 
-          <SidebarTunnel.In>
-            {/* <MiniplexInspector world={ECS.world} /> */}
-            <PlayerInspector />
-          </SidebarTunnel.In>
+          <SidebarTunnel.In>{/* Extra inspectors */}</SidebarTunnel.In>
 
           <AgeSystem />
           <DestroyAfterSystem />
