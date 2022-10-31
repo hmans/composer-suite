@@ -5,7 +5,6 @@ import { Vec3 } from "shader-composer"
 import { Color } from "three"
 import { Skybox } from "../../common/Skybox"
 import { Stage } from "../../configuration"
-import { MiniplexInspector } from "../../editor/MiniplexInspector"
 import { SidebarTunnel } from "../../state"
 import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
@@ -16,7 +15,6 @@ import { HUD } from "./HUD"
 import { Pickups } from "./Pickups"
 import { Player } from "./Player"
 import { PostProcessing } from "./PostProcessing"
-import { ECS } from "./state"
 import { AgeSystem } from "./systems/AgeSystem"
 import { AttractorSystem } from "./systems/AttractorSystem"
 import { BulletSystem } from "./systems/BulletSystem"
@@ -81,7 +79,7 @@ const GameplayScene = () => {
           <BackgroundAsteroids />
 
           <SidebarTunnel.In>
-            <MiniplexInspector world={ECS.world} />
+            {/* <MiniplexInspector world={ECS.world} /> */}
             <PlayerInspector />
           </SidebarTunnel.In>
 

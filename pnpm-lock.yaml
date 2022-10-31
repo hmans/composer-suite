@@ -274,14 +274,12 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       audio-composer: workspace:^0.0.2
-      bucketeer: workspace:^0.0.3
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
       material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
-      miniplex: 1.0.0
-      miniplex-react: 0.0.0-canary-20221010085529
+      miniplex: 2.0.0-next.16
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -318,14 +316,12 @@ importers:
       '@react-three/rapier': 0.7.6_k5pegjx3tqnzostq4vmydzrkya
       '@stitches/react': 1.2.8_react@18.2.0
       audio-composer: link:../../packages/audio-composer
-      bucketeer: link:../../packages/bucketeer
       camera-composer: link:../../packages/camera-composer
       fp-ts: 2.12.3
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 1.0.0
-      miniplex-react: 0.0.0-canary-20221010085529_xoispwq2anf3ood54gyy5oqdre
+      miniplex: 2.0.0-next.16_react@18.2.0
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.145.0
@@ -3051,6 +3047,19 @@ packages:
       '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2
       '@miniplex/core': 2.0.0-next.16
+      react-merge-refs: 1.1.0
+    dev: false
+
+  /@miniplex/react/2.0.0-next.15_w5et6odifxjgnijo5wxmi46hre:
+    resolution: {integrity: sha512-bCCMh1XarVidWqdgl7ZWwxYk6hDGXjpG0Ngm63b1UjvpBtTz/L8y27c4UOQeOCM5FssXCkOtnd2luyUGEkqqBw==}
+    peerDependencies:
+      '@miniplex/core': ^2.0.0-next.0
+      react: '>=16.8'
+    dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      '@hmans/use-rerender': 0.0.2_react@18.2.0
+      '@miniplex/core': 2.0.0-next.16
+      react: 18.2.0
       react-merge-refs: 1.1.0
     dev: false
 
@@ -7234,19 +7243,6 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/0.0.0-canary-20221010085529_xoispwq2anf3ood54gyy5oqdre:
-    resolution: {integrity: sha512-Tm7SpbpMsWdJDvaXMS2xLmy+OWK8kp4SFUPI5PlId8e5ECFpy3vuvyyTpta2PH6eiHyA7/qqqKJL32KB+KYckg==}
-    peerDependencies:
-      miniplex: ^1.0.0-next.1
-      react: '>=16.8'
-    dependencies:
-      '@hmans/use-const': 0.0.1_react@18.2.0
-      '@hmans/use-rerender': 0.0.2_react@18.2.0
-      miniplex: 1.0.0
-      react: 18.2.0
-      react-merge-refs: 1.1.0
-    dev: false
-
   /miniplex-react/1.0.0_miniplex@1.0.0:
     resolution: {integrity: sha512-QjuO1YB5eCle+p9t7Zd9o+ppvqIkHMAvgM9l8RSL4Kjvzp1fTas9e4hqXcWBVF8ElPORpeE8gu3NEC97fdD3Yg==}
     peerDependencies:
@@ -7275,6 +7271,19 @@ packages:
     dependencies:
       '@miniplex/core': 2.0.0-next.16
       '@miniplex/react': 2.0.0-next.15_s7dycpkibx7vro72qsnwjeciae
+    dev: false
+
+  /miniplex/2.0.0-next.16_react@18.2.0:
+    resolution: {integrity: sha512-KMZmLrSpEhhXgxt4h7BNbCiYjf2U34oKxjxC6hWNMelkDtslYivAFeBNUe+5YR6zUe6lhwQ1IseekXqOlQOGEA==}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      '@miniplex/core': 2.0.0-next.16
+      '@miniplex/react': 2.0.0-next.15_w5et6odifxjgnijo5wxmi46hre
+      react: 18.2.0
     dev: false
 
   /mixin-deep/1.3.2:

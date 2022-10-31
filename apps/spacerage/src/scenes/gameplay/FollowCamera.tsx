@@ -1,4 +1,5 @@
 import { useFrame } from "@react-three/fiber"
+import { archetype } from "miniplex"
 import { useEffect } from "react"
 import { useStore } from "statery"
 import { Vector3 } from "three"
@@ -11,7 +12,7 @@ const playerPos = new Vector3()
 const tmpVec3 = new Vector3()
 
 export const FollowCamera = () => {
-  const [player] = ECS.useArchetype("player", "sceneObject")
+  const [player] = ECS.useEntities(archetype("player", "sceneObject"))
 
   const { camera } = useStore(store)
 

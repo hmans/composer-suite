@@ -1,11 +1,10 @@
-import { archetype } from "bucketeer"
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
-import { ECS, worldBucket } from "../state"
+import { ECS } from "../state"
+import { archetype } from "miniplex"
 
-const entities = ECS.world.archetype("age")
-
-const withAge = worldBucket.derive(archetype("age"))
+const entities = ECS.world.where(archetype("age"))
+const withAge = ECS.world.where(archetype("age"))
 
 export const AgeSystem = () => (
   <System

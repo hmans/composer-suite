@@ -1,4 +1,0 @@
-{
-  "main": "dist/bucketeer-react.cjs.js",
-  "module": "dist/bucketeer-react.esm.js"
-}

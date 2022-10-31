@@ -1,5 +1,6 @@
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { interactionGroups, useRapier } from "@react-three/rapier"
+import { archetype } from "miniplex"
 import { between, chance } from "randomish"
 import { Vector3 } from "three"
 import { System } from "../../../lib/miniplex-systems-runner/System"
@@ -11,7 +12,7 @@ import { spawnDebris } from "../vfx/Debris"
 import { spawnSmokeVFX } from "../vfx/SmokeVFX"
 import { spawnSparks } from "../vfx/Sparks"
 
-const hittableEntities = ECS.world.archetype("health", "rigidBody")
+const hittableEntities = ECS.world.where(archetype("health", "rigidBody"))
 
 const tmpVec3 = new Vector3()
 
@@ -21,7 +22,7 @@ const ray = new RAPIER.Ray(
 )
 
 export const BulletSystem = () => {
-  const bullets = ECS.world.archetype("bullet", "sceneObject")
+  const bullets = ECS.world.where(archetype("bullet", "sceneObject"))
   const context = useRapier()
   const world = context.world.raw()
 

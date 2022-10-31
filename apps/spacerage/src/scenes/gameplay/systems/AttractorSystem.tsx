@@ -1,12 +1,12 @@
 import { useFrame } from "@react-three/fiber"
-import { archetype } from "bucketeer"
+import { archetype } from "miniplex"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
-import { ECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const tmpVec3 = new Vector3()
-const players = ECS.world.archetype("player")
-const pickups = worldBucket.derive(archetype("isPickup"))
+const players = ECS.world.where(archetype("player"))
+const pickups = ECS.world.where(archetype("pickup"))
 
 export const AttractorSystem = () => {
   useFrame(() => {

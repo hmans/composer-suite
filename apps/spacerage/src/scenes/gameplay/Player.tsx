@@ -5,7 +5,6 @@ import {
   RigidBody
 } from "@react-three/rapier"
 import { PositionalAudio } from "audio-composer"
-import { Tag } from "miniplex"
 import { AudioLoader, Mesh } from "three"
 import { GLTFLoader } from "three-stdlib"
 import { EngineHumSFX } from "./sfx/EngineHumSFX"
@@ -16,7 +15,7 @@ export const Player = () => {
 
   return (
     <ECS.Entity>
-      <ECS.Component name="player" data={Tag} />
+      <ECS.Component name="player" value={true} />
       <ECS.Component name="rigidBody">
         <RigidBody
           angularDamping={3}
