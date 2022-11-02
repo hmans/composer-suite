@@ -1,4 +1,3 @@
-import { archetype } from "miniplex"
 import { Color, Quaternion, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
 import { PewPewSFX } from "./sfx/PewPewSFX"
@@ -9,9 +8,7 @@ export const Bullets = () => (
     <planeGeometry args={[0.1, 0.8]} />
     <meshBasicMaterial color={new Color("yellow").multiplyScalar(2)} />
 
-    <ECS.Entities in={archetype("bullet")}>
-      {({ bullet }) => bullet}
-    </ECS.Entities>
+    <ECS.Archetype with="bullet">{({ bullet }) => bullet}</ECS.Archetype>
   </InstancedParticles>
 )
 

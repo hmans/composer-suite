@@ -1,12 +1,11 @@
 import { useFrame } from "@react-three/fiber"
-import { archetype } from "miniplex"
 import { Vector3 } from "three"
 import { Stage } from "../../../configuration"
 import { ECS } from "../state"
 
 const tmpVec3 = new Vector3()
-const players = ECS.world.where(archetype("player"))
-const pickups = ECS.world.where(archetype("pickup"))
+const players = ECS.world.with("player")
+const pickups = ECS.world.with("pickup")
 
 export const AttractorSystem = () => {
   useFrame(() => {

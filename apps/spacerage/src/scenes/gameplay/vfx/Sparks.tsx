@@ -1,7 +1,6 @@
 import { useLoader } from "@react-three/fiber"
 import { PositionalAudio } from "audio-composer"
 import { Composable, Modules } from "material-composer-r3f"
-import { tagged } from "miniplex"
 import { between, upTo } from "randomish"
 import { Mix, Mul, OneMinus, Vec3 } from "shader-composer"
 import { AudioLoader, Color } from "three"
@@ -38,9 +37,7 @@ export const Sparks = () => {
       </Composable.MeshStandardMaterial>
 
       {/* Render all the sparks entities */}
-      <ECS.Entities in={tagged("isSparks")}>
-        {(entity) => entity.jsx}
-      </ECS.Entities>
+      <ECS.Archetype with="sparks">{(entity) => entity.sparks}</ECS.Archetype>
     </InstancedParticles>
   )
 }
@@ -66,10 +63,9 @@ export const SparksEmitter = (props: EmitterProps) => (
 
 export const spawnSparks = (props: EmitterProps) =>
   ECS.world.add({
-    isSparks: true,
     age: 0,
     destroyAfter: 0.1,
-    jsx: <SparksEmitter {...props} />
+    sparks: <SparksEmitter {...props} />
   })
 
 useLoader.preload(AudioLoader, "/sounds/blurp2.wav")

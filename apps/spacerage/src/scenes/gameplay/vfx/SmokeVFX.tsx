@@ -1,5 +1,4 @@
 import { Composable, Modules } from "material-composer-r3f"
-import { tagged } from "miniplex"
 import { between, upTo } from "randomish"
 import { bitmask, Layers } from "render-composer"
 import { Mix, Mul, Smoothstep, Vec3 } from "shader-composer"
@@ -41,20 +40,17 @@ export const SmokeVFX = () => {
         />
       </Composable.MeshStandardMaterial>
 
-      <ECS.Entities in={tagged("isSmokeVFX")}>
-        {(entity) => entity.jsx}
-      </ECS.Entities>
+      <ECS.Archetype with="smoke">{(entity) => entity.smoke}</ECS.Archetype>
     </InstancedParticles>
   )
 }
 
 export const spawnSmokeVFX = (props: EmitterProps) =>
   ECS.world.add({
-    isSmokeVFX: true,
     age: 0,
     destroyAfter: 5,
 
-    jsx: (
+    smoke: (
       <Emitter
         {...props}
         rate={Infinity}

@@ -1,10 +1,8 @@
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS } from "../state"
-import { archetype } from "miniplex"
 
-const entities = ECS.world.where(archetype("age"))
-const withAge = ECS.world.where(archetype("age"))
+const withAge = ECS.world.with("age")
 
 export const AgeSystem = () => (
   <System
@@ -12,7 +10,7 @@ export const AgeSystem = () => (
     world={ECS.world}
     updatePriority={Stage.Early}
     fun={(dt) => {
-      for (const entity of entities) {
+      for (const entity of withAge) {
         entity.age += dt
       }
 

@@ -1,5 +1,5 @@
 import { BallCollider, interactionGroups, RigidBody } from "@react-three/rapier"
-import { archetype } from "miniplex"
+import { useEntities } from "miniplex/react"
 import { plusMinus } from "randomish"
 import { Color, Vector3 } from "three"
 import { InstancedParticles, Particle } from "vfx-composer-r3f"
@@ -10,16 +10,14 @@ export const Pickups = () => (
     <icosahedronGeometry args={[0.5]} />
     <meshStandardMaterial color={new Color("hotpink").multiplyScalar(4)} />
 
-    <ECS.Entities in={archetype("pickup")}>
-      {(entity) => entity.jsx}
-    </ECS.Entities>
+    <ECS.Archetype with="pickup">{(entity) => entity.pickup}</ECS.Archetype>
   </InstancedParticles>
 )
 
 export type PickupProps = { position: Vector3; onPickup?: () => void }
 
 export const Pickup = ({ onPickup, ...props }: PickupProps) => {
-  const [player] = ECS.useEntities(archetype("player"))
+  const [player] = useEntities(ECS.world.with("player"))
 
   return (
     <ECS.Component name="rigidBody">
@@ -52,8 +50,7 @@ export const Pickup = ({ onPickup, ...props }: PickupProps) => {
 
 export const spawnPickup = (props: PickupProps) => {
   const entity = ECS.world.add({
-    isPickup: true,
-    jsx: (
+    pickup: (
       <Pickup
         {...props}
         onPickup={() => {

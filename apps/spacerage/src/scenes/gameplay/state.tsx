@@ -46,18 +46,4 @@ export type Entity = {
 }
 
 export const world = new World<Entity>()
-export const ECS = { ...createReactAPI(world), world }
-
-// export const worldBucket = new Bucket<{
-//   isSparks?: true
-//   isDebris?: true
-//   isAsteroidExplosion?: true
-//   isSmokeVFX?: true
-//   isPickup?: true
-
-//   age?: number
-//   destroyAfter?: number
-//   jsx?: JSX.Element
-//   rigidBody?: RigidBodyApi
-//   sceneObject?: Object3D
-// }>()
+export const ECS = createReactAPI(world)

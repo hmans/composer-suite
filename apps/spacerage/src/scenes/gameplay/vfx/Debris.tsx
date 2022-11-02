@@ -1,5 +1,4 @@
 import { Composable, Modules } from "material-composer-r3f"
-import { tagged } from "miniplex"
 import { between, upTo } from "randomish"
 import { memo } from "react"
 import { Mul, OneMinus, ScaleAndOffset, Vec3 } from "shader-composer"
@@ -37,9 +36,7 @@ export const Debris = () => {
       <icosahedronGeometry args={[0.3]} />
       <DebrisMaterial />
 
-      <ECS.Entities in={tagged("isDebris")}>
-        {(entity) => entity.jsx}
-      </ECS.Entities>
+      <ECS.Archetype with="debris">{(entity) => entity.debris}</ECS.Archetype>
     </InstancedParticles>
   )
 }
@@ -59,9 +56,7 @@ export const DebrisEmitter = (props: EmitterProps) => (
 
 export const spawnDebris = (position: Vector3, quaternion: Quaternion) =>
   ECS.world.add({
-    isDebris: true,
+    debris: <DebrisEmitter position={position} quaternion={quaternion} />,
     age: 0,
-    destroyAfter: 3,
-
-    jsx: <DebrisEmitter position={position} quaternion={quaternion} />
+    destroyAfter: 3
   })

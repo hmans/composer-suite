@@ -1,9 +1,8 @@
-import { archetype } from "miniplex"
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS } from "../state"
 
-const entities = ECS.world.where(archetype("sceneObject", "velocity"))
+const entities = ECS.world.with("sceneObject", "velocity")
 
 export const VelocitySystem = () => (
   <System

@@ -15,7 +15,7 @@ export const Player = () => {
 
   return (
     <ECS.Entity>
-      <ECS.Component name="player" value={true} />
+      <ECS.Component name="player" data={true} />
       <ECS.Component name="rigidBody">
         <RigidBody
           angularDamping={3}

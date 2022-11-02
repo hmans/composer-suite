@@ -1,11 +1,10 @@
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
 import { ECS, queue } from "../state"
-import { archetype } from "miniplex"
 
-const entities = ECS.world.where(archetype("age", "destroyAfter"))
-
-const withDestroyAfter = ECS.world.where(archetype("destroyAfter", "age"))
+const entitiesToEliminate = ECS.world
+  .with("destroyAfter", "age")
+  .where((e) => e.age > e.destroyAfter)
 
 export const DestroyAfterSystem = () => (
   <System
@@ -13,18 +12,8 @@ export const DestroyAfterSystem = () => (
     world={ECS.world}
     updatePriority={Stage.Early}
     fun={() => {
-      for (const entity of entities) {
-        if (entity.age >= entity.destroyAfter) {
-          queue(() => ECS.world.remove(entity))
-        }
-      }
-
-      /* Squeeze Bucketeer in */
-      for (let i = withDestroyAfter.entities.length - 1; i >= 0; i--) {
-        const entity = withDestroyAfter.entities[i]
-        if (entity.age >= entity.destroyAfter) {
-          ECS.world.remove(entity)
-        }
+      for (const entity of entitiesToEliminate) {
+        queue(() => ECS.world.remove(entity))
       }
     }}
   />
