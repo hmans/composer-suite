@@ -463,20 +463,6 @@ importers:
   packages/hmans-event:
     specifiers: {}
 
-  packages/hmans-physics3d:
-    specifiers:
-      '@dimforge/rapier3d-compat': ^0.9.0
-      '@hmans/use-const': ^0.0.1
-      miniplex: 1.0.0
-      miniplex-react: 1.0.0
-      use-asset: ^1.0.4
-    dependencies:
-      '@dimforge/rapier3d-compat': 0.9.0
-      '@hmans/use-const': 0.0.1
-      miniplex: 1.0.0
-      miniplex-react: 1.0.0_miniplex@1.0.0
-      use-asset: 1.0.4
-
   packages/hmans-r3f-create-loader:
     specifiers: {}
 
@@ -2505,10 +2491,6 @@ packages:
       react-merge-refs: 2.0.1
       statery: 0.6.2_react@18.2.0
       three: 0.145.0
-    dev: false
-
-  /@hmans/signal/0.2.2:
-    resolution: {integrity: sha512-4KlR6FiqICOY9J8V483Atk7bfMqoGM/hdYd/6ab+HB+CJfiOBPzY6PtYz3O6bBsNkIZpimnTMSw2AqOz1WDlrA==}
     dev: false
 
   /@hmans/things/0.0.6_zoourtuqs6jpz5hshrv5fac7t4:
@@ -7204,24 +7186,6 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex-react/1.0.0_miniplex@1.0.0:
-    resolution: {integrity: sha512-QjuO1YB5eCle+p9t7Zd9o+ppvqIkHMAvgM9l8RSL4Kjvzp1fTas9e4hqXcWBVF8ElPORpeE8gu3NEC97fdD3Yg==}
-    peerDependencies:
-      miniplex: ^1.0.0-next.1
-      react: '>=16.8'
-    dependencies:
-      '@hmans/use-const': 0.0.1
-      '@hmans/use-rerender': 0.0.2
-      miniplex: 1.0.0
-      react-merge-refs: 1.1.0
-    dev: false
-
-  /miniplex/1.0.0:
-    resolution: {integrity: sha512-cGVpcR8BpPLn3cH3qE1yWOKo/Sll30777+c8jLBcyhvahNgauJ1pFDRxfDoWumnAYgmBZ0JE1HoQxXHSmO8lPQ==}
-    dependencies:
-      '@hmans/signal': 0.2.2
-    dev: false
-
   /miniplex/2.0.0-next.18:
     resolution: {integrity: sha512-Ha++z+w4hn/yc9FbNFCnenHyNqqemSwPQ6l3E0os0pEt+BjQysRDS4AFE6QUtaXkyrwhJ3oXMzb/+xQS4FCvSw==}
     peerDependencies:
@@ -8936,14 +8900,6 @@ packages:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
-    dev: false
-
-  /use-asset/1.0.4:
-    resolution: {integrity: sha512-7/hqDrWa0iMnCoET9W1T07EmD4Eg/Wmoj/X8TGBc++ECRK4m5yTsjP4O6s0yagbxfqIOuUkIxe2/sA+VR2GxZA==}
-    peerDependencies:
-      react: '>=17.0'
-    dependencies:
-      fast-deep-equal: 3.1.3
     dev: false
 
   /use-asset/1.0.4_react@18.2.0:
