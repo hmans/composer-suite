@@ -246,7 +246,7 @@ importers:
       input-composer: ^0.0.2
       material-composer: ^0.2.6
       material-composer-r3f: ^0.2.5
-      miniplex: 2.0.0-next.18
+      miniplex: 2.0.0-beta.1
       motion: ^10.14.2
       popmotion: ^11.0.5
       postprocessing: ^6.28.7
@@ -288,7 +288,7 @@ importers:
       input-composer: link:../../packages/input-composer
       material-composer: link:../../packages/material-composer
       material-composer-r3f: link:../../packages/material-composer-r3f
-      miniplex: 2.0.0-next.18_react@18.2.0
+      miniplex: 2.0.0-beta.1_react@18.2.0
       motion: 10.14.2
       popmotion: 11.0.5
       postprocessing: 6.28.7_three@0.145.0
@@ -643,7 +643,7 @@ importers:
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
       material-composer-r3f: ^0.2.5
-      miniplex: 2.0.0-next.18
+      miniplex: 2.0.0-beta.1
       shader-composer: ^0.4.5
       shader-composer-r3f: ^0.4.5
       vfx-composer: ^0.4.0
@@ -652,7 +652,7 @@ importers:
       '@hmans/use-rerender': 0.0.2
       '@hmans/use-version': 0.0.2
       material-composer-r3f: link:../material-composer-r3f
-      miniplex: 2.0.0-next.18
+      miniplex: 2.0.0-beta.1
       shader-composer: link:../shader-composer
       shader-composer-r3f: link:../shader-composer-r3f
       vfx-composer: link:../vfx-composer
@@ -2968,41 +2968,41 @@ packages:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: false
 
-  /@miniplex/bucket/2.0.0-next.18:
-    resolution: {integrity: sha512-5ES+tBJEZyL3N9Eq7lCY+esPbDFy7sswrG5mg3QewIa+DoPWcHD8pCw0dper+lFqgidqTVSPr3oMWFHqRcAFZw==}
+  /@miniplex/bucket/2.0.0-beta.1:
+    resolution: {integrity: sha512-qBB0sM2MaCXTOgT9nZDxd8iiVh2p+LlLtxMIsaDXtWwPr3LkUvEP1CUbkQ11ca6STbhD+8L+aCXSm8FJ0Ms8FA==}
     dependencies:
       '@hmans/event': 0.2.0
     dev: false
 
-  /@miniplex/core/2.0.0-next.18:
-    resolution: {integrity: sha512-fZtig3pSF0RffhD1014cdOUSDJvLij4iUYWZfBHykzyb0Ybiyf70B3q48fZ8EkzrrcpUN/i/RfwaNoFX5avb/g==}
+  /@miniplex/core/2.0.0-beta.1:
+    resolution: {integrity: sha512-q2GIiOhGm0n0HIM82A2H0LSOl5iqmyzLqwF8IfaFy+8Ce0ZYNWJ4zWbJcOpYPjH0bkq9LyBaKBG69+CG4OLMHQ==}
     dependencies:
       '@hmans/event': 0.2.0
-      '@miniplex/bucket': 2.0.0-next.18
+      '@miniplex/bucket': 2.0.0-beta.1
     dev: false
 
-  /@miniplex/react/2.0.0-next.18_tagdqaa2d7vme3i6c3nlehpram:
-    resolution: {integrity: sha512-P8SpM7/wSdmIOpZJoJMSqTMqutqVbEJz6I1l2Up9IuEvxiB32BxCiPCq09nxdBA4T3s2gDPPbCuDX4tSMh79lQ==}
+  /@miniplex/react/2.0.0-beta.1_6ntwarw5btit5n4jgjsvjxngvy:
+    resolution: {integrity: sha512-4a8sIBB6IxCG5T4g8iL+E4+SvF61JUcSA0sYgurcFVQGUpVoHcR7tJPVumNQGbJD9vx0F0OSE6FAQw9ntfAuUw==}
     peerDependencies:
-      '@miniplex/core': ^2.0.0-next.0
-      react: '>=16.8'
-    dependencies:
-      '@hmans/use-const': 0.0.1_react@18.2.0
-      '@hmans/use-rerender': 0.0.2_react@18.2.0
-      '@miniplex/core': 2.0.0-next.18
-      react: 18.2.0
-      react-merge-refs: 1.1.0
-    dev: false
-
-  /@miniplex/react/2.0.0-next.18_tyitbarcp37mfsnubed47oo3fq:
-    resolution: {integrity: sha512-P8SpM7/wSdmIOpZJoJMSqTMqutqVbEJz6I1l2Up9IuEvxiB32BxCiPCq09nxdBA4T3s2gDPPbCuDX4tSMh79lQ==}
-    peerDependencies:
-      '@miniplex/core': ^2.0.0-next.0
+      '@miniplex/core': ^2.0.0-beta.1
       react: '>=16.8'
     dependencies:
       '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2
-      '@miniplex/core': 2.0.0-next.18
+      '@miniplex/core': 2.0.0-beta.1
+      react-merge-refs: 1.1.0
+    dev: false
+
+  /@miniplex/react/2.0.0-beta.1_qbyizyauc7s3fu5nqxeldb6nl4:
+    resolution: {integrity: sha512-4a8sIBB6IxCG5T4g8iL+E4+SvF61JUcSA0sYgurcFVQGUpVoHcR7tJPVumNQGbJD9vx0F0OSE6FAQw9ntfAuUw==}
+    peerDependencies:
+      '@miniplex/core': ^2.0.0-beta.1
+      react: '>=16.8'
+    dependencies:
+      '@hmans/use-const': 0.0.1_react@18.2.0
+      '@hmans/use-rerender': 0.0.2_react@18.2.0
+      '@miniplex/core': 2.0.0-beta.1
+      react: 18.2.0
       react-merge-refs: 1.1.0
     dev: false
 
@@ -7186,8 +7186,8 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /miniplex/2.0.0-next.18:
-    resolution: {integrity: sha512-Ha++z+w4hn/yc9FbNFCnenHyNqqemSwPQ6l3E0os0pEt+BjQysRDS4AFE6QUtaXkyrwhJ3oXMzb/+xQS4FCvSw==}
+  /miniplex/2.0.0-beta.1:
+    resolution: {integrity: sha512-hLmW4Q6l8xQM3xhIGY+YeW1LBGMdD9di2KHUYv9xsFe4s2ZTR7QB/sT/qWkl35WS9jJrtLEE6JsyLmfvJ3K5DQ==}
     peerDependencies:
       react: '>=16.8'
     peerDependenciesMeta:
@@ -7195,12 +7195,12 @@ packages:
         optional: true
     dependencies:
       '@hmans/queue': 0.0.1
-      '@miniplex/core': 2.0.0-next.18
-      '@miniplex/react': 2.0.0-next.18_tyitbarcp37mfsnubed47oo3fq
+      '@miniplex/core': 2.0.0-beta.1
+      '@miniplex/react': 2.0.0-beta.1_6ntwarw5btit5n4jgjsvjxngvy
     dev: false
 
-  /miniplex/2.0.0-next.18_react@18.2.0:
-    resolution: {integrity: sha512-Ha++z+w4hn/yc9FbNFCnenHyNqqemSwPQ6l3E0os0pEt+BjQysRDS4AFE6QUtaXkyrwhJ3oXMzb/+xQS4FCvSw==}
+  /miniplex/2.0.0-beta.1_react@18.2.0:
+    resolution: {integrity: sha512-hLmW4Q6l8xQM3xhIGY+YeW1LBGMdD9di2KHUYv9xsFe4s2ZTR7QB/sT/qWkl35WS9jJrtLEE6JsyLmfvJ3K5DQ==}
     peerDependencies:
       react: '>=16.8'
     peerDependenciesMeta:
@@ -7208,8 +7208,8 @@ packages:
         optional: true
     dependencies:
       '@hmans/queue': 0.0.1
-      '@miniplex/core': 2.0.0-next.18
-      '@miniplex/react': 2.0.0-next.18_tagdqaa2d7vme3i6c3nlehpram
+      '@miniplex/core': 2.0.0-beta.1
+      '@miniplex/react': 2.0.0-beta.1_qbyizyauc7s3fu5nqxeldb6nl4
       react: 18.2.0
     dev: false
 
