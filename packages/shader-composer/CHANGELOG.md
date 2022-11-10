@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.8
+
+### Patch Changes
+
+- 08bb67b: **New:** Additional full name `Divide`, `Multiply`, and `Subtract` math helpers, aliased to `Div`, `Mul` and `Sub`, respectively.
+
 ## 0.4.7
 
 ### Patch Changes
