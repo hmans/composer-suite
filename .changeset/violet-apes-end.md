@@ -2,4 +2,4 @@
 "shader-composer": minor
 ---
 
-Export additional full name Divide, Multiply,and Subtract math helpers.
+**New:** Additional full name `Divide`, `Multiply`, and `Subtract` math helpers, aliased to `Div`, `Mul` and `Sub`, respectively.
