@@ -15,7 +15,7 @@ type SystemsEntity = {
 const systems = new World<SystemsEntity>()
 export const SystemsECS = createReactAPI(systems)
 
-export type SystemProps<E> = {
+export type SystemProps<E extends {}> = {
   name?: string
   fun: (dt: number) => void
   world: World<E>
