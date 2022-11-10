@@ -35,15 +35,21 @@ export const Add = Operator("Add", "+")
  */
 export const Sub = Operator("Subtract", "-")
 
+export const Subtract = Sub
+
 /**
  * A Shader Unit that multiplies two values and returns the result.
  */
 export const Mul = Operator("Multiply", "*")
 
+export const Multiply = Mul
+
 /**
  * A Shader Unit that divides two values and returns the result.
  */
 export const Div = Operator("Divide", "/")
+
+export const Divide = Div
 
 /**
  * Calculates the sine value of the input value.
