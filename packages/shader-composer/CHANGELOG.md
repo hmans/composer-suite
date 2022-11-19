@@ -1,5 +1,11 @@
 # shader-composer
 
+## 0.4.9
+
+### Patch Changes
+
+- f8785d4: **Fixed:** `Texture2D().color` and `Texture2D().alpha` now reuse the sample `texture2D` call, instead of re-sampling the texture.
+
 ## 0.4.8
 
 ### Patch Changes
