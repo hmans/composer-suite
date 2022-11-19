@@ -19,7 +19,8 @@
     "arrowParens": "always"
   },
   "scripts": {
-    "build": "turbo build --filter=./packages/*",
+    "build": "pnpm clean && turbo build --filter=./packages/*",
+    "clean": "rimraf **/dist",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "dev:spacerage": "pnpm clean:vite && preconstruct dev && pnpm --filter spacerage dev",
@@ -51,7 +52,6 @@
     "postprocessing": "^6.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^3.0.2",
     "three": "^0.145.0",
     "ts-jest": "^28.0.8",
     "tslib": "^2.4.0",
@@ -62,6 +62,7 @@
     "startCommand": "cd apps/vfx-composer-examples && pnpm dev"
   },
   "devDependencies": {
+    "rimraf": "^3.0.2",
     "turbo": "^1.6.3"
   }
 }
