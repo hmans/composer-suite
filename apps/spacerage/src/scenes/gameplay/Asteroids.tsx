@@ -4,6 +4,7 @@ import {
   interactionGroups,
   RigidBody
 } from "@react-three/rapier"
+import { useEntities } from "miniplex/react"
 import { between, plusMinus } from "randomish"
 import { startTransition, useLayoutEffect } from "react"
 import { Material, Mesh, Quaternion, Vector3 } from "three"
@@ -33,7 +34,7 @@ export const Asteroids = ({
       geometry={mesh.geometry.clone()}
       material={(mesh.material as Material).clone()}
     >
-      <ECS.Entities entities={entities}>
+      <ECS.Entities in={entities}>
         {({ asteroid }) => (
           <ECS.Component name="rigidBody">
             <RigidBody
@@ -74,7 +75,7 @@ export const Asteroids = ({
 }
 
 export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
-  ECS.world.createEntity({
+  ECS.world.add({
     asteroid: {
       spawnPosition: position,
       scale
@@ -84,7 +85,7 @@ export const spawnAsteroid = (position: Vector3, scale: number = 1) => {
 }
 
 const useLotsOfAsteroidsAndAlsoCleanThemUp = (count: number) => {
-  const { entities } = ECS.useArchetype("asteroid")
+  const entities = useEntities(ECS.world.with("asteroid"))
 
   useLayoutEffect(() => {
     /* Spawn a bunch of asteroids */
@@ -100,8 +101,7 @@ const useLotsOfAsteroidsAndAlsoCleanThemUp = (count: number) => {
     return () => {
       /* Destroy all asteroids */
       startTransition(() => {
-        for (let i = entities.length; i > 0; i--)
-          ECS.world.destroyEntity(entities[i - 1])
+        for (const entity of entities) ECS.world.remove(entity)
       })
     }
   }, [])

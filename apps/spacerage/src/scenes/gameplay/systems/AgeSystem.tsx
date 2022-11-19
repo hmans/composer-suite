@@ -1,11 +1,8 @@
-import { archetype } from "bucketeer"
 import { Stage } from "../../../configuration"
 import { System } from "../../../lib/miniplex-systems-runner/System"
-import { ECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
-const entities = ECS.world.archetype("age")
-
-const withAge = worldBucket.derive(archetype("age"))
+const withAge = ECS.world.with("age")
 
 export const AgeSystem = () => (
   <System
@@ -13,7 +10,7 @@ export const AgeSystem = () => (
     world={ECS.world}
     updatePriority={Stage.Early}
     fun={(dt) => {
-      for (const entity of entities) {
+      for (const entity of withAge) {
         entity.age += dt
       }
 

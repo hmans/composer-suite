@@ -38,14 +38,14 @@ export const Particle = forwardRef<Object3D, ParticleProps>(
       particles.emit(1)
 
       /* Register with ECS */
-      const entity = ecs.createEntity({
+      const entity = ecs.add({
         id: cursor,
         sceneObject: sceneObject.current
       })
 
       /* Hide the particle again on unmount */
       return () => {
-        ecs.destroyEntity(entity)
+        ecs.remove(entity)
         particles.setMatrixAt(cursor, hideMatrix)
         particles.instanceMatrix.needsUpdate = true
       }

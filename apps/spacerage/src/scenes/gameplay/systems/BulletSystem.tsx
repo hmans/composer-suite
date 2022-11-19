@@ -5,13 +5,13 @@ import { Vector3 } from "three"
 import { System } from "../../../lib/miniplex-systems-runner/System"
 import { spawnAsteroid } from "../Asteroids"
 import { spawnPickup } from "../Pickups"
-import { ECS, Layers } from "../state"
+import { ECS, Layers, queue } from "../state"
 import { spawnAsteroidExplosion } from "../vfx/AsteroidExplosions"
 import { spawnDebris } from "../vfx/Debris"
 import { spawnSmokeVFX } from "../vfx/SmokeVFX"
 import { spawnSparks } from "../vfx/Sparks"
 
-const hittableEntities = ECS.world.archetype("health", "rigidBody")
+const hittableEntities = ECS.world.with("health", "rigidBody")
 
 const tmpVec3 = new Vector3()
 
@@ -21,7 +21,7 @@ const ray = new RAPIER.Ray(
 )
 
 export const BulletSystem = () => {
-  const bullets = ECS.world.archetype("bullet", "sceneObject")
+  const bullets = ECS.world.with("bullet", "sceneObject")
   const context = useRapier()
   const world = context.world.raw()
 
@@ -51,7 +51,7 @@ export const BulletSystem = () => {
             const point = ray.pointAt(hit.toi)
 
             /* Destroy bullet */
-            ECS.world.queue.destroyEntity(bullet)
+            queue(() => ECS.world.remove(bullet))
 
             /* Spawn VFX */
             spawnDebris(
@@ -77,7 +77,7 @@ export const BulletSystem = () => {
 
               /* TODO: move this into a separate system */
               if (otherEntity.health <= 0) {
-                ECS.world.queue.destroyEntity(otherEntity)
+                queue(() => ECS.world.remove(otherEntity))
 
                 if (otherEntity.asteroid) {
                   const { scale } = otherEntity.asteroid

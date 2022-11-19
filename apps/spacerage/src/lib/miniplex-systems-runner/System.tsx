@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber"
-import { Archetype, IEntity, World } from "miniplex"
-import { createECS } from "miniplex-react"
+import { Bucket, World } from "miniplex"
+import { createReactAPI } from "miniplex/react"
 import { useLayoutEffect, useRef } from "react"
 
 type SystemsEntity = {
@@ -13,13 +13,13 @@ type SystemsEntity = {
 }
 
 const systems = new World<SystemsEntity>()
-export const SystemsECS = createECS(systems)
+export const SystemsECS = createReactAPI(systems)
 
-export type SystemProps<E extends IEntity> = {
+export type SystemProps<E extends {}> = {
   name?: string
   fun: (dt: number) => void
   world: World<E>
-  archetype?: Archetype<E>
+  archetype?: Bucket<E>
   updatePriority?: number
   samples?: 16 | 32 | 64 | 128 | 256 | 512
 }
@@ -33,7 +33,7 @@ export const System = ({
   const system = useRef<SystemsEntity>(null!)
 
   useLayoutEffect(() => {
-    const entity = systems.createEntity({
+    const entity = systems.add({
       name,
       timings: {
         values: new Float32Array(samples),
@@ -45,7 +45,7 @@ export const System = ({
     system.current = entity
 
     return () => {
-      systems.destroyEntity(entity)
+      systems.remove(entity)
     }
   }, [])
 

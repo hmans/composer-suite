@@ -7,7 +7,7 @@ import { AudioLoader } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { BECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -41,9 +41,9 @@ export const AsteroidExplosions = () => {
         <Modules.Lifetime {...lifetime} />
       </Composable.MeshBasicMaterial>
 
-      <BECS.Archetype properties="isAsteroidExplosion">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Archetype with="asteroidExplosion">
+        {(entity) => entity.asteroidExplosion}
+      </ECS.Archetype>
     </InstancedParticles>
   )
 }
@@ -68,11 +68,10 @@ export const AsteroidExplosion = (props: GroupProps) => (
 )
 
 export const spawnAsteroidExplosion = (props: GroupProps) =>
-  worldBucket.add({
-    isAsteroidExplosion: true,
+  ECS.world.add({
+    asteroidExplosion: <AsteroidExplosion {...props} />,
     age: 0,
-    destroyAfter: 5,
-    jsx: <AsteroidExplosion {...props} />
+    destroyAfter: 5
   })
 
 useLoader.preload(AudioLoader, "/sounds/explosion.wav")

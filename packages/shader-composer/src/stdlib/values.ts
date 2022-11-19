@@ -52,6 +52,16 @@ export const $mat3 = (...values: CastableInput<"mat3">[]) => $`mat3(${values})`
  */
 export const $mat4 = (...values: CastableInput<"mat4">[]) => $`mat4(${values})`
 
+/**
+ * Returns an expression that swizzles the given value with the provided
+ * swizzling components.
+ *
+ * @param v The input value to swizzle.
+ * @param swizzle The swizzling components to use.
+ * @returns An expression that swizzles the given value with the provided swizzle string.
+ */
+export const $swizzle = (v: Input<any>, swizzle: string) => $`${v}.${swizzle}`
+
 export const unit = <T extends GLSLType>(
   i: Input<T>,
   config?: Partial<UnitConfig<T>>

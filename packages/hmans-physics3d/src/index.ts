@@ -1,5 +1,0 @@
-export * from "./colliders"
-export * from "./RigidBody"
-export * from "./types"
-export * from "./World"
-export * from "./interactionGroups"

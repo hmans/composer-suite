@@ -1,8 +1,8 @@
 import { useFrame } from "@react-three/fiber"
 import * as AC from "audio-composer"
+import { useEntities } from "miniplex/react"
 import { useRef } from "react"
-import { AudioContext } from "three"
-import { MathUtils } from "three"
+import { AudioContext, MathUtils } from "three"
 import { ECS } from "../state"
 
 export const EngineHumSFX = ({ baseFrequency = 22 }) => {
@@ -13,7 +13,7 @@ export const EngineHumSFX = ({ baseFrequency = 22 }) => {
   const osc3 = useRef<OscillatorNode>(null!)
   const gain = useRef<GainNode>(null!)
 
-  const [player] = ECS.useArchetype("player", "rigidBody")
+  const [player] = useEntities(ECS.world.with("player", "rigidBody"))
 
   useFrame(() => {
     if (!player) return

@@ -6,7 +6,7 @@ import { Quaternion, Vector3 } from "three"
 import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
-import { BECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const tmpVec3 = new Vector3()
 
@@ -36,9 +36,7 @@ export const Debris = () => {
       <icosahedronGeometry args={[0.3]} />
       <DebrisMaterial />
 
-      <BECS.Archetype properties="isDebris">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Archetype with="debris">{(entity) => entity.debris}</ECS.Archetype>
     </InstancedParticles>
   )
 }
@@ -57,10 +55,8 @@ export const DebrisEmitter = (props: EmitterProps) => (
 )
 
 export const spawnDebris = (position: Vector3, quaternion: Quaternion) =>
-  worldBucket.add({
-    isDebris: true,
+  ECS.world.add({
+    debris: <DebrisEmitter position={position} quaternion={quaternion} />,
     age: 0,
-    destroyAfter: 3,
-
-    jsx: <DebrisEmitter position={position} quaternion={quaternion} />
+    destroyAfter: 3
   })

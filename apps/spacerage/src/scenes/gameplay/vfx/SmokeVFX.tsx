@@ -6,7 +6,7 @@ import { createParticleLifetime } from "vfx-composer"
 import { Emitter, EmitterProps, InstancedParticles } from "vfx-composer-r3f"
 import { InstanceRNG } from "../../../lib/InstanceRNG"
 import { useAsset } from "../assets"
-import { BECS, ECS, worldBucket } from "../state"
+import { ECS } from "../state"
 
 const lifetime = createParticleLifetime()
 
@@ -40,20 +40,17 @@ export const SmokeVFX = () => {
         />
       </Composable.MeshStandardMaterial>
 
-      <BECS.Archetype properties="isSmokeVFX">
-        {({ entity }) => entity.jsx}
-      </BECS.Archetype>
+      <ECS.Archetype with="smoke">{(entity) => entity.smoke}</ECS.Archetype>
     </InstancedParticles>
   )
 }
 
 export const spawnSmokeVFX = (props: EmitterProps) =>
-  worldBucket.add({
-    isSmokeVFX: true,
+  ECS.world.add({
     age: 0,
     destroyAfter: 5,
 
-    jsx: (
+    smoke: (
       <Emitter
         {...props}
         rate={Infinity}
