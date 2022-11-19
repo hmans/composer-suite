@@ -19,12 +19,13 @@
     "arrowParens": "always"
   },
   "scripts": {
-    "build": "preconstruct build",
+    "build": "pnpm clean && turbo build --filter=./packages/*",
+    "clean": "rimraf packages/**/dist",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "dev:spacerage": "pnpm clean:vite && preconstruct dev && pnpm --filter spacerage dev",
     "postinstall": "preconstruct dev",
-    "test": "jest --passWithNoTests",
+    "test": "turbo test",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:release": "pnpm ci && pnpm changeset publish"
@@ -34,7 +35,7 @@
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
-    "@changesets/cli": "^2.25.0",
+    "@changesets/cli": "^2.25.2",
     "@manypkg/cli": "^0.19.2",
     "@preconstruct/cli": "^2.2.2",
     "@react-three/fiber": "^8.8.9",
@@ -51,7 +52,6 @@
     "postprocessing": "^6.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^3.0.2",
     "three": "^0.145.0",
     "ts-jest": "^28.0.8",
     "tslib": "^2.4.0",
@@ -60,5 +60,9 @@
   },
   "stackblitz": {
     "startCommand": "cd apps/vfx-composer-examples && pnpm dev"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "turbo": "^1.6.3"
   }
 }
