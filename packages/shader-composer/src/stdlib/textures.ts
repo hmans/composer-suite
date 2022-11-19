@@ -8,7 +8,7 @@ export const Texture2D = (sampler2D: Unit<"sampler2D">, xy: Input<"vec2">) => {
   })
 
   return {
-    texture2D,
+    ...texture2D,
 
     /** The color value sampled from the texture. */
     color: Vec3($`${texture2D}.rgb`, { name: "Texture2D Color" }),
