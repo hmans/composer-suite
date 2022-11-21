@@ -22,7 +22,7 @@
     "build": "turbo build",
     "build:packages": "pnpm build --filter=./packages/*",
     "build:apps": "pnpm build --filter=./apps/*",
-    "clean": "rimraf packages/*/**/dist packages/*/dist",
+    "clean": "rimraf packages/*/*/dist packages/*/dist",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "preconstruct dev",
     "dev:vfx-composer": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
