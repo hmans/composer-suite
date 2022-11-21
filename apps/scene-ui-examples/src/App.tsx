@@ -1,3 +1,13 @@
+import "r3f-stage/styles.css"
+import { Application } from "r3f-stage"
+
 export const App = () => {
-  return <p>moo</p>
+  return (
+    <Application>
+      <mesh>
+        <icosahedronGeometry />
+        <meshStandardMaterial color="hotpink" />
+      </mesh>
+    </Application>
+  )
 }
