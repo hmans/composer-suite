@@ -30,29 +30,23 @@ export const Rect = ({
   ...props
 }: RectProps) => {
   const parent = useContext(RectContext)
-
   const debug = _debug ?? parent?.debug ?? false
-
-  const offsetX = parent ? parent.width * (anchorX - 0.5) : 0
-  const offsetY = parent ? parent.height * (anchorY - 0.5) : 0
-
-  /* This works, but it can probably be written smarter? */
-  const fixX = parent ? width / 2 - 1 + pivotX * (2 - width) : 0
-  const fixY = parent ? height / 2 - 1 + pivotY * (2 - height) : 0
 
   return (
     <group {...props}>
       {/* Apply anchor offset */}
-      <group position={[offsetX, offsetY, 0]}>
+      <group
+        position={[
+          parent ? parent.width * (anchorX - 0.5) : 0,
+          parent ? parent.height * (anchorY - 0.5) : 0,
+          0
+        ]}
+      >
         {debug && <OriginMarker />}
 
         {/* Apply pivot */}
         <group
-          position={[
-            fixX + 1 - anchorX - pivotX,
-            fixY + 1 - anchorY - pivotY,
-            0
-          ]}
+          position={[-(pivotX - 0.5) * width, -(pivotY - 0.5) * height, 0]}
         >
           {/* Visualize the canvas */}
           {debug && (

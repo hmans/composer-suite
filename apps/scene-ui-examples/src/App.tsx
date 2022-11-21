@@ -5,23 +5,15 @@ import * as UI from "@hmans/scene-ui"
 export const App = () => {
   return (
     <Application>
-      <UI.Rect width={10} height={5} debug>
+      <UI.Rect width={5} height={5} debug>
         <UI.Rect
-          width={8}
-          height={2}
-          anchorY={0}
-          pivotY={0}
-          anchorX={0}
-          pivotX={1}
-        >
-          {/* <UI.Button
-            label="Test"
-            onPointerDown={(e) => {
-              e.stopPropagation()
-              alert("Hello!")
-            }}
-          /> */}
-        </UI.Rect>
+          width={3}
+          height={3}
+          pivotX={1.1}
+          pivotY={1.1}
+          anchorX={1}
+          anchorY={1}
+        ></UI.Rect>
       </UI.Rect>
     </Application>
   )
