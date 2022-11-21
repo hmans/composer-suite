@@ -8,9 +8,9 @@ export const App = () => {
       <UI.Rect width={5} height={5} debug>
         <UI.Rect
           width={3}
-          height={3}
-          pivotX={1.1}
-          pivotY={1.1}
+          height={1}
+          pivotX={1}
+          pivotY={1}
           anchorX={1}
           anchorY={1}
         ></UI.Rect>
