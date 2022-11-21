@@ -31,7 +31,7 @@ importers:
       tslib: ^2.4.0
       turbo: ^1.6.3
       typedoc: ^0.23.18
-      typescript: ^4.8.4
+      typescript: ^4.9.3
     dependencies:
       '@babel/core': 7.19.6
       '@babel/preset-env': 7.19.4_@babel+core@7.19.6
@@ -55,10 +55,10 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.145.0
-      ts-jest: 28.0.8_xqn6xfgh5llevdlhtbp45jjr3y
+      ts-jest: 28.0.8_jnnlcny7ikcgddzz2vx4gr2bea
       tslib: 2.4.0
-      typedoc: 0.23.18_typescript@4.8.4
-      typescript: 4.8.4
+      typedoc: 0.23.18_typescript@4.9.3
+      typescript: 4.9.3
     devDependencies:
       rimraf: 3.0.2
       turbo: 1.6.3
@@ -90,7 +90,7 @@ importers:
       shader-composer-toybox: ^0.1.3
       three: ^0.145.0
       timeline-composer: ^0.1.7
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vite: ^3.1.6
       wouter: ^2.8.0-alpha.2
     dependencies:
@@ -121,7 +121,7 @@ importers:
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
       randomish: 0.1.4
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/r3f-stage-examples:
@@ -135,7 +135,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.145.0
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vite: ^3.1.6
     dependencies:
       '@react-three/drei': 9.34.3_zoourtuqs6jpz5hshrv5fac7t4
@@ -148,7 +148,7 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/render-composer-examples:
@@ -166,7 +166,7 @@ importers:
       render-composer: ^0.2.8
       shader-composer: workspace:^0.4.9
       three: ^0.145.0
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vite: ^3.1.6
     dependencies:
       '@hmans/r3f-animate': 0.0.5_zoourtuqs6jpz5hshrv5fac7t4
@@ -183,7 +183,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/shader-composer-examples:
@@ -204,7 +204,7 @@ importers:
       shader-composer-r3f: ^0.4.5
       shader-composer-toybox: ^0.1.3
       three: ^0.145.0
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vite: ^3.1.6
     dependencies:
       '@hmans/r3f-animate': 0.0.5_zoourtuqs6jpz5hshrv5fac7t4
@@ -224,7 +224,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/spacerage:
@@ -269,7 +269,7 @@ importers:
       troika-3d-text: ^0.46.4
       troika-three-text: ^0.46.4
       tunnel-rat: ^0.1.0
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       ui-composer: workspace:^0.0.1
       vfx-composer: ^0.4.0
       vfx-composer-r3f: ^0.4.0
@@ -319,7 +319,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/timeline-composer-examples:
@@ -330,7 +330,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       timeline-composer: ^0.1.7
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vite: ^3.1.6
     dependencies:
       react: 18.2.0
@@ -340,7 +340,7 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/ui-composer-examples:
@@ -357,7 +357,7 @@ importers:
       react-dom: ^18.2.0
       render-composer: workspace:^0.2.8
       three: ^0.145.0
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       ui-composer: workspace:^0.0.1
       vite: ^3.1.6
     dependencies:
@@ -375,7 +375,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   apps/vfx-composer-examples:
@@ -408,7 +408,7 @@ importers:
       three: ^0.145.0
       three-stdlib: ^2.17.2
       timeline-composer: ^0.1.7
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       vfx-composer: ^0.4.0
       vfx-composer-r3f: ^0.4.0
       vite: ^3.1.6
@@ -446,7 +446,7 @@ importers:
       '@types/three': 0.144.0
       '@vitejs/plugin-react': 2.1.0_vite@3.1.6
       randomish: 0.1.4
-      typescript: 4.8.4
+      typescript: 4.9.3
       vite: 3.1.6
 
   packages/audio-composer:
@@ -8744,7 +8744,7 @@ packages:
     resolution: {integrity: sha512-bzOx5f2ZBxkFhXtIvDJlLn2AI3bzCkGVbCndl/2dL5QZrwHEKl45OEIilCxYQQWJG1rEbOD9O80tMjoYjw19OA==}
     dev: false
 
-  /ts-jest/28.0.8_xqn6xfgh5llevdlhtbp45jjr3y:
+  /ts-jest/28.0.8_jnnlcny7ikcgddzz2vx4gr2bea:
     resolution: {integrity: sha512-5FaG0lXmRPzApix8oFG8RKjAz4ehtm8yMKOTy5HX3fY6W8kmvOrmcY0hKDElW52FJov+clhUbrKAqofnj4mXTg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -8774,7 +8774,7 @@ packages:
       lodash.memoize: 4.1.2
       make-error: 1.3.6
       semver: 7.3.7
-      typescript: 4.8.4
+      typescript: 4.9.3
       yargs-parser: 21.1.1
     dev: false
 
@@ -8905,7 +8905,7 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /typedoc/0.23.18_typescript@4.8.4:
+  /typedoc/0.23.18_typescript@4.9.3:
     resolution: {integrity: sha512-0Tq/uFkUuWyRYyjOShTkhsOm6u5E8wf0i6L76/k5znEaxvWKHGeT2ywZThGrDrryV/skO/REM824D1gm8ccQuA==}
     engines: {node: '>= 14.14'}
     hasBin: true
@@ -8916,11 +8916,11 @@ packages:
       marked: 4.1.1
       minimatch: 5.1.0
       shiki: 0.11.1
-      typescript: 4.8.4
+      typescript: 4.9.3
     dev: false
 
-  /typescript/4.8.4:
-    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+  /typescript/4.9.3:
+    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
 
