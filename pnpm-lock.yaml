@@ -188,14 +188,18 @@ importers:
 
   apps/scene-ui-examples:
     specifiers:
+      '@hmans/scene-ui': workspace:^0.0.1
       '@types/react': ^18.0.24
       '@types/react-dom': ^18.0.8
       '@vitejs/plugin-react': ^2.2.0
+      r3f-stage: workspace:^0.3.5
       react: ^18.2.0
       react-dom: ^18.2.0
       typescript: ^4.6.4
       vite: ^3.2.3
     dependencies:
+      '@hmans/scene-ui': link:../../packages/hmans-scene-ui
+      r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
