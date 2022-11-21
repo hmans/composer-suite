@@ -71,11 +71,6 @@ export const Text = React.forwardRef(
       return [n, t]
     }, [children])
 
-    // suspend(
-    //   () => new Promise((res) => preloadFont({ font, characters }, res)),
-    //   ["troika-text", font, characters]
-    // )
-
     React.useLayoutEffect(
       () =>
         void troikaMesh.sync(() => {
@@ -92,7 +87,9 @@ export const Text = React.forwardRef(
       <primitive
         object={troikaMesh}
         ref={ref}
-        font={font}
+        font={
+          "https://fonts.gstatic.com/s/notosans/v7/o-0IIpQlx3QUlC5A4PNr5TRG.woff"
+        }
         text={text}
         anchorX={anchorX}
         anchorY={anchorY}
