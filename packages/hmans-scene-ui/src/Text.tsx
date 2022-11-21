@@ -1,9 +1,9 @@
-import { ReactThreeFiber, useThree } from "@react-three/fiber"
+import { MeshProps, ReactThreeFiber, useThree } from "@react-three/fiber"
 import * as React from "react"
 import { Text as TextMeshImpl } from "troika-three-text"
 // import { suspend } from "suspend-react"
 
-type Props = JSX.IntrinsicElements["mesh"] & {
+type TextProps = MeshProps & {
   children: React.ReactNode
   characters?: string
   color?: ReactThreeFiber.Color
@@ -41,8 +41,8 @@ type Props = JSX.IntrinsicElements["mesh"] & {
 }
 
 // eslint-disable-next-line prettier/prettier
-export const Text = React.forwardRef(
-  (
+export const Text = React.forwardRef<typeof TextMeshImpl, TextProps>(
+  function TextRaw(
     {
       anchorX = "center",
       anchorY = "middle",
@@ -51,12 +51,13 @@ export const Text = React.forwardRef(
       characters,
       onSync,
       ...props
-    }: Props,
+    },
     ref
-  ) => {
+  ) {
     const invalidate = useThree(({ invalidate }) => invalidate)
     const [troikaMesh] = React.useState(() => new TextMeshImpl())
 
+    /* TODO: maybe remove, require prop only */
     const [nodes, text] = React.useMemo(() => {
       const n: React.ReactNode[] = []
       let t = ""
@@ -71,6 +72,7 @@ export const Text = React.forwardRef(
       return [n, t]
     }, [children])
 
+    /* Sync on every re-render */
     React.useLayoutEffect(
       () =>
         void troikaMesh.sync(() => {
@@ -79,6 +81,7 @@ export const Text = React.forwardRef(
         })
     )
 
+    /* Dispose of mesh on unmount */
     React.useEffect(() => {
       return () => troikaMesh.dispose()
     }, [troikaMesh])
