@@ -68,7 +68,7 @@ export const Rect = ({
           )}
 
           <RectContext.Provider value={{ width, height, debug }}>
-            <group position-z={0.0001}>{children}</group>
+            <group position-z={0.01}>{children}</group>
           </RectContext.Provider>
         </group>
       </group>
