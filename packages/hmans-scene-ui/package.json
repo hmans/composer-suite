@@ -47,8 +47,6 @@
     "three": "^0.145.0"
   },
   "dependencies": {
-    "@react-three/drei": "^9.34.3",
-    "troika-3d-text": "^0.46.4",
     "troika-three-text": "^0.46.4"
   }
 }

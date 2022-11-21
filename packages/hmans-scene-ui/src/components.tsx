@@ -1,7 +1,7 @@
-import { Text } from "@react-three/drei"
-import { GroupProps } from "@react-three/fiber"
+import { extend, GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { DoubleSide } from "three"
+import { Text } from "./Text"
 
 export const RectContext = createContext<{
   width: number
