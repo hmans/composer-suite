@@ -1,11 +1,14 @@
 import { GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext } from "react"
-import { DoubleSide } from "three"
+import { ColorRepresentation, DoubleSide } from "three"
+
+const colors = ["#69d2e7", "#a7dbd8", "#e0e4cc", "#f38630", "#fa6900"]
 
 export const RectContext = createContext<{
   width: number
   height: number
   debug: boolean
+  debugColorIndex: number
 }>(null!)
 
 export type RectProps = GroupProps & {
@@ -32,6 +35,11 @@ export const Rect = ({
   const parent = useContext(RectContext)
   const debug = _debug ?? parent?.debug ?? false
 
+  const debugColorIndex =
+    parent?.debugColorIndex !== undefined
+      ? (parent?.debugColorIndex + 1) % colors.length
+      : 0
+
   return (
     <group {...props}>
       {/* Apply anchor offset */}
@@ -42,7 +50,7 @@ export const Rect = ({
           0
         ]}
       >
-        {debug && <OriginMarker />}
+        {debug && <OriginMarker color={colors[debugColorIndex]} />}
 
         {/* Apply pivot */}
         <group
@@ -52,11 +60,13 @@ export const Rect = ({
           {debug && (
             <mesh>
               <planeGeometry args={[width, height]} />
-              <meshBasicMaterial color="cyan" wireframe />
+              <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
             </mesh>
           )}
 
-          <RectContext.Provider value={{ width, height, debug }}>
+          <RectContext.Provider
+            value={{ width, height, debug, debugColorIndex }}
+          >
             <group position-z={0.01}>{children}</group>
           </RectContext.Provider>
         </group>
@@ -65,10 +75,10 @@ export const Rect = ({
   )
 }
 
-const OriginMarker = () => (
+const OriginMarker = ({ color = "red" }: { color?: ColorRepresentation }) => (
   <mesh>
     <sphereGeometry args={[0.1]} />
-    <meshBasicMaterial color="red" depthTest={false} />
+    <meshBasicMaterial color={color} depthTest={false} />
   </mesh>
 )
 
