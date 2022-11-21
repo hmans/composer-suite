@@ -26,6 +26,7 @@
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
     "dev:spacerage": "pnpm clean:vite && preconstruct dev && pnpm --filter spacerage dev",
+    "postinstall": "preconstruct dev",
     "test": "turbo test",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
