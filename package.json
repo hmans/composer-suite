@@ -20,6 +20,8 @@
   },
   "scripts": {
     "build": "pnpm clean && turbo build --filter=./packages/*",
+    "build:apps": "pnpm clean && turbo build --filter=./apps/*",
+    "build:all": "pnpm clean && turbo build",
     "clean": "rimraf packages/*/**/dist packages/*/dist",
     "clean:vite": "rimraf **/node_modules/.vite",
     "dev": "pnpm clean:vite && preconstruct dev && cd apps/vfx-composer-examples/ && pnpm dev",
