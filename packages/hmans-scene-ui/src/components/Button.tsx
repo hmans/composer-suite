@@ -1,7 +1,7 @@
 import { GroupProps } from "@react-three/fiber"
 import React from "react"
+import { MouseCursor } from "./MouseCursor"
 import { Text } from "./Text"
-import { MouseCursor } from "."
 
 export const Button = ({
   label,
