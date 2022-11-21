@@ -15,9 +15,13 @@ export const Button3D = ({
         <boxGeometry args={[4, 1, 0.5]} />
         <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
       </mesh>
-      <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25001}>
-        {label}
-      </Text>
+      <Text
+        maxWidth={8}
+        fontSize={0.6}
+        textAlign="center"
+        position-z={0.25001}
+        text="Click Me"
+      />
     </MouseCursor>
   )
 }

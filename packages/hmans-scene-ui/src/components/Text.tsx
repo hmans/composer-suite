@@ -1,10 +1,10 @@
-import { MeshProps, ReactThreeFiber, useThree } from "@react-three/fiber"
+import { MeshProps, ReactThreeFiber } from "@react-three/fiber"
 import * as React from "react"
 import { Text as TextMeshImpl } from "troika-three-text"
-// import { suspend } from "suspend-react"
 
 type TextProps = MeshProps & {
-  children: React.ReactNode
+  text: string
+  children?: React.ReactNode
   characters?: string
   color?: ReactThreeFiber.Color
   fontSize?: number
@@ -54,32 +54,14 @@ export const Text = React.forwardRef<typeof TextMeshImpl, TextProps>(
     },
     ref
   ) {
-    const invalidate = useThree(({ invalidate }) => invalidate)
     const [troikaMesh] = React.useState(() => new TextMeshImpl())
 
-    /* TODO: maybe remove, require prop only */
-    const [nodes, text] = React.useMemo(() => {
-      const n: React.ReactNode[] = []
-      let t = ""
-
-      React.Children.forEach(children, (child) => {
-        if (typeof child === "string" || typeof child === "number") {
-          t += child
-        } else {
-          n.push(child)
-        }
-      })
-      return [n, t]
-    }, [children])
-
     /* Sync on every re-render */
-    React.useLayoutEffect(
-      () =>
-        void troikaMesh.sync(() => {
-          invalidate()
-          if (onSync) onSync(troikaMesh)
-        })
-    )
+    React.useLayoutEffect(() => {
+      troikaMesh.sync(() => {
+        if (onSync) onSync(troikaMesh)
+      })
+    })
 
     /* Dispose of mesh on unmount */
     React.useEffect(() => {
@@ -93,13 +75,10 @@ export const Text = React.forwardRef<typeof TextMeshImpl, TextProps>(
         font={
           "https://fonts.gstatic.com/s/notosans/v7/o-0IIpQlx3QUlC5A4PNr5TRG.woff"
         }
-        text={text}
         anchorX={anchorX}
         anchorY={anchorY}
         {...props}
-      >
-        {nodes}
-      </primitive>
+      />
     )
   }
 )
