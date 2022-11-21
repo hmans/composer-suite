@@ -56,19 +56,14 @@ export const Rect = ({
         >
           {/* Visualize the canvas */}
           {debug && (
-            <mesh scale={[width, height, 1]}>
-              <planeGeometry />
-              <meshBasicMaterial
-                color="white"
-                transparent
-                opacity={0.2}
-                side={DoubleSide}
-              />
+            <mesh>
+              <planeGeometry args={[width, height]} />
+              <meshBasicMaterial color="cyan" wireframe />
             </mesh>
           )}
 
           <RectContext.Provider value={{ width, height, debug }}>
-            <group position-z={0.01}>{children}</group>
+            <group position-z={+0.3}>{children}</group>
           </RectContext.Provider>
         </group>
       </group>
