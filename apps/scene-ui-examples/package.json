@@ -12,7 +12,8 @@
     "@hmans/scene-ui": "workspace:^0.0.1",
     "r3f-stage": "workspace:^0.3.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "render-composer": "workspace:^0.2.8"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

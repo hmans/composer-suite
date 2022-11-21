@@ -195,6 +195,7 @@ importers:
       r3f-stage: workspace:^0.3.5
       react: ^18.2.0
       react-dom: ^18.2.0
+      render-composer: workspace:^0.2.8
       typescript: ^4.6.4
       vite: ^3.2.3
     dependencies:
@@ -202,6 +203,7 @@ importers:
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      render-composer: link:../../packages/render-composer
     devDependencies:
       '@types/react': 18.0.25
       '@types/react-dom': 18.0.9
