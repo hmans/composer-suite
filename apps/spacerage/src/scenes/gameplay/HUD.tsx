@@ -1,8 +1,6 @@
 import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
-import { GroupProps, ThreeEvent, useThree } from "@react-three/fiber"
+import { GroupProps, useThree } from "@react-three/fiber"
 import { createContext, useContext, useEffect, useState } from "react"
-import { Vector3 } from "three"
-import { ScenePass } from "../../lib/ScenePass"
 
 export const HUD = () => {
   const camera = useThree((state) => state.camera)
