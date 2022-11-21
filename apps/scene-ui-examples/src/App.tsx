@@ -14,7 +14,7 @@ export const App = () => {
       <RC.ScenePass>
         {/* This now lives in its own layer, with its own pointer events, etc. */}
         <UI.Rect width={10} height={5} debug>
-          <UI.Button3D
+          <UI.Button
             label="Test"
             onPointerDown={(e) => {
               e.stopPropagation()

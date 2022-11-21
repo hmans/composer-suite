@@ -3,7 +3,7 @@ import React from "react"
 import { Text } from "./Text"
 import { MouseCursor } from "."
 
-export const Button3D = ({
+export const Button = ({
   label,
   ...props
 }: {
@@ -12,14 +12,14 @@ export const Button3D = ({
   return (
     <MouseCursor position-z={0.25} {...props}>
       <mesh>
-        <boxGeometry args={[4, 1, 0.5]} />
+        <planeGeometry args={[4, 1]} />
         <meshBasicMaterial color="#444" />
       </mesh>
+
       <Text
         maxWidth={8}
         fontSize={0.5}
         textAlign="center"
-        position-z={0.25}
         depthOffset={-0.001}
         text="Click Me"
       />

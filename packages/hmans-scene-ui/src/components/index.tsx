@@ -1,6 +1,8 @@
 import { GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { DoubleSide } from "three"
+
+export * from "./Button"
 export * from "./Button3D"
 
 export const RectContext = createContext<{
