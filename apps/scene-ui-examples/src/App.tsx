@@ -6,7 +6,14 @@ export const App = () => {
   return (
     <Application>
       <UI.Rect width={10} height={5} debug>
-        <UI.Rect width={8} height={1} anchorY={0}>
+        <UI.Rect
+          width={8}
+          height={2}
+          anchorY={0}
+          pivotY={0}
+          anchorX={0}
+          pivotX={1}
+        >
           {/* <UI.Button
             label="Test"
             onPointerDown={(e) => {
