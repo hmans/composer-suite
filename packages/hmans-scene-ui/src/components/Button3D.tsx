@@ -17,7 +17,7 @@ export const Button3D = ({
       </mesh>
       <Text
         maxWidth={8}
-        fontSize={0.6}
+        fontSize={0.5}
         textAlign="center"
         position-z={0.25001}
         text="Click Me"
