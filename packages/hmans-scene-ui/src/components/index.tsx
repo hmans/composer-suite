@@ -1,7 +1,7 @@
-import { extend, GroupProps } from "@react-three/fiber"
+import { GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { DoubleSide } from "three"
-import { Text } from "./Text"
+export * from "./Button3D"
 
 export const RectContext = createContext<{
   width: number
@@ -79,7 +79,7 @@ export const Rect = ({
 
 type MouseCursorProps = GroupProps & { active?: string; inactive?: string }
 
-const MouseCursor = ({
+export const MouseCursor = ({
   active = "pointer",
   inactive = "auto",
   ...props
@@ -96,25 +96,6 @@ const MouseCursor = ({
       onPointerOut={() => setHovered(false)}
       {...props}
     />
-  )
-}
-
-export const Button3D = ({
-  label,
-  ...props
-}: {
-  label: string
-} & GroupProps) => {
-  return (
-    <MouseCursor position-z={0.25} {...props}>
-      <mesh>
-        <boxGeometry args={[4, 1, 0.5]} />
-        <meshStandardMaterial color="red" metalness={0.5} roughness={0.5} />
-      </mesh>
-      <Text maxWidth={8} fontSize={0.6} textAlign="center" position-z={0.25001}>
-        {label}
-      </Text>
-    </MouseCursor>
   )
 }
 
