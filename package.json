@@ -19,7 +19,7 @@
     "arrowParens": "always"
   },
   "scripts": {
-    "build": "turbo build",
+    "build": "pnpm clean && turbo build",
     "build:packages": "pnpm build --filter=./packages/*",
     "build:apps": "pnpm build --filter=./apps/*",
     "clean": "rimraf packages/*/*/dist packages/*/dist",
