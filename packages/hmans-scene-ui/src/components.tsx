@@ -8,7 +8,7 @@ export const RectContext = createContext<{
   debug: boolean
 }>(null!)
 
-export type UIRectProps = GroupProps & {
+export type RectProps = GroupProps & {
   anchorX?: number
   anchorY?: number
   pivotX?: number
@@ -18,7 +18,7 @@ export type UIRectProps = GroupProps & {
   debug?: boolean
 }
 
-export const UIRect = ({
+export const Rect = ({
   anchorX = 0.5,
   anchorY = 0.5,
   pivotX = 0.5,
@@ -28,7 +28,7 @@ export const UIRect = ({
   children,
   debug: _debug,
   ...props
-}: UIRectProps) => {
+}: RectProps) => {
   const parent = useContext(RectContext)
 
   const debug = _debug ?? parent?.debug ?? false

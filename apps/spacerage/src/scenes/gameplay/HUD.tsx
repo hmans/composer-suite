@@ -12,8 +12,8 @@ export const HUD = () => {
       <OrbitControls />
 
       {camera && (
-        <UI.UIRect width={15} height={15} position={[1, 0, 1]} debug>
-          <UI.UIRect
+        <UI.Rect width={15} height={15} position={[1, 0, 1]} debug>
+          <UI.Rect
             width={8}
             height={3}
             anchorY={1}
@@ -23,15 +23,9 @@ export const HUD = () => {
             <Text maxWidth={8} fontSize={0.6} textAlign="center">
               Did I build a world-space UI layout engine? Maybe I did!
             </Text>
-          </UI.UIRect>
+          </UI.Rect>
 
-          <UI.UIRect
-            width={3}
-            height={1}
-            anchorY={0}
-            pivotY={0}
-            position-y={0.5}
-          >
+          <UI.Rect width={3} height={1} anchorY={0} pivotY={0} position-y={0.5}>
             <UI.Button3D
               label="Click Me"
               onClick={(e) => {
@@ -39,23 +33,23 @@ export const HUD = () => {
                 alert("You CLICKED me!")
               }}
             />
-          </UI.UIRect>
+          </UI.Rect>
 
-          <UI.UIRect
+          <UI.Rect
             width={1}
             height={1}
             position-x={0.1}
             position-y={-0.1}
             {...UI.Anchor.TopLeft}
           />
-          <UI.UIRect
+          <UI.Rect
             width={2}
             height={2}
             position-x={0.1}
             position-y={-0.1}
             {...UI.Anchor.TopLeft}
           />
-          <UI.UIRect
+          <UI.Rect
             width={3}
             height={3}
             position-x={0.1}
@@ -63,28 +57,28 @@ export const HUD = () => {
             {...UI.Anchor.TopLeft}
           />
 
-          <UI.UIRect
+          <UI.Rect
             width={1}
             height={1}
             position-x={-0.1}
             position-y={0.1}
             {...UI.Anchor.BottomRight}
           />
-          <UI.UIRect
+          <UI.Rect
             width={2}
             height={2}
             position-x={-0.1}
             position-y={0.1}
             {...UI.Anchor.BottomRight}
           />
-          <UI.UIRect
+          <UI.Rect
             width={3}
             height={3}
             position-x={-0.1}
             position-y={0.1}
             {...UI.Anchor.BottomRight}
           />
-        </UI.UIRect>
+        </UI.Rect>
       )}
     </>
   )
