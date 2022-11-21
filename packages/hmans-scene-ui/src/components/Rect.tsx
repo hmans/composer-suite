@@ -1,8 +1,8 @@
 import { GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext } from "react"
-import { ColorRepresentation, DoubleSide } from "three"
+import { ColorRepresentation } from "three"
 
-const colors = ["#69d2e7", "#a7dbd8", "#e0e4cc", "#f38630", "#fa6900"]
+const colors = ["#69d2e7", "#fa6900", "#e0e4cc", "#a7dbd8", "#f38630"]
 
 export const RectContext = createContext<{
   width: number
