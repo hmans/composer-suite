@@ -6,14 +6,8 @@ import * as RC from "render-composer"
 export const App = () => {
   return (
     <Application>
-      <mesh>
-        <icosahedronGeometry />
-        <meshStandardMaterial color="hotpink" />
-      </mesh>
-
-      <RC.ScenePass>
-        {/* This now lives in its own layer, with its own pointer events, etc. */}
-        <UI.Rect width={10} height={5} debug>
+      <UI.Rect width={10} height={5} debug>
+        <UI.Rect width={8} height={1} anchorY={0}>
           <UI.Button
             label="Test"
             onPointerDown={(e) => {
@@ -22,7 +16,7 @@ export const App = () => {
             }}
           />
         </UI.Rect>
-      </RC.ScenePass>
+      </UI.Rect>
     </Application>
   )
 }

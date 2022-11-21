@@ -10,7 +10,7 @@ export const Button = ({
   label: string
 } & GroupProps) => {
   return (
-    <MouseCursor position-z={0.25} {...props}>
+    <MouseCursor {...props}>
       <mesh>
         <planeGeometry args={[4, 1]} />
         <meshBasicMaterial color="#444" />
@@ -20,7 +20,7 @@ export const Button = ({
         maxWidth={8}
         fontSize={0.5}
         textAlign="center"
-        depthOffset={-0.001}
+        depthOffset={-1}
         text="Click Me"
       />
     </MouseCursor>
