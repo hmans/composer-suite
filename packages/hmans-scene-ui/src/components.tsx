@@ -1,6 +1,7 @@
 import { Text } from "@react-three/drei"
 import { GroupProps } from "@react-three/fiber"
 import React, { createContext, useContext, useEffect, useState } from "react"
+import { DoubleSide } from "three"
 
 export const RectContext = createContext<{
   width: number
@@ -58,7 +59,12 @@ export const Rect = ({
           {debug && (
             <mesh scale={[width, height, 1]}>
               <planeGeometry />
-              <meshBasicMaterial color="white" transparent opacity={0.2} />
+              <meshBasicMaterial
+                color="white"
+                transparent
+                opacity={0.2}
+                side={DoubleSide}
+              />
             </mesh>
           )}
 
