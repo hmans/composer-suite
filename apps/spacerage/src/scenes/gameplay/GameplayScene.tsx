@@ -90,9 +90,9 @@ const GameplayScene = () => {
         </Physics>
       </group>
 
-      <ScenePass>
+      {/* <ScenePass>
         <HUD />
-      </ScenePass>
+      </ScenePass> */}
 
       <RC.EffectPass>
         <RC.SMAAEffect />
