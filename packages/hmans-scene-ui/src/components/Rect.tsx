@@ -37,6 +37,7 @@ export const Rect = ({
       : 0
 
   const [offsetLeft, offsetTop, offsetRight, offsetBottom] = offset
+  const [anchorLeft, anchorTop, anchorRight, anchorBottom] = anchor
 
   const width =
     _width !== undefined
@@ -52,6 +53,11 @@ export const Rect = ({
       ? parent.height - (offsetTop + offsetBottom)
       : 1
 
+  const anchorLeftPosition = anchorLeft * width
+  const anchorRightPosition = anchorRight * width
+  const anchorTopPosition = anchorTop * height
+  const anchorBottomPosition = -anchorBottom * height
+
   return (
     <group {...props}>
       {/* Apply pivot offset */}
@@ -62,16 +68,55 @@ export const Rect = ({
           0
         ]}
       >
-        {debug && <OriginMarker color={colors[debugColorIndex]} />}
+        {debug && (
+          <group>
+            <OriginMarker color={colors[debugColorIndex]} />
+
+            <mesh
+              position={[anchorLeftPosition, anchorTopPosition, 0]}
+              rotation-z={Math.PI * 1.25}
+            >
+              <coneGeometry args={[0.05, 0.1]} />
+              <meshBasicMaterial color={colors[debugColorIndex]} />
+            </mesh>
+
+            <mesh
+              position={[anchorRightPosition, anchorTopPosition, 0]}
+              rotation-z={-Math.PI * 1.25}
+            >
+              <coneGeometry args={[0.05, 0.1]} />
+              <meshBasicMaterial color={colors[debugColorIndex]} />
+            </mesh>
+
+            <mesh
+              position={[anchorLeftPosition, anchorBottomPosition, 0]}
+              rotation-z={-Math.PI * 0.25}
+            >
+              <coneGeometry args={[0.05, 0.1]} />
+              <meshBasicMaterial color={colors[debugColorIndex]} />
+            </mesh>
+
+            <mesh
+              position={[anchorRightPosition, anchorBottomPosition, 0]}
+              rotation-z={Math.PI * 0.25}
+            >
+              <coneGeometry args={[0.05, 0.1]} />
+              <meshBasicMaterial color={colors[debugColorIndex]} />
+            </mesh>
+          </group>
+        )}
 
         {/* Apply pivot */}
         <group position={[parent ? width / 2 : 0, parent ? -height / 2 : 0, 0]}>
-          {/* Visualize the canvas */}
+          {/* Debug View */}
           {debug && (
-            <mesh scale={[width, height, 1]}>
-              <planeGeometry args={[1, 1]} />
-              <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
-            </mesh>
+            <>
+              {/* Visualize the canvas */}
+              <mesh scale={[width, height, 1]}>
+                <planeGeometry args={[1, 1]} />
+                <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
+              </mesh>
+            </>
           )}
 
           <RectContext.Provider
@@ -87,7 +132,7 @@ export const Rect = ({
 
 const OriginMarker = ({ color = "red" }: { color?: ColorRepresentation }) => (
   <mesh>
-    <sphereGeometry args={[0.1]} />
-    <meshBasicMaterial color={color} depthTest={false} />
+    <sphereGeometry args={[0.05]} />
+    <meshBasicMaterial color={"white"} depthTest={false} />
   </mesh>
 )
