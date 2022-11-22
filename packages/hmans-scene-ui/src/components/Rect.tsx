@@ -12,22 +12,18 @@ export const RectContext = createContext<{
 }>(null!)
 
 export type RectProps = GroupProps & {
-  anchorX?: number
-  anchorY?: number
-  pivotX?: number
-  pivotY?: number
-  width: number | `${number}%`
-  height: number | `${number}%`
+  width?: number
+  height?: number
+  anchor?: [number, number, number, number]
+  offset?: [number, number, number, number]
   debug?: boolean
 }
 
 export const Rect = ({
-  anchorX = 0.5,
-  anchorY = 0.5,
-  pivotX = 0.5,
-  pivotY = 0.5,
-  width: _width,
-  height,
+  anchor = [0, 0, 1, 1],
+  offset = [0, 0, 0, 0],
+  width: _width = 1,
+  height: _height = 1,
   children,
   debug: _debug,
   ...props
@@ -40,28 +36,17 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  /* Calculate width */
-  const width =
-    typeof _width === "string"
-      ? (+_width.slice(0, -1) / 100) * parent?.width || 0
-      : _width
+  const width = _width
+  const height = _height
 
   return (
     <group {...props}>
       {/* Apply anchor offset */}
-      <group
-        position={[
-          parent ? parent.width * (anchorX - 0.5) : 0,
-          parent ? parent.height * (anchorY - 0.5) : 0,
-          0
-        ]}
-      >
+      <group position={[0, 0, 0]}>
         {debug && <OriginMarker color={colors[debugColorIndex]} />}
 
         {/* Apply pivot */}
-        <group
-          position={[-(pivotX - 0.5) * width, -(pivotY - 0.5) * height, 0]}
-        >
+        <group position={[0, 0, 0]}>
           {/* Visualize the canvas */}
           {debug && (
             <mesh scale={[width, height, 1]}>
@@ -87,42 +72,3 @@ const OriginMarker = ({ color = "red" }: { color?: ColorRepresentation }) => (
     <meshBasicMaterial color={color} depthTest={false} />
   </mesh>
 )
-
-export const Anchor = {
-  TopLeft: {
-    anchorX: 0,
-    pivotX: 0,
-    anchorY: 1,
-    pivotY: 1
-  },
-  BottomRight: {
-    anchorX: 1,
-    pivotX: 1,
-    anchorY: 0,
-    pivotY: 0
-  },
-  Left: {
-    anchorX: 0,
-    pivotX: 0
-  },
-  Center: {
-    anchorX: 0.5,
-    pivotX: 0.5
-  },
-  Right: {
-    anchorX: 1,
-    pivotX: 1
-  },
-  Top: {
-    anchorY: 1,
-    pivotY: 1
-  },
-  Middle: {
-    anchorY: 0.5,
-    pivotY: 0.5
-  },
-  Bottom: {
-    anchorY: 0,
-    pivotY: 0
-  }
-}
