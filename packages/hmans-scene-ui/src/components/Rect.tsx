@@ -16,8 +16,8 @@ export type RectProps = GroupProps & {
   anchorY?: number
   pivotX?: number
   pivotY?: number
-  width: number
-  height: number
+  width: number | `${number}%`
+  height: number | `${number}%`
   debug?: boolean
 }
 
@@ -26,7 +26,7 @@ export const Rect = ({
   anchorY = 0.5,
   pivotX = 0.5,
   pivotY = 0.5,
-  width,
+  width: _width,
   height,
   children,
   debug: _debug,
@@ -39,6 +39,12 @@ export const Rect = ({
     parent?.debugColorIndex !== undefined
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
+
+  /* Calculate width */
+  const width =
+    typeof _width === "string"
+      ? (+_width.slice(0, -1) / 100) * parent?.width || 0
+      : _width
 
   return (
     <group {...props}>

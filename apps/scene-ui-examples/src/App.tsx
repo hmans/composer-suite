@@ -7,7 +7,7 @@ export const App = () => {
     <Application>
       <UI.Rect width={5} height={5} debug>
         <UI.Rect
-          width={4}
+          width="80%"
           height={1}
           pivotX={1}
           pivotY={1}
