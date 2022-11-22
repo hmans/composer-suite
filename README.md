@@ -159,21 +159,26 @@ The repository is structured as a monorepo. You will find all packages that are 
 This repository uses [Preconstruct](https://preconstruct.tools/) for building packages and providing a development environment. To start the development environment, run:
 
 ```sh
-pnpm dev
+pnpm dev:link
 ```
 
 This will cause Preconstruct to link all apps and packages together so they consume each others' TypeScript source, allowing you to modify code without having to rebuild after every change.
 
 ### Running Example Apps
 
-To run one of the apps in the `apps` directory with the development mode active, just start their `dev` task normally through `pnpm`. Examples:
+Use the `pnpm dev` task to start up all available apps in development mode, or supply a `--filter` argument to just start one of them. Examples:
 
 ```sh
+# Start all apps
 pnpm dev
-pnpm -F vfx-composer-examples dev
-pnpm -F shader-composer-examples dev
-pnpm -F spacerage dev
+
+# Start individual apps
+pnpm dev --filter spacerage
+pnpm dev --filter vfx-composer-examples
+pnpm dev --filter shader-composer-examples
 ```
+
+> **Note** The `pnpm dev` task uses [Turborepo](https://turbo.build/repo). Please refer to their [CLI Documentation](https://turbo.build/repo/docs/reference/command-line-reference) to learn about additional options.
 
 ### Core Tenets
 

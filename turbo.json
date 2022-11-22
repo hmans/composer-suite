@@ -1,6 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
+    "//#dev:link": {
+      "cache": false
+    },
+
+    "dev": {
+      "dependsOn": ["//#dev:link"],
+      "cache": false
+    },
+
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "*/dist/**"],
