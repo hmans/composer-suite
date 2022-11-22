@@ -6,9 +6,7 @@ export const App = () => {
   return (
     <Application>
       <UI.Rect width={8} height={4} debug>
-        <UI.Rect offset={[0.25, 0.25, 0.25, 0.25]}>
-          <UI.Rect offset={[0.25, 0, 0.25, 0.25]}></UI.Rect>
-        </UI.Rect>
+        <UI.Rect offset={[0.25, 0.25, 0.25, 1]}></UI.Rect>
       </UI.Rect>
     </Application>
   )

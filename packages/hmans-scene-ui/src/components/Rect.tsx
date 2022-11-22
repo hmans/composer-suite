@@ -36,7 +36,7 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  const [offsetLeft, offsetBottom, offsetRight, offsetTop] = offset
+  const [offsetLeft, offsetTop, offsetRight, offsetBottom] = offset
 
   const width =
     _width !== undefined
@@ -54,18 +54,18 @@ export const Rect = ({
 
   return (
     <group {...props}>
-      {/* Apply anchor offset */}
+      {/* Apply pivot offset */}
       <group
         position={[
-          (offsetLeft - offsetRight) / 2,
-          (offsetTop - offsetBottom) / 2,
+          parent ? -(width - offsetLeft + offsetRight) / 2 : 0,
+          parent ? +(height - offsetTop + offsetBottom) / 2 : 0,
           0
         ]}
       >
         {debug && <OriginMarker color={colors[debugColorIndex]} />}
 
         {/* Apply pivot */}
-        <group position={[0, 0, 0]}>
+        <group position={[parent ? width / 2 : 0, parent ? -height / 2 : 0, 0]}>
           {/* Visualize the canvas */}
           {debug && (
             <mesh scale={[width, height, 1]}>
