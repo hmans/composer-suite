@@ -22,8 +22,8 @@ export type RectProps = GroupProps & {
 export const Rect = ({
   anchor = [0, 0, 1, 1],
   offset = [0, 0, 0, 0],
-  width: _width = 1,
-  height: _height = 1,
+  width: _width,
+  height: _height,
   children,
   debug: _debug,
   ...props
@@ -36,13 +36,32 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  const width = _width
-  const height = _height
+  const [offsetLeft, offsetBottom, offsetRight, offsetTop] = offset
+
+  const width =
+    _width !== undefined
+      ? _width
+      : parent
+      ? parent.width - (offsetLeft + offsetRight)
+      : 1
+
+  const height =
+    _height !== undefined
+      ? _height
+      : parent
+      ? parent.height - (offsetTop + offsetBottom)
+      : 1
 
   return (
     <group {...props}>
       {/* Apply anchor offset */}
-      <group position={[0, 0, 0]}>
+      <group
+        position={[
+          (offsetLeft - offsetRight) / 2,
+          (offsetTop - offsetBottom) / 2,
+          0
+        ]}
+      >
         {debug && <OriginMarker color={colors[debugColorIndex]} />}
 
         {/* Apply pivot */}
@@ -50,7 +69,7 @@ export const Rect = ({
           {/* Visualize the canvas */}
           {debug && (
             <mesh scale={[width, height, 1]}>
-              <planeGeometry args={[1, 1]} />
+              <planeGeometry args={[1, 1, width, height]} />
               <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
             </mesh>
           )}
