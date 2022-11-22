@@ -154,6 +154,32 @@ _TODO_
 
 The repository is structured as a monorepo. You will find all packages that are part of the Composer Suite inside the `packages` directory, and a collection of applications (examples and otherwise) inside `apps`.
 
+### Development Mode
+
+This repository uses [Preconstruct](https://preconstruct.tools/) for building packages and providing a development environment. To start the development environment, run:
+
+```sh
+pnpm dev:link
+```
+
+This will cause Preconstruct to link all apps and packages together so they consume each others' TypeScript source, allowing you to modify code without having to rebuild after every change.
+
+### Running Example Apps
+
+Use the `pnpm dev` task to start up all available apps in development mode, or supply a `--filter` argument to just start one of them. Examples:
+
+```sh
+# Start all apps
+pnpm dev
+
+# Start individual apps
+pnpm dev --filter spacerage
+pnpm dev --filter vfx-composer-examples
+pnpm dev --filter shader-composer-examples
+```
+
+> **Note** The `pnpm dev` task uses [Turborepo](https://turbo.build/repo). Please refer to their [CLI Documentation](https://turbo.build/repo/docs/reference/command-line-reference) to learn about additional options.
+
 ### Core Tenets
 
 All of the libraries in the Composer Suite are aiming for the following:
