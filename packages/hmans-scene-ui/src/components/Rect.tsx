@@ -69,7 +69,7 @@ export const Rect = ({
           {/* Visualize the canvas */}
           {debug && (
             <mesh scale={[width, height, 1]}>
-              <planeGeometry args={[1, 1, width, height]} />
+              <planeGeometry args={[1, 1]} />
               <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
             </mesh>
           )}
