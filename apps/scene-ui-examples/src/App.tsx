@@ -6,8 +6,8 @@ export const App = () => {
   return (
     <Application>
       <UI.Canvas width={6} height={4} debug>
-        <UI.Rect anchor={[0, 0, 0, 0]} margin={[0.5, 1, 0.5, 1]}>
-          <UI.Rect anchor={[1, 0.5, 0, 0.5]} margin={[-1, 1.5, 0.1, 1.5]} />
+        <UI.Rect margin={[0.25, 0.25, 0.25, 0.25]}>
+          <UI.Rect anchor={[1, 0.5, 0, 0.5]} margin={[-1, 1.5, 0.25, 1.5]} />
         </UI.Rect>
       </UI.Canvas>
     </Application>

@@ -24,7 +24,7 @@ const ANCHOR_GIZMO_OFFSET = 0.035
 const DEPTH_OFFSET = 0.001
 
 export const Rect = ({
-  anchor = [0, 0, 1, 1],
+  anchor = [0, 0, 0, 0],
   margin = [0, 0, 0, 0],
   pivot = [0, 0],
   width: _width,
