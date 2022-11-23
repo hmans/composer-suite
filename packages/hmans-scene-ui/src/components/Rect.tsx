@@ -103,7 +103,10 @@ export const Rect = ({
               offsetLeft +
               offsetRight) /
               2,
-            (parent.height * anchorTop + offsetBottom + offsetTop) / -2,
+            (parent.height * (anchorTop - (1 - anchorBottom)) +
+              offsetBottom +
+              offsetTop) /
+              -2,
             0
           ]}
         >
