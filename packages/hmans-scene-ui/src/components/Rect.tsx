@@ -14,7 +14,6 @@ export const RectContext = createContext<{
 export type RectProps = GroupProps & {
   width?: number
   height?: number
-  pivot?: [number, number]
   anchor?: [number, number, number, number]
   margin?: [number, number, number, number]
   debug?: boolean
@@ -26,7 +25,6 @@ const DEPTH_OFFSET = 0.001
 export const Rect = ({
   anchor = [0, 0, 0, 0],
   margin = [0, 0, 0, 0],
-  pivot = [0, 0],
   width: _width,
   height: _height,
   children,
