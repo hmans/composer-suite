@@ -16,7 +16,7 @@ export type RectProps = GroupProps & {
   height?: number
   pivot?: [number, number]
   anchor?: [number, number, number, number]
-  offset?: [number, number, number, number]
+  margin?: [number, number, number, number]
   debug?: boolean
 }
 
@@ -25,7 +25,7 @@ const DEPTH_OFFSET = 0.001
 
 export const Rect = ({
   anchor = [0, 0, 1, 1],
-  offset = [0, 0, 0, 0],
+  margin = [0, 0, 0, 0],
   pivot = [0, 0],
   width: _width,
   height: _height,
@@ -41,7 +41,7 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  const [offsetTop, offsetRight, offsetBottom, offsetLeft] = offset
+  const [marginTop, marginRight, marginBottom, marginLeft] = margin
   const [anchorTop, anchorRight, anchorBottom, anchorLeft] = anchor
 
   const anchorLeftPosition = (anchorLeft - 0.5) * parent.width
@@ -49,10 +49,10 @@ export const Rect = ({
   const anchorTopPosition = (0.5 - anchorTop) * parent.height
   const anchorBottomPosition = (0.5 - (1 - anchorBottom)) * parent.height
 
-  const leftPosition = anchorLeftPosition + offsetLeft
-  const rightPosition = anchorRightPosition - offsetRight
-  const topPosition = anchorTopPosition - offsetTop
-  const bottomPosition = anchorBottomPosition + offsetBottom
+  const leftPosition = anchorLeftPosition + marginLeft
+  const rightPosition = anchorRightPosition - marginRight
+  const topPosition = anchorTopPosition - marginTop
+  const bottomPosition = anchorBottomPosition + marginBottom
 
   const width = rightPosition - leftPosition
   const height = topPosition - bottomPosition
@@ -118,13 +118,13 @@ export const Rect = ({
       <group
         position={[
           (parent.width * (anchorLeft - anchorRight) +
-            offsetLeft -
-            offsetRight) /
+            marginLeft -
+            marginRight) /
             2,
 
           (parent.height * (anchorTop - anchorBottom) +
-            offsetTop -
-            offsetBottom) /
+            marginTop -
+            marginBottom) /
             -2,
 
           DEPTH_OFFSET
