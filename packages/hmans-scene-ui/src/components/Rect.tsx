@@ -44,10 +44,15 @@ export const Rect = ({
   const anchorLeftPosition = (anchorLeft - 0.5) * parent.width
   const anchorRightPosition = (anchorRight - 0.5) * parent.width
   const anchorTopPosition = (0.5 - anchorTop) * parent.height
-  const anchorBottomPosition = -(anchorBottom - 0.5) * parent.height
+  const anchorBottomPosition = (0.5 - anchorBottom) * parent.height
 
-  const width = anchorRightPosition - anchorLeftPosition
-  const height = anchorBottomPosition - anchorTopPosition
+  const leftPosition = anchorLeftPosition + offsetLeft
+  const rightPosition = anchorRightPosition + offsetRight
+  const topPosition = anchorTopPosition - offsetTop
+  const bottomPosition = anchorBottomPosition - offsetBottom
+
+  const width = rightPosition - leftPosition
+  const height = topPosition - bottomPosition
 
   return (
     <group {...props}>
@@ -92,7 +97,13 @@ export const Rect = ({
         )}
 
         {/* Apply pivot */}
-        <group position={[0, 0, 0]}>
+        <group
+          position={[
+            (offsetLeft + offsetRight) / 2,
+            (-offsetBottom - offsetTop) / 2,
+            0
+          ]}
+        >
           {/* Debug View */}
           {debug && (
             <>
