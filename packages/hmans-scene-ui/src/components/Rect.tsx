@@ -99,7 +99,10 @@ export const Rect = ({
         {/* Apply pivot */}
         <group
           position={[
-            (parent.width * anchorLeft + offsetLeft + offsetRight) / 2,
+            (parent.width * (anchorLeft - (1 - anchorRight)) +
+              offsetLeft +
+              offsetRight) /
+              2,
             (parent.height * anchorTop + offsetBottom + offsetTop) / -2,
             0
           ]}
