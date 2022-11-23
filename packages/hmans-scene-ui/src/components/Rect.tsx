@@ -14,13 +14,28 @@ export const RectContext = createContext<{
 export type RectProps = GroupProps & {
   width?: number
   height?: number
-  anchor?: [number, number, number, number]
-  margin?: [number, number, number, number]
+  anchor?: SizingValue
+  margin?: SizingValue
   debug?: boolean
 }
 
 const ANCHOR_GIZMO_OFFSET = 0.035
 const DEPTH_OFFSET = 0.001
+
+type SizingValue =
+  | [number, number, number, number]
+  | [number, number]
+  | [number]
+  | number
+
+const resolveSizingValue = (value: SizingValue) =>
+  typeof value === "number"
+    ? [value, value, value, value]
+    : value.length === 2
+    ? [value[0], value[1], value[0], value[1]]
+    : value.length === 1
+    ? [value[0], value[0], value[0], value[0]]
+    : value
 
 export const Rect = ({
   anchor = [0, 0, 0, 0],
@@ -39,8 +54,11 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  const [marginTop, marginRight, marginBottom, marginLeft] = margin
-  const [anchorTop, anchorRight, anchorBottom, anchorLeft] = anchor
+  const [marginTop, marginRight, marginBottom, marginLeft] =
+    resolveSizingValue(margin)
+
+  const [anchorTop, anchorRight, anchorBottom, anchorLeft] =
+    resolveSizingValue(anchor)
 
   const anchorLeftPosition = (anchorLeft - 0.5) * parent.width
   const anchorRightPosition = (1 - anchorRight - 0.5) * parent.width
@@ -153,3 +171,7 @@ const OriginMarker = ({ color = "red" }: { color?: ColorRepresentation }) => (
     <meshBasicMaterial color={"white"} depthTest={false} />
   </mesh>
 )
+
+export const Anchor: Record<string, SizingValue> = {
+  BottomCenter: [1, 0.5, 0, 0.5]
+}
