@@ -41,7 +41,7 @@ export const Rect = ({
       ? (parent?.debugColorIndex + 1) % colors.length
       : 0
 
-  const [offsetLeft, offsetTop, offsetRight, offsetBottom] = offset
+  const [offsetTop, offsetRight, offsetBottom, offsetLeft] = offset
   const [anchorTop, anchorRight, anchorBottom, anchorLeft] = anchor
 
   const anchorLeftPosition = (anchorLeft - 0.5) * parent.width
@@ -50,9 +50,9 @@ export const Rect = ({
   const anchorBottomPosition = (0.5 - (1 - anchorBottom)) * parent.height
 
   const leftPosition = anchorLeftPosition + offsetLeft
-  const rightPosition = anchorRightPosition + offsetRight
+  const rightPosition = anchorRightPosition - offsetRight
   const topPosition = anchorTopPosition - offsetTop
-  const bottomPosition = anchorBottomPosition - offsetBottom
+  const bottomPosition = anchorBottomPosition + offsetBottom
 
   const width = rightPosition - leftPosition
   const height = topPosition - bottomPosition
@@ -118,13 +118,13 @@ export const Rect = ({
       <group
         position={[
           (parent.width * (anchorLeft - anchorRight) +
-            offsetLeft +
+            offsetLeft -
             offsetRight) /
             2,
 
           (parent.height * (anchorTop - anchorBottom) +
-            offsetBottom +
-            offsetTop) /
+            offsetTop -
+            offsetBottom) /
             -2,
 
           DEPTH_OFFSET
