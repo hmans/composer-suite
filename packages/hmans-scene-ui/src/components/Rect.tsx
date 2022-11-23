@@ -21,6 +21,7 @@ export type RectProps = GroupProps & {
 }
 
 const ANCHOR_GIZMO_OFFSET = 0.035
+const DEPTH_OFFSET = 0.001
 
 export const Rect = ({
   anchor = [0, 0, 1, 1],
@@ -58,93 +59,91 @@ export const Rect = ({
 
   return (
     <group {...props}>
-      {/* Apply pivot offset */}
-      <group position={[0, 0, 0]}>
+      {/* Debug Gizmos */}
+      {debug && (
+        <group>
+          <OriginMarker color={colors[debugColorIndex]} />
+
+          <mesh
+            position={[
+              anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
+              anchorTopPosition + ANCHOR_GIZMO_OFFSET,
+              0
+            ]}
+            rotation-z={Math.PI * 1.25}
+          >
+            <coneGeometry args={[0.05, 0.1]} />
+            <meshBasicMaterial color={colors[debugColorIndex]} />
+          </mesh>
+
+          <mesh
+            position={[
+              anchorRightPosition + ANCHOR_GIZMO_OFFSET,
+              anchorTopPosition + ANCHOR_GIZMO_OFFSET,
+              0
+            ]}
+            rotation-z={-Math.PI * 1.25}
+          >
+            <coneGeometry args={[0.05, 0.1]} />
+            <meshBasicMaterial color={colors[debugColorIndex]} />
+          </mesh>
+
+          <mesh
+            position={[
+              anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
+              anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
+              0
+            ]}
+            rotation-z={-Math.PI * 0.25}
+          >
+            <coneGeometry args={[0.05, 0.1]} />
+            <meshBasicMaterial color={colors[debugColorIndex]} />
+          </mesh>
+
+          <mesh
+            position={[
+              anchorRightPosition + ANCHOR_GIZMO_OFFSET,
+              anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
+              0
+            ]}
+            rotation-z={Math.PI * 0.25}
+          >
+            <coneGeometry args={[0.05, 0.1]} />
+            <meshBasicMaterial color={colors[debugColorIndex]} />
+          </mesh>
+        </group>
+      )}
+
+      {/* Apply pivot */}
+      <group
+        position={[
+          (parent.width * (anchorLeft - (1 - anchorRight)) +
+            offsetLeft +
+            offsetRight) /
+            2,
+
+          (parent.height * (anchorTop - (1 - anchorBottom)) +
+            offsetBottom +
+            offsetTop) /
+            -2,
+
+          DEPTH_OFFSET
+        ]}
+      >
+        {/* Debug Pane */}
         {debug && (
-          <group position={[0, 0, 0]}>
-            <OriginMarker color={colors[debugColorIndex]} />
-
-            <mesh
-              position={[
-                anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
-                anchorTopPosition + ANCHOR_GIZMO_OFFSET,
-                0
-              ]}
-              rotation-z={Math.PI * 1.25}
-            >
-              <coneGeometry args={[0.05, 0.1]} />
-              <meshBasicMaterial color={colors[debugColorIndex]} />
+          <>
+            {/* Visualize the canvas */}
+            <mesh scale={[width, height, 1]}>
+              <planeGeometry args={[1, 1]} />
+              <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
             </mesh>
-
-            <mesh
-              position={[
-                anchorRightPosition + ANCHOR_GIZMO_OFFSET,
-                anchorTopPosition + ANCHOR_GIZMO_OFFSET,
-                0
-              ]}
-              rotation-z={-Math.PI * 1.25}
-            >
-              <coneGeometry args={[0.05, 0.1]} />
-              <meshBasicMaterial color={colors[debugColorIndex]} />
-            </mesh>
-
-            <mesh
-              position={[
-                anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
-                anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
-                0
-              ]}
-              rotation-z={-Math.PI * 0.25}
-            >
-              <coneGeometry args={[0.05, 0.1]} />
-              <meshBasicMaterial color={colors[debugColorIndex]} />
-            </mesh>
-
-            <mesh
-              position={[
-                anchorRightPosition + ANCHOR_GIZMO_OFFSET,
-                anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
-                0
-              ]}
-              rotation-z={Math.PI * 0.25}
-            >
-              <coneGeometry args={[0.05, 0.1]} />
-              <meshBasicMaterial color={colors[debugColorIndex]} />
-            </mesh>
-          </group>
+          </>
         )}
 
-        {/* Apply pivot */}
-        <group
-          position={[
-            (parent.width * (anchorLeft - (1 - anchorRight)) +
-              offsetLeft +
-              offsetRight) /
-              2,
-            (parent.height * (anchorTop - (1 - anchorBottom)) +
-              offsetBottom +
-              offsetTop) /
-              -2,
-            0
-          ]}
-        >
-          {/* Debug View */}
-          {debug && (
-            <>
-              {/* Visualize the canvas */}
-              <mesh scale={[width, height, 1]}>
-                <planeGeometry args={[1, 1]} />
-                <meshBasicMaterial color={colors[debugColorIndex]} wireframe />
-              </mesh>
-            </>
-          )}
-
-          <RectContext.Provider
-            value={{ width, height, debug, debugColorIndex }}
-          >
-            <group position-z={0.01}>{children}</group>
-          </RectContext.Provider>
-        </group>
+        <RectContext.Provider value={{ width, height, debug, debugColorIndex }}>
+          {children}
+        </RectContext.Provider>
       </group>
     </group>
   )
