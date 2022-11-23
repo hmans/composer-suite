@@ -20,6 +20,8 @@ export type RectProps = GroupProps & {
   debug?: boolean
 }
 
+const ANCHOR_GIZMO_OFFSET = 0.035
+
 export const Rect = ({
   anchor = [0, 0, 1, 1],
   offset = [0, 0, 0, 0],
@@ -63,7 +65,11 @@ export const Rect = ({
             <OriginMarker color={colors[debugColorIndex]} />
 
             <mesh
-              position={[anchorLeftPosition, anchorTopPosition, 0]}
+              position={[
+                anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
+                anchorTopPosition + ANCHOR_GIZMO_OFFSET,
+                0
+              ]}
               rotation-z={Math.PI * 1.25}
             >
               <coneGeometry args={[0.05, 0.1]} />
@@ -71,7 +77,11 @@ export const Rect = ({
             </mesh>
 
             <mesh
-              position={[anchorRightPosition, anchorTopPosition, 0]}
+              position={[
+                anchorRightPosition + ANCHOR_GIZMO_OFFSET,
+                anchorTopPosition + ANCHOR_GIZMO_OFFSET,
+                0
+              ]}
               rotation-z={-Math.PI * 1.25}
             >
               <coneGeometry args={[0.05, 0.1]} />
@@ -79,7 +89,11 @@ export const Rect = ({
             </mesh>
 
             <mesh
-              position={[anchorLeftPosition, anchorBottomPosition, 0]}
+              position={[
+                anchorLeftPosition - ANCHOR_GIZMO_OFFSET,
+                anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
+                0
+              ]}
               rotation-z={-Math.PI * 0.25}
             >
               <coneGeometry args={[0.05, 0.1]} />
@@ -87,7 +101,11 @@ export const Rect = ({
             </mesh>
 
             <mesh
-              position={[anchorRightPosition, anchorBottomPosition, 0]}
+              position={[
+                anchorRightPosition + ANCHOR_GIZMO_OFFSET,
+                anchorBottomPosition - ANCHOR_GIZMO_OFFSET,
+                0
+              ]}
               rotation-z={Math.PI * 0.25}
             >
               <coneGeometry args={[0.05, 0.1]} />
