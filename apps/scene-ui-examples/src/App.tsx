@@ -7,7 +7,7 @@ export const App = () => {
     <Application>
       <UI.Canvas width={6} height={4} debug>
         <UI.Rect anchor={[0.1, 0.1, 0.1, 0.1]} offset={[0, 0, 0, 0]}>
-          {/* <UI.Rect anchor={[0.5, 1, 0.5, 1]} offset={[-0.5, -0.4, 0.5, -0.1]} /> */}
+          <UI.Rect anchor={[1, 0.5, 0, 0.5]} offset={[-0.5, -0.4, 0.5, -0.1]} />
         </UI.Rect>
       </UI.Canvas>
     </Application>
