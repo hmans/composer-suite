@@ -6,7 +6,7 @@ export const App = () => {
   return (
     <Application>
       <UI.Canvas width={6} height={4} debug>
-        <UI.Rect />
+        <UI.Rect anchor={[0.1, 0.1, 0.9, 0.9]} />
       </UI.Canvas>
     </Application>
   )

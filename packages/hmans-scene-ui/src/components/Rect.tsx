@@ -14,6 +14,7 @@ export const RectContext = createContext<{
 export type RectProps = GroupProps & {
   width?: number
   height?: number
+  pivot?: [number, number]
   anchor?: [number, number, number, number]
   offset?: [number, number, number, number]
   debug?: boolean
@@ -22,6 +23,7 @@ export type RectProps = GroupProps & {
 export const Rect = ({
   anchor = [0, 0, 1, 1],
   offset = [0, 0, 0, 0],
+  pivot = [0, 0],
   width: _width,
   height: _height,
   children,
@@ -39,16 +41,13 @@ export const Rect = ({
   const [offsetLeft, offsetTop, offsetRight, offsetBottom] = offset
   const [anchorLeft, anchorTop, anchorRight, anchorBottom] = anchor
 
-  const width =
-    _width !== undefined ? _width : parent.width - (offsetLeft + offsetRight)
+  const anchorLeftPosition = (anchorLeft - 0.5) * parent.width
+  const anchorRightPosition = (anchorRight - 0.5) * parent.width
+  const anchorTopPosition = (0.5 - anchorTop) * parent.height
+  const anchorBottomPosition = -(anchorBottom - 0.5) * parent.height
 
-  const height =
-    _height !== undefined ? _height : parent.height - (offsetTop + offsetBottom)
-
-  const anchorLeftPosition = anchorLeft * width
-  const anchorRightPosition = anchorRight * width
-  const anchorTopPosition = anchorTop * height
-  const anchorBottomPosition = -anchorBottom * height
+  const width = anchorRightPosition - anchorLeftPosition
+  const height = anchorBottomPosition - anchorTopPosition
 
   return (
     <group {...props}>
