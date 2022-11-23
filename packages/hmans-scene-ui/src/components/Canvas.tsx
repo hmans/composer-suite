@@ -15,6 +15,13 @@ export const Canvas = forwardRef<Group, CanvasProps>(
       <RectContext.Provider
         value={{ width, height, debug, debugColorIndex: 0 }}
       >
+        {debug && (
+          <mesh scale={[width, height, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="white" wireframe />
+          </mesh>
+        )}
+
         <group {...props}>{children}</group>
       </RectContext.Provider>
     )
