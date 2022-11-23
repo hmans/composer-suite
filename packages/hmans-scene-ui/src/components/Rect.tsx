@@ -40,18 +40,10 @@ export const Rect = ({
   const [anchorLeft, anchorTop, anchorRight, anchorBottom] = anchor
 
   const width =
-    _width !== undefined
-      ? _width
-      : parent
-      ? parent.width - (offsetLeft + offsetRight)
-      : 1
+    _width !== undefined ? _width : parent.width - (offsetLeft + offsetRight)
 
   const height =
-    _height !== undefined
-      ? _height
-      : parent
-      ? parent.height - (offsetTop + offsetBottom)
-      : 1
+    _height !== undefined ? _height : parent.height - (offsetTop + offsetBottom)
 
   const anchorLeftPosition = anchorLeft * width
   const anchorRightPosition = anchorRight * width
@@ -61,15 +53,9 @@ export const Rect = ({
   return (
     <group {...props}>
       {/* Apply pivot offset */}
-      <group
-        position={[
-          parent ? -(width - offsetLeft + offsetRight) / 2 : 0,
-          parent ? +(height - offsetTop + offsetBottom) / 2 : 0,
-          0
-        ]}
-      >
+      <group position={[0, 0, 0]}>
         {debug && (
-          <group>
+          <group position={[0, 0, 0]}>
             <OriginMarker color={colors[debugColorIndex]} />
 
             <mesh
@@ -107,7 +93,7 @@ export const Rect = ({
         )}
 
         {/* Apply pivot */}
-        <group position={[parent ? width / 2 : 0, parent ? -height / 2 : 0, 0]}>
+        <group position={[0, 0, 0]}>
           {/* Debug View */}
           {debug && (
             <>

@@ -5,9 +5,9 @@ import * as UI from "@hmans/scene-ui"
 export const App = () => {
   return (
     <Application>
-      <UI.Rect width={8} height={4} debug>
-        <UI.Rect anchor={[0, 0, 1, 1]} offset={[0.25, 0.25, 0.25, 1]}></UI.Rect>
-      </UI.Rect>
+      <UI.Canvas width={6} height={4} debug>
+        <UI.Rect />
+      </UI.Canvas>
     </Application>
   )
 }
