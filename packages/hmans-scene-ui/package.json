@@ -1,0 +1,52 @@
+{
+  "name": "@hmans/scene-ui",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "",
+  "version": "0.0.1",
+  "main": "dist/hmans-scene-ui.cjs.js",
+  "module": "dist/hmans-scene-ui.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  },
+  "peerDependencies": {
+    "@react-three/fiber": "^8.8.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.145.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "@types/three": "^0.144.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.145.0"
+  },
+  "dependencies": {
+    "troika-three-text": "^0.46.4"
+  }
+}

@@ -1,5 +1,6 @@
 import { Physics } from "@react-three/rapier"
 import { Suspense } from "react"
+import * as RC from "render-composer"
 import { bitmask, Layers } from "render-composer"
 import { Vec3 } from "shader-composer"
 import { Color } from "three"
@@ -10,7 +11,6 @@ import { Nebula } from "../menu/vfx/Nebula"
 import { Asteroids } from "./Asteroids"
 import { Bullets } from "./Bullets"
 import { FollowCamera } from "./FollowCamera"
-import { HUD } from "./HUD"
 import { Pickups } from "./Pickups"
 import { Player } from "./Player"
 import { PostProcessing } from "./PostProcessing"
@@ -89,7 +89,13 @@ const GameplayScene = () => {
         </Physics>
       </group>
 
-      <HUD />
+      {/* <ScenePass>
+        <HUD />
+      </ScenePass> */}
+
+      <RC.EffectPass>
+        <RC.SMAAEffect />
+      </RC.EffectPass>
     </Suspense>
   )
 }

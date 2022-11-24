@@ -1,7 +1,8 @@
-import { ReactNode, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { Scene } from "three"
-import * as RC from "render-composer"
 import { createPortal } from "@react-three/fiber"
+import { RenderPass } from "./RenderPass"
+import { EffectPass } from "./EffectPass"
 
 export const ScenePass = ({ children }: { children?: ReactNode }) => {
   const [scene] = useState(() => new Scene())
@@ -9,8 +10,8 @@ export const ScenePass = ({ children }: { children?: ReactNode }) => {
   return createPortal(
     <>
       {children}
-      <RC.RenderPass clear={false} ignoreBackground />
-      <RC.EffectPass />
+      <RenderPass clear={true} clearColor={false} ignoreBackground />
+      <EffectPass />
     </>,
     scene,
     {}
