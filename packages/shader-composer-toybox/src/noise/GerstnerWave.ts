@@ -1,5 +1,4 @@
 import { $, Input, Snippet, Vec3 } from "shader-composer"
-import { Vector2 } from "three"
 
 /*
 With many thanks to glNoise:
@@ -22,11 +21,14 @@ export const gerstnerWave = Snippet(
 
 export const GerstnerWave = (
   p: Input<"vec2">,
-  direction: Input<"vec2"> = new Vector2(1, 0),
+  direction: Input<"vec2"> = [1, 0],
   steepness: Input<"float"> = 1,
   wavelength: Input<"float"> = 1,
   offset: Input<"float"> = 0
 ) =>
-  Vec3($`${gerstnerWave}(${p}, ${direction}, ${steepness}, ${wavelength}, ${offset})`, {
-    name: "Gerstner Wave"
-  })
+  Vec3(
+    $`${gerstnerWave}(${p}, ${direction}, ${steepness}, ${wavelength}, ${offset})`,
+    {
+      name: "Gerstner Wave"
+    }
+  )
