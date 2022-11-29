@@ -592,11 +592,11 @@ importers:
     specifiers:
       '@hmans/use-const': ^0.0.1
       '@material-composer/patch-material': workspace:^0.1.3
-      shader-composer: ^0.4.5
+      shader-composer-three: ^0.4.9
     dependencies:
       '@hmans/use-const': 0.0.1
       '@material-composer/patch-material': link:../material-composer-patch-material
-      shader-composer: link:../shader-composer
+      shader-composer-three: link:../shader-composer-three
 
   packages/shader-composer-three:
     specifiers:

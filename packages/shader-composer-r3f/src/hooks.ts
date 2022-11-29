@@ -7,7 +7,7 @@ import {
   UniformUnit,
   Unit,
   UnitConfig
-} from "shader-composer"
+} from "shader-composer-three"
 
 export const useShader = (ctor: () => Unit, deps?: any) => {
   const [shader, { update, dispose }] = useMemo(
