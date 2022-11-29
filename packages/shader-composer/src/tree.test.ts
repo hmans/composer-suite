@@ -1,4 +1,3 @@
-import { Color } from "three"
 import { $ } from "./expressions"
 import { Snippet } from "./snippets"
 import { Float, Master, Vec3 } from "./stdlib"
@@ -27,12 +26,12 @@ describe("walkTree", () => {
   })
 
   it("includes constant values", () => {
-    const color = new Color()
-    const root = Vec3(color)
+    const a = 123
+    const root = Vec3(a)
 
     const seen = new Array<Item>()
     walkTree(root, "any", (item) => seen.push(item))
-    expect(seen).toEqual([color, root._unitConfig.value, root])
+    expect(seen).toEqual([a, root._unitConfig.value, root])
   })
 
   describe("when a program is specified", () => {
