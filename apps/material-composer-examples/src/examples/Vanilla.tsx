@@ -78,7 +78,7 @@ const vanillaCode = (
 
   /* Create mesh and add it to the scene. */
   const stopLoop = loop((dt) => {
-    shaderMeta.update(dt, camera, scene, renderer)
+    shaderMeta.update(dt, { camera, scene, renderer })
   })
 
   return () => {
