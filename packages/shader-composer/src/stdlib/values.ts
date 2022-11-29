@@ -13,9 +13,7 @@ import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
 export type CastableInput = any
 /* NOTE: this will currently always allow any GLSL input. We may narrow it over time. */
 
-export type CastFunction<T extends GLSLType> = (
-  ...values: CastableInput[]
-) => Expression
+export type CastFunction = (...values: CastableInput[]) => Expression
 
 /**
  * Returns an expression that casts the given values to a `float`.
@@ -85,7 +83,7 @@ const makeUnitFactory =
     Unit(type, v, extras) as Unit<T>
 
 const makeCastableUnitFactory =
-  <T extends GLSLType>(type: T, castFunction: CastFunction<T>) =>
+  <T extends GLSLType>(type: T, castFunction: CastFunction) =>
   (v: CastableInput, extras?: Partial<UnitConfig<T>>) =>
     Unit(type, castFunction(v), extras) as Unit<T>
 
