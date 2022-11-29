@@ -5,7 +5,7 @@
   "fixed": [],
   "linked": [
     ["vfx-composer", "vfx-composer-r3f"],
-    ["shader-composer", "shader-composer-r3f"],
+    ["shader-composer", "shader-composer-*"],
     ["material-composer", "material-composer-r3f"]
   ],
   "access": "public",

@@ -13,7 +13,7 @@ import {
   OneMinus,
   Sub,
   VertexPosition
-} from "shader-composer"
+} from "shader-composer-three"
 import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color, Mesh } from "three"

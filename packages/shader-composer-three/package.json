@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Build Three.js shaders using JavaScript.",
-  "version": "0.0.1",
+  "version": "0.4.9",
   "main": "dist/shader-composer-three.cjs.js",
   "module": "dist/shader-composer-three.esm.js",
   "files": [

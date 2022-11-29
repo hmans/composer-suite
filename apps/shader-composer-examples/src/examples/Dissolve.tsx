@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
-import { Mix } from "shader-composer"
+import { Mix } from "shader-composer-three"
 import {
   Shader,
   ShaderMaster,

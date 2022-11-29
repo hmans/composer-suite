@@ -1,9 +1,16 @@
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
-import { GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
+import {
+  Add,
+  GlobalTime,
+  Input,
+  Int,
+  Mul,
+  Remap,
+  Vec2
+} from "shader-composer-three"
 import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
-import { add } from "shader-composer/fun"
 import { Color, DoubleSide } from "three"
 
 const NormalizeNoise = (v: Input<"float">) => Remap(v, -1, 1, 0, 1)
@@ -38,11 +45,13 @@ function Water() {
 
       return pipe(
         v,
-        add(Mul(GerstnerWave(xy, Vec2([1, 1]), 0.5, 20.0, time), 0.8)),
-        add(Mul(GerstnerWave(xy, Vec2([0.2, 1]), 0.2, 10, time), 0.8)),
-        add(Mul(GerstnerWave(xy, Vec2([0, -1]), 0.2, 5, time), 0.5)),
-        add(Mul(GerstnerWave(xy, Vec2([1, 1]), 0.2, 8, time), 0.3))
-        // add(Mul(vec3(0, 0.005, 0), fbm))
+        (v) =>
+          Add(v, Mul(GerstnerWave(xy, Vec2([1, 1]), 0.5, 20.0, time), 0.8)),
+        (v) =>
+          Add(v, Mul(GerstnerWave(xy, Vec2([0.2, 1]), 0.2, 10, time), 0.8)),
+        (v) => Add(v, Mul(GerstnerWave(xy, Vec2([0, -1]), 0.2, 5, time), 0.5)),
+        (v) => Add(v, Mul(GerstnerWave(xy, Vec2([1, 1]), 0.2, 8, time), 0.3))
+        // (v) => Add(v, Mul(vec3(0, 0.005, 0), fbm))
       )
     })
 

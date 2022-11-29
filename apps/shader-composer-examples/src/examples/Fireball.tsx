@@ -12,7 +12,7 @@ import {
   Vec3,
   VertexNormal,
   VertexPosition
-} from "shader-composer"
+} from "shader-composer-three"
 import {
   Shader,
   ShaderMaster,
