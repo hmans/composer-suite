@@ -1,19 +1,21 @@
 import { GLSLType, Input, isUnit } from "./units"
 
-export type Vector2 =
-  | { x: Input<"float">; y: Input<"float"> }
-  | [Input<"float">, Input<"float">]
-
-export type Vector3 =
-  | { x: Input<"float">; y: Input<"float">; z: Input<"float"> }
-  | [Input<"float">, Input<"float">, Input<"float">]
-
 export type Vector4 = {
   x: Input<"float">
   y: Input<"float">
   z: Input<"float">
   w: Input<"float">
 }
+
+export type Vector3 =
+  | { x: Input<"float">; y: Input<"float">; z: Input<"float"> }
+  | { isVector3: true }
+  | [Input<"float">, Input<"float">, Input<"float">]
+
+export type Vector2 =
+  | { x: Input<"float">; y: Input<"float"> }
+  | { isVector2: true }
+  | [Input<"float">, Input<"float">]
 
 export type Color = { r: Input<"float">; g: Input<"float">; b: Input<"float"> }
 
@@ -61,14 +63,14 @@ export type GLSLTypeFor<JSType> = JSType extends number
   ? "bool"
   : JSType extends { isTexture: any }
   ? "sampler2D"
-  : JSType extends Vector2
-  ? "vec2"
-  : JSType extends Vector3
-  ? "vec3"
   : JSType extends Vector4
   ? "vec4"
+  : JSType extends Vector3
+  ? "vec3"
   : JSType extends Color
   ? "vec3"
+  : JSType extends Vector2
+  ? "vec2"
   : JSType extends Matrix2
   ? "mat2"
   : JSType extends Matrix3
