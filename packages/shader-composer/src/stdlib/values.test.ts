@@ -34,7 +34,7 @@ describe("$vec3", () => {
   })
 })
 
-describe("$vec3", () => {
+describe("$vec4", () => {
   it("casts multiple components to a vec4", () => {
     const cast = $vec4([{ x: 1, y: 2 }, [3, 4]])
     expect(glslRepresentation(cast)).toEqual(

@@ -1,3 +1,4 @@
+import { Float } from "./stdlib"
 import { GLSLType, isUnit, Input } from "./units"
 
 export type Vector2 =
@@ -95,7 +96,9 @@ export const glslType = <T extends GLSLType>(value: Input<T>): T => {
 export const type = glslType
 
 export function isArrayWithLength(obj: any, length: number) {
-  return Array.isArray(obj) && obj.length === length
+  return (
+    (obj instanceof Float32Array || Array.isArray(obj)) && obj.length === length
+  )
 }
 
 export function isObjectWithKeys(obj: any, ...keys: string[]) {
