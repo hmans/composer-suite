@@ -561,26 +561,28 @@ importers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-mutable-list': workspace:^0.0.2
       '@hmans/use-nullable-state': workspace:^0.0.1
+      '@shader-composer/postprocessing': workspace:^0.0.1
       fp-ts: ^2.12.3
       shader-composer: workspace:^0.4.4
-      shader-composer-postprocessing: workspace:^0.0.1
       test: ^3.2.1
     dependencies:
       '@hmans/use-const': 0.0.1
       '@hmans/use-mutable-list': link:../hmans-use-mutable-list
       '@hmans/use-nullable-state': link:../hmans-use-nullable-state
+      '@shader-composer/postprocessing': link:../shader-composer-postprocessing
       fp-ts: 2.12.3
       shader-composer: link:../shader-composer
-      shader-composer-postprocessing: link:../shader-composer-postprocessing
       test: 3.2.1
 
   packages/shader-composer:
     specifiers:
       '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/postprocessing': workspace:^0.0.1
       '@shader-composer/r3f': workspace:^0.4.5
       '@shader-composer/three': workspace:^0.4.9
     dependencies:
       '@shader-composer/core': link:../shader-composer-core
+      '@shader-composer/postprocessing': link:../shader-composer-postprocessing
       '@shader-composer/r3f': link:../shader-composer-r3f
       '@shader-composer/three': link:../shader-composer-three
 

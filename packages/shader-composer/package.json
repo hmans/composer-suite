@@ -17,12 +17,14 @@
     "entrypoints": [
       "index.ts",
       "fun.ts",
+      "postprocessing.ts",
       "r3f.ts",
       "three.ts"
     ]
   },
   "files": [
     "fun/**",
+    "postprocessing/**",
     "r3f/**",
     "three/**",
     "dist/**",
@@ -44,6 +46,7 @@
   },
   "dependencies": {
     "@shader-composer/core": "workspace:^0.4.9",
+    "@shader-composer/postprocessing": "workspace:^0.0.1",
     "@shader-composer/r3f": "workspace:^0.4.5",
     "@shader-composer/three": "workspace:^0.4.9"
   }

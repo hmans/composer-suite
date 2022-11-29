@@ -13,7 +13,7 @@ import {
   PostProcessingEffectMaster,
   ShaderComposerEffect,
   UV
-} from "shader-composer-postprocessing"
+} from "shader-composer/postprocessing"
 import { Texture } from "three"
 import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 

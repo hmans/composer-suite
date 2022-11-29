@@ -1,5 +1,5 @@
 {
-  "name": "shader-composer-postprocessing",
+  "name": "@shader-composer/postprocessing",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -22,14 +22,7 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react",
-      [
-        "@babel/preset-typescript",
-        {
-          "isTSX": true,
-          "allExtensions": true
-        }
-      ]
+      "@babel/preset-typescript"
     ]
   },
   "devDependencies": {
