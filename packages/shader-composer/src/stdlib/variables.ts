@@ -194,7 +194,7 @@ export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
 export const CameraNear = UniformUnit("float", 0 as number, {
   name: "Camera Near Plane",
 
-  update: (_, camera) => {
+  update: (_, { camera }) => {
     if (camera instanceof PerspectiveCamera) {
       CameraNear.value = camera.near
     }
@@ -204,7 +204,7 @@ export const CameraNear = UniformUnit("float", 0 as number, {
 export const CameraFar = UniformUnit("float", 0 as number, {
   name: "Camera Far Plane",
 
-  update: (_, camera) => {
+  update: (_, { camera }) => {
     if (camera instanceof PerspectiveCamera) {
       CameraFar.value = camera.far
     }
