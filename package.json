@@ -27,7 +27,7 @@
     "dev": "turbo dev",
     "dev:link": "preconstruct dev",
     "postinstall": "preconstruct dev",
-    "test": "turbo test",
+    "test": "jest",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:release": "pnpm ci && pnpm changeset publish"
