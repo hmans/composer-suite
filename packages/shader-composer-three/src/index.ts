@@ -2,13 +2,7 @@
 export * from "shader-composer"
 
 /* Patch units with Three.js specific code */
-import {
-  $,
-  CameraFar,
-  CameraNear,
-  Resolution,
-  UsingInstancing
-} from "shader-composer"
+import * as SC from "shader-composer"
 import * as THREE from "three"
 
 export type UpdatePayload = {
@@ -17,24 +11,24 @@ export type UpdatePayload = {
   scene: THREE.Scene
 }
 
-CameraNear._unitConfig.update = (_, { camera }: UpdatePayload) => {
+SC.CameraNear._unitConfig.update = (_, { camera }: UpdatePayload) => {
   if (camera instanceof THREE.PerspectiveCamera) {
-    CameraNear.value = camera.near
+    SC.CameraNear.value = camera.near
   }
 }
 
-CameraFar._unitConfig.update = (_, { camera }: UpdatePayload) => {
+SC.CameraFar._unitConfig.update = (_, { camera }: UpdatePayload) => {
   if (camera instanceof THREE.PerspectiveCamera) {
-    CameraFar.value = camera.far
+    SC.CameraFar.value = camera.far
   }
 }
 
-Resolution._unitConfig.update = (_, { gl }: UpdatePayload) => {
-  Resolution.value.x = gl.domElement.width
-  Resolution.value.y = gl.domElement.height
+SC.Resolution._unitConfig.update = (_, { gl }: UpdatePayload) => {
+  SC.Resolution.value.x = gl.domElement.width
+  SC.Resolution.value.y = gl.domElement.height
 }
 
-UsingInstancing._unitConfig.value = $`
+SC.UsingInstancing._unitConfig.value = SC.$`
   #ifdef USE_INSTANCING
     true
   #else
