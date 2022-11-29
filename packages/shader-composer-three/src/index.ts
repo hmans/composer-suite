@@ -2,7 +2,13 @@
 export * from "shader-composer"
 
 /* Patch units with Three.js specific code */
-import { CameraFar, CameraNear, Resolution } from "shader-composer"
+import {
+  $,
+  CameraFar,
+  CameraNear,
+  Resolution,
+  UsingInstancing
+} from "shader-composer"
 import * as THREE from "three"
 
 export type UpdatePayload = {
@@ -27,3 +33,11 @@ Resolution._unitConfig.update = (_, { gl }: UpdatePayload) => {
   Resolution.value.x = gl.domElement.width
   Resolution.value.y = gl.domElement.height
 }
+
+UsingInstancing._unitConfig.value = $`
+  #ifdef USE_INSTANCING
+    true
+  #else
+    false
+  #endif
+`
