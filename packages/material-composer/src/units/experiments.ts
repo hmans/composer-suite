@@ -1,5 +1,5 @@
 import { pipe } from "fp-ts/function"
-import { Add, Clamp01, Input, Mul, Pow, $vec3 } from "shader-composer"
+import { Add, Clamp01, Input, Mul, Pow } from "shader-composer"
 import { Turbulence3D } from "shader-composer-toybox"
 
 export type HeatOptions = {

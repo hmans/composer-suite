@@ -9,17 +9,7 @@ Original license notices are included with the functions.
 
 */
 
-import {
-  $,
-  $vec2,
-  $vec3,
-  Float,
-  glsl,
-  Input,
-  Snippet,
-  Vec2,
-  Vec3
-} from "shader-composer"
+import { $, Float, glsl, Input, Snippet, Vec2, Vec3 } from "shader-composer"
 
 export const psrdnoise2 = Snippet(
   (psrdnoise2) => glsl`

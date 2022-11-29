@@ -4,7 +4,6 @@ import { Layer, LayerArgs } from "material-composer"
 import { composable, moduleComponent } from "material-composer-r3f"
 import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
-  $vec2,
   GlobalTime,
   GradientStops,
   Input,

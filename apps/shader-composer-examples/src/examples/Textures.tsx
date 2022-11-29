@@ -1,6 +1,6 @@
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import {
   $,
-  $vec2,
   Add,
   Fresnel,
   Mul,
@@ -10,7 +10,6 @@ import {
   UniformUnit,
   UV
 } from "shader-composer-three"
-import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 
@@ -18,7 +17,7 @@ export default function Textures() {
   const texture = useRepeatingTexture("/textures/hexgrid.jpg")
 
   const shader = useShader(() => {
-    const offset = $vec2([Mul(Time(), 0.05), 0])
+    const offset = [Mul(Time(), 0.05), 0]
 
     /* Create a texture sampler */
     const sampler2D = UniformUnit("sampler2D", texture)
