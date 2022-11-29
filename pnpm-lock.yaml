@@ -584,9 +584,9 @@ importers:
 
   packages/shader-composer-postprocessing:
     specifiers:
-      shader-composer: workspace:^0.4.3
+      shader-composer-three: workspace:^0.4.9
     devDependencies:
-      shader-composer: link:../shader-composer
+      shader-composer-three: link:../shader-composer-three
 
   packages/shader-composer-r3f:
     specifiers:

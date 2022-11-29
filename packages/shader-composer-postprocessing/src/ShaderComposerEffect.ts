@@ -1,5 +1,5 @@
 import * as PP from "postprocessing"
-import { compileShader } from "shader-composer"
+import { compileShader } from "shader-composer-three"
 import { WebGLRenderer, WebGLRenderTarget } from "three"
 import { PostProcessingEffectMaster } from "./PostProcessingEffectMaster"
 
@@ -39,6 +39,6 @@ export class ShaderComposerEffect extends PP.Effect {
     super.update(renderer, inputBuffer, deltaTime)
 
     // TODO: decide what to do with camera and scene. Do we really need it?
-    this._shaderMeta.update(deltaTime, undefined!, undefined!, renderer)
+    this._shaderMeta.update(deltaTime, { gl: renderer })
   }
 }
