@@ -11,7 +11,7 @@ import {
   Sin,
   VertexPosition
 } from "shader-composer"
-import { useShader, useUniformUnit } from "@shader-composer/r3f"
+import { useShader, useUniformUnit } from "shader-composer/r3f"
 import { Color } from "three"
 
 export default function HelloWorld() {

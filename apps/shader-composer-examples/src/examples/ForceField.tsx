@@ -25,7 +25,7 @@ import {
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "@shader-composer/r3f"
+} from "shader-composer/r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 

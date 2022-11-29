@@ -1,7 +1,7 @@
 import { Environment } from "@react-three/drei"
 import { pipe } from "fp-ts/function"
 import { Add, GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "@shader-composer/r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 

@@ -1,4 +1,4 @@
-import { Shader, ShaderMaster, useShader } from "@shader-composer/r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
 import {
   $,
   Add,
