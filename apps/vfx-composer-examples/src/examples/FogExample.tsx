@@ -3,8 +3,8 @@ import { useTexture } from "@react-three/drei"
 import { Composable, Modules } from "material-composer-r3f"
 import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
-import { Mul, Rotation3DZ, Time } from "@shader-composer/three"
-import { useUniformUnit } from "@shader-composer/r3f"
+import { Mul, Rotation3DZ, Time } from "shader-composer"
+import { useUniformUnit } from "shader-composer/r3f"
 import { Vector3 } from "three"
 import {
   Emitter,

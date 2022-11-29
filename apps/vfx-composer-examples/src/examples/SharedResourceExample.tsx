@@ -2,14 +2,7 @@ import { sharedResource } from "@hmans/things"
 import { pipe } from "fp-ts/function"
 import { composable, modules } from "material-composer-r3f"
 import { between, insideSphere, plusMinus, upTo } from "randomish"
-import {
-  float,
-  Add,
-  GlobalTime,
-  InstanceID,
-  Mul,
-  Sin
-} from "@shader-composer/three"
+import { float, Add, GlobalTime, InstanceID, Mul, Sin } from "shader-composer"
 import { RGBADepthPacking, Vector3 } from "three"
 import {
   Emitter,

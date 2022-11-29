@@ -1,5 +1,5 @@
 import { composable, modules } from "material-composer-r3f"
-import { Mul, Time } from "@shader-composer/three"
+import { Mul, Time } from "shader-composer"
 import { Color } from "three"
 
 export default function Playground() {

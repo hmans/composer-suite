@@ -2,7 +2,7 @@ import { useTexture } from "@react-three/drei"
 import { composable, modules } from "material-composer-r3f"
 import { FlatStage } from "r3f-stage"
 import { between, plusMinus } from "randomish"
-import { OneMinus } from "@shader-composer/three"
+import { OneMinus } from "shader-composer"
 import { AdditiveBlending, Vector3 } from "three"
 import {
   Emitter,
