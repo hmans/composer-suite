@@ -2,13 +2,7 @@
 export * from "shader-composer"
 
 /* Patch units with Three.js specific code */
-import {
-  $,
-  CameraFar,
-  CameraNear,
-  CameraPosition,
-  Resolution
-} from "shader-composer"
+import { CameraFar, CameraNear, Resolution } from "shader-composer"
 import * as THREE from "three"
 
 export type UpdatePayload = {
@@ -28,8 +22,6 @@ CameraFar._unitConfig.update = (_, { camera }: UpdatePayload) => {
     CameraFar.value = camera.far
   }
 }
-
-CameraPosition._unitConfig.value = $`cameraPosition`
 
 Resolution._unitConfig.update = (_, { gl }: UpdatePayload) => {
   Resolution.value.x = gl.domElement.width
