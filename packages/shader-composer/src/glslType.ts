@@ -94,10 +94,10 @@ export const glslType = <T extends GLSLType>(value: Input<T>): T => {
 
 export const type = glslType
 
-function isArrayWithLength(obj: any, length: number) {
+export function isArrayWithLength(obj: any, length: number) {
   return Array.isArray(obj) && obj.length === length
 }
 
-function isObjectWithKeys(obj: any, ...keys: string[]) {
-  return keys.every((key) => obj.hasOwnProperty(key))
+export function isObjectWithKeys(obj: any, ...keys: string[]) {
+  return keys.every((key) => obj[key] !== undefined)
 }

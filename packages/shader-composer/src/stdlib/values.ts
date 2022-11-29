@@ -10,48 +10,47 @@ import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
  * constructors, who will automatically cast the given values to the correct
  * type.
  */
-export type CastableInput<T extends GLSLType> = Input<GLSLType>
+export type CastableInput = any
 /* NOTE: this will currently always allow any GLSL input. We may narrow it over time. */
 
 export type CastFunction<T extends GLSLType> = (
-  ...values: CastableInput<T>[]
+  ...values: CastableInput[]
 ) => Expression
 
 /**
  * Returns an expression that casts the given values to a `float`.
  */
-export const $float = (...values: CastableInput<"float">[]) =>
-  $`float(${values})`
+export const $float = (value: CastableInput) => $`float(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec2`.
  */
-export const $vec2 = (...values: CastableInput<"vec2">[]) => $`vec2(${values})`
+export const $vec2 = (value: CastableInput) => $`vec2(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec3`.
  */
-export const $vec3 = (...values: CastableInput<"vec3">[]) => $`vec3(${values})`
+export const $vec3 = (value: CastableInput) => $`vec3(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec4`.
  */
-export const $vec4 = (...values: CastableInput<"vec4">[]) => $`vec4(${values})`
+export const $vec4 = (value: CastableInput) => $`vec4(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat2`.
  */
-export const $mat2 = (...values: CastableInput<"mat2">[]) => $`mat2(${values})`
+export const $mat2 = (value: CastableInput) => $`mat2(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat3`.
  */
-export const $mat3 = (...values: CastableInput<"mat3">[]) => $`mat3(${values})`
+export const $mat3 = (value: CastableInput) => $`mat3(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat4`.
  */
-export const $mat4 = (...values: CastableInput<"mat4">[]) => $`mat4(${values})`
+export const $mat4 = (value: CastableInput) => $`mat4(${value})`
 
 /**
  * Returns an expression that swizzles the given value with the provided
@@ -87,8 +86,8 @@ const makeUnitFactory =
 
 const makeCastableUnitFactory =
   <T extends GLSLType>(type: T, castFunction: CastFunction<T>) =>
-  (v: CastableInput<T> | CastableInput<T>[], extras?: Partial<UnitConfig<T>>) =>
-    Unit(type, castFunction(...(Array.isArray(v) ? v : [v])), extras) as Unit<T>
+  (v: CastableInput, extras?: Partial<UnitConfig<T>>) =>
+    Unit(type, castFunction(v), extras) as Unit<T>
 
 export const Float = makeCastableUnitFactory("float", $float)
 export const Int = makeUnitFactory("int")

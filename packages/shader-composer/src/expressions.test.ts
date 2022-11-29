@@ -13,6 +13,6 @@ describe("glsl", () => {
 
   it("handles nested values", () => {
     const expr = $`foo = vec3(${[1, 2, 3]})`
-    expect(expr.render()).toBe("foo = vec3(1.0, 2.0, 3.0)")
+    expect(expr.render()).toBe("foo = vec3(vec3(1.0, 2.0, 3.0))")
   })
 })

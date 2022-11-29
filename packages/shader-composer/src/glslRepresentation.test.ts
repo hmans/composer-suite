@@ -1,5 +1,4 @@
 import { Matrix3, Matrix4 } from "three"
-import { glsl } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 
 describe("glslRepresentation", () => {
@@ -25,5 +24,31 @@ describe("glslRepresentation", () => {
     expect(glslRepresentation(new Matrix4())).toBe(
       "mat4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)"
     )
+  })
+
+  it("renders vector2-like objects to vec2", () => {
+    expect(glslRepresentation({ x: 1, y: 2 })).toBe("vec2(1.0, 2.0)")
+  })
+
+  it("renders arrays with 2 numbers to vec2", () => {
+    expect(glslRepresentation([1, 2])).toBe("vec2(1.0, 2.0)")
+  })
+
+  it("renders vector3-like objects to vec3", () => {
+    expect(glslRepresentation({ x: 1, y: 2, z: 3 })).toBe("vec3(1.0, 2.0, 3.0)")
+  })
+
+  it("renders arrays with 3 numbers to vec3", () => {
+    expect(glslRepresentation([1, 2, 3])).toBe("vec3(1.0, 2.0, 3.0)")
+  })
+
+  it("renders vector4-like objects to vec4", () => {
+    expect(glslRepresentation({ x: 1, y: 2, z: 3, w: 4 })).toBe(
+      "vec4(1.0, 2.0, 3.0, 4.0)"
+    )
+  })
+
+  it("renders arrays with 4 numbers to vec4", () => {
+    expect(glslRepresentation([1, 2, 3, 4])).toBe("vec4(1.0, 2.0, 3.0, 4.0)")
   })
 })
