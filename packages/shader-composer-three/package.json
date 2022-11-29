@@ -15,7 +15,7 @@
     "README.md"
   ],
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": true,
   "scripts": {
     "build": "preconstruct build"
   },
