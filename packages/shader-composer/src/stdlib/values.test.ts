@@ -1,10 +1,10 @@
 import { glslRepresentation } from "../glslRepresentation"
-import { $float, $mat2, $swizzle, $vec3, $vec4, Int, Vec3 } from "./values"
+import { float, mat2, swizzle, vec3, vec4, Int, Vec3 } from "./values"
 
-describe("$float", () => {
+describe("float", () => {
   it("returns an expression that casts the given value to a float", () => {
     const value = Int(1)
-    const cast = $float(value)
+    const cast = float(value)
 
     expect(glslRepresentation(cast)).toEqual(
       `float(${glslRepresentation(value)})`
@@ -12,45 +12,45 @@ describe("$float", () => {
   })
 })
 
-describe("$vec3", () => {
+describe("vec3", () => {
   it("returns an expression that casts the given value to a vec3", () => {
-    const cast = $vec3({ r: 1, g: 0, b: 0 })
+    const cast = vec3({ r: 1, g: 0, b: 0 })
     expect(glslRepresentation(cast)).toEqual(`vec3(vec3(1.0, 0.0, 0.0))`)
   })
 
   it("casts a Vector3 to a vec3", () => {
-    const cast = $vec3({ x: 1, y: 0, z: 0 })
+    const cast = vec3({ x: 1, y: 0, z: 0 })
     expect(glslRepresentation(cast)).toEqual(`vec3(vec3(1.0, 0.0, 0.0))`)
   })
 
   it("casts multiple floats to a vec3", () => {
-    const cast = $vec3([1, 0, 0])
+    const cast = vec3([1, 0, 0])
     expect(glslRepresentation(cast)).toEqual(`vec3(vec3(1.0, 0.0, 0.0))`)
   })
 
   it("casts multiple components to a vec3", () => {
-    const cast = $vec3([{ x: 1, y: 2 }, 3])
+    const cast = vec3([{ x: 1, y: 2 }, 3])
     expect(glslRepresentation(cast)).toEqual(`vec3(vec2(vec2(1.0, 2.0), 3.0))`)
   })
 })
 
-describe("$vec4", () => {
+describe("vec4", () => {
   it("casts multiple components to a vec4", () => {
-    const cast = $vec4([{ x: 1, y: 2 }, [3, 4]])
+    const cast = vec4([{ x: 1, y: 2 }, [3, 4]])
     expect(glslRepresentation(cast)).toEqual(
       `vec4(vec2(vec2(1.0, 2.0), vec2(3.0, 4.0)))`
     )
   })
 })
 
-describe("$mat2", () => {
+describe("mat2", () => {
   it("casts float components to a mat2", () => {
-    const cast = $mat2([1, 2, 3, 4])
+    const cast = mat2([1, 2, 3, 4])
     expect(glslRepresentation(cast)).toEqual(`mat2(vec4(1.0, 2.0, 3.0, 4.0))`)
   })
 
   it("casts vector components to a mat2", () => {
-    const cast = $mat2([{ x: 1, y: 2 }, [3, 4]])
+    const cast = mat2([{ x: 1, y: 2 }, [3, 4]])
     expect(glslRepresentation(cast)).toEqual(
       `mat2(vec2(vec2(1.0, 2.0), vec2(3.0, 4.0)))`
     )
@@ -97,15 +97,15 @@ describe("Vec3", () => {
   })
 })
 
-describe("$swizzle", () => {
+describe("swizzle", () => {
   it("swizzles a value", () => {
-    const swizzled = $swizzle({ x: 1, y: 2, z: 3 }, "xyy")
+    const swizzled = swizzle({ x: 1, y: 2, z: 3 }, "xyy")
     expect(glslRepresentation(swizzled)).toEqual("vec3(1.0, 2.0, 3.0).xyy")
   })
 
   it("swizzles a unit", () => {
     const v = Vec3({ x: 1, y: 2, z: 3 })
-    const swizzled = $swizzle(v, "xyy")
+    const swizzled = swizzle(v, "xyy")
     expect(glslRepresentation(swizzled)).toEqual(`${glslRepresentation(v)}.xyy`)
   })
 })

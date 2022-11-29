@@ -18,37 +18,37 @@ export type CastFunction = (...values: CastableInput[]) => Expression
 /**
  * Returns an expression that casts the given values to a `float`.
  */
-export const $float = (value: CastableInput) => $`float(${value})`
+export const float = (value: CastableInput) => $`float(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec2`.
  */
-export const $vec2 = (value: CastableInput) => $`vec2(${value})`
+export const vec2 = (value: CastableInput) => $`vec2(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec3`.
  */
-export const $vec3 = (value: CastableInput) => $`vec3(${value})`
+export const vec3 = (value: CastableInput) => $`vec3(${value})`
 
 /**
  * Returns an expression that casts the given values to a `vec4`.
  */
-export const $vec4 = (value: CastableInput) => $`vec4(${value})`
+export const vec4 = (value: CastableInput) => $`vec4(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat2`.
  */
-export const $mat2 = (value: CastableInput) => $`mat2(${value})`
+export const mat2 = (value: CastableInput) => $`mat2(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat3`.
  */
-export const $mat3 = (value: CastableInput) => $`mat3(${value})`
+export const mat3 = (value: CastableInput) => $`mat3(${value})`
 
 /**
  * Returns an expression that casts the given values to a `mat4`.
  */
-export const $mat4 = (value: CastableInput) => $`mat4(${value})`
+export const mat4 = (value: CastableInput) => $`mat4(${value})`
 
 /**
  * Returns an expression that swizzles the given value with the provided
@@ -58,7 +58,7 @@ export const $mat4 = (value: CastableInput) => $`mat4(${value})`
  * @param swizzle The swizzling components to use.
  * @returns An expression that swizzles the given value with the provided swizzle string.
  */
-export const $swizzle = (v: Input<any>, swizzle: string) => $`${v}.${swizzle}`
+export const swizzle = (v: Input<any>, swizzle: string) => $`${v}.${swizzle}`
 
 export const unit = <T extends GLSLType>(
   i: Input<T>,
@@ -87,15 +87,15 @@ const makeCastableUnitFactory =
   (v: CastableInput, extras?: Partial<UnitConfig<T>>) =>
     Unit(type, castFunction(v), extras) as Unit<T>
 
-export const Float = makeCastableUnitFactory("float", $float)
+export const Float = makeCastableUnitFactory("float", float)
 export const Int = makeUnitFactory("int")
 export const Bool = makeUnitFactory("bool")
-export const Vec2 = makeCastableUnitFactory("vec2", $vec2)
-export const Vec3 = makeCastableUnitFactory("vec3", $vec3)
-export const Vec4 = makeCastableUnitFactory("vec4", $vec4)
-export const Mat2 = makeCastableUnitFactory("mat2", $mat2)
-export const Mat3 = makeCastableUnitFactory("mat3", $mat3)
-export const Mat4 = makeCastableUnitFactory("mat4", $mat4)
+export const Vec2 = makeCastableUnitFactory("vec2", vec2)
+export const Vec3 = makeCastableUnitFactory("vec3", vec3)
+export const Vec4 = makeCastableUnitFactory("vec4", vec4)
+export const Mat2 = makeCastableUnitFactory("mat2", mat2)
+export const Mat3 = makeCastableUnitFactory("mat3", mat3)
+export const Mat4 = makeCastableUnitFactory("mat4", mat4)
 
 export const Master = (extras?: Partial<UnitConfig<"bool">>) =>
   Bool(true, extras)
