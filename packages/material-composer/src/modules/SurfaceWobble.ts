@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/function"
 import { Add, Input, Mul } from "shader-composer"
-import { PSRDNoise3D } from "shader-composer/noise"
+import { PSRDNoise3D } from "shader-composer"
 import { ModuleFactory } from ".."
 
 export type SurfaceWobbleProps = {

@@ -1,4 +1,0 @@
-{
-  "main": "dist/shader-composer-noise.cjs.js",
-  "module": "dist/shader-composer-noise.esm.js"
-}

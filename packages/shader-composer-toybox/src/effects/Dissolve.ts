@@ -9,7 +9,7 @@ import {
   VertexPosition
 } from "shader-composer"
 import { pipe } from "fp-ts/function"
-import { Simplex3DNoise } from "shader-composer/noise"
+import { Simplex3DNoise } from "shader-composer"
 
 export const Dissolve = (
   visibility: Input<"float"> = 0.5,

@@ -14,7 +14,7 @@ import {
   Sub,
   UV
 } from "shader-composer"
-import { PSRDNoise2D } from "shader-composer/noise"
+import { PSRDNoise2D } from "shader-composer"
 
 /* TODO: extract this into SC or SC-toybox or similar? */
 

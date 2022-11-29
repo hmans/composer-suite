@@ -22,7 +22,7 @@ import {
   Vec3
 } from "shader-composer"
 import { Displacement } from "shader-composer-toybox"
-import { PSRDNoise2D } from "shader-composer/noise"
+import { PSRDNoise2D } from "shader-composer"
 import {
   Shader,
   ShaderMaster,
