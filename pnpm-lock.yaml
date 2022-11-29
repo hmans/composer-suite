@@ -605,8 +605,8 @@ importers:
 
   packages/shader-composer-three:
     specifiers:
-      shader-composer: workspace:^0.4.3
-    dependencies:
+      shader-composer: workspace:^0.4.9
+    devDependencies:
       shader-composer: link:../shader-composer
 
   packages/shader-composer-toybox:

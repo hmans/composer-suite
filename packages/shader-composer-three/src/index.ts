@@ -1,6 +1,3 @@
-/* Re-export everything from Shader Composer */
-export * from "shader-composer"
-
 /* Patch units with Three.js specific code */
 import * as SC from "shader-composer"
 import * as THREE from "three"
