@@ -11,15 +11,14 @@ Original license notices are included with the functions.
 
 import {
   $,
+  $vec2,
+  $vec3,
   Float,
   glsl,
   Input,
   Snippet,
-  Time,
   Vec2,
-  $vec2,
-  Vec3,
-  $vec3
+  Vec3
 } from "shader-composer"
 
 export const psrdnoise2 = Snippet(
@@ -183,7 +182,7 @@ export const psrdnoise2 = Snippet(
 
 export const PSRDNoise2D = (
   p: Input<"vec2">,
-  period: Input<"vec2"> = $vec2(0, 0),
+  period: Input<"vec2"> = [0, 0],
   alpha: Input<"float"> = 0
 ) => {
   const gradient = Vec2([0, 0], {
@@ -498,7 +497,7 @@ export const psrdnoise3 = Snippet(
 
 export const PSRDNoise3D = (
   p: Input<"vec3">,
-  period: Input<"vec3"> = $vec3(0, 0, 0),
+  period: Input<"vec3"> = [0, 0, 0],
   alpha: Input<"float"> = 0
 ) => {
   const gradient = Vec3([0, 0, 0], {

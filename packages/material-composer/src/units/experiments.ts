@@ -11,7 +11,7 @@ export type HeatOptions = {
 
 export const Heat = (
   v: Input<"vec3">,
-  { offset = $vec3(0, 0, 0), scale = 1, octaves = 5, power = 1 }: HeatOptions
+  { offset = [0, 0, 0], scale = 1, octaves = 5, power = 1 }: HeatOptions
 ) =>
   pipe(
     v,
