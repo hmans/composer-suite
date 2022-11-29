@@ -1,4 +1,3 @@
-import { Vector2 } from "three"
 import { $, Expression } from "../expressions"
 import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
@@ -182,13 +181,17 @@ export const Time = (initial: number = 0) => {
  */
 export const GlobalTime = Time()
 
-export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
-  name: "Current Render Resolution",
+export const Resolution = UniformUnit(
+  "vec2",
+  { x: 0, y: 0 },
+  {
+    name: "Current Render Resolution",
 
-  update: () => {
-    "Please customize the Resolution unit with the relevant code for your environment."
+    update: () => {
+      "Please customize the Resolution unit with the relevant code for your environment."
+    }
   }
-})
+)
 
 export const CameraNear = UniformUnit("float", 0 as number, {
   name: "Camera Near Plane",
