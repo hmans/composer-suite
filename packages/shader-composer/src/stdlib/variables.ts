@@ -1,4 +1,4 @@
-import { PerspectiveCamera, Vector2, WebGLRenderer } from "three"
+import { Vector2, WebGLRenderer } from "three"
 import { $, Expression } from "../expressions"
 import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
@@ -185,7 +185,7 @@ export const GlobalTime = Time()
 export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
   name: "Current Render Resolution",
 
-  update: (dt, { gl }: { gl: WebGLRenderer }) => {
+  update: (_, { gl }: { gl: WebGLRenderer }) => {
     Resolution.value.x = gl.domElement.width
     Resolution.value.y = gl.domElement.height
   }
@@ -194,20 +194,20 @@ export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
 export const CameraNear = UniformUnit("float", 0 as number, {
   name: "Camera Near Plane",
 
-  update: (_, { camera }) => {
-    if (camera instanceof PerspectiveCamera) {
-      CameraNear.value = camera.near
-    }
+  update: () => {
+    console.warn(
+      "Please customize the CameraNear unit with the relevant code for your environment."
+    )
   }
 })
 
 export const CameraFar = UniformUnit("float", 0 as number, {
   name: "Camera Far Plane",
 
-  update: (_, { camera }) => {
-    if (camera instanceof PerspectiveCamera) {
-      CameraFar.value = camera.far
-    }
+  update: () => {
+    console.warn(
+      "Please customize the CameraNear unit with the relevant code for your environment."
+    )
   }
 })
 
