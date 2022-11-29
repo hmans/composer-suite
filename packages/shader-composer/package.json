@@ -17,11 +17,13 @@
     "entrypoints": [
       "index.ts",
       "fun.ts",
+      "r3f.ts",
       "three.ts"
     ]
   },
   "files": [
     "fun/**",
+    "r3f/**",
     "three/**",
     "dist/**",
     "LICENSE",
@@ -37,17 +39,12 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react",
-      [
-        "@babel/preset-typescript",
-        {
-          "isTSX": true,
-          "allExtensions": true
-        }
-      ]
+      "@babel/preset-typescript"
     ]
   },
   "dependencies": {
     "@shader-composer/core": "workspace:^0.4.9",
+    "@shader-composer/r3f": "workspace:^0.4.5",
     "@shader-composer/three": "workspace:^0.4.9"
   }
 }

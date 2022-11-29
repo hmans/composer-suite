@@ -493,13 +493,13 @@ importers:
   packages/material-composer-patch-material:
     specifiers:
       '@hmans/types': ^0.0.3
+      '@shader-composer/core': workspace:^0.4.9
       fp-ts: ^2.12.3
-      shader-composer: workspace:^0.4.0
     dependencies:
       '@hmans/types': 0.0.3
       fp-ts: 2.12.3
     devDependencies:
-      shader-composer: link:../shader-composer
+      '@shader-composer/core': link:../shader-composer-core
 
   packages/material-composer-patched:
     specifiers:
@@ -579,9 +579,11 @@ importers:
   packages/shader-composer:
     specifiers:
       '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/r3f': workspace:^0.4.5
       '@shader-composer/three': workspace:^0.4.9
     dependencies:
       '@shader-composer/core': link:../shader-composer-core
+      '@shader-composer/r3f': link:../shader-composer-r3f
       '@shader-composer/three': link:../shader-composer-three
 
   packages/shader-composer-core:
