@@ -4,7 +4,7 @@ import * as Modules from "material-composer/modules"
 import { FlatStage } from "r3f-stage"
 import { between, plusMinus, upTo } from "randomish"
 import { useEffect, useRef } from "react"
-import { compileShader, OneMinus } from "shader-composer-three"
+import { compileShader, OneMinus } from "@shader-composer/three"
 import {
   BoxGeometry,
   Color,

@@ -21,7 +21,7 @@ import {
   UV,
   Vec2,
   Vec3
-} from "shader-composer-three"
+} from "@shader-composer/three"
 import { PSRDNoise2D } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 import {

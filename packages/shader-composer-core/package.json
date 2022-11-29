@@ -1,0 +1,35 @@
+{
+  "name": "@shader-composer/core",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "",
+  "version": "0.4.9",
+  "main": "dist/shader-composer-core.cjs.js",
+  "module": "dist/shader-composer-core.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": true,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "dependencies": {
+    "fp-ts": "^2.12.3"
+  },
+  "devDependencies": {
+    "gl-matrix": "^3.4.3",
+    "three": ">=0.141.0"
+  }
+}

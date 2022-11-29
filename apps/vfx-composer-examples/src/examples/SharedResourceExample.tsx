@@ -9,7 +9,7 @@ import {
   InstanceID,
   Mul,
   Sin
-} from "shader-composer-three"
+} from "@shader-composer/three"
 import { RGBADepthPacking, Vector3 } from "three"
 import {
   Emitter,

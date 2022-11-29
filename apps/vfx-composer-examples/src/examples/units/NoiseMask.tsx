@@ -13,7 +13,7 @@ import {
   Smoothstep,
   Sub,
   UV
-} from "shader-composer-three"
+} from "@shader-composer/three"
 import { PSRDNoise2D } from "shader-composer-toybox"
 
 /* TODO: extract this into SC or SC-toybox or similar? */

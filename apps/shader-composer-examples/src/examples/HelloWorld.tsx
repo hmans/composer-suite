@@ -10,7 +10,7 @@ import {
   ShaderMaterialMaster,
   Sin,
   VertexPosition
-} from "shader-composer-three"
+} from "@shader-composer/three"
 import { useShader, useUniformUnit } from "shader-composer-r3f"
 import { Color } from "three"
 

@@ -16,11 +16,13 @@
   "preconstruct": {
     "entrypoints": [
       "index.ts",
-      "fun.ts"
+      "fun.ts",
+      "three.ts"
     ]
   },
   "files": [
     "fun/**",
+    "three/**",
     "dist/**",
     "LICENSE",
     "README.md"
@@ -45,10 +47,7 @@
     ]
   },
   "dependencies": {
-    "fp-ts": "^2.12.3"
-  },
-  "devDependencies": {
-    "gl-matrix": "^3.4.3",
-    "three": ">=0.141.0"
+    "@shader-composer/core": "workspace:^0.4.9",
+    "@shader-composer/three": "workspace:^0.4.9"
   }
 }

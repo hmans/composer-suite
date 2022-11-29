@@ -1,5 +1,5 @@
-import { Add, Div, Mix, Mul, Sub } from "./stdlib"
-import { GLSLType, Input } from "./units"
+import { Add, Div, Mix, Mul, Sub } from "@shader-composer/core"
+import { GLSLType, Input } from "@shader-composer/core"
 
 export const mix =
   <T extends GLSLType>(b: Input<T>, f: Input<"float">) =>

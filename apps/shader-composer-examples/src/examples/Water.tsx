@@ -8,7 +8,7 @@ import {
   Mul,
   Remap,
   Vec2
-} from "shader-composer-three"
+} from "@shader-composer/three"
 import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Displacement, FBMNoise, GerstnerWave } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
