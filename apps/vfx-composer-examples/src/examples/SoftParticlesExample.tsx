@@ -1,6 +1,6 @@
 import { composable, modules } from "material-composer-r3f"
 import { FlatStage, Layers, useRenderPipeline } from "r3f-stage"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "@shader-composer/r3f"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"
 
 export const SoftParticlesExample = () => {

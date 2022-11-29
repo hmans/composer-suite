@@ -1,5 +1,5 @@
 {
-  "name": "shader-composer-r3f",
+  "name": "@shader-composer/r3f",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -32,15 +32,11 @@
       ]
     ]
   },
-  "typedoc": {
-    "entryPoint": "./src/index.ts",
-    "readmeFile": "./README.md"
-  },
   "peerDependencies": {
     "@react-three/fiber": "^8.2.0",
+    "@shader-composer/core": "workspace:^0.4.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "shader-composer": "workspace:^0.4.9",
     "three": ">=0.143.0"
   },
   "dependencies": {
@@ -49,6 +45,6 @@
     "@shader-composer/three": "^0.4.9"
   },
   "devDependencies": {
-    "shader-composer": "workspace:^0.4.9"
+    "@shader-composer/core": "workspace:^0.4.9"
   }
 }

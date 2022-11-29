@@ -13,7 +13,7 @@ import {
   Unit,
   UV
 } from "@shader-composer/three"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "@shader-composer/r3f"
 import { DoubleSide, RepeatWrapping } from "three"
 import streamTextureUrl from "../textures/stream.png"
 import { NoiseMask } from "../units/NoiseMask"

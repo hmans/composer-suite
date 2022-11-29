@@ -18,7 +18,7 @@ import {
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer-r3f"
+} from "@shader-composer/r3f"
 import { PSRDNoise3D, Turbulence3D } from "shader-composer-toybox"
 import textureUrl from "./textures/explosion.png"
 

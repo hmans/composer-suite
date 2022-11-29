@@ -28,7 +28,7 @@ import {
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer-r3f"
+} from "@shader-composer/r3f"
 import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-toybox"
 import { Color } from "three"
 

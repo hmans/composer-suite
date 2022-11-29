@@ -26,7 +26,7 @@ import {
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer-r3f"
+} from "@shader-composer/r3f"
 import { Displacement, PSRDNoise2D } from "shader-composer-toybox"
 import { Color, RGBADepthPacking, Vector2 } from "three"
 

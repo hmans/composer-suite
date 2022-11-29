@@ -14,7 +14,7 @@ import {
   Sub,
   VertexPosition
 } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "@shader-composer/r3f"
 import { PSRDNoise3D } from "shader-composer-toybox"
 import { Color, Mesh } from "three"
 
