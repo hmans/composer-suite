@@ -1,45 +1,59 @@
 import { GLSLType, isUnit, Input } from "./units"
 
+export type Vector2 = { x: number; y: number }
+export type Vector3 = { x: number; y: number; z: number }
+export type Vector4 = { x: number; y: number; z: number; w: number }
+export type Color = { r: number; g: number; b: number }
+export type Matrix2 = [number, number, number, number]
+export type Matrix3 = [
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number
+]
+export type Matrix4 = [
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number
+]
+
 export type GLSLTypeFor<JSType> = JSType extends number
   ? "float"
   : JSType extends boolean
   ? "bool"
   : JSType extends { isTexture: any }
   ? "sampler2D"
-  : JSType extends { x: number; y: number }
+  : JSType extends Vector2
   ? "vec2"
-  : JSType extends { x: number; y: number; z: number }
+  : JSType extends Vector3
   ? "vec3"
-  : JSType extends { x: number; y: number; z: number; w: number }
+  : JSType extends Vector4
   ? "vec4"
-  : JSType extends { r: number; g: number; b: number }
+  : JSType extends Color
   ? "vec3"
-  : JSType extends [
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number
-    ]
+  : JSType extends Matrix2
+  ? "mat2"
+  : JSType extends Matrix3
   ? "mat3"
-  : JSType extends [
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number
-    ]
+  : JSType extends Matrix4
   ? "mat4"
   : never
 
@@ -58,6 +72,8 @@ export const glslType = <T extends GLSLType>(value: Input<T>): T => {
   throw new Error(`Could not render GLSL type for: ${value}`)
 }
 
+export const type = glslType
+
 function isArrayWithLength(obj: any, length: number) {
   return Array.isArray(obj) && obj.length === length
 }
@@ -65,5 +81,3 @@ function isArrayWithLength(obj: any, length: number) {
 function isObjectWithKeys(obj: any, ...keys: string[]) {
   return keys.every((key) => obj.hasOwnProperty(key))
 }
-
-export const type = glslType
