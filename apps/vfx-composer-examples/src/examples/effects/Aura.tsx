@@ -34,8 +34,8 @@ export const AuraLayerModule = ({
   texture,
   wobble = 0,
   fullness = 0.5,
-  tiling = $vec2(3, 1),
-  offset = $vec2(0, 0),
+  tiling = [3, 1],
+  offset = [0, 0],
   time = GlobalTime,
   ...layerArgs
 }: AuraArgs) => {

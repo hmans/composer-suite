@@ -68,7 +68,7 @@ const BlobMaterial = () => {
       metalness={0.5}
       roughness={0.6}
     >
-      <modules.Translate offset={$vec3(1, 0, 0)} />
+      <modules.Translate offset={[1, 0, 0]} />
       <modules.Scale
         scale={pipe(
           $float(InstanceID),
@@ -87,7 +87,7 @@ const BlobDepthMaterial = () => {
 
   return (
     <composable.meshDepthMaterial depthPacking={RGBADepthPacking}>
-      <modules.Translate offset={$vec3(1, 0, 0)} />
+      <modules.Translate offset={[1, 0, 0]} />
       <modules.Scale
         scale={pipe(
           $float(InstanceID),
