@@ -1,5 +1,4 @@
-import { Float } from "./stdlib"
-import { GLSLType, isUnit, Input } from "./units"
+import { GLSLType, Input, isUnit } from "./units"
 
 export type Vector2 =
   | { x: Input<"float">; y: Input<"float"> }
