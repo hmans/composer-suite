@@ -12,7 +12,7 @@ import {
   Texture2D,
   Unit,
   UV
-} from "shader-composer"
+} from "shader-composer-three"
 import { useUniformUnit } from "shader-composer-r3f"
 import { DoubleSide, RepeatWrapping } from "three"
 import streamTextureUrl from "../textures/stream.png"

@@ -3,7 +3,7 @@ import { composable, modules } from "material-composer-r3f"
 import { FlatStage } from "r3f-stage"
 import { chance, upTo } from "randomish"
 import { useRef } from "react"
-import { OneMinus } from "shader-composer"
+import { OneMinus } from "shader-composer-three"
 import { Color, Mesh, NormalBlending, Vector3 } from "three"
 import {
   Emitter,

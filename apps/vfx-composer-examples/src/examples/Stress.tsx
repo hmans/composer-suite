@@ -1,6 +1,6 @@
 import { composable, modules } from "material-composer-r3f"
 import { between, plusMinus, upTo } from "randomish"
-import { OneMinus } from "shader-composer"
+import { OneMinus } from "shader-composer-three"
 import { Color, Vector3 } from "three"
 import {
   Emitter,
