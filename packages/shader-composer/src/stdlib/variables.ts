@@ -1,7 +1,6 @@
 import { PerspectiveCamera, Vector2 } from "three"
 import { $, Expression } from "../expressions"
-import { GLSLType, injectAPI, Input, JSTypes, Unit, UnitConfig } from "../units"
-import { ScaleAndOffset } from "./math"
+import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
 import { Bool, Int, Mat4, Vec2, Vec3 } from "./values"
 
