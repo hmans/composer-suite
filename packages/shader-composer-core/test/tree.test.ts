@@ -1,8 +1,8 @@
-import { $ } from "./expressions"
-import { Snippet } from "./snippets"
-import { Float, Master, Vec3 } from "./stdlib"
-import { collectFromTree, Item, walkTree } from "./tree"
-import { isUnit } from "./units"
+import { $ } from "../src/expressions"
+import { Snippet } from "../src/snippets"
+import { Float, Master, Vec3 } from "../src/stdlib"
+import { collectFromTree, Item, walkTree } from "../src/tree"
+import { isUnit } from "../src/units"
 
 describe("walkTree", () => {
   it("walks a given node tree", () => {

@@ -1,5 +1,5 @@
 import { Matrix3, Matrix4 } from "three"
-import { glslRepresentation } from "./glslRepresentation"
+import { glslRepresentation } from "../src/glslRepresentation"
 import * as glmatrix from "gl-matrix"
 
 describe("glslRepresentation", () => {

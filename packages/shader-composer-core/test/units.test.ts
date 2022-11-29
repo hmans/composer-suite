@@ -1,8 +1,8 @@
-import { compileShader } from "./compiler"
-import { $ } from "./expressions"
-import { glslRepresentation } from "./glslRepresentation"
-import { Float, Vec2 } from "./stdlib"
-import { Input, Unit } from "./units"
+import { compileShader } from "../src/compiler"
+import { $ } from "../src/expressions"
+import { glslRepresentation } from "../src/glslRepresentation"
+import { Float, Vec2 } from "../src/stdlib"
+import { Input, Unit } from "../src/units"
 
 const glsl = glslRepresentation
 

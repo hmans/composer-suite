@@ -1,4 +1,4 @@
-import { $, glsl, isExpression } from "./expressions"
+import { $, glsl, isExpression } from "../src/expressions"
 
 describe("glsl", () => {
   it("creates an Expression instance", () => {
