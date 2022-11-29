@@ -13,6 +13,8 @@ import {
 } from "vfx-composer-r3f"
 import { smokeUrl } from "./textures"
 
+/* Deploy me! */
+
 export const FogExample = () => (
   <FlatStage>
     <Fog />
