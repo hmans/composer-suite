@@ -31,14 +31,8 @@ export class ShaderComposerEffect extends PP.Effect {
     this._shaderMeta = meta
   }
 
-  update(
-    renderer: WebGLRenderer,
-    inputBuffer: WebGLRenderTarget,
-    deltaTime: number
-  ) {
-    super.update(renderer, inputBuffer, deltaTime)
-
-    // TODO: decide what to do with camera and scene. Do we really need it?
-    this._shaderMeta.update(deltaTime, { gl: renderer })
+  update(gl: WebGLRenderer, inputBuffer: WebGLRenderTarget, deltaTime: number) {
+    super.update(gl, inputBuffer, deltaTime)
+    this._shaderMeta.update(deltaTime, { gl })
   }
 }
