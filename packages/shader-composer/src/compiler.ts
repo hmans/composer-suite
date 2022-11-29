@@ -1,4 +1,3 @@
-import { Camera, Scene, WebGLRenderer } from "three"
 import { DEBUG } from "./debug"
 import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
@@ -246,12 +245,7 @@ export const compileShader = (root: Unit) => {
   /*
   STEP 6: Build per-frame update function.
   */
-  const update = (
-    dt: number,
-    camera: Camera,
-    scene: Scene,
-    gl: WebGLRenderer
-  ) => {
+  const update = (dt: number) => {
     const now = performance.now()
 
     for (const unit of unitsWithUpdates) {
@@ -259,7 +253,7 @@ export const compileShader = (root: Unit) => {
 
       /* Only invoke the update callback once per frame. */
       if (state.lastUpdateAt === undefined || state.lastUpdateAt < now) {
-        unit._unitConfig.update(dt, camera, scene, gl)
+        unit._unitConfig.update(dt)
         state.lastUpdateAt = now
       }
     }
