@@ -571,11 +571,13 @@ importers:
   packages/shader-composer:
     specifiers:
       '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/noise': workspace:^0.4.9
       '@shader-composer/postprocessing': workspace:^0.0.1
       '@shader-composer/r3f': workspace:^0.4.5
       '@shader-composer/three': workspace:^0.4.9
     dependencies:
       '@shader-composer/core': link:../shader-composer-core
+      '@shader-composer/noise': link:../shader-composer-noise
       '@shader-composer/postprocessing': link:../shader-composer-postprocessing
       '@shader-composer/r3f': link:../shader-composer-r3f
       '@shader-composer/three': link:../shader-composer-three
@@ -590,6 +592,12 @@ importers:
     devDependencies:
       gl-matrix: 3.4.3
       three: 0.145.0
+
+  packages/shader-composer-noise:
+    specifiers:
+      '@shader-composer/core': workspace:^0.4.9
+    devDependencies:
+      '@shader-composer/core': link:../shader-composer-core
 
   packages/shader-composer-postprocessing:
     specifiers:

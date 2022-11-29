@@ -1,32 +1,32 @@
-import { $, Float, Input, Int, Snippet, type } from "shader-composer"
+import { $, Float, Input, Int, Snippet, type } from "@shader-composer/core"
 import { pnoise } from "./PerlinNoise"
 
 export type FBMOptions = {
-	seed?: Input<"float">
-	persistance?: Input<"float">
-	lacunarity?: Input<"float">
-	scale?: Input<"float">
-	redistribution?: Input<"float">
-	octaves?: Input<"int">
-	turbulence?: Input<"bool">
-	ridge?: Input<"bool">
+  seed?: Input<"float">
+  persistance?: Input<"float">
+  lacunarity?: Input<"float">
+  scale?: Input<"float">
+  redistribution?: Input<"float">
+  octaves?: Input<"int">
+  turbulence?: Input<"bool">
+  ridge?: Input<"bool">
 }
 
 export const FBMNoise = (
-	p: Input<"vec2" | "vec3">,
-	{
-		seed = 0,
-		persistance = 0,
-		lacunarity = 0,
-		scale = 1,
-		redistribution = 1,
-		octaves = Int(1),
-		turbulence = true,
-		ridge = true
-	}: FBMOptions = {}
+  p: Input<"vec2" | "vec3">,
+  {
+    seed = 0,
+    persistance = 0,
+    lacunarity = 0,
+    scale = 1,
+    redistribution = 1,
+    octaves = Int(1),
+    turbulence = true,
+    ridge = true
+  }: FBMOptions = {}
 ) =>
-	Float(
-		$`${fbmNoise}(${p}, ${fbmNoise}Opts(
+  Float(
+    $`${fbmNoise}(${p}, ${fbmNoise}Opts(
 			${seed},
 			${persistance},
 			${lacunarity},
@@ -35,13 +35,13 @@ export const FBMNoise = (
 			${octaves},
 			${turbulence},
 			${ridge}))`,
-		{
-			name: `FBMNoise ${type(p)}`
-		}
-	)
+    {
+      name: `FBMNoise ${type(p)}`
+    }
+  )
 
 const fbmNoise = Snippet(
-	(fbmNoise) => $`
+  (fbmNoise) => $`
 		#define MAX_FBM_ITERATIONS 30
 
 		struct ${fbmNoise}Opts {

@@ -1,7 +1,7 @@
-import { glsl, Snippet } from "shader-composer"
+import { glsl, Snippet } from "@shader-composer/core"
 
 export const mod289 = Snippet(
-	(name) => glsl`
+  (name) => glsl`
     vec3 ${name}(vec3 x)
     {
       return x - floor(x * (1.0 / 289.0)) * 289.0;

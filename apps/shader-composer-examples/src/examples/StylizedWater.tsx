@@ -29,7 +29,7 @@ import {
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
-import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-toybox"
+import { PSRDNoise2D, PSRDNoise3D } from "shader-composer/noise"
 import { Color } from "three"
 
 export default function StylizedWater() {

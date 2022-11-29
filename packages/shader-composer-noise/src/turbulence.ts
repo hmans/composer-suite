@@ -1,4 +1,4 @@
-import { $, Float, Input, Snippet } from "shader-composer"
+import { $, Float, Input, Snippet } from "@shader-composer/core"
 import { psrdnoise3 } from "./PSRDNoise"
 
 export const turbulence3D = Snippet(
@@ -9,7 +9,7 @@ export const turbulence3D = Snippet(
         float alpha = 0.0;
         vec3 period;
         vec3 gradient;
-					
+
 				for (float f = 1.0 ; f <= octaves; f++) {
 					float power = pow(2.0, f);
           float noise = ${psrdnoise3}(vec3(power * p), period, alpha, gradient);

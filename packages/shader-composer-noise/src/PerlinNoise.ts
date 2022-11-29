@@ -1,20 +1,20 @@
-import { Float, glsl, Input, Snippet, type } from "shader-composer"
+import { Float, glsl, Input, Snippet, type } from "@shader-composer/core"
 import { permute } from "./permute"
 import { rand4 } from "./random"
 import { taylorInvSqrt } from "./taylorInvSqrt"
 
 export const PerlinNoise = (p: Input<"vec3" | "vec2">) =>
-	Float(glsl`${pnoise}(${p})`, { name: `Perlin Noise (${type(p)})` })
+  Float(glsl`${pnoise}(${p})`, { name: `Perlin Noise (${type(p)})` })
 
 const fade = Snippet(
-	(fade) => glsl`
+  (fade) => glsl`
 		vec2 ${fade}(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
 		vec3 ${fade}(vec3 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
   `
 )
 
 export const pnoise = Snippet(
-	(pnoise) => glsl`
+  (pnoise) => glsl`
 		float ${pnoise}(vec2 P) {
 			vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
 			vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);

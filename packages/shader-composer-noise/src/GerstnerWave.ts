@@ -1,4 +1,4 @@
-import { $, Input, Snippet, Vec3 } from "shader-composer"
+import { $, Input, Snippet, Vec3 } from "@shader-composer/core"
 
 /*
 With many thanks to glNoise:

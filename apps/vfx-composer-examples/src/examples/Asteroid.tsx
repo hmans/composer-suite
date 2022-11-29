@@ -22,7 +22,7 @@ import {
   Vec2,
   Vec3
 } from "shader-composer"
-import { PSRDNoise2D } from "shader-composer-toybox"
+import { PSRDNoise2D } from "shader-composer/noise"
 import { Color, DoubleSide } from "three"
 import {
   Emitter,
