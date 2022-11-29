@@ -1,4 +1,4 @@
-import { Vector2, WebGLRenderer } from "three"
+import { Vector2 } from "three"
 import { $, Expression } from "../expressions"
 import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
@@ -185,9 +185,8 @@ export const GlobalTime = Time()
 export const Resolution = UniformUnit("vec2", new Vector2(0, 0), {
   name: "Current Render Resolution",
 
-  update: (_, { gl }: { gl: WebGLRenderer }) => {
-    Resolution.value.x = gl.domElement.width
-    Resolution.value.y = gl.domElement.height
+  update: () => {
+    "Please customize the Resolution unit with the relevant code for your environment."
   }
 })
 
