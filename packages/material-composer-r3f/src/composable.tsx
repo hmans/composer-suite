@@ -10,7 +10,7 @@ import React, {
   useRef
 } from "react"
 import { Unit } from "shader-composer"
-import { useShader } from "@shader-composer/r3f"
+import { useShader } from "shader-composer/r3f"
 import { Material, RGBADepthPacking } from "three"
 import {
   ModuleRegistrationContext,
