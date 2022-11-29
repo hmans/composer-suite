@@ -19,7 +19,7 @@ import {
   UV,
   Vec2,
   VertexPosition
-} from "@shader-composer/three"
+} from "shader-composer"
 import {
   Shader,
   ShaderMaster,

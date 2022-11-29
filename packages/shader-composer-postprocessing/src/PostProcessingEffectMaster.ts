@@ -1,4 +1,4 @@
-import { $, Input, Master } from "@shader-composer/three"
+import { $, Input, Master } from "@shader-composer/core"
 import { InputAlpha, InputColor } from "./units"
 
 export type PostProcessingEffectMasterProps = {

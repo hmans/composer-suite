@@ -4,7 +4,7 @@ import {
   Time,
   VertexNormal,
   VertexPosition
-} from "@shader-composer/three"
+} from "shader-composer"
 import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Vector3 } from "three"
 

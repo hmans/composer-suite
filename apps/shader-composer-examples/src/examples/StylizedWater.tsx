@@ -22,7 +22,7 @@ import {
   Vec2,
   VertexNormal,
   VertexPosition
-} from "@shader-composer/three"
+} from "shader-composer"
 import {
   Shader,
   ShaderMaster,

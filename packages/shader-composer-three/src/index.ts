@@ -1,5 +1,5 @@
 /* Patch units with Three.js specific code */
-import * as SC from "shader-composer"
+import * as SC from "@shader-composer/core"
 import * as THREE from "three"
 
 export type UpdatePayload = {

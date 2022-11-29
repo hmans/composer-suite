@@ -14,7 +14,7 @@ import {
   Time,
   Vec3,
   VertexPosition
-} from "@shader-composer/three"
+} from "shader-composer"
 import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Simplex3DNoise } from "shader-composer-toybox"
 import { Color } from "three"

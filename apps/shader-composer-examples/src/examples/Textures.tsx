@@ -9,7 +9,7 @@ import {
   Time,
   UniformUnit,
   UV
-} from "@shader-composer/three"
+} from "shader-composer"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 

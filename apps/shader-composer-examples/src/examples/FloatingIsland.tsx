@@ -20,7 +20,7 @@ import {
   varying,
   Vec2,
   Vec3
-} from "@shader-composer/three"
+} from "shader-composer"
 import {
   Shader,
   ShaderMaster,
