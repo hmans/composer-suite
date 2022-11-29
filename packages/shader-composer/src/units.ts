@@ -1,14 +1,11 @@
 import {
-  Camera,
   Color,
   Matrix3,
   Matrix4,
-  Scene,
   Texture,
   Vector2,
   Vector3,
-  Vector4,
-  WebGLRenderer
+  Vector4
 } from "three"
 import { $, Expression } from "./expressions"
 import { identifier } from "./util/concatenator3000"
@@ -45,12 +42,7 @@ export type JSTypes = {
 
 export type Input<T extends GLSLType = any> = Expression | JSTypes[T] | Unit<T>
 
-export type UpdateCallback = (
-  dt: number,
-  camera: Camera,
-  scene: Scene,
-  gl: WebGLRenderer
-) => void
+export type UpdateCallback = (dt: number) => void
 
 export type UnitConfig<T extends GLSLType> = {
   /**
