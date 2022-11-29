@@ -1,31 +1,45 @@
-import {
-  Color,
-  Matrix3,
-  Matrix4,
-  Texture,
-  Vector2,
-  Vector3,
-  Vector4
-} from "three"
 import { GLSLType, isUnit, Input } from "./units"
 
 export type GLSLTypeFor<JSType> = JSType extends number
   ? "float"
   : JSType extends boolean
   ? "bool"
-  : JSType extends Texture
+  : JSType extends { isTexture: any }
   ? "sampler2D"
-  : JSType extends Vector2
+  : JSType extends { x: number; y: number }
   ? "vec2"
-  : JSType extends Vector3
+  : JSType extends { x: number; y: number; z: number }
   ? "vec3"
-  : JSType extends Vector4
+  : JSType extends { x: number; y: number; z: number; w: number }
   ? "vec4"
-  : JSType extends Color
+  : JSType extends { r: number; g: number; b: number }
   ? "vec3"
-  : JSType extends Matrix3
+  : JSType extends [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ]
   ? "mat3"
-  : JSType extends Matrix4
+  : JSType extends [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ]
   ? "mat4"
   : never
 
@@ -33,15 +47,23 @@ export const glslType = <T extends GLSLType>(value: Input<T>): T => {
   if (isUnit(value)) return value._unitConfig.type
 
   if (typeof value === "number") return "float" as T
-  if (value instanceof Vector4) return "vec4" as T
-  if (value instanceof Vector3) return "vec3" as T
-  if (value instanceof Vector2) return "vec2" as T
-  if (value instanceof Matrix3) return "mat3" as T
-  if (value instanceof Matrix4) return "mat4" as T
-  if (value instanceof Color) return "vec3" as T
+  if (isObjectWithKeys(value, "x", "y", "z", "w")) return "vec4" as T
+  if (isObjectWithKeys(value, "r", "g", "b")) return "vec3" as T
+  if (isObjectWithKeys(value, "x", "y", "z")) return "vec3" as T
+  if (isObjectWithKeys(value, "x", "y")) return "vec2" as T
+  if (isArrayWithLength(value, 9)) return "mat3" as T
+  if (isArrayWithLength(value, 16)) return "mat4" as T
 
   /* Fail */
   throw new Error(`Could not render GLSL type for: ${value}`)
+}
+
+function isArrayWithLength(obj: any, length: number) {
+  return Array.isArray(obj) && obj.length === length
+}
+
+function isObjectWithKeys(obj: any, ...keys: string[]) {
+  return keys.every((key) => obj.hasOwnProperty(key))
 }
 
 export const type = glslType
