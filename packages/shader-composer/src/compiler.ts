@@ -245,7 +245,7 @@ export const compileShader = (root: Unit) => {
   /*
   STEP 6: Build per-frame update function.
   */
-  const update = (dt: number) => {
+  const update = (dt: number, payload?: any) => {
     const now = performance.now()
 
     for (const unit of unitsWithUpdates) {
@@ -253,7 +253,7 @@ export const compileShader = (root: Unit) => {
 
       /* Only invoke the update callback once per frame. */
       if (state.lastUpdateAt === undefined || state.lastUpdateAt < now) {
-        unit._unitConfig.update(dt)
+        unit._unitConfig.update(dt, payload)
         state.lastUpdateAt = now
       }
     }

@@ -19,8 +19,8 @@ export const useShader = (ctor: () => Unit, deps?: any) => {
   useEffect(() => () => dispose(), deps)
 
   /* Invoke the shader tree's update functions. */
-  useFrame(function useShaderUpdate(_, dt) {
-    update(dt)
+  useFrame(function useShaderUpdate({ camera, scene, gl }, dt) {
+    update(dt, { camera, scene, gl })
   })
 
   return shader

@@ -42,7 +42,7 @@ export type JSTypes = {
 
 export type Input<T extends GLSLType = any> = Expression | JSTypes[T] | Unit<T>
 
-export type UpdateCallback = (dt: number) => void
+export type UpdateCallback = (dt: number, payload?: any) => void
 
 export type UnitConfig<T extends GLSLType> = {
   /**
