@@ -580,10 +580,12 @@ importers:
     specifiers:
       fp-ts: ^2.12.3
       gl-matrix: ^3.4.3
+      three: '>=0.141.0'
     dependencies:
       fp-ts: 2.12.3
     devDependencies:
       gl-matrix: 3.4.3
+      three: 0.145.0
 
   packages/shader-composer-postprocessing:
     specifiers:
@@ -8616,7 +8618,6 @@ packages:
 
   /three/0.145.0:
     resolution: {integrity: sha512-EKoHQEtEJ4CB6b2BGMBgLZrfwLjXcSUfoI/MiIXUuRpeYsfK5aPWbYhdtIVWOH+x6X0TouldHKHBuc/LAiFzAw==}
-    dev: false
 
   /tiny-inflate/1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
