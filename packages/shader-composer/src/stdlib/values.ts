@@ -10,7 +10,7 @@ import { GLSLType, Input, isUnit, Unit, UnitConfig } from "../units"
  * constructors, who will automatically cast the given values to the correct
  * type.
  */
-export type CastableInput<T extends GLSLType> = Input<GLSLType>
+export type CastableInput<T extends GLSLType> = Input<T>
 
 export type CastFunction<T extends GLSLType> = (
   ...values: CastableInput<T>[]

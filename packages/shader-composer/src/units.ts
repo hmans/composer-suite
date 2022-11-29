@@ -1,13 +1,13 @@
+import { $, Expression } from "./expressions"
 import {
   Color,
+  Matrix2,
   Matrix3,
   Matrix4,
-  Texture,
   Vector2,
   Vector3,
   Vector4
-} from "three"
-import { $, Expression } from "./expressions"
+} from "./glslType"
 import { identifier } from "./util/concatenator3000"
 
 export type Program = "vertex" | "fragment"
@@ -34,10 +34,10 @@ export type JSTypes = {
   vec2: Vector2
   vec3: Vector3 | Color
   vec4: Vector4
-  mat2: [number, number, number, number]
+  mat2: Matrix2
   mat3: Matrix3
   mat4: Matrix4
-  sampler2D: Texture
+  sampler2D: { isTexture: any }
 }
 
 export type Input<T extends GLSLType = any> = Expression | JSTypes[T] | Unit<T>

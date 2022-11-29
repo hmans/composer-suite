@@ -1,4 +1,3 @@
-import { Vector2 } from "three"
 import { compileShader } from "./compiler"
 import { $ } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
@@ -86,8 +85,8 @@ describe("Unit", () => {
 })
 
 describe("Vec2", () => {
-  it("accepts a THREE.Vector2 as value", () => {
-    const vec2 = Vec2(new Vector2(1, 2))
-    expect(glsl(vec2._unitConfig.value)).toBe("vec2(vec2(1.0, 2.0))")
+  it("accepts a Vector2-like object as value", () => {
+    const vec2 = Vec2([1, 2])
+    expect(glsl(vec2._unitConfig.value)).toBe("vec2(1.0, 2.0)")
   })
 })
