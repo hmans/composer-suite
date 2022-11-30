@@ -1,6 +1,6 @@
 import { $, Input, Master } from "@shader-composer/core"
 
-export type PatchedMaterialMasterProps = {
+export type PatchedMaterialRootProps = {
   position?: Input<"vec3">
   normal?: Input<"vec3">
   color?: Input<"vec3">
@@ -10,7 +10,7 @@ export type PatchedMaterialMasterProps = {
   metalness?: Input<"float">
 }
 
-export const PatchedMaterialMaster = ({
+export const PatchedMaterialRoot = ({
   position,
   normal,
   color,
@@ -18,7 +18,7 @@ export const PatchedMaterialMaster = ({
   roughness,
   metalness,
   alpha
-}: PatchedMaterialMasterProps = {}) =>
+}: PatchedMaterialRootProps = {}) =>
   Master({
     name: "PatchedMaterial Master",
 

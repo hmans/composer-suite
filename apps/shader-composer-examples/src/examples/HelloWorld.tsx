@@ -7,7 +7,7 @@ import {
   GlobalTime,
   Mix,
   NormalizePlusMinusOne,
-  ShaderMaterialMaster,
+  ShaderMaterialRoot,
   Sin,
   VertexPosition
 } from "shader-composer"
@@ -31,7 +31,7 @@ export default function HelloWorld() {
     /* Create a time unit, always useful! */
     const time = GlobalTime
 
-    return ShaderMaterialMaster({
+    return ShaderMaterialRoot({
       /* Set the color as a time-based mix between the two colors. */
       color: pipe(
         color1,

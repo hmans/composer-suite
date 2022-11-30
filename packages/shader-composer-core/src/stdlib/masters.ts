@@ -3,19 +3,19 @@ import { Input } from "../units"
 import { VertexPosition } from "./variables"
 import { Master, Vec3 } from "./values"
 
-export type ShaderMaterialMasterProps = {
+export type ShaderMaterialRootProps = {
   color?: Input<"vec3">
   alpha?: Input<"float">
   position?: Input<"vec3">
 }
 
-export const ShaderMaterialMaster = ({
+export const ShaderMaterialRoot = ({
   color = Vec3([1, 0, 0]),
   alpha = 1,
   position = VertexPosition
-}: ShaderMaterialMasterProps = {}) =>
+}: ShaderMaterialRootProps = {}) =>
   Master({
-    name: "ShaderMaterial Master",
+    name: "ShaderMaterial Root",
 
     vertex: {
       body: $`
@@ -30,7 +30,7 @@ export const ShaderMaterialMaster = ({
     }
   })
 
-export type CustomShaderMaterialMasterProps = {
+export type CustomShaderMaterialRootProps = {
   position?: Input<"vec3">
   normal?: Input<"vec3">
   diffuseColor?: Input<"vec3">
@@ -41,7 +41,7 @@ export type CustomShaderMaterialMasterProps = {
   metalness?: Input<"float">
 }
 
-export const CustomShaderMaterialMaster = ({
+export const CustomShaderMaterialRoot = ({
   position,
   normal,
   diffuseColor,
@@ -50,9 +50,9 @@ export const CustomShaderMaterialMaster = ({
   roughness,
   metalness,
   alpha
-}: CustomShaderMaterialMasterProps = {}) =>
+}: CustomShaderMaterialRootProps = {}) =>
   Master({
-    name: "CustomShaderMaterial Master",
+    name: "CustomShaderMaterial Root",
 
     vertex: {
       body: $`

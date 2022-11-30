@@ -1,4 +1,4 @@
-import { PatchedMaterialMaster } from "@material-composer/patch-material"
+import { PatchedMaterialRoot } from "@material-composer/patch-material"
 import { initialModuleState, Module, pipeModules } from "."
 
 /**
@@ -13,5 +13,5 @@ export const compileModules = (modules: Module[]) => {
   const state = pipeModules(initialModuleState(), ...modules)
 
   /* Construct a shader master unit */
-  return PatchedMaterialMaster(state)
+  return PatchedMaterialRoot(state)
 }

@@ -1,6 +1,6 @@
 import { useConst } from "@hmans/use-const"
 import {
-  PatchedMaterialMaster,
+  PatchedMaterialRoot,
   patchMaterial
 } from "@material-composer/patch-material"
 import { useInstanceHandle } from "@react-three/fiber"
@@ -37,4 +37,4 @@ export const Shader = ({
   return <primitive object={object} ref={ref} />
 }
 
-export const ShaderMaster = PatchedMaterialMaster
+export const ShaderMaster = PatchedMaterialRoot

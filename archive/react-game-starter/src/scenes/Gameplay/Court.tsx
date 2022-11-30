@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 import {
   Add,
   Mul,
-  ShaderMaterialMaster,
+  ShaderMaterialRoot,
   Time,
   vec2,
   vec3,
@@ -46,7 +46,7 @@ const Background = () => {
       ({ x, y }) => Grid2D(vec2(x, y), 1, 0.035)
     )
 
-    return ShaderMaterialMaster({
+    return ShaderMaterialRoot({
       color: new Color("hotpink"),
       alpha: Add(0.03, Mul(a, 0.4))
     })

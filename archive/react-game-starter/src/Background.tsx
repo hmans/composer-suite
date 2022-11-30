@@ -3,7 +3,7 @@ import {
   Add,
   Mul,
   Round,
-  ShaderMaterialMaster,
+  ShaderMaterialRoot,
   Time,
   VertexPosition
 } from "shader-composer"
@@ -13,7 +13,7 @@ import { Color } from "three"
 
 export const Background = () => {
   const shader = useShader(() => {
-    return ShaderMaterialMaster({
+    return ShaderMaterialRoot({
       color: pipe(
         VertexPosition,
         (v) => Mul(v, 0.5),
