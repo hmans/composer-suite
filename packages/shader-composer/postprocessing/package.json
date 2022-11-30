@@ -1,4 +1,0 @@
-{
-  "main": "dist/shader-composer-postprocessing.cjs.js",
-  "module": "dist/shader-composer-postprocessing.esm.js"
-}

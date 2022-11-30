@@ -1,4 +1,0 @@
-{
-  "main": "dist/shader-composer-three.cjs.js",
-  "module": "dist/shader-composer-three.esm.js"
-}
