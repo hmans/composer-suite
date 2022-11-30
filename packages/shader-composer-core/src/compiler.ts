@@ -236,7 +236,7 @@ export const compileShader = (root: Unit) => {
   /*
   STEP 5: Collect update callbacks.
   */
-  const unitsWithUpdates = collectFromTree(
+  const unitsWithUpdates: Unit[] = collectFromTree(
     root,
     "any",
     (item) => isUnit(item) && !!item._unitConfig.update
@@ -247,13 +247,14 @@ export const compileShader = (root: Unit) => {
   */
   const update = (dt: number, payload?: any) => {
     const now = performance.now()
+    const ctx = { dt, time: now / 1000 }
 
     for (const unit of unitsWithUpdates) {
       const state = unit._unitState
 
       /* Only invoke the update callback once per frame. */
       if (state.lastUpdateAt === undefined || state.lastUpdateAt < now) {
-        unit._unitConfig.update(dt, payload)
+        unit._unitConfig.update!(ctx, payload)
         state.lastUpdateAt = now
       }
     }

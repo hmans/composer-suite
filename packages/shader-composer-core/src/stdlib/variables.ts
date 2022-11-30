@@ -164,7 +164,7 @@ export const Time = (initial: number = 0) => {
   const uniform = UniformUnit("float", initial, {
     name: "Time Uniform",
 
-    update: (dt) => {
+    update: ({ dt }) => {
       uniform.value += dt
     }
   })
