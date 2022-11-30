@@ -5,7 +5,25 @@ import { Color } from "three"
 export default function Playground() {
   return (
     <group>
-      <mesh>
+      <mesh position-x={-2}>
+        <sphereGeometry />
+        <composable.meshStandardMaterial>
+          <modules.Color color={Mul(new Color("hotpink"), Time())} />
+        </composable.meshStandardMaterial>
+      </mesh>
+      <mesh position-x={+2}>
+        <sphereGeometry />
+        <composable.meshStandardMaterial>
+          <modules.Color color={Mul(new Color("hotpink"), Time())} />
+        </composable.meshStandardMaterial>
+      </mesh>
+      <mesh position-y={-2}>
+        <sphereGeometry />
+        <composable.meshStandardMaterial>
+          <modules.Color color={Mul(new Color("hotpink"), Time())} />
+        </composable.meshStandardMaterial>
+      </mesh>
+      <mesh position-y={+2}>
         <sphereGeometry />
         <composable.meshStandardMaterial>
           <modules.Color color={Mul(new Color("hotpink"), Time())} />

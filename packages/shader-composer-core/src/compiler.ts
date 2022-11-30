@@ -1,3 +1,4 @@
+import { frameTime } from "."
 import { DEBUG } from "./debug"
 import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
@@ -246,7 +247,7 @@ export const compileShader = (root: Unit) => {
   STEP 6: Build per-frame update function.
   */
   const update = (dt: number, payload?: any) => {
-    const now = performance.now()
+    const now = frameTime
 
     for (const unit of unitsWithUpdates) {
       const state = unit._unitState
