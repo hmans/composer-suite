@@ -198,7 +198,7 @@ importers:
       r3f-stage: ^0.3.5
       react: ^18.2.0
       react-dom: ^18.2.0
-      shader-composer: workspace:^0.4.9
+      shader-composer-r3f: workspace:^0.4.9
       shader-composer-toybox: ^0.1.3
       three: ^0.145.0
       typescript: ^4.9.3
@@ -212,7 +212,7 @@ importers:
       r3f-stage: link:../../packages/r3f-stage
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      shader-composer: link:../../packages/shader-composer
+      shader-composer-r3f: link:../../packages/shader-composer-r3f-umbrella
       shader-composer-toybox: link:../../packages/shader-composer-toybox
       three: 0.145.0
     devDependencies:
@@ -572,15 +572,9 @@ importers:
     specifiers:
       '@shader-composer/core': workspace:^0.4.9
       '@shader-composer/noise': workspace:^0.4.9
-      '@shader-composer/postprocessing': workspace:^0.0.1
-      '@shader-composer/r3f': workspace:^0.4.5
-      '@shader-composer/three': workspace:^0.4.9
     dependencies:
       '@shader-composer/core': link:../shader-composer-core
       '@shader-composer/noise': link:../shader-composer-noise
-      '@shader-composer/postprocessing': link:../shader-composer-postprocessing
-      '@shader-composer/r3f': link:../shader-composer-r3f
-      '@shader-composer/three': link:../shader-composer-three
 
   packages/shader-composer-core:
     specifiers:
@@ -618,11 +612,27 @@ importers:
     devDependencies:
       '@shader-composer/core': link:../shader-composer-core
 
+  packages/shader-composer-r3f-umbrella:
+    specifiers:
+      '@shader-composer/r3f': workspace:^0.4.5
+      shader-composer: workspace:^0.4.9
+    dependencies:
+      '@shader-composer/r3f': link:../shader-composer-r3f
+      shader-composer: link:../shader-composer
+
   packages/shader-composer-three:
     specifiers:
       '@shader-composer/core': workspace:^0.4.9
     devDependencies:
       '@shader-composer/core': link:../shader-composer-core
+
+  packages/shader-composer-three-umbrella:
+    specifiers:
+      '@shader-composer/three': workspace:^0.4.9
+      shader-composer: workspace:^0.4.9
+    dependencies:
+      '@shader-composer/three': link:../shader-composer-three
+      shader-composer: link:../shader-composer
 
   packages/shader-composer-toybox:
     specifiers:

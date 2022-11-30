@@ -1,0 +1,38 @@
+{
+  "name": "shader-composer-r3f",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Node-based Shader Composition for Three.js!",
+  "version": "0.4.9",
+  "main": "dist/shader-composer-r3f.cjs.js",
+  "module": "dist/shader-composer-r3f.esm.js",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md"
+  },
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build",
+    "test": "jest"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ]
+  },
+  "dependencies": {
+    "@shader-composer/r3f": "workspace:^0.4.5",
+    "shader-composer": "workspace:^0.4.9"
+  }
+}
