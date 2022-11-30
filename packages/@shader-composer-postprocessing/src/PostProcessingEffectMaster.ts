@@ -1,4 +1,8 @@
-import { $, Input, Master } from "@shader-composer/core"
+import {
+  $,
+  Input,
+  Master
+} from "../../@shader-composer-core/dist/shader-composer-core.cjs"
 import { InputAlpha, InputColor } from "./units"
 
 export type PostProcessingEffectMasterProps = {

@@ -1,5 +1,5 @@
 import * as PP from "postprocessing"
-import { compileShader } from "@shader-composer/core"
+import { compileShader } from "../../@shader-composer-core/dist/shader-composer-core.cjs"
 import { WebGLRenderer, WebGLRenderTarget } from "three"
 import { PostProcessingEffectMaster } from "./PostProcessingEffectMaster"
 
