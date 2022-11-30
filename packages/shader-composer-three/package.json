@@ -27,7 +27,7 @@
     ]
   },
   "peerDependencies": {
-    "@shader-composer/core": "workspace:^0.4.9",
+    "@shader-composer/core": ">=0.4.9",
     "three": ">=0.141.0"
   },
   "devDependencies": {

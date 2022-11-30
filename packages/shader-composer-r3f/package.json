@@ -23,18 +23,12 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react",
-      [
-        "@babel/preset-typescript",
-        {
-          "isTSX": true,
-          "allExtensions": true
-        }
-      ]
+      "@babel/preset-typescript"
     ]
   },
   "peerDependencies": {
     "@react-three/fiber": "^8.2.0",
-    "@shader-composer/core": "workspace:^0.4.9",
+    "@shader-composer/core": ">=0.4.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": ">=0.143.0"

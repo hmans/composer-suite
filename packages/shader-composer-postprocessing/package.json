@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "postprocessing": "^6.28.7",
-    "@shader-composer/core": "^0.4.9",
+    "@shader-composer/core": ">=0.4.9",
     "three": ">=0.141.0"
   }
 }
