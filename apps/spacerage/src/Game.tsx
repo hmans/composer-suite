@@ -17,7 +17,7 @@ export const Game = () => {
     <RC.Canvas dpr={1}>
       <Controller controller={controller} updatePriority={Stage.Early} />
 
-      <RC.RenderPipeline updatePriority={Stage.Render}>
+      <RC.DefaultRenderPipeline updatePriority={Stage.Render}>
         <AC.AudioContext>
           <AC.Compressor>
             {/* <AC.Reverb seconds={2} decay={5}> */}
@@ -48,7 +48,7 @@ export const Game = () => {
             {/* </AC.Reverb> */}
           </AC.Compressor>
         </AC.AudioContext>
-      </RC.RenderPipeline>
+      </RC.DefaultRenderPipeline>
     </RC.Canvas>
   )
 }

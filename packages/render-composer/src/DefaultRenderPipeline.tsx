@@ -22,7 +22,7 @@ export const Layers = {
   TransparentFX: 31
 }
 
-export const RenderPipeline = ({
+export const DefaultRenderPipeline = ({
   children,
   updatePriority = 1
 }: RenderPipelineProps) => {

@@ -1,7 +1,7 @@
 import { Animate, useAnimationFrame } from "@hmans/things"
 import { Environment, OrbitControls, Sky } from "@react-three/drei"
 import { MutableRefObject, Suspense, useRef } from "react"
-import { Canvas, RenderPipeline } from "render-composer"
+import { Canvas, DefaultRenderPipeline } from "render-composer"
 import { Group } from "three"
 import * as UI from "ui-composer"
 
@@ -66,7 +66,7 @@ const App = () => {
       <UI.HorizontalGroup>
         <div style={{ flex: 2 }}>
           <Canvas>
-            <RenderPipeline>
+            <DefaultRenderPipeline>
               <Suspense>
                 <Environment preset="sunset" />
                 <Sky />
@@ -84,7 +84,7 @@ const App = () => {
                   </mesh>
                 </Animate>
               </Suspense>
-            </RenderPipeline>
+            </DefaultRenderPipeline>
           </Canvas>
         </div>
 

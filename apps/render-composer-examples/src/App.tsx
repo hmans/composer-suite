@@ -23,7 +23,7 @@ function App() {
       <Loader />
 
       <RC.Canvas>
-        <RC.RenderPipeline>
+        <RC.DefaultRenderPipeline>
           <Suspense>
             <PostProcessing sun={sun} />
             <color attach="background" args={["#264653"]} />
@@ -81,7 +81,7 @@ function App() {
               </Animate>
             </Animate>
           </Suspense>
-        </RC.RenderPipeline>
+        </RC.DefaultRenderPipeline>
       </RC.Canvas>
     </>
   )
