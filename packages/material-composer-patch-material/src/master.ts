@@ -1,4 +1,4 @@
-import { $, Input, Master } from "@shader-composer/core"
+import { $, Input, Root } from "@shader-composer/core"
 
 export type PatchedMaterialRootProps = {
   position?: Input<"vec3">
@@ -19,8 +19,8 @@ export const PatchedMaterialRoot = ({
   metalness,
   alpha
 }: PatchedMaterialRootProps = {}) =>
-  Master({
-    name: "PatchedMaterial Master",
+  Root({
+    name: "PatchedMaterial Root",
 
     vertex: {
       body: $`

@@ -1,4 +1,4 @@
-import { $, Input, Master } from "@shader-composer/core"
+import { $, Input, Root } from "@shader-composer/core"
 import { InputAlpha, InputColor } from "./units"
 
 export type PostProcessingEffectRootProps = {
@@ -10,7 +10,7 @@ export const PostProcessingEffectRoot = ({
   color = InputColor,
   alpha = InputAlpha
 }: PostProcessingEffectRootProps) =>
-  Master({
+  Root({
     fragment: {
       body: $`
         outputColor = vec4(${color}.rgb, ${alpha});

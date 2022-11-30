@@ -1,7 +1,7 @@
 import { $ } from "../expressions"
 import { Input } from "../units"
 import { VertexPosition } from "./variables"
-import { Master, Vec3 } from "./values"
+import { Root, Vec3 } from "./values"
 
 export type ShaderMaterialRootProps = {
   color?: Input<"vec3">
@@ -14,7 +14,7 @@ export const ShaderMaterialRoot = ({
   alpha = 1,
   position = VertexPosition
 }: ShaderMaterialRootProps = {}) =>
-  Master({
+  Root({
     name: "ShaderMaterial Root",
 
     vertex: {
@@ -51,7 +51,7 @@ export const CustomShaderMaterialRoot = ({
   metalness,
   alpha
 }: CustomShaderMaterialRootProps = {}) =>
-  Master({
+  Root({
     name: "CustomShaderMaterial Root",
 
     vertex: {

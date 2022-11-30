@@ -1,7 +1,7 @@
 import { compileShader } from "../src/compiler"
 import { $, glsl } from "../src/expressions"
 import { Snippet } from "../src/snippets"
-import { Bool, Float, Int, Master } from "../src/stdlib"
+import { Bool, Float, Int, Root } from "../src/stdlib"
 
 describe("compileShader", () => {
   it("compiles shader programs from the given unit", () => {
@@ -13,7 +13,7 @@ describe("compileShader", () => {
   })
 
   it("embeds body chunks in scoped blocks, with a local `value` variable", () => {
-    const root = Master({
+    const root = Root({
       fragment: {
         body: $`gl_FragColor.rgb = vec3(1.0, 0.0, 0.0);`
       }
@@ -58,7 +58,7 @@ describe("compileShader", () => {
     const position = Float(1, { name: "Position (Vertex Only)" })
     const color = Float(2, { name: "Color (Fragment Only)" })
 
-    const root = Master({
+    const root = Root({
       vertex: { body: glsl`gl_Position = ${position};` },
       fragment: { body: glsl`gl_FragColor = ${color};` }
     })
@@ -116,7 +116,7 @@ describe("compileShader", () => {
     const a = Float(1, { name: "A" })
     const b = Float(2, { name: "B" })
 
-    const master = Master({
+    const master = Root({
       vertex: {
         body: $`foo = ${a};`
       },
@@ -141,7 +141,7 @@ describe("compileShader", () => {
     const b = Float($`${a} + 1.0`, { name: "B", varying: true })
 
     /* A master unit that specifically uses the `b` unit from within the fragment program. */
-    const root = Master({ name: "Master", fragment: { body: $`value = ${b}` } })
+    const root = Root({ name: "Root", fragment: { body: $`value = ${b}` } })
 
     const [shader] = compileShader(root)
 
@@ -157,7 +157,7 @@ describe("compileShader", () => {
 
   it("throws an error when encountering a unit that is not able to run in the requested program", () => {
     const a = Float(1, { name: "A", only: "vertex" })
-    const root = Master({ fragment: { body: $`${a}` } })
+    const root = Root({ fragment: { body: $`${a}` } })
     expect(() => compileShader(root)).toThrowErrorMatchingInlineSnapshot(
       `"Encountered a unit \\"A\\" that is only allowed in the vertex shader, but was encountered when compiling the fragment shader. Consider wrapping the value, or the derived value you're interested in, in a Unit that has a varying."`
     )
