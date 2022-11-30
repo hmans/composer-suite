@@ -3,7 +3,7 @@ import { composable, modules } from "material-composer-r3f"
 import { Space } from "material-composer/modules"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
-import { Mul, Sin, Time } from "shader-composer"
+import { Mul, Sin, Time } from "shader-composer-r3f"
 import { Vector3 } from "three"
 
 export default function Translate() {

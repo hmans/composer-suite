@@ -8,9 +8,8 @@ import {
   GlobalTime,
   Mul,
   NormalizePlusMinusOne,
-  Sin,
-  Time
-} from "shader-composer"
+  Sin
+} from "shader-composer-r3f"
 import {
   DoubleSide,
   Group,

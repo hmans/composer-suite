@@ -1,7 +1,7 @@
 import { composable, modules } from "material-composer-r3f"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
-import { Time } from "shader-composer"
+import { Time } from "shader-composer-r3f"
 import { Vector3 } from "three"
 
 export default function Velocity() {

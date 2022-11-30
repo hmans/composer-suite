@@ -2,8 +2,7 @@ import { useTexture } from "@react-three/drei"
 import { useControls } from "leva"
 import { composable, Layer, modules } from "material-composer-r3f"
 import { Description } from "r3f-stage"
-import { Mul, Time, UV } from "shader-composer"
-import { useUniformUnit } from "shader-composer/r3f"
+import { useUniformUnit } from "shader-composer-r3f"
 import textureUrl from "./textures/hexgrid.jpeg"
 
 export default function Textures() {

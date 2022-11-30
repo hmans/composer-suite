@@ -9,9 +9,9 @@ import {
   Smoothstep,
   Sub,
   Time,
+  useUniformUnit,
   VertexPosition
-} from "shader-composer"
-import { useUniformUnit } from "shader-composer/r3f"
+} from "shader-composer-r3f"
 import { DoubleSide } from "three"
 import { Lava } from "./Fireball"
 import { Plasma } from "./PlasmaBall"

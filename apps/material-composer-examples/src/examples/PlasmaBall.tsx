@@ -8,7 +8,7 @@ import {
   Mul,
   OneMinus,
   Smoothstep
-} from "shader-composer"
+} from "shader-composer-r3f"
 import { Color, DoubleSide } from "three"
 
 export type PlasmaProps = HeatOptions

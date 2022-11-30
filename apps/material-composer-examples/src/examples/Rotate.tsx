@@ -2,7 +2,7 @@ import { useControls } from "leva"
 import { composable, modules } from "material-composer-r3f"
 import { Description } from "r3f-stage"
 import { useMemo } from "react"
-import { GlobalTime, Rotation3D, Time, Vec3 } from "shader-composer"
+import { GlobalTime, Rotation3D, Time, Vec3 } from "shader-composer-r3f"
 
 export default function Rotate() {
   const controls = useControls({

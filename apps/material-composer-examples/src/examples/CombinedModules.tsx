@@ -1,6 +1,6 @@
 import { useControls } from "leva"
 import { composable, Layer, LayerProps, modules } from "material-composer-r3f"
-import { useUniformUnit } from "shader-composer/r3f"
+import { useUniformUnit } from "shader-composer-r3f"
 import { Color } from "three"
 
 export const ColorLayer = (props: LayerProps) => {
