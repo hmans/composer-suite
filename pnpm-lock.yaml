@@ -660,9 +660,11 @@ importers:
 
   packages/vfx-composer:
     specifiers:
+      '@shader-composer/three': workspace:^0.4.9
       material-composer: ^0.2.6
-      shader-composer: ^0.4.5
+      shader-composer: workspace:^0.4.9
     dependencies:
+      '@shader-composer/three': link:../shader-composer-three
       material-composer: link:../material-composer
       shader-composer: link:../shader-composer
 
