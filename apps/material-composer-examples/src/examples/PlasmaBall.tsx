@@ -1,6 +1,5 @@
 import { ModuleFactory } from "material-composer"
-import { composable, modules } from "material-composer-r3f"
-import { moduleComponent } from "material-composer-r3f/src/reactor"
+import { composable, moduleComponent, modules } from "material-composer-r3f"
 import { Heat, HeatOptions } from "material-composer/units"
 import {
   Cos,
@@ -8,8 +7,7 @@ import {
   Gradient,
   Mul,
   OneMinus,
-  Smoothstep,
-  Time
+  Smoothstep
 } from "shader-composer"
 import { Color, DoubleSide } from "three"
 

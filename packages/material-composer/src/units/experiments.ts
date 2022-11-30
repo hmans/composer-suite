@@ -1,6 +1,5 @@
 import { pipe } from "fp-ts/function"
-import { Add, Clamp01, Input, Mul, Pow } from "shader-composer"
-import { Turbulence3D } from "shader-composer"
+import { Add, Clamp01, Input, Mul, Pow, Turbulence3D } from "shader-composer"
 
 export type HeatOptions = {
   offset?: Input<"vec3" | "float">

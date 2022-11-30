@@ -4,6 +4,13 @@
 
 Three.js bindings for Shader Composer.
 
+```js
+import { compileShader } from "@shader-composer/core"
+import configureThree from "@shader-composer/three"
+
+configureThree()
+```
+
 ## License
 
 ```

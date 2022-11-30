@@ -16,8 +16,19 @@ Example for working with individual scoped packages:
 
 ```js
 import { compileShader } from "@shader-composer/core"
-import { setupThree } from "@shader-composer/three"
+import { PSRDNoise3D } from "@shader-composer/noise"
+import setupThree from "@shader-composer/three"
 import { PostProcessingEffectMaster } from "@shader-composer/postprocessing"
+
+setupThree()
 ```
 
-TODO: finalize examples
+For convenience, you can also use the `shader-composer` umbrella package. It directly exports most of the functions and units you'll need for building shaders, and provides additional entrypoints for framework-specific functionality:
+
+```js
+import { compileShader, PSRDNoise3D } from "shader-composer"
+import setupThree from "shader-composer/three"
+import { PostProcessingEffectMaster } from "shader-composer/postprocessing"
+
+setupThree()
+```

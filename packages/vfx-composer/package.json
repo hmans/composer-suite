@@ -33,8 +33,9 @@
     ]
   },
   "dependencies": {
+    "@shader-composer/three": "workspace:^0.4.9",
     "material-composer": "^0.2.6",
-    "shader-composer": "^0.4.5"
+    "shader-composer": "workspace:^0.4.9"
   },
   "peerDependencies": {
     "three": ">=0.141.0"
