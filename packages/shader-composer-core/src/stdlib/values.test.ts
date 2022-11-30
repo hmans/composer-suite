@@ -1,5 +1,6 @@
+import { Vector4 } from "three"
 import { glslRepresentation } from "../glslRepresentation"
-import { float, mat2, swizzle, vec3, vec4, Int, Vec3 } from "./values"
+import { float, mat2, swizzle, vec3, vec4, Int, Vec3, Vec4 } from "./values"
 
 describe("float", () => {
   it("returns an expression that casts the given value to a float", () => {
@@ -16,6 +17,14 @@ describe("vec3", () => {
   it("returns an expression that casts the given value to a vec3", () => {
     const cast = vec3({ r: 1, g: 0, b: 0 })
     expect(glslRepresentation(cast)).toEqual(`vec3(vec3(1.0, 0.0, 0.0))`)
+  })
+
+  it("casts another unit to a vec3", () => {
+    const unit = Vec4(new Vector4(1, 2, 3, 4))
+    const cast = vec3(unit)
+    expect(glslRepresentation(cast)).toEqual(
+      `vec3(${glslRepresentation(unit)})`
+    )
   })
 
   it("casts a Vector3 to a vec3", () => {
