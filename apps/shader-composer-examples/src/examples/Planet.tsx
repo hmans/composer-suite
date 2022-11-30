@@ -16,7 +16,7 @@ import {
   VertexPosition
 } from "shader-composer"
 import { Simplex3DNoise } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import { Color } from "three"
 
 const getNoise = (
@@ -57,7 +57,7 @@ function Planet() {
       (color: Color, height: Input<"float">) => (v: Input<"vec3">) =>
         Mix(v, color, Step(height, totalHeight))
 
-    return ShaderMaster({
+    return ShaderRoot({
       position: pipe(
         totalHeight,
         (v) => Add(1.0, v),
@@ -108,7 +108,7 @@ function Atmosphere() {
 
     const fresnel = Mul(Fresnel(), 0.3)
 
-    return ShaderMaster({
+    return ShaderRoot({
       alpha: pipe(
         Float(atmosphereDensity),
         (v) => Add(v, clouds),

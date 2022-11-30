@@ -15,7 +15,7 @@ import {
 } from "shader-composer"
 import {
   Shader,
-  ShaderMaster,
+  ShaderRoot,
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
@@ -67,7 +67,7 @@ export default function Fireball() {
       (v) => Texture2D(sampler2D, Vec2([0, v])).color
     )
 
-    return ShaderMaster({
+    return ShaderRoot({
       /* Modify the vertex position based on the displacement value. */
       position: pipe(
         displacement,

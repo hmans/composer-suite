@@ -37,4 +37,4 @@ export const Shader = ({
   return <primitive object={object} ref={ref} />
 }
 
-export const ShaderMaster = PatchedMaterialRoot
+export const ShaderRoot = PatchedMaterialRoot
