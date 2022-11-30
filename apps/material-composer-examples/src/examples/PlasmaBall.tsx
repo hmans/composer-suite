@@ -8,8 +8,7 @@ import {
   Gradient,
   Mul,
   OneMinus,
-  Smoothstep,
-  Time
+  Smoothstep
 } from "shader-composer"
 import { Color, DoubleSide } from "three"
 
