@@ -42,7 +42,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
 
   return (
     <RC.Canvas dpr={controls.dpr}>
-      <RC.RenderPipeline>
+      <RC.DefaultRenderPipeline>
         {controls.effects && (
           <RC.EffectPass>
             <RC.SMAAEffect />
@@ -100,7 +100,7 @@ export const ThreeApplication: FC<ThreeApplicationProps> = ({
 
         {/* Performance Monitor */}
         {controls.performance && <Perf position="bottom-right" />}
-      </RC.RenderPipeline>
+      </RC.DefaultRenderPipeline>
     </RC.Canvas>
   )
 }
