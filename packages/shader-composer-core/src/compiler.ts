@@ -3,7 +3,14 @@ import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 import { isSnippet, renameSnippet, Snippet } from "./snippets"
 import { collectFromTree, Item, walkTree } from "./tree"
-import { isUnit, isUnitInProgram, Program, uniformName, Unit } from "./units"
+import {
+  isUnit,
+  isUnitInProgram,
+  Program,
+  uniformName,
+  Unit,
+  UpdateContext
+} from "./units"
 import {
   assignment,
   block,
@@ -245,17 +252,14 @@ export const compileShader = (root: Unit) => {
   /*
   STEP 6: Build per-frame update function.
   */
-  const update = (dt: number, payload?: any) => {
-    const now = performance.now()
-    const ctx = { dt, time: now / 1000 }
-
+  const update = (ctx: UpdateContext, payload?: any) => {
     for (const unit of unitsWithUpdates) {
       const state = unit._unitState
 
       /* Only invoke the update callback once per frame. */
-      if (state.lastUpdateAt === undefined || state.lastUpdateAt < now) {
+      if (state.lastUpdateAt === undefined || state.lastUpdateAt < ctx.time) {
         unit._unitConfig.update!(ctx, payload)
-        state.lastUpdateAt = now
+        state.lastUpdateAt = ctx.time
       }
     }
   }
