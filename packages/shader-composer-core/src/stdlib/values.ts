@@ -97,5 +97,4 @@ export const Mat2 = makeCastableUnitFactory("mat2", mat2)
 export const Mat3 = makeCastableUnitFactory("mat3", mat3)
 export const Mat4 = makeCastableUnitFactory("mat4", mat4)
 
-export const Master = (extras?: Partial<UnitConfig<"bool">>) =>
-  Bool(true, extras)
+export const Root = (extras?: Partial<UnitConfig<"bool">>) => Bool(true, extras)

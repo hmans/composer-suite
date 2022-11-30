@@ -14,7 +14,7 @@ import {
   Sub,
   VertexPosition
 } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import { PSRDNoise3D } from "shader-composer"
 import { Color, Mesh } from "three"
 
@@ -37,7 +37,7 @@ export default function DiscoCube() {
       (v) => Fract(v)
     )
 
-    return ShaderMaster({
+    return ShaderRoot({
       color: Mul(new Color("#abf"), noise),
       metalness: noise,
       roughness: OneMinus(noise)

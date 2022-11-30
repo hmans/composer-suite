@@ -5,7 +5,7 @@ import {
   VertexNormal,
   VertexPosition
 } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import { Vector3 } from "three"
 
 export default function MatrixTransformations() {
@@ -17,7 +17,7 @@ export default function MatrixTransformations() {
 
     /* Rotate both the position and the normal using our rotation function.
     It's important to also update the normal so that the lighting is correct. */
-    return ShaderMaster({
+    return ShaderRoot({
       position: rotate(VertexPosition),
       normal: rotate(VertexNormal)
     })

@@ -1,3 +1,3 @@
-export * from "./PostProcessingEffectMaster"
+export * from "./PostProcessingEffectRoot"
 export * from "./ShaderComposerEffect"
 export * from "./units"

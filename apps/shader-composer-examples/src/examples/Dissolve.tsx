@@ -3,7 +3,7 @@ import { useControls } from "leva"
 import { Mix } from "shader-composer"
 import {
   Shader,
-  ShaderMaster,
+  ShaderRoot,
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
@@ -44,7 +44,7 @@ export default function DissolveExample() {
       dissolveEdgeThickness
     )
 
-    return ShaderMaster({
+    return ShaderRoot({
       color: pipe(sphereColor, (v) => Mix(v, dissolveEdgeColor, dissolve.edge)),
       alpha: dissolve.alpha
     })

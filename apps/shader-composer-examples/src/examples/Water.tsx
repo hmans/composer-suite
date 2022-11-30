@@ -3,7 +3,7 @@ import { pipe } from "fp-ts/function"
 import { Add, GlobalTime, Input, Int, Mul, Remap, Vec2 } from "shader-composer"
 import { Displacement } from "shader-composer-toybox"
 import { FBMNoise, GerstnerWave } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import { Color, DoubleSide } from "three"
 
 const NormalizeNoise = (v: Input<"float">) => Remap(v, -1, 1, 0, 1)
@@ -48,7 +48,7 @@ function Water() {
       )
     })
 
-    return ShaderMaster({
+    return ShaderRoot({
       position,
       normal,
       color

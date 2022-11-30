@@ -25,7 +25,7 @@ import { Displacement } from "shader-composer-toybox"
 import { PSRDNoise2D } from "shader-composer"
 import {
   Shader,
-  ShaderMaster,
+  ShaderRoot,
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
@@ -104,7 +104,7 @@ const FloatingIsland = () => {
     recalculating the position for every fragment. */
     const position = varying(Displacement(displace).position)
 
-    return ShaderMaster({
+    return ShaderRoot({
       position,
 
       color: pipe(Vec3(new Color("#1982c4")), (v) =>

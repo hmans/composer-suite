@@ -1,10 +1,10 @@
 import * as PP from "postprocessing"
 import { compileShader } from "@shader-composer/core"
 import { WebGLRenderer, WebGLRenderTarget } from "three"
-import { PostProcessingEffectMaster } from "./PostProcessingEffectMaster"
+import { PostProcessingEffectRoot } from "./PostProcessingEffectRoot"
 
 export type ShaderComposerEffectProps = {
-  root: ReturnType<typeof PostProcessingEffectMaster>
+  root: ReturnType<typeof PostProcessingEffectRoot>
   blendFunction?: PP.BlendFunction
 }
 

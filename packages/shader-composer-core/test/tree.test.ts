@@ -1,6 +1,6 @@
 import { $ } from "../src/expressions"
 import { Snippet } from "../src/snippets"
-import { Float, Master, Vec3 } from "../src/stdlib"
+import { Float, Root, Vec3 } from "../src/stdlib"
 import { collectFromTree, Item, walkTree } from "../src/tree"
 import { isUnit } from "../src/units"
 
@@ -38,7 +38,7 @@ describe("walkTree", () => {
     it("only visits the items contained in that program", () => {
       const a = Float(1)
       const b = Float(2)
-      const root = Master({
+      const root = Root({
         vertex: { body: $`${a}` },
         fragment: { body: $`${b}` }
       })

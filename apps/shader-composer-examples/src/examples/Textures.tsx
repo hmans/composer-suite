@@ -1,4 +1,4 @@
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import {
   $,
   Add,
@@ -28,7 +28,7 @@ export default function Textures() {
     /* Define a color to tint the texture with */
     const color = new Color("hotpink")
 
-    return ShaderMaster({
+    return ShaderRoot({
       color: $`${color} * ${tex2d.color}`,
       alpha: Add(Fresnel(), 0.1)
     })

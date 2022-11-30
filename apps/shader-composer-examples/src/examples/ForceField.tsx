@@ -22,7 +22,7 @@ import {
 } from "shader-composer"
 import {
   Shader,
-  ShaderMaster,
+  ShaderRoot,
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
@@ -69,7 +69,7 @@ export default function ForceField() {
       (v) => Smoothstep(0, 1, v)
     )
 
-    return ShaderMaster({
+    return ShaderRoot({
       emissiveColor: Mul(color, intensity),
 
       alpha: pipe(

@@ -18,7 +18,7 @@ Example for working with individual scoped packages:
 import { compileShader } from "@shader-composer/core"
 import { PSRDNoise3D } from "@shader-composer/noise"
 import setupThree from "@shader-composer/three"
-import { PostProcessingEffectMaster } from "@shader-composer/postprocessing"
+import { PostProcessingEffectRoot } from "@shader-composer/postprocessing"
 
 setupThree()
 ```
@@ -28,7 +28,7 @@ For convenience, you can also use the `shader-composer` umbrella package. It dir
 ```js
 import { compileShader, PSRDNoise3D } from "shader-composer"
 import setupThree from "shader-composer/three"
-import { PostProcessingEffectMaster } from "shader-composer/postprocessing"
+import { PostProcessingEffectRoot } from "shader-composer/postprocessing"
 
 setupThree()
 ```

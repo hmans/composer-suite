@@ -8,7 +8,7 @@ import {
   Vec3,
   VertexPosition
 } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderRoot, useShader } from "shader-composer/r3f"
 import { DoubleSide } from "three"
 import textureUrl from "./textures/shader-composer-logo.jpg"
 
@@ -18,7 +18,7 @@ export default function Flag() {
   const shader = useShader(() => {
     const time = GlobalTime
 
-    return ShaderMaster({
+    return ShaderRoot({
       position: Vec3([
         VertexPosition.x,
         VertexPosition.y,

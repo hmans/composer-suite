@@ -332,8 +332,8 @@ void main()
   v_B_2 = B_2;
   
   
-  /*** UNIT: Master ***/
-  bool Master_3 = true;
+  /*** UNIT: Root ***/
+  bool Root_3 = true;
   
   
 }"
@@ -354,12 +354,12 @@ void main()
   float B_2 = v_B_2;
   
   
-  /*** UNIT: Master ***/
-  bool Master_3 = true;
+  /*** UNIT: Root ***/
+  bool Root_3 = true;
   {
-    bool value = Master_3;
+    bool value = Root_3;
     value = B_2
-    Master_3 = value;
+    Root_3 = value;
   }
   
   

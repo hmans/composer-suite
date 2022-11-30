@@ -25,7 +25,7 @@ import {
 } from "shader-composer"
 import {
   Shader,
-  ShaderMaster,
+  ShaderRoot,
   useShader,
   useUniformUnit
 } from "shader-composer/r3f"
@@ -138,7 +138,7 @@ const Water = (props: MeshProps) => {
       return Add(position, Mul(normal, scaledNoise))
     }
 
-    return ShaderMaster({
+    return ShaderRoot({
       /* Lerp between the new and the original position based on
       the value in the calmness variable. */
       position: Mix(
