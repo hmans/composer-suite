@@ -1,4 +1,4 @@
-import { $, Input, Master } from "shader-composer"
+import { $, Input, Master } from "@shader-composer/core"
 
 export type PatchedMaterialMasterProps = {
   position?: Input<"vec3">

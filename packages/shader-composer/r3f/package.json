@@ -1,0 +1,4 @@
+{
+  "main": "dist/shader-composer-r3f.cjs.js",
+  "module": "dist/shader-composer-r3f.esm.js"
+}

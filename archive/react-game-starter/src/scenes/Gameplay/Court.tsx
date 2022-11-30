@@ -10,7 +10,7 @@ import {
   vec3,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { useShader } from "@shader-composer/r3f"
 import { Grid2D } from "shader-composer-toybox"
 import { Color, Mesh } from "three"
 import { courtHeight, courtWidth, wallColor } from "./configuration"

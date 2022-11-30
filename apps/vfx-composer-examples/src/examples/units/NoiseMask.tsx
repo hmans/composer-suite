@@ -1,6 +1,5 @@
 import { pipe } from "fp-ts/function"
 import {
-  $vec2,
   Add,
   Div,
   GlobalTime,
@@ -15,7 +14,7 @@ import {
   Sub,
   UV
 } from "shader-composer"
-import { PSRDNoise2D } from "shader-composer-toybox"
+import { PSRDNoise2D } from "shader-composer"
 
 /* TODO: extract this into SC or SC-toybox or similar? */
 
@@ -25,7 +24,7 @@ export const NoiseMask = (
   time: Input<"float"> = GlobalTime
 ) => {
   const noise = NormalizePlusMinusOne(
-    PSRDNoise2D(ScaleAndOffset(UV, $vec2(8, 8), $vec2(0, Negate(time))))
+    PSRDNoise2D(ScaleAndOffset(UV, [8, 8], [0, Negate(time)]))
   )
 
   return pipe(

@@ -6,7 +6,7 @@ import {
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer-r3f"
+} from "shader-composer/r3f"
 import { Dissolve } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 

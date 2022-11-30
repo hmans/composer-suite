@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import { DepthTexture, WebGLRenderTarget } from "three"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "shader-composer/r3f"
 
 export type RenderPassOptions = {
   resolution?: number
@@ -20,14 +20,21 @@ export const useRenderPass = ({
 
   const renderTargets = useMemo(
     () => [
-      new WebGLRenderTarget(256, 256, { depthTexture: new DepthTexture(256, 256) }),
-      new WebGLRenderTarget(256, 256, { depthTexture: new DepthTexture(256, 256) })
+      new WebGLRenderTarget(256, 256, {
+        depthTexture: new DepthTexture(256, 256)
+      }),
+      new WebGLRenderTarget(256, 256, {
+        depthTexture: new DepthTexture(256, 256)
+      })
     ],
     []
   )
 
   const texture = useUniformUnit("sampler2D", renderTargets[0].texture)
-  const depthTexture = useUniformUnit("sampler2D", renderTargets[0].depthTexture)
+  const depthTexture = useUniformUnit(
+    "sampler2D",
+    renderTargets[0].depthTexture
+  )
   const cursor = useRef(0)
 
   useLayoutEffect(() => {

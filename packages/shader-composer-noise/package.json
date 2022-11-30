@@ -1,0 +1,34 @@
+{
+  "name": "@shader-composer/noise",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "A collection of noise-generating Shader Composer units.",
+  "version": "0.4.9",
+  "main": "dist/shader-composer-noise.cjs.js",
+  "module": "dist/shader-composer-noise.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "peerDependencies": {
+    "@shader-composer/core": "workspace:^0.4.9"
+  },
+  "devDependencies": {
+    "@shader-composer/core": "workspace:^0.4.9"
+  }
+}

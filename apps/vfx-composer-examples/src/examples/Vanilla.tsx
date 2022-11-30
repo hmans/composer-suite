@@ -85,7 +85,7 @@ const vanillaCode = (
   parent.add(particles2)
 
   const stopLoop = loop((dt) => {
-    shaderMeta.update(dt, camera, scene, renderer)
+    shaderMeta.update(dt, { camera, scene, renderer })
 
     const { velocity, color } = variables
 

@@ -1,5 +1,5 @@
 {
-  "name": "shader-composer-postprocessing",
+  "name": "@shader-composer/postprocessing",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -22,22 +22,15 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react",
-      [
-        "@babel/preset-typescript",
-        {
-          "isTSX": true,
-          "allExtensions": true
-        }
-      ]
+      "@babel/preset-typescript"
     ]
   },
   "devDependencies": {
-    "shader-composer": "workspace:^0.4.3"
+    "@shader-composer/core": "workspace:^0.4.9"
   },
   "peerDependencies": {
     "postprocessing": "^6.28.7",
-    "shader-composer": "^0.4.3",
+    "@shader-composer/core": "^0.4.9",
     "three": ">=0.141.0"
   }
 }

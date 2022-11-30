@@ -15,7 +15,7 @@ import {
   Sub,
   Vec3
 } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "@shader-composer/r3f"
 import { Random } from "shader-composer-toybox"
 import { Color, TextureLoader } from "three"
 import { Emitter, InstancedParticles } from "vfx-composer-r3f"

@@ -4,7 +4,6 @@ import { Layer, LayerArgs } from "material-composer"
 import { composable, moduleComponent } from "material-composer-r3f"
 import { Alpha, Gradient, SurfaceWobble } from "material-composer/modules"
 import {
-  $vec2,
   GlobalTime,
   GradientStops,
   Input,
@@ -14,7 +13,7 @@ import {
   Unit,
   UV
 } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "shader-composer/r3f"
 import { DoubleSide, RepeatWrapping } from "three"
 import streamTextureUrl from "../textures/stream.png"
 import { NoiseMask } from "../units/NoiseMask"
@@ -34,8 +33,8 @@ export const AuraLayerModule = ({
   texture,
   wobble = 0,
   fullness = 0.5,
-  tiling = $vec2(3, 1),
-  offset = $vec2(0, 0),
+  tiling = [3, 1],
+  offset = [0, 0],
   time = GlobalTime,
   ...layerArgs
 }: AuraArgs) => {

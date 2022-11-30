@@ -15,7 +15,7 @@ export type ParticleAttribute = ReturnType<typeof ParticleAttribute>
 let nextAttributeId = 1
 
 export const ParticleAttribute = <
-  J extends number | Vector2 | Vector3 | Color | Vector4,
+  J extends Vector4 | Vector3 | Vector2 | Vector3 | Color | number,
   T extends GLSLTypeFor<J>
 >(
   initialValue: J

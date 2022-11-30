@@ -1,6 +1,6 @@
 import { Description, FlatStage } from "r3f-stage"
 import { ShaderMaterialMaster, VertexPosition } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { useShader } from "shader-composer/r3f"
 import { Billboard } from "shader-composer-toybox"
 import { Color } from "three"
 
@@ -21,8 +21,8 @@ export default function BillboardingExample() {
       </mesh>
 
       <Description>
-        Use the <strong>Billboard</strong> unit to turn a mesh (like this plane) into a
-        billboard that is always facing the camera.
+        Use the <strong>Billboard</strong> unit to turn a mesh (like this plane)
+        into a billboard that is always facing the camera.
       </Description>
     </FlatStage>
   )

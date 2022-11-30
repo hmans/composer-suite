@@ -33,10 +33,10 @@
     ]
   },
   "devDependencies": {
-    "shader-composer": "workspace:^0.4.0"
+    "@shader-composer/core": "workspace:^0.4.9"
   },
   "peerDependencies": {
-    "shader-composer": ">=0.3.4",
+    "@shader-composer/core": ">=0.4.9",
     "three": ">=0.141.0"
   },
   "dependencies": {

@@ -3,7 +3,7 @@ import { composable, modules } from "material-composer-r3f"
 import { FlatStage, useRenderPipeline } from "r3f-stage"
 import { between, plusMinus } from "randomish"
 import { OneMinus } from "shader-composer"
-import { useUniformUnit } from "shader-composer-r3f"
+import { useUniformUnit } from "shader-composer/r3f"
 import { AdditiveBlending, Color, DoubleSide, Euler, Vector3 } from "three"
 import {
   Emitter,

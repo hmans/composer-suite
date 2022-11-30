@@ -1,0 +1,42 @@
+{
+  "name": "@shader-composer/three",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Build Three.js shaders using JavaScript.",
+  "version": "0.4.9",
+  "main": "dist/shader-composer-three.cjs.js",
+  "module": "dist/shader-composer-three.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": true,
+  "scripts": {
+    "build": "preconstruct build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true
+        }
+      ]
+    ]
+  },
+  "peerDependencies": {
+    "@shader-composer/core": "workspace:^0.4.9",
+    "three": ">=0.141.0"
+  },
+  "devDependencies": {
+    "@shader-composer/core": "workspace:^0.4.9"
+  }
+}

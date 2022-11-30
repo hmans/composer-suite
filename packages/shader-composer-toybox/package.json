@@ -35,8 +35,5 @@
   "dependencies": {
     "fp-ts": "^2.12.3",
     "shader-composer": "^0.4.0"
-  },
-  "peerDependencies": {
-    "three": ">=0.141.0"
   }
 }

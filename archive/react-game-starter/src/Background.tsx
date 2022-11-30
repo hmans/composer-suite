@@ -7,7 +7,7 @@ import {
   Time,
   VertexPosition
 } from "shader-composer"
-import { useShader } from "shader-composer-r3f"
+import { useShader } from "@shader-composer/r3f"
 import { Simplex3DNoise } from "shader-composer-toybox"
 import { Color } from "three"
 
