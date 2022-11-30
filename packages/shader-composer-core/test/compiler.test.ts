@@ -116,7 +116,7 @@ describe("compileShader", () => {
     const a = Float(1, { name: "A" })
     const b = Float(2, { name: "B" })
 
-    const master = Root({
+    const root = Root({
       vertex: {
         body: $`foo = ${a};`
       },
@@ -125,7 +125,7 @@ describe("compileShader", () => {
       }
     })
 
-    const [shader] = compileShader(master)
+    const [shader] = compileShader(root)
 
     expect(shader.vertexShader).toMatchSnapshot()
     expect(shader.fragmentShader).toMatchSnapshot()
@@ -140,7 +140,7 @@ describe("compileShader", () => {
     we also only need the value expression's dependencies in the vertex program. */
     const b = Float($`${a} + 1.0`, { name: "B", varying: true })
 
-    /* A master unit that specifically uses the `b` unit from within the fragment program. */
+    /* A root unit that specifically uses the `b` unit from within the fragment program. */
     const root = Root({ name: "Root", fragment: { body: $`value = ${b}` } })
 
     const [shader] = compileShader(root)
