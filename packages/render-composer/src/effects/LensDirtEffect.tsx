@@ -1,3 +1,9 @@
+import {
+  InputColor,
+  PostProcessingEffectMaster,
+  ShaderComposerEffect,
+  UV
+} from "@shader-composer/postprocessing"
 import { pipe } from "fp-ts/function"
 import * as PP from "postprocessing"
 import {
@@ -8,12 +14,6 @@ import {
   Texture2D,
   UniformUnit
 } from "shader-composer"
-import {
-  InputColor,
-  PostProcessingEffectMaster,
-  ShaderComposerEffect,
-  UV
-} from "shader-composer/postprocessing"
 import { Texture } from "three"
 import { usePostProcessingEffect } from "../lib/usePostProcessingEffect"
 
