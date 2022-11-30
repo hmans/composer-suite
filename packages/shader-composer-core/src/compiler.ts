@@ -1,8 +1,8 @@
-import { frameTime } from "."
 import { DEBUG } from "./debug"
 import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 import { isSnippet, renameSnippet, Snippet } from "./snippets"
+import { frameTime } from "./ticker"
 import { collectFromTree, Item, walkTree } from "./tree"
 import { isUnit, isUnitInProgram, Program, uniformName, Unit } from "./units"
 import {
