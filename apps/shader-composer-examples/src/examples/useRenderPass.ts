@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { useLayoutEffect, useMemo, useRef } from "react"
 import { DepthTexture, WebGLRenderTarget } from "three"
-import { useUniformUnit } from "shader-composer/r3f"
+import { useUniformUnit } from "shader-composer-r3f"
 
 export type RenderPassOptions = {
   resolution?: number

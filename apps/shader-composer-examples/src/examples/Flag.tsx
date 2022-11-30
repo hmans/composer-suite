@@ -7,8 +7,8 @@ import {
   UV,
   Vec3,
   VertexPosition
-} from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+} from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { DoubleSide } from "three"
 import textureUrl from "./textures/shader-composer-logo.jpg"
 

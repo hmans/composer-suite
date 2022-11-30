@@ -14,9 +14,9 @@ import {
   Time,
   Vec3,
   VertexPosition
-} from "shader-composer"
-import { Simplex3DNoise } from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+} from "shader-composer-r3f"
+import { Simplex3DNoise } from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Color } from "three"
 
 const getNoise = (

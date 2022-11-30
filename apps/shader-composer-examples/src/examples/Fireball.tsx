@@ -12,14 +12,14 @@ import {
   Vec3,
   VertexNormal,
   VertexPosition
-} from "shader-composer"
+} from "shader-composer-r3f"
 import {
   Shader,
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer/r3f"
-import { PSRDNoise3D, Turbulence3D } from "shader-composer"
+} from "shader-composer-r3f"
+import { PSRDNoise3D, Turbulence3D } from "shader-composer-r3f"
 import textureUrl from "./textures/explosion.png"
 
 export default function Fireball() {

@@ -13,9 +13,9 @@ import {
   OneMinus,
   Sub,
   VertexPosition
-} from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
-import { PSRDNoise3D } from "shader-composer"
+} from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
+import { PSRDNoise3D } from "shader-composer-r3f"
 import { Color, Mesh } from "three"
 
 export default function DiscoCube() {

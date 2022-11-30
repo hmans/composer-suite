@@ -19,13 +19,13 @@ import {
   UV,
   Vec2,
   VertexPosition
-} from "shader-composer"
+} from "shader-composer-r3f"
 import {
   Shader,
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer/r3f"
+} from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 

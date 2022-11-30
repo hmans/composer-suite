@@ -1,4 +1,4 @@
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import {
   $,
   Add,
@@ -9,7 +9,7 @@ import {
   Time,
   UniformUnit,
   UV
-} from "shader-composer"
+} from "shader-composer-r3f"
 import { Color } from "three"
 import { useRepeatingTexture } from "./helpers"
 

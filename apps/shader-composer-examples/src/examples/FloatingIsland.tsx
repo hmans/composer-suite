@@ -20,15 +20,15 @@ import {
   varying,
   Vec2,
   Vec3
-} from "shader-composer"
+} from "shader-composer-r3f"
 import { Displacement } from "shader-composer-toybox"
-import { PSRDNoise2D } from "shader-composer"
+import { PSRDNoise2D } from "shader-composer-r3f"
 import {
   Shader,
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer/r3f"
+} from "shader-composer-r3f"
 import { Color, RGBADepthPacking, Vector2 } from "three"
 
 export default function FloatingIslandExample() {

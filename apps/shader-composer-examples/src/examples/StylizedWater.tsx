@@ -22,14 +22,14 @@ import {
   Vec2,
   VertexNormal,
   VertexPosition
-} from "shader-composer"
+} from "shader-composer-r3f"
 import {
   Shader,
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer/r3f"
-import { PSRDNoise2D, PSRDNoise3D } from "shader-composer"
+} from "shader-composer-r3f"
+import { PSRDNoise2D, PSRDNoise3D } from "shader-composer-r3f"
 import { Color } from "three"
 
 export default function StylizedWater() {

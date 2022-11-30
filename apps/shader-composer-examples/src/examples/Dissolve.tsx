@@ -1,12 +1,12 @@
 import { pipe } from "fp-ts/function"
 import { useControls } from "leva"
-import { Mix } from "shader-composer"
+import { Mix } from "shader-composer-r3f"
 import {
   Shader,
   ShaderMaster,
   useShader,
   useUniformUnit
-} from "shader-composer/r3f"
+} from "shader-composer-r3f"
 import { Dissolve } from "shader-composer-toybox"
 import { Color, DoubleSide } from "three"
 

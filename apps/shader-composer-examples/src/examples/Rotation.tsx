@@ -4,8 +4,8 @@ import {
   Time,
   VertexNormal,
   VertexPosition
-} from "shader-composer"
-import { Shader, ShaderMaster, useShader } from "shader-composer/r3f"
+} from "shader-composer-r3f"
+import { Shader, ShaderMaster, useShader } from "shader-composer-r3f"
 import { Vector3 } from "three"
 
 export default function MatrixTransformations() {
