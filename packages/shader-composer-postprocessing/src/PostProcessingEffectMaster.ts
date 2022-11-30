@@ -1,15 +1,15 @@
 import { $, Input, Master } from "@shader-composer/core"
 import { InputAlpha, InputColor } from "./units"
 
-export type PostProcessingEffectMasterProps = {
+export type PostProcessingEffectRootProps = {
   color?: Input<"vec3">
   alpha?: Input<"float">
 }
 
-export const PostProcessingEffectMaster = ({
+export const PostProcessingEffectRoot = ({
   color = InputColor,
   alpha = InputAlpha
-}: PostProcessingEffectMasterProps) =>
+}: PostProcessingEffectRootProps) =>
   Master({
     fragment: {
       body: $`

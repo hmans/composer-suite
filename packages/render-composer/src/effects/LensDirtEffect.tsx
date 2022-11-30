@@ -1,6 +1,6 @@
 import {
   InputColor,
-  PostProcessingEffectMaster,
+  PostProcessingEffectRoot,
   ShaderComposerEffect,
   UV
 } from "@shader-composer/postprocessing"
@@ -46,7 +46,7 @@ export class LensDirtEffectImpl extends ShaderComposerEffect {
 
     super({
       blendFunction,
-      root: PostProcessingEffectMaster({
+      root: PostProcessingEffectRoot({
         color: pipe(
           InputColor,
           (v) => Luminance(v),
