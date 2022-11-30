@@ -1,10 +1,10 @@
 ---
-"material-composer": minor
-"@material-composer/patch-material": minor
-"material-composer-r3f": minor
-"render-composer": minor
-"vfx-composer": minor
-"vfx-composer-r3f": minor
+"material-composer": patch
+"@material-composer/patch-material": patch
+"material-composer-r3f": patch
+"render-composer": patch
+"vfx-composer": patch
+"vfx-composer-r3f": patch
 ---
 
 Upgraded to the new version of Shader Composer.
