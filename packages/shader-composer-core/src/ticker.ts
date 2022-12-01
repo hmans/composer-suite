@@ -1,8 +1,13 @@
-export let frameTime = 0
+export const frame = {
+  time: performance.now() / 1000,
+  count: 0
+}
 
-function tick(time: number) {
-  frameTime = time / 1000
+function tick() {
   requestAnimationFrame(tick)
+
+  frame.time = performance.now() / 1000
+  frame.count++
 }
 
 requestAnimationFrame(tick)
