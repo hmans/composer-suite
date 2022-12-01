@@ -1,4 +1,5 @@
 import { $, Expression } from "../expressions"
+import { frame } from "../ticker"
 import { GLSLType, injectAPI, JSTypes, Unit, UnitConfig } from "../units"
 import { $localToViewSpace, $localToWorldSpace } from "./spaces"
 import { Bool, Int, Mat4, Vec2, Vec3 } from "./values"
@@ -180,6 +181,33 @@ export const Time = (initial: number = 0) => {
  * representations of time.
  */
 export const GlobalTime = Time()
+
+/**
+ * An absolute time value, in seconds, that remains stable during the duration
+ * of the currently rendered frame. This is useful for creating effects that
+ * require accurate synchronization across multiple shaders.
+ */
+export const FrameTime = UniformUnit("float", frame.time, {
+  name: "Frame Time",
+
+  update: () => {
+    FrameTime.value = frame.time
+  }
+})
+
+/**
+ * An absolute count of the number of frames that have been rendered so far.
+ * This is useful for creating effects that require accurate synchronization
+ * across multiple shaders, and prefer to use an integer frame count instead
+ * of a floating point time value like {@link FrameTime} provides.
+ */
+export const FrameCount = UniformUnit("int", frame.count, {
+  name: "Frame Count",
+
+  update: () => {
+    FrameCount.value = frame.count
+  }
+})
 
 export const Resolution = UniformUnit(
   "vec2",
