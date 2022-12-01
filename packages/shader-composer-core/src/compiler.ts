@@ -2,6 +2,7 @@ import { DEBUG } from "./debug"
 import { Expression } from "./expressions"
 import { glslRepresentation } from "./glslRepresentation"
 import { isSnippet, renameSnippet, Snippet } from "./snippets"
+import { frame } from "./ticker"
 import { collectFromTree, Item, walkTree } from "./tree"
 import { isUnit, isUnitInProgram, Program, uniformName, Unit } from "./units"
 import {
@@ -246,7 +247,7 @@ export const compileShader = (root: Unit) => {
   STEP 6: Build per-frame update function.
   */
   const update = (dt: number, payload?: any) => {
-    const now = performance.now()
+    const now = frame.time
 
     for (const unit of unitsWithUpdates) {
       const state = unit._unitState

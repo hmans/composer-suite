@@ -1,5 +1,5 @@
 import { composable, modules } from "material-composer-r3f"
-import { Mul, Time } from "shader-composer"
+import { FrameTime, Mul } from "shader-composer"
 import { Color } from "three"
 
 export default function Playground() {
@@ -8,7 +8,7 @@ export default function Playground() {
       <mesh>
         <sphereGeometry />
         <composable.meshStandardMaterial>
-          <modules.Color color={Mul(new Color("hotpink"), Time())} />
+          <modules.Color color={Mul(new Color("hotpink"), FrameTime)} />
         </composable.meshStandardMaterial>
       </mesh>
     </group>
