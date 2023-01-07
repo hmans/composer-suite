@@ -1,5 +1,20 @@
 # vfx-composer-r3f
 
+## 0.4.1
+
+### Patch Changes
+
+- d504e35: Upgraded to the new version of Shader Composer.
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+  - shader-composer@0.5.0
+  - material-composer-r3f@0.2.7
+  - vfx-composer@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes
