@@ -69,7 +69,7 @@ importers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
-      '@material-composer/patch-material': ^0.1.3
+      '@material-composer/patch-material': ^0.2.0
       '@react-three/drei': ^9.34.3
       '@react-three/fiber': ^8.8.9
       '@types/react': ^18.0.21
@@ -77,16 +77,16 @@ importers:
       '@types/three': ^0.144.0
       '@vitejs/plugin-react': ^2.1.0
       leva: ^0.9.31
-      material-composer: ^0.2.6
-      material-composer-r3f: ^0.2.5
+      material-composer: ^0.2.7
+      material-composer-r3f: ^0.2.7
       r3f-perf: ^6.5.0
-      r3f-stage: ^0.3.5
+      r3f-stage: ^0.3.6
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
       react-merge-refs: ^2.0.1
-      shader-composer: 0.4.9
-      shader-composer-toybox: ^0.1.3
+      shader-composer: 0.5.0
+      shader-composer-toybox: ^0.5.0
       three: ^0.145.0
       timeline-composer: ^0.1.7
       typescript: ^4.9.3
@@ -129,7 +129,7 @@ importers:
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.1.0
-      r3f-stage: ^0.3.5
+      r3f-stage: ^0.3.6
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.145.0
@@ -161,8 +161,8 @@ importers:
       postprocessing: ^6.28.7
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: ^0.2.8
-      shader-composer: workspace:^0.4.9
+      render-composer: ^0.3.0
+      shader-composer: workspace:^0.5.0
       three: ^0.145.0
       typescript: ^4.9.3
       vite: ^3.1.6
@@ -195,11 +195,11 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       fp-ts: ^2.12.3
       leva: ^0.9.31
-      r3f-stage: ^0.3.5
+      r3f-stage: ^0.3.6
       react: ^18.2.0
       react-dom: ^18.2.0
-      shader-composer: workspace:^0.4.9
-      shader-composer-toybox: ^0.1.3
+      shader-composer: workspace:^0.5.0
+      shader-composer-toybox: ^0.5.0
       three: ^0.145.0
       typescript: ^4.9.3
       vite: ^3.1.6
@@ -234,7 +234,7 @@ importers:
       '@react-three/drei': ^9.34.3
       '@react-three/fiber': ^8.8.9
       '@react-three/rapier': ^0.7.6
-      '@shader-composer/r3f': ^0.4.5
+      '@shader-composer/r3f': ^0.5.0
       '@stitches/react': ^1.2.8
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
@@ -244,8 +244,8 @@ importers:
       camera-composer: ^0.0.1
       fp-ts: ^2.12.3
       input-composer: ^0.0.2
-      material-composer: ^0.2.6
-      material-composer-r3f: ^0.2.5
+      material-composer: ^0.2.7
+      material-composer-r3f: ^0.2.7
       miniplex: 2.0.0-beta.1
       motion: ^10.14.2
       popmotion: ^11.0.5
@@ -254,9 +254,9 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-merge-refs: ^1.1.0
-      render-composer: ^0.2.8
-      shader-composer: workspace:^0.4.9
-      shader-composer-toybox: ^0.1.3
+      render-composer: ^0.3.0
+      shader-composer: workspace:^0.5.0
+      shader-composer-toybox: ^0.5.0
       state-composer: ^0.1.0
       statery: ^0.6.2
       three: ^0.145.0
@@ -267,8 +267,8 @@ importers:
       tunnel-rat: ^0.1.0
       typescript: ^4.9.3
       ui-composer: workspace:^0.0.1
-      vfx-composer: ^0.4.0
-      vfx-composer-r3f: ^0.4.0
+      vfx-composer: ^0.4.1
+      vfx-composer-r3f: ^0.4.1
       vite: ^3.1.6
     dependencies:
       '@dimforge/rapier3d-compat': 0.9.0
@@ -351,7 +351,7 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       react: ^18.2.0
       react-dom: ^18.2.0
-      render-composer: workspace:^0.2.8
+      render-composer: workspace:^0.3.0
       three: ^0.145.0
       typescript: ^4.9.3
       ui-composer: workspace:^0.0.1
@@ -389,23 +389,23 @@ importers:
       '@vitejs/plugin-react': ^2.1.0
       fp-ts: ^2.12.3
       leva: ^0.9.31
-      material-composer: ^0.2.6
-      material-composer-r3f: ^0.2.5
+      material-composer: ^0.2.7
+      material-composer-r3f: ^0.2.7
       r3f-perf: ^6.5.0
-      r3f-stage: ^0.3.5
+      r3f-stage: ^0.3.6
       randomish: ^0.1.4
       react: ^18.2.0
       react-dom: ^18.2.0
       react-merge-refs: ^2.0.1
-      shader-composer: 0.4.9
-      shader-composer-toybox: ^0.1.3
+      shader-composer: 0.5.0
+      shader-composer-toybox: ^0.5.0
       statery: 0.6.2
       three: ^0.145.0
       three-stdlib: ^2.17.2
       timeline-composer: ^0.1.7
       typescript: ^4.9.3
-      vfx-composer: ^0.4.0
-      vfx-composer-r3f: ^0.4.0
+      vfx-composer: ^0.4.1
+      vfx-composer-r3f: ^0.4.1
       vite: ^3.1.6
       wouter: ^2.8.0-alpha.2
     dependencies:
@@ -474,10 +474,10 @@ importers:
 
   packages/material-composer:
     specifiers:
-      '@material-composer/patch-material': ^0.1.2
+      '@material-composer/patch-material': ^0.2.0
       fp-ts: ^2.12.3
-      shader-composer: ^0.4.1
-      shader-composer-toybox: ^0.1.3
+      shader-composer: ^0.5.0
+      shader-composer-toybox: ^0.5.0
     dependencies:
       '@material-composer/patch-material': link:../material-composer-patch-material
       fp-ts: 2.12.3
@@ -487,7 +487,7 @@ importers:
   packages/material-composer-patch-material:
     specifiers:
       '@hmans/types': ^0.0.3
-      '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/core': workspace:^0.5.0
       fp-ts: ^2.12.3
     dependencies:
       '@hmans/types': 0.0.3
@@ -498,7 +498,7 @@ importers:
   packages/material-composer-patched:
     specifiers:
       '@hmans/types': ^0.0.3
-      '@material-composer/patch-material': ^0.1.1
+      '@material-composer/patch-material': ^0.2.0
       fp-ts: ^2.12.3
       react-dom: ^18.2.0
     dependencies:
@@ -514,10 +514,10 @@ importers:
       '@hmans/use-mutable-list': workspace:^0.0.2
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
-      '@material-composer/patch-material': ^0.1.2
-      '@material-composer/patched': ^0.1.3
+      '@material-composer/patch-material': ^0.2.0
+      '@material-composer/patched': ^0.1.4
       material-composer: workspace:*
-      shader-composer: ^0.4.9
+      shader-composer: ^0.5.0
     dependencies:
       '@hmans/use-const': 0.0.1
       '@hmans/use-list': 0.0.1
@@ -536,7 +536,7 @@ importers:
       leva: ^0.9.31
       postprocessing: ^6.28.7
       r3f-perf: ^6.5.0
-      render-composer: ^0.2.0
+      render-composer: ^0.3.0
       three-stdlib: ^2.17.2
       wouter: ^2.8.0-alpha.2
       zustand: ^3.6.9
@@ -555,9 +555,9 @@ importers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-mutable-list': workspace:^0.0.2
       '@hmans/use-nullable-state': workspace:^0.0.1
-      '@shader-composer/postprocessing': workspace:^0.0.1
+      '@shader-composer/postprocessing': workspace:^0.5.0
       fp-ts: ^2.12.3
-      shader-composer: workspace:^0.4.9
+      shader-composer: workspace:^0.5.0
       test: ^3.2.1
     dependencies:
       '@hmans/use-const': 0.0.1
@@ -570,11 +570,11 @@ importers:
 
   packages/shader-composer:
     specifiers:
-      '@shader-composer/core': workspace:^0.4.9
-      '@shader-composer/noise': workspace:^0.4.9
-      '@shader-composer/postprocessing': workspace:^0.0.1
-      '@shader-composer/r3f': workspace:^0.4.5
-      '@shader-composer/three': workspace:^0.4.9
+      '@shader-composer/core': workspace:^0.5.0
+      '@shader-composer/noise': workspace:^0.5.0
+      '@shader-composer/postprocessing': workspace:^0.5.0
+      '@shader-composer/r3f': workspace:^0.5.0
+      '@shader-composer/three': workspace:^0.5.0
     dependencies:
       '@shader-composer/core': link:../shader-composer-core
       '@shader-composer/noise': link:../shader-composer-noise
@@ -595,22 +595,22 @@ importers:
 
   packages/shader-composer-noise:
     specifiers:
-      '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/core': workspace:^0.5.0
     devDependencies:
       '@shader-composer/core': link:../shader-composer-core
 
   packages/shader-composer-postprocessing:
     specifiers:
-      '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/core': workspace:^0.5.0
     devDependencies:
       '@shader-composer/core': link:../shader-composer-core
 
   packages/shader-composer-r3f:
     specifiers:
       '@hmans/use-const': ^0.0.1
-      '@material-composer/patch-material': workspace:^0.1.3
-      '@shader-composer/core': workspace:^0.4.9
-      '@shader-composer/three': ^0.4.9
+      '@material-composer/patch-material': workspace:^0.2.0
+      '@shader-composer/core': workspace:^0.5.0
+      '@shader-composer/three': ^0.5.0
     dependencies:
       '@hmans/use-const': 0.0.1
       '@material-composer/patch-material': link:../material-composer-patch-material
@@ -620,14 +620,14 @@ importers:
 
   packages/shader-composer-three:
     specifiers:
-      '@shader-composer/core': workspace:^0.4.9
+      '@shader-composer/core': workspace:^0.5.0
     devDependencies:
       '@shader-composer/core': link:../shader-composer-core
 
   packages/shader-composer-toybox:
     specifiers:
       fp-ts: ^2.12.3
-      shader-composer: ^0.4.0
+      shader-composer: ^0.5.0
     dependencies:
       fp-ts: 2.12.3
       shader-composer: link:../shader-composer
@@ -660,9 +660,9 @@ importers:
 
   packages/vfx-composer:
     specifiers:
-      '@shader-composer/three': workspace:^0.4.9
-      material-composer: ^0.2.6
-      shader-composer: workspace:^0.4.9
+      '@shader-composer/three': workspace:^0.5.0
+      material-composer: ^0.2.7
+      shader-composer: workspace:^0.5.0
     dependencies:
       '@shader-composer/three': link:../shader-composer-three
       material-composer: link:../material-composer
@@ -673,10 +673,10 @@ importers:
       '@hmans/use-const': ^0.0.1
       '@hmans/use-rerender': ^0.0.2
       '@hmans/use-version': ^0.0.2
-      material-composer-r3f: ^0.2.5
+      material-composer-r3f: ^0.2.7
       miniplex: 2.0.0-beta.1
-      shader-composer: ^0.4.5
-      vfx-composer: ^0.4.0
+      shader-composer: ^0.5.0
+      vfx-composer: ^0.4.1
     dependencies:
       '@hmans/use-const': 0.0.1
       '@hmans/use-rerender': 0.0.2

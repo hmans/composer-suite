@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "main": "dist/shader-composer-core.cjs.js",
   "module": "dist/shader-composer-core.esm.js",
   "files": [
