@@ -12,7 +12,7 @@ Building games with React and Three.js is already pretty cool, but a lot of tool
 
 This project wouldn't be possible without the support from its lovely [sponsors](https://github.com/sponsors/hmans). If you'd like to sponsor this project and help **make game development with React & Three.js incredible**, [click here](https://github.com/sponsors/hmans)!
 
-<!-- sponsors --><a href="https://github.com/LoV-blackpill"><img src="https:&#x2F;&#x2F;github.com&#x2F;LoV-blackpill.png" width="60px" alt="User avatar: bp" /></a><!-- sponsors -->
+<!-- sponsors --><!-- sponsors -->
 
 ## Getting Started
 
