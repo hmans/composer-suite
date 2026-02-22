@@ -1,5 +1,21 @@
 # material-composer
 
+## 0.2.7
+
+### Patch Changes
+
+- d504e35: Upgraded to the new version of Shader Composer.
+- Updated dependencies [d504e35]
+- Updated dependencies [4f9903d]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+  - shader-composer@0.5.0
+  - @material-composer/patch-material@0.2.0
+  - shader-composer-toybox@0.5.0
+
 ## 0.2.6
 
 ### Patch Changes

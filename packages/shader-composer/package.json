@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Node-based Shader Composition!",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "main": "dist/shader-composer.cjs.js",
   "module": "dist/shader-composer.esm.js",
   "typedoc": {
@@ -45,10 +45,10 @@
     ]
   },
   "dependencies": {
-    "@shader-composer/core": "workspace:^0.4.9",
-    "@shader-composer/noise": "workspace:^0.4.9",
-    "@shader-composer/postprocessing": "workspace:^0.0.1",
-    "@shader-composer/r3f": "workspace:^0.4.5",
-    "@shader-composer/three": "workspace:^0.4.9"
+    "@shader-composer/core": "workspace:^0.5.0",
+    "@shader-composer/noise": "workspace:^0.5.0",
+    "@shader-composer/postprocessing": "workspace:^0.5.0",
+    "@shader-composer/r3f": "workspace:^0.5.0",
+    "@shader-composer/three": "workspace:^0.5.0"
   }
 }

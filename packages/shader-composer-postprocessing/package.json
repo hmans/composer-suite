@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Build postprocessing effects using Shader Composer.",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "main": "dist/shader-composer-postprocessing.cjs.js",
   "module": "dist/shader-composer-postprocessing.esm.js",
   "files": [
@@ -26,7 +26,7 @@
     ]
   },
   "devDependencies": {
-    "@shader-composer/core": "workspace:^0.4.9"
+    "@shader-composer/core": "workspace:^0.5.0"
   },
   "peerDependencies": {
     "postprocessing": "^6.28.7",

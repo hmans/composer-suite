@@ -1,5 +1,13 @@
 # @material-composer/patched
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [4f9903d]
+- Updated dependencies [d504e35]
+  - @material-composer/patch-material@0.2.0
+
 ## 0.1.3
 
 ### Patch Changes
