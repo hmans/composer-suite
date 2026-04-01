@@ -1,5 +1,15 @@
 # @material-composer/patch-material
 
+## 0.2.0
+
+### Minor Changes
+
+- 4f9903d: **Breaking Change:** `PatchedMaterialMaster` has been renamed to `PatchedMaterialRoot`.
+
+### Patch Changes
+
+- d504e35: Upgraded to the new version of Shader Composer.
+
 ## 0.1.3
 
 ### Patch Changes

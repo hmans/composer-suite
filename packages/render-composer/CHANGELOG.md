@@ -1,5 +1,23 @@
 # render-composer
 
+## 0.3.0
+
+### Minor Changes
+
+- a3356db: **Breaking Change:** `RenderPipeline` has been renamed to `DefaultRenderPipeline`.
+
+### Patch Changes
+
+- d504e35: Upgraded to the new version of Shader Composer.
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [4f9903d]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+- Updated dependencies [d504e35]
+  - shader-composer@0.5.0
+  - @shader-composer/postprocessing@0.5.0
+
 ## 0.2.8
 
 ### Patch Changes
